@@ -1,4 +1,4 @@
-# Group-3-Game
+# Necrodoggiecon
 
 ## Naming Convention
 
