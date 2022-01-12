@@ -9,7 +9,6 @@ void TestClass::Update(float deltaTime)
 {
 	//CEntity::Update(deltaTime);
 
-	printf("update test class!\n");
 }
 
 TestClass::~TestClass()

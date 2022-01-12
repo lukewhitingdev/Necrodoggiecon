@@ -150,13 +150,13 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 	if( !Engine::windowHandle)
 		return E_FAIL;
 
-	ShowWindow(Engine::windowHandle, nCmdShow );
-
 	// Create Console
 	AllocConsole();
 	freopen("conin$", "r", stdin);
 	freopen("conout$", "w", stdout);
 	freopen("conout$", "w", stderr);
+
+	ShowWindow(Engine::windowHandle, nCmdShow);
 
 	return S_OK;
 }
