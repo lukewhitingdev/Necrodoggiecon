@@ -29,40 +29,37 @@ void		CleanupDevice();
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 void		Render();
 
-
+// Defines.
+// Window and Instance.
+HINSTANCE Engine::instanceHandle;
+HWND Engine::windowHandle;
+int Engine::windowWidth = 1280;
+int Engine::windowHeight = 720;
+                       
+// Direct3D.           
+D3D_DRIVER_TYPE Engine::driverType = D3D_DRIVER_TYPE_NULL;
+D3D_FEATURE_LEVEL Engine::featureLevel = D3D_FEATURE_LEVEL_11_0;
+ID3D11Device* Engine::device;
+ID3D11DeviceContext* Engine::deviceContext;
+IDXGISwapChain* Engine::swapChain;
+ID3D11RenderTargetView* Engine::renderTargetView;
+ID3D11Texture2D* Engine::depthStencil;
+ID3D11DepthStencilView* Engine::depthStencilView;
+                       
+// Shaders.            
+ID3D11VertexShader* Engine::vertexShader;
+ID3D11PixelShader* Engine::pixelShader;
+ID3D11InputLayout* Engine::vertexLayout;
+ID3D11Buffer* Engine::constantBuffer;
+ID3D11Buffer* Engine::lightConstantBuffer;
+                       
+// Matrices.           
+XMMATRIX Engine::viewMatrix;
+XMMATRIX Engine::projectionMatrix;
 
 //--------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------
-HINSTANCE               g_hInst = nullptr;
-HWND                    g_hWnd = nullptr;
-D3D_DRIVER_TYPE         g_driverType = D3D_DRIVER_TYPE_NULL;
-D3D_FEATURE_LEVEL       g_featureLevel = D3D_FEATURE_LEVEL_11_0;
-ID3D11Device*           g_pd3dDevice = nullptr;
-ID3D11Device1*          g_pd3dDevice1 = nullptr;
-ID3D11DeviceContext*    g_pImmediateContext = nullptr;
-ID3D11DeviceContext1*   g_pImmediateContext1 = nullptr;
-IDXGISwapChain*         g_pSwapChain = nullptr;
-IDXGISwapChain1*        g_pSwapChain1 = nullptr;
-ID3D11RenderTargetView* g_pRenderTargetView = nullptr;
-ID3D11Texture2D*        g_pDepthStencil = nullptr;
-ID3D11DepthStencilView* g_pDepthStencilView = nullptr;
-ID3D11VertexShader*     g_pVertexShader = nullptr;
-
-ID3D11PixelShader*      g_pPixelShader = nullptr;
-
-ID3D11InputLayout*      g_pVertexLayout = nullptr;
-
-ID3D11Buffer*           g_pConstantBuffer = nullptr;
-
-ID3D11Buffer*           g_pLightConstantBuffer = nullptr;
-
-XMMATRIX                g_View;
-XMMATRIX                g_Projection;
-
-int						g_viewWidth;
-int						g_viewHeight;
-
 DrawableGameObject		g_GameObject;
 
 
@@ -128,21 +125,21 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
         return E_FAIL;
 
     // Create window
-    g_hInst = hInstance;
+    Engine::instanceHandle = hInstance;
     RECT rc = { 0, 0, 1280, 720 };
 
-	g_viewWidth = 1280;
-	g_viewHeight = 720;
+	Engine::windowWidth = 1280;
+    Engine::windowHeight = 720;
 
     AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
-    g_hWnd = CreateWindow( L"TutorialWindowClass", L"Direct3D 11 Tutorial 5",
+    Engine::windowHandle = CreateWindow( L"TutorialWindowClass", L"Direct3D 11 Tutorial 5",
                            WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
                            CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
                            nullptr );
-    if( !g_hWnd )
+    if( !Engine::windowHandle)
         return E_FAIL;
 
-    ShowWindow( g_hWnd, nCmdShow );
+    ShowWindow(Engine::windowHandle, nCmdShow );
 
     return S_OK;
 }
@@ -195,7 +192,7 @@ HRESULT InitDevice()
     HRESULT hr = S_OK;
 
     RECT rc;
-    GetClientRect( g_hWnd, &rc );
+    GetClientRect( Engine::windowHandle, &rc );
     UINT width = rc.right - rc.left;
     UINT height = rc.bottom - rc.top;
 
@@ -223,15 +220,15 @@ HRESULT InitDevice()
 
     for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
     {
-        g_driverType = driverTypes[driverTypeIndex];
-        hr = D3D11CreateDevice( nullptr, g_driverType, nullptr, createDeviceFlags, featureLevels, numFeatureLevels,
-                                D3D11_SDK_VERSION, &g_pd3dDevice, &g_featureLevel, &g_pImmediateContext );
+        Engine::driverType = driverTypes[driverTypeIndex];
+        hr = D3D11CreateDevice( nullptr, Engine::driverType, nullptr, createDeviceFlags, featureLevels, numFeatureLevels,
+                                D3D11_SDK_VERSION, &Engine::device, &Engine::featureLevel, &Engine::deviceContext );
 
         if ( hr == E_INVALIDARG )
         {
             // DirectX 11.0 platforms will not recognize D3D_FEATURE_LEVEL_11_1 so we need to retry without it
-            hr = D3D11CreateDevice( nullptr, g_driverType, nullptr, createDeviceFlags, &featureLevels[1], numFeatureLevels - 1,
-                                    D3D11_SDK_VERSION, &g_pd3dDevice, &g_featureLevel, &g_pImmediateContext );
+            hr = D3D11CreateDevice( nullptr, Engine::driverType, nullptr, createDeviceFlags, &featureLevels[1], numFeatureLevels - 1,
+                                    D3D11_SDK_VERSION, &Engine::device, &Engine::featureLevel, &Engine::deviceContext );
         }
 
         if( SUCCEEDED( hr ) )
@@ -244,7 +241,7 @@ HRESULT InitDevice()
     IDXGIFactory1* dxgiFactory = nullptr;
     {
         IDXGIDevice* dxgiDevice = nullptr;
-        hr = g_pd3dDevice->QueryInterface( __uuidof(IDXGIDevice), reinterpret_cast<void**>(&dxgiDevice) );
+        hr = Engine::device->QueryInterface( __uuidof(IDXGIDevice), reinterpret_cast<void**>(&dxgiDevice) );
         if (SUCCEEDED(hr))
         {
             IDXGIAdapter* adapter = nullptr;
@@ -261,15 +258,19 @@ HRESULT InitDevice()
         return hr;
 
     // Create swap chain
+    IDXGISwapChain1* swapChainTemp = nullptr;
+    ID3D11Device1* deviceTemp = nullptr;
+    ID3D11DeviceContext1* deviceContextTemp = nullptr;
+
     IDXGIFactory2* dxgiFactory2 = nullptr;
     hr = dxgiFactory->QueryInterface( __uuidof(IDXGIFactory2), reinterpret_cast<void**>(&dxgiFactory2) );
     if ( dxgiFactory2 )
     {
         // DirectX 11.1 or later
-        hr = g_pd3dDevice->QueryInterface( __uuidof(ID3D11Device1), reinterpret_cast<void**>(&g_pd3dDevice1) );
+        hr = Engine::device->QueryInterface( __uuidof(ID3D11Device1), reinterpret_cast<void**>(&deviceTemp) );
         if (SUCCEEDED(hr))
         {
-            (void) g_pImmediateContext->QueryInterface( __uuidof(ID3D11DeviceContext1), reinterpret_cast<void**>(&g_pImmediateContext1) );
+            (void) Engine::deviceContext->QueryInterface( __uuidof(ID3D11DeviceContext1), reinterpret_cast<void**>(&deviceContextTemp) );
         }
 
         DXGI_SWAP_CHAIN_DESC1 sd = {};
@@ -281,10 +282,10 @@ HRESULT InitDevice()
         sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         sd.BufferCount = 1;
 
-        hr = dxgiFactory2->CreateSwapChainForHwnd( g_pd3dDevice, g_hWnd, &sd, nullptr, nullptr, &g_pSwapChain1 );
+        hr = dxgiFactory2->CreateSwapChainForHwnd( Engine::device, Engine::windowHandle, &sd, nullptr, nullptr, &swapChainTemp);
         if (SUCCEEDED(hr))
         {
-            hr = g_pSwapChain1->QueryInterface( __uuidof(IDXGISwapChain), reinterpret_cast<void**>(&g_pSwapChain) );
+            hr = swapChainTemp->QueryInterface( __uuidof(IDXGISwapChain), reinterpret_cast<void**>(&Engine::swapChain) );
         }
 
         dxgiFactory2->Release();
@@ -300,16 +301,20 @@ HRESULT InitDevice()
         sd.BufferDesc.RefreshRate.Numerator = 60;
         sd.BufferDesc.RefreshRate.Denominator = 1;
         sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-        sd.OutputWindow = g_hWnd;
+        sd.OutputWindow = Engine::windowHandle;
         sd.SampleDesc.Count = 1;
         sd.SampleDesc.Quality = 0;
         sd.Windowed = TRUE;
 
-        hr = dxgiFactory->CreateSwapChain( g_pd3dDevice, &sd, &g_pSwapChain );
+        hr = dxgiFactory->CreateSwapChain( Engine::device, &sd, &Engine::swapChain );
     }
 
+    swapChainTemp->Release();
+    deviceTemp->Release();
+    deviceContextTemp->Release();
+
     // Note this tutorial doesn't handle full-screen swapchains so we block the ALT+ENTER shortcut
-    dxgiFactory->MakeWindowAssociation( g_hWnd, DXGI_MWA_NO_ALT_ENTER );
+    dxgiFactory->MakeWindowAssociation( Engine::windowHandle, DXGI_MWA_NO_ALT_ENTER );
 
     dxgiFactory->Release();
 
@@ -318,11 +323,11 @@ HRESULT InitDevice()
 
     // Create a render target view
     ID3D11Texture2D* pBackBuffer = nullptr;
-    hr = g_pSwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), reinterpret_cast<void**>( &pBackBuffer ) );
+    hr = Engine::swapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), reinterpret_cast<void**>( &pBackBuffer ) );
     if( FAILED( hr ) )
         return hr;
 
-    hr = g_pd3dDevice->CreateRenderTargetView( pBackBuffer, nullptr, &g_pRenderTargetView );
+    hr = Engine::device->CreateRenderTargetView( pBackBuffer, nullptr, &Engine::renderTargetView );
     pBackBuffer->Release();
     if( FAILED( hr ) )
         return hr;
@@ -340,7 +345,7 @@ HRESULT InitDevice()
     descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
     descDepth.CPUAccessFlags = 0;
     descDepth.MiscFlags = 0;
-    hr = g_pd3dDevice->CreateTexture2D( &descDepth, nullptr, &g_pDepthStencil );
+    hr = Engine::device->CreateTexture2D( &descDepth, nullptr, &Engine::depthStencil );
     if( FAILED( hr ) )
         return hr;
 
@@ -349,11 +354,11 @@ HRESULT InitDevice()
     descDSV.Format = descDepth.Format;
     descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
     descDSV.Texture2D.MipSlice = 0;
-    hr = g_pd3dDevice->CreateDepthStencilView( g_pDepthStencil, &descDSV, &g_pDepthStencilView );
+    hr = Engine::device->CreateDepthStencilView( Engine::depthStencil, &descDSV, &Engine::depthStencilView );
     if( FAILED( hr ) )
         return hr;
 
-    g_pImmediateContext->OMSetRenderTargets( 1, &g_pRenderTargetView, g_pDepthStencilView );
+    Engine::deviceContext->OMSetRenderTargets( 1, &Engine::renderTargetView, Engine::depthStencilView );
 
     // Setup the viewport
     D3D11_VIEWPORT vp;
@@ -363,7 +368,7 @@ HRESULT InitDevice()
     vp.MaxDepth = 1.0f;
     vp.TopLeftX = 0;
     vp.TopLeftY = 0;
-    g_pImmediateContext->RSSetViewports( 1, &vp );
+    Engine::deviceContext->RSSetViewports( 1, &vp );
 
 	hr = InitMesh();
 	if (FAILED(hr))
@@ -381,7 +386,7 @@ HRESULT InitDevice()
 		return hr;
 	}
 
-	hr = g_GameObject.initMesh(g_pd3dDevice, g_pImmediateContext);
+	hr = g_GameObject.initMesh(Engine::device, Engine::deviceContext);
 	if (FAILED(hr))
 		return hr;
 
@@ -405,7 +410,7 @@ HRESULT		InitMesh()
 	}
 
 	// Create the vertex shader
-	hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &g_pVertexShader);
+	hr = Engine::device->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &Engine::vertexShader);
 	if (FAILED(hr))
 	{
 		pVSBlob->Release();
@@ -422,14 +427,14 @@ HRESULT		InitMesh()
 	UINT numElements = ARRAYSIZE(layout);
 
 	// Create the input layout
-	hr = g_pd3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
-		pVSBlob->GetBufferSize(), &g_pVertexLayout);
+	hr = Engine::device->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
+		pVSBlob->GetBufferSize(), &Engine::vertexLayout);
 	pVSBlob->Release();
 	if (FAILED(hr))
 		return hr;
 
 	// Set the input layout
-	g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
+	Engine::deviceContext->IASetInputLayout(Engine::vertexLayout);
 
 	// Compile the pixel shader
 	ID3DBlob* pPSBlob = nullptr;
@@ -442,7 +447,7 @@ HRESULT		InitMesh()
 	}
 
 	// Create the pixel shader
-	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &g_pPixelShader);
+	hr = Engine::device->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &Engine::pixelShader);
 	pPSBlob->Release();
 	if (FAILED(hr))
 		return hr;
@@ -462,7 +467,7 @@ HRESULT		InitMesh()
 	bd.ByteWidth = sizeof(ConstantBuffer);
 	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	bd.CPUAccessFlags = 0;
-	hr = g_pd3dDevice->CreateBuffer(&bd, nullptr, &g_pConstantBuffer);
+	hr = Engine::device->CreateBuffer(&bd, nullptr, &Engine::constantBuffer);
 	if (FAILED(hr))
 		return hr;
 
@@ -473,7 +478,7 @@ HRESULT		InitMesh()
 	bd.ByteWidth = sizeof(LightPropertiesConstantBuffer);
 	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	bd.CPUAccessFlags = 0;
-	hr = g_pd3dDevice->CreateBuffer(&bd, nullptr, &g_pLightConstantBuffer);
+	hr = Engine::device->CreateBuffer(&bd, nullptr, &Engine::lightConstantBuffer);
 	if (FAILED(hr))
 		return hr;
 
@@ -490,10 +495,10 @@ HRESULT		InitWorld(int width, int height)
 	XMVECTOR Eye = XMLoadFloat4(&g_EyePosition);
 	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-	g_View = XMMatrixLookAtLH(Eye, At, Up);
+	Engine::viewMatrix = XMMatrixLookAtLH(Eye, At, Up);
 
 	// Initialize the projection matrix
-	g_Projection = XMMatrixPerspectiveFovLH(XM_PIDIV2, width / (FLOAT)height, 0.01f, 100.0f);
+	Engine::projectionMatrix = XMMatrixPerspectiveFovLH(XM_PIDIV2, width / (FLOAT)height, 0.01f, 100.0f);
 
 	return S_OK;
 }
@@ -508,33 +513,28 @@ void CleanupDevice()
 
     // Remove any bound render target or depth/stencil buffer
     ID3D11RenderTargetView* nullViews[] = { nullptr };
-    g_pImmediateContext->OMSetRenderTargets(_countof(nullViews), nullViews, nullptr);
+    Engine::deviceContext->OMSetRenderTargets(_countof(nullViews), nullViews, nullptr);
 
-    if( g_pImmediateContext ) g_pImmediateContext->ClearState();
-    // Flush the immediate context to force cleanup
-    if (g_pImmediateContext1) g_pImmediateContext1->Flush();
-    g_pImmediateContext->Flush();
+    if( Engine::deviceContext ) Engine::deviceContext->ClearState();
+    Engine::deviceContext->Flush();
 
-    if (g_pLightConstantBuffer)
-        g_pLightConstantBuffer->Release();
-    if (g_pVertexLayout) g_pVertexLayout->Release();
-    if( g_pConstantBuffer ) g_pConstantBuffer->Release();
-    if( g_pVertexShader ) g_pVertexShader->Release();
-    if( g_pPixelShader ) g_pPixelShader->Release();
-    if( g_pDepthStencil ) g_pDepthStencil->Release();
-    if( g_pDepthStencilView ) g_pDepthStencilView->Release();
-    if( g_pRenderTargetView ) g_pRenderTargetView->Release();
-    if( g_pSwapChain1 ) g_pSwapChain1->Release();
-    if( g_pSwapChain ) g_pSwapChain->Release();
-    if( g_pImmediateContext1 ) g_pImmediateContext1->Release();
-    if( g_pImmediateContext ) g_pImmediateContext->Release();
+    if (Engine::lightConstantBuffer)
+        Engine::lightConstantBuffer->Release();
+    if (Engine::vertexLayout) Engine::vertexLayout->Release();
+    if( Engine::constantBuffer ) Engine::constantBuffer->Release();
+    if (Engine::vertexShader) Engine::vertexShader ->Release();
+    if( Engine::pixelShader ) Engine::pixelShader->Release();
+    if( Engine::depthStencil ) Engine::depthStencil->Release();
+    if( Engine::depthStencilView ) Engine::depthStencilView->Release();
+    if( Engine::renderTargetView ) Engine::renderTargetView->Release();
+    if( Engine::swapChain ) Engine::swapChain->Release();
+    if( Engine::deviceContext ) Engine::deviceContext->Release();
 
 
     ID3D11Debug* debugDevice = nullptr;
-    g_pd3dDevice->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&debugDevice));
+    Engine::device->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&debugDevice));
 
-    if (g_pd3dDevice1) g_pd3dDevice1->Release();
-    if (g_pd3dDevice) g_pd3dDevice->Release();
+    if (Engine::device) Engine::device->Release();
 
     // handy for finding dx memory leaks
     debugDevice->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
@@ -601,7 +601,7 @@ void setupLightForRender()
     LightPropertiesConstantBuffer lightProperties;
     lightProperties.EyePosition = LightPosition;
     lightProperties.Lights[0] = light;
-    g_pImmediateContext->UpdateSubresource(g_pLightConstantBuffer, 0, nullptr, &lightProperties, 0, 0);
+    Engine::deviceContext->UpdateSubresource(Engine::lightConstantBuffer, 0, nullptr, &lightProperties, 0, 0);
 }
 
 float calculateDeltaTime()
@@ -640,13 +640,13 @@ void Render()
         return;
 
     // Clear the back buffer
-    g_pImmediateContext->ClearRenderTargetView( g_pRenderTargetView, Colors::MidnightBlue );
+    Engine::deviceContext->ClearRenderTargetView( Engine::renderTargetView, Colors::MidnightBlue );
 
     // Clear the depth buffer to 1.0 (max depth)
-    g_pImmediateContext->ClearDepthStencilView( g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
+    Engine::deviceContext->ClearDepthStencilView( Engine::depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
 
 	// Update the cube transform, material etc. 
-	g_GameObject.update(t, g_pImmediateContext);
+	g_GameObject.update(t, Engine::deviceContext);
 
     // get the game object world transform
 	XMMATRIX mGO = XMLoadFloat4x4(g_GameObject.getTransform());
@@ -654,27 +654,27 @@ void Render()
     // store this and the view / projection in a constant buffer for the vertex shader to use
     ConstantBuffer cb1;
 	cb1.mWorld = XMMatrixTranspose( mGO);
-	cb1.mView = XMMatrixTranspose( g_View );
-	cb1.mProjection = XMMatrixTranspose( g_Projection );
+	cb1.mView = XMMatrixTranspose( Engine::viewMatrix );
+	cb1.mProjection = XMMatrixTranspose( Engine::projectionMatrix );
 	cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
-	g_pImmediateContext->UpdateSubresource( g_pConstantBuffer, 0, nullptr, &cb1, 0, 0 );
+	Engine::deviceContext->UpdateSubresource( Engine::constantBuffer, 0, nullptr, &cb1, 0, 0 );
 
     
     setupLightForRender();
 
     // Render the cube
-	g_pImmediateContext->VSSetShader( g_pVertexShader, nullptr, 0 );
-	g_pImmediateContext->VSSetConstantBuffers( 0, 1, &g_pConstantBuffer );
+	Engine::deviceContext->VSSetShader( Engine::vertexShader, nullptr, 0 );
+	Engine::deviceContext->VSSetConstantBuffers( 0, 1, &Engine::constantBuffer );
 
-    g_pImmediateContext->PSSetShader( g_pPixelShader, nullptr, 0 );
-	g_pImmediateContext->PSSetConstantBuffers(2, 1, &g_pLightConstantBuffer);
+    Engine::deviceContext->PSSetShader( Engine::pixelShader, nullptr, 0 );
+	Engine::deviceContext->PSSetConstantBuffers(2, 1, &Engine::lightConstantBuffer);
     ID3D11Buffer* materialCB = g_GameObject.getMaterialConstantBuffer();
-    g_pImmediateContext->PSSetConstantBuffers(1, 1, &materialCB);
+    Engine::deviceContext->PSSetConstantBuffers(1, 1, &materialCB);
 
-    g_GameObject.draw(g_pImmediateContext);
+    g_GameObject.draw(Engine::deviceContext);
 
     // Present our back buffer to our front buffer
-    g_pSwapChain->Present( 0, 0 );
+    Engine::swapChain->Present( 0, 0 );
 }
 
 

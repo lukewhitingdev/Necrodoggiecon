@@ -18,4 +18,38 @@
 
 using namespace std;
 
-typedef vector<DrawableGameObject*> vecDrawables;
+
+struct Engine
+{
+	
+	// Drawables.
+	vector<DrawableGameObject*> vecDrawables;
+
+	// Window and Instance.
+	static HINSTANCE instanceHandle;
+	static HWND windowHandle;
+	static int windowWidth;
+	static int windowHeight;
+
+	// Direct3D.
+	static D3D_DRIVER_TYPE driverType;
+	static D3D_FEATURE_LEVEL featureLevel;
+	static ID3D11Device* device;
+	static ID3D11DeviceContext* deviceContext;
+	static IDXGISwapChain* swapChain;
+	static ID3D11RenderTargetView* renderTargetView;
+	static ID3D11Texture2D* depthStencil;
+	static ID3D11DepthStencilView* depthStencilView;
+
+	// Shaders.
+	static ID3D11VertexShader* vertexShader;
+	static ID3D11PixelShader* pixelShader;
+	static ID3D11InputLayout* vertexLayout;
+	static ID3D11Buffer* constantBuffer;
+	static ID3D11Buffer* lightConstantBuffer;
+
+	// Matrices.
+	static XMMATRIX viewMatrix;
+	static XMMATRIX projectionMatrix;
+};
+
