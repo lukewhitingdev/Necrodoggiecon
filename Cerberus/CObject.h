@@ -1,4 +1,5 @@
 #pragma once
+//Basic class that does not have a world position.
 
 class CObject
 {

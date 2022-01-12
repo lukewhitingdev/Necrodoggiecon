@@ -1,4 +1,6 @@
 #pragma once
+// Basic Object with world position.
+
 #include "CObject.h"
 #include "CComponent.h"
 
