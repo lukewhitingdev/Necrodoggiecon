@@ -146,7 +146,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 	wcex.hCursor = LoadCursor( nullptr, IDC_ARROW );
 	wcex.hbrBackground = ( HBRUSH )( COLOR_WINDOW + 1 );
 	wcex.lpszMenuName = nullptr;
-	wcex.lpszClassName = L"TutorialWindowClass";
+	wcex.lpszClassName = L"Necrodoggiecon";
 	wcex.hIconSm = LoadIcon( wcex.hInstance, ( LPCTSTR )IDI_TUTORIAL1 );
 	if( !RegisterClassEx( &wcex ) )
 		return E_FAIL;
@@ -159,7 +159,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 	Engine::windowHeight = 720;
 
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
-	Engine::windowHandle = CreateWindow( L"TutorialWindowClass", L"Direct3D 11 Tutorial 5",
+	Engine::windowHandle = CreateWindow( L"Necrodoggiecon", L"Necrodoggiecon",
 						   WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
 						   CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
 						   nullptr );
