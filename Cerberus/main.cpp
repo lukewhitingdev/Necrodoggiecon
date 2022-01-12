@@ -54,7 +54,6 @@ ID3D11VertexShader* vertexShader;
 ID3D11PixelShader* pixelShader;
 ID3D11InputLayout* vertexLayout;
 ID3D11Buffer* constantBuffer;
-ID3D11Buffer* lightConstantBuffer;
 XMMATRIX viewMatrix;
 XMMATRIX projectionMatrix;
 IDXGISwapChain* swapChain;
@@ -551,8 +550,6 @@ void CleanupDevice()
 	if( Engine::deviceContext ) Engine::deviceContext->ClearState();
 	Engine::deviceContext->Flush();
 
-    if (lightConstantBuffer)
-        lightConstantBuffer->Release();
     if (vertexLayout) vertexLayout->Release();
     if( constantBuffer ) constantBuffer->Release();
     if (vertexShader) vertexShader ->Release();
