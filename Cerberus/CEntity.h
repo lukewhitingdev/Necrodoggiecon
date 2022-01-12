@@ -14,5 +14,9 @@ public:
 	std::vector<CComponent*> components;
 
 	virtual void Update(float deltaTime) override = 0;
-	virtual ~CEntity() {};
+	virtual ~CEntity() 
+	{
+		for (auto& e : components)
+			delete e;
+	};
 };

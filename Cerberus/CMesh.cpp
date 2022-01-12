@@ -36,12 +36,12 @@ HRESULT CMesh::LoadMesh()
 	// Create index buffer
 	WORD indices[] =
 	{
-		3,1,0,
-		2,1,3,
+		2,1,0,
+		0,3,2,
 	};
 
 	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(WORD) * 4;        // 36 vertices needed for 12 triangles in a triangle list
+	bd.ByteWidth = sizeof(WORD) * 6;        // 36 vertices needed for 12 triangles in a triangle list
 	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	bd.CPUAccessFlags = 0;
 	InitData.pSysMem = indices;
@@ -81,6 +81,8 @@ HRESULT CMesh::LoadMesh()
 	hr = Engine::device->CreateBuffer(&bd, nullptr, &materialConstantBuffer);
 	if (FAILED(hr))
 		return hr;
+
+	Engine::deviceContext->UpdateSubresource(materialConstantBuffer, 0, nullptr, &material, 0, 0);
 
     return hr;
 }

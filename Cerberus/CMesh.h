@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine.h"
 
-class CMesh
+struct CMesh
 {
 	ID3D11Buffer* vertexBuffer;
 	ID3D11Buffer* indexBuffer;
@@ -9,7 +9,7 @@ class CMesh
 	ID3D11SamplerState* samplerLinear;
 	MaterialPropertiesConstantBuffer material;
 	ID3D11Buffer* materialConstantBuffer = nullptr;
-public:
+
 	CMesh();
 	HRESULT LoadMesh();
 	~CMesh();

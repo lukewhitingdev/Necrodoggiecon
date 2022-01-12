@@ -353,6 +353,7 @@
   <ItemGroup>
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CEntity.h" />
+    <ClInclude Include="CMeshComponent.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DrawableGameObject.h" />
@@ -364,6 +365,7 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CMeshComponent.cpp" />
     <ClCompile Include="Core\testClass.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="DrawableGameObject.cpp" />
