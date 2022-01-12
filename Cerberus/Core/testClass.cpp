@@ -1,5 +1,5 @@
 #include "testClass.h"
-#include "Utility/Debug/Debug.h"
+#include "Utility/DebugOutput/Debug.h"
 
 TestClass::TestClass()
 {

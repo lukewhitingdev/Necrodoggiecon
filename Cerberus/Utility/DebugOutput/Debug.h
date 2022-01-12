@@ -1,5 +1,5 @@
 #pragma once
-#include "UI/Debug/DebugOutput.h"
+#include "UI/DebugOutput/DebugOutput.h"
 #include <string>
 #include <chrono>
 #include <ctime>

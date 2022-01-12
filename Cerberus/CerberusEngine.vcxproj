@@ -370,8 +370,8 @@
     <CLInclude Include="resource.h" />
     <ClInclude Include="structures.h" />
     <ClInclude Include="Core\testClass.h" />
-    <ClInclude Include="UI\Debug\DebugOutput.h" />
-    <ClInclude Include="Utility\Debug\Debug.h" />
+    <ClInclude Include="UI\DebugOutput\DebugOutput.h" />
+    <ClInclude Include="Utility\DebugOutput\Debug.h" />
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
@@ -384,7 +384,7 @@
     <ClCompile Include="Dependencies\IMGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_tables.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_widgets.cpp" />
-    <ClCompile Include="Utility\Debug\Debug.cpp" />
+    <ClCompile Include="Utility\DebugOutput\Debug.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CMesh.cpp" />
   </ItemGroup>

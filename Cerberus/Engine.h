@@ -17,7 +17,7 @@
 #include "Dependencies/IMGUI/imgui_impl_dx11.h"
 #include "Dependencies/IMGUI/imgui_impl_win32.h"
 
-#include "Utility/Debug/Debug.h"
+#include "Utility/DebugOutput/Debug.h"
 
 #include <vector>
 
