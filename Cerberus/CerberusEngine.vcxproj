@@ -365,7 +365,6 @@
     <ClInclude Include="Dependencies\IMGUI\imstb_rectpack.h" />
     <ClInclude Include="Dependencies\IMGUI\imstb_textedit.h" />
     <ClInclude Include="Dependencies\IMGUI\imstb_truetype.h" />
-    <ClInclude Include="DrawableGameObject.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="CMesh.h" />
     <CLInclude Include="resource.h" />
@@ -385,8 +384,6 @@
     <ClCompile Include="Dependencies\IMGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_tables.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_widgets.cpp" />
-    <ClCompile Include="DrawableGameObject.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Utility\Debug\Debug.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="CMesh.cpp" />
