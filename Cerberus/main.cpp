@@ -55,13 +55,13 @@ ID3D11DepthStencilView* Engine::depthStencilView;
 // Global Variables
 //--------------------------------------------------------------------------------------
 DrawableGameObject		g_GameObject;
-static ID3D11VertexShader* vertexShader;
-static ID3D11PixelShader* pixelShader;
-static ID3D11InputLayout* vertexLayout;
-static ID3D11Buffer* constantBuffer;
-static ID3D11Buffer* lightConstantBuffer;
-static XMMATRIX viewMatrix;
-static XMMATRIX projectionMatrix;
+ID3D11VertexShader* vertexShader;
+ID3D11PixelShader* pixelShader;
+ID3D11InputLayout* vertexLayout;
+ID3D11Buffer* constantBuffer;
+ID3D11Buffer* lightConstantBuffer;
+XMMATRIX viewMatrix;
+XMMATRIX projectionMatrix;
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
