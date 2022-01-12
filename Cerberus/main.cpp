@@ -166,12 +166,6 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 	if( !Engine::windowHandle)
 		return E_FAIL;
 
-	// Create Console
-	AllocConsole();
-	freopen("conin$", "r", stdin);
-	freopen("conout$", "w", stdout);
-	freopen("conout$", "w", stderr);
-
 	ShowWindow(Engine::windowHandle, nCmdShow);
 
 	return S_OK;
@@ -581,6 +575,9 @@ void CleanupDevice()
 
 	if (debugDevice)
 		debugDevice->Release();
+
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
 }
 
 // Forward declare message handler from imgui_impl_win32.cpp
