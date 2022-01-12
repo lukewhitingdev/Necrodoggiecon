@@ -157,6 +157,12 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
     ShowWindow(Engine::windowHandle, nCmdShow );
 
+    // Create Console
+    AllocConsole();
+    freopen("conin$", "r", stdin);
+    freopen("conout$", "w", stdout);
+    freopen("conout$", "w", stderr);
+
     return S_OK;
 }
 
