@@ -17,7 +17,7 @@ class World
 	void Unload();
 
 	//A List of all tiles in the scene
-	std::vector<Tile*> tileList;
+	//std::vector<Tile*> tileList;
 
 	
 

@@ -1,10 +1,11 @@
 #pragma once
 
 #include <immintrin.h>
+#include <cmath>
 
 class Vector3
 {
-
+public:
 	union
 	{
 		struct { float x, y, z; };
@@ -30,6 +31,83 @@ class Vector3
 	}
 
 
+	
+
+
+	//
+	//FLOAT TO VECTOR
+	//
+
+
+	//Multiply with float operator
+	Vector3 operator * (const float& OtherFloat) const { return _mm_mul_ps(intrinsic, _mm_set1_ps(OtherFloat)); }
+
+	//Divide with float operator
+	Vector3 operator / (const float& OtherFloat) const { return _mm_div_ps(intrinsic, _mm_set1_ps(OtherFloat)); }
+
+	//Multiply with float operator
+	Vector3 operator + (const float& OtherFloat) const { return _mm_add_ps(intrinsic, _mm_set1_ps(OtherFloat)); }
+
+	//Divide with float operator
+	Vector3 operator - (const float& OtherFloat) const { return _mm_sub_ps(intrinsic, _mm_set1_ps(OtherFloat)); }
+
+
+
+
+	//
+	// VECTOR TO VECTOR
+	//
+
+
+
+	//Multiply vector with other vector
+	Vector3 operator * (const Vector3 OtherVector) const { return _mm_mul_ps(intrinsic, OtherVector.intrinsic); }
+
+	//Minus vector with other vector
+	Vector3 operator - (const Vector3 OtherVector) const { return _mm_sub_ps(intrinsic, OtherVector.intrinsic); }
+
+	//Add Vector with other vector
+	Vector3 operator + (const Vector3 OtherVector) const { return _mm_add_ps(intrinsic, OtherVector.intrinsic); }
+
+	//Divide vector by other vector
+	Vector3 operator / (const Vector3 OtherVector) const { return _mm_div_ps(intrinsic, OtherVector.intrinsic); }
+
+
+
+	//
+	// DIRECT OPERATORS
+	//
+
+
+	// Directly add a vector to the current vector
+	Vector3& operator += (const Vector3& OtherVector) { intrinsic = _mm_add_ps(intrinsic, OtherVector.intrinsic); return *this; }
+	//Directly multiply the current vector by another vector
+	Vector3& operator *= (const Vector3& OtherVector) { intrinsic = _mm_mul_ps(intrinsic, OtherVector.intrinsic); return *this; }
+	//Directly divide the vector by another vector
+	Vector3& operator /= (const Vector3& OtherVector) { intrinsic = _mm_div_ps(intrinsic, OtherVector.intrinsic); return *this; }
+	//Directly subtract a vector from the current vector
+	Vector3& operator -= (const Vector3& OtherVector) { intrinsic = _mm_sub_ps(intrinsic, OtherVector.intrinsic); return *this; }
+
+	//Compare and return the result of two Vector3s. return true if they are the same.
+	bool operator ==(const Vector3& B) const { return ((_mm_movemask_ps(_mm_cmpeq_ps(intrinsic, B.intrinsic))) & 0x7) == 0x7; }
+
+	//Compare and return the result of two Vector3s. returns true if they are not the same.
+	bool operator !=(const Vector3& B) const { return ((_mm_movemask_ps(_mm_cmpeq_ps(intrinsic, B.intrinsic))) & 0x7) != 0x7; }
+
+	//bool operator <(const Vector3& B) const { return ((_mm_movemask_ps(_mm_cmplt_ps(intrinsic, B.intrinsic))) & 0x7) == 0x7; }
+
+
+	//MATH FUNCTIONS
+
+
+
+	//float length2() const { return x * x + y * y + z * z; 
+	float Magnitude() const { return _mm_cvtss_f32(_mm_sqrt_ss(_mm_dp_ps(intrinsic, intrinsic, 0x71))); }
+
+
+	float dot(const Vector3 OtherVector) const { return _mm_cvtss_f32(_mm_dp_ps(intrinsic, OtherVector.intrinsic, 0x71)); }
+
+
 	Vector3& normalize()
 	{
 		intrinsic = _mm_div_ps(intrinsic, _mm_sqrt_ps(_mm_dp_ps(intrinsic, intrinsic, 0xFF)));
@@ -37,29 +115,17 @@ class Vector3
 	}
 
 
-	//Multiply with float operator
-	Vector3 operator * (const float& OtherFloat) const { return _mm_mul_ps(intrinsic, _mm_setr_ps(OtherFloat, OtherFloat, OtherFloat, 0.0f)); }
+	float Determinant(const Vector3 OtherVector)
+	{
+		// x1 * y2 - y1 * x2;
+		//
+		//_mm_cvtss_f32 _mm_sub_ps(_mm_mul_ps(intrinsic, OtherVector.intrinsic), _mm_mul_ps(intrinsic, OtherVector.intrinsic));
+		return ((x * OtherVector.y) - (y * OtherVector.x));
+	}
 
-	//Divide with float operator
-	Vector3 operator / (const float& OtherFloat) const { return _mm_div_ps(intrinsic, _mm_setr_ps(OtherFloat, OtherFloat, OtherFloat, 0.0f)); }
-
-	Vector3 operator * (const Vector3 OtherVector) const { return _mm_mul_ps(intrinsic, OtherVector.intrinsic); }
-
-	Vector3 operator - (const Vector3 OtherVector) const { return _mm_sub_ps(intrinsic, OtherVector.intrinsic); }
-
-	Vector3 operator + (const Vector3 OtherVector) const { return _mm_add_ps(intrinsic, OtherVector.intrinsic); }
-
-	Vector3 operator + (const Vector3 OtherVector) const { return _mm_add_ps(intrinsic, OtherVector.intrinsic); }
-
-
-
-
-
-
-
-	float dot(const Vector3 OtherVector) const { return _mm_cvtss_f32(_mm_dp_ps(intrinsic, OtherVector.intrinsic, 0x71)); }
-
-
+	
 
 };
 
+//0.025000
+//0.025000
