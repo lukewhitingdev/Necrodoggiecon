@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <FxCompile Include="shader.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="DrawableGameObject.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="World.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="DrawableGameObject.h" />
+    <ClInclude Include="main.h" />
+    <CLInclude Include="resource.h" />
+    <ClInclude Include="structures.h" />
+    <ClInclude Include="Core\testClass.h" />
+    <ClInclude Include="World.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Navigation.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\json.hpp">
+      <Filter>Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tutorial01.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\stone.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="World">
+      <UniqueIdentifier>{13a05045-74e0-47de-8163-fc8bcc2138fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{9ad79631-f174-4bfd-ab35-a789576c5000}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

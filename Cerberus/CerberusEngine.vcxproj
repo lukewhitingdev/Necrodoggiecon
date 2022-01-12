@@ -353,16 +353,25 @@
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DrawableGameObject.h" />
+    <ClInclude Include="Libraries\json.hpp" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="Navigation.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="structures.h" />
     <ClInclude Include="Core\testClass.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="World.h" />
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="DrawableGameObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Navigation.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\stone.dds" />
