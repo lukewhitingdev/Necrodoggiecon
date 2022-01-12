@@ -24,6 +24,31 @@ struct Engine
 	
 	// Drawables.
 	vector<DrawableGameObject*> vecDrawables;
+	
+	template<class T>
+	// Returns all entities of provided type that exist in the engine.
+	static vector<T> GetEntityOfType() 
+	{
+		std::vector<T> outputVector;
+
+		for(DrawableGameObject& entity : vecDrawables)
+		{
+			if (typeof(entity) == T)
+			{
+				outputVector.emplace_back(entity);
+			}
+		}
+		return outputVector;
+	};
+
+	template<class T>
+	// Creates a entity, adds it to drawables and returns it back.
+	static T* CreateEntity()
+	{
+		DrawableGameObject* temp = new T();
+		vecDrawables.emplace_back(temp);
+		return (T*)temp;
+	}
 
 	// Window and Instance.
 	static HINSTANCE instanceHandle;
