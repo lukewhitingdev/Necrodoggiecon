@@ -16,6 +16,8 @@
 
 #include <vector>
 
-using namespace std;
-
-typedef vector<DrawableGameObject*> vecDrawables;
+struct Engine
+{
+	static ID3D11DeviceContext* immediateContext;
+	static std::vector<class CEntity*> entities;
+};

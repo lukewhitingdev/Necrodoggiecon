@@ -14,7 +14,10 @@
 //--------------------------------------------------------------------------------------
 #define _XM_NO_INTRINSICS_
 
-#include "main.h"
+#include "Engine.h"
+#include "Core/testClass.h"
+
+std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
 DirectX::XMFLOAT4 g_EyePosition(0.0f, 0, -3, 1.0f);
 
@@ -28,6 +31,8 @@ HRESULT		InitWorld(int width, int height);
 void		CleanupDevice();
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 void		Render();
+void		Update(float deltaTime);
+float calculateDeltaTime();
 
 
 
@@ -65,7 +70,6 @@ int						g_viewHeight;
 
 DrawableGameObject		g_GameObject;
 
-
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
 // loop. Idle time is used to render the scene.
@@ -84,6 +88,13 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
         return 0;
     }
 
+    /////////////////////////////////////////////////////////////////////////
+
+    Engine::entities.push_back(new TestClass());
+
+
+    /////////////////////////////////////////////////////////////////////////
+
     // Main message loop
     MSG msg = {0};
     while( WM_QUIT != msg.message )
@@ -95,6 +106,11 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
         }
         else
         {
+            float t = calculateDeltaTime(); // capped at 60 fps
+            if (t == 0.0f)
+                continue;
+
+            Update(t);
             Render();
         }
     }
@@ -381,7 +397,11 @@ HRESULT InitDevice()
 		return hr;
 	}
 
-	hr = g_GameObject.initMesh(g_pd3dDevice, g_pImmediateContext);
+    //for (auto& e : Engine::entities)
+    //    e->components;
+
+    hr = g_GameObject.initMesh(g_pd3dDevice, g_pImmediateContext);
+
 	if (FAILED(hr))
 		return hr;
 
@@ -504,6 +524,11 @@ HRESULT		InitWorld(int width, int height)
 //--------------------------------------------------------------------------------------
 void CleanupDevice()
 {
+    for (auto& e : Engine::entities)
+        delete e;
+
+    Engine::entities.clear();
+
     g_GameObject.cleanup();
 
     // Remove any bound render target or depth/stencil buffer
@@ -630,15 +655,24 @@ float calculateDeltaTime()
     return deltaTime;
 }
 
+void Update(float deltaTime)
+{
+    for (auto& e : Engine::entities)
+    {
+        for (auto& f : e->components)
+            f->Update(deltaTime);
+
+        e->Update(deltaTime);
+    }
+
+    g_GameObject.update(deltaTime, g_pImmediateContext);
+}
+
 //--------------------------------------------------------------------------------------
 // Render a frame
 //--------------------------------------------------------------------------------------
 void Render()
 {
-    float t = calculateDeltaTime(); // capped at 60 fps
-    if (t == 0.0f)
-        return;
-
     // Clear the back buffer
     g_pImmediateContext->ClearRenderTargetView( g_pRenderTargetView, Colors::MidnightBlue );
 
@@ -646,10 +680,14 @@ void Render()
     g_pImmediateContext->ClearDepthStencilView( g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
 
 	// Update the cube transform, material etc. 
-	g_GameObject.update(t, g_pImmediateContext);
+    for (auto& e : Engine::entities)
+    {
+        for (auto& f : e->components)
+            f->Draw();
+    }
 
     // get the game object world transform
-	XMMATRIX mGO = XMLoadFloat4x4(g_GameObject.getTransform());
+    XMMATRIX mGO = XMLoadFloat4x4(g_GameObject.getTransform());
 
     // store this and the view / projection in a constant buffer for the vertex shader to use
     ConstantBuffer cb1;
