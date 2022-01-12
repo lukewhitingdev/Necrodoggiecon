@@ -11,7 +11,6 @@
 #include "resource.h"
 #include <iostream>
 
-#include "DrawableGameObject.h"
 #include "structures.h"
 
 #include <vector>
@@ -44,7 +43,7 @@ struct Engine
 	// Creates a entity, adds it to drawables and returns it back.
 	static T* CreateEntity()
 	{
-		DrawableGameObject* temp = new T();
+		CEntity* temp = new T();
 		entities.emplace_back(temp);
 		return (T*)temp;
 	}
