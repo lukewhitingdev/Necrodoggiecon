@@ -16,14 +16,14 @@
 
 #include <vector>
 
-using namespace std;
-
+class CEntity;
 
 struct Engine
 {
 	
 	// Drawables.
-	vector<DrawableGameObject*> vecDrawables;
+	static ID3D11DeviceContext* immediateContext;
+	static std::vector<CEntity*> entities;
 	
 	template<class T>
 	// Returns all entities of provided type that exist in the engine.
@@ -31,7 +31,7 @@ struct Engine
 	{
 		std::vector<T> outputVector;
 
-		for(DrawableGameObject& entity : vecDrawables)
+		for(CEntity& entity : entities)
 		{
 			if (typeof(entity) == T)
 			{
@@ -46,7 +46,7 @@ struct Engine
 	static T* CreateEntity()
 	{
 		DrawableGameObject* temp = new T();
-		vecDrawables.emplace_back(temp);
+		entities.emplace_back(temp);
 		return (T*)temp;
 	}
 
@@ -77,4 +77,3 @@ struct Engine
 	static XMMATRIX viewMatrix;
 	static XMMATRIX projectionMatrix;
 };
-
