@@ -50,7 +50,6 @@ ID3D11DeviceContext* Engine::deviceContext;
 //--------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------
-DrawableGameObject g_GameObject;
 ID3D11VertexShader* vertexShader;
 ID3D11PixelShader* pixelShader;
 ID3D11InputLayout* vertexLayout;
@@ -62,6 +61,8 @@ IDXGISwapChain* swapChain;
 ID3D11RenderTargetView* renderTargetView;
 ID3D11Texture2D* depthStencil;
 ID3D11DepthStencilView* depthStencilView;
+ID3D11RasterizerState* fillRastState;
+ID3D11RasterizerState* wireframeRastState;
 
 DebugOutput* debugOutputUI;
 
@@ -96,6 +97,9 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	/////////////////////////////////////////////////////////////////////////
 
 	Engine::entities.push_back(new TestClass());
+	Engine::entities.push_back(new TestClass());
+	Engine::entities[1]->position.y = 2;
+	Engine::entities[1]->rotation = 4.62;
 
 	/////////////////////////////////////////////////////////////////////////
 
@@ -399,6 +403,18 @@ HRESULT InitDevice()
     vp.TopLeftY = 0;
     Engine::deviceContext->RSSetViewports( 1, &vp );
 
+	D3D11_RASTERIZER_DESC fillDSC = {};
+	fillDSC.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+	fillDSC.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+	Engine::device->CreateRasterizerState(&fillDSC, &fillRastState);
+
+	D3D11_RASTERIZER_DESC wireframeDSC = {};
+	wireframeDSC.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+	wireframeDSC.FillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
+	Engine::device->CreateRasterizerState(&wireframeDSC, &wireframeRastState);
+
+	Engine::deviceContext->RSSetState(fillRastState);
+
 	hr = InitMesh();
 	if (FAILED(hr))
 	{
@@ -417,8 +433,6 @@ HRESULT InitDevice()
 
 	//for (auto& e : Engine::entities)
 	//    e->components;
-
-	hr = g_GameObject.initMesh(Engine::device, Engine::deviceContext);
 
 	if (FAILED(hr))
 		return hr;
@@ -536,8 +550,6 @@ void CleanupDevice()
 
 	Engine::entities.clear();
 
-	g_GameObject.cleanup();
-
 	// Remove any bound render target or depth/stencil buffer
 	ID3D11RenderTargetView* nullViews[] = { nullptr };
 	Engine::deviceContext->OMSetRenderTargets(_countof(nullViews), nullViews, nullptr);
@@ -556,7 +568,8 @@ void CleanupDevice()
     if( renderTargetView ) renderTargetView->Release();
     if( swapChain ) swapChain->Release();
     if( Engine::deviceContext ) Engine::deviceContext->Release();
-
+	if (fillRastState) fillRastState->Release();
+	if (wireframeRastState) wireframeRastState->Release();
 
 	ID3D11Debug* debugDevice = nullptr;
 	Engine::device->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&debugDevice));
@@ -647,7 +660,6 @@ void Update(float deltaTime)
 
 		e->Update(deltaTime);
 	}
-	g_GameObject.update(deltaTime, Engine::deviceContext);
 }
 
 //--------------------------------------------------------------------------------------
@@ -664,30 +676,37 @@ void Render()
 	// Update the cube transform, material etc. 
 	for (auto& e : Engine::entities)
 	{
+		XMMATRIX mGO = XMMatrixIdentity();
+		mGO = XMMatrixScaling(e->scale.x, e->scale.y, e->scale.z)
+			* XMMatrixRotationRollPitchYaw(0, 0, e->rotation)
+			* XMMatrixTranslation(e->position.x, e->position.y, e->position.z);
+
 		for (auto& f : e->components)
-			f->Draw();
+		{
+			// get the game object world transform
+			XMMATRIX mGO2 = mGO;
+			mGO2 = XMMatrixScaling(f->scale.x, f->scale.y, f->scale.z)
+				* XMMatrixRotationRollPitchYaw(0, 0, f->rotation)
+				* XMMatrixTranslation(f->position.x, f->position.y, f->position.z);
+
+
+			// store this and the view / projection in a constant buffer for the vertex shader to use
+			ConstantBuffer cb1;
+			cb1.mWorld = XMMatrixTranspose(mGO);
+			cb1.mView = XMMatrixTranspose(viewMatrix);
+			cb1.mProjection = XMMatrixTranspose(projectionMatrix);
+			cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
+			Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb1, 0, 0);
+
+			// Render the cube
+			Engine::deviceContext->VSSetShader(vertexShader, nullptr, 0);
+			Engine::deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+
+			Engine::deviceContext->PSSetShader(pixelShader, nullptr, 0);
+
+			f->Draw(Engine::deviceContext);
+		}
 	}
-
-	// get the game object world transform
-	XMMATRIX mGO = XMLoadFloat4x4(g_GameObject.getTransform());
-
-	// store this and the view / projection in a constant buffer for the vertex shader to use
-	ConstantBuffer cb1;
-	cb1.mWorld = XMMatrixTranspose( mGO);
-	cb1.mView = XMMatrixTranspose( viewMatrix );
-	cb1.mProjection = XMMatrixTranspose( projectionMatrix );
-	cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
-	Engine::deviceContext->UpdateSubresource( constantBuffer, 0, nullptr, &cb1, 0, 0 );
-
-	// Render the cube
-	Engine::deviceContext->VSSetShader( vertexShader, nullptr, 0 );
-	Engine::deviceContext->VSSetConstantBuffers( 0, 1, &constantBuffer );
-
-	Engine::deviceContext->PSSetShader( pixelShader, nullptr, 0 );
-	ID3D11Buffer* materialCB = g_GameObject.getMaterialConstantBuffer();
-	Engine::deviceContext->PSSetConstantBuffers(1, 1, &materialCB);
-
-	g_GameObject.draw(Engine::deviceContext);
 
 	// Render ImGUI.
 	ImGui_ImplDX11_NewFrame();

@@ -354,6 +354,7 @@
   <ItemGroup>
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CEntity.h" />
+    <ClInclude Include="CMeshComponent.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Dependencies\IMGUI\imconfig.h" />
@@ -366,6 +367,7 @@
     <ClInclude Include="Dependencies\IMGUI\imstb_truetype.h" />
     <ClInclude Include="DrawableGameObject.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="CMesh.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="structures.h" />
     <ClInclude Include="Core\testClass.h" />
@@ -374,6 +376,7 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CMeshComponent.cpp" />
     <ClCompile Include="Core\testClass.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui.cpp" />
@@ -385,6 +388,8 @@
     <ClCompile Include="DrawableGameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utility\Debug\Debug.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="CMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\stone.dds" />

@@ -1,5 +1,6 @@
 #pragma once
 #include "CObject.h"
+#include "Engine.h"
 
 class CComponent : public CObject
 {
@@ -10,6 +11,6 @@ public:
 	bool shouldDraw = false;
 public:
 	virtual void Update(float deltaTime) override = 0;
-	virtual void Draw() = 0;
+	virtual void Draw(struct ID3D11DeviceContext* context) = 0;
 	virtual ~CComponent() {};
 };
