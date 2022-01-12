@@ -164,6 +164,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;_WIN32_WINNT=0x0600;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Cerberus;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -355,18 +356,35 @@
     <ClInclude Include="CEntity.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="Dependencies\IMGUI\imconfig.h" />
+    <ClInclude Include="Dependencies\IMGUI\imgui.h" />
+    <ClInclude Include="Dependencies\IMGUI\imgui_impl_dx11.h" />
+    <ClInclude Include="Dependencies\IMGUI\imgui_impl_win32.h" />
+    <ClInclude Include="Dependencies\IMGUI\imgui_internal.h" />
+    <ClInclude Include="Dependencies\IMGUI\imstb_rectpack.h" />
+    <ClInclude Include="Dependencies\IMGUI\imstb_textedit.h" />
+    <ClInclude Include="Dependencies\IMGUI\imstb_truetype.h" />
     <ClInclude Include="DrawableGameObject.h" />
     <ClInclude Include="Engine.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="structures.h" />
     <ClInclude Include="Core\testClass.h" />
+    <ClInclude Include="UI\Debug\DebugOutput.h" />
+    <ClInclude Include="Utility\Debug\Debug.h" />
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\testClass.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_draw.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_impl_dx11.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_impl_win32.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_tables.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="DrawableGameObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Utility\Debug\Debug.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\stone.dds" />
