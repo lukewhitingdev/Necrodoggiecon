@@ -1,8 +1,9 @@
 #include "testClass.h"
+#include "Utility/Debug/Debug.h"
 
 TestClass::TestClass()
 {
-	printf("init test class!\n");
+	Debug::Log("init test class!\n");
 
 	mesh = new CMeshComponent();
 	components.push_back(mesh);
@@ -22,5 +23,5 @@ void TestClass::Update(float deltaTime)
 
 TestClass::~TestClass()
 {
-	printf("destroy test class!\n");
+	Debug::Log("destroy test class!\n");
 }
