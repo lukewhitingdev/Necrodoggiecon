@@ -46,22 +46,22 @@ D3D_DRIVER_TYPE Engine::driverType = D3D_DRIVER_TYPE_NULL;
 D3D_FEATURE_LEVEL Engine::featureLevel = D3D_FEATURE_LEVEL_11_0;
 ID3D11Device* Engine::device;
 ID3D11DeviceContext* Engine::deviceContext;
-IDXGISwapChain* Engine::swapChain;
-ID3D11RenderTargetView* Engine::renderTargetView;
-ID3D11Texture2D* Engine::depthStencil;
-ID3D11DepthStencilView* Engine::depthStencilView;
-					  
+                      
 //--------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------
-DrawableGameObject		g_GameObject;
-static ID3D11VertexShader* vertexShader;
-static ID3D11PixelShader* pixelShader;
-static ID3D11InputLayout* vertexLayout;
-static ID3D11Buffer* constantBuffer;
-static ID3D11Buffer* lightConstantBuffer;
-static XMMATRIX viewMatrix;
-static XMMATRIX projectionMatrix;
+DrawableGameObject g_GameObject;
+ID3D11VertexShader* vertexShader;
+ID3D11PixelShader* pixelShader;
+ID3D11InputLayout* vertexLayout;
+ID3D11Buffer* constantBuffer;
+ID3D11Buffer* lightConstantBuffer;
+XMMATRIX viewMatrix;
+XMMATRIX projectionMatrix;
+IDXGISwapChain* swapChain;
+ID3D11RenderTargetView* renderTargetView;
+ID3D11Texture2D* depthStencil;
+ID3D11DepthStencilView* depthStencilView;
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -84,7 +84,6 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	/////////////////////////////////////////////////////////////////////////
 
 	Engine::entities.push_back(new TestClass());
-
 
 	/////////////////////////////////////////////////////////////////////////
 
@@ -295,98 +294,98 @@ HRESULT InitDevice()
 		sd.Width = width;
 		sd.Height = height;
 		sd.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;//  DXGI_FORMAT_R16G16B16A16_FLOAT;////DXGI_FORMAT_R8G8B8A8_UNORM;
-		sd.SampleDesc.Count = 1;
-		sd.SampleDesc.Quality = 0;
-		sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		sd.BufferCount = 1;
+        sd.SampleDesc.Count = 1;
+        sd.SampleDesc.Quality = 0;
+        sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+        sd.BufferCount = 1;
 
-		hr = dxgiFactory2->CreateSwapChainForHwnd( Engine::device, Engine::windowHandle, &sd, nullptr, nullptr, &swapChainTemp);
-		if (SUCCEEDED(hr))
-		{
-			hr = swapChainTemp->QueryInterface( __uuidof(IDXGISwapChain), reinterpret_cast<void**>(&Engine::swapChain) );
-		}
+        hr = dxgiFactory2->CreateSwapChainForHwnd( Engine::device, Engine::windowHandle, &sd, nullptr, nullptr, &swapChainTemp);
+        if (SUCCEEDED(hr))
+        {
+            hr = swapChainTemp->QueryInterface( __uuidof(IDXGISwapChain), reinterpret_cast<void**>(&swapChain) );
+        }
 
-		dxgiFactory2->Release();
-	}
-	else
-	{
-		// DirectX 11.0 systems
-		DXGI_SWAP_CHAIN_DESC sd = {};
-		sd.BufferCount = 1;
-		sd.BufferDesc.Width = width;
-		sd.BufferDesc.Height = height;
-		sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		sd.BufferDesc.RefreshRate.Numerator = 60;
-		sd.BufferDesc.RefreshRate.Denominator = 1;
-		sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		sd.OutputWindow = Engine::windowHandle;
-		sd.SampleDesc.Count = 1;
-		sd.SampleDesc.Quality = 0;
-		sd.Windowed = TRUE;
+        dxgiFactory2->Release();
+    }
+    else
+    {
+        // DirectX 11.0 systems
+        DXGI_SWAP_CHAIN_DESC sd = {};
+        sd.BufferCount = 1;
+        sd.BufferDesc.Width = width;
+        sd.BufferDesc.Height = height;
+        sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        sd.BufferDesc.RefreshRate.Numerator = 60;
+        sd.BufferDesc.RefreshRate.Denominator = 1;
+        sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+        sd.OutputWindow = Engine::windowHandle;
+        sd.SampleDesc.Count = 1;
+        sd.SampleDesc.Quality = 0;
+        sd.Windowed = TRUE;
 
-		hr = dxgiFactory->CreateSwapChain( Engine::device, &sd, &Engine::swapChain );
-	}
+        hr = dxgiFactory->CreateSwapChain( Engine::device, &sd, &swapChain );
+    }
 
-	swapChainTemp->Release();
-	deviceTemp->Release();
-	deviceContextTemp->Release();
+    swapChainTemp->Release();
+    deviceTemp->Release();
+    deviceContextTemp->Release();
 
-	// Note this tutorial doesn't handle full-screen swapchains so we block the ALT+ENTER shortcut
-	dxgiFactory->MakeWindowAssociation( Engine::windowHandle, DXGI_MWA_NO_ALT_ENTER );
+    // Note this tutorial doesn't handle full-screen swapchains so we block the ALT+ENTER shortcut
+    dxgiFactory->MakeWindowAssociation( Engine::windowHandle, DXGI_MWA_NO_ALT_ENTER );
 
-	dxgiFactory->Release();
+    dxgiFactory->Release();
 
-	if (FAILED(hr))
-		return hr;
+    if (FAILED(hr))
+        return hr;
 
-	// Create a render target view
-	ID3D11Texture2D* pBackBuffer = nullptr;
-	hr = Engine::swapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), reinterpret_cast<void**>( &pBackBuffer ) );
-	if( FAILED( hr ) )
-		return hr;
+    // Create a render target view
+    ID3D11Texture2D* pBackBuffer = nullptr;
+    hr = swapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), reinterpret_cast<void**>( &pBackBuffer ) );
+    if( FAILED( hr ) )
+        return hr;
 
-	hr = Engine::device->CreateRenderTargetView( pBackBuffer, nullptr, &Engine::renderTargetView );
-	pBackBuffer->Release();
-	if( FAILED( hr ) )
-		return hr;
+    hr = Engine::device->CreateRenderTargetView( pBackBuffer, nullptr, &renderTargetView );
+    pBackBuffer->Release();
+    if( FAILED( hr ) )
+        return hr;
 
-	// Create depth stencil texture
-	D3D11_TEXTURE2D_DESC descDepth = {};
-	descDepth.Width = width;
-	descDepth.Height = height;
-	descDepth.MipLevels = 1;
-	descDepth.ArraySize = 1;
-	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	descDepth.SampleDesc.Count = 1;
-	descDepth.SampleDesc.Quality = 0;
-	descDepth.Usage = D3D11_USAGE_DEFAULT;
-	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	descDepth.CPUAccessFlags = 0;
-	descDepth.MiscFlags = 0;
-	hr = Engine::device->CreateTexture2D( &descDepth, nullptr, &Engine::depthStencil );
-	if( FAILED( hr ) )
-		return hr;
+    // Create depth stencil texture
+    D3D11_TEXTURE2D_DESC descDepth = {};
+    descDepth.Width = width;
+    descDepth.Height = height;
+    descDepth.MipLevels = 1;
+    descDepth.ArraySize = 1;
+    descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    descDepth.SampleDesc.Count = 1;
+    descDepth.SampleDesc.Quality = 0;
+    descDepth.Usage = D3D11_USAGE_DEFAULT;
+    descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+    descDepth.CPUAccessFlags = 0;
+    descDepth.MiscFlags = 0;
+    hr = Engine::device->CreateTexture2D( &descDepth, nullptr, &depthStencil );
+    if( FAILED( hr ) )
+        return hr;
 
-	// Create the depth stencil view
-	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
-	descDSV.Format = descDepth.Format;
-	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	descDSV.Texture2D.MipSlice = 0;
-	hr = Engine::device->CreateDepthStencilView( Engine::depthStencil, &descDSV, &Engine::depthStencilView );
-	if( FAILED( hr ) )
-		return hr;
+    // Create the depth stencil view
+    D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
+    descDSV.Format = descDepth.Format;
+    descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+    descDSV.Texture2D.MipSlice = 0;
+    hr = Engine::device->CreateDepthStencilView( depthStencil, &descDSV, &depthStencilView );
+    if( FAILED( hr ) )
+        return hr;
 
-	Engine::deviceContext->OMSetRenderTargets( 1, &Engine::renderTargetView, Engine::depthStencilView );
+    Engine::deviceContext->OMSetRenderTargets( 1, &renderTargetView, depthStencilView );
 
-	// Setup the viewport
-	D3D11_VIEWPORT vp;
-	vp.Width = (FLOAT)width;
-	vp.Height = (FLOAT)height;
-	vp.MinDepth = 0.0f;
-	vp.MaxDepth = 1.0f;
-	vp.TopLeftX = 0;
-	vp.TopLeftY = 0;
-	Engine::deviceContext->RSSetViewports( 1, &vp );
+    // Setup the viewport
+    D3D11_VIEWPORT vp;
+    vp.Width = (FLOAT)width;
+    vp.Height = (FLOAT)height;
+    vp.MinDepth = 0.0f;
+    vp.MaxDepth = 1.0f;
+    vp.TopLeftX = 0;
+    vp.TopLeftY = 0;
+    Engine::deviceContext->RSSetViewports( 1, &vp );
 
 	hr = InitMesh();
 	if (FAILED(hr))
@@ -534,17 +533,17 @@ void CleanupDevice()
 	if( Engine::deviceContext ) Engine::deviceContext->ClearState();
 	Engine::deviceContext->Flush();
 
-	if (lightConstantBuffer)
-		lightConstantBuffer->Release();
-	if (vertexLayout) vertexLayout->Release();
-	if( constantBuffer ) constantBuffer->Release();
-	if (vertexShader) vertexShader ->Release();
-	if( pixelShader ) pixelShader->Release();
-	if( Engine::depthStencil ) Engine::depthStencil->Release();
-	if( Engine::depthStencilView ) Engine::depthStencilView->Release();
-	if( Engine::renderTargetView ) Engine::renderTargetView->Release();
-	if( Engine::swapChain ) Engine::swapChain->Release();
-	if( Engine::deviceContext ) Engine::deviceContext->Release();
+    if (lightConstantBuffer)
+        lightConstantBuffer->Release();
+    if (vertexLayout) vertexLayout->Release();
+    if( constantBuffer ) constantBuffer->Release();
+    if (vertexShader) vertexShader ->Release();
+    if( pixelShader ) pixelShader->Release();
+    if( depthStencil ) depthStencil->Release();
+    if( depthStencilView ) depthStencilView->Release();
+    if( renderTargetView ) renderTargetView->Release();
+    if( swapChain ) swapChain->Release();
+    if( Engine::deviceContext ) Engine::deviceContext->Release();
 
 
 	ID3D11Debug* debugDevice = nullptr;
@@ -639,11 +638,11 @@ void Update(float deltaTime)
 //--------------------------------------------------------------------------------------
 void Render()
 {
-	// Clear the back buffer
-	Engine::deviceContext->ClearRenderTargetView( Engine::renderTargetView, Colors::MidnightBlue );
+    // Clear the back buffer
+    Engine::deviceContext->ClearRenderTargetView( renderTargetView, Colors::MidnightBlue );
 
-	// Clear the depth buffer to 1.0 (max depth)
-	Engine::deviceContext->ClearDepthStencilView( Engine::depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
+    // Clear the depth buffer to 1.0 (max depth)
+    Engine::deviceContext->ClearDepthStencilView( depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
 
 	// Update the cube transform, material etc. 
 	for (auto& e : Engine::entities)
@@ -673,6 +672,6 @@ void Render()
 
 	g_GameObject.draw(Engine::deviceContext);
 
-	// Present our back buffer to our front buffer
-	Engine::swapChain->Present( 0, 0 );
+    // Present our back buffer to our front buffer
+    swapChain->Present( 0, 0 );
 }

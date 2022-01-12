@@ -60,8 +60,4 @@ struct Engine
 	static D3D_FEATURE_LEVEL featureLevel;
 	static ID3D11Device* device;
 	static ID3D11DeviceContext* deviceContext;
-	static IDXGISwapChain* swapChain;
-	static ID3D11RenderTargetView* renderTargetView;
-	static ID3D11Texture2D* depthStencil;
-	static ID3D11DepthStencilView* depthStencilView;
 };
