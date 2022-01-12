@@ -27,7 +27,7 @@ struct Engine
 	
 	template<class T>
 	// Returns all entities of provided type that exist in the engine.
-	static vector<T> GetEntityOfType() 
+	static std::vector<T> GetEntityOfType()
 	{
 		std::vector<T> outputVector;
 
