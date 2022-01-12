@@ -22,7 +22,6 @@ struct Engine
 {
 	
 	// Drawables.
-	static ID3D11DeviceContext* immediateContext;
 	static std::vector<CEntity*> entities;
 	
 	template<class T>
@@ -65,15 +64,4 @@ struct Engine
 	static ID3D11RenderTargetView* renderTargetView;
 	static ID3D11Texture2D* depthStencil;
 	static ID3D11DepthStencilView* depthStencilView;
-
-	// Shaders.
-	static ID3D11VertexShader* vertexShader;
-	static ID3D11PixelShader* pixelShader;
-	static ID3D11InputLayout* vertexLayout;
-	static ID3D11Buffer* constantBuffer;
-	static ID3D11Buffer* lightConstantBuffer;
-
-	// Matrices.
-	static XMMATRIX viewMatrix;
-	static XMMATRIX projectionMatrix;
 };

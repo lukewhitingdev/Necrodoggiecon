@@ -50,22 +50,18 @@ IDXGISwapChain* Engine::swapChain;
 ID3D11RenderTargetView* Engine::renderTargetView;
 ID3D11Texture2D* Engine::depthStencil;
 ID3D11DepthStencilView* Engine::depthStencilView;
-                       
-// Shaders.            
-ID3D11VertexShader* Engine::vertexShader;
-ID3D11PixelShader* Engine::pixelShader;
-ID3D11InputLayout* Engine::vertexLayout;
-ID3D11Buffer* Engine::constantBuffer;
-ID3D11Buffer* Engine::lightConstantBuffer;
-                       
-// Matrices.           
-XMMATRIX Engine::viewMatrix;
-XMMATRIX Engine::projectionMatrix;
-
+                      
 //--------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------
 DrawableGameObject		g_GameObject;
+static ID3D11VertexShader* vertexShader;
+static ID3D11PixelShader* pixelShader;
+static ID3D11InputLayout* vertexLayout;
+static ID3D11Buffer* constantBuffer;
+static ID3D11Buffer* lightConstantBuffer;
+static XMMATRIX viewMatrix;
+static XMMATRIX projectionMatrix;
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -436,7 +432,7 @@ HRESULT		InitMesh()
 	}
 
 	// Create the vertex shader
-	hr = Engine::device->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &Engine::vertexShader);
+	hr = Engine::device->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), nullptr, &vertexShader);
 	if (FAILED(hr))
 	{
 		pVSBlob->Release();
@@ -454,13 +450,13 @@ HRESULT		InitMesh()
 
 	// Create the input layout
 	hr = Engine::device->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
-		pVSBlob->GetBufferSize(), &Engine::vertexLayout);
+		pVSBlob->GetBufferSize(), &vertexLayout);
 	pVSBlob->Release();
 	if (FAILED(hr))
 		return hr;
 
 	// Set the input layout
-	Engine::deviceContext->IASetInputLayout(Engine::vertexLayout);
+	Engine::deviceContext->IASetInputLayout(vertexLayout);
 
 	// Compile the pixel shader
 	ID3DBlob* pPSBlob = nullptr;
@@ -473,7 +469,7 @@ HRESULT		InitMesh()
 	}
 
 	// Create the pixel shader
-	hr = Engine::device->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &Engine::pixelShader);
+	hr = Engine::device->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &pixelShader);
 	pPSBlob->Release();
 	if (FAILED(hr))
 		return hr;
@@ -493,7 +489,7 @@ HRESULT		InitMesh()
 	bd.ByteWidth = sizeof(ConstantBuffer);
 	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	bd.CPUAccessFlags = 0;
-	hr = Engine::device->CreateBuffer(&bd, nullptr, &Engine::constantBuffer);
+	hr = Engine::device->CreateBuffer(&bd, nullptr, &constantBuffer);
 	if (FAILED(hr))
 		return hr;
 
@@ -504,7 +500,7 @@ HRESULT		InitMesh()
 	bd.ByteWidth = sizeof(LightPropertiesConstantBuffer);
 	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	bd.CPUAccessFlags = 0;
-	hr = Engine::device->CreateBuffer(&bd, nullptr, &Engine::lightConstantBuffer);
+	hr = Engine::device->CreateBuffer(&bd, nullptr, &lightConstantBuffer);
 	if (FAILED(hr))
 		return hr;
 
@@ -521,10 +517,10 @@ HRESULT		InitWorld(int width, int height)
 	XMVECTOR Eye = XMLoadFloat4(&g_EyePosition);
 	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-	Engine::viewMatrix = XMMatrixLookAtLH(Eye, At, Up);
+	viewMatrix = XMMatrixLookAtLH(Eye, At, Up);
 
 	// Initialize the projection matrix
-	Engine::projectionMatrix = XMMatrixPerspectiveFovLH(XM_PIDIV2, width / (FLOAT)height, 0.01f, 100.0f);
+	projectionMatrix = XMMatrixPerspectiveFovLH(XM_PIDIV2, width / (FLOAT)height, 0.01f, 100.0f);
 
 	return S_OK;
 }
@@ -549,12 +545,12 @@ void CleanupDevice()
     if( Engine::deviceContext ) Engine::deviceContext->ClearState();
     Engine::deviceContext->Flush();
 
-    if (Engine::lightConstantBuffer)
-        Engine::lightConstantBuffer->Release();
-    if (Engine::vertexLayout) Engine::vertexLayout->Release();
-    if( Engine::constantBuffer ) Engine::constantBuffer->Release();
-    if (Engine::vertexShader) Engine::vertexShader ->Release();
-    if( Engine::pixelShader ) Engine::pixelShader->Release();
+    if (lightConstantBuffer)
+        lightConstantBuffer->Release();
+    if (vertexLayout) vertexLayout->Release();
+    if( constantBuffer ) constantBuffer->Release();
+    if (vertexShader) vertexShader ->Release();
+    if( pixelShader ) pixelShader->Release();
     if( Engine::depthStencil ) Engine::depthStencil->Release();
     if( Engine::depthStencilView ) Engine::depthStencilView->Release();
     if( Engine::renderTargetView ) Engine::renderTargetView->Release();
@@ -632,7 +628,7 @@ void setupLightForRender()
     LightPropertiesConstantBuffer lightProperties;
     lightProperties.EyePosition = LightPosition;
     lightProperties.Lights[0] = light;
-    Engine::deviceContext->UpdateSubresource(Engine::lightConstantBuffer, 0, nullptr, &lightProperties, 0, 0);
+    Engine::deviceContext->UpdateSubresource(lightConstantBuffer, 0, nullptr, &lightProperties, 0, 0);
 }
 
 float calculateDeltaTime()
@@ -698,20 +694,20 @@ void Render()
     // store this and the view / projection in a constant buffer for the vertex shader to use
     ConstantBuffer cb1;
 	cb1.mWorld = XMMatrixTranspose( mGO);
-	cb1.mView = XMMatrixTranspose( Engine::viewMatrix );
-	cb1.mProjection = XMMatrixTranspose( Engine::projectionMatrix );
+	cb1.mView = XMMatrixTranspose( viewMatrix );
+	cb1.mProjection = XMMatrixTranspose( projectionMatrix );
 	cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
-	Engine::deviceContext->UpdateSubresource( Engine::constantBuffer, 0, nullptr, &cb1, 0, 0 );
+	Engine::deviceContext->UpdateSubresource( constantBuffer, 0, nullptr, &cb1, 0, 0 );
 
     
     setupLightForRender();
 
     // Render the cube
-	Engine::deviceContext->VSSetShader( Engine::vertexShader, nullptr, 0 );
-	Engine::deviceContext->VSSetConstantBuffers( 0, 1, &Engine::constantBuffer );
+	Engine::deviceContext->VSSetShader( vertexShader, nullptr, 0 );
+	Engine::deviceContext->VSSetConstantBuffers( 0, 1, &constantBuffer );
 
-    Engine::deviceContext->PSSetShader( Engine::pixelShader, nullptr, 0 );
-	Engine::deviceContext->PSSetConstantBuffers(2, 1, &Engine::lightConstantBuffer);
+    Engine::deviceContext->PSSetShader( pixelShader, nullptr, 0 );
+	Engine::deviceContext->PSSetConstantBuffers(2, 1, &lightConstantBuffer);
     ID3D11Buffer* materialCB = g_GameObject.getMaterialConstantBuffer();
     Engine::deviceContext->PSSetConstantBuffers(1, 1, &materialCB);
 
