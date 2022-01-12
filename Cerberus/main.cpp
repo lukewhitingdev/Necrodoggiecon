@@ -63,6 +63,8 @@ ID3D11RenderTargetView* renderTargetView;
 ID3D11Texture2D* depthStencil;
 ID3D11DepthStencilView* depthStencilView;
 
+DebugOutput* debugOutputUI;
+
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
 // loop. Idle time is used to render the scene.
@@ -80,6 +82,16 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		CleanupDevice();
 		return 0;
 	}
+
+	// Init ImGUI.
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+	ImGui::StyleColorsDark();                                   // Style colors dark
+
+	ImGui_ImplWin32_Init(Engine::windowHandle);
+	ImGui_ImplDX11_Init(Engine::device, Engine::deviceContext);
+
 
 	/////////////////////////////////////////////////////////////////////////
 
@@ -558,12 +570,18 @@ void CleanupDevice()
 		debugDevice->Release();
 }
 
+// Forward declare message handler from imgui_impl_win32.cpp
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //--------------------------------------------------------------------------------------
 // Called every time the application receives a message
 //--------------------------------------------------------------------------------------
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
+
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+		return true;
+
 	PAINTSTRUCT ps;
 	HDC hdc;
 
@@ -629,7 +647,6 @@ void Update(float deltaTime)
 
 		e->Update(deltaTime);
 	}
-
 	g_GameObject.update(deltaTime, Engine::deviceContext);
 }
 
@@ -671,6 +688,17 @@ void Render()
 	Engine::deviceContext->PSSetConstantBuffers(1, 1, &materialCB);
 
 	g_GameObject.draw(Engine::deviceContext);
+
+	// Render ImGUI.
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	// Do UI.
+	Debug::getOutput()->render();
+
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
     // Present our back buffer to our front buffer
     swapChain->Present( 0, 0 );

@@ -14,6 +14,12 @@
 #include "DrawableGameObject.h"
 #include "structures.h"
 
+#include "Dependencies/IMGUI/imgui.h"
+#include "Dependencies/IMGUI/imgui_impl_dx11.h"
+#include "Dependencies/IMGUI/imgui_impl_win32.h"
+
+#include "Utility/Debug/Debug.h"
+
 #include <vector>
 
 class CEntity;
