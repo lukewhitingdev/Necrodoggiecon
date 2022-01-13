@@ -1,7 +1,7 @@
 #include "AudioController.h"
 IXAudio2* AudioController::audioEngine;
 IXAudio2MasteringVoice* AudioController::masterChannel;
-std::map<std::string, AudioController::CAudio*> AudioController::audios;
+std::map<std::string, CAudio*> AudioController::audios;
 
 AudioController::AudioController()
 {
