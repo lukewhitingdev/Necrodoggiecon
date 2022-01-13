@@ -1,22 +1,33 @@
 #pragma once
-// Basic Object with world position.
 
-#include "CObject.h"
 #include "CComponent.h"
 
-class CEntity : public CObject
+////Fundimental class of the engine with a world transform and ability to have components
+//Use for all gameplay things in the world
+class CEntity
 {
+protected:
+	XMFLOAT4X4 world;
 public:
+	bool shouldUpdate = true;
 	XMFLOAT3 position = {0,0,0};
 	XMFLOAT3 scale = {1,1,1};
 	float rotation = 0;
 
 	std::vector<CComponent*> components;
 
-	virtual void Update(float deltaTime) override = 0;
-	virtual ~CEntity() 
+	//Updated automatically every single frame
+	virtual void Update(float deltaTime) = 0;
+	virtual ~CEntity();
+
+	//Convert pos, scale and rot to a XMFloat4x4
+	virtual XMFLOAT4X4 GetTransform();
+
+	template <class T>
+	T* AddComponent()
 	{
-		for (auto& e : components)
-			delete e;
-	};
+		CComponent* tmp = new T();
+		components.push_back(tmp);
+		return dynamic_cast<T*>(tmp);
+	}
 };

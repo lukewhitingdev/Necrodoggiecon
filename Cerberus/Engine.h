@@ -28,7 +28,7 @@ struct Engine
 {
 	
 	// Drawables.
-	static std::vector<CEntity*> entities;
+	static std::vector<CEntity*> entities;	//Needs to be changed to CObject instead
 	
 	template<class T>
 	// Returns all entities of provided type that exist in the engine.

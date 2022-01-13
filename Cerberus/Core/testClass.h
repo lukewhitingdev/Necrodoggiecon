@@ -1,12 +1,12 @@
 #pragma once
 #include "../Engine.h"
 #include "../CEntity.h"
-#include "../CMeshComponent.h"
 #include <stdio.h>
 
 class TestClass : public CEntity
 {
-	CMeshComponent* mesh = nullptr;
+	class CSpriteComponent* sprite = nullptr;
+	bool rotDir = 0;
 public:
 	TestClass();
 	virtual void Update(float deltaTime) override;

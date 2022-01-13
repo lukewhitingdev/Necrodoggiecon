@@ -32,6 +32,7 @@ void		CleanupDevice();
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 void		Render();
 void		Update(float deltaTime);
+void		Load();
 float calculateDeltaTime();
 
 // Defines.
@@ -54,7 +55,6 @@ ID3D11VertexShader* vertexShader;
 ID3D11PixelShader* pixelShader;
 ID3D11InputLayout* vertexLayout;
 ID3D11Buffer* constantBuffer;
-ID3D11Buffer* lightConstantBuffer;
 XMMATRIX viewMatrix;
 XMMATRIX projectionMatrix;
 IDXGISwapChain* swapChain;
@@ -93,15 +93,7 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	ImGui_ImplWin32_Init(Engine::windowHandle);
 	ImGui_ImplDX11_Init(Engine::device, Engine::deviceContext);
 
-
-	/////////////////////////////////////////////////////////////////////////
-
-	Engine::entities.push_back(new TestClass());
-	Engine::entities.push_back(new TestClass());
-	Engine::entities[1]->position.y = 2;
-	Engine::entities[1]->rotation = 4.62;
-
-	/////////////////////////////////////////////////////////////////////////
+	Load();
 
 	// Main message loop
 	MSG msg = {0};
@@ -127,7 +119,6 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 	return ( int )msg.wParam;
 }
-
 
 //--------------------------------------------------------------------------------------
 // Register class and create window
@@ -171,6 +162,16 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 	return S_OK;
 }
 
+void Load()
+{
+	for (int i = 0; i < 2500; i++)
+	{
+		TestClass* myClass = Engine::CreateEntity<TestClass>();
+		myClass->position.x = (float(rand() % 1000) - 500);
+		myClass->position.y = (float(rand() % 1000) - 500);
+		myClass->rotation = (float(rand() % 1000) - 500) * .01;
+	}
+}
 
 //--------------------------------------------------------------------------------------
 // Helper for compiling shaders with D3DCompile
@@ -209,7 +210,6 @@ HRESULT CompileShaderFromFile( const WCHAR* szFileName, LPCSTR szEntryPoint, LPC
 
 	return S_OK;
 }
-
 
 //--------------------------------------------------------------------------------------
 // Create Direct3D device and swap chain
@@ -437,8 +437,7 @@ HRESULT InitDevice()
 // ***************************************************************************************
 // InitMesh
 // ***************************************************************************************
-
-HRESULT		InitMesh()
+HRESULT	InitMesh()
 {
 	// Compile the vertex shader
 	ID3DBlob* pVSBlob = nullptr;
@@ -492,17 +491,8 @@ HRESULT		InitMesh()
 	if (FAILED(hr))
 		return hr;
 
-
 	// Create the constant buffer
 	D3D11_BUFFER_DESC bd = {};
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(SimpleVertex) * 24;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(WORD) * 4;        // 36 vertices needed for 12 triangles in a triangle list
-	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	bd.CPUAccessFlags = 0;
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(ConstantBuffer);
 	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -525,14 +515,13 @@ HRESULT		InitWorld(int width, int height)
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	viewMatrix = XMMatrixLookAtLH(Eye, At, Up);
 
-	float viewScaler = 100;
+	const float viewScaler = 1;
 
 	// Initialize the projection matrix
 	projectionMatrix = XMMatrixOrthographicLH(width / viewScaler, height / viewScaler, 0.01f, 100.0f);
 
 	return S_OK;
 }
-
 
 //--------------------------------------------------------------------------------------
 // Clean up the objects we've created
@@ -551,8 +540,6 @@ void CleanupDevice()
 	if( Engine::deviceContext ) Engine::deviceContext->ClearState();
 	Engine::deviceContext->Flush();
 
-    if (lightConstantBuffer)
-        lightConstantBuffer->Release();
     if (vertexLayout) vertexLayout->Release();
     if( constantBuffer ) constantBuffer->Release();
     if (vertexShader) vertexShader ->Release();
@@ -651,12 +638,14 @@ float calculateDeltaTime()
 void Update(float deltaTime)
 {
 	for (auto& e : Engine::entities)
-	{
-		for (auto& f : e->components)
-			f->Update(deltaTime);
+		if(e->shouldUpdate)
+		{
+			for (auto& f : e->components)
+				if(f->shouldUpdate)
+					f->Update(deltaTime);
 
-		e->Update(deltaTime);
-	}
+			e->Update(deltaTime);
+		}
 }
 
 //--------------------------------------------------------------------------------------
@@ -670,39 +659,35 @@ void Render()
     // Clear the depth buffer to 1.0 (max depth)
     Engine::deviceContext->ClearDepthStencilView( depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
 
-	// Update the cube transform, material etc. 
 	for (auto& e : Engine::entities)
 	{
-		XMMATRIX mGO = XMMatrixIdentity();
-		mGO = XMMatrixScaling(e->scale.x, e->scale.y, e->scale.z)
-			* XMMatrixRotationRollPitchYaw(0, 0, e->rotation)
-			* XMMatrixTranslation(e->position.x, e->position.y, e->position.z);
+		//Maybe should have a visible bool for each entity
+
+		XMFLOAT4X4 entWorld = e->GetTransform();
+		XMMATRIX mGO = XMLoadFloat4x4(&entWorld);
 
 		for (auto& f : e->components)
-		{
-			// get the game object world transform
-			XMMATRIX mGO2 = mGO;
-			mGO2 = XMMatrixScaling(f->scale.x, f->scale.y, f->scale.z)
-				* XMMatrixRotationRollPitchYaw(0, 0, f->rotation)
-				* XMMatrixTranslation(f->position.x, f->position.y, f->position.z);
+			if(f->shouldDraw)
+			{
+				// get the game object world transform
+				XMFLOAT4X4 compWorld = f->GetTransform();
+				XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * mGO;
 
+				// store this and the view / projection in a constant buffer for the vertex shader to use
+				ConstantBuffer cb1;
+				cb1.mWorld = XMMatrixTranspose(mGO2);
+				cb1.mView = XMMatrixTranspose(viewMatrix);
+				cb1.mProjection = XMMatrixTranspose(projectionMatrix);
+				cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
+				Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb1, 0, 0);
 
-			// store this and the view / projection in a constant buffer for the vertex shader to use
-			ConstantBuffer cb1;
-			cb1.mWorld = XMMatrixTranspose(mGO);
-			cb1.mView = XMMatrixTranspose(viewMatrix);
-			cb1.mProjection = XMMatrixTranspose(projectionMatrix);
-			cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
-			Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb1, 0, 0);
+				Engine::deviceContext->VSSetShader(vertexShader, nullptr, 0);
+				Engine::deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
 
-			// Render the cube
-			Engine::deviceContext->VSSetShader(vertexShader, nullptr, 0);
-			Engine::deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+				Engine::deviceContext->PSSetShader(pixelShader, nullptr, 0);
 
-			Engine::deviceContext->PSSetShader(pixelShader, nullptr, 0);
-
-			f->Draw(Engine::deviceContext);
-		}
+				f->Draw(Engine::deviceContext);
+			}
 	}
 
 	// Render ImGUI.

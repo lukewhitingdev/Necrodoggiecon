@@ -352,11 +352,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CTexture.h" />
     <ClInclude Include="Utility\Audio\AudioController.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CEntity.h" />
-    <ClInclude Include="CMeshComponent.h" />
-    <ClInclude Include="CObject.h" />
+    <ClInclude Include="CSpriteComponent.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Dependencies\IMGUI\imconfig.h" />
     <ClInclude Include="Dependencies\IMGUI\imgui.h" />
@@ -376,8 +376,11 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CComponent.cpp" />
+    <ClCompile Include="CEntity.cpp" />
+    <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="Utility\Audio\AudioController.cpp" />
-    <ClCompile Include="CMeshComponent.cpp" />
+    <ClCompile Include="CSpriteComponent.cpp" />
     <ClCompile Include="Core\testClass.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui.cpp" />
