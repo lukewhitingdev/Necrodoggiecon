@@ -168,6 +168,10 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 	ShowWindow(Engine::windowHandle, nCmdShow);
 
+	AudioController audioController = AudioController();
+	audioController.LoadSound(L"C:/Users/w019134i/Documents/GitHub/Necrodoggiecon/Cerberus/Resources/testAudio.wav");
+	audioController.LoadSound(L"C:/Users/w019134i/Documents/GitHub/Necrodoggiecon/Cerberus/Resources/TestShortAudio.wav");
+
 	return S_OK;
 }
 

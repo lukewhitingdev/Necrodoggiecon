@@ -5,7 +5,7 @@ class AudioController
 {
 public:
 	AudioController();
-	void LoadSound();
+	HRESULT LoadSound(LPCWSTR input);
 
 private:
 
