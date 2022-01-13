@@ -168,11 +168,6 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 	ShowWindow(Engine::windowHandle, nCmdShow);
 
-	AudioController audioController = AudioController();
-
-	audioController.LoadSound();
-	//audioController.playSound("D:/Windows/Download/testSound.wav", AudioController::AUDIOOPTIONS::NOYIELD);
-
 	return S_OK;
 }
 
