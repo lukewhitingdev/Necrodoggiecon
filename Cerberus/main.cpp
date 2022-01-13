@@ -65,7 +65,6 @@ ID3D11RasterizerState* fillRastState;
 ID3D11RasterizerState* wireframeRastState;
 
 DebugOutput* debugOutputUI;
-AudioController* audioController;
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -168,13 +167,6 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 		return E_FAIL;
 
 	ShowWindow(Engine::windowHandle, nCmdShow);
-
-	audioController = new AudioController();
-	audioController->LoadAudio(L"C:/Users/w019134i/Documents/GitHub/Necrodoggiecon/Cerberus/Resources/testAudio.wav", "test", false);
-
-	//audioController->DestroyAudio("test");
-	audioController->PlayAudio("test");
-	//audioController->StopAudio("test");
 
 	return S_OK;
 }

@@ -1,5 +1,7 @@
 #include "AudioController.h"
-
+IXAudio2* AudioController::audioEngine;
+IXAudio2MasteringVoice* AudioController::masterChannel;
+std::map<std::string, AudioController::Audio*> AudioController::audios;
 
 AudioController::AudioController()
 {
@@ -132,6 +134,9 @@ HRESULT AudioController::LoadAudio(LPCWSTR input, const char* audioID, bool loop
 
 HRESULT AudioController::PlayAudio(const char* audioID)
 {
+    if (audioEngine == nullptr)
+        AudioController();
+
     HRESULT hr;
 
     // Check if the audio exists.
