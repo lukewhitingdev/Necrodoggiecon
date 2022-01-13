@@ -138,12 +138,12 @@ HRESULT AudioController::PlayAudio(const char* audioID)
     HRESULT hr;
 
     // Check if the audio exists.
-    if (audios.count(audioID) > 0) {
+    if (audios.find(audioID) == audios.end()) {
         Debug::LogHResult(CRYPT_E_NOT_FOUND, "[PlayAudio] Play failed on ID: %s", audioID);
         return CRYPT_E_NOT_FOUND;
     }
 
-    Audio* audio = audios[audioID];
+    Audio* audio = audios.at(audioID);
 
     // Create Voice.
     IXAudio2SourceVoice* audioVoice;
@@ -174,6 +174,11 @@ HRESULT AudioController::StopAudio(const char* audioID)
     if (audios.find(audioID) == audios.end()) {
         Debug::LogHResult(CRYPT_E_NOT_FOUND, "[StopAudio] Stop failed on ID: %s", audioID);
         return CRYPT_E_NOT_FOUND; 
+    }
+    if(audios[audioID]->voice == nullptr)
+    {
+        Debug::LogError("[StopAudio] Cannot stop audio with ID: %s because it does not exist!", audioID);
+        return S_FALSE;
     }
     return audios[audioID]->voice->Stop();
 }

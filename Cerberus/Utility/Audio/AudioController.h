@@ -16,7 +16,7 @@ private:
 
 	struct Audio
 	{
-		Audio() : name(""), buffer(XAUDIO2_BUFFER()), format(WAVEFORMATEXTENSIBLE()), voice(nullptr) {};
+		Audio() : name(""), voice(nullptr) {};
 		Audio(const char* name, XAUDIO2_BUFFER buffer, WAVEFORMATEXTENSIBLE format) : name(name), buffer(buffer), format(format), voice(nullptr) {};
 		const char* name;
 		XAUDIO2_BUFFER buffer;
@@ -27,6 +27,6 @@ private:
 	IXAudio2* audioEngine;
 	IXAudio2MasteringVoice* masterChannel;
 
-	std::map<const char*, Audio*> audios;
+	std::map<std::string, Audio*> audios;
 };
 
