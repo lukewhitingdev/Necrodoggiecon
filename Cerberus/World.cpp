@@ -6,4 +6,6 @@ void World::Load(int Slot)
 
 }
 
-
+void World::SetWorldSize(Vector3 Scale)
+{
+}

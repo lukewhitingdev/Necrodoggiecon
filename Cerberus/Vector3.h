@@ -2,6 +2,8 @@
 
 #include <immintrin.h>
 #include <cmath>
+#include <directxmath.h>
+#include <DirectXCollision.h>
 
 class Vector3
 {
@@ -16,6 +18,7 @@ public:
 		__m128 intrinsic;
 	};
 
+	Vector3(DirectX::XMFLOAT3 Input) : intrinsic(_mm_setr_ps(Input.x, Input.y, Input.z, 0)) {}
 
 	Vector3() : intrinsic(_mm_setzero_ps()){}
 
@@ -24,6 +27,9 @@ public:
 	Vector3(float AllAxis) : intrinsic(_mm_setr_ps(AllAxis, AllAxis, AllAxis, 0.0f)) {}
 
 	Vector3(__m128 Data) : intrinsic(Data) {}
+
+	DirectX::XMFLOAT3 ToXMFLOAT3() { return DirectX::XMFLOAT3(x, y, z); }
+
 
 	~Vector3()
 	{
@@ -94,14 +100,14 @@ public:
 	//Compare and return the result of two Vector3s. returns true if they are not the same.
 	bool operator !=(const Vector3& B) const { return ((_mm_movemask_ps(_mm_cmpeq_ps(intrinsic, B.intrinsic))) & 0x7) != 0x7; }
 
-	//bool operator <(const Vector3& B) const { return ((_mm_movemask_ps(_mm_cmplt_ps(intrinsic, B.intrinsic))) & 0x7) == 0x7; }
+	
 
 
 	//MATH FUNCTIONS
 
 
 
-	//float length2() const { return x * x + y * y + z * z; 
+	
 	float Magnitude() const { return _mm_cvtss_f32(_mm_sqrt_ss(_mm_dp_ps(intrinsic, intrinsic, 0x71))); }
 
 
@@ -122,6 +128,16 @@ public:
 		//_mm_cvtss_f32 _mm_sub_ps(_mm_mul_ps(intrinsic, OtherVector.intrinsic), _mm_mul_ps(intrinsic, OtherVector.intrinsic));
 		return ((x * OtherVector.y) - (y * OtherVector.x));
 	}
+
+
+	Vector3 Lerp(const Vector3 A, const Vector3 B, float Alpha)
+	{
+
+		
+
+		return _mm_add_ps(A.intrinsic, _mm_mul_ps(_mm_sub_ps(B.intrinsic, A.intrinsic), _mm_set1_ps(Alpha)));
+	}
+
 
 	
 
