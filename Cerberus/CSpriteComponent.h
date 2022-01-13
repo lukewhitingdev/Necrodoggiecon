@@ -17,6 +17,8 @@ public:
 	void SetRenderRect(XMUINT2 newSize);
 	XMUINT2 GetRenderRect();
 
+	XMUINT2 spriteSize;
+
 	CSpriteComponent();
 	HRESULT LoadTexture(const wchar_t* filePath);
 	virtual void Update(float deltaTime) override;

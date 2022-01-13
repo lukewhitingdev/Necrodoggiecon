@@ -17,7 +17,8 @@ TestClass::TestClass()
 		sprite->LoadTexture(L"Resources\\landscape.dds");
 	}
 
-	sprite->SetRenderRect(XMUINT2(sprite->GetRenderRect().x * .5, sprite->GetRenderRect().y * .5));
+	sprite->SetRenderRect(XMUINT2(sprite->GetRenderRect().x * 2, sprite->GetRenderRect().y * 2));
+	sprite->spriteSize = XMUINT2(sprite->spriteSize.x * 2, sprite->spriteSize.y * 2);
 
 	rotDir = rand() % 2;
 }

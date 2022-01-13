@@ -33,6 +33,7 @@ HRESULT CSpriteComponent::LoadTexture(const wchar_t* filePath)
 		textureLoaded = true;
 
 	renderRect = texture->textureSize;
+	spriteSize = texture->textureSize;
 
 	return hr;
 }
@@ -77,7 +78,7 @@ CSpriteComponent::~CSpriteComponent()
 
 XMFLOAT4X4 CSpriteComponent::GetTransform()
 {
-	XMMATRIX mat = XMMatrixScaling(scale.x * texture->textureSize.x, scale.y * texture->textureSize.y, scale.z)
+	XMMATRIX mat = XMMatrixScaling(scale.x * spriteSize.x, scale.y * spriteSize.y, scale.z)
 		* XMMatrixRotationRollPitchYaw(0, 0, rotation)
 		* XMMatrixTranslation(position.x, position.y, position.z);
 

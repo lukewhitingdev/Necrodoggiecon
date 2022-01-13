@@ -75,7 +75,7 @@ float4 PS(PS_INPUT IN) : SV_TARGET
 {
 	float4 texColor = { 1, 1, 1, 1 };
 
-	float2 texSampleOffset = Material.textureSize / Material.textureRect;
+	float2 texSampleOffset = Material.textureRect / Material.textureSize;
 
 	if (Material.UseTexture)
 	{
