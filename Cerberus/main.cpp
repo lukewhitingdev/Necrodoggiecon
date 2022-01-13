@@ -166,10 +166,10 @@ void Load()
 {
 	for (int i = 0; i < 2500; i++)
 	{
-		Engine::entities.push_back(new TestClass());
-		Engine::entities[i]->position.x = (float(rand() % 1000) - 500);
-		Engine::entities[i]->position.y = (float(rand() % 1000) - 500);
-		Engine::entities[i]->rotation = (float(rand() % 1000) - 500) * .01;
+		TestClass* myClass = Engine::CreateEntity<TestClass>();
+		myClass->position.x = (float(rand() % 1000) - 500);
+		myClass->position.y = (float(rand() % 1000) - 500);
+		myClass->rotation = (float(rand() % 1000) - 500) * .01;
 	}
 }
 

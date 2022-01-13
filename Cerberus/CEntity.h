@@ -22,4 +22,12 @@ public:
 
 	//Convert pos, scale and rot to a XMFloat4x4
 	virtual XMFLOAT4X4 GetTransform();
+
+	template <class T>
+	T* AddComponent()
+	{
+		CComponent* tmp = new T();
+		components.push_back(tmp);
+		return dynamic_cast<T*>(tmp);
+	}
 };

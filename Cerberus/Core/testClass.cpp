@@ -6,7 +6,7 @@ TestClass::TestClass()
 {
 	Debug::Log("init test class!\n");
 
-	sprite = new CSpriteComponent();
+	sprite = AddComponent<CSpriteComponent>();
 	if (rand() % 2)
 	{
 		sprite->LoadTexture(L"Resources\\Man.dds");
@@ -16,7 +16,6 @@ TestClass::TestClass()
 	{
 		sprite->LoadTexture(L"Resources\\landscape.dds");
 	}
-	components.push_back(sprite);
 
 	rotDir = rand() % 2;
 }
