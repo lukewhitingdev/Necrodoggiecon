@@ -2,17 +2,17 @@
 
 #include <string>
 #include <vector>
-#include "Tile.h"
+#include "CTile.h"
 #include "CWorldData.h"
 #include "DataStorage.h"
 
 
-class World
+class CWorld
 {
 
-	World();
+	CWorld();
 
-	World(int WorldSlot);
+	CWorld(int WorldSlot);
 
 	void LoadWorld(int Slot);
 
@@ -25,7 +25,7 @@ class World
 
 
 	
-
+	
 
 
 protected:
@@ -34,9 +34,12 @@ protected:
 
 
 
+
+
 private:
 
-
+	void ReadSceneJSON(int Slot);
+	void ReadEntityJSON(int Slot);
 
 
 

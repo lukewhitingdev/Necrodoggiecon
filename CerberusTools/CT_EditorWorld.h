@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Cerberus/World.h"
+#include "Cerberus/CWorld.h"
 #include "CerberusTools/CT_EditorResources.h"
 
 #include <vector>
@@ -17,7 +17,7 @@ struct OperationData
 
 
 
-class EditorWorld : public World
+class EditorWorld : public CWorld
 {
 
 	
