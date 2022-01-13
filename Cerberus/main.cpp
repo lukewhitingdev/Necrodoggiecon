@@ -639,12 +639,14 @@ float calculateDeltaTime()
 void Update(float deltaTime)
 {
 	for (auto& e : Engine::entities)
-	{
-		for (auto& f : e->components)
-			f->Update(deltaTime);
+		if(e->shouldUpdate)
+		{
+			for (auto& f : e->components)
+				if(f->shouldUpdate)
+					f->Update(deltaTime);
 
-		e->Update(deltaTime);
-	}
+			e->Update(deltaTime);
+		}
 }
 
 //--------------------------------------------------------------------------------------
@@ -667,30 +669,31 @@ void Render()
 			* XMMatrixTranslation(e->position.x, e->position.y, e->position.z);
 
 		for (auto& f : e->components)
-		{
-			// get the game object world transform
-			XMMATRIX mGO2 = mGO;
-			mGO2 = XMMatrixScaling(f->scale.x, f->scale.y, f->scale.z)
-				* XMMatrixRotationRollPitchYaw(0, 0, f->rotation)
-				* XMMatrixTranslation(f->position.x, f->position.y, f->position.z);
+			if(f->shouldDraw)
+			{
+				// get the game object world transform
+				XMMATRIX mGO2 = mGO;
+				mGO2 = XMMatrixScaling(f->scale.x, f->scale.y, f->scale.z)
+					* XMMatrixRotationRollPitchYaw(0, 0, f->rotation)
+					* XMMatrixTranslation(f->position.x, f->position.y, f->position.z);
 
 
-			// store this and the view / projection in a constant buffer for the vertex shader to use
-			ConstantBuffer cb1;
-			cb1.mWorld = XMMatrixTranspose(mGO);
-			cb1.mView = XMMatrixTranspose(viewMatrix);
-			cb1.mProjection = XMMatrixTranspose(projectionMatrix);
-			cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
-			Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb1, 0, 0);
+				// store this and the view / projection in a constant buffer for the vertex shader to use
+				ConstantBuffer cb1;
+				cb1.mWorld = XMMatrixTranspose(mGO);
+				cb1.mView = XMMatrixTranspose(viewMatrix);
+				cb1.mProjection = XMMatrixTranspose(projectionMatrix);
+				cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
+				Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb1, 0, 0);
 
-			// Render the cube
-			Engine::deviceContext->VSSetShader(vertexShader, nullptr, 0);
-			Engine::deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+				// Render the cube
+				Engine::deviceContext->VSSetShader(vertexShader, nullptr, 0);
+				Engine::deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
 
-			Engine::deviceContext->PSSetShader(pixelShader, nullptr, 0);
+				Engine::deviceContext->PSSetShader(pixelShader, nullptr, 0);
 
-			f->Draw(Engine::deviceContext);
-		}
+				f->Draw(Engine::deviceContext);
+			}
 	}
 
 	// Render ImGUI.

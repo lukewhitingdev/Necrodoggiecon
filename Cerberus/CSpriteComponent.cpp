@@ -3,6 +3,9 @@
 
 CSpriteComponent::CSpriteComponent()
 {
+	shouldUpdate = false;
+	shouldDraw = true;
+
 	mesh = new CMesh();
 }
 

@@ -5,7 +5,7 @@
 
 class TestClass : public CEntity
 {
-	class CSpriteComponent* mesh = nullptr;
+	class CSpriteComponent* sprite = nullptr;
 public:
 	TestClass();
 	virtual void Update(float deltaTime) override;

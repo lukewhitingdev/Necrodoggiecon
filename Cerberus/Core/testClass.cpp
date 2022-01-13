@@ -6,8 +6,8 @@ TestClass::TestClass()
 {
 	Debug::Log("init test class!\n");
 
-	mesh = new CSpriteComponent();
-	components.push_back(mesh);
+	sprite = new CSpriteComponent();
+	components.push_back(sprite);
 }
 
 void TestClass::Update(float deltaTime)
