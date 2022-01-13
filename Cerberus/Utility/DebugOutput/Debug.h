@@ -58,7 +58,8 @@ public:
 		output->AddLog(stringInput.c_str(), args ...);
 	};
 
-	static void LogHResult(const char* fmt, HRESULT hr)
+	template<typename ... Args>
+	static void LogHResult(HRESULT hr, const char* fmt,Args ... args)IM_FMTARGS(2)
 	{
 		if (output == nullptr)
 			initOutput();
@@ -83,7 +84,7 @@ public:
 		{
 			stringInput = "[HRESULT]" + getCurrentTimeString() + fmt + " Completed Sucessfully.";
 		}
-		output->AddLog(stringInput.c_str());
+		output->AddLog(stringInput.c_str(), args ...);
 
 		if (FAILED(hr))
 			free(convOutput);

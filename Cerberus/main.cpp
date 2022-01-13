@@ -65,6 +65,7 @@ ID3D11RasterizerState* fillRastState;
 ID3D11RasterizerState* wireframeRastState;
 
 DebugOutput* debugOutputUI;
+AudioController* audioController;
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -168,9 +169,9 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 	ShowWindow(Engine::windowHandle, nCmdShow);
 
-	AudioController audioController = AudioController();
-	audioController.LoadSound(L"C:/Users/w019134i/Documents/GitHub/Necrodoggiecon/Cerberus/Resources/testAudio.wav");
-	audioController.LoadSound(L"C:/Users/w019134i/Documents/GitHub/Necrodoggiecon/Cerberus/Resources/TestShortAudio.wav");
+	audioController = new AudioController();
+	audioController->LoadAudio(L"C:/Users/w019134i/Documents/GitHub/Necrodoggiecon/Cerberus/Resources/testAudio.wav", "test", false);
+	//audioController.LoadSound(L"C:/Users/w019134i/Documents/GitHub/Necrodoggiecon/Cerberus/Resources/TestShortAudio.wav");
 
 	return S_OK;
 }
@@ -660,6 +661,21 @@ void Update(float deltaTime)
 			f->Update(deltaTime);
 
 		e->Update(deltaTime);
+	}
+
+	if(GetAsyncKeyState('A'))
+	{
+		audioController->PlayAudio("test");
+	}
+
+	if(GetAsyncKeyState('D'))
+	{
+		audioController->StopAudio("test");
+	}
+
+	if (GetAsyncKeyState('W'))
+	{
+		audioController->DestroyAudio("test");
 	}
 }
 
