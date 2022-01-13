@@ -8,7 +8,7 @@ void CSpriteComponent::SetRenderRect(XMUINT2 newSize)
 	if (textureLoaded)
 	{
 		texture->material.Material.textureRect = renderRect;
-		Engine::deviceContext->UpdateSubresource(texture->materialConstantBuffer, 0, nullptr, &texture->material, 0, 0);
+		Engine::deviceContext->UpdateSubresource(texture->materialConstantBuffer, 0, nullptr, &texture->material, 0, 0);	//Could be done once per update if a change has happened instead of here
 	}
 }
 
@@ -24,7 +24,7 @@ void CSpriteComponent::SetTextureOffset(XMFLOAT2 newOffset)
 	if (textureLoaded)
 	{
 		texture->material.Material.textureOffset = textureOffset;
-		Engine::deviceContext->UpdateSubresource(texture->materialConstantBuffer, 0, nullptr, &texture->material, 0, 0);
+		Engine::deviceContext->UpdateSubresource(texture->materialConstantBuffer, 0, nullptr, &texture->material, 0, 0);	//Could be done once per update if a change has happened instead of here
 	}
 }
 
@@ -44,6 +44,8 @@ CSpriteComponent::CSpriteComponent()
 
 HRESULT CSpriteComponent::LoadTexture(const wchar_t* filePath)
 {
+	//TODO: release texture if already loaded here
+
 	HRESULT hr = texture->LoadTextureDDS(filePath);
 	if(hr == S_OK)
 		textureLoaded = true;
@@ -94,6 +96,8 @@ CSpriteComponent::~CSpriteComponent()
 
 XMFLOAT4X4 CSpriteComponent::GetTransform()
 {
+	//Could check for changes and then recalculate world if changes have happened
+
 	XMMATRIX mat = XMMatrixScaling(scale.x * spriteSize.x, scale.y * spriteSize.y, scale.z)
 		* XMMatrixRotationRollPitchYaw(0, 0, rotation)
 		* XMMatrixTranslation(position.x, position.y, position.z);

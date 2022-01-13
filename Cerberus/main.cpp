@@ -166,7 +166,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 25; i++)
 	{
 		TestClass* myClass = Engine::CreateEntity<TestClass>();
 		myClass->position.x = (float(rand() % Engine::windowWidth) - Engine::windowWidth / 2);
