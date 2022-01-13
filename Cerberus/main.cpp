@@ -32,6 +32,7 @@ void		CleanupDevice();
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 void		Render();
 void		Update(float deltaTime);
+void		Load();
 float calculateDeltaTime();
 
 // Defines.
@@ -92,15 +93,7 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	ImGui_ImplWin32_Init(Engine::windowHandle);
 	ImGui_ImplDX11_Init(Engine::device, Engine::deviceContext);
 
-
-	/////////////////////////////////////////////////////////////////////////
-
-	Engine::entities.push_back(new TestClass());
-	Engine::entities.push_back(new TestClass());
-	Engine::entities[1]->position.y = 2;
-	Engine::entities[1]->rotation = 4.62;
-
-	/////////////////////////////////////////////////////////////////////////
+	Load();
 
 	// Main message loop
 	MSG msg = {0};
@@ -126,7 +119,6 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 	return ( int )msg.wParam;
 }
-
 
 //--------------------------------------------------------------------------------------
 // Register class and create window
@@ -170,6 +162,13 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 	return S_OK;
 }
 
+void Load()
+{
+	Engine::entities.push_back(new TestClass());
+	Engine::entities.push_back(new TestClass());
+	Engine::entities[1]->position.y = 2;
+	Engine::entities[1]->rotation = 4.62;
+}
 
 //--------------------------------------------------------------------------------------
 // Helper for compiling shaders with D3DCompile
@@ -437,7 +436,7 @@ HRESULT InitDevice()
 // InitMesh
 // ***************************************************************************************
 
-HRESULT		InitMesh()
+HRESULT	InitMesh()
 {
 	// Compile the vertex shader
 	ID3DBlob* pVSBlob = nullptr;
@@ -660,9 +659,10 @@ void Render()
     // Clear the depth buffer to 1.0 (max depth)
     Engine::deviceContext->ClearDepthStencilView( depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
 
-	// Update the cube transform, material etc. 
 	for (auto& e : Engine::entities)
 	{
+		//Maybe should have a visible bool for each entity
+
 		XMMATRIX mGO = XMMatrixIdentity();
 		mGO = XMMatrixScaling(e->scale.x, e->scale.y, e->scale.z)
 			* XMMatrixRotationRollPitchYaw(0, 0, e->rotation)

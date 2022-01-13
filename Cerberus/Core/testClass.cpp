@@ -7,6 +7,7 @@ TestClass::TestClass()
 	Debug::Log("init test class!\n");
 
 	sprite = new CSpriteComponent();
+	sprite->LoadTexture(L"Resources\\stone.dds");
 	components.push_back(sprite);
 }
 
