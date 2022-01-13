@@ -12,9 +12,17 @@ HRESULT CTexture::LoadTextureDDS(const wchar_t* filePath)
 	if (FAILED(hr))
 		return hr;
 
+	ID3D11Resource* resource;
+	textureResourceView->GetResource(&resource);
+	ID3D11Texture2D* tex2D = static_cast<ID3D11Texture2D*>(resource);
+	D3D11_TEXTURE2D_DESC texDsc;
+	tex2D->GetDesc(&texDsc);
+	textureSize.x = texDsc.Width;
+	textureSize.y = texDsc.Height;
+
 	D3D11_SAMPLER_DESC sampDesc;
 	ZeroMemory(&sampDesc, sizeof(sampDesc));
-	sampDesc.Filter = D3D11_FILTER_ANISOTROPIC;
+	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;

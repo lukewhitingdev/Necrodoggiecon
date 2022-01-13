@@ -164,10 +164,13 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	Engine::entities.push_back(new TestClass());
-	Engine::entities.push_back(new TestClass());
-	Engine::entities[1]->position.y = 2;
-	Engine::entities[1]->rotation = 4.62;
+	for (int i = 0; i < 25; i++)
+	{
+		Engine::entities.push_back(new TestClass());
+		Engine::entities[i]->position.x = (float(rand() % 1000) - 500);
+		Engine::entities[i]->position.y = (float(rand() % 1000) - 500);
+		Engine::entities[i]->rotation = (float(rand() % 1000) - 500) * .01;
+	}
 }
 
 //--------------------------------------------------------------------------------------
@@ -514,7 +517,7 @@ HRESULT		InitWorld(int width, int height)
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	viewMatrix = XMMatrixLookAtLH(Eye, At, Up);
 
-	float viewScaler = 100;
+	const float viewScaler = 1;
 
 	// Initialize the projection matrix
 	projectionMatrix = XMMatrixOrthographicLH(width / viewScaler, height / viewScaler, 0.01f, 100.0f);
@@ -663,30 +666,24 @@ void Render()
 	{
 		//Maybe should have a visible bool for each entity
 
-		XMMATRIX mGO = XMMatrixIdentity();
-		mGO = XMMatrixScaling(e->scale.x, e->scale.y, e->scale.z)
-			* XMMatrixRotationRollPitchYaw(0, 0, e->rotation)
-			* XMMatrixTranslation(e->position.x, e->position.y, e->position.z);
+		XMFLOAT4X4 entWorld = e->GetTransform();
+		XMMATRIX mGO = XMLoadFloat4x4(&entWorld);
 
 		for (auto& f : e->components)
 			if(f->shouldDraw)
 			{
 				// get the game object world transform
-				XMMATRIX mGO2 = mGO;
-				mGO2 = XMMatrixScaling(f->scale.x, f->scale.y, f->scale.z)
-					* XMMatrixRotationRollPitchYaw(0, 0, f->rotation)
-					* XMMatrixTranslation(f->position.x, f->position.y, f->position.z);
-
+				XMFLOAT4X4 compWorld = f->GetTransform();
+				XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * mGO;
 
 				// store this and the view / projection in a constant buffer for the vertex shader to use
 				ConstantBuffer cb1;
-				cb1.mWorld = XMMatrixTranspose(mGO);
+				cb1.mWorld = XMMatrixTranspose(mGO2);
 				cb1.mView = XMMatrixTranspose(viewMatrix);
 				cb1.mProjection = XMMatrixTranspose(projectionMatrix);
 				cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
 				Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb1, 0, 0);
 
-				// Render the cube
 				Engine::deviceContext->VSSetShader(vertexShader, nullptr, 0);
 				Engine::deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
 

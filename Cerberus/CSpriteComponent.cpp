@@ -56,3 +56,13 @@ CSpriteComponent::~CSpriteComponent()
 	delete mesh;
 	delete texture;
 }
+
+XMFLOAT4X4 CSpriteComponent::GetTransform()
+{
+	XMMATRIX mat = XMMatrixScaling(scale.x * texture->textureSize.x, scale.y * texture->textureSize.y, scale.z)
+		* XMMatrixRotationRollPitchYaw(0, 0, rotation)
+		* XMMatrixTranslation(position.x, position.y, position.z);
+
+	XMStoreFloat4x4(&world, mat);
+	return world;
+}
