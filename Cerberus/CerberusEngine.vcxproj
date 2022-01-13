@@ -40,7 +40,7 @@
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|X64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
@@ -164,6 +164,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;_WIN32_WINNT=0x0600;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Cerberus;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -351,27 +352,55 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CTexture.h" />
+    <ClInclude Include="Utility\Audio\AudioController.h" />
+    <ClInclude Include="CComponent.h" />
+    <ClInclude Include="CEntity.h" />
+    <ClInclude Include="CSpriteComponent.h" />
     <ClInclude Include="DDSTextureLoader.h" />
-    <ClInclude Include="DrawableGameObject.h" />
     <ClInclude Include="Libraries\json.hpp" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="Navigation.h" />
-    <CLInclude Include="resource.h" />
-    <ClInclude Include="structures.h" />
-    <ClInclude Include="Core\testClass.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="Dependencies\IMGUI\imconfig.h" />
+    <ClInclude Include="Dependencies\IMGUI\imgui.h" />
+    <ClInclude Include="Dependencies\IMGUI\imgui_impl_dx11.h" />
+    <ClInclude Include="Dependencies\IMGUI\imgui_impl_win32.h" />
+    <ClInclude Include="Dependencies\IMGUI\imgui_internal.h" />
+    <ClInclude Include="Dependencies\IMGUI\imstb_rectpack.h" />
+    <ClInclude Include="Dependencies\IMGUI\imstb_textedit.h" />
+    <ClInclude Include="Dependencies\IMGUI\imstb_truetype.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="CMesh.h" />
+    <CLInclude Include="resource.h" />
+    <ClInclude Include="structures.h" />
+    <ClInclude Include="Core\testClass.h" />
+    <ClInclude Include="UI\DebugOutput\DebugOutput.h" />
+    <ClInclude Include="Utility\DebugOutput\Debug.h" />
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CComponent.cpp" />
+    <ClCompile Include="CEntity.cpp" />
+    <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="Utility\Audio\AudioController.cpp" />
+    <ClCompile Include="CSpriteComponent.cpp" />
+    <ClCompile Include="Core\testClass.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
-    <ClCompile Include="DrawableGameObject.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_draw.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_impl_dx11.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_impl_win32.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_tables.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="Utility\DebugOutput\Debug.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClCompile Include="CMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\stone.dds" />
@@ -383,6 +412,17 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\Microsoft.XAudio2.Redist.1.2.8\build\native\Microsoft.XAudio2.Redist.targets" Condition="Exists('..\packages\Microsoft.XAudio2.Redist.1.2.8\build\native\Microsoft.XAudio2.Redist.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.XAudio2.Redist.1.2.8\build\native\Microsoft.XAudio2.Redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.XAudio2.Redist.1.2.8\build\native\Microsoft.XAudio2.Redist.targets'))" />
+  </Target>
 </Project>

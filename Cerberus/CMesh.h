@@ -1,0 +1,21 @@
+#pragma once
+#include "Engine.h"
+
+struct SimpleVertex
+{
+	XMFLOAT3 Pos;
+	XMFLOAT2 TexCoord;
+};
+
+//Holds all information about a mesh for use by CSpriteComponent
+//Right now only stores a hardcoded quad - might need extending in future for new shapes
+struct CMesh
+{
+	ID3D11Buffer* vertexBuffer;
+	ID3D11Buffer* indexBuffer;
+
+	CMesh();
+	HRESULT LoadMesh();
+	~CMesh();
+};
+
