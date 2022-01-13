@@ -1,7 +1,7 @@
 #include "AudioController.h"
 IXAudio2* AudioController::audioEngine;
 IXAudio2MasteringVoice* AudioController::masterChannel;
-std::map<std::string, AudioController::Audio*> AudioController::audios;
+std::map<std::string, AudioController::CAudio*> AudioController::audios;
 
 AudioController::AudioController()
 {
@@ -127,7 +127,7 @@ HRESULT AudioController::LoadAudio(LPCWSTR input, const char* audioID, bool loop
     }
 
     // Add to map.
-    audios.emplace(std::make_pair(audioID, new Audio(audioID, buffer, waveFormat)));
+    audios.emplace(std::make_pair(audioID, new CAudio(audioID, buffer, waveFormat)));
 
     return S_OK;
 }
@@ -145,7 +145,7 @@ HRESULT AudioController::PlayAudio(const char* audioID)
         return CRYPT_E_NOT_FOUND;
     }
 
-    Audio* audio = audios.at(audioID);
+    CAudio* audio = audios.at(audioID);
 
     // Create Voice.
     IXAudio2SourceVoice* audioVoice;
