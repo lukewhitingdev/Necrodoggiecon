@@ -19,13 +19,16 @@ struct _Material
 {
 	_Material()
 		: UseTexture(false)
+		, textureSize(0,0)
+		, textureRect(0,0)
 	{}
 
-	int                 UseTexture;
-	// Add some padding to complete the 16 byte boundary.
-	float               Padding[3];
-	//----------------------------------- (16 byte boundary)
-}; // Total:                                80 bytes (5 * 16)
+	int		UseTexture;
+	float	padding1[3];
+
+	XMUINT2	textureSize;
+	XMUINT2	textureRect;
+};
 
 struct MaterialPropertiesConstantBuffer
 {

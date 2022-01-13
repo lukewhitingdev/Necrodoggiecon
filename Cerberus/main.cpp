@@ -211,7 +211,6 @@ HRESULT CompileShaderFromFile( const WCHAR* szFileName, LPCSTR szEntryPoint, LPC
 	return S_OK;
 }
 
-
 //--------------------------------------------------------------------------------------
 // Create Direct3D device and swap chain
 //--------------------------------------------------------------------------------------
@@ -438,7 +437,6 @@ HRESULT InitDevice()
 // ***************************************************************************************
 // InitMesh
 // ***************************************************************************************
-
 HRESULT	InitMesh()
 {
 	// Compile the vertex shader
@@ -524,7 +522,6 @@ HRESULT		InitWorld(int width, int height)
 
 	return S_OK;
 }
-
 
 //--------------------------------------------------------------------------------------
 // Clean up the objects we've created

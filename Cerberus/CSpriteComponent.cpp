@@ -1,6 +1,22 @@
 #include "CSpriteComponent.h"
 #include "Engine.h"
 
+void CSpriteComponent::SetRenderRect(XMUINT2 newSize)
+{
+	renderRect = newSize;
+
+	if (textureLoaded)
+	{
+		texture->material.Material.textureRect = renderRect;
+		Engine::deviceContext->UpdateSubresource(texture->materialConstantBuffer, 0, nullptr, &texture->material, 0, 0);
+	}
+}
+
+XMUINT2 CSpriteComponent::GetRenderRect()
+{
+	return renderRect;
+}
+
 CSpriteComponent::CSpriteComponent()
 {
 	shouldUpdate = false;
@@ -15,6 +31,8 @@ HRESULT CSpriteComponent::LoadTexture(const wchar_t* filePath)
 	HRESULT hr = texture->LoadTextureDDS(filePath);
 	if(hr == S_OK)
 		textureLoaded = true;
+
+	renderRect = texture->textureSize;
 
 	return hr;
 }

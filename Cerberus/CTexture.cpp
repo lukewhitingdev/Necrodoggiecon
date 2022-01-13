@@ -32,6 +32,8 @@ HRESULT CTexture::LoadTextureDDS(const wchar_t* filePath)
 	hr = Engine::device->CreateSamplerState(&sampDesc, &samplerLinear);
 
 	material.Material.UseTexture = true;
+	material.Material.textureSize = textureSize;
+	material.Material.textureRect = textureSize;
 
 	// Create the material constant buffer
 	D3D11_BUFFER_DESC bd = {};
