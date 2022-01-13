@@ -4,16 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Necrodoggiecon", "Necrodoggiecon\Necrodoggiecon.vcxproj", "{EA744FDE-6588-4AA7-94BA-318D00E409DC}"
-	ProjectSection(ProjectDependencies) = postProject
-		{65DA4C22-93F3-4555-9579-08F8E691FC2E} = {65DA4C22-93F3-4555-9579-08F8E691FC2E}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CerberusEngine", "Cerberus\CerberusEngine.vcxproj", "{65DA4C22-93F3-4555-9579-08F8E691FC2E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CerberusTools", "CerberusTools\CerberusTools.vcxproj", "{3C75B496-E03E-491C-8B0C-1D6020C220E2}"
-	ProjectSection(ProjectDependencies) = postProject
-		{65DA4C22-93F3-4555-9579-08F8E691FC2E} = {65DA4C22-93F3-4555-9579-08F8E691FC2E}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
