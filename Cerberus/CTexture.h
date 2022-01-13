@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine.h"
 
+//Holds all information about a texture for use by CSpriteComponent
+//Use load function to populate
 struct CTexture
 {
 	XMUINT2 textureSize = {0,0};

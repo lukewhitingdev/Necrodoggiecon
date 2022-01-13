@@ -3,6 +3,7 @@
 #include "CMesh.h"
 #include "CTexture.h"
 
+//A component for loading and displaying a 2D texture in world space as part of CEntity
 class CSpriteComponent : public CComponent
 {
 	CMesh* mesh = nullptr;

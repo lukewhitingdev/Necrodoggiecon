@@ -2,6 +2,8 @@
 #include "CObject.h"
 #include "Engine.h"
 
+//Fundimental component class
+//Can be extended upon to make new components to add to CEntity
 class CComponent : public CObject
 {
 protected:
@@ -13,6 +15,7 @@ public:
 	bool shouldDraw = false;
 public:
 	virtual void Update(float deltaTime) override = 0;
+	//Almost the same as Update() but to be used for drawing only.
 	virtual void Draw(struct ID3D11DeviceContext* context) = 0;
 	virtual ~CComponent() {};
 

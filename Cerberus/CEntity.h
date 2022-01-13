@@ -1,9 +1,10 @@
 #pragma once
-// Basic Object with world position.
 
 #include "CObject.h"
 #include "CComponent.h"
 
+//Extension of CObject with a world transform and ability to have components
+//Use for all gameplay things in the world
 class CEntity : public CObject
 {
 protected:
