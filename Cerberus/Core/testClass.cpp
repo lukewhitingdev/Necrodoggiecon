@@ -7,19 +7,11 @@ TestClass::TestClass()
 	Debug::Log("init test class!\n");
 
 	sprite = AddComponent<CSpriteComponent>();
-	if (rand() % 2)
-	{
-		sprite->LoadTexture(L"Resources\\birb.dds");
-		sprite->SetRenderRect(XMUINT2(128, 128));
-		sprite->spriteSize = XMUINT2(128, 128);
-		position.z = -10;
-	}
-	else
-	{
-		sprite->LoadTexture(L"Resources\\landscape.dds");
-	}
+	sprite->LoadTexture(L"Resources\\birb.dds");
+	sprite->SetRenderRect(XMUINT2(128, 128));
+	sprite->spriteSize = XMUINT2(128, 128);
 
-	rotDir = rand() % 2;
+	timeElapsed = rand() / 100;
 }
 
 void TestClass::Update(float deltaTime)
@@ -30,13 +22,6 @@ void TestClass::Update(float deltaTime)
 
 	const uint32_t speed = 24;
 	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 128, (int(round(timeElapsed * speed) / 5) % 2) * 128));
-
-	//position.x += deltaTime * 10;
-
-	//rotation += ((2 * rotDir) - 1) * deltaTime;
-
-	//scale.y += deltaTime * .3;
-
 }
 
 TestClass::~TestClass()

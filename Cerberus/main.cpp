@@ -164,12 +164,11 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	for (int i = 0; i < 2500; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		TestClass* myClass = Engine::CreateEntity<TestClass>();
-		myClass->position.x = (float(rand() % 1000) - 500);
-		myClass->position.y = (float(rand() % 1000) - 500);
-		myClass->rotation = (float(rand() % 1000) - 500) * .01;
+		myClass->position.x = (float(rand() % Engine::windowWidth) - Engine::windowWidth / 2);
+		myClass->position.y = (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2);
 	}
 }
 
