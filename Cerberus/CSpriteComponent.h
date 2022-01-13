@@ -11,11 +11,15 @@ class CSpriteComponent : public CComponent
 	bool textureLoaded = false;
 
 	XMUINT2 renderRect;
+	XMFLOAT2 textureOffset = { 0,0 };
 public:
 	//size of the render rectangle on screen, set automatically when texture is loaded
 	//set yourself if you want to do spritesheets/ animation
 	void SetRenderRect(XMUINT2 newSize);
 	XMUINT2 GetRenderRect();
+
+	void SetTextureOffset(XMFLOAT2 newOffset);
+	XMFLOAT2 GetTextureOffset();
 
 	XMUINT2 spriteSize;
 

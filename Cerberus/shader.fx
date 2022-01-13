@@ -29,6 +29,10 @@ struct _Material
 	uint2	textureSize;	// 8 bytes
 	uint2	textureRect;	// 8 bytes
 							//----------------------------------- (16 byte boundary)
+
+	float2 textureOffset;	// 8 bytes
+	float2 padding2;		// 8 bytes
+							//----------------------------------- (16 byte boundary)
 };
 
 cbuffer MaterialProperties : register(b1)
@@ -75,13 +79,14 @@ float4 PS(PS_INPUT IN) : SV_TARGET
 {
 	float4 texColor = { 1, 1, 1, 1 };
 
-	float2 texSampleOffset = Material.textureRect / Material.textureSize;
+	float2 texSampleOffset = float2(Material.textureRect) / float2(Material.textureSize);
+	float2 texOffset = Material.textureOffset / float2(Material.textureRect);
 
 	if (Material.UseTexture)
 	{
-		texColor = txDiffuse.Sample(samLinear, IN.Tex * texSampleOffset);
+		texColor = txDiffuse.Sample(samLinear, (IN.Tex + texOffset) * texSampleOffset);
 	}
-
+	
 	float4 finalColor = texColor;
 
 	return finalColor;

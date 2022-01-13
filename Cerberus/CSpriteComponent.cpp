@@ -17,6 +17,22 @@ XMUINT2 CSpriteComponent::GetRenderRect()
 	return renderRect;
 }
 
+void CSpriteComponent::SetTextureOffset(XMFLOAT2 newOffset)
+{
+	textureOffset = newOffset;
+
+	if (textureLoaded)
+	{
+		texture->material.Material.textureOffset = textureOffset;
+		Engine::deviceContext->UpdateSubresource(texture->materialConstantBuffer, 0, nullptr, &texture->material, 0, 0);
+	}
+}
+
+XMFLOAT2 CSpriteComponent::GetTextureOffset()
+{
+	return textureOffset;
+}
+
 CSpriteComponent::CSpriteComponent()
 {
 	shouldUpdate = false;

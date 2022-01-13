@@ -21,6 +21,7 @@ struct _Material
 		: UseTexture(false)
 		, textureSize(0,0)
 		, textureRect(0,0)
+		, textureOffset(0,0)
 	{}
 
 	int		UseTexture;
@@ -28,6 +29,9 @@ struct _Material
 
 	XMUINT2	textureSize;
 	XMUINT2	textureRect;
+
+	XMFLOAT2 textureOffset;
+	float padding2[2];
 };
 
 struct MaterialPropertiesConstantBuffer

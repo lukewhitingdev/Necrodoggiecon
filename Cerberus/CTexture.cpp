@@ -34,6 +34,7 @@ HRESULT CTexture::LoadTextureDDS(const wchar_t* filePath)
 	material.Material.UseTexture = true;
 	material.Material.textureSize = textureSize;
 	material.Material.textureRect = textureSize;
+	material.Material.textureOffset = XMFLOAT2(0, 0);
 
 	// Create the material constant buffer
 	D3D11_BUFFER_DESC bd = {};
