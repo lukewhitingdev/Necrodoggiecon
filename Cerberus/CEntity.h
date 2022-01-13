@@ -1,35 +1,25 @@
 #pragma once
 
-#include "CObject.h"
 #include "CComponent.h"
 
-//Extension of CObject with a world transform and ability to have components
+////Fundimental class of the engine with a world transform and ability to have components
 //Use for all gameplay things in the world
-class CEntity : public CObject
+class CEntity
 {
 protected:
 	XMFLOAT4X4 world;
 public:
+	bool shouldUpdate = true;
 	XMFLOAT3 position = {0,0,0};
 	XMFLOAT3 scale = {1,1,1};
 	float rotation = 0;
 
 	std::vector<CComponent*> components;
 
-	virtual void Update(float deltaTime) override = 0;
-	virtual ~CEntity() 
-	{
-		for (auto& e : components)
-			delete e;
-	};
+	//Updated automatically every single frame
+	virtual void Update(float deltaTime) = 0;
+	virtual ~CEntity();
 
-	virtual XMFLOAT4X4 GetTransform()
-	{
-		XMMATRIX mat = XMMatrixScaling(scale.x, scale.y, scale.z)
-			* XMMatrixRotationRollPitchYaw(0, 0, rotation)
-			* XMMatrixTranslation(position.x, position.y, position.z);
-
-		XMStoreFloat4x4(&world, mat);
-		return world;
-	}
+	//Convert pos, scale and rot to a XMFloat4x4
+	virtual XMFLOAT4X4 GetTransform();
 };
