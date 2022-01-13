@@ -11,6 +11,9 @@ TestClass::TestClass()
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->spriteSize = XMUINT2(128, 128);
 
+	if (rand() % 2)
+		sprite->scale.x = -1;
+
 	timeElapsed = rand() / 100;
 }
 

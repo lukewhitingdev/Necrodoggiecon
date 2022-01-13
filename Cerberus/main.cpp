@@ -399,7 +399,7 @@ HRESULT InitDevice()
     Engine::deviceContext->RSSetViewports( 1, &vp );
 
 	D3D11_RASTERIZER_DESC fillDSC = {};
-	fillDSC.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+	fillDSC.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 	fillDSC.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 	Engine::device->CreateRasterizerState(&fillDSC, &fillRastState);
 
