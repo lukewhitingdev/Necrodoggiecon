@@ -17,55 +17,51 @@ AudioController::AudioController()
 }
 
 // Helper function to find a chunk the RIFF file.
-HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition)
+HRESULT FindChunk(HANDLE fileHandle, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition)
 {
     HRESULT hr = S_OK;
-    if (INVALID_SET_FILE_POINTER == SetFilePointer(hFile, 0, NULL, FILE_BEGIN))
+    if (INVALID_SET_FILE_POINTER == SetFilePointer(fileHandle, 0, NULL, FILE_BEGIN))
         return HRESULT_FROM_WIN32(GetLastError());
 
-    DWORD dwChunkType;
-    DWORD dwChunkDataSize;
-    DWORD dwRIFFDataSize = 0;
-    DWORD dwFileType;
-    DWORD bytesRead = 0;
-    DWORD dwOffset = 0;
+    DWORD chunkType;
+    DWORD chunkDataSize;
+    DWORD RIFFDataSize = 0;
+    DWORD fileType;
+    DWORD offset = 0;
 
     while (hr == S_OK)
     {
         DWORD dwRead;
-        if (0 == ReadFile(hFile, &dwChunkType, sizeof(DWORD), &dwRead, NULL))
+        if (ReadFile(fileHandle, &chunkType, sizeof(DWORD), &dwRead, NULL) == 0)
             hr = HRESULT_FROM_WIN32(GetLastError());
 
-        if (0 == ReadFile(hFile, &dwChunkDataSize, sizeof(DWORD), &dwRead, NULL))
+        if (ReadFile(fileHandle, &chunkDataSize, sizeof(DWORD), &dwRead, NULL) == 0)
             hr = HRESULT_FROM_WIN32(GetLastError());
 
-        switch (dwChunkType)
+        switch (chunkType)
         {
-        case 'FFIR':
-            dwRIFFDataSize = dwChunkDataSize;
-            dwChunkDataSize = 4;
-            if (0 == ReadFile(hFile, &dwFileType, sizeof(DWORD), &dwRead, NULL))
+        case 'FFIR': // RIFF backwards cuz of little edian.
+            RIFFDataSize = chunkDataSize;
+            chunkDataSize = 4;
+            if (ReadFile(fileHandle, &fileType, sizeof(DWORD), &dwRead, NULL) == 0)
                 hr = HRESULT_FROM_WIN32(GetLastError());
             break;
 
         default:
-            if (INVALID_SET_FILE_POINTER == SetFilePointer(hFile, dwChunkDataSize, NULL, FILE_CURRENT))
+            if (SetFilePointer(fileHandle, chunkDataSize, NULL, FILE_CURRENT) == INVALID_SET_FILE_POINTER)
                 return HRESULT_FROM_WIN32(GetLastError());
         }
 
-        dwOffset += sizeof(DWORD) * 2;
+        offset += sizeof(DWORD) * 2;
 
-        if (dwChunkType == fourcc)
+        if (chunkType == fourcc)
         {
-            dwChunkSize = dwChunkDataSize;
-            dwChunkDataPosition = dwOffset;
+            dwChunkSize = chunkDataSize;
+            dwChunkDataPosition = offset;
             return S_OK;
         }
 
-        dwOffset += dwChunkDataSize;
-
-        if (bytesRead >= dwRIFFDataSize) return S_FALSE;
-
+        offset += chunkDataSize;
     }
     return S_OK;
 }
@@ -73,13 +69,14 @@ HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunk
 // Helper function to read the chunk after it has been found.
 HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD bufferoffset)
 {
-    HRESULT hr = S_OK;
-    if (INVALID_SET_FILE_POINTER == SetFilePointer(hFile, bufferoffset, NULL, FILE_BEGIN))
+    DWORD read;
+    if (SetFilePointer(hFile, bufferoffset, NULL, FILE_BEGIN) == INVALID_SET_FILE_POINTER)
         return HRESULT_FROM_WIN32(GetLastError());
-    DWORD dwRead;
-    if (0 == ReadFile(hFile, buffer, buffersize, &dwRead, NULL))
-        hr = HRESULT_FROM_WIN32(GetLastError());
-    return hr;
+
+    if (ReadFile(hFile, buffer, buffersize, &read, NULL) == 0)
+        return HRESULT_FROM_WIN32(GetLastError());
+
+    return S_OK;
 }
 
 HRESULT AudioController::LoadAudio(LPCWSTR input, const char* audioID, bool looping)

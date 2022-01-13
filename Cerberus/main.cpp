@@ -171,7 +171,10 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 	audioController = new AudioController();
 	audioController->LoadAudio(L"C:/Users/w019134i/Documents/GitHub/Necrodoggiecon/Cerberus/Resources/testAudio.wav", "test", false);
-	//audioController.LoadSound(L"C:/Users/w019134i/Documents/GitHub/Necrodoggiecon/Cerberus/Resources/TestShortAudio.wav");
+
+	//audioController->DestroyAudio("test");
+	audioController->PlayAudio("test");
+	//audioController->StopAudio("test");
 
 	return S_OK;
 }
@@ -661,21 +664,6 @@ void Update(float deltaTime)
 			f->Update(deltaTime);
 
 		e->Update(deltaTime);
-	}
-
-	if(GetAsyncKeyState('A'))
-	{
-		audioController->PlayAudio("test");
-	}
-
-	if(GetAsyncKeyState('D'))
-	{
-		audioController->StopAudio("test");
-	}
-
-	if (GetAsyncKeyState('W'))
-	{
-		audioController->DestroyAudio("test");
 	}
 }
 
