@@ -1,11 +1,12 @@
 #include "testClass.h"
 #include "Utility/DebugOutput/Debug.h"
+#include "../CSpriteComponent.h"
 
 TestClass::TestClass()
 {
 	Debug::Log("init test class!\n");
 
-	mesh = new CMeshComponent();
+	mesh = new CSpriteComponent();
 	components.push_back(mesh);
 }
 

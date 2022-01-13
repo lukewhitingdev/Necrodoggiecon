@@ -1,17 +1,17 @@
-#include "CMeshComponent.h"
+#include "CSpriteComponent.h"
 #include "Engine.h"
 
-CMeshComponent::CMeshComponent()
+CSpriteComponent::CSpriteComponent()
 {
 	mesh = new CMesh();
 }
 
-void CMeshComponent::Update(float deltaTime)
+void CSpriteComponent::Update(float deltaTime)
 {
 
 }
 
-void CMeshComponent::Draw(ID3D11DeviceContext* context)
+void CSpriteComponent::Draw(ID3D11DeviceContext* context)
 {
 	// Set vertex buffer
 	UINT stride = sizeof(SimpleVertex);
@@ -32,7 +32,7 @@ void CMeshComponent::Draw(ID3D11DeviceContext* context)
 	context->DrawIndexed(6, 0, 0);
 }
 
-CMeshComponent::~CMeshComponent()
+CSpriteComponent::~CSpriteComponent()
 {
 	delete mesh;
 }

@@ -355,7 +355,7 @@
     <ClInclude Include="Utility\Audio\AudioController.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CEntity.h" />
-    <ClInclude Include="CMeshComponent.h" />
+    <ClInclude Include="CSpriteComponent.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Dependencies\IMGUI\imconfig.h" />
@@ -377,7 +377,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\Audio\AudioController.cpp" />
-    <ClCompile Include="CMeshComponent.cpp" />
+    <ClCompile Include="CSpriteComponent.cpp" />
     <ClCompile Include="Core\testClass.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui.cpp" />
