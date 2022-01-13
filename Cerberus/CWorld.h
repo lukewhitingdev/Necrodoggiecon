@@ -10,6 +10,7 @@
 class CWorld
 {
 
+public:
 	CWorld();
 
 	CWorld(int WorldSlot);

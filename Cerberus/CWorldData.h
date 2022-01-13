@@ -44,8 +44,12 @@ public:
 	CWorldData_Editable(Vector3 Scale);
 
 	//returns the tile at position given
-	Tile* GetTile(Vector3 Position) { if (tileContainer.find(Position) != tileContainer.end()) return tileContainer[Position];
+	
+	/*(
+	Tile* GetTile(Vector3 Position) {
+		if (tileContainer.find(Position) != tileContainer.end()) return tileContainer[Position];
 	}
+	*/
 
 	//returns the entire array
 	std::map<Vector3, Tile*> GetSceneData() { return tileContainer; }

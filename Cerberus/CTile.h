@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector3.h"
+#include "CEntity.h"
 
 enum class TileType
 {
@@ -9,30 +10,34 @@ enum class TileType
 
 };
 
-class Tile
+class CTile : public CEntity
 {
-
-
-	Tile(int TileID, Vector3 Position);
-
-
 public:
+	CTile();
+	CTile(int TileID, Vector3 Position);
+	class CSpriteComponent* sprite = nullptr;
 
 
-	void UpdateTile(int TileID);
+
+	virtual void Update(float deltaTime) override;
+	virtual ~CTile();
+
+
+	
+	void ChangeTileID(int TileID);
 
 
 protected: 
 
 	//Returns the tile's type, whether it be a walkable floor, a wall or a door.
-	TileType GetTileType() { return TileStatus; }
+	TileType GetTileType() { return tileStatus; }
 
 
 private: 
 
-	TileType TileStatus;
+	TileType tileStatus;
 
-	int ID;
+	int tileID;
 
 
 
