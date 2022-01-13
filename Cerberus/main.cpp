@@ -164,7 +164,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	for (int i = 0; i < 25; i++)
+	for (int i = 0; i < 2500; i++)
 	{
 		Engine::entities.push_back(new TestClass());
 		Engine::entities[i]->position.x = (float(rand() % 1000) - 500);
