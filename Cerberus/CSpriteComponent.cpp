@@ -26,7 +26,7 @@ CSpriteComponent::CSpriteComponent()
 	texture = new CTexture();
 }
 
-HRESULT CSpriteComponent::LoadTexture(const wchar_t* filePath)
+HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 {
 	HRESULT hr = texture->LoadTextureDDS(filePath);
 	if(hr == S_OK)

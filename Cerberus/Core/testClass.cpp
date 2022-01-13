@@ -9,12 +9,12 @@ TestClass::TestClass()
 	sprite = AddComponent<CSpriteComponent>();
 	if (rand() % 2)
 	{
-		sprite->LoadTexture(L"Resources\\Man.dds");
+		sprite->LoadTexture("Resources\\Man.dds");
 		position.z = -10;
 	}
 	else
 	{
-		sprite->LoadTexture(L"Resources\\landscape.dds");
+		sprite->LoadTexture("Resources\\landscape.dds");
 	}
 
 	sprite->SetRenderRect(XMUINT2(sprite->GetRenderRect().x * 2, sprite->GetRenderRect().y * 2));

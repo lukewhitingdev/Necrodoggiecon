@@ -5,10 +5,18 @@ CTexture::CTexture()
 
 }
 
-HRESULT CTexture::LoadTextureDDS(const wchar_t* filePath)
+HRESULT CTexture::LoadTextureDDS(std::string filePath)
 {
+
+	// Copied from -- https://docs.microsoft.com/en-us/cpp/text/how-to-convert-between-various-string-types?view=msvc-170
+	// Convert char* string to a wchar_t* string.
+	size_t newsize = strlen(filePath.c_str()) + 1;
+	wchar_t* convertedString = new wchar_t[newsize];
+	size_t convertedChars = 0;
+	mbstowcs_s(&convertedChars, convertedString, newsize, filePath.c_str(), _TRUNCATE);
+
 	// load and setup textures
-	HRESULT hr = CreateDDSTextureFromFile(Engine::device, filePath, nullptr, &textureResourceView);
+	HRESULT hr = CreateDDSTextureFromFile(Engine::device, convertedString, nullptr, &textureResourceView);
 	if (FAILED(hr))
 		return hr;
 
