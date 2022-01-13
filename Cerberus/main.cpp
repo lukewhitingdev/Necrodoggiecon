@@ -19,7 +19,7 @@
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
-DirectX::XMFLOAT4 g_EyePosition(0.0f, 0, -3, 1.0f);
+DirectX::XMFLOAT4 g_EyePosition(0.0f, 0.0f, 3.0f, 1.0f);
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -409,6 +409,7 @@ HRESULT InitDevice()
 	Engine::device->CreateRasterizerState(&wireframeDSC, &wireframeRastState);
 
 	Engine::deviceContext->RSSetState(fillRastState);
+	//Engine::deviceContext->RSSetState(wireframeRastState);
 
 	hr = InitMesh();
 	if (FAILED(hr))

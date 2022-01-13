@@ -36,8 +36,8 @@ HRESULT CMesh::LoadMesh()
 	// Create index buffer
 	WORD indices[] =
 	{
-		2,1,0,
-		0,3,2,
+		0,1,2,
+		2,3,0,
 	};
 
 	bd.Usage = D3D11_USAGE_DEFAULT;
