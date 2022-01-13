@@ -75,6 +75,8 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	UNREFERENCED_PARAMETER( hPrevInstance );
 	UNREFERENCED_PARAMETER( lpCmdLine );
 
+	srand(time(0));
+
 	if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
 		return 0;
 
