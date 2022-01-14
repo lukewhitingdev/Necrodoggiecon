@@ -12,7 +12,7 @@ TestClass::TestClass()
 	sprite->SetSpriteSize(XMUINT2(128, 128));
 
 	if (rand() % 2)
-		sprite->scale.x = -1;
+		sprite->SetScale(-1, 1, 1);
 
 	timeElapsed = rand() / 100;
 }

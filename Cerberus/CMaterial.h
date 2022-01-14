@@ -25,6 +25,7 @@ struct MaterialPropertiesConstantBuffer
 	_Material   Material;
 };
 
+//Hold the directx stuff for uploading sprite specific data to the shader
 struct CMaterial
 {
 	MaterialPropertiesConstantBuffer material;

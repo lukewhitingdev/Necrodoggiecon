@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine.h"
+#include "Vector3.h"
 
 //Fundimental component class
 //Can be extended upon to make new components to add to CEntity
@@ -7,13 +8,27 @@ class CComponent
 {
 protected:
 	XMFLOAT4X4 world;
+
+	Vector3 position = { 0,0,0 };
+	Vector3 scale = { 1,1,1 };
+	float rotation = 0;
+
 public:
 	bool shouldUpdate = true;
-	XMFLOAT3 position = { 0,0,0 };
-	XMFLOAT3 scale = { 1,1,1 };
-	float rotation = 0;
 	bool shouldDraw = false;
-public:
+
+	void SetPosition(float x, float y, float z) { position = Vector3(x, y, z); }
+	void SetScale(float x, float y, float z) { scale = Vector3(x, y, z); }
+
+	void SetPosition(Vector3 In) { position = In; }
+	void SetScale(Vector3 In) { scale = In; }
+
+	void SetRotation(float Rot) { rotation = Rot; }
+
+	Vector3 GetPosition() { return position; }
+	Vector3 GetScale() { return scale; }
+	float GetRotation() { return rotation; }
+
 	//Updated automatically every single frame
 	virtual void Update(float deltaTime) = 0;
 	//Almost the same as Update() but to be used for drawing only.
