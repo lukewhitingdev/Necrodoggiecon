@@ -171,25 +171,11 @@ void Load()
 	for (int i = 0; i < 25; i++)
 	{
 		TestClass* myClass = Engine::CreateEntity<TestClass>();
-		myClass->position.x = (float(rand() % Engine::windowWidth) - Engine::windowWidth / 2);
-		myClass->position.y = (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2);
+		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
-	/*
-	* for (int i = 0; i < 1000; i++)
-	{
-		TestClass* myClass = Engine::CreateEntity<TestClass>();
-		myClass->SetPosition((float(rand() % 1000) - 500), (float(rand() % 1000) - 500), (float(rand() % 100) - 50));
 
-		myClass->SetRotation((float(rand() % 1000) - 500) * .01);
-	}
-	*/
-	CWorld* World = new CWorld(0);
-	World->LoadWorld(0);
-	
-
-	
-
-
+	//CWorld* World = new CWorld(0);
+	//World->LoadWorld(0);
 }
 
 //--------------------------------------------------------------------------------------
@@ -535,7 +521,7 @@ HRESULT		InitWorld(int width, int height)
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	viewMatrix = XMMatrixLookAtLH(Eye, At, Up);
 
-	const float viewScaler = 0.25;
+	const float viewScaler = 1;
 
 	// Initialize the projection matrix
 	projectionMatrix = XMMatrixOrthographicLH(width / viewScaler, height / viewScaler, 0.01f, 100.0f);
