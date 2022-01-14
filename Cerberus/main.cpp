@@ -16,6 +16,8 @@
 
 #include "Engine.h"
 #include "Core/testClass.h"
+#include "CTile.h"
+#include "CWorld.h"
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
@@ -169,9 +171,11 @@ void Load()
 	for (int i = 0; i < 25; i++)
 	{
 		TestClass* myClass = Engine::CreateEntity<TestClass>();
-		myClass->position.x = (float(rand() % Engine::windowWidth) - Engine::windowWidth / 2);
-		myClass->position.y = (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2);
+		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
+
+	//CWorld* World = new CWorld(0);
+	//World->LoadWorld(0);
 }
 
 //--------------------------------------------------------------------------------------

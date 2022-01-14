@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <FxCompile Include="shader.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="CComponent.cpp" />
+    <ClCompile Include="CEntity.cpp" />
+    <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="Utility\Audio\AudioController.cpp" />
+    <ClCompile Include="CSpriteComponent.cpp" />
+    <ClCompile Include="Core\testClass.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_draw.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_impl_dx11.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_impl_win32.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_tables.cpp" />
+    <ClCompile Include="Dependencies\IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="Utility\DebugOutput\Debug.cpp" />
+    <ClCompile Include="CMesh.cpp" />
+    <ClCompile Include="CTile.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorld.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorldData.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DDSTextureLoader.h" />
+    <CLInclude Include="resource.h" />
+    <ClInclude Include="structures.h" />
+    <ClInclude Include="Core\testClass.h" />
+    <ClInclude Include="Libraries\json.hpp">
+      <Filter>Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="CTexture.h" />
+    <ClInclude Include="Utility\Audio\AudioController.h" />
+    <ClInclude Include="CComponent.h" />
+    <ClInclude Include="CEntity.h" />
+    <ClInclude Include="CSpriteComponent.h" />
+    <ClInclude Include="Dependencies\IMGUI\imconfig.h" />
+    <ClInclude Include="Dependencies\IMGUI\imgui.h" />
+    <ClInclude Include="Dependencies\IMGUI\imgui_impl_dx11.h" />
+    <ClInclude Include="Dependencies\IMGUI\imgui_impl_win32.h" />
+    <ClInclude Include="Dependencies\IMGUI\imgui_internal.h" />
+    <ClInclude Include="Dependencies\IMGUI\imstb_rectpack.h" />
+    <ClInclude Include="Dependencies\IMGUI\imstb_textedit.h" />
+    <ClInclude Include="Dependencies\IMGUI\imstb_truetype.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="CMesh.h" />
+    <ClInclude Include="UI\DebugOutput\DebugOutput.h" />
+    <ClInclude Include="Utility\DebugOutput\Debug.h" />
+    <ClInclude Include="CTile.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorld.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorldData.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStorage.h">
+      <Filter>World</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tutorial01.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\stone.dds" />
+    <Image Include="Resources\Unwalkable.dds" />
+    <Image Include="Resources\Walkable.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="World">
+      <UniqueIdentifier>{13a05045-74e0-47de-8163-fc8bcc2138fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{9ad79631-f174-4bfd-ab35-a789576c5000}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

@@ -140,7 +140,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CT_EditorWorld.cpp" />
+    <ClCompile Include="CT_MainWindow.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CT_EditorResources.h" />
+    <ClInclude Include="CT_MainWindow.h" />
+    <ClInclude Include="CT_EditorWorld.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
