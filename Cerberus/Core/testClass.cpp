@@ -7,7 +7,7 @@ TestClass::TestClass()
 	Debug::Log("init test class!\n");
 
 	sprite = AddComponent<CSpriteComponent>();
-	sprite->LoadTexture(L"Resources\\birb.dds");
+	sprite->LoadTexture("Resources\\birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->spriteSize = XMUINT2(128, 128);
 
