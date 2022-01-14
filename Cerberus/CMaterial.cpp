@@ -18,6 +18,7 @@ HRESULT CMaterial::CreateMaterial(XMUINT2 texSize)
 	material.Material.textureSize = texSize;
 	material.Material.textureRect = texSize;
 	material.Material.textureOffset = XMFLOAT2(0,0);
+	material.Material.tint = XMFLOAT4(0,0,0,0);
 
 	// Create the material constant buffer
 	D3D11_BUFFER_DESC bd = {};

@@ -8,16 +8,19 @@ struct _Material
 		, textureSize(0, 0)
 		, textureRect(0, 0)
 		, textureOffset(0, 0)
+		, tint(0, 0, 0, 0)
 	{}
 
-	int		UseTexture;
-	float	padding1[3];
+	int			UseTexture;
+	float		padding1[3];
 
-	XMUINT2	textureSize;
-	XMUINT2	textureRect;
+	XMUINT2		textureSize;
+	XMUINT2		textureRect;
 
-	XMFLOAT2 textureOffset;
-	float padding2[2];
+	XMFLOAT2	textureOffset;
+	float		padding2[2];
+
+	XMFLOAT4	tint;
 };
 
 struct MaterialPropertiesConstantBuffer

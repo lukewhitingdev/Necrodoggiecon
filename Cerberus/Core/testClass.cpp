@@ -11,6 +11,8 @@ TestClass::TestClass()
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
 
+	sprite->SetTint(XMFLOAT4(rand() % 2 * .5, rand() % 2 * .5, rand() % 2 * .5, 0));
+
 	if (rand() % 2)
 		sprite->SetScale(-1, 1, 1);
 

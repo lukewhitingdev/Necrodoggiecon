@@ -14,6 +14,7 @@ class CSpriteComponent : public CComponent
 	XMUINT2 renderRect;
 	XMFLOAT2 textureOffset = { 0,0 };
 	XMUINT2 spriteSize;
+	XMFLOAT4 tint = { 0,0,0,0 };
 public:
 	//Used to resize the portion of the sprite you want to display
 	//Use to set the size of a selection of a sprite sheet
@@ -28,9 +29,12 @@ public:
 	//Set automatically on texture load
 	void SetSpriteSize(XMUINT2 newSize) { spriteSize = newSize; };
 
+	void SetTint(XMFLOAT4 newTint);
+
 	XMUINT2 GetRenderRect() { return renderRect; };
 	XMFLOAT2 GetTextureOffset() { return textureOffset; };
 	XMUINT2 GetSpriteSize() { return spriteSize; };
+	XMFLOAT4 GetTint() { return tint; };
 
 	CSpriteComponent();
 	HRESULT LoadTexture(std::string filePath);

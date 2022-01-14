@@ -23,6 +23,17 @@ void CSpriteComponent::SetTextureOffset(XMFLOAT2 newOffset)
 	}
 }
 
+void CSpriteComponent::SetTint(XMFLOAT4 newTint)
+{
+	tint = newTint;
+
+	if (material->loaded)
+	{
+		material->material.Material.tint = tint;
+		material->UpdateMaterial();	//Could be done once per update if a change has happened instead of here
+	}
+}
+
 CSpriteComponent::CSpriteComponent()
 {
 	shouldUpdate = false;
