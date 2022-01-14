@@ -12,6 +12,8 @@ CWorld::CWorld()
 
 CWorld::CWorld(int WorldSlot)
 {
+
+
 }
 
 void CWorld::LoadWorld(int Slot)
@@ -35,11 +37,14 @@ void CWorld::LoadWorld(int Slot)
 			Vector3 TempPos = Vector3(-256 * 2, -256 * 4.5, 0) + Vector3((x * tileScale), (y * tileScale), 0.0f);
 			if (x > 5 && y > 5 && x < 145 && y < 145)
 			{
-
+				
 				CTile* Tile = Engine::CreateEntity<CTile>();
 				Tile->SetPosition(TempPos);
 				Tile->SetScale(0.5, 0.5, 0.5);
 				Tile->ChangeTileID(1);
+
+				tileConainer[x][y] = Tile;
+				int Test = sizeof(Tile);
 			}
 			else
 			{
@@ -47,8 +52,10 @@ void CWorld::LoadWorld(int Slot)
 				Tile->SetPosition(TempPos);
 				Tile->SetScale(0.5, 0.5, 0.5);
 				Tile->ChangeTileID(0);
+				tileConainer[x][y] = Tile;
 			}
 		}
+
 	}
 	
 	
@@ -77,14 +84,14 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 	json SaveData;
 
-	std::vector<std::string>
+	std::vector<std::string> MapData;
 
 	for (int x = 0; x < mapScale; x++)
 	{
 		for (int y = 0; y < mapScale; y++)
 		{
-
-
+			
+			MapData.push_back(std::to_string(tileConainer[x][y]->GetTileID()));
 
 
 		}

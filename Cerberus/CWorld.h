@@ -12,7 +12,7 @@ using json = nlohmann::json;
 
 
 #define tileScale 16
-#define	mapScale 150
+#define	mapScale 256
 
 class CWorld
 {
@@ -52,7 +52,9 @@ protected:
 
 
 	
-	std::map<Vector3, CTile*> tileContainer;
+	//std::map<Vector3, CTile*> tileContainer;
+
+	CTile* tileConainer[mapScale][mapScale];
 
 	//This function should only be used when Loading / Reloading the scene.
 	void LoadEntity(CT_EntityData EntityData);

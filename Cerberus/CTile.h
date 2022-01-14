@@ -25,7 +25,7 @@ public:
 
 	
 	void ChangeTileID(int TileID);
-
+	int GetTileID() { return tileID; }
 
 protected: 
 

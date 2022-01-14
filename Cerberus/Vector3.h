@@ -101,7 +101,7 @@ public:
 	//Compare and return the result of two Vector3s. returns true if they are not the same.
 	bool operator !=(const Vector3Base& B) const { return ((_mm_movemask_ps(_mm_cmpeq_ps(intrinsic, B.intrinsic))) & 0x7) != 0x7; }
 
-	
+
 
 
 	//MATH FUNCTIONS
@@ -141,7 +141,7 @@ public:
 		return _mm_add_ps(A.intrinsic, _mm_mul_ps(_mm_sub_ps(B.intrinsic, A.intrinsic), _mm_set1_ps(Alpha)));
 	}
 
-
+	
 	
 
 };
@@ -239,7 +239,7 @@ public:
 	//Compare and return the result of two Vector3s. returns true if they are not the same.
 	bool operator !=(const Vector2Base& B) const { return ((_mm_movemask_ps(_mm_cmpeq_ps(intrinsic, B.intrinsic))) & 0x7) != 0x7; }
 
-
+	
 
 
 	//MATH FUNCTIONS
@@ -293,18 +293,8 @@ typedef Vector2Base<float> Vector2;
 
 
 
-/*
-* namespace std
-{
-	template<> struct less<Vector3>
-	{
-		bool operator() (const Vector3& lhs, const Vector3& rhs) const
-		{
-			return (lhs.Magnitude() < rhs.Magnitude());
-		}
-	};
-}
-*/
+
+
 
 
 //0.025000
