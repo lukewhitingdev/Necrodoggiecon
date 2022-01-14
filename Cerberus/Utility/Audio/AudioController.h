@@ -9,7 +9,7 @@ class AudioController
 {
 public:
 	AudioController();
-	static HRESULT LoadAudio(std::string input, const char* audioID, bool looping);
+	static HRESULT LoadAudio(std::string input, bool looping);
 	static HRESULT PlayAudio(std::string path);
 	static HRESULT StopAudio(std::string path);
 	static HRESULT DestroyAudio(std::string path);

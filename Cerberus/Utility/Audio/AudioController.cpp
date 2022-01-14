@@ -107,11 +107,12 @@ HANDLE openFile(std::string inputDir)
     return fileHandle;
 }
 
-HRESULT AudioController::LoadAudio(std::string input, const char* audioID, bool looping)
+// Loads the specified audio. Do not use \ in path name instead use /'s as \'s break the string.
+HRESULT AudioController::LoadAudio(std::string input, bool looping)
 {
     if(AssetManager::GetAudio(input) != nullptr)
     {
-        Debug::LogError("[AudioController] Tried to load audio with ID that already exists! aborting load. Offending ID: %s", audioID);
+        Debug::LogError("[AudioController] Tried to load audio with path that already exists! aborting load. Offending Path: %s", input);
         return S_OK;
     }
 
@@ -168,11 +169,12 @@ HRESULT AudioController::LoadAudio(std::string input, const char* audioID, bool 
     }
 
     // Add to Asset Manager.
-    AssetManager::AddAudio(input, new CAudio(audioID, buffer, waveFormat));
+    AssetManager::AddAudio(input, new CAudio(buffer, waveFormat));
 
     return S_OK;
 }
 
+// Plays the specified audio from the AssetManager.
 HRESULT AudioController::PlayAudio(std::string path)
 {
     if (audioEngine == nullptr)
@@ -210,6 +212,7 @@ HRESULT AudioController::PlayAudio(std::string path)
     audio->voice = audioVoice;
     return S_OK;
 }
+
 // Finds the specified audio and stops it emitting.
 HRESULT AudioController::StopAudio(std::string path)
 {
@@ -227,7 +230,7 @@ HRESULT AudioController::StopAudio(std::string path)
     }
     return audio->voice->Stop();
 }
-
+// Destroys the specified audio and removes it from the AssetManager.
 HRESULT AudioController::DestroyAudio(std::string path)
 {
     // Check if the audio exists.
