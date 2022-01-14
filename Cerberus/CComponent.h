@@ -7,6 +7,7 @@
 class CComponent
 {
 protected:
+	bool bUpdateTransform = true;
 	XMFLOAT4X4 world;
 
 	Vector3 position = { 0,0,0 };
@@ -17,13 +18,13 @@ public:
 	bool shouldUpdate = true;
 	bool shouldDraw = false;
 
-	void SetPosition(float x, float y, float z) { position = Vector3(x, y, z); }
-	void SetScale(float x, float y, float z) { scale = Vector3(x, y, z); }
+	void SetPosition(float x, float y, float z) { position = Vector3(x, y, z); bUpdateTransform = true; }
+	void SetScale(float x, float y, float z) { scale = Vector3(x, y, z); bUpdateTransform = true; }
 
-	void SetPosition(Vector3 In) { position = In; }
-	void SetScale(Vector3 In) { scale = In; }
+	void SetPosition(Vector3 In) { position = In; bUpdateTransform = true; }
+	void SetScale(Vector3 In) { scale = In; bUpdateTransform = true; }
 
-	void SetRotation(float Rot) { rotation = Rot; }
+	void SetRotation(float Rot) { rotation = Rot; bUpdateTransform = true; }
 
 	Vector3 GetPosition() { return position; }
 	Vector3 GetScale() { return scale; }

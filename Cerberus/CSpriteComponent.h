@@ -16,7 +16,7 @@ class CSpriteComponent : public CComponent
 	XMUINT2 spriteSize;
 	XMFLOAT4 tint = { 0,0,0,0 };
 public:
-	//Used to resize the portion of the sprite you want to display
+	//Used to resize the portion of the texture you want to display on the sprite in pixels
 	//Use to set the size of a selection of a sprite sheet
 	void SetRenderRect(XMUINT2 newSize);
 
