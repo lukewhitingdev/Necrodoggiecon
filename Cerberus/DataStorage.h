@@ -1,26 +1,20 @@
 #pragma once
 
-class CT_EntityData
+enum class EntityType
 {
-	//Position;
-	//Scale;
-	//Rotation;
+	Player,
+	MeleeCharacter,
+	RangedCharacter,
+	misc
 
-	//Sprite;
+};
 
-	//EntityType
+class CT_EntityData	: public CEntity
+{
+	
+	virtual void Update(float deltaTime) = 0;
 
-
-	//Set the 
-	void SetPosition();
-
-	void SetRotation();
-
-	void GetPosition();
-
-	void GetRotation();
-
-	void GetSprite();
+	EntityType entityType;
 
 
 

@@ -44,8 +44,8 @@ private:
 
 
 
-	CWorldData* WorldData;
-
+	
+	std::map<Vector3, Tile*> tileContainer;
 
 	//This function should only be used when Loading / Reloading the scene.
 	void LoadEntity(CT_EntityData EntityData);
