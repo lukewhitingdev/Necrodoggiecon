@@ -59,6 +59,19 @@ CTexture* AssetManager::GetTexture(std::string texturePath)
 	}
 }
 
+CAudio* AssetManager::AddAudio(std::string audioPath, CAudio* audio)
+{
+	if(audios.find(audioPath) != audios.end())
+	{
+		return audios.at(audioPath);
+	}
+	else
+	{
+		audios.emplace(std::make_pair(audioPath, audio));
+		return audios.at(audioPath);
+	}
+}
+
 CAudio* AssetManager::GetAudio(std::string audioPath)
 {
 	if(audios.find(audioPath) != audios.end())
@@ -69,6 +82,22 @@ CAudio* AssetManager::GetAudio(std::string audioPath)
 	else
 	{
 		// The audio doesnt exist.
-		return  new CAudio();
+		return nullptr;
 	}
+}
+
+void AssetManager::RemoveAudio(std::string audioPath)
+{
+	audios.erase(audioPath);
+}
+
+void AssetManager::Destroy()
+{
+	audios.clear();
+	textures.clear();
+	meshes.clear();
+}
+
+void AssetManager::RenderDebugMenu()
+{
 }
