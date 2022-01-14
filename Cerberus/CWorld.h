@@ -68,6 +68,10 @@ protected:
 	//std::vector<CEntity> entityList;
 
 
+private:
+
+	Vector3 IDToWorldSpace(int ID);
+
 
 };
 
@@ -85,7 +89,7 @@ class CWorld_Editable : public CWorld
 {
 
 
-
+public:
 
 	void SaveWorld(int Slot);
 };

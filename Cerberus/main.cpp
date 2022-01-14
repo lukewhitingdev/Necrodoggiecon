@@ -176,8 +176,9 @@ void Load()
 	}
 	*/
 
-	CWorld* World = new CWorld(0);
+	CWorld_Editable* World = new CWorld_Editable();
 	World->LoadWorld(0);
+	//World->SaveWorld(0);
 }
 
 //--------------------------------------------------------------------------------------

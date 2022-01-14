@@ -30,6 +30,15 @@ CTile::~CTile()
 
 void CTile::ChangeTileID(int TileID)
 {
-	if (TileID == 0) sprite->LoadTexture("Resources\\Tiles\\Unwalkable.dds");
-	else sprite->LoadTexture("Resources\\Tiles\\Walkable.dds");
+	tileID = TileID;
+	if (TileID == 0)
+	{
+		sprite->LoadTexture("Resources\\Tiles\\Unwalkable.dds");
+		
+	}
+	else
+	{
+		sprite->LoadTexture("Resources\\Tiles\\Walkable.dds");
+		
+	}
 }
