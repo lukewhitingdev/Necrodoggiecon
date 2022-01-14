@@ -564,10 +564,13 @@ void CleanupDevice()
 	if (Engine::device) Engine::device->Release();
 
 	// handy for finding dx memory leaks
-	debugDevice->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+	if(debugDevice != nullptr)
+	{
+		debugDevice->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
 
-	if (debugDevice)
-		debugDevice->Release();
+		if (debugDevice)
+			debugDevice->Release();
+	}
 
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
