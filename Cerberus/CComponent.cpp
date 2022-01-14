@@ -2,7 +2,7 @@
 
 XMFLOAT4X4 CComponent::GetTransform()
 {
-	if (bUpdateTransform)
+	if (updateTransform)
 	{
 		XMMATRIX mat = XMMatrixScaling(scale.x, scale.y, scale.z)
 			* XMMatrixRotationRollPitchYaw(0, 0, rotation)
@@ -10,7 +10,7 @@ XMFLOAT4X4 CComponent::GetTransform()
 
 		XMStoreFloat4x4(&world, mat);
 
-		bUpdateTransform = false;
+		updateTransform = false;
 	}
 
 	return world;

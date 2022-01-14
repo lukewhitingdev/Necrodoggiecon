@@ -101,7 +101,7 @@ CSpriteComponent::~CSpriteComponent()
 
 XMFLOAT4X4 CSpriteComponent::GetTransform()
 {
-	if (bUpdateTransform)
+	if (updateTransform)
 	{
 		XMMATRIX mat = XMMatrixScaling(scale.x * spriteSize.x, scale.y * spriteSize.y, scale.z)
 			* XMMatrixRotationRollPitchYaw(0, 0, rotation)
@@ -109,7 +109,7 @@ XMFLOAT4X4 CSpriteComponent::GetTransform()
 
 		XMStoreFloat4x4(&world, mat);
 
-		bUpdateTransform = false;
+		updateTransform = false;
 	}
 
 	return world;
