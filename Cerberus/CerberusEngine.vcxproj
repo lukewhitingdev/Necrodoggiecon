@@ -354,11 +354,17 @@
   <ItemGroup>
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
+    <ClInclude Include="CTile.h" />
+    <ClInclude Include="CWorld.h" />
+    <ClInclude Include="CWorldData.h" />
+    <ClInclude Include="DataStorage.h" />
     <ClInclude Include="Utility\Audio\AudioController.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CEntity.h" />
     <ClInclude Include="CSpriteComponent.h" />
     <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="Libraries\json.hpp" />
+    <ClInclude Include="Vector3.h" />
     <ClInclude Include="Dependencies\IMGUI\imconfig.h" />
     <ClInclude Include="Dependencies\IMGUI\imgui.h" />
     <ClInclude Include="Dependencies\IMGUI\imgui_impl_dx11.h" />
@@ -382,6 +388,9 @@
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
+    <ClCompile Include="CTile.cpp" />
+    <ClCompile Include="CWorld.cpp" />
+    <ClCompile Include="CWorldData.cpp" />
     <ClCompile Include="Utility\Audio\AudioController.cpp" />
     <ClCompile Include="CSpriteComponent.cpp" />
     <ClCompile Include="Core\testClass.cpp" />
@@ -394,10 +403,13 @@
     <ClCompile Include="Dependencies\IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="Utility\DebugOutput\Debug.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="CMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\stone.dds" />
+    <Image Include="Resources\Unwalkable.dds" />
+    <Image Include="Resources\Walkable.dds" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader.fx">

@@ -16,6 +16,8 @@
 
 #include "Engine.h"
 #include "Core/testClass.h"
+#include "CTile.h"
+#include "CWorld.h"
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
@@ -172,6 +174,22 @@ void Load()
 		myClass->position.x = (float(rand() % Engine::windowWidth) - Engine::windowWidth / 2);
 		myClass->position.y = (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2);
 	}
+	/*
+	* for (int i = 0; i < 1000; i++)
+	{
+		TestClass* myClass = Engine::CreateEntity<TestClass>();
+		myClass->SetPosition((float(rand() % 1000) - 500), (float(rand() % 1000) - 500), (float(rand() % 100) - 50));
+
+		myClass->SetRotation((float(rand() % 1000) - 500) * .01);
+	}
+	*/
+	CWorld* World = new CWorld(0);
+	World->LoadWorld(0);
+	
+
+	
+
+
 }
 
 //--------------------------------------------------------------------------------------
@@ -517,7 +535,7 @@ HRESULT		InitWorld(int width, int height)
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	viewMatrix = XMMatrixLookAtLH(Eye, At, Up);
 
-	const float viewScaler = 1;
+	const float viewScaler = 0.25;
 
 	// Initialize the projection matrix
 	projectionMatrix = XMMatrixOrthographicLH(width / viewScaler, height / viewScaler, 0.01f, 100.0f);
