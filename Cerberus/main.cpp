@@ -588,8 +588,8 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	{
 	case WM_LBUTTONDOWN:
 	{
-		int xPos = GET_X_LPARAM(lParam);
-		int yPos = GET_Y_LPARAM(lParam);
+		//int xPos = GET_X_LPARAM(lParam);
+		//int yPos = GET_Y_LPARAM(lParam);
 		break;
 	}
 	case WM_PAINT:
