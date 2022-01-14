@@ -1,6 +1,38 @@
 #include "CSpriteComponent.h"
 #include "Engine.h"
 
+void CSpriteComponent::SetRenderRect(XMUINT2 newSize)
+{
+	renderRect = newSize;
+
+	if (textureLoaded)
+	{
+		texture->material.Material.textureRect = renderRect;
+		Engine::deviceContext->UpdateSubresource(texture->materialConstantBuffer, 0, nullptr, &texture->material, 0, 0);	//Could be done once per update if a change has happened instead of here
+	}
+}
+
+XMUINT2 CSpriteComponent::GetRenderRect()
+{
+	return renderRect;
+}
+
+void CSpriteComponent::SetTextureOffset(XMFLOAT2 newOffset)
+{
+	textureOffset = newOffset;
+
+	if (textureLoaded)
+	{
+		texture->material.Material.textureOffset = textureOffset;
+		Engine::deviceContext->UpdateSubresource(texture->materialConstantBuffer, 0, nullptr, &texture->material, 0, 0);	//Could be done once per update if a change has happened instead of here
+	}
+}
+
+XMFLOAT2 CSpriteComponent::GetTextureOffset()
+{
+	return textureOffset;
+}
+
 CSpriteComponent::CSpriteComponent()
 {
 	shouldUpdate = false;
@@ -10,11 +42,16 @@ CSpriteComponent::CSpriteComponent()
 	texture = new CTexture();
 }
 
-HRESULT CSpriteComponent::LoadTexture(const wchar_t* filePath)
+HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 {
+	//TODO: release texture if already loaded here
+
 	HRESULT hr = texture->LoadTextureDDS(filePath);
 	if(hr == S_OK)
 		textureLoaded = true;
+
+	renderRect = texture->textureSize;
+	spriteSize = texture->textureSize;
 
 	return hr;
 }
@@ -59,7 +96,9 @@ CSpriteComponent::~CSpriteComponent()
 
 XMFLOAT4X4 CSpriteComponent::GetTransform()
 {
-	XMMATRIX mat = XMMatrixScaling(scale.x * texture->textureSize.x, scale.y * texture->textureSize.y, scale.z)
+	//Could check for changes and then recalculate world if changes have happened
+
+	XMMATRIX mat = XMMatrixScaling(scale.x * spriteSize.x, scale.y * spriteSize.y, scale.z)
 		* XMMatrixRotationRollPitchYaw(0, 0, rotation)
 		* XMMatrixTranslation(position.x, position.y, position.z);
 

@@ -21,7 +21,7 @@
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
-DirectX::XMFLOAT4 g_EyePosition(0, 0, -3, 1.0f);
+DirectX::XMFLOAT4 g_EyePosition(0.0f, 0.0f, 3.0f, 1.0f);
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -76,6 +76,8 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 {
 	UNREFERENCED_PARAMETER( hPrevInstance );
 	UNREFERENCED_PARAMETER( lpCmdLine );
+
+	srand(time(0));
 
 	if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
 		return 0;
@@ -166,23 +168,14 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	
-	/*
-	* for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 25; i++)
 	{
 		TestClass* myClass = Engine::CreateEntity<TestClass>();
-		myClass->SetPosition((float(rand() % 1000) - 500), (float(rand() % 1000) - 500), (float(rand() % 100) - 50));
-
-		myClass->SetRotation((float(rand() % 1000) - 500) * .01);
+		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
-	*/
-	CWorld* World = new CWorld(0);
-	World->LoadWorld(0);
-	
 
-	
-
-
+	//CWorld* World = new CWorld(0);
+	//World->LoadWorld(0);
 }
 
 //--------------------------------------------------------------------------------------
@@ -222,7 +215,6 @@ HRESULT CompileShaderFromFile( const WCHAR* szFileName, LPCSTR szEntryPoint, LPC
 
 	return S_OK;
 }
-
 
 //--------------------------------------------------------------------------------------
 // Create Direct3D device and swap chain
@@ -411,7 +403,7 @@ HRESULT InitDevice()
     Engine::deviceContext->RSSetViewports( 1, &vp );
 
 	D3D11_RASTERIZER_DESC fillDSC = {};
-	fillDSC.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+	fillDSC.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 	fillDSC.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 	Engine::device->CreateRasterizerState(&fillDSC, &fillRastState);
 
@@ -421,6 +413,7 @@ HRESULT InitDevice()
 	Engine::device->CreateRasterizerState(&wireframeDSC, &wireframeRastState);
 
 	Engine::deviceContext->RSSetState(fillRastState);
+	//Engine::deviceContext->RSSetState(wireframeRastState);
 
 	hr = InitMesh();
 	if (FAILED(hr))
@@ -450,7 +443,6 @@ HRESULT InitDevice()
 // ***************************************************************************************
 // InitMesh
 // ***************************************************************************************
-
 HRESULT	InitMesh()
 {
 	// Compile the vertex shader
@@ -529,14 +521,13 @@ HRESULT		InitWorld(int width, int height)
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	viewMatrix = XMMatrixLookAtLH(Eye, At, Up);
 
-	const float viewScaler = 0.25;
+	const float viewScaler = 1;
 
 	// Initialize the projection matrix
 	projectionMatrix = XMMatrixOrthographicLH(width / viewScaler, height / viewScaler, 0.01f, 100.0f);
 
 	return S_OK;
 }
-
 
 //--------------------------------------------------------------------------------------
 // Clean up the objects we've created
@@ -601,8 +592,8 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	{
 	case WM_LBUTTONDOWN:
 	{
-		int xPos = GET_X_LPARAM(lParam);
-		int yPos = GET_Y_LPARAM(lParam);
+		//int xPos = GET_X_LPARAM(lParam);
+		//int yPos = GET_Y_LPARAM(lParam);
 		break;
 	}
 	case WM_PAINT:

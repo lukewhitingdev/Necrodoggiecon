@@ -13,6 +13,6 @@ struct CTexture
 	ID3D11Buffer* materialConstantBuffer = nullptr;
 
 	CTexture();
-	HRESULT LoadTextureDDS(const wchar_t* filePath);
+	HRESULT LoadTextureDDS(std::string filePath);
 	~CTexture();
 };

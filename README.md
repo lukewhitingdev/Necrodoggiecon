@@ -1,7 +1,7 @@
 # Necrodoggiecon
 
 # How the project works
-### The engine is compiled down into a DLL and linked as a dependency to the Game or Tools project. If you want to compile the engine on its own and run it's own main entrypoint you will have to go into the Engine Project properties and change its execution type from .ddl to .exe for it to execute properly
+### The engine holds all the intrinsic components and the other outer projects can create classes that inherit these components and then the class can be used to create the game ontop of the engine.
 
 
 # Instructions

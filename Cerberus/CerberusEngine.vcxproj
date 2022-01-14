@@ -353,6 +353,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CTexture.h" />
+    <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CWorld.h" />
     <ClInclude Include="CWorldData.h" />
@@ -378,6 +379,7 @@
     <ClInclude Include="structures.h" />
     <ClInclude Include="Core\testClass.h" />
     <ClInclude Include="UI\DebugOutput\DebugOutput.h" />
+    <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="Utility\DebugOutput\Debug.h" />
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
@@ -385,6 +387,7 @@
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CWorld.cpp" />
     <ClCompile Include="CWorldData.cpp" />
