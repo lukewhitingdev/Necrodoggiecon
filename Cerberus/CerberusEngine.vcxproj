@@ -352,6 +352,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.h" />
+    <ClInclude Include="Utility\CollisionManager\CollisionManager.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="CTile.h" />
@@ -386,6 +388,8 @@
   <ItemGroup>
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEntity.cpp" />
+    <ClCompile Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.cpp" />
+    <ClCompile Include="Utility\CollisionManager\CollisionManager.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CTile.cpp" />

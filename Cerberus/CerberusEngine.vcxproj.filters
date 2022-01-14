@@ -30,6 +30,9 @@
     <ClCompile Include="CWorldData.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
+    <ClCompile Include="Utility\CollisionManager\CollisionManager.cpp" />
+    <ClCompile Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -69,6 +72,10 @@
     <ClInclude Include="DataStorage.h">
       <Filter>World</Filter>
     </ClInclude>
+    <ClInclude Include="Utility\AssetManager\AssetManager.h" />
+    <ClInclude Include="Utility\Audio\CAudio.h" />
+    <ClInclude Include="Utility\CollisionManager\CollisionManager.h" />
+    <ClInclude Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
