@@ -7,6 +7,18 @@ CTexture::CTexture()
 
 HRESULT CTexture::LoadTextureDDS(std::string filePath)
 {
+	if (loaded)
+	{
+		if (textureResourceView)
+			textureResourceView->Release();
+		textureResourceView = nullptr;
+
+		if (samplerLinear)
+			samplerLinear->Release();
+		samplerLinear = nullptr;
+
+		loaded = false;
+	}
 
 	// Copied from -- https://docs.microsoft.com/en-us/cpp/text/how-to-convert-between-various-string-types?view=msvc-170
 	// Convert char* string to a wchar_t* string.
@@ -39,23 +51,7 @@ HRESULT CTexture::LoadTextureDDS(std::string filePath)
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 	hr = Engine::device->CreateSamplerState(&sampDesc, &samplerLinear);
 
-	material.Material.UseTexture = true;
-	material.Material.textureSize = textureSize;
-	material.Material.textureRect = textureSize;
-	material.Material.textureOffset = XMFLOAT2(0, 0);
-
-	// Create the material constant buffer
-	D3D11_BUFFER_DESC bd = {};
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(MaterialPropertiesConstantBuffer);
-	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	bd.CPUAccessFlags = 0;
-	hr = Engine::device->CreateBuffer(&bd, nullptr, &materialConstantBuffer);
-	if (FAILED(hr))
-		return hr;
-
-	Engine::deviceContext->UpdateSubresource(materialConstantBuffer, 0, nullptr, &material, 0, 0);
-
+	loaded = true;
 	return hr;
 }
 
@@ -68,8 +64,4 @@ CTexture::~CTexture()
 	if (samplerLinear)
 		samplerLinear->Release();
 	samplerLinear = nullptr;
-
-	if (materialConstantBuffer)
-		materialConstantBuffer->Release();
-	materialConstantBuffer = nullptr;
 }

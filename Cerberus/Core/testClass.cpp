@@ -9,10 +9,12 @@ TestClass::TestClass()
 	sprite = AddComponent<CSpriteComponent>();
 	sprite->LoadTexture("Resources\\birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
-	sprite->spriteSize = XMUINT2(128, 128);
+	sprite->SetSpriteSize(XMUINT2(128, 128));
+
+	sprite->SetTint(XMFLOAT4(rand() % 2 * .5, rand() % 2 * .5, rand() % 2 * .5, 0));
 
 	if (rand() % 2)
-		sprite->scale.x = -1;
+		sprite->SetScale(-1, 1, 1);
 
 	timeElapsed = rand() / 100;
 }

@@ -30,6 +30,8 @@
     <ClCompile Include="CWorldData.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
+    <ClCompile Include="CMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -69,6 +71,9 @@
     <ClInclude Include="DataStorage.h">
       <Filter>World</Filter>
     </ClInclude>
+    <ClInclude Include="Utility\AssetManager\AssetManager.h" />
+    <ClInclude Include="Utility\Audio\CAudio.h" />
+    <ClInclude Include="CMaterial.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

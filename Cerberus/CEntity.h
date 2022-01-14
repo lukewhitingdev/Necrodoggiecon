@@ -9,11 +9,16 @@ class CEntity
 {
 protected:
 	XMFLOAT4X4 world;
+
+	Vector3 position = { 0,0,0 };
+	Vector3 scale = { 1,1,1 };
+	float rotation = 0;
+
 public:
 	bool shouldUpdate = true;
+
+	std::vector<CComponent*> components;
 	
-
-
 	void SetPosition(float x, float y, float z) {  position = Vector3(x, y, z); }
 	void SetScale(float x, float y, float z) {  scale = Vector3(x, y, z); }
 
@@ -25,9 +30,6 @@ public:
 	Vector3 GetPosition() { return position; }
 	Vector3 GetScale() { return scale; }
 	float GetRotation() { return rotation; }
-
-
-	std::vector<CComponent*> components;
 
 	//Updated automatically every single frame
 	virtual void Update(float deltaTime) = 0;
@@ -43,10 +45,4 @@ public:
 		components.push_back(tmp);
 		return dynamic_cast<T*>(tmp);
 	}
-
-
-protected: 
-	Vector3 position = { 0,0,0 };
-	Vector3 scale = { 1,1,1 };
-	float rotation = 0;
 };

@@ -1,7 +1,7 @@
 #include "AudioController.h"
+#include "Utility/AssetManager/AssetManager.h"
 IXAudio2* AudioController::audioEngine;
 IXAudio2MasteringVoice* AudioController::masterChannel;
-std::map<std::string, CAudio*> AudioController::audios;
 
 AudioController::AudioController()
 {
@@ -81,18 +81,60 @@ HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD buffer
     return S_OK;
 }
 
-HRESULT AudioController::LoadAudio(LPCWSTR input, const char* audioID, bool looping)
+// Conversion Part Copied and modified from: https://xionghuilin.com/c-convert-between-string-and-cstring-lpwstr/
+HANDLE openFile(std::string inputDir)
 {
+    // Assumes std::string is encoded in the current Windows ANSI codepage
+    int bufferlen = ::MultiByteToWideChar(CP_ACP, 0, inputDir.c_str(), inputDir.size(), NULL, 0);
+
+    if (bufferlen == 0)
+    {
+        // Something went wrong. Perhaps, check GetLastError() and log.
+        return 0;
+    }
+
+    // Allocate new LPWSTR - must deallocate it later
+    LPWSTR convertedString = new WCHAR[bufferlen + 1];
+
+    ::MultiByteToWideChar(CP_ACP, 0, inputDir.c_str(), inputDir.size(), convertedString, bufferlen);
+
+    // Ensure wide string is null terminated
+    convertedString[bufferlen] = 0;
+
+    HANDLE fileHandle = CreateFile(convertedString, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);    // Open the file
+
+    free(convertedString);
+    return fileHandle;
+}
+
+// Loads the specified audio. Do not use \ in path name instead use /'s as \'s break the string.
+HRESULT AudioController::LoadAudio(std::string input, bool looping)
+{
+    if(AssetManager::GetAudio(input) != nullptr)
+    {
+        Debug::LogError("[AudioController] Tried to load audio with path that already exists! aborting load. Offending Path: %s", input);
+        return S_OK;
+    }
+
+    std::string fullDir = SOLUTION_DIR + input;
+        
     WAVEFORMATEXTENSIBLE waveFormat = { 0 };
     XAUDIO2_BUFFER buffer = { 0 };
 
-    HANDLE fileHandle = CreateFile(input,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,0, NULL);    // Open the file
+    // Convert String.
+    HANDLE fileHandle = openFile(fullDir);
 
     if (fileHandle == INVALID_HANDLE_VALUE)
+    {
+        Debug::LogHResult(HRESULT_FROM_WIN32(GetLastError()), "Error when opening file from path: %s", input);
         return HRESULT_FROM_WIN32(GetLastError());
+    }
 
     if (SetFilePointer(fileHandle, 0, NULL, FILE_BEGIN) == INVALID_SET_FILE_POINTER)
+    {
+        Debug::LogHResult(HRESULT_FROM_WIN32(GetLastError()), "Error when setting file pointer on file from path: %s", input);
         return HRESULT_FROM_WIN32(GetLastError());
+    }
 
     // Read RIFF Chunk
     DWORD chunkSize;
@@ -126,13 +168,14 @@ HRESULT AudioController::LoadAudio(LPCWSTR input, const char* audioID, bool loop
         buffer.LoopCount = XAUDIO2_LOOP_INFINITE; // Tell the buffer to loop indefinitely.
     }
 
-    // Add to map.
-    audios.emplace(std::make_pair(audioID, new CAudio(audioID, buffer, waveFormat)));
+    // Add to Asset Manager.
+    AssetManager::AddAudio(input, new CAudio(buffer, waveFormat));
 
     return S_OK;
 }
 
-HRESULT AudioController::PlayAudio(const char* audioID)
+// Plays the specified audio from the AssetManager.
+HRESULT AudioController::PlayAudio(std::string path)
 {
     if (audioEngine == nullptr)
         AudioController();
@@ -140,28 +183,28 @@ HRESULT AudioController::PlayAudio(const char* audioID)
     HRESULT hr;
 
     // Check if the audio exists.
-    if (audios.find(audioID) == audios.end()) {
-        Debug::LogHResult(CRYPT_E_NOT_FOUND, "[PlayAudio] Play failed on ID: %s", audioID);
+    if (AssetManager::GetAudio(path) == nullptr) {
+        Debug::LogHResult(CRYPT_E_NOT_FOUND, "[PlayAudio] Play failed at path: %s", path);
         return CRYPT_E_NOT_FOUND;
     }
 
-    CAudio* audio = audios.at(audioID);
+    CAudio* audio = AssetManager::GetAudio(path);
 
     // Create Voice.
     IXAudio2SourceVoice* audioVoice;
     if (FAILED(hr = audioEngine->CreateSourceVoice(&audioVoice, (WAVEFORMATEX*)&audio->format)))
     {
-        Debug::LogHResult(hr, "[AudioVoice] Create source voice failed on ID: %s", audioID);
+        Debug::LogHResult(hr, "[AudioVoice] Create source voice failed from Path: %s", path);
         return hr;
     }
     if (FAILED(hr = audioVoice->SubmitSourceBuffer(&audio->buffer)))
     {
-        Debug::LogHResult(hr, "[AudioVoice] Submit buffer failed on ID: %s", audioID);
+        Debug::LogHResult(hr, "[AudioVoice] Submit buffer failed from Path: %s", path);
         return hr;
     }
     if (FAILED(hr = audioVoice->Start(0))) 
     {
-        Debug::LogHResult(hr, "[AudioVoice] Start failed on ID: %s", audioID);
+        Debug::LogHResult(hr, "[AudioVoice] Start failed from Path: %s", path);
         return hr;
     } 
 
@@ -169,29 +212,32 @@ HRESULT AudioController::PlayAudio(const char* audioID)
     audio->voice = audioVoice;
     return S_OK;
 }
+
 // Finds the specified audio and stops it emitting.
-HRESULT AudioController::StopAudio(const char* audioID)
+HRESULT AudioController::StopAudio(std::string path)
 {
     // Check if the audio exists.
-    if (audios.find(audioID) == audios.end()) {
-        Debug::LogHResult(CRYPT_E_NOT_FOUND, "[StopAudio] Stop failed on ID: %s", audioID);
+    if (AssetManager::GetAudio(path) == nullptr) {
+        Debug::LogHResult(CRYPT_E_NOT_FOUND, "[StopAudio] Stop failed on audio from path: %s", path);
         return CRYPT_E_NOT_FOUND; 
     }
-    if(audios[audioID]->voice == nullptr)
+
+    CAudio* audio = AssetManager::GetAudio(path);
+    if(audio->voice == nullptr)
     {
-        Debug::LogError("[StopAudio] Cannot stop audio with ID: %s because it does not exist!", audioID);
+        Debug::LogError("[StopAudio] Cannot stop audio with path: %s because it does not exist!", path);
         return S_FALSE;
     }
-    return audios[audioID]->voice->Stop();
+    return audio->voice->Stop();
 }
-
-HRESULT AudioController::DestroyAudio(const char* audioID)
+// Destroys the specified audio and removes it from the AssetManager.
+HRESULT AudioController::DestroyAudio(std::string path)
 {
     // Check if the audio exists.
-    if (audios.find(audioID) == audios.end()) {
-        Debug::LogHResult(CRYPT_E_NOT_FOUND, "[DestroyAudio] Stop failed on ID: %s", audioID);
+    if (AssetManager::GetAudio(path) != nullptr) {
+        Debug::LogHResult(CRYPT_E_NOT_FOUND, "[DestroyAudio] Stop failed on audio from path: %s", path);
         return CRYPT_E_NOT_FOUND;
     }
-    audios.erase(audioID);
+    AssetManager::RemoveAudio(path);
     return S_OK;
 }

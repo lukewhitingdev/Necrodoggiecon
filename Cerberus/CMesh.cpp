@@ -7,6 +7,19 @@ CMesh::CMesh()
 
 HRESULT CMesh::LoadMesh()
 {
+	if (loaded)
+	{
+		if (vertexBuffer)
+			vertexBuffer->Release();
+		vertexBuffer = nullptr;
+
+		if (indexBuffer)
+			indexBuffer->Release();
+		indexBuffer = nullptr;
+
+		loaded = false;
+	}
+
 	// Create vertex buffer
 	SimpleVertex vertices[] =
 	{
@@ -55,6 +68,7 @@ HRESULT CMesh::LoadMesh()
 	// Set primitive topology
 	Engine::deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	loaded = true;
     return hr;
 }
 
