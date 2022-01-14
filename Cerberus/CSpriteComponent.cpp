@@ -5,10 +5,10 @@ void CSpriteComponent::SetRenderRect(XMUINT2 newSize)
 {
 	renderRect = newSize;
 
-	if (textureLoaded)
+	if (material->loaded && texture->loaded)
 	{
-		texture->material.Material.textureRect = renderRect;
-		Engine::deviceContext->UpdateSubresource(texture->materialConstantBuffer, 0, nullptr, &texture->material, 0, 0);	//Could be done once per update if a change has happened instead of here
+		material->material.Material.textureRect = renderRect;
+		material->UpdateMaterial();	//Could be done once per update if a change has happened instead of here
 	}
 }
 
@@ -21,10 +21,10 @@ void CSpriteComponent::SetTextureOffset(XMFLOAT2 newOffset)
 {
 	textureOffset = newOffset;
 
-	if (textureLoaded)
+	if (material->loaded && texture->loaded)
 	{
-		texture->material.Material.textureOffset = textureOffset;
-		Engine::deviceContext->UpdateSubresource(texture->materialConstantBuffer, 0, nullptr, &texture->material, 0, 0);	//Could be done once per update if a change has happened instead of here
+		material->material.Material.textureOffset = textureOffset;
+		material->UpdateMaterial();	//Could be done once per update if a change has happened instead of here
 	}
 }
 
@@ -40,18 +40,19 @@ CSpriteComponent::CSpriteComponent()
 
 	mesh = new CMesh();
 	texture = new CTexture();
+	material = new CMaterial();
 }
 
 HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 {
-	//TODO: release texture if already loaded here
-
 	HRESULT hr = texture->LoadTextureDDS(filePath);
-	if(hr == S_OK)
-		textureLoaded = true;
+	if (hr != S_OK)
+		return hr;
 
 	renderRect = texture->textureSize;
 	spriteSize = texture->textureSize;
+
+	material->CreateMaterial(texture->textureSize);
 
 	return hr;
 }
@@ -63,7 +64,7 @@ void CSpriteComponent::Update(float deltaTime)
 
 void CSpriteComponent::Draw(ID3D11DeviceContext* context)
 {
-	if (!textureLoaded)
+	if (!texture->loaded)
 	{
 		Debug::LogError("Texture not loaded for CSpriteComponent.");
 		return;
@@ -80,7 +81,7 @@ void CSpriteComponent::Draw(ID3D11DeviceContext* context)
 	// Set primitive topology
 	Engine::deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	Engine::deviceContext->PSSetConstantBuffers(1, 1, &texture->materialConstantBuffer);
+	Engine::deviceContext->PSSetConstantBuffers(1, 1, &material->materialConstantBuffer);
 
 	context->PSSetShaderResources(0, 1, &texture->textureResourceView);
 	context->PSSetSamplers(0, 1, &texture->samplerLinear);
@@ -92,6 +93,7 @@ CSpriteComponent::~CSpriteComponent()
 {
 	delete mesh;
 	delete texture;
+	delete material;
 }
 
 XMFLOAT4X4 CSpriteComponent::GetTransform()

@@ -352,6 +352,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="CTile.h" />
@@ -386,6 +387,7 @@
   <ItemGroup>
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEntity.cpp" />
+    <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CTile.cpp" />

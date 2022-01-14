@@ -2,13 +2,14 @@
 #include "CComponent.h"
 #include "CMesh.h"
 #include "CTexture.h"
+#include "CMaterial.h"
 
 //A component for loading and displaying a 2D texture in world space as part of CEntity
 class CSpriteComponent : public CComponent
 {
 	CMesh* mesh = nullptr;
 	CTexture* texture = nullptr;
-	bool textureLoaded = false;
+	CMaterial* material = nullptr;
 
 	XMUINT2 renderRect;
 	XMFLOAT2 textureOffset = { 0,0 };

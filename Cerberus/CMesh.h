@@ -14,6 +14,8 @@ struct CMesh
 	ID3D11Buffer* vertexBuffer;
 	ID3D11Buffer* indexBuffer;
 
+	bool loaded = false;
+
 	CMesh();
 	HRESULT LoadMesh();
 	~CMesh();
