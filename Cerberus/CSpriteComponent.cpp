@@ -91,8 +91,6 @@ void CSpriteComponent::Draw(ID3D11DeviceContext* context)
 
 CSpriteComponent::~CSpriteComponent()
 {
-	delete mesh;
-	delete texture;
 }
 
 XMFLOAT4X4 CSpriteComponent::GetTransform()
