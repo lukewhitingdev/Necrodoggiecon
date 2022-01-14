@@ -12,11 +12,6 @@ void CSpriteComponent::SetRenderRect(XMUINT2 newSize)
 	}
 }
 
-XMUINT2 CSpriteComponent::GetRenderRect()
-{
-	return renderRect;
-}
-
 void CSpriteComponent::SetTextureOffset(XMFLOAT2 newOffset)
 {
 	textureOffset = newOffset;
@@ -26,11 +21,6 @@ void CSpriteComponent::SetTextureOffset(XMFLOAT2 newOffset)
 		material->material.Material.textureOffset = textureOffset;
 		material->UpdateMaterial();	//Could be done once per update if a change has happened instead of here
 	}
-}
-
-XMFLOAT2 CSpriteComponent::GetTextureOffset()
-{
-	return textureOffset;
 }
 
 CSpriteComponent::CSpriteComponent()
