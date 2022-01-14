@@ -1,5 +1,6 @@
 #include "CSpriteComponent.h"
 #include "Engine.h"
+#include "Utility/AssetManager/AssetManager.h"
 
 void CSpriteComponent::SetRenderRect(XMUINT2 newSize)
 {
@@ -38,22 +39,22 @@ CSpriteComponent::CSpriteComponent()
 	shouldUpdate = false;
 	shouldDraw = true;
 
-	mesh = new CMesh();
-	texture = new CTexture();
+	mesh = AssetManager::GetDefaultMesh();
+	texture = nullptr;
 }
 
 HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 {
-	//TODO: release texture if already loaded here
+	texture = AssetManager::GetTexture(filePath);
 
-	HRESULT hr = texture->LoadTextureDDS(filePath);
-	if(hr == S_OK)
-		textureLoaded = true;
+	if (texture == nullptr)
+		return S_FALSE;
 
+	textureLoaded = true;
 	renderRect = texture->textureSize;
 	spriteSize = texture->textureSize;
 
-	return hr;
+	return S_OK;
 }
 
 void CSpriteComponent::Update(float deltaTime)
