@@ -52,7 +52,6 @@ HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 	if (texture == nullptr)
 		return S_FALSE;
 
-	textureLoaded = true;
 	renderRect = texture->textureSize;
 	spriteSize = texture->textureSize;
 
