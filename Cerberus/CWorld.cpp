@@ -15,14 +15,14 @@ CWorld::CWorld(int WorldSlot)
 
 void CWorld::LoadWorld(int Slot)
 {
-	std::ifstream i("Level_1.json");
+	std::ifstream i("Resources/Levels/Level_1.json");
 
 
 	json StoredFile;
 
 	i >> StoredFile;
 
-
+	
 
 
 
