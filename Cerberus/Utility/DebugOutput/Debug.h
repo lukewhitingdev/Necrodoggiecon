@@ -20,11 +20,14 @@ private:
 	static std::string getCurrentTimeString()
 	{
 		// Get the current time
-		time_t Time;
-		char buffer[8];
-		time(&Time);
+		struct tm newtime;
+		time_t now = time(0);
+		localtime_s(&newtime, &now);
 
-		strftime(buffer, sizeof(buffer), "%H:%M", localtime(&Time));
+		char buffer[8];
+		time(&now);
+
+		strftime(buffer, sizeof(buffer), "%H:%M", &newtime);
 		std::string timeString(buffer);
 
 		return "[" + timeString + "] ";
@@ -74,8 +77,10 @@ public:
 			_com_error err(hr);
 			LPCTSTR errMsg = err.ErrorMessage();
 			convOutput = new char[256];
+			size_t numConverted = 0;
+			size_t size = 256;
 
-			wcstombs(convOutput, errMsg, 256);
+			wcstombs_s(&numConverted, convOutput, size, errMsg, size-1);
 
 			std::string errorString = std::string(convOutput);
 
