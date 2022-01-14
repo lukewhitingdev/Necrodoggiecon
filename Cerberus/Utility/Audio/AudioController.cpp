@@ -81,6 +81,32 @@ HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD buffer
     return S_OK;
 }
 
+// Conversion Part Copied and modified from: https://xionghuilin.com/c-convert-between-string-and-cstring-lpwstr/
+HANDLE openFile(std::string inputDir)
+{
+    // Assumes std::string is encoded in the current Windows ANSI codepage
+    int bufferlen = ::MultiByteToWideChar(CP_ACP, 0, inputDir.c_str(), inputDir.size(), NULL, 0);
+
+    if (bufferlen == 0)
+    {
+        // Something went wrong. Perhaps, check GetLastError() and log.
+        return 0;
+    }
+
+    // Allocate new LPWSTR - must deallocate it later
+    LPWSTR convertedString = new WCHAR[bufferlen + 1];
+
+    ::MultiByteToWideChar(CP_ACP, 0, inputDir.c_str(), inputDir.size(), convertedString, bufferlen);
+
+    // Ensure wide string is null terminated
+    convertedString[bufferlen] = 0;
+
+    HANDLE fileHandle = CreateFile(convertedString, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);    // Open the file
+
+    free(convertedString);
+    return fileHandle;
+}
+
 HRESULT AudioController::LoadAudio(std::string input, const char* audioID, bool looping)
 {
     if(AssetManager::GetAudio(input) != nullptr)
@@ -95,27 +121,7 @@ HRESULT AudioController::LoadAudio(std::string input, const char* audioID, bool 
     XAUDIO2_BUFFER buffer = { 0 };
 
     // Convert String.
-
-    // Assumes std::string is encoded in the current Windows ANSI codepage
-    int bufferlen = ::MultiByteToWideChar(CP_ACP, 0, fullDir.c_str(), fullDir.size(), NULL, 0);
-
-    if (bufferlen == 0)
-    {
-        // Something went wrong. Perhaps, check GetLastError() and log.
-        return 0;
-    }
-
-    // Allocate new LPWSTR - must deallocate it later
-    LPWSTR convertedString = new WCHAR[bufferlen + 1];
-
-    ::MultiByteToWideChar(CP_ACP, 0, fullDir.c_str(), fullDir.size(), convertedString, bufferlen);
-
-    // Ensure wide string is null terminated
-    convertedString[bufferlen] = 0;
-
-    HANDLE fileHandle = CreateFile(convertedString,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,0, NULL);    // Open the file
-
-    free(convertedString);
+    HANDLE fileHandle = openFile(fullDir);
 
     if (fileHandle == INVALID_HANDLE_VALUE)
     {
