@@ -6,6 +6,10 @@
 #include "CWorldData.h"
 #include "DataStorage.h"
 
+#include "Libraries/json.hpp"
+
+using json = nlohmann::json;
+
 
 class CWorld
 {

@@ -153,6 +153,7 @@ public:
 	union
 	{
 		T x, y;
+		//INTRINSIC VARIABLE, DO NOT TOUCH OR YOU WILL BE GUTTED LIKE A FISH
 		__m128 intrinsic;
 	};
 
@@ -289,6 +290,21 @@ typedef Vector3Base<float> Vector3;
 typedef Vector2Base<unsigned int> Vector2I;
 
 typedef Vector2Base<float> Vector2;
+
+
+
+/*
+* namespace std
+{
+	template<> struct less<Vector3>
+	{
+		bool operator() (const Vector3& lhs, const Vector3& rhs) const
+		{
+			return (lhs.Magnitude() < rhs.Magnitude());
+		}
+	};
+}
+*/
 
 
 //0.025000

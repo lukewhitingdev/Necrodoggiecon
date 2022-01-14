@@ -1,5 +1,7 @@
 #include "CWorld.h"
 #include "Libraries/json.hpp"
+#include <iostream>
+#include <fstream>
 
 
 
@@ -13,9 +15,19 @@ CWorld::CWorld(int WorldSlot)
 
 void CWorld::LoadWorld(int Slot)
 {
+	std::ifstream i("Level_1.json");
 
 
-	for (int x = 0; x < 150; ++x)
+	json StoredFile;
+
+	i >> StoredFile;
+
+
+
+
+
+	
+	 for (int x = 0; x < 150; ++x)
 	{
 		for (int y = 0; y < 150; ++y)
 		{
@@ -37,6 +49,7 @@ void CWorld::LoadWorld(int Slot)
 			}
 		}
 	}
+	
 	
 	
 

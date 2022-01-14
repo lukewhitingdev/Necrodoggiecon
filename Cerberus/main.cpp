@@ -168,14 +168,16 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	for (int i = 0; i < 25; i++)
+	/*
+	* for (int i = 0; i < 25; i++)
 	{
 		TestClass* myClass = Engine::CreateEntity<TestClass>();
 		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
+	*/
 
-	//CWorld* World = new CWorld(0);
-	//World->LoadWorld(0);
+	CWorld* World = new CWorld(0);
+	World->LoadWorld(0);
 }
 
 //--------------------------------------------------------------------------------------
