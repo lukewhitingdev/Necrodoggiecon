@@ -24,7 +24,7 @@ public:
 	XMUINT2 spriteSize;
 
 	CSpriteComponent();
-	HRESULT LoadTexture(const wchar_t* filePath);
+	HRESULT LoadTexture(std::string filePath);
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(ID3D11DeviceContext* context) override;
 	virtual ~CSpriteComponent();

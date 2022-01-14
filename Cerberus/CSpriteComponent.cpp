@@ -42,7 +42,7 @@ CSpriteComponent::CSpriteComponent()
 	texture = new CTexture();
 }
 
-HRESULT CSpriteComponent::LoadTexture(const wchar_t* filePath)
+HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 {
 	//TODO: release texture if already loaded here
 
