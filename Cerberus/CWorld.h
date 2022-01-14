@@ -11,6 +11,9 @@
 using json = nlohmann::json;
 
 
+#define tileScale 16
+#define	mapScale 150
+
 class CWorld
 {
 
@@ -41,7 +44,7 @@ protected:
 
 
 
-private:
+protected:
 
 	void ReadSceneJSON(int Slot);
 	void ReadEntityJSON(int Slot);
@@ -49,7 +52,7 @@ private:
 
 
 	
-	std::map<Vector3, Tile*> tileContainer;
+	std::map<Vector3, CTile*> tileContainer;
 
 	//This function should only be used when Loading / Reloading the scene.
 	void LoadEntity(CT_EntityData EntityData);
@@ -64,5 +67,24 @@ private:
 
 
 
+};
+
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//						WORLD FOR EDITOR
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+
+
+
+class CWorld_Editable : public CWorld
+{
+
+
+
+
+	void SaveWorld(int Slot);
 };
 

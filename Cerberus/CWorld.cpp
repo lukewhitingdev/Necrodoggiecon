@@ -5,6 +5,7 @@
 
 
 
+
 CWorld::CWorld()
 {
 }
@@ -27,11 +28,11 @@ void CWorld::LoadWorld(int Slot)
 
 
 	
-	 for (int x = 0; x < 150; ++x)
+	 for (int x = 0; x < mapScale; ++x)
 	{
-		for (int y = 0; y < 150; ++y)
+		for (int y = 0; y < mapScale; ++y)
 		{
-			Vector3 TempPos = Vector3(-256 * 2, -256 * 4.5, 0) + Vector3(x * 16, y * 16, 0.0f);
+			Vector3 TempPos = Vector3(-256 * 2, -256 * 4.5, 0) + Vector3((x * tileScale), (y * tileScale), 0.0f);
 			if (x > 5 && y > 5 && x < 145 && y < 145)
 			{
 
@@ -59,4 +60,34 @@ void CWorld::LoadWorld(int Slot)
 
 void CWorld::SetWorldSize(Vector3 Scale)
 {
+}
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+//						WORLD FOR EDITOR
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+
+void CWorld_Editable::SaveWorld(int Slot)
+{
+
+	std::ifstream i("Resources/Levels/Level_1.json");
+
+
+	json SaveData;
+
+	std::vector<std::string>
+
+	for (int x = 0; x < mapScale; x++)
+	{
+		for (int y = 0; y < mapScale; y++)
+		{
+
+
+
+
+		}
+	}
+	
 }
