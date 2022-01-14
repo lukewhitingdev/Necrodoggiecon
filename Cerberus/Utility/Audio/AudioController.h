@@ -9,14 +9,13 @@ class AudioController
 {
 public:
 	AudioController();
-	static HRESULT LoadAudio(LPCWSTR input, const char* audioID, bool looping);
-	static HRESULT PlayAudio(const char* audioID);
-	static HRESULT StopAudio(const char* audioID);
-	static HRESULT DestroyAudio(const char* audioID);
+	static HRESULT LoadAudio(std::string input, const char* audioID, bool looping);
+	static HRESULT PlayAudio(std::string path);
+	static HRESULT StopAudio(std::string path);
+	static HRESULT DestroyAudio(std::string path);
 
 private:
 	static IXAudio2* audioEngine;
 	static IXAudio2MasteringVoice* masterChannel;
-	static std::map<std::string, CAudio*> audios;
 };
 
