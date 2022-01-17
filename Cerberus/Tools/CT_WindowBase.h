@@ -5,16 +5,11 @@
 #include "Dependencies/IMGUI/imgui_impl_win32.h"
 #include <corecrt_malloc.h>
 #include <iostream>
+#include "Vector3.h"
 
-
-/*
-
-    DEBUG CONSOLE TAKEN FROM IMGUI EXAMPLES. MODIFIED SLIGHTLY.
-
-*/
-
-class DebugOutput
+class CT_WindowBase
 {
+
     char                  InputBuf[256];
     ImVector<char*>       Items;
     ImVector<const char*> Commands;
@@ -23,11 +18,16 @@ class DebugOutput
     ImGuiTextFilter       Filter;
     bool                  AutoScroll;
     bool                  ScrollToBottom;
-    bool*                  open;
+    bool* open;
+
+protected: 
+
+    const char* WindowTitle = "Editor Window";
+    Vector2 WindowScale = (256, 256);
 
 public:
 
-    DebugOutput()
+    CT_WindowBase()
     {
         ClearLog();
         memset(InputBuf, 0, sizeof(InputBuf));
@@ -37,7 +37,7 @@ public:
         ScrollToBottom = false;
         open = new bool(true);
     }
-    ~DebugOutput()
+    ~CT_WindowBase()
     {
         ClearLog();
         for (int i = 0; i < History.Size; i++)
@@ -76,12 +76,13 @@ public:
 
     void    render()
     {
-        if(*open)
+        if (*open)
 
         {
-            ImGui::SetNextWindowSize(ImVec2(300, 120), ImGuiCond_FirstUseEver);
-            if (!ImGui::Begin("Debug Console", open))
+            ImGui::SetNextWindowSize(ImVec2(WindowScale.x, WindowScale.y), ImGuiCond_FirstUseEver);
+            if (!ImGui::Begin(WindowTitle, open))
             {
+
                 ImGui::End();
                 return;
             }

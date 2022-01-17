@@ -91,11 +91,33 @@ class CWorld_Editable : public CWorld
 
 public:
 
+
+
+
+	//Save the current tile data to a file
 	void SaveWorld(int Slot);
+	//Run edit operations currently inside of the function. Automatically save afterwards.
+	void EditWorld(int Slot);
+
+	void ClearSpace();
 
 
+	//Sets space to be unwalkable
 	void AdditiveBox(Vector2 A, Vector2 B);
+	//Sets space to be walkable
 	void SubtractiveBox(Vector2 A, Vector2 B);
+
+
+
+	//Sets space to be unwalkable
+	void AdditiveBox_Scale(Vector2 A, Vector2 B);
+	//Sets space to be walkable
+	void SubtractiveBox_Scale(Vector2 A, Vector2 B);
+
+
+private:
+
+	void BoxOperation(Vector2 A, Vector2 B, int TileID);
 
 };
 

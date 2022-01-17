@@ -32,6 +32,8 @@
     </ClCompile>
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CMaterial.cpp" />
+    <ClCompile Include="Tools\CT_WindowBase.cpp" />
+    <ClCompile Include="Tools\CT_EditorMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -74,6 +76,8 @@
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="CMaterial.h" />
+    <ClInclude Include="Tools\CT_WindowBase.h" />
+    <ClInclude Include="Tools\CT_EditorMain.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

@@ -32,6 +32,13 @@ void CWorld::LoadWorld(int Slot)
 	std::cout << "" << std::endl;
 
 
+	
+
+	
+
+
+
+
 	for (int i = 0; i < (mapScale * mapScale); i++)
 	{
 		Vector3 GridPos = IDToWorldSpace(i);
@@ -90,8 +97,7 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 	std::vector<std::string> MapData;
 
-
-
+	
 
 
 	for (int x = 0; x < mapScale; x++)
@@ -109,5 +115,82 @@ void CWorld_Editable::SaveWorld(int Slot)
 	std::ofstream o("Resources/Levels/Level_1.json");
 	o << SaveData;
 
+
+}
+
+void CWorld_Editable::EditWorld(int Slot)
+{
+	ClearSpace();
+
+	SubtractiveBox(Vector2(10,10), Vector2(mapScale - 10, mapScale - 10));
+
+	AdditiveBox(Vector2(25, 25), Vector2(200, 200));
+
+
+
+	SaveWorld(0);
+}
+
+void CWorld_Editable::ClearSpace()
+{
+	for (int x = 0; x < mapScale; x++)
+	{
+		for (int y = 0; y < mapScale; y++)
+		{
+
+			if (x > 0 && y > 0 && x < mapScale && y < mapScale)
+			{
+				tileConainer[x][y]->ChangeTileID(0);
+			}
+
+
+
+		}
+	}
+}
+
+void CWorld_Editable::AdditiveBox(Vector2 A, Vector2 B)
+{
+
+	BoxOperation(A, B, 0);
+
+}
+
+void CWorld_Editable::SubtractiveBox(Vector2 A, Vector2 B)
+{
+	BoxOperation(A, B, 1);
+}
+
+void CWorld_Editable::AdditiveBox_Scale(Vector2 A, Vector2 B)
+{
+
+	BoxOperation(A, B + A, 1);
+
+}
+
+void CWorld_Editable::SubtractiveBox_Scale(Vector2 A, Vector2 B)
+{
+	BoxOperation(A, A + B, 1);
+}
+
+void CWorld_Editable::BoxOperation(Vector2 A, Vector2 B, int TileID)
+{
+	Vector2 Dimensions = B - A;
+	Vector2 CurrentPos = A;
+
+	for (int x = 0; x < Dimensions.x; x++)
+	{
+		for (int y = 0; y < Dimensions.y; y++)
+		{
+
+			if (x > 0 && y > 0 && x < mapScale && y < mapScale)
+			{
+				tileConainer[((int)CurrentPos.x + x)][(int)CurrentPos.y + y]->ChangeTileID(TileID);
+			}
+
+
+
+		}
+	}
 
 }

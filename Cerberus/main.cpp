@@ -18,6 +18,8 @@
 #include "Core/testClass.h"
 #include "CTile.h"
 #include "CWorld.h"
+#include "Tools/CT_EditorMain.h"
+#include <thread>
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
@@ -67,6 +69,8 @@ ID3D11RasterizerState* fillRastState;
 ID3D11RasterizerState* wireframeRastState;
 
 DebugOutput* debugOutputUI;
+
+CT_EditorMain* EditorViewport;
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -176,8 +180,11 @@ void Load()
 	}
 	*/
 
+	EditorViewport = new CT_EditorMain();
+
 	CWorld_Editable* World = new CWorld_Editable();
 	World->LoadWorld(0);
+	World->EditWorld(0);
 	//World->SaveWorld(0);
 }
 
@@ -524,7 +531,7 @@ HRESULT		InitWorld(int width, int height)
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	viewMatrix = XMMatrixLookAtLH(Eye, At, Up);
 
-	const float viewScaler = 1;
+	const float viewScaler = 0.1;
 
 	// Initialize the projection matrix
 	projectionMatrix = XMMatrixOrthographicLH(width / viewScaler, height / viewScaler, 0.01f, 100.0f);
@@ -706,6 +713,7 @@ void Render()
 
 	// Do UI.
 	Debug::getOutput()->render();
+	EditorViewport->RenderWindows();
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
