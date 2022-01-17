@@ -92,5 +92,10 @@ class CWorld_Editable : public CWorld
 public:
 
 	void SaveWorld(int Slot);
+
+
+	void AdditiveBox(Vector2 A, Vector2 B);
+	void SubtractiveBox(Vector2 A, Vector2 B);
+
 };
 
