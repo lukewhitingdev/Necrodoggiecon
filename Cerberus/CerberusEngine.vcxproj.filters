@@ -30,6 +30,7 @@
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
+    <ClCompile Include="CPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -73,6 +74,7 @@
     <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
+    <ClInclude Include="CPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
