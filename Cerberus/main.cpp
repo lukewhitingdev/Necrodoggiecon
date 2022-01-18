@@ -16,6 +16,7 @@
 
 #include "Engine.h"
 #include "Core/testClass.h"
+#include "CPlayer.h"
 #include "CTile.h"
 #include "CWorld.h"
 
@@ -173,6 +174,16 @@ void Load()
 		TestClass* myClass = Engine::CreateEntity<TestClass>();
 		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
+	
+	// sawps and makes one of the entiys the player
+	for (int i = 0; i < 1; i++)
+	{
+		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
+		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	}
+
+
+
 
 	//CWorld* World = new CWorld(0);
 	//World->LoadWorld(0);
@@ -652,9 +663,9 @@ void Update(float deltaTime)
 			for (auto& f : e->components)
 				if(f->shouldUpdate)
 					f->Update(deltaTime);
-
 			e->Update(deltaTime);
 		}
+
 }
 
 //--------------------------------------------------------------------------------------

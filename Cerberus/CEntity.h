@@ -5,6 +5,7 @@
 
 ////Fundimental class of the engine with a world transform and ability to have components
 //Use for all gameplay things in the world
+
 class CEntity
 {
 protected:
