@@ -70,7 +70,7 @@
     <ClInclude Include="CWorldData.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="DataStorage.h">
+    <ClInclude Include="WorldConstants.h">
       <Filter>World</Filter>
     </ClInclude>
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
@@ -86,6 +86,7 @@
     <Image Include="Resources\stone.dds" />
     <Image Include="Resources\Unwalkable.dds" />
     <Image Include="Resources\Walkable.dds" />
+    <Image Include="Resources\Tiles\TempTileMap.dds" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="World">

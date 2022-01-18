@@ -12,6 +12,8 @@
 #include <iostream>
 
 #include "structures.h"
+#include "WorldConstants.h"
+#include "Vector3.h"
 
 #include "Dependencies/IMGUI/imgui.h"
 #include "Dependencies/IMGUI/imgui_impl_dx11.h"
@@ -27,8 +29,10 @@ class CEntity;
 struct Engine
 {
 	
-	// Drawables.
+	// Non tile Drawables.
 	static std::vector<CEntity*> entities;	//Needs to be changed to CObject instead
+
+	static class CTile* tileSet[mapScale][mapScale];
 	
 	template<class T>
 	// Returns all entities of provided type that exist in the engine.
@@ -54,6 +58,17 @@ struct Engine
 		entities.emplace_back(temp);
 		return (T*)temp;
 	}
+
+	template<class T>
+	// Creates a Tile, adds it to the TileList and returns it back.
+	static T* CreateTile(Vector2 Position)
+	{
+		class CTile* temp = new T();
+		entities.emplace_back(temp);
+		return (T*)temp;
+	}
+
+	
 
 	// Window and Instance.
 	static HINSTANCE instanceHandle;

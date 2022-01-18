@@ -44,14 +44,15 @@ void CWorld::LoadWorld(int Slot)
 		Vector3 GridPos = IDToWorldSpace(i);
 
 		int ID = atoi(temp[i].c_str());
-		Vector3 TempPos = Vector3(-256 * 2, -256 * 4.5, 0) + Vector3((GridPos.x * tileScale), (GridPos.y * tileScale), 0.0f);
+		Vector3 TempPos = (GridPos * (tileScale * 4));
+		TempPos -= Vector3(64 * tileScale, 64 * tileScale, 0);
 
 		CTile* Tile = Engine::CreateEntity<CTile>();
 		Tile->SetPosition(TempPos);
-		Tile->SetScale(0.5, 0.5, 1);
+		Tile->SetScale(4, 4, 4);
 		Tile->ChangeTileID(ID);
 
-		tileConainer[(int)GridPos.x][(int)GridPos.y] = Tile;
+		tileContainer[(int)GridPos.x][(int)GridPos.y] = Tile;
 
 	}
 	
@@ -97,14 +98,14 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 	std::vector<std::string> MapData;
 
-	
+	GenerateTileMap();
 
 
 	for (int x = 0; x < mapScale; x++)
 	{
 		for (int y = 0; y < mapScale; y++)
 		{
-			MapData.push_back(std::to_string(tileConainer[x][y]->GetTileID()));
+			MapData.push_back(std::to_string(tileContainer[x][y]->GetTileID()));
 		}
 	}
 	
@@ -122,13 +123,52 @@ void CWorld_Editable::EditWorld(int Slot)
 {
 	ClearSpace();
 
-	SubtractiveBox(Vector2(10,10), Vector2(mapScale - 10, mapScale - 10));
+	AdditiveBox(Vector2(0, 0), Vector2(mapScale, mapScale));
 
-	AdditiveBox(Vector2(25, 25), Vector2(200, 200));
+	SubtractiveBox(Vector2(5,5), Vector2(mapScale - 5, mapScale - 5));
 
+	AdditiveBox(Vector2(15, 15), Vector2(23, 23));
 
+	//GenerateTileMap();
 
 	SaveWorld(0);
+}
+
+void CWorld_Editable::NewWorld(int Slot)
+{
+
+	for (int x = 0; x < mapScale; x++)
+	{
+		for (int y = 0; y < mapScale; y++)
+		{
+			Vector3 TempPos = (Vector3(x,y,100) * (tileScale * 4));
+			TempPos -= Vector3(64 * tileScale, 64 * tileScale, 0);
+
+			CTile* Tile = Engine::CreateEntity<CTile>();
+			Tile->SetPosition(TempPos);
+			Tile->SetScale(4, 4, 4);
+			Tile->ChangeTileID(0);
+
+			tileData[x][y] = Tile;
+		}
+	}
+
+	for (int x = 0; x < mapScale; x++)
+	{
+		for (int y = 0; y < mapScale; y++)
+		{
+			Vector3 TempPos = (Vector3(x, y, 0) * (tileScale * 4));
+			TempPos -= Vector3(64 * tileScale, 64 * tileScale, 0);
+
+			CTile* Tile = Engine::CreateEntity<CTile>();
+			Tile->SetPosition(TempPos);
+			Tile->SetScale(4, 4, 4);
+			Tile->ChangeTileID(0);
+
+			tileContainer[x][y] = Tile;
+		}
+	}
+
 }
 
 void CWorld_Editable::ClearSpace()
@@ -138,10 +178,9 @@ void CWorld_Editable::ClearSpace()
 		for (int y = 0; y < mapScale; y++)
 		{
 
-			if (x > 0 && y > 0 && x < mapScale && y < mapScale)
-			{
-				tileConainer[x][y]->ChangeTileID(0);
-			}
+			
+
+			tileData[x][y]->ChangeTileID(0);
 
 
 
@@ -164,7 +203,7 @@ void CWorld_Editable::SubtractiveBox(Vector2 A, Vector2 B)
 void CWorld_Editable::AdditiveBox_Scale(Vector2 A, Vector2 B)
 {
 
-	BoxOperation(A, B + A, 1);
+	BoxOperation(A, B + A, 0);
 
 }
 
@@ -178,19 +217,106 @@ void CWorld_Editable::BoxOperation(Vector2 A, Vector2 B, int TileID)
 	Vector2 Dimensions = B - A;
 	Vector2 CurrentPos = A;
 
-	for (int x = 0; x < Dimensions.x; x++)
+	
+	for (int x = 0; x < Dimensions.x; ++x)
 	{
-		for (int y = 0; y < Dimensions.y; y++)
+		for (int y = 0; y < Dimensions.y; ++y)
 		{
 
-			if (x > 0 && y > 0 && x < mapScale && y < mapScale)
-			{
-				tileConainer[((int)CurrentPos.x + x)][(int)CurrentPos.y + y]->ChangeTileID(TileID);
-			}
+			tileData[((int)CurrentPos.x + x)][(int)CurrentPos.y + y]->ChangeTileID(TileID);
 
 
 
 		}
 	}
+
+}
+
+void CWorld_Editable::GenerateTileMap()
+{
+
+	
+	for (int x = 0; x < mapScale; x++)
+	{
+		for (int y = 0; y < mapScale; y++)
+		{
+			if (tileData[x][y]->GetTileID() == 0)
+			{
+				if (IsFloorAdjacent(Vector2(x, y)))
+				{
+					CellList[x][y] = CellType::Edge;
+					
+				}
+				else if (!IsFloorAdjacent(Vector2(x, y)))
+				{
+					CellList[x][y] = CellType::Empty;
+				}
+			}
+			else if (tileData[x][y]->GetTileID() == 1)
+			{
+				CellList[x][y] = CellType::Floor;
+
+			}
+
+
+		}
+	}
+	
+	 for (int x = 0; x < mapScale; x++)
+	{
+		for (int y = 0; y < mapScale; y++)
+		{
+			
+			SetCorner(x,y);
+
+		}
+	}
+	
+
+	for (int x = 0; x < mapScale; x++)
+	{
+		for (int y = 0; y < mapScale; y++)
+		{
+			Vector2 FloorResult = FindFloorAdjacent(x, y);
+			Vector2 FloorResultDiagonal = FindFloorAdjacentDiagonal(x, y);
+			Vector2 EdgeAdjacentResult = FindAdjacents(x,y, CellType::Edge);
+			switch (CellList[x][y])
+			{
+			case CellType::Edge:
+				if (FloorResult == Vector2(1, 0)) tileContainer[x][y]->ChangeTileID(CellID::W_S);
+				 if (FloorResult == Vector2(-1, 0)) tileContainer[x][y]->ChangeTileID(CellID::W_N);
+				 if (FloorResult == Vector2(0, 1)) tileContainer[x][y]->ChangeTileID(CellID::W_E);
+				 if (FloorResult == Vector2(0, -1)) tileContainer[x][y]->ChangeTileID(CellID::W_W);
+				break;
+			case CellType::Empty:
+				tileContainer[x][y]->ChangeTileID(CellID::N);
+				break;
+			case CellType::Floor:
+				tileContainer[x][y]->ChangeTileID(CellID::F);
+				break;
+			case CellType::InnerCorner:
+				if (FloorResultDiagonal == Vector2(1, 1)) tileContainer[x][y]->ChangeTileID(CellID::IC_SE);
+				else if (FloorResultDiagonal == Vector2(-1, -1)) tileContainer[x][y]->ChangeTileID(CellID::IC_NW);
+				else if (FloorResultDiagonal == Vector2(-1, 1)) tileContainer[x][y]->ChangeTileID(CellID::IC_NE);
+				else if (FloorResultDiagonal == Vector2(1, -1)) tileContainer[x][y]->ChangeTileID(CellID::IC_SW);
+				
+				break;
+			case CellType::OuterCorner:
+				if (FloorResultDiagonal == Vector2(1,1)) tileContainer[x][y]->ChangeTileID(CellID::OC_SE);
+				else if (FloorResultDiagonal == Vector2(-1, -1)) tileContainer[x][y]->ChangeTileID(CellID::OC_NW);
+				else if (FloorResultDiagonal == Vector2(-1, 1)) tileContainer[x][y]->ChangeTileID(CellID::OC_NE);
+				else if (FloorResultDiagonal == Vector2(1, -1)) tileContainer[x][y]->ChangeTileID(CellID::OC_SW);
+				
+				break;
+			}
+			
+
+		}
+	}
+
+
+
+
+
 
 }

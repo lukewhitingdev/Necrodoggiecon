@@ -24,8 +24,16 @@ public:
 
 
 	
-	void ChangeTileID(int TileID);
+
+	void ChangeTileID(CellID TileID);
+	void ChangeTileID(int ID)
+	{
+		ChangeTileID(static_cast<CellID>(ID));
+	}
 	int GetTileID() { return tileID; }
+
+
+	
 
 protected: 
 
@@ -34,6 +42,9 @@ protected:
 
 
 private: 
+
+	void SetRenderData(int X, int Y);
+
 
 	TileType tileStatus;
 

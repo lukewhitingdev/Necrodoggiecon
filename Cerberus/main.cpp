@@ -152,10 +152,10 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 	// Create window
 	Engine::instanceHandle = hInstance;
-	RECT rc = { 0, 0, 1280, 720 };
+	RECT rc = { 0, 0, 1920, 1080 };
 
-	Engine::windowWidth = 1280;
-	Engine::windowHeight = 720;
+	Engine::windowWidth = 1920;
+	Engine::windowHeight = 1080;
 
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
 	Engine::windowHandle = CreateWindow( L"Necrodoggiecon", L"Necrodoggiecon",
@@ -180,12 +180,30 @@ void Load()
 	}
 	*/
 
+
+	bool EditorMode = true;
+	EditorMode = false;
+
 	EditorViewport = new CT_EditorMain();
 
+	//TestClass* Test = Engine::CreateEntity<TestClass>();
 	CWorld_Editable* World = new CWorld_Editable();
-	World->LoadWorld(0);
-	World->EditWorld(0);
-	//World->SaveWorld(0);
+	if (EditorMode)
+	{
+		World->NewWorld(0);
+		World->EditWorld(0);
+		World->SaveWorld(0);
+		
+	}
+	else
+	{
+		World->LoadWorld(0);
+	}
+
+	
+	
+	
+
 }
 
 //--------------------------------------------------------------------------------------
@@ -531,7 +549,7 @@ HRESULT		InitWorld(int width, int height)
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	viewMatrix = XMMatrixLookAtLH(Eye, At, Up);
 
-	const float viewScaler = 0.1;
+	const float viewScaler = 0.6;
 
 	// Initialize the projection matrix
 	projectionMatrix = XMMatrixOrthographicLH(width / viewScaler, height / viewScaler, 0.01f, 100.0f);
@@ -705,6 +723,41 @@ void Render()
 				f->Draw(Engine::deviceContext);
 			}
 	}
+	/*
+	* int renderDistance = mapScale;
+	for (int x = 0; x < renderDistance; x++)
+	{
+		for (int y = 0; y < renderDistance; y++)
+		{
+			CTile* tileToRender = Engine::tileSet[x][y];
+			XMFLOAT4X4 entWorld = tileToRender->GetTransform();
+			XMMATRIX mGO = XMLoadFloat4x4(&entWorld);
+			for (auto& f : tileToRender->components)
+				if (f->shouldDraw)
+				{
+					// get the game object world transform
+					XMFLOAT4X4 compWorld = f->GetTransform();
+					XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * mGO;
+
+					// store this and the view / projection in a constant buffer for the vertex shader to use
+					ConstantBuffer cb1;
+					cb1.mWorld = XMMatrixTranspose(mGO2);
+					cb1.mView = XMMatrixTranspose(viewMatrix);
+					cb1.mProjection = XMMatrixTranspose(projectionMatrix);
+					cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
+					Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb1, 0, 0);
+
+					Engine::deviceContext->VSSetShader(vertexShader, nullptr, 0);
+					Engine::deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+
+					Engine::deviceContext->PSSetShader(pixelShader, nullptr, 0);
+
+					f->Draw(Engine::deviceContext);
+				}
+			
+		}
+	}
+	*/
 
 	// Render ImGUI.
 	ImGui_ImplDX11_NewFrame();

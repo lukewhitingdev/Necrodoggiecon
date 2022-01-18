@@ -360,7 +360,7 @@
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CWorld.h" />
     <ClInclude Include="CWorldData.h" />
-    <ClInclude Include="DataStorage.h" />
+    <ClInclude Include="WorldConstants.h" />
     <ClInclude Include="Utility\Audio\AudioController.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CEntity.h" />
@@ -414,6 +414,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\stone.dds" />
+    <Image Include="Resources\Tiles\TempTileMap.dds" />
     <Image Include="Resources\Unwalkable.dds" />
     <Image Include="Resources\Walkable.dds" />
   </ItemGroup>
