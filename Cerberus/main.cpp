@@ -21,7 +21,7 @@
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
-DirectX::XMFLOAT4 g_EyePosition(0.0f, 0.0f, 3.0f, 1.0f);
+XMFLOAT4 eyePosition = XMFLOAT4(0.0f, 0.0f, -3.0f, 1.0f);
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -514,7 +514,7 @@ HRESULT	InitMesh()
 HRESULT	InitWorld(int width, int height)
 {
 	// Initialize the view matrix
-	XMVECTOR Eye = XMLoadFloat4(&g_EyePosition);
+	XMVECTOR Eye = XMLoadFloat4(&eyePosition);
 	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	viewMatrix = XMMatrixLookAtLH(Eye, At, Up);
