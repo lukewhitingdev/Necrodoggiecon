@@ -46,6 +46,20 @@ struct Engine
 		return outputVector;
 	};
 
+	static void DestroyEntity(CEntity* targetEntity)
+	{
+		for (size_t i = 0; i < entities.size(); i++)
+		{
+			CEntity* entity = entities[i];
+			if (entity == targetEntity)
+			{
+				entities.erase(entities.begin() + i);
+				delete entity;
+				return;
+			}
+		}
+	}
+
 	template<class T>
 	// Creates a entity, adds it to drawables and returns it back.
 	static T* CreateEntity()
