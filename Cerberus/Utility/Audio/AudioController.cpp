@@ -85,7 +85,7 @@ HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD buffer
 HANDLE openFile(std::string inputDir)
 {
     // Assumes std::string is encoded in the current Windows ANSI codepage
-    int bufferlen = ::MultiByteToWideChar(CP_ACP, 0, inputDir.c_str(), inputDir.size(), NULL, 0);
+    int bufferlen = ::MultiByteToWideChar(CP_ACP, 0, inputDir.c_str(), (int)inputDir.size(), NULL, 0);
 
     if (bufferlen == 0)
     {
@@ -96,7 +96,7 @@ HANDLE openFile(std::string inputDir)
     // Allocate new LPWSTR - must deallocate it later
     LPWSTR convertedString = new WCHAR[bufferlen + 1];
 
-    ::MultiByteToWideChar(CP_ACP, 0, inputDir.c_str(), inputDir.size(), convertedString, bufferlen);
+    ::MultiByteToWideChar(CP_ACP, 0, inputDir.c_str(), (int)inputDir.size(), convertedString, bufferlen);
 
     // Ensure wide string is null terminated
     convertedString[bufferlen] = 0;
