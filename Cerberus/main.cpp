@@ -173,6 +173,17 @@ void Load()
 		TestClass* myClass = Engine::CreateEntity<TestClass>();
 		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
+	
+	// sawps and makes one of the entiys the player
+	for (int i = 0; i < 1; i++)
+	{
+		TestClass* myClass = Engine::CreateEntity<TestClass>();
+		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+		myClass->player = true;
+	}
+
+
+
 
 	//CWorld* World = new CWorld(0);
 	//World->LoadWorld(0);
@@ -652,7 +663,7 @@ void Update(float deltaTime)
 			for (auto& f : e->components)
 				if(f->shouldUpdate)
 					f->Update(deltaTime);
-
+			e->Movement(deltaTime);
 			e->Update(deltaTime);
 		}
 }

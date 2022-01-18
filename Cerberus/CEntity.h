@@ -5,6 +5,7 @@
 
 ////Fundimental class of the engine with a world transform and ability to have components
 //Use for all gameplay things in the world
+
 class CEntity
 {
 protected:
@@ -17,6 +18,7 @@ protected:
 
 public:
 	bool shouldUpdate = true;
+	bool player = false;
 
 	std::vector<CComponent*> components;
 	
@@ -35,6 +37,7 @@ public:
 	//Updated automatically every single frame
 	virtual void Update(float deltaTime) = 0;
 	virtual ~CEntity();
+	Vector3 Movement(float deltaTime);
 
 	//Convert pos, scale and rot to a XMFloat4x4
 	virtual XMFLOAT4X4 GetTransform();
