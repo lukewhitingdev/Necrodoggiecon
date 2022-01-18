@@ -146,16 +146,16 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 	if( !RegisterClassEx( &wcex ) )
 		return E_FAIL;
 
-	// Create window
-	Engine::instanceHandle = hInstance;
-	RECT rc = { 0, 0, 1280, 720 };
-
 	Engine::windowWidth = 1280;
 	Engine::windowHeight = 720;
 
+	// Create window
+	Engine::instanceHandle = hInstance;
+	RECT rc = { 0, 0, Engine::windowWidth, Engine::windowHeight };
+
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
 	Engine::windowHandle = CreateWindow( L"Necrodoggiecon", L"Necrodoggiecon",
-						   WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
+						   WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX,
 						   CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
 						   nullptr );
 	if( !Engine::windowHandle)
@@ -345,9 +345,6 @@ HRESULT InitDevice()
     deviceTemp->Release();
     deviceContextTemp->Release();
 
-    // Note this tutorial doesn't handle full-screen swapchains so we block the ALT+ENTER shortcut
-    dxgiFactory->MakeWindowAssociation( Engine::windowHandle, DXGI_MWA_NO_ALT_ENTER );
-
     dxgiFactory->Release();
 
     if (FAILED(hr))
@@ -513,7 +510,7 @@ HRESULT	InitMesh()
 // ***************************************************************************************
 // InitWorld
 // ***************************************************************************************
-HRESULT		InitWorld(int width, int height)
+HRESULT	InitWorld(int width, int height)
 {
 	// Initialize the view matrix
 	XMVECTOR Eye = XMLoadFloat4(&g_EyePosition);
@@ -527,6 +524,92 @@ HRESULT		InitWorld(int width, int height)
 	projectionMatrix = XMMatrixOrthographicLH(width / viewScaler, height / viewScaler, 0.01f, 100.0f);
 
 	return S_OK;
+}
+
+//https://docs.microsoft.com/en-us/windows/win32/direct3ddxgi/d3d10-graphics-programming-guide-dxgi#handling-window-resizing
+HRESULT ResizeSwapChain(XMUINT2 newSize)
+{
+	Engine::windowWidth = newSize.x;
+	Engine::windowHeight = newSize.y;
+
+	HRESULT hr = S_OK;
+	if (swapChain)
+	{
+		Engine::deviceContext->OMSetRenderTargets(0, 0, 0);
+
+		// Release all outstanding references to the swap chain's buffers.
+		renderTargetView->Release();
+
+		// Preserve the existing buffer count and format.
+		// Automatically choose the width and height to match the client rect for HWNDs.
+		hr = swapChain->ResizeBuffers(0, Engine::windowWidth, Engine::windowHeight, DXGI_FORMAT_UNKNOWN, 0);
+
+		if (FAILED(hr))
+			return hr;
+
+		// Get buffer and create a render-target-view.
+		ID3D11Texture2D* pBuffer;
+		hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
+			(void**)&pBuffer);
+		
+		if (FAILED(hr))
+			return hr;
+
+		hr = Engine::device->CreateRenderTargetView(pBuffer, NULL,
+			&renderTargetView);
+
+		if (FAILED(hr))
+			return hr;
+
+		pBuffer->Release();
+
+		Engine::deviceContext->OMSetRenderTargets(1, &renderTargetView, NULL);
+
+		if(depthStencil) depthStencil->Release();
+		if(depthStencilView) depthStencilView->Release();
+
+		// Create depth stencil texture
+		D3D11_TEXTURE2D_DESC descDepth = {};
+		descDepth.Width = newSize.x;
+		descDepth.Height = newSize.y;
+		descDepth.MipLevels = 1;
+		descDepth.ArraySize = 1;
+		descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		descDepth.SampleDesc.Count = 1;
+		descDepth.SampleDesc.Quality = 0;
+		descDepth.Usage = D3D11_USAGE_DEFAULT;
+		descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		descDepth.CPUAccessFlags = 0;
+		descDepth.MiscFlags = 0;
+		hr = Engine::device->CreateTexture2D(&descDepth, nullptr, &depthStencil);
+		if (FAILED(hr))
+			return hr;
+
+		// Create the depth stencil view
+		D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
+		descDSV.Format = descDepth.Format;
+		descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		descDSV.Texture2D.MipSlice = 0;
+		hr = Engine::device->CreateDepthStencilView(depthStencil, &descDSV, &depthStencilView);
+		if (FAILED(hr))
+			return hr;
+
+		Engine::deviceContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
+
+		// Set up the viewport.
+		D3D11_VIEWPORT vp;
+		vp.Width = newSize.x;
+		vp.Height = newSize.y;
+		vp.MinDepth = 0.0f;
+		vp.MaxDepth = 1.0f;
+		vp.TopLeftX = 0;
+		vp.TopLeftY = 0;
+		Engine::deviceContext->RSSetViewports(1, &vp);
+
+		InitWorld(newSize.x, newSize.y);
+	}
+
+	return hr;
 }
 
 //--------------------------------------------------------------------------------------
@@ -608,8 +691,10 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		PostQuitMessage( 0 );
 		break;
 
-		// Note that this tutorial does not handle resizing (WM_SIZE) requests,
-		// so we created the window without the resize border.
+	case WM_SIZE:
+		if (Engine::deviceContext != NULL)
+			ResizeSwapChain(XMUINT2(LOWORD(lParam), HIWORD(lParam)));
+		break;
 
 	default:
 		return DefWindowProc( hWnd, message, wParam, lParam );
