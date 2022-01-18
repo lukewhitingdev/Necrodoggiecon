@@ -143,6 +143,16 @@ public:
 
 	
 
+	void Truncate(float max)
+	{
+		if (this->Magnitude() > max)
+		{
+			this->normalize();
+
+			*this *= max;
+		}
+	}
+
 };
 
 //0.025000
