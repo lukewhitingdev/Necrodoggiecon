@@ -47,25 +47,8 @@ public:
 		return dynamic_cast<T*>(tmp);
 	}
 
-	// Removes a component of the specified type.
-	template <class T>
-	void RemoveComponentByType()
-	{
-		for (size_t i = 0; i < components.size(); i++)
-		{
-			T* component = (T*)components[i];
-
-			if (typeid(*component).name() == typeid(T).name())
-			{
-				components.erase(components.begin() + i);
-				delete component;
-				return;
-			}
-		}
-	}
-
 	// Removes the specified component.
-	void RemoveComponentByReference(CComponent* reference)
+	void RemoveComponent(CComponent* reference)
 	{
 		for (size_t i = 0; i < components.size(); i++)
 		{
@@ -75,6 +58,7 @@ public:
 			{
 				components.erase(components.begin() + i);
 				delete component;
+				return;
 			}
 		}
 	}
