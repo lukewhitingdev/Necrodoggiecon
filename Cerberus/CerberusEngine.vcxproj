@@ -355,6 +355,7 @@
   <ItemGroup>
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CTexture.h" />
+    <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CWorld.h" />
@@ -390,6 +391,7 @@
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CWorld.cpp" />
