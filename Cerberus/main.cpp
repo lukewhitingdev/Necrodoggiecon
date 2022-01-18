@@ -674,6 +674,12 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		//int yPos = GET_Y_LPARAM(lParam);
 		break;
 	}
+
+	//TEMP
+	case WM_MOUSEWHEEL:
+		Engine::camera.SetZoom(Engine::camera.GetZoom() + GET_WHEEL_DELTA_WPARAM(wParam) * Engine::camera.GetZoom() * 0.001);
+		break;
+
 	case WM_PAINT:
 		hdc = BeginPaint( hWnd, &ps );
 		EndPaint( hWnd, &ps );
@@ -733,7 +739,7 @@ void Update(float deltaTime)
 	{
 		if (ScreenToClient(Engine::windowHandle, &p))
 		{
-			Engine::camera.SetCameraPosition(XMFLOAT4(-p.x + Engine::windowWidth * .5, p.y - Engine::windowHeight * .5, -3, 1));
+			Engine::camera.SetCameraPosition(XMFLOAT4((-p.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (p.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
 		}
 	}
 
