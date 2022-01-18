@@ -26,7 +26,6 @@ class CEntity;
 
 struct Engine
 {
-	
 	// Drawables.
 	static std::vector<CEntity*> entities;	//Needs to be changed to CObject instead
 	
@@ -80,4 +79,6 @@ struct Engine
 	static D3D_FEATURE_LEVEL featureLevel;
 	static ID3D11Device* device;
 	static ID3D11DeviceContext* deviceContext;
+
+	static class CCamera camera;
 };
