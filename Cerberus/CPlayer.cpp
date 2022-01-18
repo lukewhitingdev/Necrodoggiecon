@@ -20,10 +20,8 @@ CPlayer::CPlayer()
 }
 
 // simple movement for a player
-// note that due to this being called in main update only one key can be passed
 Vector3 CPlayer::Movement(float deltaTime)
 {
-
 	float move = 200.0f;
 	float speed = move * deltaTime;
 
