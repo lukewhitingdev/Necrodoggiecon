@@ -29,6 +29,7 @@
     </ClCompile>
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CMaterial.cpp" />
+    <ClCompile Include="CCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -71,6 +72,7 @@
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="CMaterial.h" />
+    <ClInclude Include="CCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

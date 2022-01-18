@@ -18,10 +18,11 @@
 #include "Core/testClass.h"
 #include "CTile.h"
 #include "CWorld.h"
+#include "CCamera.h"
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
-XMFLOAT4 eyePosition = XMFLOAT4(0.0f, 0.0f, -3.0f, 1.0f);
+CCamera Engine::camera = CCamera();
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -58,8 +59,6 @@ ID3D11VertexShader* vertexShader;
 ID3D11PixelShader* pixelShader;
 ID3D11InputLayout* vertexLayout;
 ID3D11Buffer* constantBuffer;
-XMMATRIX viewMatrix;
-XMMATRIX projectionMatrix;
 IDXGISwapChain* swapChain;
 ID3D11RenderTargetView* renderTargetView;
 ID3D11Texture2D* depthStencil;
@@ -513,16 +512,8 @@ HRESULT	InitMesh()
 // ***************************************************************************************
 HRESULT	InitWorld(int width, int height)
 {
-	// Initialize the view matrix
-	XMVECTOR Eye = XMLoadFloat4(&eyePosition);
-	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-	viewMatrix = XMMatrixLookAtLH(Eye, At, Up);
-
-	const float viewScaler = 1;
-
-	// Initialize the projection matrix
-	projectionMatrix = XMMatrixOrthographicLH(width / viewScaler, height / viewScaler, 0.01f, 100.0f);
+	Engine::camera.UpdateProjectionMat();
+	Engine::camera.UpdateViewMat();
 
 	return S_OK;
 }
@@ -736,6 +727,16 @@ float calculateDeltaTime()
 
 void Update(float deltaTime)
 {
+	//TEMP
+	POINT p;
+	if (GetCursorPos(&p))
+	{
+		if (ScreenToClient(Engine::windowHandle, &p))
+		{
+			Engine::camera.SetCameraPosition(XMFLOAT4(-p.x + Engine::windowWidth * .5, p.y - Engine::windowHeight * .5, -3, 1));
+		}
+	}
+
 	for (auto& e : Engine::entities)
 		if(e->shouldUpdate)
 		{
@@ -778,11 +779,17 @@ void Render()
 				XMFLOAT4X4 compWorld = f->GetTransform();
 				XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * mGO;
 
+				XMFLOAT4X4 mat = Engine::camera.view;
+				XMMATRIX viewMat = XMLoadFloat4x4(&mat);
+
+				mat = Engine::camera.proj;
+				XMMATRIX projMat = XMLoadFloat4x4(&mat);
+
 				// store this and the view / projection in a constant buffer for the vertex shader to use
 				ConstantBuffer cb1;
 				cb1.mWorld = XMMatrixTranspose(mGO2);
-				cb1.mView = XMMatrixTranspose(viewMatrix);
-				cb1.mProjection = XMMatrixTranspose(projectionMatrix);
+				cb1.mView = XMMatrixTranspose(viewMat);
+				cb1.mProjection = XMMatrixTranspose(projMat);
 				cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
 				Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb1, 0, 0);
 
