@@ -353,6 +353,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAIController.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
@@ -386,6 +387,7 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAIController.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CMaterial.cpp" />
