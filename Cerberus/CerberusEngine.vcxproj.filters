@@ -33,6 +33,8 @@
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="Utility\CollisionManager\CollisionManager.cpp" />
     <ClCompile Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.cpp" />
+    <ClCompile Include="Utility\CollisionManager\Components\Bodies\CollisionComponent.cpp" />
+    <ClCompile Include="Utility\CollisionManager\Components\Bodies\BoundingSphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -76,6 +78,8 @@
     <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="Utility\CollisionManager\CollisionManager.h" />
     <ClInclude Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.h" />
+    <ClInclude Include="Utility\CollisionManager\Components\Bodies\CollisionComponent.h" />
+    <ClInclude Include="Utility\CollisionManager\Components\Bodies\BoundingSphere.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

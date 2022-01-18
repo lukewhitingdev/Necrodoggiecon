@@ -1,6 +1,7 @@
 #include "testClass.h"
 #include "Utility/DebugOutput/Debug.h"
 #include "../CSpriteComponent.h"
+#include "Utility/CollisionManager/Components/Bodies/CollisionComponent.h"
 
 TestClass::TestClass()
 {

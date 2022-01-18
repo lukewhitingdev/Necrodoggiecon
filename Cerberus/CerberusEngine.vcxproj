@@ -352,6 +352,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Utility\CollisionManager\Components\Bodies\BoundingSphere.h" />
+    <ClInclude Include="Utility\CollisionManager\Components\Bodies\CollisionComponent.h" />
     <ClInclude Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.h" />
     <ClInclude Include="Utility\CollisionManager\CollisionManager.h" />
     <ClInclude Include="CTexture.h" />
@@ -386,8 +388,10 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Utility\CollisionManager\Components\Bodies\BoundingSphere.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEntity.cpp" />
+    <ClCompile Include="Utility\CollisionManager\Components\Bodies\CollisionComponent.cpp" />
     <ClCompile Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.cpp" />
     <ClCompile Include="Utility\CollisionManager\CollisionManager.cpp" />
     <ClCompile Include="CTexture.cpp" />
