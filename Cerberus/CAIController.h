@@ -1,7 +1,11 @@
 #pragma once
-#include "CComponent.h"
+#include "Engine.h"
+#include "CEntity.h"
 #include "Vector3.h"
+#include "CSpriteComponent.h"
 #include <iostream>
+
+const int maxSpeed = 200.0f;
 
 struct Waypoint
 {
@@ -45,9 +49,15 @@ struct PatrolNode
 	Vector3 position;
 	WaypointNode* closestWaypoint;
 	PatrolNode* nextPatrolNode;
+
+	PatrolNode(Vector3 pos) : position(pos) 
+	{
+		closestWaypoint = nullptr;
+		nextPatrolNode = nullptr;
+	}
 };
 
-class CAIController : public CComponent
+class CAIController : public CEntity
 {
 	enum STATE
 	{
@@ -58,17 +68,20 @@ class CAIController : public CComponent
 		COVER
 	};
 
-protected:
+public:
 	CAIController();
 
+protected:
+	class CSpriteComponent* sprite = nullptr;
+
 	virtual void Update(float deltaTime) override;
-	virtual void Draw(ID3D11DeviceContext* context) override;
 
 	STATE currentState;
 
 	//BehaviourTree behaviourTree;
 
 	Vector3 velocity;
+	Vector3 acceleration;
 	Vector3 heading;
 
 	void MoveInHeadingDirection(float deltaTime);
@@ -96,7 +109,6 @@ protected:
 	
 	std::vector<WaypointNode*> open;
 	std::vector<WaypointNode*> closed;
-	std::vector<WaypointNode*> nodes;
 
 	// Array of nodes on the path from goal to start.
 	std::vector<WaypointNode*> pathNodes;

@@ -2,21 +2,102 @@
 
 CAIController::CAIController()
 {
-	currentState = STATE::PATHFINDING;
+	Debug::Log("init AI class!\n");
+
+	sprite = AddComponent<CSpriteComponent>();
+	sprite->LoadTexture("Resources\\birb.dds");
+	sprite->SetRenderRect(XMUINT2(128, 128));
+	sprite->SetSpriteSize(XMUINT2(128, 128));
+
+	sprite->SetTint(XMFLOAT4(rand() % 2 * .5, rand() % 2 * .5, rand() % 2 * .5, 0)); sprite = AddComponent<CSpriteComponent>();
+	sprite->LoadTexture("Resources\\birb.dds");
+	sprite->SetRenderRect(XMUINT2(128, 128));
+	sprite->SetSpriteSize(XMUINT2(128, 128));
+
+	sprite->SetTint(XMFLOAT4(rand() % 2 * .5, rand() % 2 * .5, rand() % 2 * .5, 0));
+
+
+	currentState = STATE::PATROL;
 	currentCount = 0;
-	mass = 0.0f;
+	mass = 100.0f;
 	speed = 0.0f;
 	currentPatrolNode = nullptr;
+
+	velocity = { 0.0f, 0.0f, 0.0f };
+	heading = { 0.0f, 0.0f, 0.0f };
+	acceleration = { 0.0f, 0.0f, 0.0f };
+
+	std::vector<Waypoint*> waypoints;
+
+	std::vector<int> neighbours = { 1, 4 };
+	Waypoint* topLeft = new Waypoint(0, Vector3{ -30.0f, 10.0f, 0.0f }, neighbours);
+
+	waypoints.emplace_back(topLeft);
+
+	neighbours = { 0, 2, 5 };
+	Waypoint* topMiddleLeft = new Waypoint(1, Vector3{ -10.0f, 10.0f, 0.0f }, neighbours);
+
+	waypoints.emplace_back(topMiddleLeft);
+
+	neighbours = { 1, 3, 6 };
+	Waypoint* topMiddleRight = new Waypoint(2, Vector3{ 10.0f, 10.0f, 0.0f }, neighbours);
+
+	waypoints.emplace_back(topMiddleRight);
+
+	neighbours = { 2, 7 };
+	Waypoint* topRight = new Waypoint(3, Vector3{ 30.0f, 10.0f, 0.0f }, neighbours);
+
+	waypoints.emplace_back(topRight);
+
+	neighbours = { 0, 5 };
+	Waypoint* bottomLeft = new Waypoint(4, Vector3{ -30.0f, -10.0f, 0.0f }, neighbours);
+
+	waypoints.emplace_back(bottomLeft);
+
+	neighbours = { 1, 4, 6 };
+	Waypoint* bottomMiddleLeft = new Waypoint(5, Vector3{ -10.0f, -10.0f, 0.0f }, neighbours);
+
+	waypoints.emplace_back(bottomMiddleLeft);
+
+	neighbours = { 2, 5, 7 };
+	Waypoint* bottomMiddleRight = new Waypoint(6, Vector3{ 10.0f, -10.0f, 0.0f }, neighbours);
+
+	waypoints.emplace_back(bottomMiddleRight);
+
+	neighbours = { 3, 6 };
+	Waypoint* bottomRight = new Waypoint(7, Vector3{ 30.0f, -10.0f, 0.0f }, neighbours);
+
+	waypoints.emplace_back(bottomRight);
+
+	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 50.0f, 20.0f, 0.0f });
+	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ 0.0f, 0.0f, 0.0f });
+	PatrolNode* patrolPoint3 = new PatrolNode(Vector3{ -50.0f, -20.0f, 0.0f });
+
+	patrolPoint1->nextPatrolNode = patrolPoint2;
+	patrolPoint2->nextPatrolNode = patrolPoint3;
+	patrolPoint3->nextPatrolNode = patrolPoint1;
+
+	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
+
+	SetPatrolNodes(patrolPoints, waypoints);
 }
 
 void CAIController::Update(float deltaTime)
 {
+	Debug::Log("Current position: {%f, %f}", position.x, position.y);
+	StateMachine(deltaTime);
 
-}
+	Vector3 force = (heading * maxSpeed) - velocity;
 
-void CAIController::Draw(ID3D11DeviceContext* context)
-{
+	acceleration = force / mass;
 
+	velocity += acceleration * deltaTime;
+
+	velocity.Truncate(maxSpeed);
+
+	position += velocity * deltaTime;
+
+	SetPosition(position);
 }
 
 void CAIController::MoveInHeadingDirection(float deltaTime)
@@ -68,15 +149,17 @@ void CAIController::SetPatrolNodes(std::vector<PatrolNode*> nodes, std::vector<W
 
 	// Set the current state as patrol.
 	currentState = STATE::PATROL;
+
+	Debug::Log("Current position: %f", position.y);
 }
 
 /* Finds the closest waypoint to each patrol point. */
 PatrolNode* CAIController::FindClosestPatrolNode()
 {
-	PatrolNode* closestPatrolNode = nullptr;
+	PatrolNode* closestPatrolNode = new PatrolNode(Vector3{ 10000.0f, 10000.0f, 0.0f });
 	for (PatrolNode* node : patrolNodes)
 	{
-		if (position.DistanceTo(node->position) < position.DistanceTo(currentPatrolNode->position))
+		if (position.DistanceTo(node->position) < position.DistanceTo(closestPatrolNode->position))
 		{
 			closestPatrolNode = node;
 		}
@@ -108,6 +191,8 @@ void CAIController::StateMachine(float deltaTime)
 
 		break;
 	}
+
+
 }
 
 /* Moves the direction of the character towards the next point in the path. */
@@ -122,6 +207,7 @@ void CAIController::Patrolling()
 	}
 	else
 	{
+		// TODO FIX ISSUE HERE
 		if (position.DistanceTo(pathNodes[currentCount]->waypoint->GetPosition()) <= 20.0f)
 		{
 			currentCount--;
@@ -148,7 +234,7 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
 
 	if (dist > 0)
 	{
-		Vector3 DesiredVelocity = Vector3(TargetPos - position).normalize() * speed;
+		Vector3 DesiredVelocity = Vector3(TargetPos - position).normalize() * maxSpeed;
 		return (DesiredVelocity - velocity);
 	}
 }
@@ -156,12 +242,14 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
 /* Sets the path betqween the closest waypoint to the character and the closest waypoint to the target patrol node. */
 void CAIController::SetPath()
 {
+	std::vector<int> base = { 1000000 };
 	WaypointNode* closestWaypoint = new WaypointNode();
-
+	Waypoint* waypoint = new Waypoint(100000, Vector3{ 10000.0f, 10000.0f, 0.0f }, base);
+	closestWaypoint->waypoint = waypoint;
 	// Find the closest waypoint.
 	for (WaypointNode* waypointNode : waypointNodes)
 	{
-		if (position.DistanceTo(waypointNode->waypoint->GetPosition()) < position.DistanceTo(currentPatrolNode->position))
+		if (position.DistanceTo(waypointNode->waypoint->GetPosition()) < position.DistanceTo(closestWaypoint->waypoint->position))
 		{
 			closestWaypoint = waypointNode;
 		}
@@ -184,7 +272,7 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 	while (open.empty() != true)
 	{
 		// Set the current node to the open node.
-		if (current->waypoint == nodes[0]->waypoint)
+		if (current->waypoint == waypointNodes[0]->waypoint)
 		{
 			current = open[0];
 			// Set the g cost as 0.
@@ -222,7 +310,7 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 		// Set the neighbour nodes of the current node.
 		for (int i = 0; i < _neighboursID.size(); i++)
 		{
-			for (WaypointNode * node : nodes)
+			for (WaypointNode * node : waypointNodes)
 			{
 				if (_neighboursID[i] == node->waypoint->GetID())
 				{
@@ -326,7 +414,7 @@ float CAIController::CalculateCost(float x, float y, float x2, float y2)
 /* Reset the nodes cost to be a large number. */
 void CAIController::ResetNodes()
 {
-	for (WaypointNode * node : nodes)
+	for (WaypointNode * node : waypointNodes)
 	{
 		node->gCost = 100000.0f;
 		node->hCost = 100000.0f;
