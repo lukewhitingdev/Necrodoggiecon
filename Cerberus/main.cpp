@@ -43,6 +43,7 @@ HINSTANCE Engine::instanceHandle;
 HWND Engine::windowHandle;
 int Engine::windowWidth = 1280;
 int Engine::windowHeight = 720;
+bool resizeSwapChain = false;
 					   
 // Direct3D.           
 D3D_DRIVER_TYPE Engine::driverType = D3D_DRIVER_TYPE_NULL;
@@ -693,7 +694,11 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
 	case WM_SIZE:
 		if (Engine::deviceContext != NULL)
-			ResizeSwapChain(XMUINT2(LOWORD(lParam), HIWORD(lParam)));
+		{
+			resizeSwapChain = true;
+			Engine::windowWidth = LOWORD(lParam);
+			Engine::windowHeight = HIWORD(lParam);
+		}
 		break;
 
 	default:
@@ -747,6 +752,12 @@ void Update(float deltaTime)
 //--------------------------------------------------------------------------------------
 void Render()
 {
+	if (resizeSwapChain)
+	{
+		ResizeSwapChain(XMUINT2(Engine::windowWidth, Engine::windowHeight));
+		resizeSwapChain = false;
+	}
+
     // Clear the back buffer
     Engine::deviceContext->ClearRenderTargetView( renderTargetView, Colors::MidnightBlue );
 
