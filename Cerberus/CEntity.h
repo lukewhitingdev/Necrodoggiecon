@@ -53,29 +53,13 @@ public:
 	{
 		for (size_t i = 0; i < components.size(); i++)
 		{
-			CComponent* component = components[i];
+			T* component = (T*)components[i];
 
-			if (typeid(component).hash_code == typeid(T).hash_code)
+			if (typeid(*component).name() == typeid(T).name())
 			{
 				components.erase(components.begin() + i);
 				delete component;
 				return;
-			}
-		}
-	}
-
-	// Removes all components of the specified type.
-	template <class T>
-	void RemoveAllComponentsOfType()
-	{
-		for (size_t i = 0; i < components.size(); i++)
-		{
-			CComponent* component = components[i];
-
-			if (typeid(component).hash_code == typeid(T).hash_code)
-			{
-				components.erase(components.begin() + i);
-				delete component;
 			}
 		}
 	}
