@@ -19,10 +19,11 @@
 #include "CPlayer.h"
 #include "CTile.h"
 #include "CWorld.h"
+#include "CAIController.h"
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
-DirectX::XMFLOAT4 g_EyePosition(0.0f, 0.0f, 3.0f, 1.0f);
+DirectX::XMFLOAT4 g_EyePosition(0.0f, 0.0f, -3.0f, 1.0f);
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -169,7 +170,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	for (int i = 0; i < 25; i++)
+	for (int i = 0; i < 0; i++)
 	{
 		TestClass* myClass = Engine::CreateEntity<TestClass>();
 		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
@@ -182,7 +183,11 @@ void Load()
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
 
-
+	for (int i = 0; i < 1; i++)
+	{
+		CAIController* ai = Engine::CreateEntity<CAIController>();
+		ai->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	}
 
 
 	//CWorld* World = new CWorld(0);
