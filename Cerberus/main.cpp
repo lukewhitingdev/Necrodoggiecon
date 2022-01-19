@@ -677,14 +677,34 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	PAINTSTRUCT ps;
 	HDC hdc;
 
-	switch( message )
+	switch (message)
 	{
-	case WM_LBUTTONDOWN:
+	case WM_MOUSEMOVE:
 	{
-		//int xPos = GET_X_LPARAM(lParam);
-		//int yPos = GET_Y_LPARAM(lParam);
+		Input::mousePos.x = GET_X_LPARAM(lParam);
+		Input::mousePos.y = GET_Y_LPARAM(lParam);
 		break;
 	}
+
+	case WM_LBUTTONDOWN: { Input::SetKeyState(Keys::LMB, true); break; }
+	case WM_RBUTTONDOWN: { Input::SetKeyState(Keys::RMB, true); break; }
+	case WM_MBUTTONDOWN: { Input::SetKeyState(Keys::MMB, true); break; }
+	case WM_LBUTTONUP: { Input::SetKeyState(Keys::LMB, false); break; }
+	case WM_RBUTTONUP: { Input::SetKeyState(Keys::RMB, false); break; }
+	case WM_MBUTTONUP: { Input::SetKeyState(Keys::MMB, false); break; }
+
+	case WM_KEYDOWN:
+		if (wParam == 0x57) { Input::SetKeyState(Keys::W, true); break; }
+		if (wParam == 0x41) { Input::SetKeyState(Keys::A, true); break; }
+		if (wParam == 0x53) { Input::SetKeyState(Keys::S, true); break; }
+		if (wParam == 0x44) { Input::SetKeyState(Keys::D, true); break; }
+		break;
+	case WM_KEYUP:
+		if (wParam == 0x57) { Input::SetKeyState(Keys::W, false); break; }
+		if (wParam == 0x41) { Input::SetKeyState(Keys::A, false); break; }
+		if (wParam == 0x53) { Input::SetKeyState(Keys::S, false); break; }
+		if (wParam == 0x44) { Input::SetKeyState(Keys::D, false); break; }
+		break;
 
 	//TEMP
 	case WM_MOUSEWHEEL:
@@ -748,16 +768,9 @@ float calculateDeltaTime()
 void Update(float deltaTime)
 {
 	//TEMP
-	if (GetAsyncKeyState(VK_RBUTTON))
+	if (Input::GetKeyState(Keys::RMB))
 	{
-		POINT p;
-		if (GetCursorPos(&p))
-		{
-			if (ScreenToClient(Engine::windowHandle, &p))
-			{
-				Engine::camera.SetCameraPosition(XMFLOAT4((-p.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (p.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
-			}
-		}
+		Engine::camera.SetCameraPosition(XMFLOAT4((-Input::mousePos.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (Input::mousePos.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
 	}
 
 	for (auto& e : Engine::entities)

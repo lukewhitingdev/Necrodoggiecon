@@ -21,6 +21,7 @@
 #include "Utility/Audio/AudioController.h"
 
 #include <vector>
+#include "CInputManager.h"
 
 class CEntity;
 

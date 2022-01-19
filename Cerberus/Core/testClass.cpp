@@ -28,25 +28,25 @@ void TestClass::Update(float deltaTime)
 	const uint32_t speed = 24;
 	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 128, (int(round(timeElapsed * speed) / 5) % 2) * 128));
 
-	/*float speed = 200.0f;
-	float deltaSpeed = speed * deltaTime;
+	float speed2 = 200.0f;
+	float deltaSpeed = speed2 * deltaTime;
 
 	Vector3 moveDir = { 0,0,0 };
 
-	if (GetAsyncKeyState(0x44))
+	if (Input::GetKeyState(Keys::D))
 		moveDir += Vector3(1, 0, 0);
-	if (GetAsyncKeyState(0x41))
+	if (Input::GetKeyState(Keys::A))
 		moveDir += Vector3(-1, 0, 0);
-	if (GetAsyncKeyState(0x57))
+	if (Input::GetKeyState(Keys::W))
 		moveDir += Vector3(0, 1, 0);
-	if (GetAsyncKeyState(0x53))
+	if (Input::GetKeyState(Keys::S))
 		moveDir += Vector3(0, -1, 0);
 
 	if (moveDir.Magnitude() > 0.0f)
 	{
 		moveDir.normalize();
 		SetPosition(GetPosition() + moveDir * deltaSpeed);
-	}*/
+	}
 }
 
 TestClass::~TestClass()
