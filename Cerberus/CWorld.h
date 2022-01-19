@@ -54,7 +54,7 @@ protected:
 	
 	//std::map<Vector3, CTile*> tileContainer;
 
-	CTile* tileContainer[mapScale][mapScale];
+	CTile* tileContainer[mapScale * mapScale];
 
 	//This function should only be used when Loading / Reloading the scene.
 	//void LoadEntity(CT_EntityData EntityData);
@@ -68,9 +68,11 @@ protected:
 	//std::vector<CEntity> entityList;
 
 
-private:
+protected:
 
-	Vector3 IDToWorldSpace(int ID);
+	Vector3 IndexToGrid(int ID);
+	int GridToIndex(Vector2 Position);
+
 
 
 };
@@ -127,115 +129,88 @@ private:
 	void RefreshTileMapRegion(Vector2 A, Vector2 B);
 
 
-	CTile* tileData[mapScale][mapScale];
-
-	CellType CellList[mapScale][mapScale];
 
 
-	bool IsFloorAdjacent(Vector2 Position)
+
+	CTile* tileData[mapScale * mapScale];
+
+	CellType CellList[mapScale * mapScale];
+
+
+	//Is the selected tile adjacent to a walkable tile
+	bool IsFloorAdjacent(Vector2 Position);
+
+
+
+	bool IsTile(Vector2 Position, CellType Type)
 	{
-		if (Position.x > 1 && Position.y > 1 && Position.x < mapScale - 1 && Position.y < mapScale - 1)
-		{
-			return (tileData[(int)Position.x + 1][(int)Position.y]->GetTileID() == 1 ||
-				tileData[(int)Position.x - 1][(int)Position.y]->GetTileID() == 1 ||
-				tileData[(int)Position.x][(int)Position.y + 1]->GetTileID() == 1 ||
-				tileData[(int)Position.x][(int)Position.y - 1]->GetTileID() == 1 ||
-
-				tileData[(int)Position.x + 1][(int)Position.y + 1]->GetTileID() == 1 ||
-				tileData[(int)Position.x - 1][(int)Position.y - 1]->GetTileID() == 1 ||
-				tileData[(int)Position.x - 1][(int)Position.y + 1]->GetTileID() == 1 ||
-				tileData[(int)Position.x + 1][(int)Position.y - 1]->GetTileID() == 1);
-		}
-		else return false;
-	}
-	int GetAdjacentEdges(Vector2 Position)
-	{
-		int x = Position.x;
-		int y = Position.y;
-		int Edges = 0;
-		if (CellList[x + 1][y] == CellType::Edge) Edges++;
-		if (CellList[x - 1][y] == CellType::Edge) Edges++;
-		if (CellList[x][y + 1] == CellType::Edge) Edges++;
-		if (CellList[x][y - 1] == CellType::Edge) Edges++;
-		return Edges;
-
-	}
-	bool IsTile(int x, int y, CellType Type)
-	{
-		return CellList[x][y] == Type;
+		return CellList[GridToIndex(Position)] == Type;
 	}
 
 	
 
-	Vector2 FindFloorAdjacent(int x, int y)
+
+
+	Vector2 FindAdjacents(Vector2 Pos, CellType ID);
+	
+
+	Vector2 FindFloorAdjacentDiagonal(Vector2 Position)
 	{
-		if (IsTile(x + 1, y, CellType::Floor)) return Vector2(1, 0);
-		else if (IsTile(x - 1, y, CellType::Floor)) return Vector2(-1, 0);
-		else if (IsTile(x, y + 1, CellType::Floor)) return Vector2(0,1);
-		else if (IsTile(x, y - 1, CellType::Floor)) return Vector2(0,-1);
-		else return Vector2(0, 0);
-	}
-	Vector2 FindAdjacents(int x, int y, CellType ID)
-	{
-		if (IsTile(x + 1, y, ID)) return Vector2(1, 0);
-		else if (IsTile(x - 1, y, ID)) return Vector2(-1, 0);
-		else if (IsTile(x, y + 1, ID)) return Vector2(0, 1);
-		else if (IsTile(x, y - 1, ID)) return Vector2(0, -1);
+
+		if (IsTile(Position + Vector2(1,1), CellType::Floor)) return Vector2(1, 1);
+		else if (IsTile(Position + Vector2(-1, -1), CellType::Floor)) return Vector2(-1, -1);
+		else if (IsTile(Position + Vector2(-1, 1), CellType::Floor)) return Vector2(-1, 1);
+		else if (IsTile(Position + Vector2(1, -1), CellType::Floor)) return Vector2(1, -1);
 		else return Vector2(0, 0);
 	}
 
-	Vector2 FindFloorAdjacentDiagonal(int x, int y)
+	bool SetCorner(Vector2 Position)
 	{
-		if (IsTile(x + 1, y + 1, CellType::Floor)) return Vector2(1, 1);
-		else if (IsTile(x - 1, y - 1, CellType::Floor)) return Vector2(-1, -1);
-		else if (IsTile(x - 1, y + 1, CellType::Floor)) return Vector2(-1, 1);
-		else if (IsTile(x + 1, y - 1, CellType::Floor)) return Vector2(1, -1);
-		else return Vector2(0, 0);
-	}
 
-	bool SetCorner(int x, int y)
-	{
 		
-		if (IsTile(x,y, CellType::Edge))
+		if (IsTile(Position, CellType::Edge))
 		{
-			if (IsTile(x + 1, y, CellType::Edge) && IsTile(x, y - 1, CellType::Edge))
+			if (IsTile(Position + Vector2(1,0), CellType::Edge) && IsTile(Position + Vector2(0, -1), CellType::Edge))
 			{
 
-				if (IsTile(x + 1, y - 1, CellType::Floor))
+				if (IsTile(Position + Vector2(1,-1), CellType::Floor))
 				{
-					CellList[x][y] = CellType::OuterCorner;
+					CellList[GridToIndex(Position)] = CellType::OuterCorner;
 				}
 				
 
 
 			}
-			if (IsTile(x + 1, y, CellType::Edge) && IsTile(x, y + 1, CellType::Edge))
+			if (IsTile(Position + Vector2(1, 0), CellType::Edge) && IsTile(Position + Vector2(0, 1), CellType::Edge))
 			{
-				if (IsTile(x + 1, y + 1, CellType::Floor))
+
+				if (IsTile(Position + Vector2(1, 1), CellType::Floor))
 				{
-					CellList[x][y] = CellType::OuterCorner;
+					CellList[GridToIndex(Position)] = CellType::OuterCorner;
 				}
-				
+
 
 
 			}
-			if (IsTile(x - 1, y, CellType::Edge) && IsTile(x, y - 1, CellType::Edge))
+			if (IsTile(Position + Vector2(-1, 0), CellType::Edge) && IsTile(Position + Vector2(0, -1), CellType::Edge))
 			{
-				if (IsTile(x - 1, y - 1, CellType::Floor))
+
+				if (IsTile(Position + Vector2(-1, -1), CellType::Floor))
 				{
-					CellList[x][y] = CellType::OuterCorner;
+					CellList[GridToIndex(Position)] = CellType::OuterCorner;
 				}
-			
+
 
 
 			}
-			if (IsTile(x - 1, y, CellType::Edge) && IsTile(x, y + 1, CellType::Edge))
+			if (IsTile(Position + Vector2(-1, 0), CellType::Edge) && IsTile(Position + Vector2(0, 1), CellType::Edge))
 			{
-				if (IsTile(x - 1, y + 1, CellType::Floor))
+
+				if (IsTile(Position + Vector2(-1, 1), CellType::Floor))
 				{
-					CellList[x][y] = CellType::OuterCorner;
+					CellList[GridToIndex(Position)] = CellType::OuterCorner;
 				}
-				
+
 
 
 			}

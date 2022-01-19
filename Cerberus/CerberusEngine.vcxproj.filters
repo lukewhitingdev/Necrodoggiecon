@@ -34,6 +34,8 @@
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="Tools\CT_WindowBase.cpp" />
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
+    <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="CPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -78,6 +80,8 @@
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
+    <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CPlayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

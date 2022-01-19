@@ -112,7 +112,7 @@ public:
 	float Magnitude() const { return _mm_cvtss_f32(_mm_sqrt_ss(_mm_dp_ps(intrinsic, intrinsic, 0x71))); }
 
 
-	float dot(const Vector3Base OtherVector) const { return _mm_cvtss_f32(_mm_dp_ps(intrinsic, OtherVector.intrinsic, 0x71)); }
+	float Dot(const Vector3Base OtherVector) const { return _mm_cvtss_f32(_mm_dp_ps(intrinsic, OtherVector.intrinsic, 0x71)); }
 
 	float DistanceTo(const Vector3Base B)
 	{
@@ -120,11 +120,12 @@ public:
 		return _mm_cvtss_f32(_mm_sqrt_ss(_mm_dp_ps(Dist, Dist, 0x71)));
 	}
 
-	Vector3Base& normalize()
+	Vector3Base& Normalize()
 	{
 		intrinsic = _mm_div_ps(intrinsic, _mm_sqrt_ps(_mm_dp_ps(intrinsic, intrinsic, 0xFF)));
 		return *this;
 	}
+
 
 
 	float Determinant(const Vector3Base OtherVector)

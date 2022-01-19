@@ -6,16 +6,12 @@ TestClass::TestClass()
 {
 	Debug::Log("init test class!\n");
 
-	sprite = AddComponent<CSpriteComponent>();
-	sprite->LoadTexture("Resources\\Tiles\\TempTileMap.dds");
-	sprite->SetRenderRect(XMUINT2(tileScale, tileScale));
-	sprite->SetSpriteSize(XMUINT2(tileScale, tileScale));
-	sprite->SetTextureOffset(XMFLOAT2(tileScale * 2,tileScale * 2));
+	
 
 	//sprite->SetTint(XMFLOAT4(rand() % 2 * .5, rand() % 2 * .5, rand() % 2 * .5, 0));
 
 	
-		sprite->SetScale(15, 15, 15);
+	
 
 	//timeElapsed = rand() / 100;
 }

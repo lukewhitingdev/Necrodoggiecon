@@ -2,6 +2,8 @@
 #include "Vector3.h"
 #include "CEntity.h"
 
+#include "WorldConstants.h"
+
 enum class TileType
 {
 	Floor,
