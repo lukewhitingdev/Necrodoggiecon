@@ -601,8 +601,8 @@ HRESULT ResizeSwapChain(XMUINT2 newSize)
 
 		// Set up the viewport.
 		D3D11_VIEWPORT vp;
-		vp.Width = newSize.x;
-		vp.Height = newSize.y;
+		vp.Width = (FLOAT)newSize.x;
+		vp.Height = (FLOAT)newSize.y;
 		vp.MinDepth = 0.0f;
 		vp.MaxDepth = 1.0f;
 		vp.TopLeftX = 0;
@@ -738,7 +738,7 @@ float calculateDeltaTime()
 	}
 	else
 	{
-		Sleep((FPS60 - cummulativeTime) * 1000 * 0.9);	//Sleeps thread for almost full amount of time - leaving some time for recalculation
+		Sleep(DWORD((FPS60 - cummulativeTime) * 1000 * 0.9));	//Sleeps thread for almost full amount of time - leaving some time for recalculation
 		return 0;
 	}
 
