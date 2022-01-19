@@ -25,7 +25,7 @@ Vector3 CPlayer::Movement(float deltaTime)
 	float move = 200.0f;
 	float speed = move * deltaTime;
 
-	if (GetAsyncKeyState(0x44))
+	/*if (GetAsyncKeyState(0x44))
 	{
 		position.x -= speed;
 		if (GetAsyncKeyState(0x57))
@@ -82,8 +82,9 @@ Vector3 CPlayer::Movement(float deltaTime)
 		position.y -= speed;
 		SetPosition(position);
 		return position.y;
-	}
+	}*/
 
+	return 0;
 }
 
 

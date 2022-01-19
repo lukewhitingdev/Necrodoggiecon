@@ -5,9 +5,6 @@
 CTile::CTile()
 {
 	sprite = AddComponent<CSpriteComponent>();
-	position = Vector3(0, 0, 0);
-	scale = Vector3(0, 0, 0);
-	rotation = 0.0f;
 }
 
 CTile::CTile(int ID, Vector3 Position)
