@@ -86,7 +86,8 @@ public:
                 return;
             }
 
-            ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetStyle().ItemSpacing.y), false, ImGuiWindowFlags_HorizontalScrollbar);
+            const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
+            ImGui::BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar);
             if (ImGui::BeginPopupContextWindow())
             {
                 if (ImGui::Selectable("Clear")) ClearLog();
@@ -120,8 +121,12 @@ public:
             ImGui::PopStyleVar();
             ImGui::EndChild();
 
+            ImGui::Separator();
+
             // Auto-focus on window apparition
             ImGui::SetItemDefaultFocus();
+
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
             ImGui::End();
         }

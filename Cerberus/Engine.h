@@ -12,8 +12,6 @@
 #include <iostream>
 
 #include "structures.h"
-#include "WorldConstants.h"
-#include "Vector3.h"
 
 #include "Dependencies/IMGUI/imgui.h"
 #include "Dependencies/IMGUI/imgui_impl_dx11.h"
@@ -28,11 +26,8 @@ class CEntity;
 
 struct Engine
 {
-	
-	// Non tile Drawables.
+	// Drawables.
 	static std::vector<CEntity*> entities;	//Needs to be changed to CObject instead
-
-	static class CTile* tileSet[mapScale][mapScale];
 	
 	template<class T>
 	// Returns all entities of provided type that exist in the engine.
@@ -50,6 +45,20 @@ struct Engine
 		return outputVector;
 	};
 
+	static void DestroyEntity(CEntity* targetEntity)
+	{
+		for (size_t i = 0; i < entities.size(); i++)
+		{
+			CEntity* entity = entities[i];
+			if (entity == targetEntity)
+			{
+				entities.erase(entities.begin() + i);
+				delete entity;
+				return;
+			}
+		}
+	}
+
 	template<class T>
 	// Creates a entity, adds it to drawables and returns it back.
 	static T* CreateEntity()
@@ -58,17 +67,6 @@ struct Engine
 		entities.emplace_back(temp);
 		return (T*)temp;
 	}
-
-	template<class T>
-	// Creates a Tile, adds it to the TileList and returns it back.
-	static T* CreateTile(Vector2 Position)
-	{
-		class CTile* temp = new T();
-		entities.emplace_back(temp);
-		return (T*)temp;
-	}
-
-	
 
 	// Window and Instance.
 	static HINSTANCE instanceHandle;
@@ -81,4 +79,6 @@ struct Engine
 	static D3D_FEATURE_LEVEL featureLevel;
 	static ID3D11Device* device;
 	static ID3D11DeviceContext* deviceContext;
+
+	static class CCamera camera;
 };

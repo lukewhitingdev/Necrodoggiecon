@@ -41,13 +41,15 @@ CSpriteComponent::CSpriteComponent()
 	shouldDraw = true;
 
 	mesh = AssetManager::GetDefaultMesh();
-	texture = nullptr;
 	material = new CMaterial();
 }
 
 HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 {
-	texture = AssetManager::GetTexture(filePath);
+	if (texture == nullptr)
+		texture = AssetManager::GetTexture(filePath);
+	else
+		texture->LoadTextureDDS(filePath);
 
 	if (texture == nullptr)
 		return S_FALSE;
@@ -67,7 +69,7 @@ void CSpriteComponent::Update(float deltaTime)
 
 void CSpriteComponent::Draw(ID3D11DeviceContext* context)
 {
-	if (!texture->loaded)
+	if (!texture->loaded)	//change to texture valid check
 	{
 		Debug::LogError("Texture not loaded for CSpriteComponent.");
 		return;
@@ -99,12 +101,16 @@ CSpriteComponent::~CSpriteComponent()
 
 XMFLOAT4X4 CSpriteComponent::GetTransform()
 {
-	//Could check for changes and then recalculate world if changes have happened
+	if (updateTransform)
+	{
+		XMMATRIX mat = XMMatrixScaling(scale.x * spriteSize.x, scale.y * spriteSize.y, scale.z)
+			* XMMatrixRotationRollPitchYaw(0, 0, rotation)
+			* XMMatrixTranslation(position.x, position.y, position.z);
 
-	XMMATRIX mat = XMMatrixScaling(scale.x * spriteSize.x, scale.y * spriteSize.y, scale.z)
-		* XMMatrixRotationRollPitchYaw(0, 0, rotation)
-		* XMMatrixTranslation(position.x, position.y, position.z);
+		XMStoreFloat4x4(&world, mat);
 
-	XMStoreFloat4x4(&world, mat);
+		updateTransform = false;
+	}
+
 	return world;
 }

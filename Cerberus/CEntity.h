@@ -5,9 +5,11 @@
 
 ////Fundimental class of the engine with a world transform and ability to have components
 //Use for all gameplay things in the world
+
 class CEntity
 {
 protected:
+	bool updateTransform = true;
 	XMFLOAT4X4 world;
 
 	Vector3 position = { 0,0,0 };
@@ -19,13 +21,13 @@ public:
 
 	std::vector<CComponent*> components;
 	
-	void SetPosition(float x, float y, float z) {  position = Vector3(x, y, z); }
-	void SetScale(float x, float y, float z) {  scale = Vector3(x, y, z); }
+	void SetPosition(float x, float y, float z) { position = Vector3(x, y, z); updateTransform = true; }
+	void SetScale(float x, float y, float z) { scale = Vector3(x, y, z); updateTransform = true; }
 
-	void SetPosition( Vector3 In) {  position = In; }
-	void SetScale( Vector3 In) {  scale = In; }
+	void SetPosition(Vector3 In) { position = In; updateTransform = true; }
+	void SetScale(Vector3 In) { scale = In; updateTransform = true; }
 
-	void SetRotation( float Rot) { rotation = Rot; }
+	void SetRotation(float Rot) { rotation = Rot; updateTransform = true; }
 
 	Vector3 GetPosition() { return position; }
 	Vector3 GetScale() { return scale; }
@@ -44,5 +46,21 @@ public:
 		CComponent* tmp = new T();
 		components.push_back(tmp);
 		return dynamic_cast<T*>(tmp);
+	}
+
+	// Removes the specified component.
+	void RemoveComponent(CComponent* reference)
+	{
+		for (size_t i = 0; i < components.size(); i++)
+		{
+			CComponent* component = components[i];
+
+			if (component == reference)
+			{
+				components.erase(components.begin() + i);
+				delete component;
+				return;
+			}
+		}
 	}
 };
