@@ -8,11 +8,14 @@ CTile::CTile()
 	position = Vector3(0, 0, 0);
 	scale = Vector3(0, 0, 0);
 	rotation = 0.0f;
+	tileID = -1;
+	tileStatus = TileType::Floor;
 }
 
 CTile::CTile(int ID, Vector3 Position)
 {
 	tileID = ID;
+	tileStatus = TileType::Floor;
 	SetPosition(Position);
 
 	sprite = AddComponent<CSpriteComponent>();
