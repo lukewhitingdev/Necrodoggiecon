@@ -732,10 +732,13 @@ float calculateDeltaTime()
 
 	// cap the framerate at 60 fps 
 	cummulativeTime += deltaTime;
-	if (cummulativeTime >= FPS60) {
+	if (cummulativeTime >= FPS60)
+	{
 		cummulativeTime = cummulativeTime - FPS60;
 	}
-	else {
+	else
+	{
+		Sleep((FPS60 - cummulativeTime) * 1000 * 0.9);	//Sleeps thread for almost full amount of time - leaving some time for recalculation
 		return 0;
 	}
 
