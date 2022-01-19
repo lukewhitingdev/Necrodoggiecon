@@ -745,12 +745,15 @@ float calculateDeltaTime()
 void Update(float deltaTime)
 {
 	//TEMP
-	POINT p;
-	if (GetCursorPos(&p))
+	if (GetAsyncKeyState(VK_RBUTTON))
 	{
-		if (ScreenToClient(Engine::windowHandle, &p))
+		POINT p;
+		if (GetCursorPos(&p))
 		{
-			Engine::camera.SetCameraPosition(XMFLOAT4((-p.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (p.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
+			if (ScreenToClient(Engine::windowHandle, &p))
+			{
+				Engine::camera.SetCameraPosition(XMFLOAT4((-p.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (p.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
+			}
 		}
 	}
 
