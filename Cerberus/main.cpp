@@ -727,37 +727,16 @@ void Render()
 
 void Engine::DestroyEntity(CEntity* targetEntity)
 {
-	for (size_t i = 0; i < entities.size(); i++)
 	{
-		CEntity* entity = entities[i];
-		if (entity == targetEntity)
+		for (size_t i = 0; i < entities.size(); i++)
 		{
-			entities.erase(entities.begin() + i);
-			delete entity;
-			return;
+			CEntity* entity = entities[i];
+			if (entity == targetEntity)
+			{
+				entities.erase(entities.begin() + i);
+				delete entity;
+				return;
+			}
 		}
 	}
-}
-
-template<class T>
-std::vector<T> Engine::GetEntityOfType()
-{
-	std::vector<T> outputVector;
-
-	for (CEntity& entity : entities)
-	{
-		if (typeof(entity) == T)
-		{
-			outputVector.emplace_back(entity);
-		}
-	}
-	return outputVector;
-}
-
-template<class T>
-T* Engine::CreateEntity() 
-{
-	CEntity* temp = new T();
-	entities.emplace_back(temp);
-	return (T*)temp;
 }
