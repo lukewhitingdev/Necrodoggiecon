@@ -19,10 +19,11 @@
 #include "CPlayer.h"
 #include "CTile.h"
 #include "CWorld.h"
+#include "CCamera.h"
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
-DirectX::XMFLOAT4 g_EyePosition(0.0f, 0.0f, 3.0f, 1.0f);
+CCamera Engine::camera = CCamera();
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -44,6 +45,7 @@ HINSTANCE Engine::instanceHandle;
 HWND Engine::windowHandle;
 int Engine::windowWidth = 1280;
 int Engine::windowHeight = 720;
+bool resizeSwapChain = false;
 					   
 // Direct3D.           
 D3D_DRIVER_TYPE Engine::driverType = D3D_DRIVER_TYPE_NULL;
@@ -58,8 +60,6 @@ ID3D11VertexShader* vertexShader;
 ID3D11PixelShader* pixelShader;
 ID3D11InputLayout* vertexLayout;
 ID3D11Buffer* constantBuffer;
-XMMATRIX viewMatrix;
-XMMATRIX projectionMatrix;
 IDXGISwapChain* swapChain;
 ID3D11RenderTargetView* renderTargetView;
 ID3D11Texture2D* depthStencil;
@@ -147,16 +147,16 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 	if( !RegisterClassEx( &wcex ) )
 		return E_FAIL;
 
-	// Create window
-	Engine::instanceHandle = hInstance;
-	RECT rc = { 0, 0, 1280, 720 };
-
 	Engine::windowWidth = 1280;
 	Engine::windowHeight = 720;
 
+	// Create window
+	Engine::instanceHandle = hInstance;
+	RECT rc = { 0, 0, Engine::windowWidth, Engine::windowHeight };
+
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
 	Engine::windowHandle = CreateWindow( L"Necrodoggiecon", L"Necrodoggiecon",
-						   WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
+						   WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX,
 						   CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
 						   nullptr );
 	if( !Engine::windowHandle)
@@ -356,9 +356,6 @@ HRESULT InitDevice()
     deviceTemp->Release();
     deviceContextTemp->Release();
 
-    // Note this tutorial doesn't handle full-screen swapchains so we block the ALT+ENTER shortcut
-    dxgiFactory->MakeWindowAssociation( Engine::windowHandle, DXGI_MWA_NO_ALT_ENTER );
-
     dxgiFactory->Release();
 
     if (FAILED(hr))
@@ -524,20 +521,98 @@ HRESULT	InitMesh()
 // ***************************************************************************************
 // InitWorld
 // ***************************************************************************************
-HRESULT		InitWorld(int width, int height)
+HRESULT	InitWorld(int width, int height)
 {
-	// Initialize the view matrix
-	XMVECTOR Eye = XMLoadFloat4(&g_EyePosition);
-	XMVECTOR At = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-	viewMatrix = XMMatrixLookAtLH(Eye, At, Up);
-
-	const float viewScaler = 1;
-
-	// Initialize the projection matrix
-	projectionMatrix = XMMatrixOrthographicLH(width / viewScaler, height / viewScaler, 0.01f, 100.0f);
+	Engine::camera.UpdateProjectionMat();
+	Engine::camera.UpdateViewMat();
 
 	return S_OK;
+}
+
+//https://docs.microsoft.com/en-us/windows/win32/direct3ddxgi/d3d10-graphics-programming-guide-dxgi#handling-window-resizing
+HRESULT ResizeSwapChain(XMUINT2 newSize)
+{
+	Engine::windowWidth = newSize.x;
+	Engine::windowHeight = newSize.y;
+
+	HRESULT hr = S_OK;
+	if (swapChain)
+	{
+		Engine::deviceContext->OMSetRenderTargets(0, 0, 0);
+
+		// Release all outstanding references to the swap chain's buffers.
+		renderTargetView->Release();
+
+		// Preserve the existing buffer count and format.
+		// Automatically choose the width and height to match the client rect for HWNDs.
+		hr = swapChain->ResizeBuffers(0, Engine::windowWidth, Engine::windowHeight, DXGI_FORMAT_UNKNOWN, 0);
+
+		if (FAILED(hr))
+			return hr;
+
+		// Get buffer and create a render-target-view.
+		ID3D11Texture2D* pBuffer;
+		hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
+			(void**)&pBuffer);
+		
+		if (FAILED(hr))
+			return hr;
+
+		hr = Engine::device->CreateRenderTargetView(pBuffer, NULL,
+			&renderTargetView);
+
+		if (FAILED(hr))
+			return hr;
+
+		pBuffer->Release();
+
+		Engine::deviceContext->OMSetRenderTargets(1, &renderTargetView, NULL);
+
+		if(depthStencil) depthStencil->Release();
+		if(depthStencilView) depthStencilView->Release();
+
+		// Create depth stencil texture
+		D3D11_TEXTURE2D_DESC descDepth = {};
+		descDepth.Width = newSize.x;
+		descDepth.Height = newSize.y;
+		descDepth.MipLevels = 1;
+		descDepth.ArraySize = 1;
+		descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		descDepth.SampleDesc.Count = 1;
+		descDepth.SampleDesc.Quality = 0;
+		descDepth.Usage = D3D11_USAGE_DEFAULT;
+		descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		descDepth.CPUAccessFlags = 0;
+		descDepth.MiscFlags = 0;
+		hr = Engine::device->CreateTexture2D(&descDepth, nullptr, &depthStencil);
+		if (FAILED(hr))
+			return hr;
+
+		// Create the depth stencil view
+		D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
+		descDSV.Format = descDepth.Format;
+		descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		descDSV.Texture2D.MipSlice = 0;
+		hr = Engine::device->CreateDepthStencilView(depthStencil, &descDSV, &depthStencilView);
+		if (FAILED(hr))
+			return hr;
+
+		Engine::deviceContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
+
+		// Set up the viewport.
+		D3D11_VIEWPORT vp;
+		vp.Width = newSize.x;
+		vp.Height = newSize.y;
+		vp.MinDepth = 0.0f;
+		vp.MaxDepth = 1.0f;
+		vp.TopLeftX = 0;
+		vp.TopLeftY = 0;
+		Engine::deviceContext->RSSetViewports(1, &vp);
+
+		InitWorld(newSize.x, newSize.y);
+	}
+
+	return hr;
 }
 
 //--------------------------------------------------------------------------------------
@@ -610,6 +685,12 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		//int yPos = GET_Y_LPARAM(lParam);
 		break;
 	}
+
+	//TEMP
+	case WM_MOUSEWHEEL:
+		Engine::camera.SetZoom(Engine::camera.GetZoom() + GET_WHEEL_DELTA_WPARAM(wParam) * Engine::camera.GetZoom() * 0.001);
+		break;
+
 	case WM_PAINT:
 		hdc = BeginPaint( hWnd, &ps );
 		EndPaint( hWnd, &ps );
@@ -619,8 +700,14 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		PostQuitMessage( 0 );
 		break;
 
-		// Note that this tutorial does not handle resizing (WM_SIZE) requests,
-		// so we created the window without the resize border.
+	case WM_SIZE:
+		if (Engine::deviceContext != NULL)
+		{
+			resizeSwapChain = true;
+			Engine::windowWidth = LOWORD(lParam);
+			Engine::windowHeight = HIWORD(lParam);
+		}
+		break;
 
 	default:
 		return DefWindowProc( hWnd, message, wParam, lParam );
@@ -645,10 +732,13 @@ float calculateDeltaTime()
 
 	// cap the framerate at 60 fps 
 	cummulativeTime += deltaTime;
-	if (cummulativeTime >= FPS60) {
+	if (cummulativeTime >= FPS60)
+	{
 		cummulativeTime = cummulativeTime - FPS60;
 	}
-	else {
+	else
+	{
+		Sleep((FPS60 - cummulativeTime) * 1000 * 0.9);	//Sleeps thread for almost full amount of time - leaving some time for recalculation
 		return 0;
 	}
 
@@ -657,6 +747,19 @@ float calculateDeltaTime()
 
 void Update(float deltaTime)
 {
+	//TEMP
+	if (GetAsyncKeyState(VK_RBUTTON))
+	{
+		POINT p;
+		if (GetCursorPos(&p))
+		{
+			if (ScreenToClient(Engine::windowHandle, &p))
+			{
+				Engine::camera.SetCameraPosition(XMFLOAT4((-p.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (p.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
+			}
+		}
+	}
+
 	for (auto& e : Engine::entities)
 		if(e->shouldUpdate)
 		{
@@ -673,6 +776,12 @@ void Update(float deltaTime)
 //--------------------------------------------------------------------------------------
 void Render()
 {
+	if (resizeSwapChain)
+	{
+		ResizeSwapChain(XMUINT2(Engine::windowWidth, Engine::windowHeight));
+		resizeSwapChain = false;
+	}
+
     // Clear the back buffer
     Engine::deviceContext->ClearRenderTargetView( renderTargetView, Colors::MidnightBlue );
 
@@ -693,11 +802,17 @@ void Render()
 				XMFLOAT4X4 compWorld = f->GetTransform();
 				XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * mGO;
 
+				XMFLOAT4X4 mat = Engine::camera.view;
+				XMMATRIX viewMat = XMLoadFloat4x4(&mat);
+
+				mat = Engine::camera.proj;
+				XMMATRIX projMat = XMLoadFloat4x4(&mat);
+
 				// store this and the view / projection in a constant buffer for the vertex shader to use
 				ConstantBuffer cb1;
 				cb1.mWorld = XMMatrixTranspose(mGO2);
-				cb1.mView = XMMatrixTranspose(viewMatrix);
-				cb1.mProjection = XMMatrixTranspose(projectionMatrix);
+				cb1.mView = XMMatrixTranspose(viewMat);
+				cb1.mProjection = XMMatrixTranspose(projMat);
 				cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
 				Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb1, 0, 0);
 

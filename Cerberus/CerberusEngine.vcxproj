@@ -353,6 +353,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CCamera.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CTexture.h" />
@@ -388,6 +389,7 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CMaterial.cpp" />

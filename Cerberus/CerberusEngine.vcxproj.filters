@@ -31,6 +31,7 @@
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
     <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -75,6 +76,7 @@
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
