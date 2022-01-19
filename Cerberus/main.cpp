@@ -78,7 +78,7 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	UNREFERENCED_PARAMETER( hPrevInstance );
 	UNREFERENCED_PARAMETER( lpCmdLine );
 
-	srand(time(0));
+	srand((unsigned int)time(0));
 
 	if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
 		return 0;
@@ -601,8 +601,8 @@ HRESULT ResizeSwapChain(XMUINT2 newSize)
 
 		// Set up the viewport.
 		D3D11_VIEWPORT vp;
-		vp.Width = newSize.x;
-		vp.Height = newSize.y;
+		vp.Width = (FLOAT)newSize.x;
+		vp.Height = (FLOAT)newSize.y;
 		vp.MinDepth = 0.0f;
 		vp.MaxDepth = 1.0f;
 		vp.TopLeftX = 0;
@@ -758,7 +758,7 @@ float calculateDeltaTime()
 	}
 	else
 	{
-		Sleep((FPS60 - cummulativeTime) * 1000 * 0.9);	//Sleeps thread for almost full amount of time - leaving some time for recalculation
+		Sleep(DWORD((FPS60 - cummulativeTime) * 1000 * 0.9));	//Sleeps thread for almost full amount of time - leaving some time for recalculation
 		return 0;
 	}
 
@@ -851,4 +851,20 @@ void Render()
 
     // Present our back buffer to our front buffer
     swapChain->Present( 0, 0 );
+}
+
+void Engine::DestroyEntity(CEntity* targetEntity)
+{
+	{
+		for (size_t i = 0; i < entities.size(); i++)
+		{
+			CEntity* entity = entities[i];
+			if (entity == targetEntity)
+			{
+				entities.erase(entities.begin() + i);
+				delete entity;
+				return;
+			}
+		}
+	}
 }

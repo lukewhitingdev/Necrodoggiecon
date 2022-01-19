@@ -42,6 +42,8 @@ CSpriteComponent::CSpriteComponent()
 
 	mesh = AssetManager::GetDefaultMesh();
 	material = new CMaterial();
+	renderRect = XMUINT2(0, 0);
+	spriteSize = XMUINT2(0, 0);
 }
 
 HRESULT CSpriteComponent::LoadTexture(std::string filePath)

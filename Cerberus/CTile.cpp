@@ -10,6 +10,7 @@ CTile::CTile()
 CTile::CTile(int ID, Vector3 Position)
 {
 	tileID = ID;
+	tileStatus = TileType::Floor;
 	SetPosition(Position);
 
 	sprite = AddComponent<CSpriteComponent>();

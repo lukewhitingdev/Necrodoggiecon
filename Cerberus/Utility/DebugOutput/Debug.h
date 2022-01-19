@@ -34,6 +34,11 @@ private:
 	}
 
 public:
+
+	//Disabled Warning for C4840, which is because the compiler doesnt like the fact im passing an varadic args to a varadic args.
+	#pragma warning(push)
+	#pragma warning( disable : 4840 )
+
 	template<typename ... Args>
 	// Logs a message to console. Supports arguments like printf.
 	static void Log(const char* fmt, Args ... args)IM_FMTARGS(2)
@@ -92,8 +97,10 @@ public:
 		output->AddLog(stringInput.c_str(), args ...);
 
 		if (FAILED(hr))
-			free(convOutput);
+			delete[] convOutput;
 	}
+
+	#pragma warning(pop)
 
 	static DebugOutput* getOutput() 
 	{
