@@ -10,7 +10,7 @@ class CEntity
 {
 protected:
 	bool updateTransform = true;
-	XMFLOAT4X4 world;
+	XMFLOAT4X4 world = XMFLOAT4X4();
 
 	Vector3 position = { 0,0,0 };
 	Vector3 scale = { 1,1,1 };

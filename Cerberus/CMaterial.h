@@ -9,6 +9,8 @@ struct _Material
 		, textureRect(0, 0)
 		, textureOffset(0, 0)
 		, tint(0, 0, 0, 0)
+		, padding2()
+		, padding1()
 	{}
 
 	int			UseTexture;
