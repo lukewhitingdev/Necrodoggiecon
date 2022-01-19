@@ -78,7 +78,7 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	UNREFERENCED_PARAMETER( hPrevInstance );
 	UNREFERENCED_PARAMETER( lpCmdLine );
 
-	srand(time(0));
+	srand((unsigned int)time(0));
 
 	if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
 		return 0;
@@ -723,4 +723,41 @@ void Render()
 
     // Present our back buffer to our front buffer
     swapChain->Present( 0, 0 );
+}
+
+void Engine::DestroyEntity(CEntity* targetEntity)
+{
+	for (size_t i = 0; i < entities.size(); i++)
+	{
+		CEntity* entity = entities[i];
+		if (entity == targetEntity)
+		{
+			entities.erase(entities.begin() + i);
+			delete entity;
+			return;
+		}
+	}
+}
+
+template<class T>
+std::vector<T> Engine::GetEntityOfType()
+{
+	std::vector<T> outputVector;
+
+	for (CEntity& entity : entities)
+	{
+		if (typeof(entity) == T)
+		{
+			outputVector.emplace_back(entity);
+		}
+	}
+	return outputVector;
+}
+
+template<class T>
+T* Engine::CreateEntity() 
+{
+	CEntity* temp = new T();
+	entities.emplace_back(temp);
+	return (T*)temp;
 }
