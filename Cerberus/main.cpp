@@ -46,6 +46,7 @@ HWND Engine::windowHandle;
 int Engine::windowWidth = 1280;
 int Engine::windowHeight = 720;
 bool resizeSwapChain = false;
+bool fillState = true;
 					   
 // Direct3D.           
 D3D_DRIVER_TYPE Engine::driverType = D3D_DRIVER_TYPE_NULL;
@@ -58,6 +59,7 @@ ID3D11DeviceContext* Engine::deviceContext;
 //--------------------------------------------------------------------------------------
 ID3D11VertexShader* vertexShader;
 ID3D11PixelShader* pixelShader;
+ID3D11PixelShader* pixelShaderSolid;
 ID3D11InputLayout* vertexLayout;
 ID3D11Buffer* constantBuffer;
 IDXGISwapChain* swapChain;
@@ -505,6 +507,20 @@ HRESULT	InitMesh()
 	if (FAILED(hr))
 		return hr;
 
+	hr = CompileShaderFromFile(L"shader.fx", "PSSolid", "ps_4_0", &pPSBlob);
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr,
+			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
+		return hr;
+	}
+
+	// Create the pixel shader
+	hr = Engine::device->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &pixelShaderSolid);
+	pPSBlob->Release();
+	if (FAILED(hr))
+		return hr;
+
 	// Create the constant buffer
 	D3D11_BUFFER_DESC bd = {};
 	bd.Usage = D3D11_USAGE_DEFAULT;
@@ -636,6 +652,7 @@ void CleanupDevice()
     if( constantBuffer ) constantBuffer->Release();
     if (vertexShader) vertexShader ->Release();
     if( pixelShader ) pixelShader->Release();
+    if( pixelShaderSolid ) pixelShaderSolid->Release();
     if( depthStencil ) depthStencil->Release();
     if( depthStencilView ) depthStencilView->Release();
     if( renderTargetView ) renderTargetView->Release();
@@ -707,7 +724,17 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		if (wParam == VK_SPACE) { Input::SetKeyState(Keys::Space, true); break; }
 		if (wParam == VK_SHIFT) { Input::SetKeyState(Keys::Shift, true); break; }
 		if (wParam == VK_ESCAPE) { Input::SetKeyState(Keys::Esc, true); break; }
-		if (wParam == VK_F1) { Input::SetKeyState(Keys::F1, true); break; }
+		if (wParam == VK_F1) 
+		{ 
+			Input::SetKeyState(Keys::F1, true); 
+			if (fillState)
+				Engine::deviceContext->RSSetState(wireframeRastState);
+			else
+				Engine::deviceContext->RSSetState(fillRastState);
+
+			fillState = !fillState;
+			break; 
+		}
 		break;
 	case WM_KEYUP:
 		if (wParam == 0x57) { Input::SetKeyState(Keys::W, false); break; }
@@ -821,6 +848,16 @@ void Render()
     // Clear the depth buffer to 1.0 (max depth)
     Engine::deviceContext->ClearDepthStencilView( depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
 
+	Engine::deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+	Engine::deviceContext->PSSetConstantBuffers(0, 1, &constantBuffer);
+
+	Engine::deviceContext->VSSetShader(vertexShader, nullptr, 0);
+
+	if (fillState)
+		Engine::deviceContext->PSSetShader(pixelShader, nullptr, 0);
+	else
+		Engine::deviceContext->PSSetShader(pixelShaderSolid, nullptr, 0);
+
 	for (auto& e : Engine::entities)
 	{
 		//Maybe should have a visible bool for each entity
@@ -846,13 +883,8 @@ void Render()
 				cb1.mWorld = XMMatrixTranspose(mGO2);
 				cb1.mView = XMMatrixTranspose(viewMat);
 				cb1.mProjection = XMMatrixTranspose(projMat);
-				cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
+				cb1.vOutputColor = XMFLOAT4(1, 0, 1, 1);
 				Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb1, 0, 0);
-
-				Engine::deviceContext->VSSetShader(vertexShader, nullptr, 0);
-				Engine::deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
-
-				Engine::deviceContext->PSSetShader(pixelShader, nullptr, 0);
 
 				f->Draw(Engine::deviceContext);
 			}
