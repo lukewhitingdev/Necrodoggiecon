@@ -9,18 +9,16 @@ CAIController::CAIController()
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
 
-	sprite->SetTint(XMFLOAT4(rand() % 2 * .5, rand() % 2 * .5, rand() % 2 * .5, 0)); sprite = AddComponent<CSpriteComponent>();
+	sprite->SetTint(XMFLOAT4(rand() % 2 * 0.5f, rand() % 2 * 0.5f, rand() % 2 * 0.5f, 0)); sprite = AddComponent<CSpriteComponent>();
 	sprite->LoadTexture("Resources\\birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
 
-	sprite->SetTint(XMFLOAT4(rand() % 2 * .5, rand() % 2 * .5, rand() % 2 * .5, 0));
+	sprite->SetTint(XMFLOAT4(rand() % 2 * 0.5f, rand() % 2 * 0.5f, rand() % 2 * 0.5f, 0));
 
 
 	currentState = STATE::PATROL;
 	currentCount = 0;
-	mass = 100.0f;
-	speed = 0.0f;
 	currentPatrolNode = nullptr;
 
 	velocity = { 0.0f, 0.0f, 0.0f };
@@ -70,7 +68,7 @@ CAIController::CAIController()
 	waypoints.emplace_back(bottomRight);
 
 	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 500.0f, 200.0f, 0.0f });
-	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ 0.0f, 100.0f, 0.0f });
+	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ -50.0f, 100.0f, 0.0f });
 	PatrolNode* patrolPoint3 = new PatrolNode(Vector3{ -500.0f, -200.0f, 0.0f });
 
 	patrolPoint1->nextPatrolNode = patrolPoint2;
@@ -85,23 +83,24 @@ CAIController::CAIController()
 void CAIController::Update(float deltaTime)
 {
 	//Debug::Log("Current position: {%f, %f}", position.x, position.y);
-	StateMachine(deltaTime);
+	StateMachine();
 
-	Vector3 force = (heading * maxSpeed) - velocity;
+	Movement(deltaTime);
+
+	SetPosition(position);
+}
+
+void CAIController::Movement(float deltaTime)
+{
+	Vector3 force = (heading * speed) - velocity;
 
 	acceleration = force / mass;
 
 	velocity += acceleration * deltaTime;
 
-	velocity.Truncate(maxSpeed);
+	velocity.Truncate(speed);
 
 	position += velocity * deltaTime;
-
-	SetPosition(position);
-}
-
-void CAIController::MoveInHeadingDirection(float deltaTime)
-{
 }
 
 /* Initialize the patrol nodes and waypoints. */
@@ -170,7 +169,7 @@ PatrolNode* CAIController::FindClosestPatrolNode()
 }
 
 /* Calls the relevant function based on the current state. */
-void CAIController::StateMachine(float deltaTime)
+void CAIController::StateMachine()
 {
 	switch (currentState)
 	{
@@ -203,7 +202,6 @@ void CAIController::Patrolling()
 	if (position.DistanceTo(currentPatrolNode->position) <= 20.0f)
 	{
 		Debug::Log("Hit patrol node: x=%f, y=%f", currentPatrolNode->position.x, currentPatrolNode->position.y);
-		WaypointNode* start = currentPatrolNode->closestWaypoint;
 		currentPatrolNode = currentPatrolNode->nextPatrolNode;
 
 		currentState = STATE::PATHFINDING;
@@ -241,9 +239,10 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
 
 	if (dist > 0)
 	{
-		Vector3 DesiredVelocity = Vector3(TargetPos - position).normalize() * maxSpeed;
+		Vector3 DesiredVelocity = Vector3(TargetPos - position).normalize() * speed;
 		return (DesiredVelocity - velocity);
 	}
+	return Vector3{ 0.0f, 0.0f, 0.0f };
 }
 
 /* Sets the path betqween the closest waypoint to the character and the closest waypoint to the target patrol node. */
@@ -410,16 +409,11 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 		}
 	}
 
-	/*for (int i = closed.size() - 1; i >= 0; --i)
-	{
-		pathNodes.push_back(closed[i]);
-	}*/
-
 	// Finally push the final node onto the array of path nodes. 
 	pathNodes.push_back(current);
 
 	// Set the current count to be the index of the final node on the list.
-	currentCount = pathNodes.size() - 1;
+	currentCount = (int)pathNodes.size() - 1;
 
 	currentState = STATE::PATROL;
 }

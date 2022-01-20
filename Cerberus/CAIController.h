@@ -5,7 +5,8 @@
 #include "CSpriteComponent.h"
 #include <iostream>
 
-const int maxSpeed = 200.0f;
+const float speed = 200.0f;
+const float mass = 100.0f;
 
 struct Waypoint
 {
@@ -76,6 +77,8 @@ protected:
 
 	virtual void Update(float deltaTime) override;
 
+	void Movement(float deltaTime);
+
 	STATE currentState;
 
 	//BehaviourTree behaviourTree;
@@ -84,19 +87,14 @@ protected:
 	Vector3 acceleration;
 	Vector3 heading;
 
-	void MoveInHeadingDirection(float deltaTime);
-
 	std::vector<PatrolNode*> patrolNodes;
 	std::vector<WaypointNode*> waypointNodes;
 	void SetPatrolNodes(std::vector<PatrolNode*> nodes, std::vector<Waypoint*> waypoints);
 	PatrolNode* currentPatrolNode;
 
 	PatrolNode* FindClosestPatrolNode();
-	
-	float mass;
-	float speed;
 
-	void StateMachine(float deltaTime);
+	void StateMachine();
 	void Patrolling();
 
 	Vector3 Seek(Vector3 TargetPos);
