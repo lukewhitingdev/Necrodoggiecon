@@ -11,11 +11,14 @@ namespace Keys
 
 class Input
 {
-	static char keyStates[Keys::END_ENTRY / 8 + 1];	//Get approximate size of InputKeys
+	static char* boolMem;
+	static unsigned short memLengthBytes;
 
 public:
+	static unsigned short Init();
 	static bool GetKeyState(Keys::InputKeys key);
 	static void SetKeyState(Keys::InputKeys key, bool newState);
+	static void Cleanup();
 
 	static Vector3 mousePos;
 };
