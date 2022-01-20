@@ -311,7 +311,7 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
 
 	if (dist > 0)
 	{
-		Vector3 DesiredVelocity = Vector3(TargetPos - position).normalize() * speed;
+		Vector3 DesiredVelocity = Vector3(TargetPos - position).Normalize() * speed;
 		return (DesiredVelocity - velocity);
 	}
 	return Vector3{ 0.0f, 0.0f, 0.0f };

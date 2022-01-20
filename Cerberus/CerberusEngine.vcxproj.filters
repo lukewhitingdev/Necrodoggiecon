@@ -1,5 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <FxCompile Include="shader.fx" />
+  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="main.cpp" />
@@ -29,6 +32,12 @@
     </ClCompile>
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CMaterial.cpp" />
+    <ClCompile Include="Tools\CT_WindowBase.cpp" />
+    <ClCompile Include="Tools\CT_EditorMain.cpp" />
+  
+    <ClCompile Include="CWorld_Edit.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
     <ClCompile Include="CAIController.cpp" />
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
     <ClCompile Include="CPlayer.cpp" />
@@ -71,12 +80,18 @@
     <ClInclude Include="CWorldData.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="DataStorage.h">
+    <ClInclude Include="WorldConstants.h">
       <Filter>World</Filter>
     </ClInclude>
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="CMaterial.h" />
+    <ClInclude Include="Tools\CT_WindowBase.h" />
+    <ClInclude Include="Tools\CT_EditorMain.h" />
+ 
+    <ClInclude Include="CWorld_Edit.h">
+      <Filter>World</Filter>
+    </ClInclude>
     <ClInclude Include="CAIController.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="CPlayer.h" />

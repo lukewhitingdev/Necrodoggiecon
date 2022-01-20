@@ -18,7 +18,7 @@
 #include "Core/testClass.h"
 #include "CPlayer.h"
 #include "CTile.h"
-#include "CWorld.h"
+#include "CWorld_Edit.h"
 #include "CAIController.h"
 #include "CCamera.h"
 #include "Utility/EventSystem/EventSystem.h"
@@ -173,11 +173,16 @@ void Load()
 {
 	EventSystem::AddListener("GameOver", []() {exit(1); });
 
+	bool editorMode = false;
+
+	
+	
 	for (int i = 0; i < 0; i++)
 	{
 		TestClass* myClass = Engine::CreateEntity<TestClass>();
 		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
+	
 	
 	// sawps and makes one of the entiys the player
 	for (int i = 0; i < 0; i++)
@@ -185,6 +190,15 @@ void Load()
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
+
+
+
+	
+
+	
+
+	
+
 
 	for (int i = 0; i < 1; i++)
 	{
@@ -225,8 +239,20 @@ void Load()
 	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
 	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
 
-	//CWorld* World = new CWorld(0);
-	//World->LoadWorld(0);
+
+
+
+	if (editorMode)
+	{
+		CWorld_Editable::NewWorld(0);
+		CWorld_Editable::EditWorld(0);
+		CWorld_Editable::SaveWorld(0);
+	}
+	else
+	{
+
+		CWorld::LoadWorld(0);
+	}
 }
 
 //--------------------------------------------------------------------------------------
