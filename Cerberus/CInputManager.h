@@ -5,7 +5,7 @@ namespace Keys
 {
 	enum InputKeys
 	{
-		W, A, S, D, RMB, LMB, MMB, END_ENTRY
+		W, A, S, D, E, F, R, One, Two, Three, Space, Shift, Esc, F1, RMB, LMB, MMB, END_ENTRY
 	};
 }
 

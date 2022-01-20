@@ -698,12 +698,32 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		if (wParam == 0x41) { Input::SetKeyState(Keys::A, true); break; }
 		if (wParam == 0x53) { Input::SetKeyState(Keys::S, true); break; }
 		if (wParam == 0x44) { Input::SetKeyState(Keys::D, true); break; }
+		if (wParam == 0x45) { Input::SetKeyState(Keys::E, true); break; }
+		if (wParam == 0x46) { Input::SetKeyState(Keys::F, true); break; }
+		if (wParam == 0x52) { Input::SetKeyState(Keys::R, true); break; }
+		if (wParam == 0x31) { Input::SetKeyState(Keys::One, true); break; }
+		if (wParam == 0x32) { Input::SetKeyState(Keys::Two, true); break; }
+		if (wParam == 0x33) { Input::SetKeyState(Keys::Three, true); break; }
+		if (wParam == VK_SPACE) { Input::SetKeyState(Keys::Space, true); break; }
+		if (wParam == VK_SHIFT) { Input::SetKeyState(Keys::Shift, true); break; }
+		if (wParam == VK_ESCAPE) { Input::SetKeyState(Keys::Esc, true); break; }
+		if (wParam == VK_F1) { Input::SetKeyState(Keys::F1, true); break; }
 		break;
 	case WM_KEYUP:
 		if (wParam == 0x57) { Input::SetKeyState(Keys::W, false); break; }
 		if (wParam == 0x41) { Input::SetKeyState(Keys::A, false); break; }
 		if (wParam == 0x53) { Input::SetKeyState(Keys::S, false); break; }
 		if (wParam == 0x44) { Input::SetKeyState(Keys::D, false); break; }
+		if (wParam == 0x45) { Input::SetKeyState(Keys::E, false); break; }
+		if (wParam == 0x46) { Input::SetKeyState(Keys::F, false); break; }
+		if (wParam == 0x52) { Input::SetKeyState(Keys::R, false); break; }
+		if (wParam == 0x31) { Input::SetKeyState(Keys::One, false); break; }
+		if (wParam == 0x32) { Input::SetKeyState(Keys::Two, false); break; }
+		if (wParam == 0x33) { Input::SetKeyState(Keys::Three, false); break; }
+		if (wParam == VK_SPACE) { Input::SetKeyState(Keys::Space, false); break; }
+		if (wParam == VK_SHIFT) { Input::SetKeyState(Keys::Shift, false); break; }
+		if (wParam == VK_ESCAPE) { Input::SetKeyState(Keys::Esc, false); break; }
+		if (wParam == VK_F1) { Input::SetKeyState(Keys::F1, false); break; }
 		break;
 
 	//TEMP
