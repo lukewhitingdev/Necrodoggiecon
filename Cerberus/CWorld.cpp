@@ -85,10 +85,10 @@ void CWorld::BuildNavigationGrid()
 	{
 		Vector2 Position = Vector2(i % mapScale, ((i - (i % mapScale)) / mapScale));
 
-	//	tileContainer[i]->AddConnectedTile(tileContainer[GridToIndex(Position + Vector2(1, 0))]);
-		//tileContainer[i]->AddConnectedTile(tileContainer[GridToIndex(Position + Vector2(-1, 0))]);
-		//tileContainer[i]->AddConnectedTile(tileContainer[GridToIndex(Position + Vector2(0, 1))]);
-		//tileContainer[i]->AddConnectedTile(tileContainer[GridToIndex(Position + Vector2(0, -1))]);
+		if (tileContainer[i]->IsWalkable())tileContainer[i]->AddConnectedTile(GridToIndex(Position + Vector2(1, 0)));
+		if (tileContainer[i]->IsWalkable())tileContainer[i]->AddConnectedTile(GridToIndex(Position + Vector2(-1, 0)));
+		if (tileContainer[i]->IsWalkable())tileContainer[i]->AddConnectedTile(GridToIndex(Position + Vector2(0, -1)));
+		if (tileContainer[i]->IsWalkable())tileContainer[i]->AddConnectedTile(GridToIndex(Position + Vector2(0, 1)));
 
 	}
 

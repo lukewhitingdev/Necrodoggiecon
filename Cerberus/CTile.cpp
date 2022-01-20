@@ -100,10 +100,7 @@ void CTile::ChangeTileID(CellID TileID)
 	
 }
 
-void CTile::AddConnectedTile(CTile* Tile)
-{
-	ConnectedTiles.push_back(Tile);
-}
+
 
 void CTile::SetRenderData(int X, int Y)
 {

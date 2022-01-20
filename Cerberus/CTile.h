@@ -36,13 +36,15 @@ public:
 
 
 	
-	std::vector<CTile*> GetConnectedTiles() { return ConnectedTiles; }
+	std::vector<int> GetConnectedTiles() { return connectedTiles; }
 
 
-	void AddConnectedTile(CTile* Tile);
+	void AddConnectedTile(int Tile) { connectedTiles.push_back(Tile); }
 
 
-	void SetNavID(int ID) { NavID = ID; }
+	void SetNavID(int ID) { navID = ID; }
+
+	bool IsWalkable() { return isWalkable; }
 
 protected: 
 
@@ -62,9 +64,9 @@ private:
 
 	int tileID;
 
-	int NavID;
+	int navID;
 
-	std::vector<CTile*> ConnectedTiles;
+	std::vector<int> connectedTiles;
 
 
 

@@ -43,6 +43,10 @@ protected:
 
 	void BuildNavigationGrid();
 
+	CTile* GetTileByID(int ID) { return tileContainer[ID]; }
+
+
+
 
 
 
