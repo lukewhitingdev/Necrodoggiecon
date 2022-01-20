@@ -80,8 +80,6 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 	srand((unsigned int)time(0));
 
-	Input::Init();
-
 	if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
 		return 0;
 
@@ -123,7 +121,6 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	}
 
 	CleanupDevice();
-	Input::Cleanup();
 
 	return ( int )msg.wParam;
 }
