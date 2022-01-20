@@ -20,6 +20,7 @@
 #include "CTile.h"
 #include "CWorld.h"
 #include "CCamera.h"
+#include "Utility/Audio/FMOD/FMODAudioController.h"
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
@@ -181,8 +182,6 @@ void Load()
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
-
-
 
 
 	//CWorld* World = new CWorld(0);
