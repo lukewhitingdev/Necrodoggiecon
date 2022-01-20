@@ -16,6 +16,7 @@ class Input
 public:
 	static bool GetKeyState(Keys::InputKeys key);
 	static void SetKeyState(Keys::InputKeys key, bool newState);
+	static void UpdateKeys(const unsigned int& wParam, bool newState);
 
 	static Vector3 mousePos;
 };
