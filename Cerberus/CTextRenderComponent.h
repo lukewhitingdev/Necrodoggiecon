@@ -4,8 +4,9 @@
 class CTextRenderComponent : public CComponent
 {
 	std::string text = "";
-	std::string font = "Resources\\Man.dds";
+	std::string font = "Resources\\font.dds";
 	std::vector<CSpriteComponent*> sprites;
+	XMUINT2 characterSize = { 7,7 };
 public:
 	CTextRenderComponent();
 	HRESULT SetFont(std::string filePath);

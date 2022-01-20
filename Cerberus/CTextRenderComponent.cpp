@@ -8,7 +8,7 @@ CTextRenderComponent::CTextRenderComponent()
 
 HRESULT CTextRenderComponent::SetFont(std::string filePath)
 {
-	HRESULT hr;
+	HRESULT hr = S_OK;
 	for (auto& e : sprites)
 	{
 		hr = e->LoadTexture(filePath);
@@ -27,6 +27,8 @@ void CTextRenderComponent::SetText(std::string newText)
 		sprites.push_back(new CSpriteComponent());
 		CSpriteComponent* t = sprites.back();
 		t->LoadTexture(font);
+		t->SetRenderRect(characterSize);
+		t->SetSpriteSize(XMUINT2(characterSize.x * 5, characterSize.y * 5));
 	}
 
 	for (int i = 0; i > count; i--)
@@ -39,6 +41,7 @@ void CTextRenderComponent::SetText(std::string newText)
 	for (int i = 0; i < sprites.size(); i++)
 	{
 		//set the text coords here
+		sprites[i]->SetTextureOffset(XMFLOAT2(characterSize.x * (newText[i] % 16), characterSize.y * floor(newText[i] / 16)));
 		sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i, 0, 0));
 	}
 }
