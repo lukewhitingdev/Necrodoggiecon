@@ -28,7 +28,12 @@ void TestClass::Update(float deltaTime)
 	const uint32_t speed = 24;
 	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 128, (int(round(timeElapsed * speed) / 5) % 2) * 128));
 
-	float speed2 = 200.0f;
+	float speed2;
+	if (Input::GetKeyState(Keys::Shift))
+		speed2 = 400.0f;
+	else
+		speed2 = 200.0f;
+
 	float deltaSpeed = speed2 * deltaTime;
 
 	Vector3 moveDir = { 0,0,0 };

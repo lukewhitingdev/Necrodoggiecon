@@ -47,6 +47,7 @@ int Engine::windowWidth = 1280;
 int Engine::windowHeight = 720;
 bool resizeSwapChain = false;
 bool fillState = true;
+bool minimised = false;
 					   
 // Direct3D.           
 D3D_DRIVER_TYPE Engine::driverType = D3D_DRIVER_TYPE_NULL;
@@ -113,12 +114,19 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		}
 		else
 		{
-			float t = calculateDeltaTime(); // capped at 60 fps
-			if (t == 0.0f)
-				continue;
+			if (!minimised)
+			{
+				float t = calculateDeltaTime(); // capped at 60 fps
+				if (t == 0.0f)
+					continue;
 
-			Update(t);
-			Render();
+				Update(t);
+				Render();
+			}
+			else
+			{
+				Sleep(64);
+			}
 		}
 	}
 
@@ -722,6 +730,11 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 			fillState = !fillState;
 			break;
 		}
+		if (wParam == VK_ESCAPE)
+		{
+			PostQuitMessage(1);
+			break;
+		}
 		break;
 	case WM_KEYUP:
 		Input::UpdateKeys(wParam, false);
@@ -748,6 +761,11 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 			Engine::windowWidth = LOWORD(lParam);
 			Engine::windowHeight = HIWORD(lParam);
 		}
+
+		if (wParam == SIZE_MINIMIZED)
+			minimised = true;
+		else
+			minimised = false;
 		break;
 
 	default:
