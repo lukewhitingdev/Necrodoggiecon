@@ -21,6 +21,7 @@
 #include "CWorld.h"
 #include "CAIController.h"
 #include "CCamera.h"
+#include "Utility/EventSystem/EventSystem.h"
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
@@ -170,6 +171,8 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
+	EventSystem::AddListener("GameOver", []() {exit(1); });
+
 	for (int i = 0; i < 0; i++)
 	{
 		TestClass* myClass = Engine::CreateEntity<TestClass>();

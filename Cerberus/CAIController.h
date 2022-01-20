@@ -7,6 +7,7 @@
 #include <iostream>
 #include "CPlayer.h"
 #include "Core/testClass.h"
+#include "Utility/EventSystem/EventSystem.h"
 
 const float speed = 200.0f;
 const float mass = 100.0f;
@@ -104,6 +105,8 @@ protected:
 
 	void StateMachine();
 	void Patrolling();
+	virtual void ChasePlayer();
+	virtual void AttackPlayer();
 
 	Vector3 Seek(Vector3 TargetPos);
 

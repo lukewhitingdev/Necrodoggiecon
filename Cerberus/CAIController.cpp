@@ -8,7 +8,7 @@ CAIController::CAIController()
 	player->SetPosition(Vector3{-500.0f, 100.0f, 0.0f});
 	player->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
 
-	viewFrustrum->SetScale(Vector3{ (viewRange/128.0f) + 1.0f, (viewRange / 128.0f) + 1.0f, 1.0f });
+	viewFrustrum->SetScale(Vector3{ (viewRange/128.0f) + 2.0f, (viewRange / 128.0f) + 2.0f, 1.0f });
 	viewFrustrum->SetPosition(GetPosition());
 
 	sprite = AddComponent<CSpriteComponent>();
@@ -95,7 +95,10 @@ void CAIController::Update(float deltaTime)
 	Movement(deltaTime);
 
 	if (CanSeePlayer())
+	{
 		Debug::Log("CAN SEE PLAYER");
+		currentState = STATE::CHASE;
+	}
 	else
 	{
 		Debug::Log("CAN NOT SEE PLAYER");
@@ -132,6 +135,7 @@ bool CAIController::CanSeePlayer()
 
 	Vector3 viewToPlayer = player->GetPosition() - position;
 	float distanceToPlayer = viewToPlayer.Magnitude();
+	
 
 	viewToPlayer = viewToPlayer.normalize();
 
@@ -144,9 +148,12 @@ bool CAIController::CanSeePlayer()
 	this->SetRotation(angle);
 	viewFrustrum->SetRotation(angle);
 
-	float dotProduct = rightView.dot(viewToPlayer);
+	float dotProduct = view.dot(viewToPlayer);
+	float pi = atanf(1) * 4;
+	float degreeAngle = dotProduct * (180.0f / pi);
+	Debug::Log("Angle to player = %f", degreeAngle);
 
-	if (dotProduct > 0.0f && distanceToPlayer < viewRange)
+	if (degreeAngle > 0.0f && distanceToPlayer < viewRange)
 		return true;
 
 	return false;
@@ -224,10 +231,10 @@ void CAIController::StateMachine()
 		SetPath();
 		break;
 	case STATE::CHASE:
-
+		ChasePlayer();
 		break;
 	case STATE::ATTACK:
-
+		AttackPlayer();
 		break;
 	case STATE::COVER:
 
@@ -274,6 +281,27 @@ void CAIController::Patrolling()
 	}
 }
 
+void CAIController::ChasePlayer()
+{
+	if (position.DistanceTo(player->GetPosition()) < 10.0f)
+	{
+		currentState = STATE::ATTACK;
+	}
+	else
+	{
+		heading = Seek(player->GetPosition());
+	}
+}
+
+void CAIController::AttackPlayer()
+{
+	Engine::DestroyEntity(player);
+	currentState = STATE::PATHFINDING;
+	EventSystem::TriggerEvent("GameOver");
+}
+
+
+
 /* Returns the velocity change needed to reach the target position. */
 Vector3 CAIController::Seek(Vector3 TargetPos)
 {
@@ -292,6 +320,7 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
 /* Sets the path betqween the closest waypoint to the character and the closest waypoint to the target patrol node. */
 void CAIController::SetPath()
 {
+	DeleteNodes();
 	std::vector<int> base = { 1000000 };
 	WaypointNode* closestWaypoint = new WaypointNode();
 	Waypoint* waypoint = new Waypoint(100000, Vector3{ 10000.0f, 10000.0f, 0.0f }, base);
