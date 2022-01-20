@@ -20,13 +20,13 @@ class CWorld
 public:
 	CWorld();
 
-	CWorld(int WorldSlot);
+	
 
-	void LoadWorld(int Slot);
+	static void LoadWorld(int Slot);
 
-	void ReloadWorld();
+	static void ReloadWorld();
 
-	void UnloadWorld();
+	static void UnloadWorld();
 
 	//A List of all tiles in the scene
 	//std::vector<Tile*> tileList;
@@ -38,12 +38,12 @@ public:
 
 protected:
 
-	void SetWorldSize(Vector3 Scale);
+	static void SetWorldSize(Vector3 Scale);
 
 
-	void BuildNavigationGrid();
+	static void BuildNavigationGrid();
 
-	CTile* GetTileByID(int ID) { return tileContainer[ID]; }
+	static CTile* GetTileByID(int ID) { return tileContainer[ID]; }
 
 
 
@@ -59,7 +59,7 @@ protected:
 	
 	//std::map<Vector3, CTile*> tileContainer;
 
-	CTile* tileContainer[mapScale * mapScale];
+	static CTile* tileContainer[mapScale * mapScale];
 
 	//This function should only be used when Loading / Reloading the scene.
 	//void LoadEntity(CT_EntityData EntityData);
@@ -75,19 +75,12 @@ protected:
 
 protected:
 
-	Vector3 IndexToGrid(int ID);
-	int GridToIndex(Vector2 Position);
+	static Vector3 IndexToGrid(int ID);
+	static int GridToIndex(Vector2 Position);
 
 
 
 };
-
-
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-//						WORLD FOR EDITOR
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
 
 
 

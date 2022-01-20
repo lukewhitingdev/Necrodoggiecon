@@ -3,18 +3,17 @@
 #include <iostream>
 #include <fstream>
 
-
+CTile* CWorld::tileContainer[mapScale * mapScale];
 
 
 CWorld::CWorld()
 {
+	for (int i = 0; i < (mapScale * mapScale); i++)
+	{
+		tileContainer[i] = nullptr;
+	}
 }
 
-CWorld::CWorld(int WorldSlot)
-{
-
-
-}
 
 void CWorld::LoadWorld(int Slot)
 {
@@ -34,7 +33,7 @@ void CWorld::LoadWorld(int Slot)
 
 	for (int i = 0; i < (mapScale * mapScale); i++)
 	{
-		Vector3 temp = Vector3(i % mapScale, i / mapScale, 0);
+		Vector3 temp = Vector3((float)(i % mapScale), (float)(i / mapScale), 0);
 		Vector2 gridPos = Vector2(temp.x, temp.y);
 
 		int ID = atoi(convertedFile[i].c_str());
@@ -69,7 +68,7 @@ void CWorld::BuildNavigationGrid()
 
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
-		Vector2 Position = Vector2(i % mapScale, ((i - (i % mapScale)) / mapScale));
+		Vector2 Position = Vector2((float)(i % mapScale), (float)((i - (i % mapScale)) / mapScale));
 
 		if (tileContainer[i]->IsWalkable())tileContainer[i]->AddConnectedTile(GridToIndex(Position + Vector2(1, 0)));
 		if (tileContainer[i]->IsWalkable())tileContainer[i]->AddConnectedTile(GridToIndex(Position + Vector2(-1, 0)));
@@ -84,9 +83,9 @@ void CWorld::BuildNavigationGrid()
 Vector3 CWorld::IndexToGrid(int ID)
 {
 
-	float x = ID % mapScale;
-	float y = (ID - x) / mapScale;
-	return Vector3(x,y, 0.0f);
+	int x = ID % mapScale;
+	int y = (ID - x) / mapScale;
+	return Vector3((float)x,(float)y, 0.0f);
 }
 
 int CWorld::GridToIndex(Vector2 Position)

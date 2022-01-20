@@ -189,18 +189,18 @@ void Load()
 
 	bool editorMode = false;
 
-	CWorld_Editable* World = new CWorld_Editable();
+	
 
 	if (editorMode)
 	{
-		World->NewWorld(0);
-		World->EditWorld(0);
-		World->SaveWorld(0);
+		CWorld_Editable::NewWorld(0);
+		CWorld_Editable::EditWorld(0);
+		CWorld_Editable::SaveWorld(0);
 	}
 	else
 	{
 		
-		World->LoadWorld(0);
+		CWorld::LoadWorld(0);
 	}
 
 /*

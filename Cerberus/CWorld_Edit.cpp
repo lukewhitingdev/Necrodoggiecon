@@ -5,11 +5,12 @@
 
 
 
+CellData CWorld_Editable::tileData[mapScale * mapScale];
 
 void CWorld_Editable::SaveWorld(int Slot)
 {
 
-	std::ifstream i("Resources/Levels/Level_1.json");
+	std::ifstream loadedData("Resources/Levels/Level_1.json");
 
 
 	json SaveData;
@@ -135,7 +136,7 @@ void CWorld_Editable::BoxOperation(Vector2 A, Vector2 B, int TileID)
 
 
 
-			int Index = (x + A.x) + ((y + A.y) * mapScale);
+			int Index = (x + (int)A.x) + ((y + (int)A.y) * mapScale);
 			
 			if (A.x + x > 0 && A.x + x < mapScale && A.y + y > 0 && A.y + y < mapScale)
 				tileData[Index].id = TileID;
@@ -154,7 +155,7 @@ void CWorld_Editable::GenerateTileMap()
 	{
 		if (tileData[i].id == 0)
 		{
-			Vector2 pos = Vector2(i % mapScale, i / mapScale);
+			Vector2 pos = Vector2((float)(i % mapScale), (float)(i / mapScale));
 
 			if (IsFloorAdjacent(Vector2(pos.x, pos.y)))
 			{
@@ -241,10 +242,6 @@ bool CWorld_Editable::IsFloorAdjacent(Vector2 Position)
 {
 	if (Position.x > 1 && Position.y > 1 && Position.x < mapScale - 1 && Position.y < mapScale - 1)
 	{
-
-		int Pos = GridToIndex(Position);
-
-
 		return (tileData[GridToIndex(Position + Vector2(1, 0))].id == 1 ||
 			tileData[GridToIndex(Position + Vector2(-1, 0))].id == 1 ||
 			tileData[GridToIndex(Position + Vector2(0, 1))].id == 1 ||
@@ -289,7 +286,7 @@ Vector2 CWorld_Editable::FindAdjacents(Vector2 Pos, CellType ID)
 
 
 
-	return Vector2(X, Y);
+	return Vector2((float)X, (float)Y);
 }
 
 Vector2 CWorld_Editable::FindFloorAdjacentDiagonal(Vector2 Position)
