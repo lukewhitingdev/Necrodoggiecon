@@ -25,47 +25,49 @@ Vector3 CPlayer::Movement(float deltaTime)
 	float move = 200.0f;
 	float speed = move * deltaTime;
 
-	/*if (GetAsyncKeyState(0x44))
+	Vector3 myPos = GetPosition();
+
+	if (GetAsyncKeyState(0x44))
 	{
-		position.x -= speed;
+		myPos.x -= speed;
 		if (GetAsyncKeyState(0x57))
 		{
-			position.y += speed;
-			SetPosition(position);
-			return position.x, position.y;
+			myPos.y += speed;
+			SetPosition(myPos);
+			return myPos.x, myPos.y;
 		}
 		if (GetAsyncKeyState(0x53))
 		{
-			position.y -= speed;
-			SetPosition(position);
-			return position.x, position.y;
+			myPos.y -= speed;
+			SetPosition(myPos);
+			return myPos.x, myPos.y;
 		}
 		else
 		{
-			SetPosition(position);
-			return position.x;
+			SetPosition(myPos);
+			return myPos.x;
 		}
 	}
 
 	if (GetAsyncKeyState(0x41))
 	{
-		position.x += speed;
+		myPos.x += speed;
 		if (GetAsyncKeyState(0x57))
 		{
-			position.y += speed;
-			SetPosition(position);
-			return position.x, position.y;
+			myPos.y += speed;
+			SetPosition(myPos);
+			return myPos.x, myPos.y;
 		}
 		if (GetAsyncKeyState(0x53))
 		{
-			position.y -= speed;
-			SetPosition(position);
-			return position.x, position.y;
+			myPos.y -= speed;
+			SetPosition(myPos);
+			return myPos.x, myPos.y;
 		}
 		else
 		{
-			SetPosition(position);
-			return position.x;
+			SetPosition(myPos);
+			return myPos.x;
 		}
 	}
 
@@ -73,16 +75,16 @@ Vector3 CPlayer::Movement(float deltaTime)
 
 	if (GetAsyncKeyState(0x57))
 	{
-		position.y += speed;
-		SetPosition(position);
-		return position.y;
+		myPos.y += speed;
+		SetPosition(myPos);
+		return myPos.y;
 	}
 	if (GetAsyncKeyState(0x53))
 	{
-		position.y -= speed;
-		SetPosition(position);
-		return position.y;
-	}*/
+		myPos.y -= speed;
+		SetPosition(myPos);
+		return myPos.y;
+	}
 
 	return 0;
 }

@@ -12,7 +12,7 @@ TestClass::TestClass()
 	sprite->LoadTexture("Resources\\birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
-	sprite->SetPosition(0, 0, 0);
+	sprite->SetPosition(0, 0, -1);
 
 	text = AddComponent<CTextRenderComponent>();
 	text->SetPosition(0, -84, -100);
