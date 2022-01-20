@@ -178,7 +178,7 @@ void Load()
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
 
-	bool editorMode = true;
+	bool editorMode = false;
 
 	CWorld_Editable* World = new CWorld_Editable();
 

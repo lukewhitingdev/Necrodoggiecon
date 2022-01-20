@@ -48,7 +48,7 @@ void CWorld::LoadWorld(int Slot)
 		Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
 		tempPos -= Vector3(64 * tileScale, 64 * tileScale, 0);
 
-		tempPos += Vector3(0, 128 * tileScale, 0);
+		tempPos += Vector3(0, 64 * tileScale, 0);
 
 
 
