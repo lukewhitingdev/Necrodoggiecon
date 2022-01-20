@@ -24,10 +24,7 @@ public:
 
 	static void LoadWorld(int Slot);
 
-	static void ReloadWorld();
-
-	static void UnloadWorld();
-
+	
 	//A List of all tiles in the scene
 	//std::vector<Tile*> tileList;
 
@@ -38,7 +35,7 @@ public:
 
 protected:
 
-	static void SetWorldSize(Vector3 Scale);
+	
 
 
 	static void BuildNavigationGrid();

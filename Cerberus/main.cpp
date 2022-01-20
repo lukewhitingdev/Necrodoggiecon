@@ -170,13 +170,16 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	/*
+	bool editorMode = false;
+
+	
+	
 	for (int i = 0; i < 0; i++)
 	{
 		TestClass* myClass = Engine::CreateEntity<TestClass>();
 		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
-	*/
+	
 	
 	// sawps and makes one of the entiys the player
 	for (int i = 0; i < 0; i++)
@@ -187,23 +190,13 @@ void Load()
 
 
 
-	bool editorMode = false;
+	
 
 	
 
-	if (editorMode)
-	{
-		CWorld_Editable::NewWorld(0);
-		CWorld_Editable::EditWorld(0);
-		CWorld_Editable::SaveWorld(0);
-	}
-	else
-	{
-		
-		CWorld::LoadWorld(0);
-	}
+	
 
-/*
+
 	for (int i = 0; i < 1; i++)
 	{
 		CAIController* ai = Engine::CreateEntity<CAIController>();
@@ -242,7 +235,21 @@ void Load()
 	TestClass* bottomRight = Engine::CreateEntity<TestClass>();
 	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
 	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-*/
+
+
+
+
+	if (editorMode)
+	{
+		CWorld_Editable::NewWorld(0);
+		CWorld_Editable::EditWorld(0);
+		CWorld_Editable::SaveWorld(0);
+	}
+	else
+	{
+
+		CWorld::LoadWorld(0);
+	}
 }
 
 //--------------------------------------------------------------------------------------
