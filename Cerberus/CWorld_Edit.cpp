@@ -62,7 +62,7 @@ void CWorld_Editable::NewWorld(int Slot)
 
 
 		TempPos -= Vector3(64 * tileScale, 64 * tileScale, 0);
-		TempPos += Vector3(50000000, 0, 0);
+		TempPos += Vector3(5000, 0, 0);
 
 		CTile* Tile = Engine::CreateEntity<CTile>();
 		Tile->SetPosition(TempPos);

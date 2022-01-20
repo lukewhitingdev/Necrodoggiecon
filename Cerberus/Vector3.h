@@ -28,7 +28,7 @@ public:
 
 	#pragma warning(pop)
 
-	Vector3(DirectX::XMFLOAT3 Input) : intrinsic(_mm_setr_ps(Input.x, Input.y, Input.z, 0)) {}
+	Vector3Base(DirectX::XMFLOAT3 Input) : intrinsic(_mm_setr_ps(Input.x, Input.y, Input.z, 0)) {}
 
 	Vector3Base() : intrinsic(_mm_setzero_ps()){}
 
@@ -151,15 +151,32 @@ public:
 		return _mm_add_ps(A.intrinsic, _mm_mul_ps(_mm_sub_ps(B.intrinsic, A.intrinsic), _mm_set1_ps(Alpha)));
 	}
 
-	
+	void Truncate(float max)
+	{
+		if (this->Magnitude() > max)
+		{
+			this->Normalize();
+
+			*this *= max;
+		}
+	}
 	
 
 };
+
+
+
+
 
 template<class T>
 class Vector2Base
 {
 public:
+#pragma warning(push)
+	//Disabled warning for 4324 since we dont care about alignment specifically. Re-Enable is alignment of the union becomes a problem.
+#pragma warning( disable : 4324 )
+//Disabled warning for 4201 since having a anonymous struct is nice when using the classes functionality. Otherwise it would be cumbersome to use.
+#pragma warning( disable : 4201 )
 	union
 	{
 		struct { T x, y; };
@@ -288,6 +305,9 @@ public:
 	{
 		return _mm_add_ps(A.intrinsic, _mm_mul_ps(_mm_sub_ps(B.intrinsic, A.intrinsic), _mm_set1_ps(Alpha)));
 	}
+
+
+
 	void Truncate(float max)
 	{
 		if (this->Magnitude() > max)

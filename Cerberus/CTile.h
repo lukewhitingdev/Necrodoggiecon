@@ -44,6 +44,8 @@ public:
 
 	void SetNavID(int ID) { navID = ID; }
 
+
+
 	bool IsWalkable() { return isWalkable; }
 
 protected: 
