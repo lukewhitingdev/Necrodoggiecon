@@ -18,6 +18,7 @@
 #include "Core/testClass.h"
 #include "CTile.h"
 #include "CWorld.h"
+#include "Utility/CollisionManager/CollisionManager.h"
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
@@ -644,14 +645,20 @@ float calculateDeltaTime()
 void Update(float deltaTime)
 {
 	for (auto& e : Engine::entities)
-		if(e->shouldUpdate)
+	{
+		if (e->shouldUpdate)
 		{
 			for (auto& f : e->components)
-				if(f->shouldUpdate)
+				if (f->shouldUpdate)
 					f->Update(deltaTime);
 
 			e->Update(deltaTime);
 		}
+		if (e->shouldCollide)
+		{
+			CollisionManager::CollisionDetection(e.);
+		}
+	}	
 }
 
 //--------------------------------------------------------------------------------------

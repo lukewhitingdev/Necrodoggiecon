@@ -2,6 +2,7 @@
 #include "Utility/DebugOutput/Debug.h"
 #include "../CSpriteComponent.h"
 #include "Utility/CollisionManager/Components/Bodies/CollisionComponent.h"
+#include "Utility/CollisionManager/Components/Bodies/BoundingSphere.h"
 
 TestClass::TestClass()
 {
@@ -11,6 +12,9 @@ TestClass::TestClass()
 	sprite->LoadTexture("Resources\\birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->spriteSize = XMUINT2(128, 128);
+
+	//colComponent = AddComponent<CollisionComponent>();
+
 
 	if (rand() % 2)
 		sprite->scale.x = -1;

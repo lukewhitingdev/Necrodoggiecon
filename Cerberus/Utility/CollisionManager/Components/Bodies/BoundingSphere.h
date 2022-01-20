@@ -1,5 +1,6 @@
 #pragma once
 #include "CollisionComponent.h"
+#include "Utility/DebugOutput/Debug.h"
 
 class BoundingCircle : public CollisionComponent
 {
@@ -10,6 +11,8 @@ public:
 
 	void SetRadius(float radius1);
 	float GetRadius();
+
+	void Update(float deltaTime);
 
 	float distanceBetweenPoints(Vector3& point1, Vector3& point2);
 

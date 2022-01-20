@@ -1,6 +1,6 @@
 #include "BoundingSphere.h"
 
-BoundingCircle::BoundingCircle() : CollisionComponent(BOUNDING_CIRCLE)
+BoundingCircle::BoundingCircle() : CollisionComponent()
 {
 
 
@@ -38,6 +38,11 @@ void BoundingCircle::SetRadius(float radius1)
 float BoundingCircle::GetRadius()
 {
 	return radius;
+}
+
+void BoundingCircle::Update(float deltaTime)
+{
+	std::cout << "radius: " << radius << std::endl;
 }
 
 float BoundingCircle::distanceBetweenPoints(Vector3& point1, Vector3& point2)
