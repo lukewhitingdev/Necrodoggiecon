@@ -1,13 +1,22 @@
 #pragma once
 #include "CSpriteComponent.h"
 
+enum class TextJustification
+{
+	Right, Center, Left
+};
+
 class CTextRenderComponent : public CComponent
 {
 	std::string text = "";
 	std::string font = "Resources\\font.dds";
 	std::vector<CSpriteComponent*> sprites;
 	XMUINT2 characterSize = { 7,7 };
+	unsigned short reserveSpriteCount = 16;
+	unsigned short usedSpriteCount = 0;
 public:
+	TextJustification justification = TextJustification::Center;
+
 	CTextRenderComponent();
 	HRESULT SetFont(std::string filePath);
 	void SetText(std::string newText);

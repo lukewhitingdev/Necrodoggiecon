@@ -4,6 +4,13 @@ CTextRenderComponent::CTextRenderComponent()
 {
 	shouldUpdate = false;
 	shouldDraw = true;
+
+	for (int i = 0; i < reserveSpriteCount; i++)
+	{
+		sprites.push_back(new CSpriteComponent());
+		CSpriteComponent* t = sprites.back();
+		t->LoadTexture(font);
+	}
 }
 
 HRESULT CTextRenderComponent::SetFont(std::string filePath)
@@ -21,30 +28,38 @@ HRESULT CTextRenderComponent::SetFont(std::string filePath)
 
 void CTextRenderComponent::SetText(std::string newText)
 {
-	if (newText.length() != sprites.size())	//Add a reserve so you don't constantly create and delete stuff.
+	usedSpriteCount = newText.length();
+	if (usedSpriteCount > sprites.size())	//Add a reserve so you don't constantly create and delete stuff.
 	{
-		int count = newText.length() - sprites.size();
+		int count = usedSpriteCount - sprites.size();
 		for (int i = 0; i < count; i++)
 		{
 			sprites.push_back(new CSpriteComponent());
 			CSpriteComponent* t = sprites.back();
 			t->LoadTexture(font);
-			t->SetRenderRect(characterSize);
-			t->SetSpriteSize(XMUINT2(characterSize.x * 2, characterSize.y * 2));
-		}
-
-		for (int i = 0; i > count; i--)
-		{
-			CSpriteComponent* t = sprites.back();
-			delete t;
-			sprites.pop_back();
+			Debug::Log("Add more sprites! %i", rand() % 100);
 		}
 	}
-
-	for (int i = 0; i < sprites.size(); i++)
+	else
 	{
+		//Add removal of extra sprites back to reserve amount
+	}
+
+	for (int i = 0; i < usedSpriteCount; i++)
+	{
+		sprites[i]->SetRenderRect(characterSize);
+		sprites[i]->SetSpriteSize(XMUINT2(characterSize.x * 2, characterSize.y * 2));
 		sprites[i]->SetTextureOffset(XMFLOAT2(characterSize.x * (newText[i] % 16), characterSize.y * floor(newText[i] / 16)));
-		sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - ((sprites[i]->GetSpriteSize().x * newText.length() * .5) + sprites[i]->GetSpriteSize().x * -.5), 0, 0));
+
+		switch (justification)
+		{
+		case TextJustification::Right:
+			sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i, 0, 0));
+			break;
+		case TextJustification::Center:
+			sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - ((sprites[i]->GetSpriteSize().x * newText.length() * .5) + sprites[i]->GetSpriteSize().x * -.5), 0, 0));
+			break;
+		}
 	}
 }
 
@@ -59,8 +74,8 @@ void CTextRenderComponent::Draw(ID3D11DeviceContext* context, XMFLOAT4X4 parentM
 	XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * XMLoadFloat4x4(&parentMat);
 	XMStoreFloat4x4(&compWorld, mGO2);
 
-	for (auto& e : sprites)
-		e->Draw(context, compWorld, cb, constantBuffer);
+	for (int i = 0; i < usedSpriteCount; i++)
+		sprites[i]->Draw(context, compWorld, cb, constantBuffer);
 }
 
 CTextRenderComponent::~CTextRenderComponent()

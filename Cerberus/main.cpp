@@ -179,11 +179,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	for (int i = 0; i < 1; i++)
-	{
-		TestClass* myClass = Engine::CreateEntity<TestClass>();
-		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	}
+	TestClass* myClass = Engine::CreateEntity<TestClass>();
 	
 	// sawps and makes one of the entiys the player
 	for (int i = 0; i < 1; i++)
@@ -191,9 +187,6 @@ void Load()
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
-
-
-
 
 	//CWorld* World = new CWorld(0);
 	//World->LoadWorld(0);
@@ -797,7 +790,7 @@ float calculateDeltaTime()
 	}
 	else
 	{
-		Sleep(DWORD((FPS60 - cummulativeTime) * 1000 * 0.9));	//Sleeps thread for almost full amount of time - leaving some time for recalculation
+		//Sleep(DWORD((FPS60 - cummulativeTime) * 1000 * 0.5));	//Sleeps thread for almost full amount of time - leaving some time for recalculation
 		return 0;
 	}
 
