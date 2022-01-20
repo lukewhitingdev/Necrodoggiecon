@@ -13,13 +13,13 @@ thats overall a potential 8x memory saving. :)
 
 bool Input::GetKeyState(Keys::InputKeys key)
 {
-	return (keyStates[int(floor(int(key) / 8.0f))] >> key % 8) & 1;
+	return (keyStates[int(floor(int(key) / 8.0f))] >> key % 8) & 1;	//Get bit value at key location in keyStates array
 }
 
 void Input::SetKeyState(Keys::InputKeys key, bool newState)
 {
 	if(newState)
-		keyStates[int(floor(int(key) / 8.0f))] |= 1 << key % 8;
+		keyStates[int(floor(int(key) / 8.0f))] |= 1 << key % 8;	//Set bit value to 1 at key location in keyStates array
 	else
-		keyStates[int(floor(int(key) / 8.0f))] &= ~(1 << key % 8);
+		keyStates[int(floor(int(key) / 8.0f))] &= ~(1 << key % 8);	//Set bit value to 0 at key location in keyStates array
 }

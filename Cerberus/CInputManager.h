@@ -11,7 +11,7 @@ namespace Keys
 
 class Input
 {
-	static char keyStates[Keys::InputKeys::END_ENTRY / 8 + 1];	//Get approximate size of InputKeys
+	static char keyStates[Keys::END_ENTRY / 8 + 1];	//Get approximate size of InputKeys
 
 public:
 	static bool GetKeyState(Keys::InputKeys key);
