@@ -16,14 +16,13 @@ CAIController::CAIController()
 
 	sprite->SetTint(XMFLOAT4(rand() % 2 * 0.5f, rand() % 2 * 0.5f, rand() % 2 * 0.5f, 0));
 
-
-	currentState = STATE::PATROL;
 	currentCount = 0;
 	currentPatrolNode = nullptr;
 
 	velocity = { 0.0f, 0.0f, 0.0f };
 	heading = { 0.0f, 0.0f, 0.0f };
 	acceleration = { 0.0f, 0.0f, 0.0f };
+	position = GetPosition();
 
 	std::vector<Waypoint*> waypoints;
 
@@ -68,7 +67,7 @@ CAIController::CAIController()
 	waypoints.emplace_back(bottomRight);
 
 	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 500.0f, 200.0f, 0.0f });
-	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ -50.0f, 100.0f, 0.0f });
+	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ -50.0f, 300.0f, 0.0f });
 	PatrolNode* patrolPoint3 = new PatrolNode(Vector3{ -500.0f, -200.0f, 0.0f });
 
 	patrolPoint1->nextPatrolNode = patrolPoint2;
@@ -82,7 +81,7 @@ CAIController::CAIController()
 
 void CAIController::Update(float deltaTime)
 {
-	//Debug::Log("Current position: {%f, %f}", position.x, position.y);
+	position = GetPosition();
 	StateMachine();
 
 	Movement(deltaTime);
@@ -173,19 +172,19 @@ void CAIController::StateMachine()
 {
 	switch (currentState)
 	{
-	case PATROL:
+	case STATE::PATROL:
 		Patrolling();
 		break;
-	case PATHFINDING:
+	case STATE::PATHFINDING:
 		SetPath();
 		break;
-	case CHASE:
+	case STATE::CHASE:
 
 		break;
-	case ATTACK:
+	case STATE::ATTACK:
 
 		break;
-	case COVER:
+	case STATE::COVER:
 
 		break;
 	default:

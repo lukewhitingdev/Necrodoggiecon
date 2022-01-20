@@ -37,12 +37,12 @@ struct Waypoint
 
 struct WaypointNode
 {
-	Waypoint* waypoint;
-	Waypoint* parentWaypoint;
+	Waypoint* waypoint = nullptr;
+	Waypoint* parentWaypoint = nullptr;
 	std::vector<WaypointNode*> neighbours;
-	float gCost;
-	float hCost;
-	float fCost = gCost + hCost;
+	float gCost = 0.0f;
+	float hCost = 0.0f;
+	float fCost = 0.0f;
 };
 
 struct PatrolNode
@@ -58,17 +58,18 @@ struct PatrolNode
 	}
 };
 
+enum class STATE
+{
+	PATROL,
+	PATHFINDING,
+	CHASE,
+	ATTACK,
+	COVER
+};
+
+
 class CAIController : public CEntity
 {
-	enum STATE
-	{
-		PATROL,
-		PATHFINDING,
-		CHASE,
-		ATTACK,
-		COVER
-	};
-
 public:
 	CAIController();
 
@@ -86,6 +87,7 @@ protected:
 	Vector3 velocity;
 	Vector3 acceleration;
 	Vector3 heading;
+	Vector3 position;
 
 	std::vector<PatrolNode*> patrolNodes;
 	std::vector<WaypointNode*> waypointNodes;
