@@ -1,5 +1,14 @@
 #pragma once
 #include "CWorld.h"
+
+
+struct CellData
+{
+	int id;
+	CellType type;
+};
+
+
 class CWorld_Editable : public CWorld
 {
 
@@ -45,9 +54,9 @@ private:
 
 
 
-	CTile* tileData[mapScale * mapScale];
+	CellData tileData[mapScale * mapScale];
 
-	CellType CellList[mapScale * mapScale];
+	//CellType CellList[mapScale * mapScale];
 
 
 	//Is the selected tile adjacent to a walkable tile
@@ -57,19 +66,25 @@ private:
 
 	bool IsTile(Vector2 Position, CellType Type)
 	{
-		return CellList[GridToIndex(Position)] == Type;
+		return tileData[GridToIndex(Position)].type == Type;
 	}
 
 
 
 
-
+	//Gets the direction of adjacent tiles that match the given type. 
+	// 2 = Both sides
+	// 1 = positive direction
+	// -1 = negative direction
 	Vector2 FindAdjacents(Vector2 Pos, CellType ID);
 
-
+	//Gets adjacent diagonal tiles
+	//Only only returns the first result
 	Vector2 FindFloorAdjacentDiagonal(Vector2 Position);
 
 
+
+	//Sets any corner that qualifies as an edge to an Edge
 	bool SetCorner(Vector2 Position);
 
 

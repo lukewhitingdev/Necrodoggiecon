@@ -32,13 +32,6 @@ void CWorld::LoadWorld(int Slot)
 	std::cout << "" << std::endl;
 
 
-	
-
-	
-
-
-
-
 	for (int i = 0; i < (mapScale * mapScale); i++)
 	{
 		Vector3 temp = Vector3(i % mapScale, i / mapScale, 0);
@@ -62,14 +55,7 @@ void CWorld::LoadWorld(int Slot)
 	}
 	
 
-
-
-	
-	
-	
-	
-	
-
+	BuildNavigationGrid();
 
 
 }
@@ -98,17 +84,8 @@ void CWorld::BuildNavigationGrid()
 Vector3 CWorld::IndexToGrid(int ID)
 {
 
-
-
 	float x = ID % mapScale;
-
-
-
 	float y = (ID - x) / mapScale;
-
-
-	//Vector2 ReturnValue = Vector2(ID % mapScale, (ID - (ID % mapScale)) / mapScale);
-
 	return Vector3(x,y, 0.0f);
 }
 
@@ -118,9 +95,4 @@ int CWorld::GridToIndex(Vector2 Position)
 	return (int)Position.x + ((int)Position.y * mapScale);
 }
 
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-//						WORLD FOR EDITOR
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
 

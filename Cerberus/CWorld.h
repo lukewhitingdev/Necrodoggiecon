@@ -33,7 +33,7 @@ public:
 
 
 	
-	
+	// TODO- Add collision collector
 
 
 protected:
@@ -52,8 +52,7 @@ protected:
 
 protected:
 
-	void ReadSceneJSON(int Slot);
-	void ReadEntityJSON(int Slot);
+	
 
 
 

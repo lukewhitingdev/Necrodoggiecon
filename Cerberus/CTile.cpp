@@ -9,7 +9,7 @@ CTile::CTile()
 
 CTile::CTile(int ID, Vector3 Position)
 {
-	tileID = ID;
+	tileId = ID;
 	tileStatus = TileType::Floor;
 	SetPosition(Position);
 
@@ -28,7 +28,7 @@ CTile::~CTile()
 
 void CTile::ChangeTileID(CellID TileID)
 {
-	tileID = static_cast<int>(TileID);
+	tileId = static_cast<int>(TileID);
 
 	//sprite->LoadTexture("Resources\\Tiles\\Unwalkable.dds");
 	isWalkable = false;

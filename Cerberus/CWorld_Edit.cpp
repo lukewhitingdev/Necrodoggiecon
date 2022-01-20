@@ -58,31 +58,24 @@ void CWorld_Editable::NewWorld(int Slot)
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
 		Vector3 ConvertedPos = IndexToGrid(i);
-		Vector3 TempPos = (Vector3(ConvertedPos.x, ConvertedPos.y, 0) * (tileScale * 2));
+		
 
+		tileData[i].id = 0;
+		tileData[i].type= CellType::Empty;
 
-		TempPos -= Vector3(64 * tileScale, 64 * tileScale, 0);
-		TempPos += Vector3(5000, 0, 0);
-
-		CTile* Tile = Engine::CreateEntity<CTile>();
-		Tile->SetPosition(TempPos);
-		Tile->SetScale(2, 2, 2);
-		Tile->ChangeTileID(0);
-
-		tileData[i] = Tile;
 	}
 
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
-		Vector3 ConvertedPos = IndexToGrid(i);
-		Vector3 TempPos = (Vector3(ConvertedPos.x, ConvertedPos.y, 0) * (tileScale * 2));
-		TempPos -= Vector3(64 * tileScale, 64 * tileScale, 0);
+		Vector3 convertedPos = IndexToGrid(i);
+		Vector3 tempPos = (Vector3(convertedPos.x, convertedPos.y, 0) * (tileScale * 2));
+		tempPos -= Vector3(64 * tileScale, 64 * tileScale, 0);
 
-		TempPos += Vector3(0, 32 * tileScale, 0);
+		tempPos += Vector3(0, 32 * tileScale, 0);
 
 
 		CTile* Tile = Engine::CreateEntity<CTile>();
-		Tile->SetPosition(TempPos);
+		Tile->SetPosition(tempPos);
 		Tile->SetScale(2, 2, 2);
 		Tile->ChangeTileID(0);
 
@@ -98,7 +91,7 @@ void CWorld_Editable::ClearSpace()
 {
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
-		tileData[i]->ChangeTileID(0);
+		tileData[i].id = 0;
 	}
 }
 
@@ -128,24 +121,24 @@ void CWorld_Editable::SubtractiveBox_Scale(Vector2 A, Vector2 B)
 
 void CWorld_Editable::BoxOperation(Vector2 A, Vector2 B, int TileID)
 {
-	Vector2 Dimensions = B - A;
+	Vector2 dimensions = B - A;
 
 
 
 
 
-	for (int x = 0; x < Dimensions.x; x++)
+	for (int x = 0; x < dimensions.x; x++)
 	{
-		for (int y = 0; y < Dimensions.y; y++)
+		for (int y = 0; y < dimensions.y; y++)
 		{
 			Vector3 Pos = Vector3((float)x, (float)y, 0);
 
 
 
 			int Index = (x + A.x) + ((y + A.y) * mapScale);
-			CTile* Ref = tileData[Index];
+			
 			if (A.x + x > 0 && A.x + x < mapScale && A.y + y > 0 && A.y + y < mapScale)
-				Ref->ChangeTileID(TileID);
+				tileData[Index].id = TileID;
 
 
 		}
@@ -159,20 +152,20 @@ void CWorld_Editable::GenerateTileMap()
 
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
-		if (tileData[i]->GetTileID() == 0)
+		if (tileData[i].id == 0)
 		{
-			Vector2 Pos = Vector2(i % mapScale, i / mapScale);
+			Vector2 pos = Vector2(i % mapScale, i / mapScale);
 
-			if (IsFloorAdjacent(Vector2(Pos.x, Pos.y)))
+			if (IsFloorAdjacent(Vector2(pos.x, pos.y)))
 			{
-				CellList[i] = CellType::Edge;
+				tileData[i].type = CellType::Edge;
 			}
-			else CellList[i] = CellType::Empty;
+			else tileData[i].type = CellType::Empty;
 
 		}
-		else if (tileData[i]->GetTileID() == 1)
+		else if (tileData[i].id == 1)
 		{
-			CellList[i] = CellType::Floor;
+			tileData[i].type = CellType::Floor;
 		}
 
 	}
@@ -180,31 +173,26 @@ void CWorld_Editable::GenerateTileMap()
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
 
-		Vector3 Temp = IndexToGrid(i);
-		if (IsTile(Vector2(Temp.x, Temp.y), CellType::Edge))
-		{
-
-			int Do = 0;
-
-		}
-		SetCorner(Vector2(Temp.x, Temp.y));
+		Vector3 pos = IndexToGrid(i);
+		
+		SetCorner(Vector2(pos.x, pos.y));
 
 	}
 
 
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
-		Vector3 Temp = IndexToGrid(i);
+		Vector3 temp = IndexToGrid(i);
 
 		//Vector3 Test = Vector3(1, 9, 0);
 
 
-		Vector2 Pos = Vector2(Temp.x, Temp.y);
+		Vector2 Pos = Vector2(temp.x, temp.y);
 		Vector2 FloorResult = FindAdjacents(Pos, CellType::Floor);
 		Vector2 FloorResultDiagonal = FindFloorAdjacentDiagonal(Pos);
 		Vector2 EdgeAdjacentResult = FindAdjacents(Pos, CellType::Edge);
 
-		switch (CellList[i])
+		switch (tileData[i].type)
 		{
 		case CellType::Edge:
 
@@ -257,15 +245,15 @@ bool CWorld_Editable::IsFloorAdjacent(Vector2 Position)
 		int Pos = GridToIndex(Position);
 
 
-		return (tileData[GridToIndex(Position + Vector2(1, 0))]->GetTileID() == 1 ||
-			tileData[GridToIndex(Position + Vector2(-1, 0))]->GetTileID() == 1 ||
-			tileData[GridToIndex(Position + Vector2(0, 1))]->GetTileID() == 1 ||
-			tileData[GridToIndex(Position + Vector2(0, -1))]->GetTileID() == 1 ||
+		return (tileData[GridToIndex(Position + Vector2(1, 0))].id == 1 ||
+			tileData[GridToIndex(Position + Vector2(-1, 0))].id == 1 ||
+			tileData[GridToIndex(Position + Vector2(0, 1))].id == 1 ||
+			tileData[GridToIndex(Position + Vector2(0, -1))].id == 1 ||
 
-			tileData[GridToIndex(Position + Vector2(1, 1))]->GetTileID() == 1 ||
-			tileData[GridToIndex(Position + Vector2(-1, -1))]->GetTileID() == 1 ||
-			tileData[GridToIndex(Position + Vector2(1, -1))]->GetTileID() == 1 ||
-			tileData[GridToIndex(Position + Vector2(-1, 1))]->GetTileID() == 1);
+			tileData[GridToIndex(Position + Vector2(1, 1))].id == 1 ||
+			tileData[GridToIndex(Position + Vector2(-1, -1))].id == 1 ||
+			tileData[GridToIndex(Position + Vector2(1, -1))].id == 1 ||
+			tileData[GridToIndex(Position + Vector2(-1, 1))].id == 1);
 	}
 	else return false;
 }
@@ -275,24 +263,24 @@ Vector2 CWorld_Editable::FindAdjacents(Vector2 Pos, CellType ID)
 
 	int X;
 	int Y;
-	if (CellList[GridToIndex(Pos + Vector2(1, 0))] == ID)
+	if (tileData[GridToIndex(Pos + Vector2(1, 0))].type == ID)
 	{
 		X = 1;
-		if (CellList[GridToIndex(Pos + Vector2(-1, 0))] == ID) X = 2;
+		if (tileData[GridToIndex(Pos + Vector2(-1, 0))].type == ID) X = 2;
 	}
-	else if (CellList[GridToIndex(Pos + Vector2(-1, 0))] == ID)
+	else if (tileData[GridToIndex(Pos + Vector2(-1, 0))].type == ID)
 	{
 		X = -1;
 	}
 	else
 		X = 0;
 
-	if (CellList[GridToIndex(Pos + Vector2(0, 1))] == ID)
+	if (tileData[GridToIndex(Pos + Vector2(0, 1))].type == ID)
 	{
 		Y = 1;
-		if (CellList[GridToIndex(Pos + Vector2(1, -1))] == ID) Y = 2;
+		if (tileData[GridToIndex(Pos + Vector2(1, -1))].type == ID) Y = 2;
 	}
-	else if (CellList[GridToIndex(Pos + Vector2(0, -1))] == ID)
+	else if (tileData[GridToIndex(Pos + Vector2(0, -1))].type == ID)
 	{
 		Y = -1;
 	}
@@ -322,11 +310,11 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 
 			if (IsTile(Position + Vector2(1, -1), CellType::Floor))
 			{
-				CellList[GridToIndex(Position)] = CellType::OuterCorner;
+				tileData[GridToIndex(Position)].type = CellType::OuterCorner;
 			}
 			else if (IsTile(Position + Vector2(-1, 1), CellType::Floor))
 			{
-				CellList[GridToIndex(Position)] = CellType::InnerCorner;
+				tileData[GridToIndex(Position)].type = CellType::InnerCorner;
 			}
 
 
@@ -337,11 +325,11 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 
 			if (IsTile(Position + Vector2(1, 1), CellType::Floor))
 			{
-				CellList[GridToIndex(Position)] = CellType::OuterCorner;
+				tileData[GridToIndex(Position)].type = CellType::OuterCorner;
 			}
 			else if (IsTile(Position + Vector2(-1, -1), CellType::Floor))
 			{
-				CellList[GridToIndex(Position)] = CellType::InnerCorner;
+				tileData[GridToIndex(Position)].type = CellType::InnerCorner;
 			}
 
 
@@ -352,11 +340,11 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 
 			if (IsTile(Position + Vector2(-1, -1), CellType::Floor))
 			{
-				CellList[GridToIndex(Position)] = CellType::OuterCorner;
+				tileData[GridToIndex(Position)].type = CellType::OuterCorner;
 			}
 			else if (IsTile(Position + Vector2(1, 1), CellType::Floor))
 			{
-				CellList[GridToIndex(Position)] = CellType::InnerCorner;
+				tileData[GridToIndex(Position)].type = CellType::InnerCorner;
 			}
 
 
@@ -367,11 +355,11 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 
 			if (IsTile(Position + Vector2(-1, 1), CellType::Floor))
 			{
-				CellList[GridToIndex(Position)] = CellType::OuterCorner;
+				tileData[GridToIndex(Position)].type = CellType::OuterCorner;
 			}
 			else if (IsTile(Position + Vector2(1, -1), CellType::Floor))
 			{
-				CellList[GridToIndex(Position)] = CellType::InnerCorner;
+				tileData[GridToIndex(Position)].type = CellType::InnerCorner;
 			}
 
 

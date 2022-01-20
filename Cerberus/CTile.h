@@ -32,7 +32,7 @@ public:
 	{
 		ChangeTileID(static_cast<CellID>(ID));
 	}
-	int GetTileID() { return tileID; }
+	int GetTileID() { return tileId; }
 
 
 	
@@ -42,7 +42,7 @@ public:
 	void AddConnectedTile(int Tile) { connectedTiles.push_back(Tile); }
 
 
-	void SetNavID(int ID) { navID = ID; }
+	void SetNavID(int ID) { navId = ID; }
 
 
 
@@ -64,9 +64,9 @@ private:
 
 	TileType tileStatus;
 
-	int tileID;
+	int tileId;
 
-	int navID;
+	int navId;
 
 	std::vector<int> connectedTiles;
 
