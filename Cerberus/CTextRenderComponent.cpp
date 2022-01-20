@@ -21,26 +21,28 @@ HRESULT CTextRenderComponent::SetFont(std::string filePath)
 
 void CTextRenderComponent::SetText(std::string newText)
 {
-	int count = newText.length() - sprites.size();
-	for (int i = 0; i < count; i++)
+	if (newText.length() != sprites.size())	//Add a reserve so you don't constantly create and delete stuff.
 	{
-		sprites.push_back(new CSpriteComponent());
-		CSpriteComponent* t = sprites.back();
-		t->LoadTexture(font);
-		t->SetRenderRect(characterSize);
-		t->SetSpriteSize(XMUINT2(characterSize.x * 2, characterSize.y * 2));
-	}
+		int count = newText.length() - sprites.size();
+		for (int i = 0; i < count; i++)
+		{
+			sprites.push_back(new CSpriteComponent());
+			CSpriteComponent* t = sprites.back();
+			t->LoadTexture(font);
+			t->SetRenderRect(characterSize);
+			t->SetSpriteSize(XMUINT2(characterSize.x * 2, characterSize.y * 2));
+		}
 
-	for (int i = 0; i > count; i--)
-	{
-		CSpriteComponent* t = sprites.back();
-		delete t;
-		sprites.pop_back();
+		for (int i = 0; i > count; i--)
+		{
+			CSpriteComponent* t = sprites.back();
+			delete t;
+			sprites.pop_back();
+		}
 	}
 
 	for (int i = 0; i < sprites.size(); i++)
 	{
-		//set the text coords here
 		sprites[i]->SetTextureOffset(XMFLOAT2(characterSize.x * (newText[i] % 16), characterSize.y * floor(newText[i] / 16)));
 		sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - ((sprites[i]->GetSpriteSize().x * newText.length() * .5) + sprites[i]->GetSpriteSize().x * -.5), 0, 0));
 	}

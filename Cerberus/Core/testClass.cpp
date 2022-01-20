@@ -1,6 +1,8 @@
 #include "testClass.h"
 #include "Utility/DebugOutput/Debug.h"
 #include "../CTextRenderComponent.h"
+#include <sstream>
+#include "CCamera.h"
 
 TestClass::TestClass()
 {
@@ -13,7 +15,7 @@ TestClass::TestClass()
 	sprite->SetPosition(0, 0, 0);
 
 	text = AddComponent<CTextRenderComponent>();
-	text->SetPosition(0, -84, 0);
+	text->SetPosition(0, -84, -100);
 	text->SetText("thisistext.");
 
 	sprite->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
@@ -33,30 +35,13 @@ void TestClass::Update(float deltaTime)
 	const uint32_t speed = 24;
 	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 128, (int(round(timeElapsed * speed) / 5) % 2) * 128));
 
-	float speed2;
-	if (Input::GetKeyState(Keys::Shift))
-		speed2 = 400.0f;
-	else
-		speed2 = 200.0f;
-
-	float deltaSpeed = speed2 * deltaTime;
-
-	Vector3 moveDir = { 0,0,0 };
-
-	if (Input::GetKeyState(Keys::D))
-		moveDir += Vector3(1, 0, 0);
-	if (Input::GetKeyState(Keys::A))
-		moveDir += Vector3(-1, 0, 0);
-	if (Input::GetKeyState(Keys::W))
-		moveDir += Vector3(0, 1, 0);
-	if (Input::GetKeyState(Keys::S))
-		moveDir += Vector3(0, -1, 0);
-
-	if (moveDir.Magnitude() > 0.0f)
-	{
-		moveDir.normalize();
-		SetPosition(GetPosition() + moveDir * deltaSpeed);
-	}
+	float invZoom = 1 / Engine::camera.GetZoom();
+	SetPosition(Vector3(((Input::mousePos.x - Engine::windowWidth * 0.5f ) * invZoom) + Engine::camera.GetCameraPosition().x,
+						((-Input::mousePos.y + Engine::windowHeight * 0.5f) * invZoom) + Engine::camera.GetCameraPosition().y,
+							0));
+	
+	text->SetScale(invZoom);
+	text->SetPosition(0, -84 * invZoom, -100);
 
 	std::stringstream ss;
 	ss << "X:" << round(GetPosition().x) << " Y:" << round(GetPosition().y);
