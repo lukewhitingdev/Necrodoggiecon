@@ -8,6 +8,13 @@
 class Vector3
 {
 public:
+
+	
+	#pragma warning(push)
+	//Disabled warning for 4324 since we dont care about alignment specifically. Re-Enable is alignment of the union becomes a problem.
+	#pragma warning( disable : 4324 )
+	//Disabled warning for 4201 since having a anonymous struct is nice when using the classes functionality. Otherwise it would be cumbersome to use.
+	#pragma warning( disable : 4201 )
 	union
 	{
 		struct { float x, y, z; };
@@ -17,6 +24,8 @@ public:
 		//INTRINSIC VARIABLE, DO NOT TOUCH OR YOU WILL BE GUTTED LIKE A FISH
 		__m128 intrinsic;
 	};
+
+	#pragma warning(pop)
 
 	Vector3(DirectX::XMFLOAT3 Input) : intrinsic(_mm_setr_ps(Input.x, Input.y, Input.z, 0)) {}
 

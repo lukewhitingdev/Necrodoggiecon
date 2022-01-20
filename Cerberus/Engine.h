@@ -26,17 +26,16 @@ class CEntity;
 
 struct Engine
 {
-	
 	// Drawables.
 	static std::vector<CEntity*> entities;	//Needs to be changed to CObject instead
 	
 	template<class T>
 	// Returns all entities of provided type that exist in the engine.
-	static std::vector<T> GetEntityOfType()
+	static std::vector<T> GetEntityOfType() 
 	{
 		std::vector<T> outputVector;
 
-		for(CEntity& entity : entities)
+		for (CEntity& entity : entities)
 		{
 			if (typeof(entity) == T)
 			{
@@ -46,14 +45,16 @@ struct Engine
 		return outputVector;
 	};
 
+	static void DestroyEntity(CEntity* targetEntity);
+
 	template<class T>
 	// Creates a entity, adds it to drawables and returns it back.
-	static T* CreateEntity()
+	static T* CreateEntity() 
 	{
 		CEntity* temp = new T();
 		entities.emplace_back(temp);
 		return (T*)temp;
-	}
+	};
 
 	// Window and Instance.
 	static HINSTANCE instanceHandle;
@@ -66,4 +67,6 @@ struct Engine
 	static D3D_FEATURE_LEVEL featureLevel;
 	static ID3D11Device* device;
 	static ID3D11DeviceContext* deviceContext;
+
+	static class CCamera camera;
 };

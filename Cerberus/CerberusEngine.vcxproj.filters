@@ -32,6 +32,8 @@
     <ClCompile Include="CAIController.cpp" />
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
     <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="CTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -77,6 +79,8 @@
     <ClInclude Include="CAIController.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
