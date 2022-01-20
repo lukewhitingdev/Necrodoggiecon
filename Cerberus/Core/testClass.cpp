@@ -57,12 +57,9 @@ void TestClass::Update(float deltaTime)
 		SetPosition(GetPosition() + moveDir * deltaSpeed);
 	}
 
-	if (Input::GetKeyState(Keys::One))
-		text->SetText("thisistext.");
-	if (Input::GetKeyState(Keys::Two))
-		text->SetText("ran");
-	if (Input::GetKeyState(Keys::Three))
-		text->SetText("kjbdgfkjsdbbsdfg");
+	std::stringstream ss;
+	ss << "X:" << round(GetPosition().x) << " Y:" << round(GetPosition().y);
+	text->SetText(ss.str());
 }
 
 TestClass::~TestClass()

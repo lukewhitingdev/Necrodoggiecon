@@ -42,7 +42,7 @@ void CTextRenderComponent::SetText(std::string newText)
 	{
 		//set the text coords here
 		sprites[i]->SetTextureOffset(XMFLOAT2(characterSize.x * (newText[i] % 16), characterSize.y * floor(newText[i] / 16)));
-		sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i, 0, 0));
+		sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - ((sprites[i]->GetSpriteSize().x * newText.length() * .5) + sprites[i]->GetSpriteSize().x * -.5), 0, 0));
 	}
 }
 
