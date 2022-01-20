@@ -30,9 +30,13 @@ struct _Material
 	uint2	textureRect;	// 8 bytes
 							//----------------------------------- (16 byte boundary)
 
-	float2 textureOffset;	// 8 bytes
-	float2 padding2;		// 8 bytes
+	float2	textureOffset;	// 8 bytes
+	float2	padding2;		// 8 bytes
 							//----------------------------------- (16 byte boundary)
+	
+	float4	tint;			// 16 bytes
+							//----------------------------------- (16 byte boundary)
+
 };
 
 cbuffer MaterialProperties : register(b1)
@@ -85,9 +89,10 @@ float4 PS(PS_INPUT IN) : SV_TARGET
 	if (Material.UseTexture)
 	{
 		texColor = txDiffuse.Sample(samLinear, (IN.Tex + texOffset) * texSampleOffset);
-	}
+        if (texColor.a < 0.5f) discard;
+    }
 	
-	float4 finalColor = texColor;
+	float4 finalColor = saturate(texColor + Material.tint);
 
 	return finalColor;
 }

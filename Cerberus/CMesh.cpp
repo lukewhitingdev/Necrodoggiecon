@@ -7,13 +7,26 @@ CMesh::CMesh()
 
 HRESULT CMesh::LoadMesh()
 {
+	if (loaded)
+	{
+		if (vertexBuffer)
+			vertexBuffer->Release();
+		vertexBuffer = nullptr;
+
+		if (indexBuffer)
+			indexBuffer->Release();
+		indexBuffer = nullptr;
+
+		loaded = false;
+	}
+
 	// Create vertex buffer
 	SimpleVertex vertices[] =
 	{
-		{ XMFLOAT3(-0.5f, -0.5f, 0.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(0.5f, -0.5f, 0.0f), XMFLOAT2(0.0f, 1.0f) },
-		{ XMFLOAT3(0.5f, 0.5f, 0.0f), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(-0.5f, 0.5f, 0.0f), XMFLOAT2(1.0f, 0.0f) },
+		{ XMFLOAT3(-0.5f, -0.5f, 0.0f), XMFLOAT2(0.0f, 1.0f) },
+		{ XMFLOAT3(0.5f, -0.5f, 0.0f), XMFLOAT2(1.0f, 1.0f) },
+		{ XMFLOAT3(0.5f, 0.5f, 0.0f), XMFLOAT2(1.0f, 0.0f) },
+		{ XMFLOAT3(-0.5f, 0.5f, 0.0f), XMFLOAT2(0.0f, 0.0f) },
 	};
 
 	D3D11_BUFFER_DESC bd = {};
@@ -55,6 +68,7 @@ HRESULT CMesh::LoadMesh()
 	// Set primitive topology
 	Engine::deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	loaded = true;
     return hr;
 }
 

@@ -1,36 +1,38 @@
 #include "CSpriteComponent.h"
 #include "Engine.h"
+#include "Utility/AssetManager/AssetManager.h"
 
 void CSpriteComponent::SetRenderRect(XMUINT2 newSize)
 {
 	renderRect = newSize;
 
-	if (textureLoaded)
+	if (material->loaded && texture->loaded)
 	{
-		texture->material.Material.textureRect = renderRect;
-		Engine::deviceContext->UpdateSubresource(texture->materialConstantBuffer, 0, nullptr, &texture->material, 0, 0);	//Could be done once per update if a change has happened instead of here
+		material->material.Material.textureRect = renderRect;
+		material->UpdateMaterial();	//Could be done once per update if a change has happened instead of here
 	}
-}
-
-XMUINT2 CSpriteComponent::GetRenderRect()
-{
-	return renderRect;
 }
 
 void CSpriteComponent::SetTextureOffset(XMFLOAT2 newOffset)
 {
 	textureOffset = newOffset;
 
-	if (textureLoaded)
+	if (material->loaded && texture->loaded)
 	{
-		texture->material.Material.textureOffset = textureOffset;
-		Engine::deviceContext->UpdateSubresource(texture->materialConstantBuffer, 0, nullptr, &texture->material, 0, 0);	//Could be done once per update if a change has happened instead of here
+		material->material.Material.textureOffset = textureOffset;
+		material->UpdateMaterial();	//Could be done once per update if a change has happened instead of here
 	}
 }
 
-XMFLOAT2 CSpriteComponent::GetTextureOffset()
+void CSpriteComponent::SetTint(XMFLOAT4 newTint)
 {
-	return textureOffset;
+	tint = newTint;
+
+	if (material->loaded)
+	{
+		material->material.Material.tint = tint;
+		material->UpdateMaterial();	//Could be done once per update if a change has happened instead of here
+	}
 }
 
 CSpriteComponent::CSpriteComponent()
@@ -38,22 +40,28 @@ CSpriteComponent::CSpriteComponent()
 	shouldUpdate = false;
 	shouldDraw = true;
 
-	mesh = new CMesh();
-	texture = new CTexture();
+	mesh = AssetManager::GetDefaultMesh();
+	material = new CMaterial();
+	renderRect = XMUINT2(0, 0);
+	spriteSize = XMUINT2(0, 0);
 }
 
 HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 {
-	//TODO: release texture if already loaded here
+	if (texture == nullptr)
+		texture = AssetManager::GetTexture(filePath);
+	else
+		texture->LoadTextureDDS(filePath);
 
-	HRESULT hr = texture->LoadTextureDDS(filePath);
-	if(hr == S_OK)
-		textureLoaded = true;
+	if (texture == nullptr)
+		return S_FALSE;
 
 	renderRect = texture->textureSize;
 	spriteSize = texture->textureSize;
 
-	return hr;
+	material->CreateMaterial(texture->textureSize);
+
+	return S_OK;
 }
 
 void CSpriteComponent::Update(float deltaTime)
@@ -63,7 +71,7 @@ void CSpriteComponent::Update(float deltaTime)
 
 void CSpriteComponent::Draw(ID3D11DeviceContext* context)
 {
-	if (!textureLoaded)
+	if (!texture->loaded)	//change to texture valid check
 	{
 		Debug::LogError("Texture not loaded for CSpriteComponent.");
 		return;
@@ -80,7 +88,7 @@ void CSpriteComponent::Draw(ID3D11DeviceContext* context)
 	// Set primitive topology
 	Engine::deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	Engine::deviceContext->PSSetConstantBuffers(1, 1, &texture->materialConstantBuffer);
+	Engine::deviceContext->PSSetConstantBuffers(1, 1, &material->materialConstantBuffer);
 
 	context->PSSetShaderResources(0, 1, &texture->textureResourceView);
 	context->PSSetSamplers(0, 1, &texture->samplerLinear);
@@ -90,18 +98,25 @@ void CSpriteComponent::Draw(ID3D11DeviceContext* context)
 
 CSpriteComponent::~CSpriteComponent()
 {
-	delete mesh;
-	delete texture;
+	delete material;
 }
 
 XMFLOAT4X4 CSpriteComponent::GetTransform()
 {
-	//Could check for changes and then recalculate world if changes have happened
+	if (updateTransform)
+	{
+		Vector3 scale = GetScale();
+		Vector3 position = GetPosition();
+		float rotation = GetRotation();
 
-	XMMATRIX mat = XMMatrixScaling(scale.x * spriteSize.x, scale.y * spriteSize.y, scale.z)
-		* XMMatrixRotationRollPitchYaw(0, 0, rotation)
-		* XMMatrixTranslation(position.x, position.y, position.z);
+		XMMATRIX mat = XMMatrixScaling(scale.x * spriteSize.x, scale.y * spriteSize.y, scale.z)
+			* XMMatrixRotationRollPitchYaw(0, 0, rotation)
+			* XMMatrixTranslation(position.x, position.y, position.z);
 
-	XMStoreFloat4x4(&world, mat);
+		XMStoreFloat4x4(&world, mat);
+
+		updateTransform = false;
+	}
+
 	return world;
 }
