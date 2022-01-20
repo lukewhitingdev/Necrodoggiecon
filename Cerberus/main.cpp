@@ -18,8 +18,8 @@
 #include "Core/testClass.h"
 #include "CPlayer.h"
 #include "CTile.h"
-#include "CWorld.h"
 #include "CWorld_Edit.h"
+#include "CAIController.h"
 #include "CCamera.h"
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
@@ -79,7 +79,7 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	UNREFERENCED_PARAMETER( hPrevInstance );
 	UNREFERENCED_PARAMETER( lpCmdLine );
 
-	srand(time(0));
+	srand((unsigned int)time(0));
 
 	if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
 		return 0;
@@ -170,13 +170,22 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
+	/*
+	for (int i = 0; i < 0; i++)
+	{
+		TestClass* myClass = Engine::CreateEntity<TestClass>();
+		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	}
+	*/
 	
 	// sawps and makes one of the entiys the player
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 0; i++)
 	{
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
+
+
 
 	bool editorMode = false;
 
@@ -194,8 +203,46 @@ void Load()
 		World->LoadWorld(0);
 	}
 
-	
+/*
+	for (int i = 0; i < 1; i++)
+	{
+		CAIController* ai = Engine::CreateEntity<CAIController>();
+		ai->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+		ai->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
+	}
 
+	TestClass* topLeft = Engine::CreateEntity<TestClass>();
+	topLeft->SetPosition(Vector3{ -300.0f, 100.0f, 0.0f });
+	topLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* topMiddleLeft = Engine::CreateEntity<TestClass>();
+	topMiddleLeft->SetPosition(Vector3{ -100.0f, 100.0f, 0.0f });
+	topMiddleLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* topMiddleRight = Engine::CreateEntity<TestClass>();
+	topMiddleRight->SetPosition(Vector3{ 100.0f, 100.0f, 0.0f });
+	topMiddleRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* topRight = Engine::CreateEntity<TestClass>();
+	topRight->SetPosition(Vector3{ 300.0f, 100.0f, 0.0f });
+	topRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* bottomLeft = Engine::CreateEntity<TestClass>();
+	bottomLeft->SetPosition(Vector3{ -300.0f, -100.0f, 0.0f });
+	bottomLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* bottomMiddleLeft = Engine::CreateEntity<TestClass>();
+	bottomMiddleLeft->SetPosition(Vector3{ -100.0f, -100.0f, 0.0f });
+	bottomMiddleLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* bottomMiddleRight = Engine::CreateEntity<TestClass>();
+	bottomMiddleRight->SetPosition(Vector3{ 100.0f, -100.0f, 0.0f });
+	bottomMiddleRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* bottomRight = Engine::CreateEntity<TestClass>();
+	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
+	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+*/
 }
 
 //--------------------------------------------------------------------------------------
@@ -610,8 +657,8 @@ HRESULT ResizeSwapChain(XMUINT2 newSize)
 
 		// Set up the viewport.
 		D3D11_VIEWPORT vp;
-		vp.Width = newSize.x;
-		vp.Height = newSize.y;
+		vp.Width = (FLOAT)newSize.x;
+		vp.Height = (FLOAT)newSize.y;
 		vp.MinDepth = 0.0f;
 		vp.MaxDepth = 1.0f;
 		vp.TopLeftX = 0;
@@ -741,10 +788,13 @@ float calculateDeltaTime()
 
 	// cap the framerate at 60 fps 
 	cummulativeTime += deltaTime;
-	if (cummulativeTime >= FPS60) {
+	if (cummulativeTime >= FPS60)
+	{
 		cummulativeTime = cummulativeTime - FPS60;
 	}
-	else {
+	else
+	{
+		Sleep(DWORD((FPS60 - cummulativeTime) * 1000 * 0.9));	//Sleeps thread for almost full amount of time - leaving some time for recalculation
 		return 0;
 	}
 
@@ -754,12 +804,15 @@ float calculateDeltaTime()
 void Update(float deltaTime)
 {
 	//TEMP
-	POINT p;
-	if (GetCursorPos(&p))
+	if (GetAsyncKeyState(VK_RBUTTON))
 	{
-		if (ScreenToClient(Engine::windowHandle, &p))
+		POINT p;
+		if (GetCursorPos(&p))
 		{
-			Engine::camera.SetCameraPosition(XMFLOAT4((-p.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (p.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
+			if (ScreenToClient(Engine::windowHandle, &p))
+			{
+				Engine::camera.SetCameraPosition(XMFLOAT4((-p.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (p.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
+			}
 		}
 	}
 
@@ -841,4 +894,20 @@ void Render()
 
     // Present our back buffer to our front buffer
     swapChain->Present( 0, 0 );
+}
+
+void Engine::DestroyEntity(CEntity* targetEntity)
+{
+	{
+		for (size_t i = 0; i < entities.size(); i++)
+		{
+			CEntity* entity = entities[i];
+			if (entity == targetEntity)
+			{
+				entities.erase(entities.begin() + i);
+				delete entity;
+				return;
+			}
+		}
+	}
 }

@@ -9,6 +9,13 @@ template<class T>
 class Vector3Base
 {
 public:
+
+	
+	#pragma warning(push)
+	//Disabled warning for 4324 since we dont care about alignment specifically. Re-Enable is alignment of the union becomes a problem.
+	#pragma warning( disable : 4324 )
+	//Disabled warning for 4201 since having a anonymous struct is nice when using the classes functionality. Otherwise it would be cumbersome to use.
+	#pragma warning( disable : 4201 )
 	union
 	{
 		struct { T x, y, z; };
@@ -19,7 +26,9 @@ public:
 		__m128 intrinsic;
 	};
 
-	Vector3Base(DirectX::XMFLOAT3 Input) : intrinsic(_mm_setr_ps(Input.x, Input.y, Input.z, 0)) {}
+	#pragma warning(pop)
+
+	Vector3(DirectX::XMFLOAT3 Input) : intrinsic(_mm_setr_ps(Input.x, Input.y, Input.z, 0)) {}
 
 	Vector3Base() : intrinsic(_mm_setzero_ps()){}
 
@@ -251,7 +260,7 @@ public:
 	float Magnitude() const { return _mm_cvtss_f32(_mm_sqrt_ss(_mm_dp_ps(intrinsic, intrinsic, 0x71))); }
 
 
-	float dot(const Vector2Base OtherVector) const { return _mm_cvtss_f32(_mm_dp_ps(intrinsic, OtherVector.intrinsic, 0x71)); }
+	float Dot(const Vector2Base OtherVector) const { return _mm_cvtss_f32(_mm_dp_ps(intrinsic, OtherVector.intrinsic, 0x71)); }
 
 	float DistanceTo(const Vector2Base B)
 	{
@@ -259,7 +268,7 @@ public:
 		return _mm_cvtss_f32(_mm_sqrt_ss(_mm_dp_ps(Dist, Dist, 0x71)));
 	}
 
-	Vector2Base& normalize()
+	Vector2Base& Normalize()
 	{
 		intrinsic = _mm_div_ps(intrinsic, _mm_sqrt_ps(_mm_dp_ps(intrinsic, intrinsic, 0xFF)));
 		return *this;
@@ -279,6 +288,16 @@ public:
 	{
 		return _mm_add_ps(A.intrinsic, _mm_mul_ps(_mm_sub_ps(B.intrinsic, A.intrinsic), _mm_set1_ps(Alpha)));
 	}
+	void Truncate(float max)
+	{
+		if (this->Magnitude() > max)
+		{
+			this->normalize();
+
+			*this *= max;
+		}
+	}
+
 };
 
 

@@ -31,42 +31,32 @@ struct Engine
 	
 	template<class T>
 	// Returns all entities of provided type that exist in the engine.
-	static std::vector<T> GetEntityOfType()
+	static std::vector<T*> GetEntityOfType() 
 	{
-		std::vector<T> outputVector;
+		std::vector<T*> outputVector;
 
-		for(CEntity& entity : entities)
+		size_t vectorSize = entities.size();
+		for (size_t i = 0; i < vectorSize; i++)
 		{
-			if (typeof(entity) == T)
-			{
+			T* entity = (T*)entities[i];
+			const char* evaluationEntity = typeid(*entity).name();
+			const char* searchEntity = typeid(T).name();
+			if (evaluationEntity == searchEntity)
 				outputVector.emplace_back(entity);
-			}
 		}
 		return outputVector;
 	};
 
-	static void DestroyEntity(CEntity* targetEntity)
-	{
-		for (size_t i = 0; i < entities.size(); i++)
-		{
-			CEntity* entity = entities[i];
-			if (entity == targetEntity)
-			{
-				entities.erase(entities.begin() + i);
-				delete entity;
-				return;
-			}
-		}
-	}
+	static void DestroyEntity(CEntity* targetEntity);
 
 	template<class T>
 	// Creates a entity, adds it to drawables and returns it back.
-	static T* CreateEntity()
+	static T* CreateEntity() 
 	{
 		CEntity* temp = new T();
 		entities.emplace_back(temp);
 		return (T*)temp;
-	}
+	};
 
 	// Window and Instance.
 	static HINSTANCE instanceHandle;
