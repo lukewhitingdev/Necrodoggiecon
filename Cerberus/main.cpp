@@ -179,7 +179,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	for (int i = 0; i < 25; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		TestClass* myClass = Engine::CreateEntity<TestClass>();
 		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
@@ -854,16 +854,9 @@ void Render()
 	{
 		//Maybe should have a visible bool for each entity
 
-		XMFLOAT4X4 entWorld = e->GetTransform();
-		XMMATRIX mGO = XMLoadFloat4x4(&entWorld);
-
 		for (auto& f : e->components)
 			if(f->shouldDraw)
 			{
-				// get the game object world transform
-				XMFLOAT4X4 compWorld = f->GetTransform();
-				XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * mGO;
-
 				XMFLOAT4X4 mat = Engine::camera.view;
 				XMMATRIX viewMat = XMLoadFloat4x4(&mat);
 
@@ -872,13 +865,10 @@ void Render()
 
 				// store this and the view / projection in a constant buffer for the vertex shader to use
 				ConstantBuffer cb1;
-				cb1.mWorld = XMMatrixTranspose(mGO2);
 				cb1.mView = XMMatrixTranspose(viewMat);
 				cb1.mProjection = XMMatrixTranspose(projMat);
-				cb1.vOutputColor = XMFLOAT4(1, 0, 1, 1);
-				Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb1, 0, 0);
 
-				f->Draw(Engine::deviceContext);
+				f->Draw(Engine::deviceContext, e->GetTransform(), cb1, constantBuffer);
 			}
 	}
 

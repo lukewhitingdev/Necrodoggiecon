@@ -357,6 +357,7 @@
     <ClInclude Include="CInputManager.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
@@ -397,6 +398,7 @@
     <ClCompile Include="CInputManager.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CTextRenderComponent.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />

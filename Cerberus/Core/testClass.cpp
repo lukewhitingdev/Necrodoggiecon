@@ -1,6 +1,6 @@
 #include "testClass.h"
 #include "Utility/DebugOutput/Debug.h"
-#include "../CSpriteComponent.h"
+#include "../CTextRenderComponent.h"
 
 TestClass::TestClass()
 {
@@ -10,6 +10,10 @@ TestClass::TestClass()
 	sprite->LoadTexture("Resources\\birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
+	sprite->SetPosition(0, 128, 0);
+
+	text = AddComponent<CTextRenderComponent>();
+	text->SetText("thisistext.");
 
 	sprite->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
 
@@ -52,6 +56,13 @@ void TestClass::Update(float deltaTime)
 		moveDir.normalize();
 		SetPosition(GetPosition() + moveDir * deltaSpeed);
 	}
+
+	if (Input::GetKeyState(Keys::One))
+		text->SetText("thisistext.");
+	if (Input::GetKeyState(Keys::Two))
+		text->SetText("ran");
+	if (Input::GetKeyState(Keys::Three))
+		text->SetText("kjbdgfkjsdbbsdfg");
 }
 
 TestClass::~TestClass()

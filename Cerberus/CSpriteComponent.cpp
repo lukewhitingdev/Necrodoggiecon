@@ -69,13 +69,21 @@ void CSpriteComponent::Update(float deltaTime)
 
 }
 
-void CSpriteComponent::Draw(ID3D11DeviceContext* context)
+void CSpriteComponent::Draw(ID3D11DeviceContext* context, XMFLOAT4X4 parentMat, ConstantBuffer& cb, ID3D11Buffer* constantBuffer)
 {
 	if (!texture->loaded)	//change to texture valid check
 	{
 		Debug::LogError("Texture not loaded for CSpriteComponent.");
 		return;
 	}
+
+	XMFLOAT4X4 compWorld = GetTransform();
+	XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * XMLoadFloat4x4(&parentMat);
+
+	cb.mWorld = XMMatrixTranspose(mGO2);
+	cb.vOutputColor = XMFLOAT4(1, 0, 1, 1);
+
+	Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb, 0, 0);
 
 	// Set vertex buffer
 	UINT stride = sizeof(SimpleVertex);

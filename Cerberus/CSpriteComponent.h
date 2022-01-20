@@ -39,7 +39,7 @@ public:
 	CSpriteComponent();
 	HRESULT LoadTexture(std::string filePath);
 	virtual void Update(float deltaTime) override;
-	virtual void Draw(ID3D11DeviceContext* context) override;
+	virtual void Draw(ID3D11DeviceContext* context, XMFLOAT4X4 parentMat, ConstantBuffer& cb, ID3D11Buffer* constantBuffer) override;
 	virtual ~CSpriteComponent();
 	virtual XMFLOAT4X4 GetTransform() override;
 };

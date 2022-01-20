@@ -34,6 +34,7 @@
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="CInputManager.cpp" />
+    <ClCompile Include="CTextRenderComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -81,6 +82,7 @@
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="CInputManager.h" />
+    <ClInclude Include="CTextRenderComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

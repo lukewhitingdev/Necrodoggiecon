@@ -6,6 +6,7 @@
 class TestClass : public CEntity
 {
 	class CSpriteComponent* sprite = nullptr;
+	class CTextRenderComponent* text = nullptr;
 	float timeElapsed = 0;
 public:
 	TestClass();
