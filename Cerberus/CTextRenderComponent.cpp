@@ -28,7 +28,7 @@ void CTextRenderComponent::SetText(std::string newText)
 		CSpriteComponent* t = sprites.back();
 		t->LoadTexture(font);
 		t->SetRenderRect(characterSize);
-		t->SetSpriteSize(XMUINT2(characterSize.x * 5, characterSize.y * 5));
+		t->SetSpriteSize(XMUINT2(characterSize.x * 2, characterSize.y * 2));
 	}
 
 	for (int i = 0; i > count; i--)

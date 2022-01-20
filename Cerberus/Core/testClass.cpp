@@ -10,9 +10,10 @@ TestClass::TestClass()
 	sprite->LoadTexture("Resources\\birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
-	sprite->SetPosition(0, 128, 0);
+	sprite->SetPosition(0, 0, 0);
 
 	text = AddComponent<CTextRenderComponent>();
+	text->SetPosition(0, -84, 0);
 	text->SetText("thisistext.");
 
 	sprite->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
