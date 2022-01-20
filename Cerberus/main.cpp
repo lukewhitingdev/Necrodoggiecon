@@ -19,6 +19,7 @@
 #include "CPlayer.h"
 #include "CTile.h"
 #include "CWorld.h"
+#include "CWorld_Edit.h"
 #include "CCamera.h"
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();

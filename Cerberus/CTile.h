@@ -36,6 +36,13 @@ public:
 
 
 	
+	std::vector<CTile*> GetConnectedTiles() { return ConnectedTiles; }
+
+
+	void AddConnectedTile(CTile* Tile);
+
+
+	void SetNavID(int ID) { NavID = ID; }
 
 protected: 
 
@@ -45,12 +52,19 @@ protected:
 
 private: 
 
+
+	bool isWalkable;
+
 	void SetRenderData(int X, int Y);
 
 
 	TileType tileStatus;
 
 	int tileID;
+
+	int NavID;
+
+	std::vector<CTile*> ConnectedTiles;
 
 
 

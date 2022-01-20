@@ -356,6 +356,7 @@
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CTexture.h" />
+    <ClInclude Include="CWorld_Edit.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
@@ -395,6 +396,7 @@
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="CWorld_Edit.cpp" />
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
     <ClCompile Include="Tools\CT_WindowBase.cpp" />
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
