@@ -34,6 +34,7 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CTransform.cpp" />
+    <ClCompile Include="CAICharacter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -81,6 +82,7 @@
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CTransform.h" />
+    <ClInclude Include="CAICharacter.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

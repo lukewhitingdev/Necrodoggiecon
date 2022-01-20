@@ -3,10 +3,14 @@
 #include "CEntity.h"
 #include "Vector3.h"
 #include "CSpriteComponent.h"
+#include "CAICharacter.h"
 #include <iostream>
+#include "CPlayer.h"
+#include "Core/testClass.h"
 
 const float speed = 200.0f;
 const float mass = 100.0f;
+const float viewRange = 400.0f;
 
 struct Waypoint
 {
@@ -80,6 +84,8 @@ protected:
 
 	void Movement(float deltaTime);
 
+	bool CanSeePlayer();
+
 	STATE currentState;
 
 	//BehaviourTree behaviourTree;
@@ -113,5 +119,9 @@ protected:
 	// Array of nodes on the path from goal to start.
 	std::vector<WaypointNode*> pathNodes;
 	int currentCount;
+
+	CPlayer* player = Engine::CreateEntity<CPlayer>();
+	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
+	class CSpriteComponent* viewSprite = nullptr;
 };
 

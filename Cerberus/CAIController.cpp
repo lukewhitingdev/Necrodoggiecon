@@ -4,10 +4,18 @@ CAIController::CAIController()
 {
 	Debug::Log("init AI class!\n");
 
+
+	player->SetPosition(Vector3{-500.0f, 100.0f, 0.0f});
+	player->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
+
+	viewFrustrum->SetScale(Vector3{ (viewRange/128.0f) + 1.0f, (viewRange / 128.0f) + 1.0f, 1.0f });
+	viewFrustrum->SetPosition(GetPosition());
+
 	sprite = AddComponent<CSpriteComponent>();
 	sprite->LoadTexture("Resources\\birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
+	sprite->SetScale(Vector3{ 1.0f, 1.0f, 1.0f });
 
 	sprite->SetTint(XMFLOAT4(rand() % 2 * 0.5f, rand() % 2 * 0.5f, rand() % 2 * 0.5f, 0)); sprite = AddComponent<CSpriteComponent>();
 	sprite->LoadTexture("Resources\\birb.dds");
@@ -86,9 +94,17 @@ void CAIController::Update(float deltaTime)
 
 	Movement(deltaTime);
 
+	if (CanSeePlayer())
+		Debug::Log("CAN SEE PLAYER");
+	else
+	{
+		Debug::Log("CAN NOT SEE PLAYER");
+	}
+
 	SetPosition(position);
 }
 
+/* Moves the character position using acceleration, force, mass and velocity. */
 void CAIController::Movement(float deltaTime)
 {
 	Vector3 force = (heading * speed) - velocity;
@@ -100,6 +116,40 @@ void CAIController::Movement(float deltaTime)
 	velocity.Truncate(speed);
 
 	position += velocity * deltaTime;
+}
+
+bool CAIController::CanSeePlayer()
+{
+	
+	Vector3 velocityCopy = velocity;
+	Vector3 view = velocityCopy.normalize();
+
+	float offset = viewFrustrum->GetScale().x * 128.0f / 2.0f;
+
+	viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x))));
+
+	Vector3 rightView = Vector3{ view.y, -view.x, 0.0f };
+
+	Vector3 viewToPlayer = player->GetPosition() - position;
+	float distanceToPlayer = viewToPlayer.Magnitude();
+
+	viewToPlayer = viewToPlayer.normalize();
+
+	Vector3 up = { 0.0f, 1.0f, 0.0f };
+	
+	float dot = up.dot(view);
+	float det = up.x * view.y - up.y * view.x;
+
+	float angle = atan2f(det, dot);
+	this->SetRotation(angle);
+	viewFrustrum->SetRotation(angle);
+
+	float dotProduct = rightView.dot(viewToPlayer);
+
+	if (dotProduct > 0.0f && distanceToPlayer < viewRange)
+		return true;
+
+	return false;
 }
 
 /* Initialize the patrol nodes and waypoints. */
@@ -144,13 +194,8 @@ void CAIController::SetPatrolNodes(std::vector<PatrolNode*> nodes, std::vector<W
 	// Find the closest patrol point to the tank.
 	currentPatrolNode = FindClosestPatrolNode();
 
-	// Set the path to the patrol point.
-	//SetPath();
-
 	// Set the current state as patrol.
 	currentState = STATE::PATHFINDING;
-
-	Debug::Log("Current position: %f", position.y);
 }
 
 /* Finds the closest waypoint to each patrol point. */
