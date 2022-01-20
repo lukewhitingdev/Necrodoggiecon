@@ -41,12 +41,12 @@ void CWorld_Editable::EditWorld(int Slot)
 
 	//AdditiveBox(Vector2(0, 0), Vector2(mapScale, mapScale));
 
-	SubtractiveBox(Vector2(5, 5), Vector2(mapScale - 5, mapScale - 5));
+	//SubtractiveBox(Vector2(0, 0), Vector2(mapScale, mapScale));
 
 
-	AdditiveBox(Vector2(7, 7), Vector2(10, 10));
+	//AdditiveBox(Vector2(7, 7), Vector2(10, 10));
 
-	AdditiveBox(Vector2(15, 15), Vector2(23, 23));
+	//AdditiveBox(Vector2(15, 15), Vector2(23, 23));
 
 	GenerateTileMap();
 
@@ -92,7 +92,7 @@ void CWorld_Editable::ClearSpace()
 {
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
-		tileData[i].id = 0;
+		tileData[i].id = 1;
 	}
 }
 

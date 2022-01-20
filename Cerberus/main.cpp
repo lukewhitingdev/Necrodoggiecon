@@ -175,7 +175,17 @@ void Load()
 
 	bool editorMode = false;
 
-	
+	if (editorMode)
+	{
+		CWorld_Editable::NewWorld(0);
+		CWorld_Editable::EditWorld(0);
+		CWorld_Editable::SaveWorld(0);
+	}
+	else
+	{
+
+		CWorld::LoadWorld(0);
+	}
 	
 	for (int i = 0; i < 0; i++)
 	{
@@ -191,15 +201,6 @@ void Load()
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
 
-
-
-	
-
-	
-
-	
-
-
 	for (int i = 0; i < 1; i++)
 	{
 		CAIController* ai = Engine::CreateEntity<CAIController>();
@@ -207,7 +208,7 @@ void Load()
 		ai->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
 	}
 
-	TestClass* topLeft = Engine::CreateEntity<TestClass>();
+	/*TestClass* topLeft = Engine::CreateEntity<TestClass>();
 	topLeft->SetPosition(Vector3{ -300.0f, 100.0f, 0.0f });
 	topLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
 
@@ -237,22 +238,12 @@ void Load()
 
 	TestClass* bottomRight = Engine::CreateEntity<TestClass>();
 	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
-	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });*/
 
 
 
 
-	if (editorMode)
-	{
-		CWorld_Editable::NewWorld(0);
-		CWorld_Editable::EditWorld(0);
-		CWorld_Editable::SaveWorld(0);
-	}
-	else
-	{
-
-		CWorld::LoadWorld(0);
-	}
+	
 }
 
 //--------------------------------------------------------------------------------------

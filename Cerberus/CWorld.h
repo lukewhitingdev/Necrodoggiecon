@@ -31,7 +31,9 @@ public:
 
 	
 	// TODO- Add collision collector
+	static CTile* GetTileByID(int ID) { return tileContainer[ID]; }
 
+	static std::vector<CTile*> GetAllWalkableTiles();
 
 protected:
 
@@ -40,9 +42,7 @@ protected:
 
 	static void BuildNavigationGrid();
 
-	static CTile* GetTileByID(int ID) { return tileContainer[ID]; }
-
-
+	
 
 
 

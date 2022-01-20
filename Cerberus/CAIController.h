@@ -8,6 +8,7 @@
 #include "CPlayer.h"
 #include "Core/testClass.h"
 #include "Utility/EventSystem/EventSystem.h"
+#include "CWorld.h"
 
 const float speed = 200.0f;
 const float mass = 100.0f;
@@ -42,8 +43,8 @@ struct Waypoint
 
 struct WaypointNode
 {
-	Waypoint* waypoint = nullptr;
-	Waypoint* parentWaypoint = nullptr;
+	CTile* waypoint = nullptr;
+	CTile* parentWaypoint = nullptr;
 	std::vector<WaypointNode*> neighbours;
 	float gCost = 0.0f;
 	float hCost = 0.0f;
@@ -96,9 +97,13 @@ protected:
 	Vector3 heading;
 	Vector3 position;
 
+	int tileSize;
+	std::vector<CTile*> tiles;
+
+
 	std::vector<PatrolNode*> patrolNodes;
 	std::vector<WaypointNode*> waypointNodes;
-	void SetPatrolNodes(std::vector<PatrolNode*> nodes, std::vector<Waypoint*> waypoints);
+	void SetPatrolNodes(std::vector<PatrolNode*> nodes, std::vector<CTile*> waypoints);
 	PatrolNode* currentPatrolNode;
 
 	PatrolNode* FindClosestPatrolNode();
