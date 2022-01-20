@@ -102,6 +102,10 @@ XMFLOAT4X4 CSpriteComponent::GetTransform()
 {
 	if (updateTransform)
 	{
+		Vector3 scale = GetScale();
+		Vector3 position = GetPosition();
+		float rotation = GetRotation();
+
 		XMMATRIX mat = XMMatrixScaling(scale.x * spriteSize.x, scale.y * spriteSize.y, scale.z)
 			* XMMatrixRotationRollPitchYaw(0, 0, rotation)
 			* XMMatrixTranslation(position.x, position.y, position.z);
