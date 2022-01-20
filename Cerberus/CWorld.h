@@ -177,6 +177,10 @@ private:
 				{
 					CellList[GridToIndex(Position)] = CellType::OuterCorner;
 				}
+				else if (IsTile(Position + Vector2(-1, 1), CellType::Floor))
+				{
+					CellList[GridToIndex(Position)] = CellType::InnerCorner;
+				}
 				
 
 
@@ -187,6 +191,10 @@ private:
 				if (IsTile(Position + Vector2(1, 1), CellType::Floor))
 				{
 					CellList[GridToIndex(Position)] = CellType::OuterCorner;
+				}
+				else if (IsTile(Position + Vector2(-1, -1), CellType::Floor))
+				{
+					CellList[GridToIndex(Position)] = CellType::InnerCorner;
 				}
 
 
@@ -199,6 +207,10 @@ private:
 				{
 					CellList[GridToIndex(Position)] = CellType::OuterCorner;
 				}
+				else if (IsTile(Position + Vector2(1, 1), CellType::Floor))
+				{
+					CellList[GridToIndex(Position)] = CellType::InnerCorner;
+				}
 
 
 
@@ -209,6 +221,10 @@ private:
 				if (IsTile(Position + Vector2(-1, 1), CellType::Floor))
 				{
 					CellList[GridToIndex(Position)] = CellType::OuterCorner;
+				}
+				else if (IsTile(Position + Vector2(1, -1), CellType::Floor))
+				{
+					CellList[GridToIndex(Position)] = CellType::InnerCorner;
 				}
 
 

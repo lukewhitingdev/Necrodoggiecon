@@ -79,16 +79,16 @@ void CTile::ChangeTileID(CellID TileID)
 		//INNER CORNER
 
 	case CellID::IC_NE:
-		SetRenderData(2,0);
+		SetRenderData(9,0);
 		break;
 	case CellID::IC_NW:
-		SetRenderData(0,0);
+		SetRenderData(8,0);
 		break;
 	case CellID::IC_SW:
-		SetRenderData(0,2);
+		SetRenderData(9,3);
 		break;
 	case CellID::IC_SE:
-		SetRenderData(2,2);
+		SetRenderData(8,3);
 		break;
 	default:
 		SetRenderData(0,0);

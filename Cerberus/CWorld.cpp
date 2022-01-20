@@ -142,7 +142,7 @@ void CWorld_Editable::EditWorld(int Slot)
 
 	AdditiveBox(Vector2(15, 15), Vector2(23, 23));
 
-	//GenerateTileMap();
+	GenerateTileMap();
 
 	SaveWorld(0);
 }
@@ -153,10 +153,11 @@ void CWorld_Editable::NewWorld(int Slot)
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
 		Vector3 ConvertedPos = IndexToGrid(i);
-		Vector3 TempPos = (Vector3(ConvertedPos.x, ConvertedPos.y, 0) * (tileScale * 4));
+		Vector3 TempPos = (Vector3(ConvertedPos.x, ConvertedPos.y, -25) * (tileScale * 4));
 
 
-		TempPos -= Vector3(64 * tileScale, 64 * tileScale, -5);
+		TempPos -= Vector3(64 * tileScale, 64 * tileScale, 0);
+		TempPos += Vector3(50000000, 0, 0);
 
 		CTile* Tile = Engine::CreateEntity<CTile>();
 		Tile->SetPosition(TempPos);
@@ -252,8 +253,9 @@ void CWorld_Editable::GenerateTileMap()
 	{
 		if (tileData[i]->GetTileID() == 0)
 		{
-			Vector3 Temp = IndexToGrid(i);
-			if (IsFloorAdjacent(Vector2(Temp.x, Temp.y)))
+			Vector2 Pos = Vector2(i % mapScale, i / mapScale);
+
+			if (IsFloorAdjacent(Vector2(Pos.x, Pos.y)))
 			{
 				CellList[i] = CellType::Edge;
 			}
@@ -271,24 +273,38 @@ void CWorld_Editable::GenerateTileMap()
 	{
 
 		 Vector3 Temp = IndexToGrid(i);
+		 if (IsTile(Vector2(Temp.x, Temp.y), CellType::Edge))
+		 {
+
+			 int Do = 0;
+
+		 }
 		 SetCorner(Vector2(Temp.x, Temp.y));
+
 	}
 	
 
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
 		Vector3 Temp = IndexToGrid(i);
+
+		//Vector3 Test = Vector3(1, 9, 0);
+
+
 		Vector2 Pos = Vector2(Temp.x, Temp.y);
 		Vector2 FloorResult = FindAdjacents(Pos, CellType::Floor);
 		Vector2 FloorResultDiagonal = FindFloorAdjacentDiagonal(Pos);
 		Vector2 EdgeAdjacentResult = FindAdjacents(Pos, CellType::Edge);
+
 		switch (CellList[i])
 		{
 		case CellType::Edge:
-			if (FloorResult == Vector2(1, 0)) tileContainer[i]->ChangeTileID(CellID::W_S);
-			if (FloorResult == Vector2(-1, 0)) tileContainer[i]->ChangeTileID(CellID::W_N);
-			if (FloorResult == Vector2(0, 1)) tileContainer[i]->ChangeTileID(CellID::W_E);
-			if (FloorResult == Vector2(0, -1)) tileContainer[i]->ChangeTileID(CellID::W_W);
+
+			
+			if (FloorResult == Vector2(0, -1)) tileContainer[i]->ChangeTileID(CellID::W_N);
+			else if (FloorResult == Vector2(0, 1)) tileContainer[i]->ChangeTileID(CellID::W_S);
+			else if (FloorResult == Vector2(1, 0)) tileContainer[i]->ChangeTileID(CellID::W_W);
+			else if (FloorResult == Vector2(-1, 0)) tileContainer[i]->ChangeTileID(CellID::W_E);
 			break;
 		case CellType::Empty:
 			tileContainer[i]->ChangeTileID(CellID::N);
@@ -297,17 +313,22 @@ void CWorld_Editable::GenerateTileMap()
 			tileContainer[i]->ChangeTileID(CellID::F);
 			break;
 		case CellType::InnerCorner:
-			if (FloorResultDiagonal == Vector2(1,1)) tileContainer[i]->ChangeTileID(CellID::IC_SE);
-			else if (FloorResultDiagonal == Vector2(-1, -1)) tileContainer[i]->ChangeTileID(CellID::IC_NW);
-			else if (FloorResultDiagonal == Vector2(-1, 1)) tileContainer[i]->ChangeTileID(CellID::IC_NE);
-			else if (FloorResultDiagonal == Vector2(1, -1)) tileContainer[i]->ChangeTileID(CellID::IC_SW);
+
+			
+
+			if (EdgeAdjacentResult == Vector2(1,-1)) tileContainer[i]->ChangeTileID(CellID::IC_NW);
+			if (EdgeAdjacentResult == Vector2(-1, -1)) tileContainer[i]->ChangeTileID(CellID::IC_NE);
+			if (EdgeAdjacentResult == Vector2(-1, 1)) tileContainer[i]->ChangeTileID(CellID::IC_SW);
+			if (EdgeAdjacentResult == Vector2(1, 1)) tileContainer[i]->ChangeTileID(CellID::IC_SE);
+
 
 			break;
 		case CellType::OuterCorner:
-			if (FloorResultDiagonal == Vector2(1, 1)) tileContainer[i]->ChangeTileID(CellID::OC_SE);
-			else if (FloorResultDiagonal == Vector2(-1, -1)) tileContainer[i]->ChangeTileID(CellID::OC_NW);
-			else if (FloorResultDiagonal == Vector2(-1, 1)) tileContainer[i]->ChangeTileID(CellID::OC_NE);
-			else if (FloorResultDiagonal == Vector2(1, -1)) tileContainer[i]->ChangeTileID(CellID::OC_SW);
+
+			if (FloorResultDiagonal == Vector2(1, -1)) tileContainer[i]->ChangeTileID(CellID::OC_NW);
+			else if (FloorResultDiagonal == Vector2(-1, -1)) tileContainer[i]->ChangeTileID(CellID::OC_NE);
+			else if (FloorResultDiagonal == Vector2(-1, 1)) tileContainer[i]->ChangeTileID(CellID::OC_SE);
+			else if (FloorResultDiagonal == Vector2(1, 1)) tileContainer[i]->ChangeTileID(CellID::OC_SW);
 
 			break;
 		}
@@ -324,16 +345,19 @@ bool CWorld_Editable::IsFloorAdjacent(Vector2 Position)
 {
 	if (Position.x > 1 && Position.y > 1 && Position.x < mapScale - 1 && Position.y < mapScale - 1)
 	{
-		int Pos = GridToIndex(Position);
-		return (tileData[Pos]->GetTileID() == 1 ||
-			tileData[Pos]->GetTileID() == 1 ||
-			tileData[Pos]->GetTileID() == 1 ||
-			tileData[Pos]->GetTileID() == 1 ||
 
-			tileData[Pos]->GetTileID() == 1 ||
-			tileData[Pos]->GetTileID() == 1 ||
-			tileData[Pos]->GetTileID() == 1 ||
-			tileData[Pos]->GetTileID() == 1);
+		int Pos = GridToIndex(Position);
+
+		
+		return (tileData[GridToIndex(Position + Vector2(1, 0))]->GetTileID() == 1 ||
+			tileData[GridToIndex(Position + Vector2(-1, 0))]->GetTileID() == 1 ||
+			tileData[GridToIndex(Position + Vector2(0, 1))]->GetTileID() == 1 ||
+			tileData[GridToIndex(Position + Vector2(0, -1))]->GetTileID() == 1 ||
+
+			tileData[GridToIndex(Position + Vector2(1, 1))]->GetTileID() == 1 ||
+			tileData[GridToIndex(Position + Vector2(-1, -1))]->GetTileID() == 1 ||
+			tileData[GridToIndex(Position + Vector2(1, -1))]->GetTileID() == 1 ||
+			tileData[GridToIndex(Position + Vector2(-1, 1))]->GetTileID() == 1);
 	}
 	else return false;
 }
@@ -348,11 +372,21 @@ Vector2 CWorld_Editable::FindAdjacents(Vector2 Pos, CellType ID)
 		X = 1;
 		if (CellList[GridToIndex(Pos + Vector2(-1, 0))] == ID) X = 2;
 	}
-	else X = 0;
-	if (CellList[GridToIndex(Pos + Vector2(1, 0))] == ID)
+	else if (CellList[GridToIndex(Pos + Vector2(-1, 0))] == ID)
+	{
+		X = -1;
+	}
+	else
+		X = 0;
+
+	if (CellList[GridToIndex(Pos + Vector2(0, 1))] == ID)
 	{
 		Y = 1;
-		if (CellList[GridToIndex(Pos + Vector2(-1, 0))] == ID) Y = 2;
+		if (CellList[GridToIndex(Pos + Vector2(1, -1))] == ID) Y = 2;
+	}
+	else if (CellList[GridToIndex(Pos + Vector2(0, -1))] == ID)
+	{
+		Y = -1;
 	}
 	else Y = 0;
 

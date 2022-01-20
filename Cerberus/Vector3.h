@@ -153,18 +153,18 @@ class Vector2Base
 public:
 	union
 	{
-		T x, y;
+		struct { T x, y; };
 		//INTRINSIC VARIABLE, DO NOT TOUCH OR YOU WILL BE GUTTED LIKE A FISH
 		__m128 intrinsic;
 	};
 
-	Vector2Base(DirectX::XMFLOAT3 Input) : intrinsic(_mm_setr_ps(Input.x, Input.y, 0.0f, 0)) {}
+	Vector2Base(DirectX::XMFLOAT3 Input) : intrinsic(_mm_setr_ps(Input.x, Input.y, 0,0)) {}
 
 	Vector2Base() : intrinsic(_mm_setzero_ps()) {}
 
-	Vector2Base(T X, T Y) : intrinsic(_mm_setr_ps(X, Y, 0, 0.0f)) {}
+	Vector2Base(T X, T Y) : intrinsic(_mm_setr_ps(X, Y, 0,0)) {}
 
-	Vector2Base(T AllAxis) : intrinsic(_mm_setr_ps(AllAxis, AllAxis, 0.0f, 0.0f)) {}
+	Vector2Base(T AllAxis) : intrinsic(_mm_setr_ps(AllAxis, AllAxis, 1, 1)) {}
 
 	Vector2Base(__m128 Data) : intrinsic(Data) {}
 

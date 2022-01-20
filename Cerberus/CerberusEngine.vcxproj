@@ -418,7 +418,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\stone.dds" />
-    <Image Include="Resources\Tiles\TempTileMap.dds" />
     <Image Include="Resources\Unwalkable.dds" />
     <Image Include="Resources\Walkable.dds" />
   </ItemGroup>

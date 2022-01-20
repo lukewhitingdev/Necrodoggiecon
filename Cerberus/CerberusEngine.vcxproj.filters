@@ -90,7 +90,6 @@
     <Image Include="Resources\stone.dds" />
     <Image Include="Resources\Unwalkable.dds" />
     <Image Include="Resources\Walkable.dds" />
-    <Image Include="Resources\Tiles\TempTileMap.dds" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="World">
