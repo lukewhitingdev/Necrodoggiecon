@@ -64,6 +64,7 @@
     <ClCompile Include="testController.cpp">
       <Filter>Player\testing</Filter>
     </ClCompile>
+    <ClCompile Include="MathC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -141,6 +142,7 @@
     <ClInclude Include="IInputable.h">
       <Filter>Player\testing</Filter>
     </ClInclude>
+    <ClInclude Include="MathC.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
