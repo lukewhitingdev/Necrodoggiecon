@@ -2,6 +2,7 @@
 #include "Utility/DebugOutput/Debug.h"
 #include "CSpriteComponent.h"
 
+
 CPlayer::CPlayer()
 {
 	Debug::Log("init player class!\n");
@@ -25,66 +26,6 @@ Vector3 CPlayer::Movement(float deltaTime)
 	float move = 200.0f;
 	float speed = move * deltaTime;
 
-	Vector3 myPos = GetPosition();
-
-	if (GetAsyncKeyState(0x44))
-	{
-		myPos.x -= speed;
-		if (GetAsyncKeyState(0x57))
-		{
-			myPos.y += speed;
-			SetPosition(myPos);
-			return myPos.x, myPos.y;
-		}
-		if (GetAsyncKeyState(0x53))
-		{
-			myPos.y -= speed;
-			SetPosition(myPos);
-			return myPos.x, myPos.y;
-		}
-		else
-		{
-			SetPosition(myPos);
-			return myPos.x;
-		}
-	}
-
-	if (GetAsyncKeyState(0x41))
-	{
-		myPos.x += speed;
-		if (GetAsyncKeyState(0x57))
-		{
-			myPos.y += speed;
-			SetPosition(myPos);
-			return myPos.x, myPos.y;
-		}
-		if (GetAsyncKeyState(0x53))
-		{
-			myPos.y -= speed;
-			SetPosition(myPos);
-			return myPos.x, myPos.y;
-		}
-		else
-		{
-			SetPosition(myPos);
-			return myPos.x;
-		}
-	}
-
-
-
-	if (GetAsyncKeyState(0x57))
-	{
-		myPos.y += speed;
-		SetPosition(myPos);
-		return myPos.y;
-	}
-	if (GetAsyncKeyState(0x53))
-	{
-		myPos.y -= speed;
-		SetPosition(myPos);
-		return myPos.y;
-	}
 
 	return 0;
 }

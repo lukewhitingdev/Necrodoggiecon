@@ -1,11 +1,11 @@
 #include "KeyboardInputs.h"
-#include <Engine.h>
+#include <windows.h>
 
 namespace Inputs
 {
 	Vector3 KeyboardInputs::mousePos = { 0,0,0 };
 
-	bool keyboardKeyStates[Inputs::KeyboardInputs::Keys::COUNT][1] =
+	bool keyboardKeyStates[Inputs::InputManager::Keys::COUNT][1] =
 	{
 		{false},
 		{false},
@@ -105,14 +105,14 @@ namespace Inputs
 		{false}
 	};
 
-	bool mouseKeyStates[Inputs::KeyboardInputs::Mouse::MCOUNT][1] =
+	bool mouseKeyStates[Inputs::InputManager::Mouse::MCOUNT][1] =
 	{
 		{false},
 		{false},
 		{false}
 	};
 
-	int KeyboardInputs::keyCodes(Keys key)
+	int InputManager::keyCodes(Keys key)
 	{
 		int Async = 0;
 		switch (key)
@@ -413,7 +413,7 @@ namespace Inputs
 	}
 
 
-	int KeyboardInputs::SetMouse(Mouse mouse)
+	int InputManager::SetMouse(Mouse mouse)
 	{
 		int Async = 0;
 		switch (mouse)
@@ -432,7 +432,7 @@ namespace Inputs
 	}
 
 
-	bool KeyboardInputs::IsKeyPressed(Keys key)
+	bool InputManager::IsKeyPressed(Keys key)
 	{
 		if (GetAsyncKeyState(keyCodes(key)) & 0x8000)
 			Inputs::keyboardKeyStates[key][0] = true;
@@ -443,7 +443,7 @@ namespace Inputs
 	}
 
 
-	bool KeyboardInputs::IsKeyPressedDown(Keys key)
+	bool InputManager::IsKeyPressedDown(Keys key)
 	{
 		if (GetAsyncKeyState(keyCodes(key)) < 0)
 		{
@@ -463,7 +463,7 @@ namespace Inputs
 	}
 
 
-	bool KeyboardInputs::IsKeyReleased(Keys key)
+	bool InputManager::IsKeyReleased(Keys key)
 	{
 		if (GetAsyncKeyState(keyCodes(key)) < 0)
 		{
@@ -485,7 +485,7 @@ namespace Inputs
 	}
 
 
-	bool KeyboardInputs::IsMouseButtonPressed(Mouse mouse)
+	bool InputManager::IsMouseButtonPressed(Mouse mouse)
 	{
 		if (GetAsyncKeyState(SetMouse(mouse)) & 0x8000)
 			Inputs::mouseKeyStates[mouse][0] = true;

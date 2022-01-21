@@ -3,7 +3,7 @@
 
 namespace Inputs
 {
-	class KeyboardInputs
+	class InputManager
 	{
 	public:
 

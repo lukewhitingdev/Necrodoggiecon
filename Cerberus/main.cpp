@@ -23,6 +23,9 @@
 #include "CAIController.h"
 #include "CCamera.h"
 
+#include "InputManager.h"
+using namespace Inputs;
+
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
 CCamera Engine::camera = CCamera();
