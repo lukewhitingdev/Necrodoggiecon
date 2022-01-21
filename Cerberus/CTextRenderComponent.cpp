@@ -60,7 +60,7 @@ void CTextRenderComponent::SetText(std::string newText)
 	{
 		sprites[i]->SetRenderRect(characterSize);
 		sprites[i]->SetSpriteSize(XMUINT2(characterSize.x * 2, characterSize.y * 2));
-		sprites[i]->SetTextureOffset(XMFLOAT2(characterSize.x * (newText[i] % 16), characterSize.y * floor(newText[i] / 16)));
+		sprites[i]->SetTextureOffset(XMFLOAT2(characterSize.x * (newText[i] % spriteSheetWidth), characterSize.y * floor(newText[i] / spriteSheetWidth)));
 
 		switch (justification)
 		{

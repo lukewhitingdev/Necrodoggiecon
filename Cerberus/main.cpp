@@ -863,12 +863,6 @@ float calculateDeltaTime()
 
 void Update(float deltaTime)
 {
-	//TEMP
-	if (Input::GetKeyState(Keys::RMB))
-	{
-		Engine::camera.SetCameraPosition(XMFLOAT4((-Input::mousePos.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (Input::mousePos.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
-	}
-
 	for (auto& e : Engine::entities)
 		if(e->shouldUpdate)
 		{

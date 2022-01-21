@@ -36,6 +36,11 @@ void CursorEntity::Update(float deltaTime)
 	std::stringstream ss;
 	ss << "X:" << round(GetPosition().x) << " Y:" << round(GetPosition().y);
 	text->SetText(ss.str());
+
+	if (Input::GetKeyState(Keys::RMB))
+	{
+		Engine::camera.SetCameraPosition(XMFLOAT4((-Input::mousePos.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (Input::mousePos.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
+	}
 }
 
 CursorEntity::~CursorEntity()

@@ -15,6 +15,7 @@ class CTextRenderComponent : public CComponent
 	unsigned short reserveSpriteCount = 16;
 	unsigned short usedSpriteCount = 0;
 public:
+	unsigned short spriteSheetWidth = 16;
 	TextJustification justification = TextJustification::Center;
 
 	CTextRenderComponent();
