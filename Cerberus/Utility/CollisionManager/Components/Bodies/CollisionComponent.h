@@ -1,6 +1,7 @@
 #pragma once
-#include "CEntity.h"
-#include "CComponent.h"
+//#include "CEntity.h"
+#include "Vector3.h"
+#include "Utility/DebugOutput/Debug.h"
 #include <thread>
 	
 enum class COLLISIONTYPE 
@@ -15,11 +16,18 @@ class CollisionComponent
 {
 public:
 	CollisionComponent();
-	virtual ~CollisionComponent();
+
+	~CollisionComponent();
 
 	COLLISIONTYPE GetCollisionType();
-	CEntity* test = nullptr;
+	//CEntity* test = nullptr;
 	
+	float GetRadius();
+	void SetRadius(float setRadius);
+
+	void SetPosition(Vector3 setPosition);
+	Vector3 GetPosition();
+
 	void SetBoundingType(COLLISIONTYPE collisionType1);
 	COLLISIONTYPE GetBoundingType();
 
@@ -28,6 +36,7 @@ public:
 
 private: 
 	float radius;
+	Vector3 position;
 	COLLISIONTYPE collisionType = COLLISIONTYPE::BOUNDING_CIRCLE;
 
 	//std::thread* collisionThread = nullptr;

@@ -1,12 +1,12 @@
 #include "CollisionComponent.h"
 
-CollisionComponent::CollisionComponent()
+CollisionComponent::CollisionComponent() 
 {
-	collisionType = BOUNDING_CIRCLE;
+	collisionType = COLLISIONTYPE::BOUNDING_CIRCLE;
 
 	//test = AddComponent<CEntity>();
 
-}
+};
 
 CollisionComponent::~CollisionComponent()
 {
@@ -16,6 +16,26 @@ CollisionComponent::~CollisionComponent()
 COLLISIONTYPE CollisionComponent::GetCollisionType()
 {
 	return collisionType;
+}
+
+float CollisionComponent::GetRadius()
+{
+	return radius;
+}
+
+void CollisionComponent::SetRadius(float setRadius)
+{
+	radius = setRadius;
+}
+
+void CollisionComponent::SetPosition(Vector3 setPosition)
+{
+	position = setPosition;
+}
+
+Vector3 CollisionComponent::GetPosition()
+{
+	return position;
 }
 
 void CollisionComponent::SetBoundingType(COLLISIONTYPE collisionType1)
@@ -34,12 +54,13 @@ bool CollisionComponent::IsColliding(CollisionComponent* collidingObject)
 	{
 	case COLLISIONTYPE::BOUNDING_CIRCLE:
 	{
-		Vector3 otherPos = collidingObject->test->GetPosition();
-		Vector3 thisPos = test->GetPosition();
+		Vector3 otherPos = collidingObject->GetPosition();
+		Vector3 thisPos = position;
 		otherPos.z = 0;
 		thisPos.z = 0;
 		if (distanceBetweenPoints(thisPos, otherPos) < (radius + (collidingObject)->radius))
 		{
+			Debug::Log("COLLISION DETECTED!!!!!!!!!!!!");
 			return true;
 		}
 		break;
@@ -56,8 +77,4 @@ float CollisionComponent::distanceBetweenPoints(Vector3& point1, Vector3& point2
 {
 	float distance = sqrt((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y) + (point1.z - point2.z) * (point1.z - point2.z));
 	return distance;
-}
-
-void CollisionComponent::Update(float deltaTime)
-{
 }

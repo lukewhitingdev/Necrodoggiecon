@@ -361,6 +361,10 @@
     <ClInclude Include="Tools\CT_EditorMain.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="CTransform.h" />
+    <ClInclude Include="Utility\CollisionManager\CollisionManager.h" />
+    <ClInclude Include="Utility\CollisionManager\Components\Bodies\BoundingSphere.h" />
+    <ClInclude Include="Utility\CollisionManager\Components\Bodies\CollisionComponent.h" />
+    <ClInclude Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="CTile.h" />
@@ -404,6 +408,10 @@
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
     <ClCompile Include="Tools\CT_WindowBase.cpp" />
     <ClCompile Include="CTransform.cpp" />
+    <ClCompile Include="Utility\CollisionManager\CollisionManager.cpp" />
+    <ClCompile Include="Utility\CollisionManager\Components\Bodies\BoundingSphere.cpp" />
+    <ClCompile Include="Utility\CollisionManager\Components\Bodies\CollisionComponent.cpp" />
+    <ClCompile Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.cpp" />
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CTile.cpp" />

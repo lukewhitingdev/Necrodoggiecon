@@ -202,6 +202,8 @@ void Load()
 		CAIController* ai = Engine::CreateEntity<CAIController>();
 		ai->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 		ai->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
+		ai->shouldMove = true;
+		ai->colComponent->SetRadius(10.0f);
 	}
 
 	TestClass* topLeft = Engine::CreateEntity<TestClass>();
@@ -235,8 +237,14 @@ void Load()
 	TestClass* bottomRight = Engine::CreateEntity<TestClass>();
 	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
 	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+	bottomRight->colComponent->SetRadius(15.0f);
 
-
+	TestClass* test = Engine::CreateEntity<TestClass>();
+	test->SetPosition(Vector3{ 500.0f, -100.0f, 0.0f });
+	test->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+	test->colComponent->SetRadius(10.0f);
+	test->shouldMove = true;
+	
 
 
 	if (editorMode)
@@ -832,7 +840,25 @@ void Update(float deltaTime)
 					f->Update(deltaTime);
 			e->Update(deltaTime);
 		}
+		if (e->shouldMove)
+		{
+			for (size_t j = 0; j < Engine::entities.size(); j++)
+			{
+				CEntity* currentEntity = Engine::entities[j];
+
+				if (e != currentEntity && currentEntity->colComponent != nullptr)
+				{
+					//If it can move, check the collisions and it is a different entity, do collision stuff
+					if (e->colComponent->IsColliding(currentEntity->colComponent))
+					{
+						
+					}
+				}
+			}
+		}
 	}
+
+
 }
 
 //--------------------------------------------------------------------------------------

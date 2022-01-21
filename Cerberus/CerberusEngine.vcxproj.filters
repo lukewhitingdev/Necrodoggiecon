@@ -34,7 +34,6 @@
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="Tools\CT_WindowBase.cpp" />
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
-  
     <ClCompile Include="CWorld_Edit.cpp">
       <Filter>World</Filter>
     </ClCompile>
@@ -43,6 +42,10 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CTransform.cpp" />
+    <ClCompile Include="Utility\CollisionManager\CollisionManager.cpp" />
+    <ClCompile Include="Utility\CollisionManager\Components\Bodies\BoundingSphere.cpp" />
+    <ClCompile Include="Utility\CollisionManager\Components\Bodies\CollisionComponent.cpp" />
+    <ClCompile Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -87,7 +90,6 @@
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
- 
     <ClInclude Include="CWorld_Edit.h">
       <Filter>World</Filter>
     </ClInclude>
@@ -96,6 +98,10 @@
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CTransform.h" />
+    <ClInclude Include="Utility\CollisionManager\CollisionManager.h" />
+    <ClInclude Include="Utility\CollisionManager\Components\Bodies\BoundingSphere.h" />
+    <ClInclude Include="Utility\CollisionManager\Components\Bodies\CollisionComponent.h" />
+    <ClInclude Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

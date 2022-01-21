@@ -6,7 +6,8 @@ CEntity::~CEntity()
 		delete e;
 }
 
-void CEntity::SetCollider(COLLISIONTYPE collisionType)
+void CEntity::SetCollider()
 {
+	GetPosition();
 }
 

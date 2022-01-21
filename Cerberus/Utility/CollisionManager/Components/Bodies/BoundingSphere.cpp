@@ -10,10 +10,10 @@ bool BoundingCircle::IsColliding(CollisionComponent* collidingObject)
 {
 	switch (collidingObject->GetCollisionType())
 	{
-		case BOUNDING_CIRCLE:
+		case COLLISIONTYPE::BOUNDING_CIRCLE:
 		{
-			Vector3 otherPos = collidingObject->test->GetPosition();
-			Vector3 thisPos = test->GetPosition();
+			Vector3 otherPos = collidingObject->GetPosition();
+			Vector3 thisPos = GetPosition();
 			otherPos.z = 0;
 			thisPos.z = 0;
 			if (distanceBetweenPoints(thisPos, otherPos) < (radius + ((BoundingCircle*)collidingObject)->radius))
@@ -22,7 +22,7 @@ bool BoundingCircle::IsColliding(CollisionComponent* collidingObject)
 			}
 			break;
 		}
-		case BOUNDING_BOX:
+		case COLLISIONTYPE::BOUNDING_BOX:
 		{
 			break;
 		}

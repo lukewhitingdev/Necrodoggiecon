@@ -77,6 +77,8 @@ CAIController::CAIController()
 	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
 
 	SetPatrolNodes(patrolPoints, waypoints);
+
+	colComponent = new CollisionComponent();
 }
 
 void CAIController::Update(float deltaTime)
@@ -87,6 +89,11 @@ void CAIController::Update(float deltaTime)
 	Movement(deltaTime);
 
 	SetPosition(position);
+
+	colComponent->SetPosition(position);
+
+	//Debug::Log("ai colComponent Position: %f %f %f %c", colComponent->GetPosition().x, colComponent->GetPosition().y, colComponent->GetPosition().z);
+	//Debug::Log("ai Controller Position: %f %f %f %c", position.x, position.y, position.z);
 }
 
 void CAIController::Movement(float deltaTime)

@@ -11,16 +11,15 @@ class CEntity : public CTransform
 
 public:
 	bool shouldUpdate = true;
-
-	CollisionComponent* colComponent = nullptr;
+	bool shouldMove = false;
 
 	std::vector<CComponent*> components;
-	
+
 	//Updated automatically every single frame
 	virtual void Update(float deltaTime) = 0;
 	virtual ~CEntity();
 
-	void SetCollider(COLLISIONTYPE collisionType);
+	void SetCollider();
 
 	template <class T>
 	T* AddComponent()
@@ -45,4 +44,5 @@ public:
 			}
 		}
 	}
+	CollisionComponent* colComponent = nullptr;
 };
