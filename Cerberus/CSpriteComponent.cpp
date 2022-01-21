@@ -48,10 +48,7 @@ CSpriteComponent::CSpriteComponent()
 
 HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 {
-	if (texture == nullptr)
-		texture = AssetManager::GetTexture(filePath);
-	else
-		texture->LoadTextureDDS(filePath);
+	texture = AssetManager::GetTexture(filePath);
 
 	if (texture == nullptr)
 		return S_FALSE;
@@ -71,7 +68,7 @@ void CSpriteComponent::Update(float deltaTime)
 
 void CSpriteComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer& cb, ID3D11Buffer* constantBuffer)
 {
-	if (!texture->loaded)	//change to texture valid check
+	if (texture == nullptr || !texture->loaded)	//change to texture valid check
 	{
 		Debug::LogError("Texture not loaded for CSpriteComponent.");
 		return;

@@ -18,7 +18,8 @@
 #include "Core/testClass.h"
 #include "CPlayer.h"
 #include "CTile.h"
-#include "CWorld.h"
+#include "CWorld_Edit.h"
+#include "CAIController.h"
 #include "CCamera.h"
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
@@ -179,17 +180,78 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	TestClass* myClass = Engine::CreateEntity<TestClass>();
+	bool editorMode = false;
+
+	
+	
+	for (int i = 0; i < 0; i++)
+	{
+		TestClass* myClass = Engine::CreateEntity<TestClass>();
+		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	}
+	
 	
 	// sawps and makes one of the entiys the player
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 0; i++)
 	{
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
 
-	//CWorld* World = new CWorld(0);
-	//World->LoadWorld(0);
+
+
+	
+
+	
+
+	
+
+
+	for (int i = 0; i < 1; i++)
+	{
+		CAIController* ai = Engine::CreateEntity<CAIController>();
+		ai->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+		ai->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
+	}
+
+	TestClass* topLeft = Engine::CreateEntity<TestClass>();
+	topLeft->SetPosition(Vector3{ -300.0f, 100.0f, 0.0f });
+
+	TestClass* topMiddleLeft = Engine::CreateEntity<TestClass>();
+	topMiddleLeft->SetPosition(Vector3{ -100.0f, 100.0f, 0.0f });
+
+	TestClass* topMiddleRight = Engine::CreateEntity<TestClass>();
+	topMiddleRight->SetPosition(Vector3{ 100.0f, 100.0f, 0.0f });
+
+	TestClass* topRight = Engine::CreateEntity<TestClass>();
+	topRight->SetPosition(Vector3{ 300.0f, 100.0f, 0.0f });
+
+	TestClass* bottomLeft = Engine::CreateEntity<TestClass>();
+	bottomLeft->SetPosition(Vector3{ -300.0f, -100.0f, 0.0f });
+
+	TestClass* bottomMiddleLeft = Engine::CreateEntity<TestClass>();
+	bottomMiddleLeft->SetPosition(Vector3{ -100.0f, -100.0f, 0.0f });
+
+	TestClass* bottomMiddleRight = Engine::CreateEntity<TestClass>();
+	bottomMiddleRight->SetPosition(Vector3{ 100.0f, -100.0f, 0.0f });
+
+	TestClass* bottomRight = Engine::CreateEntity<TestClass>();
+	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
+
+
+
+
+	if (editorMode)
+	{
+		CWorld_Editable::NewWorld(0);
+		CWorld_Editable::EditWorld(0);
+		CWorld_Editable::SaveWorld(0);
+	}
+	else
+	{
+
+		CWorld::LoadWorld(0);
+	}
 }
 
 //--------------------------------------------------------------------------------------

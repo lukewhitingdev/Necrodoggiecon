@@ -8,6 +8,7 @@ TestClass::TestClass()
 {
 	Debug::Log("init test class!\n");
 
+	
 	sprite = AddComponent<CSpriteComponent>();
 	sprite->LoadTexture("Resources\\cursorSS.dds");
 	sprite->SetRenderRect(XMUINT2(16, 16));
