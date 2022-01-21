@@ -180,6 +180,7 @@ void Load()
 		CWorld_Editable::NewWorld(0);
 		CWorld_Editable::EditWorld(0);
 		CWorld_Editable::SaveWorld(0);
+		CWorld_Editable::BuildNavigationGrid();
 	}
 	else
 	{
@@ -195,7 +196,7 @@ void Load()
 	
 	
 	// sawps and makes one of the entiys the player
-	for (int i = 0; i < 0; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));

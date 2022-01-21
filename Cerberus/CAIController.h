@@ -97,7 +97,6 @@ protected:
 	Vector3 heading;
 	Vector3 position;
 
-	int tileSize;
 	std::vector<CTile*> tiles;
 
 
@@ -128,7 +127,7 @@ protected:
 	std::vector<WaypointNode*> pathNodes;
 	int currentCount;
 
-	CPlayer* player = Engine::CreateEntity<CPlayer>();
+	CPlayer* player = Engine::GetEntityOfType<CPlayer>()[0];
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 	class CSpriteComponent* viewSprite = nullptr;
 };

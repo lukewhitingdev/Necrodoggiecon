@@ -82,11 +82,11 @@ CAIController::CAIController()
 	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ -50.0f, 300.0f, 0.0f });
 	PatrolNode* patrolPoint3 = new PatrolNode(Vector3{ -500.0f, -200.0f, 0.0f });
 
-	patrolPoint1->nextPatrolNode = patrolPoint3;
-	//patrolPoint2->nextPatrolNode = patrolPoint3;
+	patrolPoint1->nextPatrolNode = patrolPoint2;
+	patrolPoint2->nextPatrolNode = patrolPoint3;
 	patrolPoint3->nextPatrolNode = patrolPoint1;
 
-	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint3 };
+	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
 
 	SetPatrolNodes(patrolPoints, tiles);
 }
@@ -107,7 +107,7 @@ void CAIController::Update(float deltaTime)
 	{
 		Debug::Log("CAN NOT SEE PLAYER");
 	}
-
+	position.z = 0.0f;
 	SetPosition(position);
 }
 
@@ -151,6 +151,7 @@ bool CAIController::CanSeePlayer()
 	float angle = atan2f(det, dot);
 	this->SetRotation(angle);
 	viewFrustrum->SetRotation(angle);
+	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 0.0f });
 
 	float dotProduct = view.Dot(viewToPlayer);
 	float pi = atanf(1) * 4;
@@ -274,7 +275,7 @@ void CAIController::Patrolling()
 		else
 		{
 			heading = Seek(pathNodes[currentCount]->waypoint->GetPosition());
-			if (position.DistanceTo(pathNodes[currentCount]->waypoint->GetPosition()) <= ((float)tileScale))
+			if (position.DistanceTo(pathNodes[currentCount]->waypoint->GetPosition()) <= (((float)tileScale) * 2.0f))
 			{
 				currentCount--;
 			}
@@ -393,8 +394,8 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 		closed.push_back(current);
 		
 		// If this is the goal node then stop.
-		/*if (current->waypoint == goal->waypoint)
-			break;*/
+		if (current->waypoint == goal->waypoint)
+			break;
 
 		// Neighbour IDs of the current waypoint.
 		std::vector<int> _neighboursID = current->waypoint->GetConnectedTiles();
@@ -433,7 +434,7 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 			{
 				// Calculate the distance from the neighbour node and the start node.
 				//float gCost = CalculateCost(neighbour->waypoint->GetPosition().x, neighbour->waypoint->GetPosition().y, start->waypoint->GetPosition().x, start->waypoint->GetPosition().y);
-				float gCost = current->gCost + (float)tileScale;
+				float gCost = current->gCost + (float)tileScale * 2.0f;
 				// Calculate the distance from the neighbour node and the goal node.
 				float hCost = CalculateCost(neighbour, goal);
 				//hCost = CalculateCost(neighbour->waypoint->GetPosition().x, neighbour->waypoint->GetPosition().y, goal->waypoint->GetPosition().x, goal->waypoint->GetPosition().y);
@@ -460,6 +461,7 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 						// If the nieghbour node is not on the open list then add it to it.
 						else if (i == open.size() - 1)
 						{
+							
 							open.push_back(neighbour);
 						}
 					}
@@ -512,6 +514,8 @@ float CAIController::CalculateCost(WaypointNode * from, WaypointNode* to)
 {
 	float costX = std::abs(to->waypoint->GetPosition().x - from->waypoint->GetPosition().x);
 	float costY = std::abs(to->waypoint->GetPosition().y - from->waypoint->GetPosition().y);
+
+	float euclidenDistance = to->waypoint->GetPosition().DistanceTo(from->waypoint->GetPosition());
 
 	float cost = costX + costY;
 	return cost;
