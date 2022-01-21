@@ -89,6 +89,7 @@ public:
                 ImGui::End();
                 return;
             }
+            AdditionalRenderLogic();
 
             ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetStyle().ItemSpacing.y), false, ImGuiWindowFlags_HorizontalScrollbar);
             if (ImGui::BeginPopupContextWindow())

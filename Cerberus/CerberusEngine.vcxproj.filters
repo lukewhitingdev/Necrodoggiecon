@@ -47,6 +47,7 @@
     <ClCompile Include="Core\CursorEntity.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Core\TestUI.cpp" />
+    <ClCompile Include="EditorGrid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -104,6 +105,7 @@
     <ClInclude Include="Core\CursorEntity.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Core\TestUI.h" />
+    <ClInclude Include="EditorGrid.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

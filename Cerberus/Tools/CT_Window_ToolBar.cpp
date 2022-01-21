@@ -6,8 +6,8 @@ CT_Window_ToolBar::CT_Window_ToolBar()
 
 void CT_Window_ToolBar::AdditionalRenderLogic()
 {
-	/*
-	* if (ImGui::Button("Add Walkable"))
+	
+	 if (ImGui::Button("Add Walkable"))
 	{
 		//... my_code 
 	}
@@ -15,5 +15,5 @@ void CT_Window_ToolBar::AdditionalRenderLogic()
 	{
 		//... my_code 
 	}
-	*/
+	
 }

@@ -22,7 +22,7 @@
 #include "CWorld_Edit.h"
 #include "CAIController.h"
 #include "CCamera.h"
-
+#include "Tools/CT_EditorMain.h"
 #include "InputManager.h"
 #include "Core/TestUI.h"
 using namespace Inputs;
@@ -78,6 +78,7 @@ ID3D11RasterizerState* fillRastState;
 ID3D11RasterizerState* wireframeRastState;
 
 DebugOutput* debugOutputUI;
+CT_EditorMain* EditorViewport;
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -186,7 +187,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	bool editorMode = false;
+	bool editorMode = true;
 
 	Engine::CreateEntity<TestUI>();
 	CursorEntity* myClass = Engine::CreateEntity<CursorEntity>();
@@ -252,6 +253,7 @@ void Load()
 
 	if (editorMode)
 	{
+		EditorViewport = new CT_EditorMain();
 		CWorld_Editable::NewWorld(0);
 		CWorld_Editable::EditWorld(0);
 		CWorld_Editable::SaveWorld(0);
@@ -928,6 +930,7 @@ void Render()
 
 	// Do UI.
 	Debug::getOutput()->render();
+	if (EditorViewport) EditorViewport->RenderWindows();
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
