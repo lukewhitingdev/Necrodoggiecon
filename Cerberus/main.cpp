@@ -166,10 +166,6 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 	ShowWindow(Engine::windowHandle, nCmdShow);
 
-	AudioController::Initialize();
-
-	AudioController::LoadAudio("Resources/TestAudio.wav", false);
-
 	return S_OK;
 }
 
@@ -182,10 +178,10 @@ void Load()
 	}
 	
 	// sawps and makes one of the entiys the player
-	for (int i = 0; i < 0; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
-		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+		myplayer->SetPosition(Vector3(0, 0, 0));
 	}
 
 	for (int i = 0; i < 1; i++)
@@ -226,6 +222,12 @@ void Load()
 	TestClass* bottomRight = Engine::CreateEntity<TestClass>();
 	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
 	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+
+	AudioController::Initialize();
+	AudioController::LoadAudio("Resources/SmashMouth.mp3", true);
+
+	AudioController::PlayAudio("Resources/SmashMouth.mp3");
 
 	//CWorld* World = new CWorld(0);
 	//World->LoadWorld(0);
@@ -811,6 +813,7 @@ void Update(float deltaTime)
 			e->Update(deltaTime);
 		}
 
+	AudioController::Update(Engine::GetEntityOfType<CAIController>()[0]->GetPosition(), deltaTime);
 }
 
 //--------------------------------------------------------------------------------------
