@@ -2,6 +2,7 @@
 #include "CTextRenderComponent.h"
 #include "CSpriteComponent.h"
 #include "CCamera.h"
+#include <sstream>
 
 TestUI::TestUI()
 {
