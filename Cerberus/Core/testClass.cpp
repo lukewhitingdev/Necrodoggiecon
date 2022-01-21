@@ -15,7 +15,7 @@ TestClass::TestClass()
 
 	sprite->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
 
-	//colComponent = AddComponent<CollisionComponent>();
+	colComponent = new CollisionComponent();
 
 
 	if (rand() % 2)

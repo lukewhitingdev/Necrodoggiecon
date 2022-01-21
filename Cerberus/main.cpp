@@ -761,14 +761,15 @@ void Update(float deltaTime)
 	}
 
 	for (auto& e : Engine::entities)
-		if(e->shouldUpdate)
+	{
+		if (e->shouldUpdate)
 		{
 			for (auto& f : e->components)
-				if(f->shouldUpdate)
+				if (f->shouldUpdate)
 					f->Update(deltaTime);
 			e->Update(deltaTime);
 		}
-
+	}
 }
 
 //--------------------------------------------------------------------------------------

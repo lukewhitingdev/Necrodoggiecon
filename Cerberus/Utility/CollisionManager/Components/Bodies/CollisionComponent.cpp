@@ -32,7 +32,7 @@ bool CollisionComponent::IsColliding(CollisionComponent* collidingObject)
 {
 	switch (collidingObject->GetCollisionType())
 	{
-	case BOUNDING_CIRCLE:
+	case COLLISIONTYPE::BOUNDING_CIRCLE:
 	{
 		Vector3 otherPos = collidingObject->test->GetPosition();
 		Vector3 thisPos = test->GetPosition();
@@ -44,7 +44,7 @@ bool CollisionComponent::IsColliding(CollisionComponent* collidingObject)
 		}
 		break;
 	}
-	case BOUNDING_BOX:
+	case COLLISIONTYPE::BOUNDING_BOX:
 	{
 		break;
 	}

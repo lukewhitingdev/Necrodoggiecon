@@ -3,15 +3,15 @@
 #include "CComponent.h"
 #include <thread>
 	
-enum COLLISIONTYPE
+enum class COLLISIONTYPE 
 {
-	BOUNDING_BOX = 0,
+	BOUNDING_BOX,
 	BOUNDING_CIRCLE
 };
 
 
 //A component for collisions
-class CollisionComponent : public CComponent
+class CollisionComponent
 {
 public:
 	CollisionComponent();
@@ -25,11 +25,10 @@ public:
 
 	bool IsColliding(CollisionComponent* collidingObject);
 	float distanceBetweenPoints(Vector3& point1, Vector3& point2);
-	virtual void Update(float deltaTime) override;
 
 private: 
 	float radius;
-	COLLISIONTYPE collisionType = BOUNDING_BOX;
+	COLLISIONTYPE collisionType = COLLISIONTYPE::BOUNDING_CIRCLE;
 
 	//std::thread* collisionThread = nullptr;
 };

@@ -2,6 +2,7 @@
 
 #include "CComponent.h"
 #include "Vector3.h"
+#include "Utility/CollisionManager/Components/Bodies/CollisionComponent.h"
 
 ////Fundimental class of the engine with a world transform and ability to have components
 //Use for all gameplay things in the world
@@ -11,11 +12,15 @@ class CEntity : public CTransform
 public:
 	bool shouldUpdate = true;
 
+	CollisionComponent* colComponent = nullptr;
+
 	std::vector<CComponent*> components;
 	
 	//Updated automatically every single frame
 	virtual void Update(float deltaTime) = 0;
 	virtual ~CEntity();
+
+	void SetCollider(COLLISIONTYPE collisionType);
 
 	template <class T>
 	T* AddComponent()

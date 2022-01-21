@@ -6,7 +6,6 @@
 class TestClass : public CEntity
 {
 	class CSpriteComponent* sprite = nullptr;
-	class CollisionComponent* colComponent = nullptr;
 
 
 	float timeElapsed = 0;
