@@ -44,6 +44,7 @@
     <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="CTextRenderComponent.cpp" />
     <ClCompile Include="Core\CursorEntity.cpp" />
+    <ClCompile Include="KeyboardInputs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -98,6 +99,7 @@
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="Core\CursorEntity.h" />
+    <ClInclude Include="KeyboardInputs.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
