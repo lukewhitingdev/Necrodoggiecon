@@ -68,7 +68,7 @@ void CTextRenderComponent::SetText(std::string newText)
 
 void CTextRenderComponent::Update(float deltaTime)
 {
-
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 void CTextRenderComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer& cb, ID3D11Buffer* constantBuffer)

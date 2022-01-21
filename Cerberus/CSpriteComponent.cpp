@@ -66,7 +66,7 @@ HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 
 void CSpriteComponent::Update(float deltaTime)
 {
-
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 void CSpriteComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer& cb, ID3D11Buffer* constantBuffer)
