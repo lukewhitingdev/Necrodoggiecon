@@ -361,6 +361,7 @@
     <ClInclude Include="Core\CursorEntity.h" />
     <ClInclude Include="CWorld_Edit.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Core\TestUI.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="CTransform.h" />
@@ -407,6 +408,7 @@
     <ClCompile Include="Core\CursorEntity.cpp" />
     <ClCompile Include="CWorld_Edit.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Core\TestUI.cpp" />
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
     <ClCompile Include="Tools\CT_WindowBase.cpp" />
     <ClCompile Include="CTransform.cpp" />

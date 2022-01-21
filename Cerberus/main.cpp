@@ -24,6 +24,7 @@
 #include "CCamera.h"
 
 #include "InputManager.h"
+#include "Core/TestUI.h"
 using namespace Inputs;
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
@@ -187,6 +188,7 @@ void Load()
 {
 	bool editorMode = false;
 
+	Engine::CreateEntity<TestUI>();
 	CursorEntity* myClass = Engine::CreateEntity<CursorEntity>();
 	
 	
