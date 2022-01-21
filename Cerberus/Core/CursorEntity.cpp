@@ -26,7 +26,7 @@ void CursorEntity::Update(float deltaTime)
 	const float speed = 2;
 	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 16, 0));
 
-	SetPosition(Vector3(Inputs::KeyboardInputs::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::KeyboardInputs::mousePos.y + Engine::windowHeight * 0.5f, -100));
+	SetPosition(Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100));
 	
 	/*if (Input::GetKeyState(Keys::LMB))
 		sprite->SetRotation(3.14159 / 4);
@@ -37,9 +37,9 @@ void CursorEntity::Update(float deltaTime)
 	ss << "X:" << round(GetPosition().x) << " Y:" << round(GetPosition().y);
 	text->SetText(ss.str());
 
-	if (Inputs::KeyboardInputs::IsMouseButtonPressed(Inputs::KeyboardInputs::RButton))
+	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::RButton))
 	{
-		Engine::camera.SetCameraPosition(XMFLOAT4((-Inputs::KeyboardInputs::mousePos.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (Inputs::KeyboardInputs::mousePos.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
+		Engine::camera.SetCameraPosition(XMFLOAT4((-Inputs::InputManager::mousePos.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (Inputs::InputManager::mousePos.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
 	}
 }
 

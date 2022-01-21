@@ -1,9 +1,9 @@
-#include "KeyboardInputs.h"
+#include "InputManager.h"
 #include <windows.h>
 
 namespace Inputs
 {
-	Vector3 KeyboardInputs::mousePos = { 0,0,0 };
+	Vector3 InputManager::mousePos = { 0,0,0 };
 
 	bool keyboardKeyStates[Inputs::InputManager::Keys::COUNT][1] =
 	{

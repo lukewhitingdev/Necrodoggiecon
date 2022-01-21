@@ -766,8 +766,8 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	{
 	case WM_MOUSEMOVE:
 	{
-		Inputs::KeyboardInputs::mousePos.x = GET_X_LPARAM(lParam);
-		Inputs::KeyboardInputs::mousePos.y = GET_Y_LPARAM(lParam);
+		Inputs::InputManager::mousePos.x = GET_X_LPARAM(lParam);
+		Inputs::InputManager::mousePos.y = GET_Y_LPARAM(lParam);
 		break;
 	}
 
