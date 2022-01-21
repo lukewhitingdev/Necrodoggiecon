@@ -12,8 +12,6 @@ TestUI::TestUI()
 	birb->SetSpriteSize(XMUINT2(128, 128));
 	birb->SetPosition(560, -280, 0);
 
-	birb->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
-
 	text1 = AddComponent<CTextRenderComponent>();
 	text1->justification = TextJustification::Right;
 	text1->SetText("This is some UI");

@@ -39,7 +39,21 @@ void CursorEntity::Update(float deltaTime)
 
 	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::RButton))
 	{
-		Engine::camera.SetCameraPosition(XMFLOAT4((-Inputs::InputManager::mousePos.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (Inputs::InputManager::mousePos.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
+		if (!mouseRHeld)
+		{
+			mouseRHeld = true;
+			mouseOffset = Inputs::InputManager::mousePos;
+		}
+
+		Vector3 mousePos = (Inputs::InputManager::mousePos - mouseOffset) / Engine::camera.GetZoom();
+		mouseOffset = Inputs::InputManager::mousePos;
+
+		Engine::camera.SetCameraPosition(XMFLOAT4(-mousePos.x + Engine::camera.GetCameraPosition().x, mousePos.y + Engine::camera.GetCameraPosition().y, -3, 1));
+	}
+	else
+	{
+		if (mouseRHeld)
+			mouseRHeld = false;
 	}
 }
 
