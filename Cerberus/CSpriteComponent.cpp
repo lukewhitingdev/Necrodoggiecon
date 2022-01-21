@@ -132,7 +132,7 @@ XMFLOAT4X4 CSpriteComponent::GetTransform()
 			Vector3 position = GetPosition();
 			float rotation = GetRotation();
 			
-			XMFLOAT2 anchorNorm = XMFLOAT2(anchor.x * 2 - 1, anchor.y * 2 - 1);
+			XMFLOAT2 anchorNorm = XMFLOAT2(anchor.x * 2 - 1, anchor.y * -2 + 1);
 			/*XMFLOAT2 anchScaler = XMFLOAT2((1 - Engine::windowWidth / 1280.0f) * (anchorNorm.x * Engine::windowWidth * .5),
 											(1 - Engine::windowHeight / 720.0f) * (anchorNorm.y * Engine::windowHeight * .5));*/
 

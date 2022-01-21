@@ -12,25 +12,25 @@ TestUI::TestUI()
 	birb->LoadTexture("Resources\\birb.dds");
 	birb->SetRenderRect(XMUINT2(128, 128));
 	birb->SetSpriteSize(XMUINT2(128, 128));
-	birb->SetPosition(560, -280, 0);
-	birb->SetAnchor(XMFLOAT2(1, 0));
+	birb->SetPosition(560, -296, 0);
+	birb->SetAnchor(XMFLOAT2(1, 1));
 
 	text1 = AddComponent<CTextRenderComponent>();
 	text1->justification = TextJustification::Right;
-	text1->SetPosition(-580, -320, 0);
-	text1->SetAnchor(XMFLOAT2(0, 0));
+	text1->SetPosition(-625, -346, 0);
+	text1->SetAnchor(XMFLOAT2(0, 1));
 
 	text2 = AddComponent<CTextRenderComponent>();
 	text2->justification = TextJustification::Right;
-	text2->SetPosition(-580, -300, 0);
-	text2->SetAnchor(XMFLOAT2(0, 0));
+	text2->SetPosition(-625, -326, 0);
+	text2->SetAnchor(XMFLOAT2(0, 1));
 
 	text3 = AddComponent<CTextRenderComponent>();
 	text3->justification = TextJustification::Right;
 	text3->SetReserveCount(32);
-	text3->SetPosition(-580, 300, 0);
+	text3->SetPosition(-625, 345, 0);
 	text3->SetText(texts[rand() % 7]);
-	text3->SetAnchor(XMFLOAT2(0, 1));
+	text3->SetAnchor(XMFLOAT2(0, 0));
 	
 	for (CComponent* e : components)
 		e->ui = true;
