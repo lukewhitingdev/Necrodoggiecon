@@ -20,6 +20,12 @@ TestUI::TestUI()
 	text2 = AddComponent<CTextRenderComponent>();
 	text2->justification = TextJustification::Right;
 	text2->SetPosition(-580, -300, 0);
+
+	text3 = AddComponent<CTextRenderComponent>();
+	text3->justification = TextJustification::Right;
+	text3->SetReserveCount(32);
+	text3->SetPosition(-580, 300, 0);
+	text3->SetText(texts[rand() % 7]);
 	
 	for (CComponent* e : components)
 		e->ui = true;
@@ -28,9 +34,16 @@ TestUI::TestUI()
 void TestUI::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
+	timeElapsed2 += deltaTime;
 
 	const uint32_t speed = 24;
 	birb->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 128, float((int(round(timeElapsed * speed) / 5) % 2)) * 128));
+
+	if (int(floor(timeElapsed2 * .2)) % 2)
+	{
+		timeElapsed2 = 0;
+		text3->SetText(texts[rand() % 7]);
+	}
 
 	std::stringstream ss;
 	ss << "Zoom:" << Engine::camera.GetZoom();

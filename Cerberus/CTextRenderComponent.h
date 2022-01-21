@@ -21,6 +21,7 @@ public:
 	CTextRenderComponent();
 	HRESULT SetFont(std::string filePath);
 	void SetText(std::string newText);
+	void SetReserveCount(unsigned short newReserveCount);
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) override;
 	virtual ~CTextRenderComponent();
