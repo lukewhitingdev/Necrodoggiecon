@@ -69,7 +69,7 @@ void CSpriteComponent::Update(float deltaTime)
 
 }
 
-void CSpriteComponent::Draw(ID3D11DeviceContext* context, XMFLOAT4X4 parentMat, ConstantBuffer& cb, ID3D11Buffer* constantBuffer)
+void CSpriteComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer& cb, ID3D11Buffer* constantBuffer)
 {
 	if (!texture->loaded)	//change to texture valid check
 	{

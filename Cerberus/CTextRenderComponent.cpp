@@ -59,6 +59,9 @@ void CTextRenderComponent::SetText(std::string newText)
 		case TextJustification::Center:
 			sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - ((sprites[i]->GetSpriteSize().x * newText.length() * .5) + sprites[i]->GetSpriteSize().x * -.5), 0, 0));
 			break;
+		case TextJustification::Left:
+			//sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - ((sprites[i]->GetSpriteSize().x * newText.length()) + sprites[i]->GetSpriteSize().x), 0, 0));
+			break;
 		}
 	}
 }
@@ -68,7 +71,7 @@ void CTextRenderComponent::Update(float deltaTime)
 
 }
 
-void CTextRenderComponent::Draw(ID3D11DeviceContext* context, XMFLOAT4X4 parentMat, ConstantBuffer& cb, ID3D11Buffer* constantBuffer)
+void CTextRenderComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer& cb, ID3D11Buffer* constantBuffer)
 {
 	XMFLOAT4X4 compWorld = GetTransform();
 	XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * XMLoadFloat4x4(&parentMat);

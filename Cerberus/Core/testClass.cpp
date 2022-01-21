@@ -30,11 +30,16 @@ void TestClass::Update(float deltaTime)
 	float invZoom = 1 / Engine::camera.GetZoom();
 	SetPosition(Vector3(((Input::mousePos.x - Engine::windowWidth * 0.5f ) * invZoom) + Engine::camera.GetCameraPosition().x,
 						((-Input::mousePos.y + Engine::windowHeight * 0.5f) * invZoom) + Engine::camera.GetCameraPosition().y,
-							0));
+							-100));
 	
 	text->SetScale(invZoom);
 	sprite->SetScale(invZoom);
 	text->SetPosition(0, -48 * invZoom, -100);
+
+	/*if (Input::GetKeyState(Keys::LMB))
+		sprite->SetRotation(3.14159 / 4);
+	else
+		sprite->SetRotation(0);*/
 
 	std::stringstream ss;
 	ss << "X:" << round(GetPosition().x) << " Y:" << round(GetPosition().y);
