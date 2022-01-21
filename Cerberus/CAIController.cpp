@@ -4,10 +4,18 @@ CAIController::CAIController()
 {
 	Debug::Log("init AI class!\n");
 
+
+	player->SetPosition(Vector3{-500.0f, 100.0f, 0.0f});
+	player->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
+
+	viewFrustrum->SetScale(Vector3{ (viewRange/128.0f) + 2.0f, (viewRange / 128.0f) + 2.0f, 1.0f });
+	viewFrustrum->SetPosition(GetPosition());
+
 	sprite = AddComponent<CSpriteComponent>();
 	sprite->LoadTexture("Resources\\birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
+	sprite->SetScale(Vector3{ 1.0f, 1.0f, 1.0f });
 
 	sprite->SetTint(XMFLOAT4(rand() % 2 * 0.5f, rand() % 2 * 0.5f, rand() % 2 * 0.5f, 0)); sprite = AddComponent<CSpriteComponent>();
 	sprite->LoadTexture("Resources\\birb.dds");
@@ -16,15 +24,19 @@ CAIController::CAIController()
 
 	sprite->SetTint(XMFLOAT4(rand() % 2 * 0.5f, rand() % 2 * 0.5f, rand() % 2 * 0.5f, 0));
 
+
 	currentCount = 0;
 	currentPatrolNode = nullptr;
 
 	velocity = { 0.0f, 0.0f, 0.0f };
 	heading = { 0.0f, 0.0f, 0.0f };
 	acceleration = { 0.0f, 0.0f, 0.0f };
-	position = GetPosition();
 
-	std::vector<Waypoint*> waypoints;
+	tiles = CWorld::GetAllWalkableTiles();
+	SetPosition(tiles[6]->GetPosition());
+	position = GetPosition();	
+
+	/*std::vector<Waypoint*> waypoints;
 
 	std::vector<int> neighbours = { 1, 4 };
 	Waypoint* topLeft = new Waypoint(0, Vector3{ -300.0f, 100.0f, 0.0f }, neighbours);
@@ -64,7 +76,7 @@ CAIController::CAIController()
 	neighbours = { 3, 6 };
 	Waypoint* bottomRight = new Waypoint(7, Vector3{ 300.0f, -100.0f, 0.0f }, neighbours);
 
-	waypoints.emplace_back(bottomRight);
+	waypoints.emplace_back(bottomRight);*/
 
 	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 500.0f, 200.0f, 0.0f });
 	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ -50.0f, 300.0f, 0.0f });
@@ -76,7 +88,7 @@ CAIController::CAIController()
 
 	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
 
-	SetPatrolNodes(patrolPoints, waypoints);
+	SetPatrolNodes(patrolPoints, tiles);
 }
 
 void CAIController::Update(float deltaTime)
@@ -86,9 +98,20 @@ void CAIController::Update(float deltaTime)
 
 	Movement(deltaTime);
 
+	if (CanSeePlayer())
+	{
+		Debug::Log("CAN SEE PLAYER");
+		//currentState = STATE::CHASE;
+	}
+	else
+	{
+		Debug::Log("CAN NOT SEE PLAYER");
+	}
+	position.z = 0.0f;
 	SetPosition(position);
 }
 
+/* Moves the character position using acceleration, force, mass and velocity. */
 void CAIController::Movement(float deltaTime)
 {
 	Vector3 force = (heading * speed) - velocity;
@@ -102,17 +125,57 @@ void CAIController::Movement(float deltaTime)
 	position += velocity * deltaTime;
 }
 
+bool CAIController::CanSeePlayer()
+{
+	
+	Vector3 velocityCopy = velocity;
+	Vector3 view = velocityCopy.Normalize();
+
+	float offset = viewFrustrum->GetScale().x * 128.0f / 2.0f;
+
+	viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x))));
+
+	Vector3 rightView = Vector3{ view.y, -view.x, 0.0f };
+
+	Vector3 viewToPlayer = player->GetPosition() - position;
+	float distanceToPlayer = viewToPlayer.Magnitude();
+	
+
+	viewToPlayer = viewToPlayer.Normalize();
+
+	Vector3 up = { 0.0f, 1.0f, 0.0f };
+	
+	float dot = up.Dot(view);
+	float det = up.x * view.y - up.y * view.x;
+
+	float angle = atan2f(det, dot);
+	this->SetRotation(angle);
+	viewFrustrum->SetRotation(angle);
+	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 0.0f });
+
+	float dotProduct = view.Dot(viewToPlayer);
+	float pi = atanf(1) * 4;
+	float degreeAngle = dotProduct * (180.0f / pi);
+	Debug::Log("Angle to player = %f", degreeAngle);
+
+	if (degreeAngle > 0.0f && distanceToPlayer < viewRange)
+		return true;
+
+	return false;
+}
+
 /* Initialize the patrol nodes and waypoints. */
-void CAIController::SetPatrolNodes(std::vector<PatrolNode*> nodes, std::vector<Waypoint*> waypoints)
+void CAIController::SetPatrolNodes(std::vector<PatrolNode*> nodes, std::vector<CTile*> waypoints)
 {
 	// Create a waypoint that is really far away.
 	std::vector<int> vectorInt = { 0 };
-	Waypoint* farWaypoint = new Waypoint(0, Vector3{ 1000.0f, 1000.0f, 0.0f }, vectorInt);
+	CTile* farWaypoint = Engine::CreateEntity<CTile>();
+	farWaypoint->SetPosition(Vector3{ 10000.0f, 10000.0f, 0.0f });
 	WaypointNode* farWaypointNode = new WaypointNode();
 	farWaypointNode->waypoint = farWaypoint;
 
 	// Create a waypoint node for each waypoint passed in.
-	for (Waypoint* waypoint : waypoints)
+	for (CTile* waypoint : waypoints)
 	{
 		WaypointNode* waypointNode = new WaypointNode();
 		waypointNode->waypoint = waypoint;
@@ -138,19 +201,13 @@ void CAIController::SetPatrolNodes(std::vector<PatrolNode*> nodes, std::vector<W
 
 	// Cleanup temporary values;
 	delete(farWaypointNode);
-	delete(farWaypoint);
 	vectorInt.clear();
 
 	// Find the closest patrol point to the tank.
 	currentPatrolNode = FindClosestPatrolNode();
 
-	// Set the path to the patrol point.
-	//SetPath();
-
 	// Set the current state as patrol.
 	currentState = STATE::PATHFINDING;
-
-	Debug::Log("Current position: %f", position.y);
 }
 
 /* Finds the closest waypoint to each patrol point. */
@@ -179,10 +236,10 @@ void CAIController::StateMachine()
 		SetPath();
 		break;
 	case STATE::CHASE:
-
+		ChasePlayer();
 		break;
 	case STATE::ATTACK:
-
+		AttackPlayer();
 		break;
 	case STATE::COVER:
 
@@ -198,7 +255,7 @@ void CAIController::StateMachine()
 /* Moves the direction of the character towards the next point in the path. */
 void CAIController::Patrolling()
 {
-	if (position.DistanceTo(currentPatrolNode->position) <= 20.0f)
+	if (position.DistanceTo(currentPatrolNode->position) <= 10.0f)
 	{
 		Debug::Log("Hit patrol node: x=%f, y=%f", currentPatrolNode->position.x, currentPatrolNode->position.y);
 		currentPatrolNode = currentPatrolNode->nextPatrolNode;
@@ -210,9 +267,6 @@ void CAIController::Patrolling()
 	}
 	else
 	{
-		// TODO FIX ISSUE HERE
-		
-
 		if (currentCount == -1)
 		{
 			heading = Seek(currentPatrolNode->position);
@@ -221,13 +275,34 @@ void CAIController::Patrolling()
 		else
 		{
 			heading = Seek(pathNodes[currentCount]->waypoint->GetPosition());
-			if (position.DistanceTo(pathNodes[currentCount]->waypoint->GetPosition()) <= 20.0f)
+			if (position.DistanceTo(pathNodes[currentCount]->waypoint->GetPosition()) <= (((float)tileScale) * 2.0f))
 			{
 				currentCount--;
 			}
 		}
 	}
 }
+
+void CAIController::ChasePlayer()
+{
+	if (position.DistanceTo(player->GetPosition()) < 10.0f)
+	{
+		currentState = STATE::ATTACK;
+	}
+	else
+	{
+		heading = Seek(player->GetPosition());
+	}
+}
+
+void CAIController::AttackPlayer()
+{
+	Engine::DestroyEntity(player);
+	currentState = STATE::PATHFINDING;
+	EventSystem::TriggerEvent("GameOver");
+}
+
+
 
 /* Returns the velocity change needed to reach the target position. */
 Vector3 CAIController::Seek(Vector3 TargetPos)
@@ -247,14 +322,16 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
 /* Sets the path betqween the closest waypoint to the character and the closest waypoint to the target patrol node. */
 void CAIController::SetPath()
 {
+	DeleteNodes();
 	std::vector<int> base = { 1000000 };
 	WaypointNode* closestWaypoint = new WaypointNode();
-	Waypoint* waypoint = new Waypoint(100000, Vector3{ 10000.0f, 10000.0f, 0.0f }, base);
-	closestWaypoint->waypoint = waypoint;
+	CTile* farWaypoint = Engine::CreateEntity<CTile>();
+	farWaypoint->SetPosition(Vector3{ 10000.0f, 10000.0f, 0.0f });
+	closestWaypoint->waypoint = farWaypoint;
 	// Find the closest waypoint.
 	for (WaypointNode* waypointNode : waypointNodes)
 	{
-		if (position.DistanceTo(waypointNode->waypoint->GetPosition()) < position.DistanceTo(closestWaypoint->waypoint->position))
+		if (position.DistanceTo(waypointNode->waypoint->GetPosition()) < position.DistanceTo(closestWaypoint->waypoint->GetPosition()))
 		{
 			closestWaypoint = waypointNode;
 		}
@@ -281,25 +358,37 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 		{
 			current = open[0];
 			// Set the g cost as 0.
-			current->gCost = 0.0f;
+			current->gCost = CalculateCost(current, start);
 			// Set the h cost as the distance to goal.
-			current->hCost = CalculateCost(goal->waypoint->GetPosition().x, goal->waypoint->GetPosition().y, current->waypoint->GetPosition().x, current->waypoint->GetPosition().y);
+			current->hCost = CalculateCost(current, goal);
+
+			current->fCost = current->gCost + current->hCost;
+
+
 			// Remove the node from the open list.
 			open.erase(open.begin());
 		}
 		else
 		{
 			// If the current node is not the first node.
+			int bestNodeIndex = 0;
 			for (int i = 0; i < open.size(); i++)
 			{
 				// If the f cost is less than the current f cost then set the current node to that node and remove it from the open list.
-				if (open[i]->fCost <= current->fCost)
+				if (open[i]->fCost == open[bestNodeIndex]->fCost)
 				{
-					current = open[i];
-					open.erase(open.begin() + i);
+					if (open[i]->hCost < open[bestNodeIndex]->hCost)
+						bestNodeIndex = i;
+				}
+				else if (open[i]->fCost < open[bestNodeIndex]->fCost)
+				{
+					bestNodeIndex = i;
 				}
 			}
+			current = open[bestNodeIndex];
+			open.erase(open.begin() + bestNodeIndex);
 		}
+
 
 		// Found the best node at this stage so put it in the closed list.
 		closed.push_back(current);
@@ -309,22 +398,23 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 			break;
 
 		// Neighbour IDs of the current waypoint.
-		std::vector<int> _neighboursID = current->waypoint->GetConnectedWaypointIDs();
-		// std::vector<Waypoint*> _neighbours = {};
+		std::vector<int> _neighboursID = current->waypoint->GetConnectedTiles();
 
-		// Set the neighbour nodes of the current node.
-		for (int i = 0; i < _neighboursID.size(); i++)
+		if (current->neighbours.size() == 0)
 		{
-			for (WaypointNode * node : waypointNodes)
+			// Set the neighbour nodes of the current node.
+			for (int i = 0; i < _neighboursID.size(); i++)
 			{
-				if (_neighboursID[i] == node->waypoint->GetID())
+				for (WaypointNode* node : waypointNodes)
 				{
-					current->neighbours.push_back(node);
-					break;
+					if (_neighboursID[i] == node->waypoint->GetNavID())
+					{
+						current->neighbours.push_back(node);
+						break;
+					}
 				}
 			}
 		}
-
 		// Loop through each neighbour node of the current node
 		for (WaypointNode * neighbour : current->neighbours)
 		{
@@ -343,12 +433,13 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 			if (available == true)
 			{
 				// Calculate the distance from the neighbour node and the start node.
-				float gCost = CalculateCost(neighbour->waypoint->GetPosition().x, neighbour->waypoint->GetPosition().y, start->waypoint->GetPosition().x, start->waypoint->GetPosition().y);
+				//float gCost = CalculateCost(neighbour->waypoint->GetPosition().x, neighbour->waypoint->GetPosition().y, start->waypoint->GetPosition().x, start->waypoint->GetPosition().y);
+				float gCost = current->gCost + (float)tileScale * 2.0f;
 				// Calculate the distance from the neighbour node and the goal node.
-				float hCost = CalculateCost(goal->waypoint->GetPosition().x, goal->waypoint->GetPosition().y, neighbour->waypoint->GetPosition().x, neighbour->waypoint->GetPosition().y);
+				float hCost = CalculateCost(neighbour, goal);
+				//hCost = CalculateCost(neighbour->waypoint->GetPosition().x, neighbour->waypoint->GetPosition().y, goal->waypoint->GetPosition().x, goal->waypoint->GetPosition().y);
 				neighbour->gCost = gCost;
 				neighbour->hCost = hCost;
-
 				neighbour->fCost = neighbour->gCost + neighbour->hCost;
 
 				// Set the neighbour parent waypoint as the current waypoint
@@ -370,6 +461,7 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 						// If the nieghbour node is not on the open list then add it to it.
 						else if (i == open.size() - 1)
 						{
+							
 							open.push_back(neighbour);
 						}
 					}
@@ -418,12 +510,14 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 }
 
 /* Calculate the euclidean distance between two points. */
-float CAIController::CalculateCost(float x, float y, float x2, float y2)
+float CAIController::CalculateCost(WaypointNode * from, WaypointNode* to)
 {
-	float costX = std::abs(x - x2);
-	float costY = std::abs(y - y2);
-	float cost = 100.0f * costX + costY;
-	//float cost = (sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2)));
+	float costX = std::abs(to->waypoint->GetPosition().x - from->waypoint->GetPosition().x);
+	float costY = std::abs(to->waypoint->GetPosition().y - from->waypoint->GetPosition().y);
+
+	float euclidenDistance = to->waypoint->GetPosition().DistanceTo(from->waypoint->GetPosition());
+
+	float cost = costX + costY;
 	return cost;
 }
 
@@ -432,8 +526,8 @@ void CAIController::ResetNodes()
 {
 	for (WaypointNode * node : waypointNodes)
 	{
-		node->gCost = 100000.0f;
-		node->hCost = 100000.0f;
+		node->gCost = 10000000.0f;
+		node->hCost = 10000000.0f;
 	}
 }
 

@@ -47,6 +47,7 @@ void CWorld::LoadWorld(int Slot)
 
 
 		CTile* Tile = Engine::CreateEntity<CTile>();
+		Tile->SetNavID(i);
 		Tile->SetPosition(tempPos);
 		Tile->SetScale(2, 2, 2);
 		Tile->ChangeTileID(ID);
@@ -78,6 +79,22 @@ void CWorld::BuildNavigationGrid()
 	}
 
 
+}
+
+std::vector<CTile*> CWorld::GetAllWalkableTiles()
+{
+	std::vector<CTile*> walkableTiles;
+
+	for (int i = 0; i < (mapScale * mapScale); ++i)
+	{
+		if (tileContainer[i]->IsWalkable())
+		{
+			walkableTiles.emplace_back(tileContainer[i]);
+		}
+	}
+
+
+	return walkableTiles;
 }
 
 Vector3 CWorld::IndexToGrid(int ID)

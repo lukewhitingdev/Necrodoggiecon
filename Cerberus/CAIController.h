@@ -3,10 +3,16 @@
 #include "CEntity.h"
 #include "Vector3.h"
 #include "CSpriteComponent.h"
+#include "CAICharacter.h"
 #include <iostream>
+#include "CPlayer.h"
+#include "Core/testClass.h"
+#include "Utility/EventSystem/EventSystem.h"
+#include "CWorld.h"
 
 const float speed = 200.0f;
 const float mass = 100.0f;
+const float viewRange = 400.0f;
 
 struct Waypoint
 {
@@ -37,8 +43,8 @@ struct Waypoint
 
 struct WaypointNode
 {
-	Waypoint* waypoint = nullptr;
-	Waypoint* parentWaypoint = nullptr;
+	CTile* waypoint = nullptr;
+	CTile* parentWaypoint = nullptr;
 	std::vector<WaypointNode*> neighbours;
 	float gCost = 0.0f;
 	float hCost = 0.0f;
@@ -80,6 +86,8 @@ protected:
 
 	void Movement(float deltaTime);
 
+	bool CanSeePlayer();
+
 	STATE currentState;
 
 	//BehaviourTree behaviourTree;
@@ -89,21 +97,26 @@ protected:
 	Vector3 heading;
 	Vector3 position;
 
+	std::vector<CTile*> tiles;
+
+
 	std::vector<PatrolNode*> patrolNodes;
 	std::vector<WaypointNode*> waypointNodes;
-	void SetPatrolNodes(std::vector<PatrolNode*> nodes, std::vector<Waypoint*> waypoints);
+	void SetPatrolNodes(std::vector<PatrolNode*> nodes, std::vector<CTile*> waypoints);
 	PatrolNode* currentPatrolNode;
 
 	PatrolNode* FindClosestPatrolNode();
 
 	void StateMachine();
 	void Patrolling();
+	virtual void ChasePlayer();
+	virtual void AttackPlayer();
 
 	Vector3 Seek(Vector3 TargetPos);
 
 	void SetPath();
 	void CalculatePath(WaypointNode* start, WaypointNode* goal);
-	float CalculateCost(float x, float y, float x2, float y2);
+	float CalculateCost(WaypointNode* from, WaypointNode* to);
 	void ResetNodes();
 	void DeleteNodes();
 	
@@ -113,5 +126,9 @@ protected:
 	// Array of nodes on the path from goal to start.
 	std::vector<WaypointNode*> pathNodes;
 	int currentCount;
+
+	CPlayer* player = Engine::GetEntityOfType<CPlayer>()[0];
+	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
+	class CSpriteComponent* viewSprite = nullptr;
 };
 

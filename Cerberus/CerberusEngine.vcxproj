@@ -352,6 +352,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAICharacter.h" />
     <ClInclude Include="CAIController.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CMaterial.h" />
@@ -397,6 +398,7 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAICharacter.cpp" />
     <ClCompile Include="CAIController.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CComponent.cpp" />

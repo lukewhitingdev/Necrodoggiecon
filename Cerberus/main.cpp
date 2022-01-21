@@ -22,6 +22,7 @@
 #include "CWorld_Edit.h"
 #include "CAIController.h"
 #include "CCamera.h"
+#include "Utility/EventSystem/EventSystem.h"
 
 #include "InputManager.h"
 #include "Core/TestUI.h"
@@ -186,27 +187,38 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
+	EventSystem::AddListener("GameOver", []() {exit(1); });
+
 	bool editorMode = false;
 
 	Engine::CreateEntity<TestUI>();
 	CursorEntity* myClass = Engine::CreateEntity<CursorEntity>();
+	if (editorMode)
+	{
+		CWorld_Editable::NewWorld(0);
+		CWorld_Editable::EditWorld(0);
+		CWorld_Editable::SaveWorld(0);
+		CWorld_Editable::BuildNavigationGrid();
+	}
+	else
+	{
+
+		CWorld::LoadWorld(0);
+	}
+	
+	for (int i = 0; i < 0; i++)
+	{
+		TestClass* myClass = Engine::CreateEntity<TestClass>();
+		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	}
 	
 	
 	// sawps and makes one of the entiys the player
-	for (int i = 0; i < 0; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
-
-
-
-	
-
-	
-
-	
-
 
 	for (int i = 0; i < 1; i++)
 	{
@@ -215,7 +227,7 @@ void Load()
 		ai->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
 	}
 
-	TestClass* topLeft = Engine::CreateEntity<TestClass>();
+	/*TestClass* topLeft = Engine::CreateEntity<TestClass>();
 	topLeft->SetPosition(Vector3{ -300.0f, 100.0f, 0.0f });
 	topLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
 
@@ -245,22 +257,12 @@ void Load()
 
 	TestClass* bottomRight = Engine::CreateEntity<TestClass>();
 	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
-	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });*/
 
 
 
 
-	if (editorMode)
-	{
-		CWorld_Editable::NewWorld(0);
-		CWorld_Editable::EditWorld(0);
-		CWorld_Editable::SaveWorld(0);
-	}
-	else
-	{
-
-		CWorld::LoadWorld(0);
-	}
+	
 }
 
 //--------------------------------------------------------------------------------------
