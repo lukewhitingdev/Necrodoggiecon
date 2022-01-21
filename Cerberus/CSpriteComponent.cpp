@@ -1,6 +1,7 @@
 #include "CSpriteComponent.h"
 #include "Engine.h"
 #include "Utility/AssetManager/AssetManager.h"
+#include "CCamera.h"
 
 void CSpriteComponent::SetRenderRect(XMUINT2 newSize)
 {
@@ -63,16 +64,30 @@ HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 
 void CSpriteComponent::Update(float deltaTime)
 {
-
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
-void CSpriteComponent::Draw(ID3D11DeviceContext* context)
+void CSpriteComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer)
 {
 	if (texture == nullptr || !texture->loaded)	//change to texture valid check
 	{
 		Debug::LogError("Texture not loaded for CSpriteComponent.");
 		return;
 	}
+
+	XMFLOAT4X4 compWorld = GetTransform();
+	XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * XMLoadFloat4x4(&parentMat);
+
+	cb.mWorld = XMMatrixTranspose(mGO2);
+	cb.vOutputColor = XMFLOAT4(1, 0, 1, 1);
+
+	if (ui)
+	{
+		cb.mView = XMMatrixIdentity();
+		cb.mProjection = XMMatrixTranspose(Engine::projMatrixUI);
+	}
+
+	Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb, 0, 0);
 
 	// Set vertex buffer
 	UINT stride = sizeof(SimpleVertex);

@@ -43,6 +43,10 @@
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="Tools\CT_Window_ToolBar.cpp" />
+    <ClCompile Include="CTextRenderComponent.cpp" />
+    <ClCompile Include="Core\CursorEntity.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Core\TestUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -96,6 +100,10 @@
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="Tools\CT_Window_ToolBar.h" />
+    <ClInclude Include="CTextRenderComponent.h" />
+    <ClInclude Include="Core\CursorEntity.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Core\TestUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

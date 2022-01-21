@@ -16,15 +16,21 @@
 
 #include "Engine.h"
 #include "Core/testClass.h"
+#include "Core/CursorEntity.h"
 #include "CPlayer.h"
 #include "CTile.h"
 #include "CWorld_Edit.h"
 #include "CAIController.h"
 #include "CCamera.h"
 
+#include "InputManager.h"
+#include "Core/TestUI.h"
+using namespace Inputs;
+
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
 CCamera Engine::camera = CCamera();
+XMMATRIX Engine::projMatrixUI = XMMatrixIdentity();
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -47,6 +53,8 @@ HWND Engine::windowHandle;
 int Engine::windowWidth = 1280;
 int Engine::windowHeight = 720;
 bool resizeSwapChain = false;
+bool fillState = true;
+bool minimised = false;
 					   
 // Direct3D.           
 D3D_DRIVER_TYPE Engine::driverType = D3D_DRIVER_TYPE_NULL;
@@ -59,6 +67,7 @@ ID3D11DeviceContext* Engine::deviceContext;
 //--------------------------------------------------------------------------------------
 ID3D11VertexShader* vertexShader;
 ID3D11PixelShader* pixelShader;
+ID3D11PixelShader* pixelShaderSolid;
 ID3D11InputLayout* vertexLayout;
 ID3D11Buffer* constantBuffer;
 IDXGISwapChain* swapChain;
@@ -112,12 +121,19 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		}
 		else
 		{
-			float t = calculateDeltaTime(); // capped at 60 fps
-			if (t == 0.0f)
-				continue;
+			if (!minimised)
+			{
+				float t = calculateDeltaTime(); // capped at 60 fps
+				if (t == 0.0f)
+					continue;
 
-			Update(t);
-			Render();
+				Update(t);
+				Render();
+			}
+			else
+			{
+				Sleep(64);
+			}
 		}
 	}
 
@@ -172,13 +188,8 @@ void Load()
 {
 	bool editorMode = false;
 
-	
-	
-	for (int i = 0; i < 0; i++)
-	{
-		TestClass* myClass = Engine::CreateEntity<TestClass>();
-		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	}
+	Engine::CreateEntity<TestUI>();
+	CursorEntity* myClass = Engine::CreateEntity<CursorEntity>();
 	
 	
 	// sawps and makes one of the entiys the player
@@ -502,9 +513,6 @@ HRESULT InitDevice()
 		return hr;
 	}
 
-	//for (auto& e : Engine::entities)
-	//    e->components;
-
 	if (FAILED(hr))
 		return hr;
 
@@ -568,6 +576,20 @@ HRESULT	InitMesh()
 	if (FAILED(hr))
 		return hr;
 
+	hr = CompileShaderFromFile(L"shader.fx", "PSSolid", "ps_4_0", &pPSBlob);
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr,
+			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
+		return hr;
+	}
+
+	// Create the pixel shader
+	hr = Engine::device->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), nullptr, &pixelShaderSolid);
+	pPSBlob->Release();
+	if (FAILED(hr))
+		return hr;
+
 	// Create the constant buffer
 	D3D11_BUFFER_DESC bd = {};
 	bd.Usage = D3D11_USAGE_DEFAULT;
@@ -586,6 +608,7 @@ HRESULT	InitMesh()
 // ***************************************************************************************
 HRESULT	InitWorld(int width, int height)
 {
+	Engine::projMatrixUI = XMMatrixOrthographicLH(Engine::windowWidth, Engine::windowHeight, 0.01f, 100.0f);
 	Engine::camera.UpdateProjectionMat();
 	Engine::camera.UpdateViewMat();
 
@@ -699,6 +722,7 @@ void CleanupDevice()
     if( constantBuffer ) constantBuffer->Release();
     if (vertexShader) vertexShader ->Release();
     if( pixelShader ) pixelShader->Release();
+    if( pixelShaderSolid ) pixelShaderSolid->Release();
     if( depthStencil ) depthStencil->Release();
     if( depthStencilView ) depthStencilView->Release();
     if( renderTargetView ) renderTargetView->Release();
@@ -740,14 +764,35 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	PAINTSTRUCT ps;
 	HDC hdc;
 
-	switch( message )
+	switch (message)
 	{
-	case WM_LBUTTONDOWN:
+	case WM_MOUSEMOVE:
 	{
-		//int xPos = GET_X_LPARAM(lParam);
-		//int yPos = GET_Y_LPARAM(lParam);
+		Inputs::InputManager::mousePos.x = GET_X_LPARAM(lParam);
+		Inputs::InputManager::mousePos.y = GET_Y_LPARAM(lParam);
 		break;
 	}
+
+	case WM_KEYDOWN:
+		if (wParam == VK_F1)
+		{
+			if (fillState)
+				Engine::deviceContext->RSSetState(wireframeRastState);
+			else
+				Engine::deviceContext->RSSetState(fillRastState);
+
+			fillState = !fillState;
+			break;
+		}
+		if (wParam == VK_ESCAPE)
+		{
+			PostQuitMessage(1);
+			break;
+		}
+		break;
+	case WM_KEYUP:
+
+		break;
 
 	//TEMP
 	case WM_MOUSEWHEEL:
@@ -770,6 +815,11 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 			Engine::windowWidth = LOWORD(lParam);
 			Engine::windowHeight = HIWORD(lParam);
 		}
+
+		if (wParam == SIZE_MINIMIZED)
+			minimised = true;
+		else
+			minimised = false;
 		break;
 
 	default:
@@ -801,7 +851,7 @@ float calculateDeltaTime()
 	}
 	else
 	{
-		Sleep(DWORD((FPS60 - cummulativeTime) * 1000 * 0.9));	//Sleeps thread for almost full amount of time - leaving some time for recalculation
+		//Sleep(DWORD((FPS60 - cummulativeTime) * 1000 * 0.5));	//Sleeps thread for almost full amount of time - leaving some time for recalculation
 		return 0;
 	}
 
@@ -810,19 +860,6 @@ float calculateDeltaTime()
 
 void Update(float deltaTime)
 {
-	//TEMP
-	if (GetAsyncKeyState(VK_RBUTTON))
-	{
-		POINT p;
-		if (GetCursorPos(&p))
-		{
-			if (ScreenToClient(Engine::windowHandle, &p))
-			{
-				Engine::camera.SetCameraPosition(XMFLOAT4((-p.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (p.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
-			}
-		}
-	}
-
 	for (auto& e : Engine::entities)
 		if(e->shouldUpdate)
 		{
@@ -851,40 +888,36 @@ void Render()
     // Clear the depth buffer to 1.0 (max depth)
     Engine::deviceContext->ClearDepthStencilView( depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
 
+	Engine::deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+	Engine::deviceContext->PSSetConstantBuffers(0, 1, &constantBuffer);
+
+	Engine::deviceContext->VSSetShader(vertexShader, nullptr, 0);
+
+	if (fillState)
+		Engine::deviceContext->PSSetShader(pixelShader, nullptr, 0);
+	else
+		Engine::deviceContext->PSSetShader(pixelShaderSolid, nullptr, 0);
+
+	XMFLOAT4X4 mat = Engine::camera.view;
+	XMMATRIX viewMat = XMMatrixTranspose(XMLoadFloat4x4(&mat));
+
+	mat = Engine::camera.proj;
+	XMMATRIX projMat = XMMatrixTranspose(XMLoadFloat4x4(&mat));
+
 	for (auto& e : Engine::entities)
 	{
 		//Maybe should have a visible bool for each entity
 
-		XMFLOAT4X4 entWorld = e->GetTransform();
-		XMMATRIX mGO = XMLoadFloat4x4(&entWorld);
+		XMFLOAT4X4 entTransform = e->GetTransform();
 
 		for (auto& f : e->components)
 			if(f->shouldDraw)
 			{
-				// get the game object world transform
-				XMFLOAT4X4 compWorld = f->GetTransform();
-				XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * mGO;
-
-				XMFLOAT4X4 mat = Engine::camera.view;
-				XMMATRIX viewMat = XMLoadFloat4x4(&mat);
-
-				mat = Engine::camera.proj;
-				XMMATRIX projMat = XMLoadFloat4x4(&mat);
-
-				// store this and the view / projection in a constant buffer for the vertex shader to use
 				ConstantBuffer cb1;
-				cb1.mWorld = XMMatrixTranspose(mGO2);
-				cb1.mView = XMMatrixTranspose(viewMat);
-				cb1.mProjection = XMMatrixTranspose(projMat);
-				cb1.vOutputColor = XMFLOAT4(0, 0, 0, 0);
-				Engine::deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb1, 0, 0);
+				cb1.mView = viewMat;
+				cb1.mProjection = projMat;
 
-				Engine::deviceContext->VSSetShader(vertexShader, nullptr, 0);
-				Engine::deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
-
-				Engine::deviceContext->PSSetShader(pixelShader, nullptr, 0);
-
-				f->Draw(Engine::deviceContext);
+				f->Draw(Engine::deviceContext, entTransform, cb1, constantBuffer);
 			}
 	}
 
