@@ -354,7 +354,6 @@
   <ItemGroup>
     <ClInclude Include="CAIController.h" />
     <ClInclude Include="CCamera.h" />
-    <ClInclude Include="CInputManager.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CTextRenderComponent.h" />
@@ -400,7 +399,6 @@
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEntity.cpp" />
-    <ClCompile Include="CInputManager.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CTextRenderComponent.cpp" />
