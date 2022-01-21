@@ -15,6 +15,7 @@ class CSpriteComponent : public CComponent
 	XMFLOAT2 textureOffset = { 0,0 };
 	XMUINT2 spriteSize;
 	XMFLOAT4 tint = { 0,0,0,0 };
+	XMFLOAT2 anchor = { 0.5,0.5 };
 public:
 	//Used to resize the portion of the texture you want to display on the sprite in pixels
 	//Use to set the size of a selection of a sprite sheet
@@ -30,6 +31,9 @@ public:
 	void SetSpriteSize(XMUINT2 newSize) { spriteSize = newSize; };
 
 	void SetTint(XMFLOAT4 newTint);
+
+	void SetAnchor(XMFLOAT2 newAnchor) { anchor = newAnchor; updateTransform = true; }
+	XMFLOAT2 GetAnchor() { return anchor; }
 
 	XMUINT2 GetRenderRect() { return renderRect; };
 	XMFLOAT2 GetTextureOffset() { return textureOffset; };

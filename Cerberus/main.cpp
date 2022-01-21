@@ -904,6 +904,9 @@ void Render()
 	mat = Engine::camera.proj;
 	XMMATRIX projMat = XMMatrixTranspose(XMLoadFloat4x4(&mat));
 
+	// Set primitive topology
+	Engine::deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	for (auto& e : Engine::entities)
 	{
 		//Maybe should have a visible bool for each entity
