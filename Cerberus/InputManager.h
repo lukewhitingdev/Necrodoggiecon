@@ -118,6 +118,8 @@ namespace Inputs
 
 		static Vector3 mousePos;
 
+		static Vector3 GetMousePos();
+
 		static int keyCodes(Keys key);
 
 		static int SetMouse(Mouse mouse);

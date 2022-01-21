@@ -354,6 +354,7 @@
   <ItemGroup>
     <ClInclude Include="CAIController.h" />
     <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CGridCursor.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CTextRenderComponent.h" />
@@ -403,6 +404,7 @@
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEntity.cpp" />
+    <ClCompile Include="CGridCursor.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CTextRenderComponent.cpp" />
@@ -438,6 +440,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\stone.dds" />
+    <Image Include="Resources\Tiles\GridCell_Active.png" />
     <Image Include="Resources\Unwalkable.dds" />
     <Image Include="Resources\Walkable.dds" />
   </ItemGroup>

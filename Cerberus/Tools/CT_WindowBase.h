@@ -75,7 +75,7 @@ public:
     }
 
 
-    virtual void    AdditionalRenderLogic();
+    virtual void    AdditionalRenderLogic(bool& isOpen);
 
     void    render()
     {
@@ -89,7 +89,10 @@ public:
                 ImGui::End();
                 return;
             }
-            AdditionalRenderLogic();
+           
+            
+
+            AdditionalRenderLogic(*open);
 
             ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetStyle().ItemSpacing.y), false, ImGuiWindowFlags_HorizontalScrollbar);
             if (ImGui::BeginPopupContextWindow())

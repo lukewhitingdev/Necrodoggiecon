@@ -4,16 +4,9 @@ CT_Window_ToolBar::CT_Window_ToolBar()
 {
 }
 
-void CT_Window_ToolBar::AdditionalRenderLogic()
+void CT_Window_ToolBar::AdditionalRenderLogic(bool& isOpen)
 {
 	
-	 if (ImGui::Button("Add Walkable"))
-	{
-		//... my_code 
-	}
-	if (ImGui::Button("Add Unwalkable"))
-	{
-		//... my_code 
-	}
+	
 	
 }

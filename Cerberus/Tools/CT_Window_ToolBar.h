@@ -6,6 +6,6 @@ public:
 	CT_Window_ToolBar();
 
 protected:
-	virtual void    AdditionalRenderLogic() override;
+	virtual void    AdditionalRenderLogic(bool& isOpen) override;
 };
 
