@@ -22,7 +22,7 @@
 #include "CAIController.h"
 #include "CCamera.h"
 
-#include "KeyboardInputs.h"
+#include "InputManager.h"
 using namespace Inputs;
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
@@ -815,7 +815,7 @@ void Update(float deltaTime)
 {
 	//TEMP
 
-	if (Inputs::KeyboardInputs::IsMouseButtonPressed(Inputs::KeyboardInputs::Mouse::RButton))
+	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::Mouse::RButton))
 	{
 		POINT p;
 		if (GetCursorPos(&p))

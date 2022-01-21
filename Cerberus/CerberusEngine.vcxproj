@@ -358,7 +358,7 @@
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CWorld_Edit.h" />
-    <ClInclude Include="KeyboardInputs.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="CTransform.h" />
@@ -402,7 +402,7 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CWorld_Edit.cpp" />
-    <ClCompile Include="KeyboardInputs.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
     <ClCompile Include="Tools\CT_WindowBase.cpp" />
     <ClCompile Include="CTransform.cpp" />
