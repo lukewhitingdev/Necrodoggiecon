@@ -79,7 +79,7 @@ CAIController::CAIController()
 	waypoints.emplace_back(bottomRight);*/
 
 	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 500.0f, 200.0f, 0.0f });
-	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ -50.0f, 300.0f, 0.0f });
+	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ -500.0f, 300.0f, 0.0f });
 	PatrolNode* patrolPoint3 = new PatrolNode(Vector3{ -500.0f, -200.0f, 0.0f });
 
 	patrolPoint1->nextPatrolNode = patrolPoint2;
@@ -97,16 +97,35 @@ void CAIController::Update(float deltaTime)
 	StateMachine();
 
 	Movement(deltaTime);
+	if (player != nullptr)
+	{
+		if (CanSeePlayer())
+		{
+			Debug::Log("CAN SEE PLAYER");
+			currentState = STATE::CHASE;
+		}
+		else
+		{
+			Debug::Log("CAN NOT SEE PLAYER");
+		}
+	}
 
-	if (CanSeePlayer())
-	{
-		Debug::Log("CAN SEE PLAYER");
-		currentState = STATE::CHASE;
-	}
-	else
-	{
-		Debug::Log("CAN NOT SEE PLAYER");
-	}
+	Vector3 velocityCopy = velocity;
+	Vector3 view = velocityCopy.Normalize();
+	float offset = viewFrustrum->GetScale().x * 128.0f / 2.0f;
+
+	viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x))));
+
+	Vector3 up = { 0.0f, 1.0f, 0.0f };
+
+	float dot = up.Dot(view);
+	float det = up.x * view.y - up.y * view.x;
+
+	float angle = atan2f(det, dot);
+	this->SetRotation(angle);
+	viewFrustrum->SetRotation(angle);
+	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 0.0f });
+
 	position.z = 0.0f;
 	SetPosition(position);
 }
@@ -131,27 +150,12 @@ bool CAIController::CanSeePlayer()
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
 
-	float offset = viewFrustrum->GetScale().x * 128.0f / 2.0f;
-
-	viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x))));
-
 	Vector3 rightView = Vector3{ view.y, -view.x, 0.0f };
 
 	Vector3 viewToPlayer = player->GetPosition() - position;
 	float distanceToPlayer = viewToPlayer.Magnitude();
 	
 	viewToPlayer = viewToPlayer.Normalize();
-
-	Vector3 up = { 0.0f, 1.0f, 0.0f };
-	
-	float dot = up.Dot(view);
-	float det = up.x * view.y - up.y * view.x;
-
-	float angle = atan2f(det, dot);
-	this->SetRotation(angle);
-	viewFrustrum->SetRotation(angle);
-	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 0.0f });
-
 	
 	float dotProduct = view.Dot(viewToPlayer);
 	float pi = atanf(1) * 4;
@@ -300,6 +304,7 @@ void CAIController::ChasePlayer()
 void CAIController::AttackPlayer()
 {
 	Engine::DestroyEntity(player);
+	player = nullptr;
 	currentState = STATE::PATHFINDING;
 	//EventSystem::TriggerEvent("GameOver");
 }
