@@ -23,6 +23,7 @@
 #include "CCamera.h"
 
 #include "KeyboardInputs.h"
+using namespace Inputs;
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
@@ -813,8 +814,6 @@ float calculateDeltaTime()
 void Update(float deltaTime)
 {
 	//TEMP
-
-	using namespace Inputs;
 
 	if (Inputs::KeyboardInputs::IsMouseButtonPressed(Inputs::KeyboardInputs::Mouse::RButton))
 	{
