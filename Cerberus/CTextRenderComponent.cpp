@@ -37,12 +37,22 @@ void CTextRenderComponent::SetText(std::string newText)
 			sprites.push_back(new CSpriteComponent());
 			CSpriteComponent* t = sprites.back();
 			t->LoadTexture(font);
-			Debug::Log("Add more sprites! %i", rand() % 100);
+			Debug::Log("Add more sprites! size: %i", sprites.size());
 		}
 	}
 	else
 	{
-		//Add removal of extra sprites back to reserve amount
+		if (usedSpriteCount < sprites.size() && usedSpriteCount >= reserveSpriteCount)
+		{
+			int count = usedSpriteCount - sprites.size();
+			for (int i = count; i < 0; i++)
+			{
+				CSpriteComponent* t = sprites.back();
+				delete t;
+				sprites.pop_back();
+				Debug::Log("Remove some sprites! size: %i", sprites.size());
+			}
+		}
 	}
 
 	for (int i = 0; i < usedSpriteCount; i++)
