@@ -763,20 +763,12 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	{
 	case WM_MOUSEMOVE:
 	{
-		Input::mousePos.x = GET_X_LPARAM(lParam);
-		Input::mousePos.y = GET_Y_LPARAM(lParam);
+		Inputs::KeyboardInputs::mousePos.x = GET_X_LPARAM(lParam);
+		Inputs::KeyboardInputs::mousePos.y = GET_Y_LPARAM(lParam);
 		break;
 	}
 
-	case WM_LBUTTONDOWN: { Input::SetKeyState(Keys::LMB, true); break; }
-	case WM_RBUTTONDOWN: { Input::SetKeyState(Keys::RMB, true); break; }
-	case WM_MBUTTONDOWN: { Input::SetKeyState(Keys::MMB, true); break; }
-	case WM_LBUTTONUP: { Input::SetKeyState(Keys::LMB, false); break; }
-	case WM_RBUTTONUP: { Input::SetKeyState(Keys::RMB, false); break; }
-	case WM_MBUTTONUP: { Input::SetKeyState(Keys::MMB, false); break; }
-
 	case WM_KEYDOWN:
-		Input::UpdateKeys(wParam, true);
 		if (wParam == VK_F1)
 		{
 			if (fillState)
@@ -794,7 +786,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		}
 		break;
 	case WM_KEYUP:
-		Input::UpdateKeys(wParam, false);
+
 		break;
 
 	//TEMP

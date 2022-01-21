@@ -1,4 +1,6 @@
 #pragma once
+#include "Vector3.h"
+
 namespace Inputs
 {
 	class KeyboardInputs
@@ -114,6 +116,7 @@ namespace Inputs
 			MCOUNT
 		};
 
+		static Vector3 mousePos;
 
 		static int keyCodes(Keys key);
 

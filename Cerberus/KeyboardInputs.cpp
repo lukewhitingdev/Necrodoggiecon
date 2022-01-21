@@ -1,8 +1,10 @@
 #include "KeyboardInputs.h"
-#include <winuser.h>
+#include <Engine.h>
 
 namespace Inputs
 {
+	Vector3 KeyboardInputs::mousePos = { 0,0,0 };
+
 	bool keyboardKeyStates[Inputs::KeyboardInputs::Keys::COUNT][1] =
 	{
 		{false},
