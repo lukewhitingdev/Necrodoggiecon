@@ -45,6 +45,8 @@
     <ClCompile Include="CTextRenderComponent.cpp" />
     <ClCompile Include="Core\CursorEntity.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="WICTextureLoader.cpp" />
+    <ClCompile Include="DirectXHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -100,6 +102,12 @@
     <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="Core\CursorEntity.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="WICTextureLoader.h" />
+    <ClInclude Include="DirectXHelpers.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="PlatformHelpers.h" />
+    <ClInclude Include="LoaderHelpers.h" />
+    <ClInclude Include="DDS.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

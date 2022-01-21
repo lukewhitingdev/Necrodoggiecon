@@ -197,21 +197,13 @@ void Load()
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
 
-
-
-	
-
-	
-
-	
-
-
 	for (int i = 0; i < 1; i++)
 	{
 		CAIController* ai = Engine::CreateEntity<CAIController>();
 		ai->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 		ai->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
 	}
+
 
 	TestClass* topLeft = Engine::CreateEntity<TestClass>();
 	topLeft->SetPosition(Vector3{ -300.0f, 100.0f, 0.0f });

@@ -13,5 +13,6 @@ struct CTexture
 
 	CTexture();
 	HRESULT LoadTextureDDS(std::string filePath);
+	HRESULT LoadTextureWIC(std::string filename);
 	~CTexture();
 };
