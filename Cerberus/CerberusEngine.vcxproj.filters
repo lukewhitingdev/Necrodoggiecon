@@ -34,7 +34,6 @@
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="Tools\CT_WindowBase.cpp" />
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
-  
     <ClCompile Include="CWorld_Edit.cpp">
       <Filter>World</Filter>
     </ClCompile>
@@ -43,6 +42,7 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CTransform.cpp" />
+    <ClCompile Include="Tools\CT_Window_ToolBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -87,7 +87,6 @@
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
- 
     <ClInclude Include="CWorld_Edit.h">
       <Filter>World</Filter>
     </ClInclude>
@@ -96,6 +95,7 @@
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CTransform.h" />
+    <ClInclude Include="Tools\CT_Window_ToolBar.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

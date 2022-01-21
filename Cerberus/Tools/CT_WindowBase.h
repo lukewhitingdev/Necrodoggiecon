@@ -74,6 +74,9 @@ public:
         Items.push_back(Strdup(buf));
     }
 
+
+    virtual void    AdditionalRenderLogic();
+
     void    render()
     {
         if (*open)
