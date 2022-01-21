@@ -1,4 +1,5 @@
 #include "CTextRenderComponent.h"
+#include "CCamera.h"
 
 CTextRenderComponent::CTextRenderComponent()
 {
@@ -81,11 +82,17 @@ void CTextRenderComponent::Update(float deltaTime)
 	UNREFERENCED_PARAMETER(deltaTime);
 }
 
-void CTextRenderComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer& cb, ID3D11Buffer* constantBuffer)
+void CTextRenderComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer)
 {
 	XMFLOAT4X4 compWorld = GetTransform();
 	XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * XMLoadFloat4x4(&parentMat);
 	XMStoreFloat4x4(&compWorld, mGO2);
+
+	if (ui)
+	{
+		cb.mView = XMMatrixIdentity();
+		cb.mProjection = XMMatrixTranspose(Engine::projMatrixUI);
+	}
 
 	for (int i = 0; i < usedSpriteCount; i++)
 		sprites[i]->Draw(context, compWorld, cb, constantBuffer);

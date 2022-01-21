@@ -11,9 +11,12 @@ CursorEntity::CursorEntity()
 	sprite->SetRenderRect(XMUINT2(16, 16));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetPosition(0, 0, -100);
+	sprite->ui = true;
 
 	text = AddComponent<CTextRenderComponent>();
 	text->justification = TextJustification::Center;
+	text->SetPosition(0, -48, -100);
+	text->ui = true;
 }
 
 void CursorEntity::Update(float deltaTime)
@@ -23,15 +26,8 @@ void CursorEntity::Update(float deltaTime)
 	const float speed = 2;
 	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 16, 0));
 
-	float invZoom = 1 / Engine::camera.GetZoom();
-	SetPosition(Vector3(((Input::mousePos.x - Engine::windowWidth * 0.5f) * invZoom) + Engine::camera.GetCameraPosition().x,
-		((-Input::mousePos.y + Engine::windowHeight * 0.5f) * invZoom) + Engine::camera.GetCameraPosition().y,
-		-100));
-
-	text->SetScale(invZoom);
-	sprite->SetScale(invZoom);
-	text->SetPosition(0, -48 * invZoom, -100);
-
+	SetPosition(Vector3(Input::mousePos.x - Engine::windowWidth * 0.5f, -Input::mousePos.y + Engine::windowHeight * 0.5f, -100));
+	
 	/*if (Input::GetKeyState(Keys::LMB))
 		sprite->SetRotation(3.14159 / 4);
 	else

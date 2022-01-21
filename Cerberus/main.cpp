@@ -26,6 +26,7 @@
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
 CCamera Engine::camera = CCamera();
+XMMATRIX Engine::projMatrixUI = XMMatrixIdentity();
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -507,9 +508,6 @@ HRESULT InitDevice()
 		return hr;
 	}
 
-	//for (auto& e : Engine::entities)
-	//    e->components;
-
 	if (FAILED(hr))
 		return hr;
 
@@ -605,6 +603,7 @@ HRESULT	InitMesh()
 // ***************************************************************************************
 HRESULT	InitWorld(int width, int height)
 {
+	Engine::projMatrixUI = XMMatrixOrthographicLH(Engine::windowWidth, Engine::windowHeight, 0.01f, 100.0f);
 	Engine::camera.UpdateProjectionMat();
 	Engine::camera.UpdateViewMat();
 
