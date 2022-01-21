@@ -21,7 +21,7 @@
 #include "Utility/Audio/AudioController.h"
 
 #include <vector>
-#include "CInputManager.h"
+#include "InputManager.h"
 
 class CEntity;
 
@@ -72,4 +72,5 @@ struct Engine
 	static ID3D11DeviceContext* deviceContext;
 
 	static class CCamera camera;
+	static XMMATRIX projMatrixUI;
 };

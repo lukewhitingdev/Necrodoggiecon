@@ -25,10 +25,16 @@
 #include "testCharacter.h"
 #include "testCharacter2.h"
 #include "testController.h"
+#include "Utility/EventSystem/EventSystem.h"
+
+#include "InputManager.h"
+#include "Core/TestUI.h"
+using namespace Inputs;
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
 CCamera Engine::camera = CCamera();
+XMMATRIX Engine::projMatrixUI = XMMatrixIdentity();
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -184,18 +190,38 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
+	EventSystem::AddListener("GameOver", []() {exit(1); });
+
 	bool editorMode = false;
 
+	Engine::CreateEntity<TestUI>();
 	CursorEntity* myClass = Engine::CreateEntity<CursorEntity>();
+	if (editorMode)
+	{
+		CWorld_Editable::NewWorld(0);
+		CWorld_Editable::EditWorld(0);
+		CWorld_Editable::SaveWorld(0);
+		CWorld_Editable::BuildNavigationGrid();
+	}
+	else
+	{
+
+		CWorld::LoadWorld(0);
+	}
+	
+	for (int i = 0; i < 0; i++)
+	{
+		TestClass* myClass = Engine::CreateEntity<TestClass>();
+		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	}
 	
 	
 	// sawps and makes one of the entiys the player
-	for (int i = 0; i < 0; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
-
 
 	testController* controller = Engine::CreateEntity<testController>();
 	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
@@ -208,59 +234,11 @@ void Load()
 	controller->charTwo = character2;
 	controller->Possess(character1);
 
-
 	for (int i = 0; i < 1; i++)
 	{
 		CAIController* ai = Engine::CreateEntity<CAIController>();
 		ai->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 		ai->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
-	}
-
-	TestClass* topLeft = Engine::CreateEntity<TestClass>();
-	topLeft->SetPosition(Vector3{ -300.0f, 100.0f, 0.0f });
-	topLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* topMiddleLeft = Engine::CreateEntity<TestClass>();
-	topMiddleLeft->SetPosition(Vector3{ -100.0f, 100.0f, 0.0f });
-	topMiddleLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* topMiddleRight = Engine::CreateEntity<TestClass>();
-	topMiddleRight->SetPosition(Vector3{ 100.0f, 100.0f, 0.0f });
-	topMiddleRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* topRight = Engine::CreateEntity<TestClass>();
-	topRight->SetPosition(Vector3{ 300.0f, 100.0f, 0.0f });
-	topRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* bottomLeft = Engine::CreateEntity<TestClass>();
-	bottomLeft->SetPosition(Vector3{ -300.0f, -100.0f, 0.0f });
-	bottomLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* bottomMiddleLeft = Engine::CreateEntity<TestClass>();
-	bottomMiddleLeft->SetPosition(Vector3{ -100.0f, -100.0f, 0.0f });
-	bottomMiddleLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* bottomMiddleRight = Engine::CreateEntity<TestClass>();
-	bottomMiddleRight->SetPosition(Vector3{ 100.0f, -100.0f, 0.0f });
-	bottomMiddleRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* bottomRight = Engine::CreateEntity<TestClass>();
-	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
-	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-
-
-
-	if (editorMode)
-	{
-		CWorld_Editable::NewWorld(0);
-		CWorld_Editable::EditWorld(0);
-		CWorld_Editable::SaveWorld(0);
-	}
-	else
-	{
-
-		CWorld::LoadWorld(0);
 	}
 }
 
@@ -514,9 +492,6 @@ HRESULT InitDevice()
 		return hr;
 	}
 
-	//for (auto& e : Engine::entities)
-	//    e->components;
-
 	if (FAILED(hr))
 		return hr;
 
@@ -612,6 +587,7 @@ HRESULT	InitMesh()
 // ***************************************************************************************
 HRESULT	InitWorld(int width, int height)
 {
+	Engine::projMatrixUI = XMMatrixOrthographicLH(Engine::windowWidth, Engine::windowHeight, 0.01f, 100.0f);
 	Engine::camera.UpdateProjectionMat();
 	Engine::camera.UpdateViewMat();
 
@@ -771,20 +747,12 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	{
 	case WM_MOUSEMOVE:
 	{
-		Input::mousePos.x = GET_X_LPARAM(lParam);
-		Input::mousePos.y = GET_Y_LPARAM(lParam);
+		Inputs::InputManager::mousePos.x = GET_X_LPARAM(lParam);
+		Inputs::InputManager::mousePos.y = GET_Y_LPARAM(lParam);
 		break;
 	}
 
-	case WM_LBUTTONDOWN: { Input::SetKeyState(Keys::LMB, true); break; }
-	case WM_RBUTTONDOWN: { Input::SetKeyState(Keys::RMB, true); break; }
-	case WM_MBUTTONDOWN: { Input::SetKeyState(Keys::MMB, true); break; }
-	case WM_LBUTTONUP: { Input::SetKeyState(Keys::LMB, false); break; }
-	case WM_RBUTTONUP: { Input::SetKeyState(Keys::RMB, false); break; }
-	case WM_MBUTTONUP: { Input::SetKeyState(Keys::MMB, false); break; }
-
 	case WM_KEYDOWN:
-		Input::UpdateKeys(wParam, true);
 		if (wParam == VK_F1)
 		{
 			if (fillState)
@@ -802,7 +770,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		}
 		break;
 	case WM_KEYUP:
-		Input::UpdateKeys(wParam, false);
+
 		break;
 
 	//TEMP
@@ -871,12 +839,6 @@ float calculateDeltaTime()
 
 void Update(float deltaTime)
 {
-	//TEMP
-	if (Input::GetKeyState(Keys::RMB))
-	{
-		Engine::camera.SetCameraPosition(XMFLOAT4((-Input::mousePos.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (Input::mousePos.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
-	}
-
 	for (auto& e : Engine::entities)
 		if(e->shouldUpdate)
 		{

@@ -40,7 +40,6 @@
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CTransform.cpp" />
-    <ClCompile Include="CInputManager.cpp" />
     <ClCompile Include="CTextRenderComponent.cpp" />
     <ClCompile Include="Core\CursorEntity.cpp" />
     <ClCompile Include="CCharacter.cpp">
@@ -65,6 +64,9 @@
       <Filter>Player\testing</Filter>
     </ClCompile>
     <ClCompile Include="MathC.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Core\TestUI.cpp" />
+    <ClCompile Include="CAICharacter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -115,7 +117,6 @@
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CTransform.h" />
-    <ClInclude Include="CInputManager.h" />
     <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="Core\CursorEntity.h" />
     <ClInclude Include="CCharacter.h">
@@ -143,6 +144,9 @@
       <Filter>Player\testing</Filter>
     </ClInclude>
     <ClInclude Include="MathC.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Core\TestUI.h" />
+    <ClInclude Include="CAICharacter.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

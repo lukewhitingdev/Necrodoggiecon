@@ -352,14 +352,18 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAICharacter.h" />
     <ClInclude Include="CAIController.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CInputManager.h" />
+    <ClInclude Include="CMaterial.h" />
+    <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="Core\CursorEntity.h" />
     <ClInclude Include="CWorld_Edit.h" />
     <ClInclude Include="IInputable.h" />
     <ClInclude Include="MathC.h" />
+    <ClInclude Include="Core\TestUI.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="CTransform.h" />
@@ -403,18 +407,20 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAICharacter.cpp" />
     <ClCompile Include="CAIController.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCharacter.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEntity.cpp" />
-    <ClCompile Include="CInputManager.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CTextRenderComponent.cpp" />
     <ClCompile Include="Core\CursorEntity.cpp" />
     <ClCompile Include="CWorld_Edit.cpp" />
     <ClCompile Include="MathC.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Core\TestUI.cpp" />
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
     <ClCompile Include="Tools\CT_WindowBase.cpp" />
     <ClCompile Include="CTransform.cpp" />
