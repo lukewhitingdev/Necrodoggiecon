@@ -10,6 +10,7 @@ TestClass::TestClass()
 
 
 	sprite = AddComponent<CSpriteComponent>();
+	
 	sprite->LoadTexture("Resources\\birb.dds");
 
 	//sprite->LoadTextureWIC("Resources\\dog.PNG");
