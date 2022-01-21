@@ -82,11 +82,11 @@ CAIController::CAIController()
 	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ -50.0f, 300.0f, 0.0f });
 	PatrolNode* patrolPoint3 = new PatrolNode(Vector3{ -500.0f, -200.0f, 0.0f });
 
-	patrolPoint1->nextPatrolNode = patrolPoint2;
-	patrolPoint2->nextPatrolNode = patrolPoint3;
+	patrolPoint1->nextPatrolNode = patrolPoint3;
+	//patrolPoint2->nextPatrolNode = patrolPoint3;
 	patrolPoint3->nextPatrolNode = patrolPoint1;
 
-	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
+	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint3 };
 
 	SetPatrolNodes(patrolPoints, tiles);
 }
@@ -266,9 +266,6 @@ void CAIController::Patrolling()
 	}
 	else
 	{
-		// TODO FIX ISSUE HERE
-		
-
 		if (currentCount == -1)
 		{
 			heading = Seek(currentPatrolNode->position);
@@ -277,7 +274,7 @@ void CAIController::Patrolling()
 		else
 		{
 			heading = Seek(pathNodes[currentCount]->waypoint->GetPosition());
-			if (position.DistanceTo(pathNodes[currentCount]->waypoint->GetPosition()) <= ((float)tileScale/2.0f))
+			if (position.DistanceTo(pathNodes[currentCount]->waypoint->GetPosition()) <= ((float)tileScale))
 			{
 				currentCount--;
 			}
@@ -360,50 +357,63 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 		{
 			current = open[0];
 			// Set the g cost as 0.
-			current->gCost = 0.0f;
+			current->gCost = CalculateCost(current, start);
 			// Set the h cost as the distance to goal.
-			current->hCost = CalculateCost(goal->waypoint->GetPosition().x, goal->waypoint->GetPosition().y, current->waypoint->GetPosition().x, current->waypoint->GetPosition().y);
+			current->hCost = CalculateCost(current, goal);
+
+			current->fCost = current->gCost + current->hCost;
+
+
 			// Remove the node from the open list.
 			open.erase(open.begin());
 		}
 		else
 		{
 			// If the current node is not the first node.
+			int bestNodeIndex = 0;
 			for (int i = 0; i < open.size(); i++)
 			{
 				// If the f cost is less than the current f cost then set the current node to that node and remove it from the open list.
-				if (open[i]->fCost <= current->fCost)
+				if (open[i]->fCost == open[bestNodeIndex]->fCost)
 				{
-					current = open[i];
-					open.erase(open.begin() + i);
+					if (open[i]->hCost < open[bestNodeIndex]->hCost)
+						bestNodeIndex = i;
+				}
+				else if (open[i]->fCost < open[bestNodeIndex]->fCost)
+				{
+					bestNodeIndex = i;
 				}
 			}
+			current = open[bestNodeIndex];
+			open.erase(open.begin() + bestNodeIndex);
 		}
+
 
 		// Found the best node at this stage so put it in the closed list.
 		closed.push_back(current);
 		
 		// If this is the goal node then stop.
-		if (current->waypoint == goal->waypoint)
-			break;
+		/*if (current->waypoint == goal->waypoint)
+			break;*/
 
 		// Neighbour IDs of the current waypoint.
 		std::vector<int> _neighboursID = current->waypoint->GetConnectedTiles();
-		// std::vector<Waypoint*> _neighbours = {};
 
-		// Set the neighbour nodes of the current node.
-		for (int i = 0; i < _neighboursID.size(); i++)
+		if (current->neighbours.size() == 0)
 		{
-			for (WaypointNode * node : waypointNodes)
+			// Set the neighbour nodes of the current node.
+			for (int i = 0; i < _neighboursID.size(); i++)
 			{
-				if (_neighboursID[i] == node->waypoint->GetTileID())
+				for (WaypointNode* node : waypointNodes)
 				{
-					current->neighbours.push_back(node);
-					break;
+					if (_neighboursID[i] == node->waypoint->GetNavID())
+					{
+						current->neighbours.push_back(node);
+						break;
+					}
 				}
 			}
 		}
-
 		// Loop through each neighbour node of the current node
 		for (WaypointNode * neighbour : current->neighbours)
 		{
@@ -422,12 +432,13 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 			if (available == true)
 			{
 				// Calculate the distance from the neighbour node and the start node.
-				float gCost = CalculateCost(neighbour->waypoint->GetPosition().x, neighbour->waypoint->GetPosition().y, start->waypoint->GetPosition().x, start->waypoint->GetPosition().y);
+				//float gCost = CalculateCost(neighbour->waypoint->GetPosition().x, neighbour->waypoint->GetPosition().y, start->waypoint->GetPosition().x, start->waypoint->GetPosition().y);
+				float gCost = current->gCost + (float)tileScale;
 				// Calculate the distance from the neighbour node and the goal node.
-				float hCost = CalculateCost(goal->waypoint->GetPosition().x, goal->waypoint->GetPosition().y, neighbour->waypoint->GetPosition().x, neighbour->waypoint->GetPosition().y);
+				float hCost = CalculateCost(neighbour, goal);
+				//hCost = CalculateCost(neighbour->waypoint->GetPosition().x, neighbour->waypoint->GetPosition().y, goal->waypoint->GetPosition().x, goal->waypoint->GetPosition().y);
 				neighbour->gCost = gCost;
 				neighbour->hCost = hCost;
-
 				neighbour->fCost = neighbour->gCost + neighbour->hCost;
 
 				// Set the neighbour parent waypoint as the current waypoint
@@ -497,12 +508,12 @@ void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
 }
 
 /* Calculate the euclidean distance between two points. */
-float CAIController::CalculateCost(float x, float y, float x2, float y2)
+float CAIController::CalculateCost(WaypointNode * from, WaypointNode* to)
 {
-	float costX = std::abs(x - x2);
-	float costY = std::abs(y - y2);
-	float cost = 100.0f * costX + costY;
-	//float cost = (sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2)));
+	float costX = std::abs(to->waypoint->GetPosition().x - from->waypoint->GetPosition().x);
+	float costY = std::abs(to->waypoint->GetPosition().y - from->waypoint->GetPosition().y);
+
+	float cost = costX + costY;
 	return cost;
 }
 
@@ -511,8 +522,8 @@ void CAIController::ResetNodes()
 {
 	for (WaypointNode * node : waypointNodes)
 	{
-		node->gCost = 100000.0f;
-		node->hCost = 100000.0f;
+		node->gCost = 10000000.0f;
+		node->hCost = 10000000.0f;
 	}
 }
 

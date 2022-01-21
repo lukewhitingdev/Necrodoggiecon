@@ -117,7 +117,7 @@ protected:
 
 	void SetPath();
 	void CalculatePath(WaypointNode* start, WaypointNode* goal);
-	float CalculateCost(float x, float y, float x2, float y2);
+	float CalculateCost(WaypointNode* from, WaypointNode* to);
 	void ResetNodes();
 	void DeleteNodes();
 	

@@ -47,6 +47,7 @@ void CWorld::LoadWorld(int Slot)
 
 
 		CTile* Tile = Engine::CreateEntity<CTile>();
+		Tile->SetNavID(i);
 		Tile->SetPosition(tempPos);
 		Tile->SetScale(2, 2, 2);
 		Tile->ChangeTileID(ID);
