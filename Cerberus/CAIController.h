@@ -13,6 +13,7 @@
 const float speed = 200.0f;
 const float mass = 100.0f;
 const float viewRange = 400.0f;
+const float viewAngle = 45.0f;
 
 struct Waypoint
 {

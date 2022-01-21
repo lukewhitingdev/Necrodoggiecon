@@ -125,9 +125,9 @@ void CAIController::Movement(float deltaTime)
 	position += velocity * deltaTime;
 }
 
+/* Maths magic that determines whether the player is in view. */
 bool CAIController::CanSeePlayer()
 {
-	
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
 
@@ -140,7 +140,6 @@ bool CAIController::CanSeePlayer()
 	Vector3 viewToPlayer = player->GetPosition() - position;
 	float distanceToPlayer = viewToPlayer.Magnitude();
 	
-
 	viewToPlayer = viewToPlayer.Normalize();
 
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
@@ -153,12 +152,15 @@ bool CAIController::CanSeePlayer()
 	viewFrustrum->SetRotation(angle);
 	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 0.0f });
 
+	
 	float dotProduct = view.Dot(viewToPlayer);
 	float pi = atanf(1) * 4;
 	float degreeAngle = dotProduct * (180.0f / pi);
 	Debug::Log("Angle to player = %f", degreeAngle);
 
-	if (degreeAngle > 0.0f && distanceToPlayer < viewRange)
+	float viewingAngle = (viewAngle * (-2.0f / 3.0f)) + 60;
+
+	if (degreeAngle > viewingAngle && distanceToPlayer < viewRange)
 		return true;
 
 	return false;
