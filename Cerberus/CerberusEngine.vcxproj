@@ -168,7 +168,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;winmm.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;winmm.lib;comctl32.lib;$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod_vc.lib;$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LargeAddressAware>true</LargeAddressAware>
@@ -177,6 +177,7 @@
       <TargetMachine>MachineX64</TargetMachine>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
       <EnableDPIAwareness>PerMonitorHighDPIAware</EnableDPIAwareness>
@@ -359,6 +360,7 @@
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTransform.h" />
+    <ClInclude Include="Utility\Audio\FMOD\FMODAudioController.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="CTile.h" />
@@ -399,6 +401,7 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTransform.cpp" />
+    <ClCompile Include="Utility\Audio\FMOD\FMODAudioController.cpp" />
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CTile.cpp" />
