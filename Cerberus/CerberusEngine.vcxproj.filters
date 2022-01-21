@@ -12,7 +12,6 @@
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="Utility\Audio\AudioController.cpp" />
     <ClCompile Include="CSpriteComponent.cpp" />
-    <ClCompile Include="Core\testClass.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_draw.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_impl_dx11.cpp" />
@@ -39,18 +38,37 @@
     </ClCompile>
     <ClCompile Include="CAIController.cpp" />
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
-    <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="CInputManager.cpp" />
     <ClCompile Include="CTextRenderComponent.cpp" />
     <ClCompile Include="Core\CursorEntity.cpp" />
+    <ClCompile Include="CCharacter.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerController.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="testCharacter.cpp">
+      <Filter>Player\testing</Filter>
+    </ClCompile>
+    <ClCompile Include="testCharacter2.cpp">
+      <Filter>Player\testing</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\testClass.cpp">
+      <Filter>Player\testing</Filter>
+    </ClCompile>
+    <ClCompile Include="testController.cpp">
+      <Filter>Player\testing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="structures.h" />
-    <ClInclude Include="Core\testClass.h" />
     <ClInclude Include="Libraries\json.hpp">
       <Filter>Libraries</Filter>
     </ClInclude>
@@ -94,12 +112,35 @@
     </ClInclude>
     <ClInclude Include="CAIController.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
-    <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="CInputManager.h" />
     <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="Core\CursorEntity.h" />
+    <ClInclude Include="CCharacter.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerController.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="testController.h">
+      <Filter>Player\testing</Filter>
+    </ClInclude>
+    <ClInclude Include="testCharacter.h">
+      <Filter>Player\testing</Filter>
+    </ClInclude>
+    <ClInclude Include="testCharacter2.h">
+      <Filter>Player\testing</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\testClass.h">
+      <Filter>Player\testing</Filter>
+    </ClInclude>
+    <ClInclude Include="IInputable.h">
+      <Filter>Player\testing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
@@ -115,6 +156,12 @@
     </Filter>
     <Filter Include="Libraries">
       <UniqueIdentifier>{9ad79631-f174-4bfd-ab35-a789576c5000}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{f0a27552-3208-4cb8-8231-5e45b54730c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\testing">
+      <UniqueIdentifier>{e82ce74f-5eea-42f6-a1e1-74b25f042253}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
