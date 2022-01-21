@@ -8,7 +8,7 @@ CAIController::CAIController()
 	player->SetPosition(Vector3{-500.0f, 100.0f, 0.0f});
 	player->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
 
-	viewFrustrum->SetScale(Vector3{ (viewRange/128.0f) + 2.0f, (viewRange / 128.0f) + 2.0f, 1.0f });
+	viewFrustrum->SetScale(Vector3{ (aiRange/128.0f) + 2.0f, (aiRange / 128.0f) + 2.0f, 1.0f });
 	viewFrustrum->SetPosition(GetPosition());
 
 	sprite = AddComponent<CSpriteComponent>();
@@ -101,7 +101,7 @@ void CAIController::Update(float deltaTime)
 	if (CanSeePlayer())
 	{
 		Debug::Log("CAN SEE PLAYER");
-		//currentState = STATE::CHASE;
+		currentState = STATE::CHASE;
 	}
 	else
 	{
@@ -114,13 +114,13 @@ void CAIController::Update(float deltaTime)
 /* Moves the character position using acceleration, force, mass and velocity. */
 void CAIController::Movement(float deltaTime)
 {
-	Vector3 force = (heading * speed) - velocity;
+	Vector3 force = (heading * aiSpeed) - velocity;
 
-	acceleration = force / mass;
+	acceleration = force / aiMass;
 
 	velocity += acceleration * deltaTime;
 
-	velocity.Truncate(speed);
+	velocity.Truncate(aiSpeed);
 
 	position += velocity * deltaTime;
 }
@@ -158,9 +158,9 @@ bool CAIController::CanSeePlayer()
 	float degreeAngle = dotProduct * (180.0f / pi);
 	Debug::Log("Angle to player = %f", degreeAngle);
 
-	float viewingAngle = (viewAngle * (-2.0f / 3.0f)) + 60;
+	float viewingAngle = (aiViewAngle * (-2.0f / 3.0f)) + 60;
 
-	if (degreeAngle > viewingAngle && distanceToPlayer < viewRange)
+	if (degreeAngle > viewingAngle && distanceToPlayer < aiRange)
 		return true;
 
 	return false;
@@ -301,7 +301,7 @@ void CAIController::AttackPlayer()
 {
 	Engine::DestroyEntity(player);
 	currentState = STATE::PATHFINDING;
-	EventSystem::TriggerEvent("GameOver");
+	//EventSystem::TriggerEvent("GameOver");
 }
 
 
@@ -315,7 +315,7 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
 
 	if (dist > 0)
 	{
-		Vector3 DesiredVelocity = Vector3(TargetPos - position).Normalize() * speed;
+		Vector3 DesiredVelocity = Vector3(TargetPos - position).Normalize() * aiSpeed;
 		return (DesiredVelocity - velocity);
 	}
 	return Vector3{ 0.0f, 0.0f, 0.0f };
@@ -517,7 +517,7 @@ float CAIController::CalculateCost(WaypointNode * from, WaypointNode* to)
 	float costX = std::abs(to->waypoint->GetPosition().x - from->waypoint->GetPosition().x);
 	float costY = std::abs(to->waypoint->GetPosition().y - from->waypoint->GetPosition().y);
 
-	float euclidenDistance = to->waypoint->GetPosition().DistanceTo(from->waypoint->GetPosition());
+	//float euclidenDistance = to->waypoint->GetPosition().DistanceTo(from->waypoint->GetPosition());
 
 	float cost = costX + costY;
 	return cost;
@@ -540,4 +540,54 @@ void CAIController::DeleteNodes()
 	open.clear();
 	closed.clear();
 	pathNodes.clear();
+}
+
+void CAIController::SetHealth(int health)
+{
+	aiHealth = health;
+}
+
+int CAIController::GetHealth()
+{
+	return aiHealth;
+}
+
+void CAIController::SetSpeed(int speed)
+{
+	aiSpeed = speed;
+}
+
+int CAIController::GetSpeed()
+{
+	return aiSpeed;
+}
+
+void CAIController::SetMass(int mass)
+{
+	aiMass = mass;	
+}
+
+int CAIController::GetMass()
+{
+	return aiMass;
+}
+
+void CAIController::SetRange(int range)
+{
+	aiRange = range;
+}
+
+int CAIController::GetRange()
+{
+	return aiRange;
+}
+
+void CAIController::SetViewAngle(int angle)
+{
+	aiViewAngle = angle;
+}
+
+int CAIController::GetViewAngle()
+{
+	return aiViewAngle;
 }

@@ -10,37 +10,7 @@
 #include "Utility/EventSystem/EventSystem.h"
 #include "CWorld.h"
 
-const float speed = 200.0f;
-const float mass = 100.0f;
-const float viewRange = 400.0f;
-const float viewAngle = 45.0f;
 
-struct Waypoint
-{
-	Vector3 position;
-	int waypointID;
-	std::vector<int> connectedIDs;
-
-	Waypoint(int id, Vector3 pos, std::vector<int> connected) : waypointID(id), position(pos), connectedIDs(connected) {}
-
-	// Returns the position of the waypoint.
-	Vector3 GetPosition()
-	{
-		return position;
-	}
-
-	// Returns the ID of the waypoint.
-	int GetID()
-	{
-		return waypointID;
-	}
-
-	// Returns a vector array of neighbour IDs.
-	std::vector<int> GetConnectedWaypointIDs()
-	{
-		return connectedIDs;
-	}
-};
 
 struct WaypointNode
 {
@@ -100,7 +70,6 @@ protected:
 
 	std::vector<CTile*> tiles;
 
-
 	std::vector<PatrolNode*> patrolNodes;
 	std::vector<WaypointNode*> waypointNodes;
 	void SetPatrolNodes(std::vector<PatrolNode*> nodes, std::vector<CTile*> waypoints);
@@ -131,5 +100,22 @@ protected:
 	CPlayer* player = Engine::GetEntityOfType<CPlayer>()[0];
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 	class CSpriteComponent* viewSprite = nullptr;
+
+	int aiHealth = 2;
+	float aiSpeed = 200.0f;
+	float aiMass = 100.0f;
+	float aiRange = 400.0f;
+	float aiViewAngle = 45.0f;
+
+	void SetHealth(int health);
+	int GetHealth();
+	void SetSpeed(int speed);
+	int GetSpeed();
+	void SetMass(int mass);
+	int GetMass(); 
+	void SetRange(int range);
+	int GetRange();
+	void SetViewAngle(int angle);
+	int GetViewAngle();
 };
 
