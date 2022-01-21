@@ -843,25 +843,26 @@ void Render()
 	else
 		Engine::deviceContext->PSSetShader(pixelShaderSolid, nullptr, 0);
 
+	XMFLOAT4X4 mat = Engine::camera.view;
+	XMMATRIX viewMat = XMMatrixTranspose(XMLoadFloat4x4(&mat));
+
+	mat = Engine::camera.proj;
+	XMMATRIX projMat = XMMatrixTranspose(XMLoadFloat4x4(&mat));
+
 	for (auto& e : Engine::entities)
 	{
 		//Maybe should have a visible bool for each entity
 
+		XMFLOAT4X4 entTransform = e->GetTransform();
+
 		for (auto& f : e->components)
 			if(f->shouldDraw)
 			{
-				XMFLOAT4X4 mat = Engine::camera.view;
-				XMMATRIX viewMat = XMLoadFloat4x4(&mat);
-
-				mat = Engine::camera.proj;
-				XMMATRIX projMat = XMLoadFloat4x4(&mat);
-
-				// store this and the view / projection in a constant buffer for the vertex shader to use
 				ConstantBuffer cb1;
-				cb1.mView = XMMatrixTranspose(viewMat);
-				cb1.mProjection = XMMatrixTranspose(projMat);
+				cb1.mView = viewMat;
+				cb1.mProjection = projMat;
 
-				f->Draw(Engine::deviceContext, e->GetTransform(), cb1, constantBuffer);
+				f->Draw(Engine::deviceContext, entTransform, cb1, constantBuffer);
 			}
 	}
 
