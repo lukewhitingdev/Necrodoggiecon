@@ -1,21 +1,21 @@
 #pragma once
-#include <Windows.h>
-#include <map>
+#include "Dependencies/FMOD/api/core/inc/fmod.hpp"
+#include "Dependencies/FMOD/api/core/inc/fmod_errors.h"
 #include "Utility/DebugOutput/Debug.h"
-#include "CAudio.h"
+#include "Utility/AssetManager/AssetManager.h"
 
-// Load Wav Audio. -- Copied and modified from MSDN tutorial https://docs.microsoft.com/en-us/windows/win32/xaudio2/how-to--play-a-sound-with-xaudio2
 class AudioController
 {
 public:
-	AudioController();
-	static HRESULT LoadAudio(std::string input, bool looping);
-	static HRESULT PlayAudio(std::string path);
-	static HRESULT StopAudio(std::string path);
-	static HRESULT DestroyAudio(std::string path);
+	static void Initialize();
+	static void Shutdown();
+
+	static bool LoadAudio(std::string path, bool looping);
+	static bool PlayAudio(std::string path);
+	static bool StopAudio(std::string path);
+	static bool DestroyAudio(std::string path);
 
 private:
-	static IXAudio2* audioEngine;
-	static IXAudio2MasteringVoice* masterChannel;
+	static FMOD::System* FMODSystem;
 };
 

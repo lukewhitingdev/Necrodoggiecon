@@ -21,7 +21,7 @@
 #include "CWorld.h"
 #include "CAIController.h"
 #include "CCamera.h"
-#include "Utility/Audio/FMOD/FMODAudioController.h"
+#include "Utility/Audio/AudioController.h"
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
@@ -166,9 +166,9 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 	ShowWindow(Engine::windowHandle, nCmdShow);
 
-	FMODAudioController::Initialize();
+	AudioController::Initialize();
 
-	FMODAudioController::LoadAudio("Resources/TestAudio.wav", false);
+	AudioController::LoadAudio("Resources/TestAudio.wav", false);
 
 	return S_OK;
 }

@@ -7,7 +7,6 @@
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CTexture.cpp" />
-    <ClCompile Include="Utility\Audio\AudioController.cpp" />
     <ClCompile Include="CSpriteComponent.cpp" />
     <ClCompile Include="Core\testClass.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui.cpp" />
@@ -34,7 +33,7 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CTransform.cpp" />
-    <ClCompile Include="Utility\Audio\FMOD\FMODAudioController.cpp" />
+    <ClCompile Include="Utility\Audio\AudioController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -46,7 +45,6 @@
     </ClInclude>
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="CTexture.h" />
-    <ClInclude Include="Utility\Audio\AudioController.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CEntity.h" />
     <ClInclude Include="CSpriteComponent.h" />
@@ -75,14 +73,14 @@
       <Filter>World</Filter>
     </ClInclude>
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
-    <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CAIController.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CTransform.h" />
-    <ClInclude Include="Utility\Audio\FMOD\FMODAudioController.h" />
+    <ClInclude Include="Utility\Audio\AudioController.h" />
+    <ClInclude Include="Utility\Audio\CAudio.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

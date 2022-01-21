@@ -360,14 +360,14 @@
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTransform.h" />
-    <ClInclude Include="Utility\Audio\FMOD\FMODAudioController.h" />
+    <ClInclude Include="Utility\Audio\CAudio.h" />
+    <ClInclude Include="Utility\Audio\AudioController.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CWorld.h" />
     <ClInclude Include="CWorldData.h" />
     <ClInclude Include="DataStorage.h" />
-    <ClInclude Include="Utility\Audio\AudioController.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CEntity.h" />
     <ClInclude Include="CSpriteComponent.h" />
@@ -388,7 +388,6 @@
     <ClInclude Include="structures.h" />
     <ClInclude Include="Core\testClass.h" />
     <ClInclude Include="UI\DebugOutput\DebugOutput.h" />
-    <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="Utility\DebugOutput\Debug.h" />
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
@@ -401,13 +400,12 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="CTransform.cpp" />
-    <ClCompile Include="Utility\Audio\FMOD\FMODAudioController.cpp" />
+    <ClCompile Include="Utility\Audio\AudioController.cpp" />
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CWorld.cpp" />
     <ClCompile Include="CWorldData.cpp" />
-    <ClCompile Include="Utility\Audio\AudioController.cpp" />
     <ClCompile Include="CSpriteComponent.cpp" />
     <ClCompile Include="Core\testClass.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />

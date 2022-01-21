@@ -1,11 +1,11 @@
 #pragma once
-#include <xaudio2.h>
+#include "Dependencies/FMOD/api/core/inc/fmod.hpp"
 class CAudio
 {
 public:
-	CAudio() : buffer(XAUDIO2_BUFFER()), format(WAVEFORMATEXTENSIBLE()), voice(nullptr) {};
-	CAudio(XAUDIO2_BUFFER buffer, WAVEFORMATEXTENSIBLE format) : buffer(buffer), format(format), voice(nullptr) {};
-	XAUDIO2_BUFFER buffer;
-	WAVEFORMATEXTENSIBLE format;
-	IXAudio2SourceVoice* voice;
+	CAudio(FMOD::Sound* sound, FMOD::ChannelGroup* group) : sound(sound), group(group), channel(nullptr) {};
+	CAudio(FMOD::Sound* sound, FMOD::ChannelGroup* group, FMOD::Channel* chanel) : sound(sound), group(group), channel(chanel) {};
+	FMOD::Sound* sound;
+	FMOD::ChannelGroup* group;
+	FMOD::Channel* channel;
 };
