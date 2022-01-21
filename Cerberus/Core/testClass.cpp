@@ -8,43 +8,22 @@ TestClass::TestClass()
 {
 	Debug::Log("init test class!\n");
 
-	
-	sprite = AddComponent<CSpriteComponent>();
-	sprite->LoadTexture("Resources\\cursorSS.dds");
-	sprite->SetRenderRect(XMUINT2(16, 16));
-	sprite->SetSpriteSize(XMUINT2(64, 64));
-	sprite->SetPosition(0, 0, -100);
 
-	text = AddComponent<CTextRenderComponent>();
-	text->justification = TextJustification::Center;
+	sprite = AddComponent<CSpriteComponent>();
+	sprite->LoadTexture("Resources\\birb.dds");
+	//sprite->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
+
+
+
+
+	timeElapsed = float(rand() / 100);
 }
 
 void TestClass::Update(float deltaTime)
 {
 	//CEntity::Update(deltaTime);
-
-	timeElapsed += deltaTime;
-
-	const float speed = 2;
-	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 16, 0));
-
-	float invZoom = 1 / Engine::camera.GetZoom();
-	SetPosition(Vector3(((Input::mousePos.x - Engine::windowWidth * 0.5f ) * invZoom) + Engine::camera.GetCameraPosition().x,
-						((-Input::mousePos.y + Engine::windowHeight * 0.5f) * invZoom) + Engine::camera.GetCameraPosition().y,
-							-100));
-	
-	text->SetScale(invZoom);
-	sprite->SetScale(invZoom);
-	text->SetPosition(0, -48 * invZoom, -100);
-
-	/*if (Input::GetKeyState(Keys::LMB))
-		sprite->SetRotation(3.14159 / 4);
-	else
-		sprite->SetRotation(0);*/
-
-	std::stringstream ss;
-	ss << "X:" << round(GetPosition().x) << " Y:" << round(GetPosition().y);
-	text->SetText(ss.str());
+	const uint32_t speed = 24;
+	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 128, float((int(round(timeElapsed * speed) / 5) % 2)) * 128));
 }
 
 TestClass::~TestClass()

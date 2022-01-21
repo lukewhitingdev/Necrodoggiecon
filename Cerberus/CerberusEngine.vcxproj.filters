@@ -34,7 +34,6 @@
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="Tools\CT_WindowBase.cpp" />
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
-  
     <ClCompile Include="CWorld_Edit.cpp">
       <Filter>World</Filter>
     </ClCompile>
@@ -45,6 +44,7 @@
     <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="CInputManager.cpp" />
     <ClCompile Include="CTextRenderComponent.cpp" />
+    <ClCompile Include="Core\CursorEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -89,7 +89,6 @@
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
- 
     <ClInclude Include="CWorld_Edit.h">
       <Filter>World</Filter>
     </ClInclude>
@@ -100,6 +99,7 @@
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="CInputManager.h" />
     <ClInclude Include="CTextRenderComponent.h" />
+    <ClInclude Include="Core\CursorEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
