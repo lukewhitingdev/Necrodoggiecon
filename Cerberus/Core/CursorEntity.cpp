@@ -6,16 +6,18 @@
 
 CursorEntity::CursorEntity()
 {
+	SetPosition(0, 0, -100);
+
 	sprite = AddComponent<CSpriteComponent>();
 	sprite->LoadTexture("Resources\\cursorSS.dds");
 	sprite->SetRenderRect(XMUINT2(16, 16));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
-	sprite->SetPosition(0, 0, -100);
+	sprite->SetPosition(0, 0, 0);
 	sprite->ui = true;
 
 	text = AddComponent<CTextRenderComponent>();
 	text->justification = TextJustification::Center;
-	text->SetPosition(0, -48, -100);
+	text->SetPosition(0, -48, 0);
 	text->ui = true;
 }
 
@@ -26,7 +28,7 @@ void CursorEntity::Update(float deltaTime)
 	const float speed = 2;
 	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 16, 0));
 
-	SetPosition(Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100));
+	SetPosition(Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z));
 	
 	/*if (Input::GetKeyState(Keys::LMB))
 		sprite->SetRotation(3.14159 / 4);
