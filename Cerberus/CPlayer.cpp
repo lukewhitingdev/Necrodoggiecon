@@ -2,6 +2,7 @@
 #include "Utility/DebugOutput/Debug.h"
 #include "CSpriteComponent.h"
 
+
 CPlayer::CPlayer()
 {
 	Debug::Log("init player class!\n");

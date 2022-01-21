@@ -1,5 +1,5 @@
 #include "KeyboardInputs.h"
-#include <winuser.h>
+#include <windows.h>
 
 namespace Inputs
 {

@@ -22,6 +22,8 @@
 #include "CAIController.h"
 #include "CCamera.h"
 
+#include "KeyboardInputs.h"
+
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
 CCamera Engine::camera = CCamera();
@@ -811,7 +813,10 @@ float calculateDeltaTime()
 void Update(float deltaTime)
 {
 	//TEMP
-	if (GetAsyncKeyState(VK_RBUTTON))
+
+	using namespace Inputs;
+
+	if (Inputs::KeyboardInputs::IsMouseButtonPressed(Inputs::KeyboardInputs::Mouse::RButton))
 	{
 		POINT p;
 		if (GetCursorPos(&p))
@@ -821,6 +826,7 @@ void Update(float deltaTime)
 				Engine::camera.SetCameraPosition(XMFLOAT4((-p.x + Engine::windowWidth * .5) / Engine::camera.GetZoom(), (p.y - Engine::windowHeight * .5) / Engine::camera.GetZoom(), -3, 1));
 			}
 		}
+
 	}
 
 	for (auto& e : Engine::entities)
