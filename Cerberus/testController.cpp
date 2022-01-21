@@ -1,5 +1,6 @@
 #include "testController.h"
 #include "testCharacter.h"
+#include "InputManager.h"
 void testController::Update(float deltaTime)
 {
 	HandleInput(deltaTime);
@@ -9,15 +10,15 @@ void testController::HandleInput(float deltaTime)
 {
 	if (!HasCharacter()) return;
 	
-	if (Input::GetKeyState(Keys::D))
+	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::D))
 		dynamic_cast<IInputable*>(GetCharacter())->PressedHorizontal(1, deltaTime);
-	if (Input::GetKeyState(Keys::A))
+	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::A))
 		dynamic_cast<IInputable*>(GetCharacter())->PressedHorizontal(-1, deltaTime);
-	if (Input::GetKeyState(Keys::W))
+	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::W))
 		dynamic_cast<IInputable*>(GetCharacter())->PressedVertical(1, deltaTime);
-	if (Input::GetKeyState(Keys::S))
+	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::S))
 		dynamic_cast<IInputable*>(GetCharacter())->PressedVertical(-1, deltaTime);
-	if (Input::GetKeyState(Keys::E))
+	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::E))
 		SwapChar();
 }
 

@@ -357,7 +357,6 @@
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CInputManager.h" />
     <ClInclude Include="CMaterial.h" />
-    <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="Core\CursorEntity.h" />
     <ClInclude Include="CWorld_Edit.h" />
@@ -368,7 +367,6 @@
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="CCharacter.h" />
-    <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CPlayerController.h" />
     <ClInclude Include="CTexture.h" />
