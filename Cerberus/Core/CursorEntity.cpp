@@ -48,7 +48,7 @@ void CursorEntity::Update(float deltaTime)
 		Vector3 mousePos = (Inputs::InputManager::mousePos - mouseOffset) / Engine::camera.GetZoom();
 		mouseOffset = Inputs::InputManager::mousePos;
 
-		Engine::camera.SetCameraPosition(XMFLOAT4(-mousePos.x + Engine::camera.GetCameraPosition().x, mousePos.y + Engine::camera.GetCameraPosition().y, -3, 1));
+		Engine::camera.SetCameraPosition(XMFLOAT4(-mousePos.x + Engine::camera.GetCameraPosition().x, mousePos.y + Engine::camera.GetCameraPosition().y, Engine::camera.GetCameraPosition().z, Engine::camera.GetCameraPosition().w));
 	}
 	else
 	{
