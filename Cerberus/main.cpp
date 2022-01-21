@@ -166,6 +166,10 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 	ShowWindow(Engine::windowHandle, nCmdShow);
 
+	FMODAudioController::Initialize();
+
+	FMODAudioController::LoadAudio("Resources/TestAudio.wav", false);
+
 	return S_OK;
 }
 
