@@ -20,6 +20,11 @@ public:
 
 
 
+    // Grid Space coordinates
+    int X, Y;
+
+
+
     Vector2 ScreenToWorld(Vector2 Pos);
 
 };

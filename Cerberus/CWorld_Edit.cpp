@@ -70,14 +70,12 @@ void CWorld_Editable::NewWorld(int Slot)
 	{
 		Vector3 convertedPos = IndexToGrid(i);
 		Vector3 tempPos = (Vector3(convertedPos.x, convertedPos.y, 0) * (tileScale * 2));
-		tempPos -= Vector3(64 * tileScale, 64 * tileScale, 0);
-
-		tempPos += Vector3(0, 32 * tileScale, 0);
+	
 
 
 		CTile* Tile = Engine::CreateEntity<CTile>();
 		Tile->SetPosition(tempPos);
-		Tile->SetScale(2, 2, 2);
+		Tile->SetScale(tileScaleMultiplier);
 		Tile->ChangeTileID(0);
 
 		tileContainer[i] = Tile;

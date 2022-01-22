@@ -28,7 +28,7 @@ void EditorGrid::SetupGrid()
 	GridSprite->SetSpriteSize(XMUINT2(tileScale * mapScale, tileScale * mapScale));
 	GridSprite->SetTextureOffset(XMFLOAT2(0, 0));
 
-	Vector3 tempPos = Vector3(-33 * tileScale, -32, 0);
+	Vector3 tempPos = Vector3(31 * tileScale, 31 * tileScale, 0);
 	
 
 	//tempPos += Vector3(0, 32 * tileScale, 0);

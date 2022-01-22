@@ -45,3 +45,4 @@ enum class CellID
 
 #define tileScale 32
 #define	mapScale 32
+#define tileScaleMultiplier 2

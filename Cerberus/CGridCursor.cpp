@@ -29,12 +29,29 @@ void CGridCursor::Update(float deltaTime)
 
 	Vector3 MousePos2 = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100);
 
-
 	MousePos2 /= Engine::camera.GetZoom();
 
 
+
+	Vector3 Result = MousePos2 + camPos;
+	
+
+
+
+
+	int X = Result.x / (tileScale * tileScaleMultiplier);
+	int Y = Result.y / (tileScale * tileScaleMultiplier);
+
+
+	if (X <= 0) X = 0;
+	if (Y <= 0) Y = 0;
+
+
+	if (X >= mapScale) X = mapScale;
+	if (Y <= -mapScale) Y = -mapScale;
+
 	//mouseCalc. * -1;
-	SetPosition(MousePos2 + camPos);
+	SetPosition(Vector3(X * (64), Y * (64), -5) );
 
 	
 
