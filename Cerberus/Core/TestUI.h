@@ -1,5 +1,6 @@
 #pragma once
 #include "CEntity.h"
+#include <array>
 
 class TestUI : public CEntity
 {
@@ -10,15 +11,20 @@ class TestUI : public CEntity
 	float timeElapsed = 0;
 	float timeElapsed2 = 0;
 
-	const char* texts[7] =
+	const std::array<const char*, 12> texts =
 	{
-		"Whatsup.",
-		"Hi.",
-		"Why are you ignoring me?",
-		"Dont forget to hydrate.",
-		"Pretty sus tbh.",
-		"Hint: there are no hints here.",
-		"Have you tried like not doing that?",
+		"Wow",
+		"",
+		"Amazing",
+		"",
+		"Awesome",
+		"",
+		"Nice One",
+		"",
+		"uwu",
+		"",
+		"Good Job",
+		"",
 	};
 public:
 	TestUI();

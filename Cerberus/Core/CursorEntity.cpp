@@ -25,15 +25,16 @@ void CursorEntity::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
 
+	unsigned char row = 0;
+	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::RButton))
+		row = 2;
+	else if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::LButton))
+		row = 1;
+
 	const float speed = 2;
-	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 16, 0));
+	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * sprite->GetRenderRect().x, row * sprite->GetRenderRect().y));
 
 	SetPosition(Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z));
-	
-	/*if (Input::GetKeyState(Keys::LMB))
-		sprite->SetRotation(3.14159 / 4);
-	else
-		sprite->SetRotation(0);*/
 
 	std::stringstream ss;
 	ss << "X:" << round(GetPosition().x) << " Y:" << round(GetPosition().y);

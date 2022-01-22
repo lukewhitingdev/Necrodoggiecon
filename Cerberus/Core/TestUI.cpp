@@ -26,11 +26,11 @@ TestUI::TestUI()
 	text2->SetAnchor(XMFLOAT2(0, 1));
 
 	text3 = AddComponent<CTextRenderComponent>();
-	text3->justification = TextJustification::Right;
-	text3->SetReserveCount(32);
-	text3->SetPosition(-625, 345, 0);
-	text3->SetText(texts[rand() % 7]);
-	text3->SetAnchor(XMFLOAT2(0, 0));
+	text3->justification = TextJustification::Center;
+	text3->SetReserveCount(24);
+	text3->SetPosition(560, -255, 0);
+	text3->SetText(texts[1]);
+	text3->SetAnchor(XMFLOAT2(1, 1));
 	
 	for (CComponent* e : components)
 		e->ui = true;
@@ -47,7 +47,7 @@ void TestUI::Update(float deltaTime)
 	if (int(floor(timeElapsed2 * .2)) % 2)
 	{
 		timeElapsed2 = 0;
-		text3->SetText(texts[rand() % 7]);
+		text3->SetText(texts[rand() % texts.size()]);
 	}
 
 	std::stringstream ss;
