@@ -193,12 +193,14 @@ void Load()
 	CursorEntity* myClass = Engine::CreateEntity<CursorEntity>();
 	
 	
-	// sawps and makes one of the entiys the player
+/*
+* 	// sawps and makes one of the entiys the player
 	for (int i = 0; i < 0; i++)
 	{
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
+*/
 
 
 
@@ -207,7 +209,7 @@ void Load()
 	
 
 	
-
+	/*
 
 	for (int i = 0; i < 1; i++)
 	{
@@ -248,7 +250,7 @@ void Load()
 	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
 	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
 
-
+	*/
 
 
 	if (editorMode)

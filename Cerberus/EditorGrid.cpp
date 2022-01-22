@@ -5,7 +5,7 @@
 EditorGrid::EditorGrid()
 {
 	GridSprite = AddComponent<CSpriteComponent>();
-	ActiveCellSprite = AddComponent<CSpriteComponent>();
+	//ActiveCellSprite = AddComponent<CSpriteComponent>();
 }
 
 void EditorGrid::Update(float deltaTime)
@@ -43,7 +43,7 @@ void EditorGrid::SetCursorPosition(Vector2 Position)
 {
 	//Position /= mapScale;
 	
-	ActiveCellSprite->SetPosition(Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100));
+	//ActiveCellSprite->SetPosition(Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100));
 
 	
 

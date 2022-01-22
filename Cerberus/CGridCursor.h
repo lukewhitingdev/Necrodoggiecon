@@ -20,5 +20,7 @@ public:
 
 
 
+    Vector2 ScreenToWorld(Vector2 Pos);
+
 };
 
