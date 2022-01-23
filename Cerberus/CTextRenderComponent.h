@@ -20,13 +20,19 @@ public:
 	unsigned short spriteSheetWidth = 16;
 	TextJustification justification = TextJustification::Center;
 
-	CTextRenderComponent();
 	HRESULT SetFont(std::string filePath);
 	void SetText(std::string newText);
 	void SetReserveCount(unsigned short newReserveCount);
-	void SetAnchor(XMFLOAT2 newAnchor) { anchor = newAnchor; updateTransform = true; }
-	XMFLOAT2 GetAnchor() { return anchor; }
 
+	//Sets the region of the screen a UI element will be "anchored" to.
+	//{0,0} - top left, {1,1} - bottom right.
+	//Used for making UI elements stick to the edge of the screen when the window is resized
+	void SetAnchor(XMFLOAT2 newAnchor) { anchor = newAnchor; updateTransform = true; }
+
+	const XMFLOAT2& GetAnchor() const { return anchor; }
+
+
+	CTextRenderComponent();
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) override;
 	virtual ~CTextRenderComponent();
