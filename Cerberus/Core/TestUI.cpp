@@ -29,7 +29,7 @@ TestUI::TestUI()
 	text3->justification = TextJustification::Center;
 	text3->SetReserveCount(24);
 	text3->SetPosition(560, -255, 0);
-	text3->SetText(texts[1]);
+	text3->SetText("");
 	text3->SetAnchor(XMFLOAT2(1, 1));
 	
 	for (CComponent* e : components)
@@ -39,15 +39,21 @@ TestUI::TestUI()
 void TestUI::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
-	timeElapsed2 += deltaTime;
+	textTimer += deltaTime;
 
 	const uint32_t speed = 24;
 	birb->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 128, float((int(round(timeElapsed * speed) / 5) % 2)) * 128));
 
-	if (int(floor(timeElapsed2 * .2)) % 2)
+	if (textTimer >= 5)
 	{
-		timeElapsed2 = 0;
-		text3->SetText(texts[rand() % texts.size()]);
+		textTimer = 0;
+
+		size_t index = rand() % (texts.size() * 2);
+
+		if(index < texts.size())
+			text3->SetText(texts[index]);
+		else
+			text3->SetText("");
 	}
 
 	std::stringstream ss;

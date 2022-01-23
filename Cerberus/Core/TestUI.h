@@ -9,22 +9,16 @@ class TestUI : public CEntity
 	class CTextRenderComponent* text2 = nullptr;
 	class CTextRenderComponent* text3 = nullptr;
 	float timeElapsed = 0;
-	float timeElapsed2 = 0;
+	float textTimer = 0;
 
-	const std::array<const char*, 12> texts =
+	const std::array<const char*, 6> texts =
 	{
 		"Wow",
-		"",
 		"Amazing",
-		"",
 		"Awesome",
-		"",
 		"Nice One",
-		"",
 		"uwu",
-		"",
 		"Good Job",
-		"",
 	};
 public:
 	TestUI();
