@@ -355,8 +355,8 @@
   <ItemGroup>
     <ClInclude Include="CAICharacter.h" />
     <ClInclude Include="CAIController.h" />
+    <ClInclude Include="CAudioEmitterComponent.h" />
     <ClInclude Include="CCamera.h" />
-    <ClInclude Include="CInputManager.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="Core\CursorEntity.h" />
@@ -375,12 +375,12 @@
     <ClInclude Include="testCharacter.h" />
     <ClInclude Include="testCharacter2.h" />
     <ClInclude Include="testController.h" />
+    <ClInclude Include="Utility\Audio\CEmitter.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CWorld.h" />
     <ClInclude Include="CWorldData.h" />
-    <ClInclude Include="DataStorage.h" />
     <ClInclude Include="WorldConstants.h" />
     <ClInclude Include="Utility\Audio\AudioController.h" />
     <ClInclude Include="CComponent.h" />
@@ -409,6 +409,7 @@
   <ItemGroup>
     <ClCompile Include="CAICharacter.cpp" />
     <ClCompile Include="CAIController.cpp" />
+    <ClCompile Include="CAudioEmitterComponent.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCharacter.cpp" />
     <ClCompile Include="CComponent.cpp" />
