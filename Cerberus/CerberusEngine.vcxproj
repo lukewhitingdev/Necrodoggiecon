@@ -353,19 +353,27 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAICharacter.h" />
     <ClInclude Include="CAIController.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CMaterial.h" />
-    <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CTextRenderComponent.h" />
-    <ClInclude Include="CTexture.h" />
     <ClInclude Include="Core\CursorEntity.h" />
     <ClInclude Include="CWorld_Edit.h" />
+    <ClInclude Include="IInputable.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="MathC.h" />
     <ClInclude Include="Core\TestUI.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="CTransform.h" />
+    <ClInclude Include="CCharacter.h" />
+    <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CPlayerController.h" />
+    <ClInclude Include="CTexture.h" />
+    <ClInclude Include="testCharacter.h" />
+    <ClInclude Include="testCharacter2.h" />
+    <ClInclude Include="testController.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="CTile.h" />
@@ -398,21 +406,28 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAICharacter.cpp" />
     <ClCompile Include="CAIController.cpp" />
     <ClCompile Include="CCamera.cpp" />
+    <ClCompile Include="CCharacter.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CTextRenderComponent.cpp" />
-    <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="Core\CursorEntity.cpp" />
     <ClCompile Include="CWorld_Edit.cpp" />
+    <ClCompile Include="MathC.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Core\TestUI.cpp" />
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
     <ClCompile Include="Tools\CT_WindowBase.cpp" />
     <ClCompile Include="CTransform.cpp" />
+    <ClCompile Include="CPlayerController.cpp" />
+    <ClCompile Include="CTexture.cpp" />
+    <ClCompile Include="testCharacter.cpp" />
+    <ClCompile Include="testCharacter2.cpp" />
+    <ClCompile Include="testController.cpp" />
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CTile.cpp" />
@@ -434,7 +449,6 @@
     <ClCompile Include="CMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\stone.dds" />
     <Image Include="Resources\Unwalkable.dds" />
     <Image Include="Resources\Walkable.dds" />
   </ItemGroup>
