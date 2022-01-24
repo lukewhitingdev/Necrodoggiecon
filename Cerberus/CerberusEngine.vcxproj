@@ -354,6 +354,7 @@
   <ItemGroup>
     <ClInclude Include="CAICharacter.h" />
     <ClInclude Include="CAIController.h" />
+    <ClInclude Include="CAIMeleeCharacter.h" />
     <ClInclude Include="CAINode.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CMaterial.h" />
@@ -408,6 +409,7 @@
   <ItemGroup>
     <ClCompile Include="CAICharacter.cpp" />
     <ClCompile Include="CAIController.cpp" />
+    <ClCompile Include="CAIMeleeCharacter.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCharacter.cpp" />
     <ClCompile Include="CComponent.cpp" />

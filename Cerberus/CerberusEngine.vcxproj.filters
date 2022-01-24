@@ -67,6 +67,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Core\TestUI.cpp" />
     <ClCompile Include="CAICharacter.cpp" />
+    <ClCompile Include="CAIMeleeCharacter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="CAICharacter.h" />
     <ClInclude Include="CAINode.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="CAIMeleeCharacter.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
