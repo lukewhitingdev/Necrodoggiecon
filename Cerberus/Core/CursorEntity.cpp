@@ -12,11 +12,10 @@ CursorEntity::CursorEntity()
 	sprite->LoadTexture("Resources\\cursorSS.dds");
 	sprite->SetRenderRect(XMUINT2(16, 16));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
-	sprite->SetPosition(0, 0, 0);
 	sprite->ui = true;
 
 	text = AddComponent<CTextRenderComponent>();
-	text->justification = TextJustification::Center;
+	text->SetTextJustification(TextJustification::Center);
 	text->SetPosition(0, -48, 0);
 	text->ui = true;
 }

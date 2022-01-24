@@ -36,8 +36,11 @@ public:
 	const XMUINT2& GetSpriteSize() const { return spriteSize; };
 	const XMFLOAT4& GetTint() const { return tint; };
 
-	CSpriteComponent();
+	//Loads the texture from a file
+	//MUST use the .dds file type
 	HRESULT LoadTexture(std::string filePath);
+
+	CSpriteComponent();
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) override;
 	virtual ~CSpriteComponent();

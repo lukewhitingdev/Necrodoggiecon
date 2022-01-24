@@ -16,17 +16,17 @@ TestUI::TestUI()
 	birb->SetAnchor(XMFLOAT2(1, 1));
 
 	text1 = AddComponent<CTextRenderComponent>();
-	text1->justification = TextJustification::Right;
+	text1->SetTextJustification(TextJustification::Right);
 	text1->SetPosition(-625, -346, 0);
 	text1->SetAnchor(XMFLOAT2(0, 1));
 
 	text2 = AddComponent<CTextRenderComponent>();
-	text2->justification = TextJustification::Right;
+	text2->SetTextJustification(TextJustification::Right);
 	text2->SetPosition(-625, -326, 0);
 	text2->SetAnchor(XMFLOAT2(0, 1));
 
 	text3 = AddComponent<CTextRenderComponent>();
-	text3->justification = TextJustification::Center;
+	text3->SetTextJustification(TextJustification::Center);
 	text3->SetReserveCount(24);
 	text3->SetPosition(560, -255, 0);
 	text3->SetText("");
