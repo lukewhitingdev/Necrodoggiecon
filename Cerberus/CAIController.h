@@ -32,7 +32,7 @@ protected:
 
 	void Movement(float deltaTime);
 
-	bool CanSeePlayer();
+	bool CanSee(Vector3 position);
 
 	STATE currentState;
 
@@ -41,7 +41,7 @@ protected:
 	Vector3 velocity;
 	Vector3 acceleration;
 	Vector3 heading;
-	Vector3 position;
+	Vector3 aiPosition;
 
 	std::vector<CTile*> tiles;
 
@@ -54,12 +54,13 @@ protected:
 
 	void StateMachine();
 	void Patrolling();
-	virtual void ChasePlayer();
-	virtual void AttackPlayer();
+	virtual void ChasePlayer(CPlayer* player);
+	virtual void AttackPlayer(CPlayer* player);
+	virtual void GetIntoCover(CPlayer* player);
 
 	Vector3 Seek(Vector3 TargetPos);
 
-	void SetPath();
+	void SetPath(WaypointNode* goalWaypoint);
 	void CalculatePath(WaypointNode* start, WaypointNode* goal);
 	float CalculateCost(WaypointNode* from, WaypointNode* to);
 	void ResetNodes();
@@ -72,7 +73,9 @@ protected:
 	std::vector<WaypointNode*> pathNodes;
 	int currentCount;
 
-	CPlayer* player = Engine::GetEntityOfType<CPlayer>()[0];
+	CPlayer* playerToKill = nullptr;
+	CPlayer* playerToChase = nullptr;
+	std::vector<CPlayer*> players = Engine::GetEntityOfType<CPlayer>();
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 	class CSpriteComponent* viewSprite = nullptr;
 

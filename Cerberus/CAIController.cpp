@@ -4,10 +4,6 @@ CAIController::CAIController()
 {
 	Debug::Log("init AI class!\n");
 
-
-	player->SetPosition(Vector3{-500.0f, 100.0f, 0.0f});
-	player->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
-
 	viewFrustrum->SetScale(Vector3{ (aiRange/128.0f) + 2.0f, (aiRange / 128.0f) + 2.0f, 1.0f });
 	viewFrustrum->SetPosition(GetPosition());
 
@@ -29,7 +25,7 @@ CAIController::CAIController()
 
 	tiles = CWorld::GetAllWalkableTiles();
 	SetPosition(tiles[6]->GetPosition());
-	position = GetPosition();	
+	aiPosition = GetPosition();	
 
 	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 500.0f, 200.0f, 0.0f });
 	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ -500.0f, 300.0f, 0.0f });
@@ -46,36 +42,31 @@ CAIController::CAIController()
 
 void CAIController::Update(float deltaTime)
 {
-	position = GetPosition();
+	aiPosition = GetPosition();
 	StateMachine();
 
 	Movement(deltaTime);
-	if (player != nullptr)
+
 	{
-		if (CanSeePlayer())
-		{
-			currentState = STATE::CHASE;
-		}
+		Vector3 velocityCopy = velocity;
+		Vector3 view = velocityCopy.Normalize();
+		float offset = viewFrustrum->GetScale().x * 128.0f / 2.0f;
+
+		viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x))));
+
+		Vector3 up = { 0.0f, 1.0f, 0.0f };
+
+		float dot = up.Dot(view);
+		float det = up.x * view.y - up.y * view.x;
+
+		float angle = atan2f(det, dot);
+		this->SetRotation(angle);
+		viewFrustrum->SetRotation(angle);
+		viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 0.0f });
 	}
 
-	Vector3 velocityCopy = velocity;
-	Vector3 view = velocityCopy.Normalize();
-	float offset = viewFrustrum->GetScale().x * 128.0f / 2.0f;
-
-	viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x))));
-
-	Vector3 up = { 0.0f, 1.0f, 0.0f };
-
-	float dot = up.Dot(view);
-	float det = up.x * view.y - up.y * view.x;
-
-	float angle = atan2f(det, dot);
-	this->SetRotation(angle);
-	viewFrustrum->SetRotation(angle);
-	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 0.0f });
-
-	position.z = 0.0f;
-	SetPosition(position);
+	aiPosition.z = 0.0f;
+	SetPosition(aiPosition);
 }
 
 /* Moves the character position using acceleration, force, mass and velocity. */
@@ -89,18 +80,18 @@ void CAIController::Movement(float deltaTime)
 
 	velocity.Truncate(aiSpeed);
 
-	position += velocity * deltaTime;
+	aiPosition += velocity * deltaTime;
 }
 
 /* Maths magic that determines whether the player is in view. */
-bool CAIController::CanSeePlayer()
+bool CAIController::CanSee(Vector3 position)
 {
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
 
 	Vector3 rightView = Vector3{ view.y, -view.x, 0.0f };
 
-	Vector3 viewToPlayer = player->GetPosition() - position;
+	Vector3 viewToPlayer = position - aiPosition;
 	float distanceToPlayer = viewToPlayer.Magnitude();
 	
 	viewToPlayer = viewToPlayer.Normalize();
@@ -110,6 +101,8 @@ bool CAIController::CanSeePlayer()
 	float degreeAngle = dotProduct * (180.0f / pi);
 
 	float viewingAngle = (aiViewAngle * (-2.0f / 3.0f)) + 60;
+
+	//NEED TO ADD CHECK FOR OBSTACLE
 
 	if (degreeAngle > viewingAngle && distanceToPlayer < aiRange)
 		return true;
@@ -158,7 +151,7 @@ PatrolNode* CAIController::FindClosestPatrolNode()
 	PatrolNode* closestPatrolNode = new PatrolNode(Vector3{ 10000.0f, 10000.0f, 0.0f });
 	for (PatrolNode* node : patrolNodes)
 	{
-		if (position.DistanceTo(node->position) < position.DistanceTo(closestPatrolNode->position))
+		if (aiPosition.DistanceTo(node->position) < aiPosition.DistanceTo(closestPatrolNode->position))
 		{
 			closestPatrolNode = node;
 		}
@@ -169,22 +162,42 @@ PatrolNode* CAIController::FindClosestPatrolNode()
 /* Calls the relevant function based on the current state. */
 void CAIController::StateMachine()
 {
+	Vector3 closestPlayerPosition = { INFINITY, INFINITY, INFINITY };
+	CPlayer* closestPlayer = nullptr;
+	if (players.size() > 0)
+	{
+		for (CPlayer* player : players)
+		{
+			if (CanSee(player->GetPosition()))
+			{
+				currentState = STATE::CHASE;
+
+				if (aiPosition.DistanceTo(player->GetPosition()) < aiPosition.DistanceTo(closestPlayerPosition))
+				{
+					closestPlayer = player;
+					closestPlayerPosition = closestPlayer->GetPosition();
+				}
+				playerToChase = closestPlayer;
+			}
+		}
+	}
+
 	switch (currentState)
 	{
 	case STATE::PATROL:
 		Patrolling();
 		break;
 	case STATE::PATHFINDING:
-		SetPath();
+		SetPath(currentPatrolNode->closestWaypoint);
 		break;
 	case STATE::CHASE:
-		ChasePlayer();
+		ChasePlayer(playerToChase);
 		break;
 	case STATE::ATTACK:
-		AttackPlayer();
+		AttackPlayer(playerToKill);
 		break;
 	case STATE::COVER:
-
+		GetIntoCover(closestPlayer);
 		break;
 	default:
 
@@ -197,7 +210,7 @@ void CAIController::StateMachine()
 /* Moves the direction of the character towards the next point in the path. */
 void CAIController::Patrolling()
 {
-	if (position.DistanceTo(currentPatrolNode->position) <= 10.0f)
+	if (aiPosition.DistanceTo(currentPatrolNode->position) <= 10.0f)
 	{
 		Debug::Log("Hit patrol node: x=%f, y=%f", currentPatrolNode->position.x, currentPatrolNode->position.y);
 		currentPatrolNode = currentPatrolNode->nextPatrolNode;
@@ -217,7 +230,7 @@ void CAIController::Patrolling()
 		else
 		{
 			heading = Seek(pathNodes[currentCount]->waypoint->GetPosition());
-			if (position.DistanceTo(pathNodes[currentCount]->waypoint->GetPosition()) <= (((float)tileScale) * 2.0f))
+			if (aiPosition.DistanceTo(pathNodes[currentCount]->waypoint->GetPosition()) <= (((float)tileScale) * tiles[0]->GetScale().x))
 			{
 				currentCount--;
 			}
@@ -225,11 +238,12 @@ void CAIController::Patrolling()
 	}
 }
 
-void CAIController::ChasePlayer()
+void CAIController::ChasePlayer(CPlayer* player)
 {
-	if (position.DistanceTo(player->GetPosition()) < 10.0f)
+	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 	{
 		currentState = STATE::ATTACK;
+		playerToKill = player;
 	}
 	else
 	{
@@ -237,12 +251,17 @@ void CAIController::ChasePlayer()
 	}
 }
 
-void CAIController::AttackPlayer()
+void CAIController::AttackPlayer(CPlayer* player)
 {
+	
 	Engine::DestroyEntity(player);
-	player = nullptr;
+	players = Engine::GetEntityOfType<CPlayer>();
 	currentState = STATE::PATHFINDING;
 	//EventSystem::TriggerEvent("GameOver");
+}
+
+void CAIController::GetIntoCover(CPlayer* player)
+{
 }
 
 
@@ -250,35 +269,35 @@ void CAIController::AttackPlayer()
 /* Returns the velocity change needed to reach the target position. */
 Vector3 CAIController::Seek(Vector3 TargetPos)
 {
-	Vector3 ToTarget = TargetPos - position;
+	Vector3 ToTarget = TargetPos - aiPosition;
 
 	double dist = ToTarget.Magnitude();
 
 	if (dist > 0)
 	{
-		Vector3 DesiredVelocity = Vector3(TargetPos - position).Normalize() * aiSpeed;
+		Vector3 DesiredVelocity = Vector3(TargetPos - aiPosition).Normalize() * aiSpeed;
 		return (DesiredVelocity - velocity);
 	}
 	return Vector3{ 0.0f, 0.0f, 0.0f };
 }
 
 /* Sets the path betqween the closest waypoint to the character and the closest waypoint to the target patrol node. */
-void CAIController::SetPath()
+void CAIController::SetPath(WaypointNode* goalWaypoint)
 {
 	DeleteNodes();
-	WaypointNode* closestWaypoint = new WaypointNode();
-	closestWaypoint->waypoint = waypointNodes[0]->waypoint;
+	WaypointNode* closestWaypoint = nullptr;
+	closestWaypoint = waypointNodes[0];
 	// Find the closest waypoint.
 	for (WaypointNode* waypointNode : waypointNodes)
 	{
-		if (position.DistanceTo(waypointNode->waypoint->GetPosition()) < position.DistanceTo(closestWaypoint->waypoint->GetPosition()))
+		if (aiPosition.DistanceTo(waypointNode->waypoint->GetPosition()) < aiPosition.DistanceTo(closestWaypoint->waypoint->GetPosition()))
 		{
 			closestWaypoint = waypointNode;
 		}
 	}
 
 	// Caluclate the path between the closest waypoint and the patrol node.
-	CalculatePath(closestWaypoint, currentPatrolNode->closestWaypoint);
+	CalculatePath(closestWaypoint, goalWaypoint);
 }
 
 /* A* algorithm to find the list of waypoints to get from the start node to the target node. */

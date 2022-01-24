@@ -211,13 +211,13 @@ void Load()
 	}
 	
 	// sawps and makes one of the entiys the player
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
 
-	testController* controller = Engine::CreateEntity<testController>();
+	/*testController* controller = Engine::CreateEntity<testController>();
 	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
 	testCharacter2* character2 = Engine::CreateEntity<testCharacter2>();
 
@@ -226,7 +226,7 @@ void Load()
 
 	controller->charOne = character1;
 	controller->charTwo = character2;
-	controller->Possess(character1);
+	controller->Possess(character1);*/
 
 	for (int i = 0; i < 1; i++)
 	{
