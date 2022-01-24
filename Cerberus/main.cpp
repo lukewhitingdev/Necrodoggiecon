@@ -135,7 +135,7 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		{
 			if (!minimised)
 			{
-				double t = CalculateDeltaTime(144);
+				double t = CalculateDeltaTime(144);	//set param to 0 for uncapped frames
 				if (t == -8008135.0)
 					continue;
 
