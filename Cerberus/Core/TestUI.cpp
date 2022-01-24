@@ -31,6 +31,13 @@ TestUI::TestUI()
 	text3->SetPosition(560, -255, 0);
 	text3->SetText("");
 	text3->SetAnchor(XMFLOAT2(1, 1));
+
+	textFPS = AddComponent<CTextRenderComponent>();
+	textFPS->SetTextJustification(TextJustification::Left);
+	textFPS->SetReserveCount(12);
+	textFPS->SetPosition(640, 346, 0);
+	textFPS->SetText("");
+	textFPS->SetAnchor(XMFLOAT2(1, 0));
 	
 	for (CComponent* e : components)
 		e->ui = true;
@@ -39,7 +46,9 @@ TestUI::TestUI()
 void TestUI::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
-	textTimer += deltaTime;
+	textTimer += deltaTime; 
+	fpsTimer += deltaTime;
+	framesTotal++;
 
 	const uint32_t speed = 24;
 	birb->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 128, float((int(round(timeElapsed * speed) / 5) % 2)) * 128));
@@ -63,6 +72,17 @@ void TestUI::Update(float deltaTime)
 	ss.str("");
 	ss << "X:" << round(Engine::camera.GetCameraPosition().x) << " Y:" << round(Engine::camera.GetCameraPosition().y);
 	text2->SetText(ss.str());
+
+	if (fpsTimer > 0.5)
+	{
+		unsigned int time = round(1 / (fpsTimer / float(framesTotal)));
+		fpsTimer = 0;
+		framesTotal = 0;
+
+		ss.str("");
+		ss << time << " FPS";
+		textFPS->SetText(ss.str());
+	}
 }
 
 TestUI::~TestUI()
