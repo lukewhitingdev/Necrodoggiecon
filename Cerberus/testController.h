@@ -6,8 +6,8 @@ class testController : public CPlayerController
 public:
 	virtual void Update(float deltaTime) override;
 
-	CCharacter* charOne;
-	CCharacter* charTwo;
+	CCharacter* charOne = nullptr;
+	CCharacter* charTwo = nullptr;
 
 protected:
 	virtual void HandleInput(float deltaTime) override;

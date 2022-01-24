@@ -15,16 +15,14 @@ testCharacter2::testCharacter2()
 
 void testCharacter2::PressedHorizontal(int dir, float deltaTime)
 {
-	AddVerticalMovement(dir, speed, deltaTime);
-
+	AddHorizontalMovement(dir, speed, deltaTime);
 }
 
 void testCharacter2::PressedVertical(int dir, float deltaTime)
 {
-	AddHorizontalMovement(dir, speed, deltaTime);
+	AddVerticalMovement(dir, speed, deltaTime);
 }
 
 void testCharacter2::Update(float deltaTime)
 {
-
 }

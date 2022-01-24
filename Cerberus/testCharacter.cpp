@@ -30,6 +30,6 @@ void testCharacter::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
 
-	const uint32_t speed = 24;
-	spriteComponent->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 128, float((int(round(timeElapsed * speed) / 5) % 2)) * 128));
+	const uint32_t animSpeed = 24;
+	spriteComponent->SetTextureOffset(XMFLOAT2(round(timeElapsed * animSpeed) * 128, float((int(round(timeElapsed * animSpeed) / 5) % 2)) * 128));
 }

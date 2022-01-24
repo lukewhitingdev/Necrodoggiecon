@@ -67,6 +67,15 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Core\TestUI.cpp" />
     <ClCompile Include="CAICharacter.cpp" />
+    <ClCompile Include="EquippedItem.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="DroppedItem.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemDatabase.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -147,6 +156,18 @@
     <ClInclude Include="Core\TestUI.h" />
     <ClInclude Include="CAICharacter.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="ItemData.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="EquippedItem.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="DroppedItem.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemDatabase.h">
+      <Filter>Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
@@ -167,6 +188,9 @@
     </Filter>
     <Filter Include="Player\testing">
       <UniqueIdentifier>{e82ce74f-5eea-42f6-a1e1-74b25f042253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Item">
+      <UniqueIdentifier>{d28c029a-b89f-4730-a15a-d97e3f7f08f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

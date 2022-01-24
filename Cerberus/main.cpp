@@ -29,6 +29,7 @@
 
 #include "InputManager.h"
 #include "Core/TestUI.h"
+#include <ItemData.h>
 using namespace Inputs;
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
@@ -216,6 +217,11 @@ void Load()
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
+
+	ItemData* data = new ItemData("tempWeapon", "Resources\\birb.dds");
+	ItemData* data2 = new ItemData("tempWeapon2", "Resources\\birb.dds");
+	ItemData* data3 = new ItemData("tempWeapon3", "Resources\\birb.dds");
+
 
 	testController* controller = Engine::CreateEntity<testController>();
 	testCharacter* character1 = Engine::CreateEntity<testCharacter>();

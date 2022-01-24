@@ -1,6 +1,8 @@
 #include "testController.h"
 #include "testCharacter.h"
 #include "InputManager.h"
+#include "ItemDatabase.h"
+#include "EquippedItem.h"
 void testController::Update(float deltaTime)
 {
 	HandleInput(deltaTime);
@@ -18,8 +20,13 @@ void testController::HandleInput(float deltaTime)
 		dynamic_cast<IInputable*>(GetCharacter())->PressedVertical(1, deltaTime);
 	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::S))
 		dynamic_cast<IInputable*>(GetCharacter())->PressedVertical(-1, deltaTime);
-	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::E))
+	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::E))
 		SwapChar();
+	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
+	{
+		EquippedItem* item = ItemDatabase::Instance()->CreateItemFromID(0);
+		item->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	}
 }
 
 void testController::SwapChar()

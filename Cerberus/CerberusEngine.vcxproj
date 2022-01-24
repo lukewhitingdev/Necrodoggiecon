@@ -359,8 +359,12 @@
     <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="Core\CursorEntity.h" />
     <ClInclude Include="CWorld_Edit.h" />
+    <ClInclude Include="DroppedItem.h" />
     <ClInclude Include="IInputable.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="EquippedItem.h" />
+    <ClInclude Include="ItemData.h" />
+    <ClInclude Include="ItemDatabase.h" />
     <ClInclude Include="MathC.h" />
     <ClInclude Include="Core\TestUI.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
@@ -416,6 +420,9 @@
     <ClCompile Include="CTextRenderComponent.cpp" />
     <ClCompile Include="Core\CursorEntity.cpp" />
     <ClCompile Include="CWorld_Edit.cpp" />
+    <ClCompile Include="DroppedItem.cpp" />
+    <ClCompile Include="EquippedItem.cpp" />
+    <ClCompile Include="ItemDatabase.cpp" />
     <ClCompile Include="MathC.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Core\TestUI.cpp" />
