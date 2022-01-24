@@ -821,7 +821,7 @@ double CalculateDeltaTime(const unsigned short fpsCap)
 	const double FPSMAX = 1.0 / double(fpsCap);
 	totalFrameTime += deltaTime;
 
-	if (totalFrameTime > FPSMAX)
+	if (totalFrameTime > FPSMAX || fpsCap == 0)
 	{
 		deltaTime = totalFrameTime;
 		totalFrameTime = 0.0;
