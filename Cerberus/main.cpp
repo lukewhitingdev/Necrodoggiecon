@@ -22,6 +22,9 @@
 #include "CWorld_Edit.h"
 #include "CAIController.h"
 #include "CCamera.h"
+#include "testCharacter.h"
+#include "testCharacter2.h"
+#include "testController.h"
 #include "Utility/EventSystem/EventSystem.h"
 
 #include "InputManager.h"
@@ -193,6 +196,7 @@ void Load()
 
 	Engine::CreateEntity<TestUI>();
 	CursorEntity* myClass = Engine::CreateEntity<CursorEntity>();
+
 	if (editorMode)
 	{
 		CWorld_Editable::NewWorld(0);
@@ -206,19 +210,23 @@ void Load()
 		CWorld::LoadWorld(0);
 	}
 	
-	for (int i = 0; i < 0; i++)
-	{
-		TestClass* myClass = Engine::CreateEntity<TestClass>();
-		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	}
-	
-	
 	// sawps and makes one of the entiys the player
 	for (int i = 0; i < 1; i++)
 	{
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
+
+	testController* controller = Engine::CreateEntity<testController>();
+	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
+	testCharacter2* character2 = Engine::CreateEntity<testCharacter2>();
+
+	character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	character2->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+
+	controller->charOne = character1;
+	controller->charTwo = character2;
+	controller->Possess(character1);
 
 	for (int i = 0; i < 1; i++)
 	{
