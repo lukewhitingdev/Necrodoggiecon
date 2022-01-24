@@ -35,6 +35,8 @@ public:
 
 	static std::vector<CTile*> GetAllWalkableTiles();
 
+	static std::vector<CTile*> GetAllObstacleTiles();
+
 	static void BuildNavigationGrid();
 
 protected:
