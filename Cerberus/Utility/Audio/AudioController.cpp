@@ -1,5 +1,6 @@
 #include "AudioController.h"
 FMOD::System* AudioController::FMODSystem;
+std::vector<CEmitter*> AudioController::emitters;
 
 void AudioController::Initialize()
 {
@@ -18,8 +19,11 @@ void AudioController::Shutdown()
 	FMODSystem->release();
 }
 
-bool AudioController::LoadAudio(std::string path, bool worldSpace)
+CAudio* AudioController::LoadAudio(std::string path, bool worldSpace)
 {
+	if (FMODSystem == nullptr)
+		Initialize();
+
 	FMOD::Sound* sound;
 
 	FMOD_RESULT result;
@@ -29,16 +33,17 @@ bool AudioController::LoadAudio(std::string path, bool worldSpace)
 	if ((result = FMODSystem->createSound(fullPath.c_str(), (worldSpace) ? FMOD_3D : FMOD_2D, nullptr, &sound)) != FMOD_OK)
 	{
 		Debug::LogError("[Load Audio][%s] FMOD Error[%d]: %s ", path, result, FMOD_ErrorString(result));
-		return false;
+		return nullptr;
 	}
-	sound->set3DMinMaxDistance(0, 20000);
 
-	AssetManager::AddAudio(path, new CAudio(sound, nullptr));
-	return true;
+	return AssetManager::AddAudio(path, new CAudio(path,sound, nullptr));
 }
 
 bool AudioController::PlayAudio(std::string path)
 {
+	if (FMODSystem == nullptr)
+		Initialize();
+
 	CAudio* audio = AssetManager::GetAudio(path);
 	FMOD_RESULT result;
 
@@ -55,41 +60,14 @@ bool AudioController::PlayAudio(std::string path)
 		return false;
 	}
 
-	static FMOD_VECTOR* posVec;
-	static FMOD_VECTOR* prevPosVec;
-	static FMOD_VECTOR* velVec;
-
-	if (posVec == nullptr)
-	{
-		posVec = new FMOD_VECTOR();
-		prevPosVec = new FMOD_VECTOR();
-	}
-
-	if(velVec == nullptr)
-	{
-		velVec = new FMOD_VECTOR();
-	}
-
-	posVec->x = 0;
-	posVec->y = 0;
-	posVec->z = 0;
-
-	float deltaTime = 0.16;
-
-	velVec->x = 1;
-	velVec->y = 1;
-	velVec->z = 1;
-
-	if (prevPosVec != posVec)
-		prevPosVec = posVec;
-
-	audio->channel->set3DAttributes(posVec, velVec);
-
 	return true;
 }
 
 bool AudioController::StopAudio(std::string path)
 {
+	if (FMODSystem == nullptr)
+		Initialize();
+
 	CAudio* audio = AssetManager::GetAudio(path);
 	FMOD_RESULT result;
 
@@ -112,6 +90,9 @@ bool AudioController::StopAudio(std::string path)
 
 bool AudioController::DestroyAudio(std::string path)
 {
+	if (FMODSystem == nullptr)
+		Initialize();
+
 	FMOD_RESULT result;
 	CAudio* audio = AssetManager::GetAudio(path);
 
@@ -184,4 +165,36 @@ void AudioController::Update(Vector3 listenerPos, float deltaTime)
 		Debug::LogError("[Audio Update] FMOD Error[%d]: %s ", result, FMOD_ErrorString(result));
 		return;
 	}
+}
+
+std::vector<CEmitter*> AudioController::getAllEntitiesWithinRange(Vector3 position)
+{
+	std::vector<CEmitter*> output;
+	for(CEmitter* emiter : emitters)
+	{
+		// Check if we are inrange of the circular range emitters have.
+		if (emiter->range < position.DistanceTo(emiter->position))
+			output.emplace_back(emiter);
+	}
+	return output;
+}
+
+void AudioController::addEmitter(CEmitter* emitter)
+{
+	emitters.emplace_back(emitter);
+}
+
+void AudioController::removeEmitter(CEmitter* emitter)
+{
+	for (size_t i = 0; i < emitters.size(); i++)
+	{
+		CEmitter* emiter = emitters[i];
+		if(emiter == emitter)
+		{
+			emitters.erase(emitters.begin() + i);
+			break;
+		}
+	}
+
+	delete emitter;
 }
