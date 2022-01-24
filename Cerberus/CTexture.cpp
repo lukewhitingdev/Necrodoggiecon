@@ -28,7 +28,7 @@ HRESULT CTexture::LoadTextureDDS(std::string filePath)
 	mbstowcs_s(&convertedChars, convertedString, newsize, filePath.c_str(), _TRUNCATE);
 
 	// load and setup textures
-	HRESULT hr = CreateDDSTextureFromFile(Engine::device, convertedString, nullptr, &textureResourceView);
+	HRESULT hr = CreateDDSTextureFromFileEx(Engine::device, convertedString, 0Ui64, D3D11_USAGE::D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0, true, nullptr, &textureResourceView);
 	if (FAILED(hr))
 		return hr;
 
