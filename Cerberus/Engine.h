@@ -20,6 +20,7 @@
 #include "Utility/DebugOutput/Debug.h"
 
 #include <vector>
+#include "InputManager.h"
 
 class CEntity;
 
@@ -70,4 +71,5 @@ struct Engine
 	static ID3D11DeviceContext* deviceContext;
 
 	static class CCamera camera;
+	static XMMATRIX projMatrixUI;
 };

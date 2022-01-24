@@ -77,6 +77,7 @@ public:
     void    render()
     {
         if(*open)
+
         {
             ImGui::SetNextWindowSize(ImVec2(300, 120), ImGuiCond_FirstUseEver);
             if (!ImGui::Begin("Debug Console", open))

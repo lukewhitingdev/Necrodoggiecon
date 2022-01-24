@@ -2,6 +2,8 @@
 #include "Vector3.h"
 #include "CEntity.h"
 
+#include "WorldConstants.h"
+
 enum class TileType
 {
 	Floor,
@@ -24,8 +26,27 @@ public:
 
 
 	
-	void ChangeTileID(int TileID);
 
+	void ChangeTileID(CellID TileID);
+	void ChangeTileID(int ID)
+	{
+		ChangeTileID(static_cast<CellID>(ID));
+	}
+	int GetTileID() { return tileId; }
+
+
+	
+	std::vector<int> GetConnectedTiles() { return connectedTiles; }
+
+
+	void AddConnectedTile(int Tile) { connectedTiles.push_back(Tile); }
+
+
+	void SetNavID(int ID) { navId = ID; }
+
+	int GetNavID() { return navId; }
+
+	bool IsWalkable() { return isWalkable; }
 
 protected: 
 
@@ -35,9 +56,19 @@ protected:
 
 private: 
 
+
+	bool isWalkable;
+
+	void SetRenderData(int X, int Y);
+
+
 	TileType tileStatus;
 
-	int tileID;
+	int tileId;
+
+	int navId;
+
+	std::vector<int> connectedTiles;
 
 
 
