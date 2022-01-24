@@ -10,6 +10,7 @@ class CEntity : public CTransform
 
 public:
 	bool shouldUpdate = true;
+	bool visible = true;
 
 	std::vector<CComponent*> components;
 	
