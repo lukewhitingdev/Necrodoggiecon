@@ -66,7 +66,7 @@ void CTextRenderComponent::SetText(std::string newText)
 			sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - ((sprites[i]->GetSpriteSize().x * newText.length() * .5) + sprites[i]->GetSpriteSize().x * -.5), 0, 0));
 			break;
 		case TextJustification::Left:
-			//sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - ((sprites[i]->GetSpriteSize().x * newText.length()) + sprites[i]->GetSpriteSize().x), 0, 0));
+			sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - (sprites[i]->GetSpriteSize().x * newText.length() * 1.0f), 0, 0));
 			break;
 		}
 	}
@@ -95,6 +95,12 @@ void CTextRenderComponent::SetReserveCount(unsigned short newReserveCount)
 		usedSpriteCount = reserveSpriteCount;
 
 	Debug::Log("Resized TextRenderComp to %i sprites", sprites.size());
+}
+
+void CTextRenderComponent::SetTextJustification(TextJustification newJustification)
+{
+	justification = newJustification;
+	SetText(text);
 }
 
 void CTextRenderComponent::Update(float deltaTime)
