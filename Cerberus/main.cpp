@@ -274,12 +274,6 @@ void Load()
 	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
 	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
 
-
-	AudioController::Initialize();
-	AudioController::LoadAudio("Resources/SmashMouth.mp3", true);
-
-	AudioController::PlayAudio("Resources/SmashMouth.mp3");
-
 	//CWorld* World = new CWorld(0);
 	//World->LoadWorld(0);
 }
