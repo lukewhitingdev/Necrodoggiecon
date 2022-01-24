@@ -7,6 +7,34 @@
 
 CellData CWorld_Editable::tileData[mapScale * mapScale];
 EditOperationMode CWorld_Editable::operationType = EditOperationMode::None;
+Vector2 CWorld_Editable::editOrigin = Vector2(0, 0);
+bool CWorld_Editable::selectedCell = false;
+
+
+void CWorld_Editable::QueueCell(Vector2 Cell)
+{
+	if (!selectedCell)
+	{
+		editOrigin = Cell;
+		selectedCell = true;
+	}
+	else
+	{
+
+
+		PerformOperation(editOrigin, Cell);
+		
+		selectedCell = false;
+	}
+
+}
+
+void CWorld_Editable::ClearQueue()
+{
+	
+	editOrigin = Vector2(0, 0);
+	selectedCell = false;
+}
 
 void CWorld_Editable::PerformOperation(Vector2 A, Vector2 B)
 {

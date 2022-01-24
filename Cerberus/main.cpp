@@ -256,9 +256,11 @@ void Load()
 	if (editorMode)
 	{
 		EditorViewport = new CT_EditorMain();
-		CWorld_Editable::NewWorld(0);
-		CWorld_Editable::EditWorld(0);
-		CWorld_Editable::SaveWorld(0);
+		//CWorld_Editable::NewWorld(0);
+		//CWorld_Editable::EditWorld(0);
+		//CWorld_Editable::SaveWorld(0);
+
+		CWorld::LoadWorld(0);
 	}
 	else
 	{

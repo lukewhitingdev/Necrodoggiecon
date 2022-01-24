@@ -90,13 +90,14 @@ void CGridCursor::Update(float deltaTime)
 	{
 		if (!cellSelected)
 		{
-			selectedCell_1 = PreScale;
+			
+			CWorld_Editable::QueueCell(Vector2(PreScale.x, PreScale.y));
 			cellSelected = true;
 			wasMouseReleased = false;
 		}
 		else
 		{
-			CWorld_Editable::PerformOperation(Vector2(PreScale.x, PreScale.y), Vector2(selectedCell_1.x, selectedCell_1.y));
+			CWorld_Editable::QueueCell(Vector2(PreScale.x, PreScale.y));
 			selectedCell_1 = Vector3(0, 0, 0);
 			cellSelected = false;
 		}
@@ -112,7 +113,8 @@ void CGridCursor::Update(float deltaTime)
 	{
 		if (cellSelected)
 		{
-			selectedCell_1 = Vector3(0,0,0);
+			CWorld_Editable::ClearQueue();
+		
 			cellSelected = false;
 		}
 		

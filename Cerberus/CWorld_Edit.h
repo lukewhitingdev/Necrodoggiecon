@@ -22,6 +22,12 @@ public:
 
 	static void SetOperationMode(EditOperationMode mode) { operationType = mode; }
 
+	//Adds a cell to the Queue, once the queue is full (2 Cells) the grid will perform a edit operation;
+	static void QueueCell(Vector2 Cell);
+
+	//Clears the Cell edit queue
+	static void ClearQueue();
+
 	static void PerformOperation(Vector2 A, Vector2 B);
 
 	//Save the current tile data to a file
@@ -99,6 +105,10 @@ private:
 private:
 
 	static EditOperationMode operationType;
+
+	static Vector2 editOrigin;
+
+	static bool selectedCell;
 
 };
 

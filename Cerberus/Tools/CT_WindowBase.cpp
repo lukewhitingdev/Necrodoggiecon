@@ -26,14 +26,17 @@ void CT_WindowBase::render()
                 if (ImGui::Button("Add Walkable"))
                 {
                     CWorld_Editable::SetOperationMode(EditOperationMode::Subtractive);
+                    CWorld_Editable::ClearQueue();
                 }
                 if (ImGui::Button("Add Wall"))
                 {
                     CWorld_Editable::SetOperationMode(EditOperationMode::Additive);
+                    CWorld_Editable::ClearQueue();
                 }
                 if (ImGui::Button("None"))
                 {
                     CWorld_Editable::SetOperationMode(EditOperationMode::None);
+                    CWorld_Editable::ClearQueue();
                 }
 
                 ImGui::TreePop();
