@@ -366,14 +366,12 @@
     <ClInclude Include="Core\TestUI.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
-    <ClInclude Include="CTransform.h" />
     <ClInclude Include="CCharacter.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CPlayerController.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CTransform.h" />
     <ClInclude Include="Utility\Audio\CAudio.h" />
-    <ClInclude Include="Utility\Audio\AudioController.h" />
     <ClInclude Include="testCharacter.h" />
     <ClInclude Include="testCharacter2.h" />
     <ClInclude Include="testController.h" />
