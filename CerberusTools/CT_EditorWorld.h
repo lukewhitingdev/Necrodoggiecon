@@ -22,7 +22,7 @@ class EditorWorld : public CWorld
 
 	
 
-	std::vector<CT_EntityData> entityList;
+	//std::vector<CT_EntityData> entityList;
 
 
 	// performs a change operation on the world, Bounds are the 3 coordinates used to determine the size of the operation, Additive determines if the operation adds walkable space or removes it.

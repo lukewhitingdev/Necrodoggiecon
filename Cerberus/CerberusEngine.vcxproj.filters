@@ -144,6 +144,7 @@
     <ClInclude Include="Core\TestUI.h" />
     <ClInclude Include="CAICharacter.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="CAINode.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
