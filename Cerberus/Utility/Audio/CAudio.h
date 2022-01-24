@@ -3,8 +3,9 @@
 class CAudio
 {
 public:
-	CAudio(FMOD::Sound* sound, FMOD::ChannelGroup* group) : sound(sound), group(group), channel(nullptr) {};
-	CAudio(FMOD::Sound* sound, FMOD::ChannelGroup* group, FMOD::Channel* chanel) : sound(sound), group(group), channel(chanel) {};
+	CAudio(std::string path, FMOD::Sound* sound, FMOD::ChannelGroup* group) : sound(sound), group(group), channel(nullptr) {};
+	CAudio(std::string path, FMOD::Sound* sound, FMOD::ChannelGroup* group, FMOD::Channel* chanel) : path(path), sound(sound), group(group), channel(chanel) {};
+	std::string path;
 	FMOD::Sound* sound;
 	FMOD::ChannelGroup* group;
 	FMOD::Channel* channel;
