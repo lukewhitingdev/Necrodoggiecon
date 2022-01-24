@@ -44,6 +44,7 @@ protected:
 	Vector3 aiPosition;
 
 	std::vector<CTile*> tiles;
+	std::vector<CTile*> obstacles;
 
 	std::vector<PatrolNode*> patrolNodes;
 	std::vector<WaypointNode*> waypointNodes;
@@ -80,8 +81,8 @@ protected:
 	class CSpriteComponent* viewSprite = nullptr;
 
 	int aiHealth = 2;
-	float aiSpeed = 200.0f;
-	float aiMass = 100.0f;
+	float aiSpeed = 100.0f;
+	float aiMass = 10.0f;
 	float aiRange = 400.0f;
 	float aiViewAngle = 45.0f;
 

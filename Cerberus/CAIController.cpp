@@ -23,6 +23,8 @@ CAIController::CAIController()
 	heading = { 0.0f, 0.0f, 0.0f };
 	acceleration = { 0.0f, 0.0f, 0.0f };
 
+	obstacles = CWorld::GetAllObstacleTiles();
+
 	tiles = CWorld::GetAllWalkableTiles();
 	SetPosition(tiles[6]->GetPosition());
 	aiPosition = GetPosition();	
