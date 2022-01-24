@@ -1,19 +1,14 @@
 #pragma once
 #include "CComponent.h"
 #include "Utility/Audio/AudioController.h"
-#include "Utility/DebugOutput/Debug.h"
 
 //Fundimental component class
 //Can be extended upon to make new components to add to CEntity
-class CAudioEmitterComponent : public CComponent
+class CAudioListenerComponent : public CComponent
 {
 public:
-	CAudioEmitterComponent();
-	~CAudioEmitterComponent();
-	void Load(std::string path);
-	void Play();
-	void Stop();
-	void SetRange(float range);
+	CAudioListenerComponent();
+	~CAudioListenerComponent();
 
 	//Updated automatically every single frame
 	virtual void Update(float deltaTime);
@@ -22,8 +17,9 @@ public:
 
 private:
 
-	CEmitter* emitter;
 	FMOD_VECTOR* fmodPosition;
 	FMOD_VECTOR* fmodPreviousPosition;
 	FMOD_VECTOR* fmodVelocity;
+	FMOD_VECTOR* fmodForward;
+	FMOD_VECTOR* fmodUp;
 };

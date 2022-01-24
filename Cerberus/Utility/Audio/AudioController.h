@@ -23,6 +23,8 @@ public:
 	static void addEmitter(CEmitter* emitter);
 	static void removeEmitter(CEmitter* emitter);
 
+	static FMOD::System* getSystem() { return FMODSystem; };
+
 private:
 	static FMOD::System* FMODSystem;
 	static std::vector<CEmitter*> emitters;

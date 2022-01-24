@@ -14,6 +14,7 @@ CAICharacter::CAICharacter()
 
 void CAICharacter::Update(float deltaTime)
 {
+	audioEmitter->SetPosition(this->GetPosition());
 }
 
 CAICharacter::~CAICharacter()

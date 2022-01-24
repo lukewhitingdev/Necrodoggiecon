@@ -1,12 +1,14 @@
 #pragma once
 #include <CSpriteComponent.h>
 #include <CEntity.h>
+#include "CAudioListenerComponent.h"
 
 class CCharacter : public CEntity
 {
 private:
 protected:
 	CSpriteComponent* spriteComponent = nullptr;
+	CAudioListenerComponent* listenerComponent = nullptr;
 
 	virtual void OnTakeDamage(float damageAmount, CEntity* damageCauser) {};
 

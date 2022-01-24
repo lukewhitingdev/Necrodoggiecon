@@ -68,6 +68,7 @@
     <ClCompile Include="Core\TestUI.cpp" />
     <ClCompile Include="CAICharacter.cpp" />
     <ClCompile Include="CAudioEmitterComponent.cpp" />
+    <ClCompile Include="CAudioListenerComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="CAICharacter.h" />
     <ClInclude Include="CAudioEmitterComponent.h" />
     <ClInclude Include="Utility\Audio\CEmitter.h" />
+    <ClInclude Include="CAudioListenerComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
