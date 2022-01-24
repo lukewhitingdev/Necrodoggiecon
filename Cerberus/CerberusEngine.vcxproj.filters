@@ -47,7 +47,7 @@
     <ClCompile Include="Core\CursorEntity.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Core\TestUI.cpp" />
-    <ClCompile Include="EditorGrid.cpp" />
+    <ClCompile Include="CT_EditorGrid.cpp" />
     <ClCompile Include="CGridCursor.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -106,7 +106,7 @@
     <ClInclude Include="Core\CursorEntity.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Core\TestUI.h" />
-    <ClInclude Include="EditorGrid.h" />
+    <ClInclude Include="CT_EditorGrid.h" />
     <ClInclude Include="CGridCursor.h" />
   </ItemGroup>
   <ItemGroup>

@@ -359,7 +359,7 @@
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="CTexture.h" />
-    <ClInclude Include="EditorGrid.h" />
+    <ClInclude Include="CT_EditorGrid.h" />
     <ClInclude Include="Tools\CT_Window_ToolBar.h" />
     <ClInclude Include="Core\CursorEntity.h" />
     <ClInclude Include="CWorld_Edit.h" />
@@ -409,7 +409,7 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CTextRenderComponent.cpp" />
     <ClCompile Include="CTexture.cpp" />
-    <ClCompile Include="EditorGrid.cpp" />
+    <ClCompile Include="CT_EditorGrid.cpp" />
     <ClCompile Include="Tools\CT_Window_ToolBar.cpp" />
     <ClCompile Include="Core\CursorEntity.cpp" />
     <ClCompile Include="CWorld_Edit.cpp" />

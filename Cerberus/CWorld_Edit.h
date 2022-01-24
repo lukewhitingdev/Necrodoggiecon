@@ -8,6 +8,10 @@ struct CellData
 	CellType type;
 };
 
+enum class EditOperationMode
+{
+	None, Additive, Subtractive
+};
 
 class CWorld_Editable : public CWorld
 {
@@ -16,7 +20,9 @@ class CWorld_Editable : public CWorld
 public:
 
 
+	static void SetOperationMode(EditOperationMode mode) { operationType = mode; }
 
+	static void PerformOperation(Vector2 A, Vector2 B);
 
 	//Save the current tile data to a file
 	static void SaveWorld(int Slot);
@@ -26,6 +32,9 @@ public:
 	static void NewWorld(int Slot);
 
 	static void ClearSpace();
+
+
+protected:
 
 
 	//Sets space to be unwalkable
@@ -87,7 +96,9 @@ private:
 	//Sets any corner that qualifies as an edge to an Edge
 	static bool SetCorner(Vector2 Position);
 
+private:
 
+	static EditOperationMode operationType;
 
 };
 

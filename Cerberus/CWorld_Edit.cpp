@@ -6,6 +6,34 @@
 
 
 CellData CWorld_Editable::tileData[mapScale * mapScale];
+EditOperationMode CWorld_Editable::operationType = EditOperationMode::None;
+
+void CWorld_Editable::PerformOperation(Vector2 A, Vector2 B)
+{
+
+
+	Debug::Log("Called Operation");
+
+	switch (operationType)
+	{
+	case EditOperationMode::Additive:
+		AdditiveBox(A, B);
+
+		break;
+	case EditOperationMode::Subtractive:
+		SubtractiveBox(A,B);
+		break;
+	case EditOperationMode::None:
+		break;
+
+	}
+
+
+	GenerateTileMap();
+}
+
+
+
 
 void CWorld_Editable::SaveWorld(int Slot)
 {
@@ -41,16 +69,16 @@ void CWorld_Editable::EditWorld(int Slot)
 
 	//AdditiveBox(Vector2(0, 0), Vector2(mapScale, mapScale));
 
-	SubtractiveBox(Vector2(5, 5), Vector2(mapScale - 5, mapScale - 5));
+	//SubtractiveBox(Vector2(5, 5), Vector2(mapScale - 5, mapScale - 5));
 
 
-	AdditiveBox(Vector2(7, 7), Vector2(10, 10));
+	//AdditiveBox(Vector2(7, 7), Vector2(10, 10));
 
-	AdditiveBox(Vector2(15, 15), Vector2(23, 23));
+	//AdditiveBox(Vector2(15, 15), Vector2(23, 23));
 
-	GenerateTileMap();
+	//GenerateTileMap();
 
-	SaveWorld(0);
+	//SaveWorld(0);
 }
 
 void CWorld_Editable::NewWorld(int Slot)
@@ -98,37 +126,53 @@ void CWorld_Editable::AdditiveBox(Vector2 A, Vector2 B)
 {
 
 	BoxOperation(A, B, 0);
+	
 
 }
 
 void CWorld_Editable::SubtractiveBox(Vector2 A, Vector2 B)
 {
 	BoxOperation(A, B, 1);
+	
 }
 
 void CWorld_Editable::AdditiveBox_Scale(Vector2 A, Vector2 B)
 {
 
 	BoxOperation(A, B + A, 0);
-
+	
 }
 
 void CWorld_Editable::SubtractiveBox_Scale(Vector2 A, Vector2 B)
 {
 	BoxOperation(A, A + B, 1);
+	
 }
 
 void CWorld_Editable::BoxOperation(Vector2 A, Vector2 B, int TileID)
 {
 	Vector2 dimensions = B - A;
 
+	int yMultiplier = 1;
+	int xMultiplier = 1;
 
-
-
-
-	for (int x = 0; x < dimensions.x; x++)
+	if (dimensions.x < 0)
 	{
-		for (int y = 0; y < dimensions.y; y++)
+		xMultiplier = -1;
+		
+	}
+	if (dimensions.y < 0)
+	{
+		yMultiplier = -1;
+	
+	}
+
+
+	Debug::Log("Additive Operation: [%f | %f]", dimensions.x, dimensions.y);
+
+	for (int x = 0; x != dimensions.x; x+=xMultiplier)
+	{
+		for (int y = 0; y != dimensions.y; y+=yMultiplier)
 		{
 			Vector3 Pos = Vector3((float)x, (float)y, 0);
 
@@ -142,6 +186,45 @@ void CWorld_Editable::BoxOperation(Vector2 A, Vector2 B, int TileID)
 
 		}
 	}
+
+}
+
+void CWorld_Editable::RefreshTileMapRegion(Vector2 A, Vector2 B)
+{
+
+	Vector2 dimensions = (B + Vector2(1, -1)) - (A + Vector2(-1, 1));
+
+	for (int x = A.x - 1; x < dimensions.x; x++)
+	{
+		for (int y = A.y + 1; y < dimensions.y; y++)
+		{
+
+			int i = GridToIndex(Vector2(x, y));
+			Vector2 pos = Vector2(x, y);
+
+			if (A.x + x > 0 && A.x + x < mapScale && A.y + y > 0 && A.y + y < mapScale)
+			{
+				if (tileData[i].id == 0)
+				{
+					
+
+					if (IsFloorAdjacent(Vector2(pos.x, pos.y)))
+					{
+						tileData[i].type = CellType::Edge;
+					}
+					else tileData[i].type = CellType::Empty;
+
+				}
+				else if (tileData[i].id == 1)
+				{
+					tileData[i].type = CellType::Floor;
+				}
+			}
+
+
+		}
+	}
+
 
 }
 

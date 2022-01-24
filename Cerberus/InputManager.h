@@ -118,7 +118,7 @@ namespace Inputs
 
 		static Vector3 mousePos;
 
-		static Vector3 GetMousePos();
+	
 
 		static int keyCodes(Keys key);
 
@@ -131,6 +131,8 @@ namespace Inputs
 		static bool IsKeyReleased(Keys key);
 
 		static bool IsMouseButtonPressed(Mouse mouse);
+
+		static bool IsMouseButtonReleased(Mouse mouse);
 	};
 
 };

@@ -1,12 +1,12 @@
 #pragma once
 #include "CEntity.h"
 #include "CWorld_Edit.h"
-class EditorGrid :
+class CT_EditorGrid :
     public CEntity
 {
 public:
 
-    EditorGrid();
+    CT_EditorGrid();
 
     virtual void Update(float deltaTime) override;
 

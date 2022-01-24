@@ -1,21 +1,20 @@
-#include "EditorGrid.h"
+#include "CT_EditorGrid.h"
 #include "CSpriteComponent.h"
 #include "CGridCursor.h"
 
-EditorGrid::EditorGrid()
+CT_EditorGrid::CT_EditorGrid()
 {
 	GridSprite = AddComponent<CSpriteComponent>();
 	//ActiveCellSprite = AddComponent<CSpriteComponent>();
 }
 
-void EditorGrid::Update(float deltaTime)
+void CT_EditorGrid::Update(float deltaTime)
 {
-	Vector3 MousePos = Inputs::InputManager::mousePos;
-	SetCursorPosition(Vector2(MousePos.x, MousePos.y));
+
 
 }
 
-void EditorGrid::SetupGrid()
+void CT_EditorGrid::SetupGrid()
 {
 	
 	
@@ -39,7 +38,7 @@ void EditorGrid::SetupGrid()
 
 }
 
-void EditorGrid::SetCursorPosition(Vector2 Position)
+void CT_EditorGrid::SetCursorPosition(Vector2 Position)
 {
 	//Position /= mapScale;
 	

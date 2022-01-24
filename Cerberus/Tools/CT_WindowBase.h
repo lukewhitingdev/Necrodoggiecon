@@ -3,6 +3,7 @@
 #include "Dependencies/IMGUI/imgui.h"
 #include "Dependencies/IMGUI/imgui_impl_dx11.h"
 #include "Dependencies/IMGUI/imgui_impl_win32.h"
+
 #include <corecrt_malloc.h>
 #include <iostream>
 #include "Vector3.h"
@@ -77,63 +78,7 @@ public:
 
     virtual void    AdditionalRenderLogic(bool& isOpen);
 
-    void    render()
-    {
-        if (*open)
-
-        {
-            ImGui::SetNextWindowSize(ImVec2(WindowScale.x, WindowScale.y), ImGuiCond_FirstUseEver);
-            if (!ImGui::Begin(WindowTitle, open))
-            {
-
-                ImGui::End();
-                return;
-            }
-           
-            
-
-            AdditionalRenderLogic(*open);
-
-            ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetStyle().ItemSpacing.y), false, ImGuiWindowFlags_HorizontalScrollbar);
-            if (ImGui::BeginPopupContextWindow())
-            {
-                if (ImGui::Selectable("Clear")) ClearLog();
-                ImGui::EndPopup();
-            }
-
-            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
-            for (int i = 0; i < Items.Size; i++)
-            {
-                const char* item = Items[i];
-                if (!Filter.PassFilter(item))
-                    continue;
-
-                // Normally you would store more information in your item than just a string.
-                // (e.g. make Items[] an array of structure, store color/type etc.)
-                ImVec4 color;
-                bool has_color = false;
-                if (strstr(item, "[error]")) { color = ImVec4(1.0f, 0.4f, 0.4f, 1.0f); has_color = true; }
-                else if (strncmp(item, "# ", 2) == 0) { color = ImVec4(1.0f, 0.8f, 0.6f, 1.0f); has_color = true; }
-                if (has_color)
-                    ImGui::PushStyleColor(ImGuiCol_Text, color);
-                ImGui::TextUnformatted(item);
-                if (has_color)
-                    ImGui::PopStyleColor();
-            }
-
-            if (ScrollToBottom || (AutoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY()))
-                ImGui::SetScrollHereY(1.0f);
-            ScrollToBottom = false;
-
-            ImGui::PopStyleVar();
-            ImGui::EndChild();
-
-            // Auto-focus on window apparition
-            ImGui::SetItemDefaultFocus();
-
-            ImGui::End();
-        }
-
-    }
+    void    render();
+    
 };
 
