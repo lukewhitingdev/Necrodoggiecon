@@ -15,8 +15,6 @@ class CSpriteComponent : public CComponent
 	XMFLOAT2 textureOffset = { 0,0 };
 	XMUINT2 spriteSize;
 	XMFLOAT4 tint = { 0,0,0,0 };
-	XMFLOAT2 anchor = { 0.5,0.5 };
-	XMFLOAT2 lastResolution = { 0,0 };
 public:
 	//Used to resize the portion of the texture you want to display on the sprite in pixels
 	//Use to set the size of a selection of a sprite sheet
@@ -33,16 +31,10 @@ public:
 
 	void SetTint(XMFLOAT4 newTint);
 
-	//Sets the region of the screen a UI element will be "anchored" to.
-	//{0,0} - top left, {1,1} - bottom right.
-	//Used for making UI elements stick to the edge of the screen when the window is resized
-	void SetAnchor(XMFLOAT2 newAnchor) { anchor = newAnchor; updateTransform = true; }
-
 	const XMUINT2& GetRenderRect() const { return renderRect; };
 	const XMFLOAT2& GetTextureOffset() const { return textureOffset; };
 	const XMUINT2& GetSpriteSize() const { return spriteSize; };
 	const XMFLOAT4& GetTint() const { return tint; };
-	const XMFLOAT2& GetAnchor() const { return anchor; }
 
 	CSpriteComponent();
 	HRESULT LoadTexture(std::string filePath);
