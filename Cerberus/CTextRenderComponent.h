@@ -27,7 +27,7 @@ public:
 
 	//Sets how the text will justified to the center of the component.
 	//Just look at justification in MS Word.
-	void SetTextJustification(TextJustification newJustification);
+	void SetJustification(TextJustification newJustification);
 
 	CTextRenderComponent();
 	virtual void Update(float deltaTime) override;

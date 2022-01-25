@@ -97,7 +97,7 @@ void CTextRenderComponent::SetReserveCount(unsigned short newReserveCount)
 	Debug::Log("Resized TextRenderComp to %i sprites", sprites.size());
 }
 
-void CTextRenderComponent::SetTextJustification(TextJustification newJustification)
+void CTextRenderComponent::SetJustification(TextJustification newJustification)
 {
 	justification = newJustification;
 	SetText(text);
