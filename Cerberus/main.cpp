@@ -234,6 +234,10 @@ void Load()
 	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
 	testCharacter2* character2 = Engine::CreateEntity<testCharacter2>();
 
+	character1->colComponent->SetCollider(128.0f, 128.0f);
+	character1->shouldMove = true;
+	character2->colComponent->SetCollider(128.0f, 128.0f);
+
 	character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	character2->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 
@@ -245,7 +249,9 @@ void Load()
 	{
 		CAIController* ai = Engine::CreateEntity<CAIController>();
 		ai->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-		ai->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
+		//ai->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
+		//ai->shouldMove = true;
+		ai->colComponent->SetCollider(128.0f, 128.0f);
 	}
 }
 
@@ -854,7 +860,24 @@ void Update(float deltaTime)
 
 		e->Update(deltaTime);
 	}
+		if (e->shouldMove)
+		{
+			for (size_t j = 0; j < Engine::entities.size(); j++)
+			{
+				CEntity* currentEntity = Engine::entities[j];
 
+				if (e != currentEntity && currentEntity->colComponent != nullptr)
+				{
+					//If it can move, check the collisions and it is a different entity, do collision stuff
+					if (e->colComponent->IsColliding(currentEntity->colComponent))
+					{
+						e->HasCollided(currentEntity->colComponent);
+						currentEntity->HasCollided(e->colComponent);
+					}
+				}
+			}
+		}
+	}
 }
 
 //--------------------------------------------------------------------------------------

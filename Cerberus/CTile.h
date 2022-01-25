@@ -19,8 +19,6 @@ public:
 	CTile(int TileID, Vector3 Position);
 	class CSpriteComponent* sprite = nullptr;
 
-
-
 	virtual void Update(float deltaTime) override;
 	virtual ~CTile();
 
