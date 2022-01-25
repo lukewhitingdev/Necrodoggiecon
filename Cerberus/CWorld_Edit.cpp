@@ -390,7 +390,11 @@ void CWorld_Editable::GenerateTileMap()
 		Vector2 Pos = Vector2(temp.x, temp.y);
 		Vector2 FloorResult = FindAdjacents(Pos, CellType::Floor);
 		Vector2 FloorResultDiagonal = FindFloorAdjacentDiagonal(Pos);
-		Vector2 EdgeAdjacentResult = FindAdjacents(Pos, CellType::Edge);
+		std::vector<CellType> TypeList;
+		TypeList.push_back(CellType::Edge);
+		TypeList.push_back(CellType::InnerCorner);
+		TypeList.push_back(CellType::OuterCorner);
+		Vector2 EdgeAdjacentResult = FindAdjacentEdges(Pos);
 
 		switch (tileData[i].type)
 		{
@@ -473,7 +477,7 @@ Vector2 CWorld_Editable::FindAdjacents(Vector2 Pos, CellType ID)
 	if (tileData[GridToIndex(Pos + Vector2(0, 1))].type == ID)
 	{
 		Y = 1;
-		if (tileData[GridToIndex(Pos + Vector2(1, -1))].type == ID) Y = 2;
+		if (tileData[GridToIndex(Pos + Vector2(0, -1))].type == ID) Y = 2;
 	}
 	else if (tileData[GridToIndex(Pos + Vector2(0, -1))].type == ID)
 	{
@@ -481,6 +485,50 @@ Vector2 CWorld_Editable::FindAdjacents(Vector2 Pos, CellType ID)
 	}
 	else Y = 0;
 
+
+
+
+	return Vector2((float)X, (float)Y);
+}
+
+Vector2 CWorld_Editable::FindAdjacentEdges(Vector2 Pos)
+{
+
+
+	int X;
+	int Y;
+	CellType cachedTypePosX = tileData[GridToIndex(Pos + Vector2(1, 0))].type;
+	CellType cachedTypeNegX = tileData[GridToIndex(Pos + Vector2(-1, 0))].type;
+
+	CellType cachedTypePosY = tileData[GridToIndex(Pos + Vector2(0, 1))].type;
+	CellType cachedTypeNegY = tileData[GridToIndex(Pos + Vector2(0, -1))].type;
+
+
+	if (cachedTypePosX == CellType::Edge || cachedTypePosX == CellType::InnerCorner || cachedTypePosX == CellType::OuterCorner)
+	{
+		X = 1;
+		
+		if (cachedTypeNegX == CellType::Edge || cachedTypeNegX == CellType::InnerCorner || cachedTypeNegX == CellType::OuterCorner)
+			X = 2;
+	}
+	else if (cachedTypeNegX == CellType::Edge || cachedTypeNegX == CellType::InnerCorner || cachedTypeNegX == CellType::OuterCorner)
+	{
+		X = -1;
+	}
+	else
+		X = 0;
+
+	if (cachedTypePosY == CellType::Edge || cachedTypePosY == CellType::InnerCorner || cachedTypePosY == CellType::OuterCorner)
+	{
+		Y = 1;
+		if (cachedTypeNegY == CellType::Edge || cachedTypeNegY == CellType::InnerCorner || cachedTypeNegY == CellType::OuterCorner)
+			Y = 2;
+	}
+	else if (cachedTypeNegY == CellType::Edge || cachedTypeNegY == CellType::InnerCorner || cachedTypeNegY == CellType::OuterCorner)
+	{
+		Y = -1;
+	}
+	else Y = 0;
 
 
 

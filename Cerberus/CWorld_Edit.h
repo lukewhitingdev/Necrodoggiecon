@@ -101,6 +101,9 @@ private:
 	// -1 = negative direction
 	static Vector2 FindAdjacents(Vector2 Pos, CellType ID);
 
+	//Same as standard version, only this time also accepts 2 IDs
+	static Vector2 FindAdjacentEdges(Vector2 Pos);
+
 	//Gets adjacent diagonal tiles
 	//Only only returns the first result
 	static Vector2 FindFloorAdjacentDiagonal(Vector2 Position);
