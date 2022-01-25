@@ -12,7 +12,7 @@ public:
 	static void Initialize();
 	static void Shutdown();
 
-	static CAudio* LoadAudio(std::string path, bool worldSpace);
+	static CAudio* LoadAudio(std::string path);
 	static bool PlayAudio(std::string path);
 	static bool StopAudio(std::string path);
 	static bool DestroyAudio(std::string path);

@@ -19,7 +19,7 @@ void AudioController::Shutdown()
 	FMODSystem->release();
 }
 
-CAudio* AudioController::LoadAudio(std::string path, bool worldSpace)
+CAudio* AudioController::LoadAudio(std::string path)
 {
 	if (FMODSystem == nullptr)
 		Initialize();
@@ -30,20 +30,10 @@ CAudio* AudioController::LoadAudio(std::string path, bool worldSpace)
 
 	std::string fullPath = SOLUTION_DIR + path;
 
-	if(!worldSpace)
+	if ((result = FMODSystem->createSound(fullPath.c_str(), FMOD_2D, nullptr, &sound)) != FMOD_OK)
 	{
-		if ((result = FMODSystem->createSound(fullPath.c_str(), FMOD_2D, nullptr, &sound)) != FMOD_OK)
-		{
-			Debug::LogError("[Load Audio][%s] FMOD Error[%d]: %s ", path, result, FMOD_ErrorString(result));
-			return nullptr;
-		}
-	}else
-	{
-		if ((result = FMODSystem->createSound(fullPath.c_str(), FMOD_3D | FMOD_3D_LINEARSQUAREROLLOFF, nullptr, &sound)) != FMOD_OK)
-		{
-			Debug::LogError("[Load Audio][%s] FMOD Error[%d]: %s ", path, result, FMOD_ErrorString(result));
-			return nullptr;
-		}
+		Debug::LogError("[Load Audio][%s] FMOD Error[%d]: %s ", path, result, FMOD_ErrorString(result));
+		return nullptr;
 	}
 
 	sound->set3DMinMaxDistance(0, 1000);

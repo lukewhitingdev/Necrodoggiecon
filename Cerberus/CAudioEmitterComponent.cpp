@@ -17,7 +17,7 @@ CAudioEmitterComponent::~CAudioEmitterComponent()
 
 void CAudioEmitterComponent::Load(std::string path)
 {
-	emitter->audio = AudioController::LoadAudio(path, false);
+	emitter->audio = AudioController::LoadAudio(path);
 	emitter->audio->path = path;
 
 	AudioController::AddEmitter(emitter);
