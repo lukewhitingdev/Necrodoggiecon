@@ -18,7 +18,8 @@ enum class STATE
 	PATHFINDING,
 	CHASE,
 	ATTACK,
-	COVER
+	COVER,
+	LOST
 };
 
 
@@ -26,6 +27,26 @@ class CAIController : public CEntity
 {
 public:
 	CAIController();
+
+	int aiHealth = 2;
+	float aiSpeed = 100.0f;
+	float aiMass = 10.0f;
+	float aiRange = 400.0f;
+	float aiViewAngle = 45.0f;
+
+	float width = 128.0f;
+	float height = 128.0f;
+
+	void SetHealth(int health);
+	int GetHealth();
+	void SetSpeed(int speed);
+	int GetSpeed();
+	void SetMass(int mass);
+	int GetMass();
+	void SetRange(int range);
+	int GetRange();
+	void SetViewAngle(int angle);
+	int GetViewAngle();
 
 protected:
 	class CSpriteComponent* sprite = nullptr;
@@ -57,8 +78,9 @@ protected:
 
 	PatrolNode* FindClosestPatrolNode();
 
-	void StateMachine();
+	void StateMachine(float deltaTime);
 	void Patrolling();
+	void SearchForPlayer();
 	virtual void ChasePlayer(testCharacter* player);
 	virtual void AttackPlayer(testCharacter* player);
 	virtual void GetIntoCover(testCharacter* player);
@@ -84,24 +106,8 @@ protected:
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 	class CSpriteComponent* viewSprite = nullptr;
 
-	int aiHealth = 2;
-	float aiSpeed = 100.0f;
-	float aiMass = 10.0f;
-	float aiRange = 400.0f;
-	float aiViewAngle = 45.0f;
+	float perceptionTimer = 0.0f;
 
-	float width = 128.0f;
-	float height = 128.0f;
-
-	void SetHealth(int health);
-	int GetHealth();
-	void SetSpeed(int speed);
-	int GetSpeed();
-	void SetMass(int mass);
-	int GetMass(); 
-	void SetRange(int range);
-	int GetRange();
-	void SetViewAngle(int angle);
-	int GetViewAngle();
+	
 };
 

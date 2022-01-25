@@ -247,7 +247,6 @@ void Load()
 	for (int i = 0; i < 1; i++)
 	{
 		CAIController* ai = Engine::CreateEntity<CAIController>();
-		ai->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
 	}
 }
 

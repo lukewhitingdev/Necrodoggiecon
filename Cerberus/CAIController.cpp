@@ -37,6 +37,9 @@ CAIController::CAIController()
 	patrolPoint2->nextPatrolNode = patrolPoint3;
 	patrolPoint3->nextPatrolNode = patrolPoint1;
 
+	SetScale(Vector3{ 0.6f, 0.6f, 0.6f });
+	viewFrustrum->viewSprite->SetScale(GetScale() * 0.1f);
+
 	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
 
 	SetPatrolNodes(patrolPoints, tiles);
@@ -45,16 +48,17 @@ CAIController::CAIController()
 void CAIController::Update(float deltaTime)
 {
 	aiPosition = GetPosition();
-	StateMachine();
-
-	Movement(deltaTime);
+	StateMachine(deltaTime);
+	
+	if (currentState != STATE::LOST)
+		Movement(deltaTime);
 
 	{
 		Vector3 velocityCopy = velocity;
 		Vector3 view = velocityCopy.Normalize();
-		float offset = viewFrustrum->GetScale().x * 128.0f / 2.0f;
+		float offset = 128.0f * viewFrustrum->viewSprite->GetScale().x;
 
-		viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x))));
+		viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x * 0.5f))));
 
 		Vector3 up = { 0.0f, 1.0f, 0.0f };
 
@@ -113,7 +117,7 @@ Vector3 CAIController::CollisionAvoidance()
 	{
 		Vector3 ahead = velocity;
 		ahead.Normalize();
-		ahead *= 1.0f;
+		ahead *= 10.0f;
 
 		Vector3 centerOfObstacle = Vector3{ closestObstacle->GetPosition().x + tileRadius * 0.5f, closestObstacle->GetPosition().y + tileRadius * 0.5f, 0.0f };
 		avoidance = (ahead + aiPosition) - (centerOfObstacle - aiPosition);
@@ -201,7 +205,7 @@ PatrolNode* CAIController::FindClosestPatrolNode()
 }
 
 /* Calls the relevant function based on the current state. */
-void CAIController::StateMachine()
+void CAIController::StateMachine(float deltaTime)
 {
 	Vector3 closestPlayerPosition = { INFINITY, INFINITY, INFINITY };
 	testCharacter* closestPlayer = nullptr;
@@ -212,13 +216,24 @@ void CAIController::StateMachine()
 			if (CanSee(player->GetPosition()))
 			{
 				currentState = STATE::CHASE;
-
+				perceptionTimer = 10.0f;
 				if (aiPosition.DistanceTo(player->GetPosition()) < aiPosition.DistanceTo(closestPlayerPosition))
 				{
 					closestPlayer = player;
 					closestPlayerPosition = closestPlayer->GetPosition();
 				}
 				playerToChase = closestPlayer;
+			}
+			else
+			{
+				if (perceptionTimer > 0.0f)
+				{
+					currentState = STATE::LOST;
+					Debug::Log("I AM LOST %f", perceptionTimer);
+					perceptionTimer -= deltaTime;
+					if (perceptionTimer == 0.0f)
+						currentState = STATE::PATHFINDING;
+				}
 			}
 		}
 	}
@@ -240,12 +255,15 @@ void CAIController::StateMachine()
 	case STATE::COVER:
 		GetIntoCover(closestPlayer);
 		break;
+	case STATE::LOST:
+		SearchForPlayer();
+		break;
 	default:
 
 		break;
 	}
-
-	heading += CollisionAvoidance();
+	if (currentState != STATE::PATROL && currentState != STATE::LOST)
+		heading += CollisionAvoidance();
 }
 
 /* Moves the direction of the character towards the next point in the path. */
@@ -277,6 +295,44 @@ void CAIController::Patrolling()
 			}
 		}
 	}
+}
+
+void CAIController::SearchForPlayer()
+{
+	CTile* closestTile = tiles[0];
+
+	for (CTile* tile : tiles)
+	{
+		if (aiPosition.DistanceTo(tile->GetPosition()) < aiPosition.DistanceTo(closestTile->GetPosition()))
+		{
+			closestTile = tile;
+		}
+	}
+
+	std::vector<int> neighbours = closestTile->GetConnectedTiles();
+
+	Vector3 velocityCopy = velocity;
+	Vector3 view = velocityCopy.Normalize();
+
+	Vector3 up = { 0.0f, 1.0f, 0.0f };
+
+	float dot = up.Dot(view);
+	float det = up.x * view.y - up.y * view.x;
+
+	float angle = atan2f(det, dot);
+
+	angle += 0.01f;
+
+	float cossy = cos(angle);
+	float sinny = sin(angle);
+
+	float x = view.x * cossy - view.y * sinny;
+	float y = view.x * sinny + view.y * cossy;
+
+	velocity = Vector3{ x, y, 0.0f };
+
+	this->SetRotation(angle);
+	
 }
 
 void CAIController::ChasePlayer(testCharacter* player)
