@@ -9,7 +9,7 @@ TestUI::TestUI()
 	SetPosition(0, 0, -100);
 
 	birb = AddComponent<CSpriteComponent>();
-	birb->LoadTexture("Resources\\birb.dds");
+	birb->LoadTextureWIC("Resources\\birb.png");
 	birb->SetRenderRect(XMUINT2(128, 128));
 	birb->SetSpriteSize(XMUINT2(128, 128));
 	birb->SetPosition(560, -296, 0);

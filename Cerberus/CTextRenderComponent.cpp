@@ -1,5 +1,6 @@
 #include "CTextRenderComponent.h"
 #include "CCamera.h"
+#include "CEntity.h"
 
 CTextRenderComponent::CTextRenderComponent()
 {
@@ -14,7 +15,7 @@ HRESULT CTextRenderComponent::SetFont(std::string filePath)
 	HRESULT hr = S_OK;
 	for (auto& e : sprites)
 	{
-		hr = e->LoadTexture(filePath);
+		hr = e->LoadTextureWIC(filePath);
 		if (FAILED(hr))
 			return hr;
 	}
@@ -32,7 +33,7 @@ void CTextRenderComponent::SetText(std::string newText)
 		{
 			sprites.push_back(new CSpriteComponent());
 			CSpriteComponent* t = sprites.back();
-			t->LoadTexture(font);
+			t->LoadTextureWIC(font);
 			Debug::Log("Add more sprites! size: %i", sprites.size());
 		}
 	}
@@ -81,7 +82,7 @@ void CTextRenderComponent::SetReserveCount(unsigned short newReserveCount)
 	{
 		sprites.push_back(new CSpriteComponent());
 		CSpriteComponent* t = sprites.back();
-		t->LoadTexture(font);
+		t->LoadTextureWIC(font);
 	}
 
 	for (int i = count; i < 0; i++)

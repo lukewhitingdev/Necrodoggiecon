@@ -9,7 +9,7 @@ CursorEntity::CursorEntity()
 	SetPosition(0, 0, -100);
 
 	sprite = AddComponent<CSpriteComponent>();
-	sprite->LoadTexture("Resources\\cursorSS.dds");
+	sprite->LoadTextureWIC("Resources\\cursorSS.png");
 	sprite->SetRenderRect(XMUINT2(16, 16));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->ui = true;
