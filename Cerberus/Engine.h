@@ -8,6 +8,7 @@
 #include <directxcolors.h>
 #include <DirectXCollision.h>
 #include "DDSTextureLoader.h"
+#include "WICTextureLoader.h"
 #include "resource.h"
 #include <iostream>
 
@@ -21,6 +22,7 @@
 #include "Utility/Audio/AudioController.h"
 
 #include <vector>
+#include "InputManager.h"
 
 class CEntity;
 
@@ -71,4 +73,5 @@ struct Engine
 	static ID3D11DeviceContext* deviceContext;
 
 	static class CCamera camera;
+	static XMMATRIX projMatrixUI;
 };

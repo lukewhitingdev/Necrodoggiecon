@@ -31,15 +31,21 @@ public:
 
 	void SetTint(XMFLOAT4 newTint);
 
-	XMUINT2 GetRenderRect() { return renderRect; };
-	XMFLOAT2 GetTextureOffset() { return textureOffset; };
-	XMUINT2 GetSpriteSize() { return spriteSize; };
-	XMFLOAT4 GetTint() { return tint; };
+	const XMUINT2& GetRenderRect() const { return renderRect; };
+	const XMFLOAT2& GetTextureOffset() const { return textureOffset; };
+	const XMUINT2& GetSpriteSize() const { return spriteSize; };
+	const XMFLOAT4& GetTint() const { return tint; };
+
+	//Loads the texture from a file
+	//MUST use the .dds file type
+	HRESULT LoadTexture(std::string filePath);
+
+	//MUST use BMP, JPEG, PNG, TIFF, GIF, or HD Photo file types
+	HRESULT LoadTextureWIC(std::string filePath);
 
 	CSpriteComponent();
-	HRESULT LoadTexture(std::string filePath);
 	virtual void Update(float deltaTime) override;
-	virtual void Draw(ID3D11DeviceContext* context) override;
+	virtual void Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) override;
 	virtual ~CSpriteComponent();
 	virtual XMFLOAT4X4 GetTransform() override;
 };

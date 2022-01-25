@@ -1,17 +1,23 @@
 #include "testClass.h"
 #include "Utility/DebugOutput/Debug.h"
-#include "../CSpriteComponent.h"
+#include "../CTextRenderComponent.h"
+#include <sstream>
+#include "CCamera.h"
 
 TestClass::TestClass()
 {
 	Debug::Log("init test class!\n");
 
-	
+
 	sprite = AddComponent<CSpriteComponent>();
+	
 	sprite->LoadTexture("Resources\\birb.dds");
+
 	//sprite->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
 
 	colComponent = new CollisionComponent();
+
+
 
 	timeElapsed = float(rand() / 100);
 }
@@ -36,4 +42,5 @@ TestClass::~TestClass()
 void TestClass::HasCollided()
 {
 	Debug::Log("Test Class Collision");
+}
 }

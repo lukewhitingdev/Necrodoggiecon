@@ -78,7 +78,6 @@ PS_INPUT VS( VS_INPUT input )
 //--------------------------------------------------------------------------------------
 // Pixel Shader
 //--------------------------------------------------------------------------------------
-
 float4 PS(PS_INPUT IN) : SV_TARGET
 {
 	float4 texColor = { 1, 1, 1, 1 };
@@ -100,7 +99,7 @@ float4 PS(PS_INPUT IN) : SV_TARGET
 //--------------------------------------------------------------------------------------
 // PSSolid - render a solid color
 //--------------------------------------------------------------------------------------
-float4 PSSolid(PS_INPUT input) : SV_Target
+float4 PSSolid(PS_INPUT IN) : SV_TARGET
 {
 	return vOutputColor;
 }
