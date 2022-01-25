@@ -85,6 +85,28 @@ void CAIController::Movement(float deltaTime)
 	aiPosition += velocity * deltaTime;
 }
 
+Vector3 CAIController::CollisionAviodance()
+{
+	Vector3 ahead = heading.Normalize();
+
+	CTile* closestObstacle = nullptr;
+
+	for (CTile* obstacle : obstacles)
+	{
+		if (aiPosition.DistanceTo(obstacle->GetPosition()) < aiPosition.DistanceTo(closestObstacle->GetPosition()))
+		{
+			closestObstacle = obstacle;
+		}
+	}
+
+	float widthRadius = width * 0.5f;
+	float heightRadius = height * 0.5f;
+
+	/*if ()*/
+
+	return Vector3();
+}
+
 /* Maths magic that determines whether the player is in view. */
 bool CAIController::CanSee(Vector3 position)
 {

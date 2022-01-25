@@ -32,6 +32,8 @@ protected:
 
 	void Movement(float deltaTime);
 
+	Vector3 CollisionAviodance();
+
 	bool CanSee(Vector3 position);
 
 	STATE currentState;
@@ -85,6 +87,9 @@ protected:
 	float aiMass = 10.0f;
 	float aiRange = 400.0f;
 	float aiViewAngle = 45.0f;
+
+	float width = 10.0f;
+	float height = 10.0f;
 
 	void SetHealth(int health);
 	int GetHealth();

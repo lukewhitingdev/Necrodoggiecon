@@ -1,5 +1,6 @@
 #pragma once
 #include "CEntity.h"
+#include <array>
 
 class TestUI : public CEntity
 {
@@ -7,18 +8,20 @@ class TestUI : public CEntity
 	class CTextRenderComponent* text1 = nullptr;
 	class CTextRenderComponent* text2 = nullptr;
 	class CTextRenderComponent* text3 = nullptr;
+	class CTextRenderComponent* textFPS = nullptr;
 	float timeElapsed = 0;
-	float timeElapsed2 = 0;
+	float textTimer = 0;
+	float fpsTimer = 0;
+	unsigned int framesTotal = 0;
 
-	const char* texts[7] =
+	const std::array<const char*, 6> texts =
 	{
-		"Whatsup.",
-		"Hi.",
-		"Why are you ignoring me?",
-		"Dont forget to hydrate.",
-		"Pretty sus tbh.",
-		"Hint: there are no hints here.",
-		"Have you tried like not doing that?",
+		"Wow",
+		"Amazing",
+		"Awesome",
+		"Nice One",
+		"uwu",
+		"Good Job",
 	};
 public:
 	TestUI();
