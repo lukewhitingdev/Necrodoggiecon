@@ -8,6 +8,7 @@
 #include <directxcolors.h>
 #include <DirectXCollision.h>
 #include "DDSTextureLoader.h"
+#include "WICTextureLoader.h"
 #include "resource.h"
 #include <iostream>
 

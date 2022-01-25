@@ -15,6 +15,7 @@ public:
 	static CMesh* GetMesh(std::string meshID);
 	static CMesh* GetDefaultMesh();
 	static CTexture* GetTexture(std::string texturePath);
+	static CTexture* GetTextureWIC(std::string texturePath);
 	static CAudio* AddAudio(std::string audioPath, CAudio* audio);
 	static CAudio* GetAudio(std::string audioPath);
 	static void RemoveAudio(std::string audioPath);

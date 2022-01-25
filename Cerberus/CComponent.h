@@ -25,8 +25,6 @@ public:
 	void SetAnchor(XMFLOAT2 newAnchor) { anchor = newAnchor; updateTransform = true; }
 	void SetParent(class CEntity* newParent);
 
-	XMFLOAT4X4 GetTransform();
-
 	const XMFLOAT2& GetAnchor() const { return anchor; }
 	class CEntity* GetParent() const { return parent; };
 
@@ -35,4 +33,6 @@ public:
 	//Almost the same as Update() but to be used for drawing only.
 	virtual void Draw(struct ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) = 0;
 	virtual ~CComponent() {};
+
+	virtual XMFLOAT4X4 GetTransform() override;
 };

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <FxCompile Include="shader.fx" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Vector3.cpp" />
@@ -65,6 +62,8 @@
     </ClCompile>
     <ClCompile Include="MathC.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="WICTextureLoader.cpp" />
+    <ClCompile Include="DirectXHelpers.cpp" />
     <ClCompile Include="Core\TestUI.cpp" />
     <ClCompile Include="CAICharacter.cpp" />
     <ClCompile Include="CAudioEmitterComponent.cpp" />
@@ -149,12 +148,19 @@
     <ClInclude Include="CAICharacter.h" />
     <ClInclude Include="Utility\Audio\CEmitter.h" />
     <ClInclude Include="CAudioEmitterComponent.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="WICTextureLoader.h" />
+    <ClInclude Include="DirectXHelpers.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="PlatformHelpers.h" />
+    <ClInclude Include="LoaderHelpers.h" />
+    <ClInclude Include="DDS.h" />
+    <ClInclude Include="CAINode.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\stone.dds" />
     <Image Include="Resources\Unwalkable.dds" />
     <Image Include="Resources\Walkable.dds" />
   </ItemGroup>
