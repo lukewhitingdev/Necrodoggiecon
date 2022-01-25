@@ -431,6 +431,10 @@ void CWorld_Editable::GenerateTileMap()
 			else if (FloorResultDiagonal == Vector2(1, 1)) tileContainer[i]->ChangeTileID(CellID::OC_SW);
 
 			break;
+		default:
+			tileContainer[i]->ChangeTileID(CellID::N);
+
+			break;
 		}
 	}
 
@@ -455,6 +459,19 @@ bool CWorld_Editable::IsFloorAdjacent(Vector2 Position)
 			tileData[GridToIndex(Position + Vector2(-1, 1))].id == 1);
 	}
 	else return false;
+}
+
+bool CWorld_Editable::IsTile(Vector2 Position, std::vector<CellType> Type)
+{
+
+	for (int i = 0; i < Type.size(); i++)
+	{
+		if (tileData[GridToIndex(Position)].type == Type[i]);
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 Vector2 CWorld_Editable::FindAdjacents(Vector2 Pos, CellType ID)
@@ -548,7 +565,15 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 {
 	if (IsTile(Position, CellType::Edge))
 	{
-		if (IsTile(Position + Vector2(1, 0), CellType::Edge) && IsTile(Position + Vector2(0, -1), CellType::Edge))
+
+
+
+		std::vector<CellType> List;
+		List.push_back(CellType::Edge);
+		List.push_back(CellType::InnerCorner);
+		List.push_back(CellType::OuterCorner);
+
+		if (IsEdge(Position + Vector2(1, 0)) && IsEdge(Position + Vector2(0, -1)))
 		{
 
 			if (IsTile(Position + Vector2(1, -1), CellType::Floor))
@@ -560,7 +585,7 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 				tileData[GridToIndex(Position)].type = CellType::InnerCorner;
 			}
 		}
-		if (IsTile(Position + Vector2(1, 0), CellType::Edge) && IsTile(Position + Vector2(0, 1), CellType::Edge))
+		if (IsEdge(Position + Vector2(1, 0)) && IsEdge(Position + Vector2(0, 1)))
 		{
 
 			if (IsTile(Position + Vector2(1, 1), CellType::Floor))
@@ -572,7 +597,7 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 				tileData[GridToIndex(Position)].type = CellType::InnerCorner;
 			}
 		}
-		if (IsTile(Position + Vector2(-1, 0), CellType::Edge) && IsTile(Position + Vector2(0, -1), CellType::Edge))
+		if (IsEdge(Position + Vector2(-1, 0)) && IsEdge(Position + Vector2(0, -1)))
 		{
 
 			if (IsTile(Position + Vector2(-1, -1), CellType::Floor))
@@ -584,7 +609,7 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 				tileData[GridToIndex(Position)].type = CellType::InnerCorner;
 			}
 		}
-		if (IsTile(Position + Vector2(-1, 0), CellType::Edge) && IsTile(Position + Vector2(0, 1), CellType::Edge))
+		if (IsEdge(Position + Vector2(-1, 0)) && IsEdge(Position + Vector2(0, 1)))
 		{
 
 			if (IsTile(Position + Vector2(-1, 1), CellType::Floor))
@@ -596,6 +621,10 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 				tileData[GridToIndex(Position)].type = CellType::InnerCorner;
 			}
 		}
+
+
+
+
 	}
 
 	return false;

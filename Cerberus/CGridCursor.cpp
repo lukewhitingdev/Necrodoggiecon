@@ -60,8 +60,8 @@ void CGridCursor::Update(float deltaTime)
 	if (Y <= 0) Y = 0;
 
 
-	if (X >= mapScale) X = mapScale;
-	if (Y <= -mapScale) Y = -mapScale;
+	if (X >= mapScale) X = mapScale - 1;
+	if (Y >= mapScale) Y = mapScale - 1;
 
 
 
@@ -140,30 +140,3 @@ void CGridCursor::UpdateSize(int X, int Y)
 	
 }
 
-Vector2 CGridCursor::ScreenToWorld(Vector2 Pos)
-{
-
-	
-
-
-	
-
-	float width = Engine::windowWidth;
-	float height = Engine::windowHeight;
-
-	float u = Pos.x / width;
-	float v = (height - Pos.y) / height;
-
-	float ratio = width / height;
-	Vector2 extent = Vector2(25.0f, 25.0f);
-	extent *= Engine::camera.GetZoom();
-
-	Vector2 lower = Vector2(Engine::camera.GetCameraPosition().x, Engine::camera.GetCameraPosition().y) - extent;
-	Vector2 upper = Vector2(Engine::camera.GetCameraPosition().x, Engine::camera.GetCameraPosition().y) + extent;
-
-	Vector2 pw = Vector2(((1.0f - u) * lower.x + u * upper.x), ((1.0 - v) * lower.y, +v * upper.y));
-	
-	
-	return pw;
-	
-}

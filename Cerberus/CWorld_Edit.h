@@ -92,7 +92,13 @@ private:
 		return tileData[GridToIndex(Position)].type == Type;
 	}
 
+	static bool IsEdge(Vector2 Pos)
+	{
+		return (tileData[GridToIndex(Pos)].type == CellType::Edge || tileData[GridToIndex(Pos)].type == CellType::OuterCorner || tileData[GridToIndex(Pos)].type == CellType::InnerCorner);
+	}
 
+
+	static bool IsTile(Vector2 Position, std::vector<CellType> Type);
 
 
 	//Gets the direction of adjacent tiles that match the given type. 
