@@ -21,9 +21,5 @@ public:
 	virtual void Draw(struct ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) {};
 
 private:
-
 	CEmitter* emitter;
-	FMOD_VECTOR* fmodPosition;
-	FMOD_VECTOR* fmodPreviousPosition;
-	FMOD_VECTOR* fmodVelocity;
 };
