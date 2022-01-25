@@ -14,5 +14,6 @@ public:
 	void PressedVertical(int dir, float deltaTime) override;
 
 	virtual void Update(float deltaTime) override;
+	virtual void HasCollided(CollisionComponent* collided) override;
 };
 

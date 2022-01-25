@@ -15,7 +15,7 @@ TestClass::TestClass()
 
 	//sprite->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
 
-	colComponent = new CollisionComponent();
+	colComponent = new CollisionComponent("Test");
 
 
 
@@ -39,8 +39,8 @@ TestClass::~TestClass()
 	Debug::Log("destroy test class!\n");
 }
 
-void TestClass::HasCollided()
+void TestClass::HasCollided(CollisionComponent* collided)
 {
 	Debug::Log("Test Class Collision");
 }
-}
+

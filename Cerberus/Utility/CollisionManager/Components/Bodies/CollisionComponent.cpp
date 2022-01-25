@@ -1,11 +1,10 @@
 #include "CollisionComponent.h"
 
-CollisionComponent::CollisionComponent() 
+CollisionComponent::CollisionComponent(std::string setName)
 {
-	collisionType = COLLISIONTYPE::BOUNDING_CIRCLE;
+	collisionType = COLLISIONTYPE::BOUNDING_NONE;
 
-	//test = AddComponent<CEntity>();
-
+	name = setName;
 };
 
 CollisionComponent::~CollisionComponent()
@@ -38,6 +37,20 @@ Vector3 CollisionComponent::GetPosition()
 	return position;
 }
 
+//Checks if a circle has intersected with a box
+bool CollisionComponent::Intersects(CollisionComponent* circle, CollisionComponent* box)
+{
+	float distance = DistanceBetweenPoints(box->position, circle->position);
+
+	if (distance > (box->width) + circle->radius || distance > (box->height) + circle->radius)
+		return false;
+
+	if (distance <= box->width || distance <= box->height)
+		return true;
+
+	return false;
+}
+
 //SetCollider overload for bounding circle
 void CollisionComponent::SetCollider(float setRadius)
 {
@@ -47,19 +60,9 @@ void CollisionComponent::SetCollider(float setRadius)
 //SetCollider overload for bounding box
 void CollisionComponent::SetCollider(float setHeight, float setWidth)
 {
-	collisionType = COLLISIONTYPE::BOUNDING_CIRCLE;
+	collisionType = COLLISIONTYPE::BOUNDING_BOX;
 	height = setHeight;
 	width = setWidth;
-}
-
-void CollisionComponent::SetBoundingType(COLLISIONTYPE collisionType1)
-{
-	collisionType = collisionType1;
-}
-
-COLLISIONTYPE CollisionComponent::GetBoundingType()
-{
-	return COLLISIONTYPE();
 }
 
 bool CollisionComponent::IsColliding(CollisionComponent* collidingObject)
@@ -74,7 +77,7 @@ bool CollisionComponent::IsColliding(CollisionComponent* collidingObject)
 				Vector3 thisPos = position;
 				otherPos.z = 0;
 				thisPos.z = 0;
-				if (distanceBetweenPoints(thisPos, otherPos) < (radius + (collidingObject)->radius))
+				if (DistanceBetweenPoints(thisPos, otherPos) < (radius + (collidingObject)->radius))
 				{
 					return true;
 				}
@@ -82,7 +85,10 @@ bool CollisionComponent::IsColliding(CollisionComponent* collidingObject)
 			}
 			case COLLISIONTYPE::BOUNDING_BOX:
 			{
-				
+				if (Intersects(this, collidingObject))
+				{
+					return true;
+				}
 				break;
 			}
 		}
@@ -94,11 +100,7 @@ bool CollisionComponent::IsColliding(CollisionComponent* collidingObject)
 		{
 			case COLLISIONTYPE::BOUNDING_CIRCLE:
 			{
-				Vector3 otherPos = collidingObject->GetPosition();
-				Vector3 thisPos = position;
-				otherPos.z = 0;
-				thisPos.z = 0;
-				if (distanceBetweenPoints(thisPos, otherPos) < (radius + (collidingObject)->radius))
+				if (Intersects(collidingObject, this))
 				{
 					return true;
 				}
@@ -110,10 +112,13 @@ bool CollisionComponent::IsColliding(CollisionComponent* collidingObject)
 				Vector3 thisPos = position;
 				otherPos.z = 0;
 				thisPos.z = 0;
-				if ((thisPos.x - width / 2 <= otherPos.x + collidingObject->width / 2 && thisPos.x + width / 2 >= otherPos.x - collidingObject->width / 2) && 
-					(thisPos.y + height / 2 <= otherPos.y - collidingObject->height / 2 && thisPos.y - height / 2 >= otherPos.y + collidingObject->height / 2))
+
+				if (thisPos.x - (width / 2) <= otherPos.x + (collidingObject->GetWidth() / 2) && 
+					thisPos.x + (width / 2) >= otherPos.x - (collidingObject->GetWidth() / 2) &&
+					thisPos.y - (height / 2) <= otherPos.y + (collidingObject->GetHeight() / 2) && 
+					thisPos.y + (height / 2) >= otherPos.y - (collidingObject->GetHeight() / 2))
 				{
-					Debug::Log("BOUNDINGBOX COLLISION");
+					return true;
 				}
 				break;
 			}
@@ -122,7 +127,7 @@ bool CollisionComponent::IsColliding(CollisionComponent* collidingObject)
 	return false;
 }
 
-float CollisionComponent::distanceBetweenPoints(Vector3& point1, Vector3& point2)
+float CollisionComponent::DistanceBetweenPoints(Vector3& point1, Vector3& point2)
 {
 	float distance = sqrt((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y) + (point1.z - point2.z) * (point1.z - point2.z));
 	return distance;

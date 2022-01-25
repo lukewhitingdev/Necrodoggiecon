@@ -41,7 +41,6 @@ CAIController::CAIController()
 
 	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
 
-	colComponent = new CollisionComponent();
 	SetPatrolNodes(patrolPoints, tiles);
 }
 
@@ -486,10 +485,6 @@ void CAIController::DeleteNodes()
 	pathNodes.clear();
 }
 
-void CAIController::HasCollided()
-{
-	Debug::Log("AI Collided");
-}
 void CAIController::SetHealth(int health)
 {
 	aiHealth = health;

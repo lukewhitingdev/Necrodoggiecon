@@ -72,8 +72,6 @@ protected:
 	std::vector<WaypointNode*> pathNodes;
 	int currentCount;
 
-
-	virtual void HasCollided() override;
 	CPlayer* player = Engine::GetEntityOfType<CPlayer>()[0];
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 	class CSpriteComponent* viewSprite = nullptr;

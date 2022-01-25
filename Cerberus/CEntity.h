@@ -21,7 +21,7 @@ public:
 
 	void SetCollider();
 
-	virtual void HasCollided();
+	virtual void HasCollided(CollisionComponent* collided);
 
 	template <class T>
 	T* AddComponent()

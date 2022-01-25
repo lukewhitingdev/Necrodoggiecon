@@ -14,6 +14,6 @@ public:
 	virtual void Update(float deltaTime) override;
 	virtual ~TestClass();
 
-	virtual void HasCollided() override;
+	virtual void HasCollided(CollisionComponent* collided) override;
 };
 

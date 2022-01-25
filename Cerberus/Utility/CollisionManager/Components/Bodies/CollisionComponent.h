@@ -7,7 +7,8 @@
 enum class COLLISIONTYPE 
 {
 	BOUNDING_BOX,
-	BOUNDING_CIRCLE
+	BOUNDING_CIRCLE,
+	BOUNDING_NONE
 };
 
 
@@ -15,7 +16,7 @@ enum class COLLISIONTYPE
 class CollisionComponent
 {
 public:
-	CollisionComponent();
+	CollisionComponent(std::string setName);
 
 	~CollisionComponent();
 
@@ -28,23 +29,27 @@ public:
 	void SetPosition(Vector3 setPosition);
 	Vector3 GetPosition();
 
+	std::string GetName() { return name; };
+
+	float GetWidth() { return width; };
+	float GetHeight() { return height; };
+
+	bool Intersects(CollisionComponent* circle, CollisionComponent* box);
+
 	void SetCollider(float setRadius); //Bounding circle initiation
 	void SetCollider(float setHeight, float setWidth); //Bounding Box initiation
 
-	void SetBoundingType(COLLISIONTYPE collisionType1);
-	COLLISIONTYPE GetBoundingType();
 
 	bool IsColliding(CollisionComponent* collidingObject);
-	float distanceBetweenPoints(Vector3& point1, Vector3& point2);
+	float DistanceBetweenPoints(Vector3& point1, Vector3& point2);
 
 private: 
 	float radius;
 	Vector3 position;
 	float height;
 	float width;
+	std::string name = "none";
 
-	COLLISIONTYPE collisionType = COLLISIONTYPE::BOUNDING_CIRCLE;
-
-	//std::thread* collisionThread = nullptr;
+	COLLISIONTYPE collisionType = COLLISIONTYPE::BOUNDING_NONE;
 };
 

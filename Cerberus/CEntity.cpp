@@ -11,8 +11,7 @@ void CEntity::SetCollider()
 	GetPosition();
 }
 
-void CEntity::HasCollided()
+void CEntity::HasCollided(CollisionComponent* collided)
 {
-	Debug::Log("CEntity Collision!!!!!");
 }
 
