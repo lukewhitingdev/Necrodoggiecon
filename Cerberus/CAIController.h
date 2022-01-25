@@ -9,6 +9,8 @@
 #include "Utility/EventSystem/EventSystem.h"
 #include "CWorld.h"
 #include "CAINode.h"
+#include "testCharacter.h"
+#include "CCharacter.h"
 
 enum class STATE
 {
@@ -32,7 +34,7 @@ protected:
 
 	void Movement(float deltaTime);
 
-	Vector3 CollisionAviodance();
+	Vector3 CollisionAvoidance();
 
 	bool CanSee(Vector3 position);
 
@@ -57,9 +59,9 @@ protected:
 
 	void StateMachine();
 	void Patrolling();
-	virtual void ChasePlayer(CPlayer* player);
-	virtual void AttackPlayer(CPlayer* player);
-	virtual void GetIntoCover(CPlayer* player);
+	virtual void ChasePlayer(testCharacter* player);
+	virtual void AttackPlayer(testCharacter* player);
+	virtual void GetIntoCover(testCharacter* player);
 
 	Vector3 Seek(Vector3 TargetPos);
 
@@ -76,9 +78,9 @@ protected:
 	std::vector<WaypointNode*> pathNodes;
 	int currentCount;
 
-	CPlayer* playerToKill = nullptr;
-	CPlayer* playerToChase = nullptr;
-	std::vector<CPlayer*> players = Engine::GetEntityOfType<CPlayer>();
+	testCharacter* playerToKill = nullptr;
+	testCharacter* playerToChase = nullptr;
+	std::vector<testCharacter*> players = Engine::GetEntityOfType<testCharacter>();
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 	class CSpriteComponent* viewSprite = nullptr;
 
@@ -88,8 +90,8 @@ protected:
 	float aiRange = 400.0f;
 	float aiViewAngle = 45.0f;
 
-	float width = 10.0f;
-	float height = 10.0f;
+	float width = 128.0f;
+	float height = 128.0f;
 
 	void SetHealth(int health);
 	int GetHealth();

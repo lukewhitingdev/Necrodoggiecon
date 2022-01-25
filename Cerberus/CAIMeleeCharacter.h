@@ -3,6 +3,6 @@
 class CAIMeleeCharacter :
     public CAIController
 {
-    virtual void GetIntoCover(CPlayer* player) override;
+    virtual void GetIntoCover(testCharacter* player) override;
 };
 

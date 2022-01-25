@@ -26,7 +26,7 @@ CAIController::CAIController()
 	obstacles = CWorld::GetAllObstacleTiles();
 
 	tiles = CWorld::GetAllWalkableTiles();
-	SetPosition(tiles[6]->GetPosition());
+	SetPosition(tiles[102]->GetPosition());
 	aiPosition = GetPosition();	
 
 	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 500.0f, 200.0f, 0.0f });
@@ -85,11 +85,13 @@ void CAIController::Movement(float deltaTime)
 	aiPosition += velocity * deltaTime;
 }
 
-Vector3 CAIController::CollisionAviodance()
+/* Finds the closest obstacle and calculates the vector to avoid it. */
+Vector3 CAIController::CollisionAvoidance()
 {
-	Vector3 ahead = heading.Normalize();
+	Vector3 avoidance = Vector3{ 0.0f, 0.0f, 0.0f };
+	
 
-	CTile* closestObstacle = nullptr;
+	CTile* closestObstacle = obstacles[0];
 
 	for (CTile* obstacle : obstacles)
 	{
@@ -99,12 +101,27 @@ Vector3 CAIController::CollisionAviodance()
 		}
 	}
 
-	float widthRadius = width * 0.5f;
-	float heightRadius = height * 0.5f;
+	float widthRadius = width * GetScale().x;
+	float heightRadius = height * GetScale().y;
 
-	/*if ()*/
+	float tileRadius = tileScale * closestObstacle->GetScale().x;
 
-	return Vector3();
+	if (aiPosition.x + widthRadius > closestObstacle->GetPosition().x &&
+		aiPosition.x - widthRadius < closestObstacle->GetPosition().x &&
+		aiPosition.y + heightRadius > closestObstacle->GetPosition().y &&
+		aiPosition.y - heightRadius < closestObstacle->GetPosition().y)
+	{
+		Vector3 ahead = velocity;
+		ahead.Normalize();
+		ahead *= 1.0f;
+
+		Vector3 centerOfObstacle = Vector3{ closestObstacle->GetPosition().x + tileRadius * 0.5f, closestObstacle->GetPosition().y + tileRadius * 0.5f, 0.0f };
+		avoidance = (ahead + aiPosition) - (centerOfObstacle - aiPosition);
+		avoidance.Normalize();
+		avoidance *= 5000.0f;
+		avoidance.z = 0.0f;
+	}
+	return avoidance;
 }
 
 /* Maths magic that determines whether the player is in view. */
@@ -187,10 +204,10 @@ PatrolNode* CAIController::FindClosestPatrolNode()
 void CAIController::StateMachine()
 {
 	Vector3 closestPlayerPosition = { INFINITY, INFINITY, INFINITY };
-	CPlayer* closestPlayer = nullptr;
+	testCharacter* closestPlayer = nullptr;
 	if (players.size() > 0)
 	{
-		for (CPlayer* player : players)
+		for (testCharacter* player : players)
 		{
 			if (CanSee(player->GetPosition()))
 			{
@@ -228,7 +245,7 @@ void CAIController::StateMachine()
 		break;
 	}
 
-
+	heading += CollisionAvoidance();
 }
 
 /* Moves the direction of the character towards the next point in the path. */
@@ -262,7 +279,7 @@ void CAIController::Patrolling()
 	}
 }
 
-void CAIController::ChasePlayer(CPlayer* player)
+void CAIController::ChasePlayer(testCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 	{
@@ -275,16 +292,15 @@ void CAIController::ChasePlayer(CPlayer* player)
 	}
 }
 
-void CAIController::AttackPlayer(CPlayer* player)
+void CAIController::AttackPlayer(testCharacter* player)
 {
-	
 	Engine::DestroyEntity(player);
-	players = Engine::GetEntityOfType<CPlayer>();
+	players = Engine::GetEntityOfType<testCharacter>();
 	currentState = STATE::PATHFINDING;
 	//EventSystem::TriggerEvent("GameOver");
 }
 
-void CAIController::GetIntoCover(CPlayer* player)
+void CAIController::GetIntoCover(testCharacter* player)
 {
 }
 
