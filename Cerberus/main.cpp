@@ -31,6 +31,7 @@
 #include "Core/TestUI.h"
 #include <ItemData.h>
 using namespace Inputs;
+#include <chrono>
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
@@ -49,7 +50,7 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 void		Render();
 void		Update(float deltaTime);
 void		Load();
-float calculateDeltaTime();
+double CalculateDeltaTime(const unsigned short fpsCap = 60);
 
 // Defines.
 // Window and Instance.
@@ -60,6 +61,14 @@ int Engine::windowHeight = 720;
 bool resizeSwapChain = false;
 bool fillState = true;
 bool minimised = false;
+double globalDeltaTime = 0.0;
+
+//set to 0 for uncapped frames
+const unsigned short maxFPS = 144;
+
+std::chrono::high_resolution_clock::time_point tpOld;
+std::chrono::high_resolution_clock::time_point tpNew;
+double totalFrameTime = 0.0;
 					   
 // Direct3D.           
 D3D_DRIVER_TYPE Engine::driverType = D3D_DRIVER_TYPE_NULL;
@@ -115,6 +124,8 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 	Load();
 
+	tpOld = std::chrono::high_resolution_clock::now();
+
 	// Main message loop
 	MSG msg = {0};
 	while( WM_QUIT != msg.message )
@@ -128,11 +139,13 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 		{
 			if (!minimised)
 			{
-				float t = calculateDeltaTime(); // capped at 60 fps
-				if (t == 0.0f)
+				double t = CalculateDeltaTime(maxFPS);
+				if (t == -8008135.0)
 					continue;
 
-				Update(t);
+				globalDeltaTime = t;
+				
+				Update(globalDeltaTime);
 				Render();
 			}
 			else
@@ -394,7 +407,7 @@ HRESULT InitDevice()
         sd.BufferDesc.Width = width;
         sd.BufferDesc.Height = height;
         sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-        sd.BufferDesc.RefreshRate.Numerator = 60;
+        sd.BufferDesc.RefreshRate.Numerator = maxFPS;
         sd.BufferDesc.RefreshRate.Denominator = 1;
         sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         sd.OutputWindow = Engine::windowHandle;
@@ -808,33 +821,25 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	return 0;
 }
 
-float calculateDeltaTime()
+double CalculateDeltaTime(const unsigned short fpsCap)
 {
-	// Update our time
-	static float deltaTime = 0.0f;
-	static ULONGLONG timeStart = 0;
-	ULONGLONG timeCur = GetTickCount64();
-	if (timeStart == 0)
-		timeStart = timeCur;
-	deltaTime = (timeCur - timeStart) / 1000.0f;
-	timeStart = timeCur;
+	tpNew = std::chrono::high_resolution_clock::now();
+	double deltaTime = std::chrono::duration_cast<std::chrono::duration<double>>(tpNew - tpOld).count();
+	tpOld = tpNew;
 
-	float FPS60 = 1.0f / 60.0f;
-	static float cummulativeTime = 0;
+	const double FPSMAX = 1.0 / double(fpsCap);
+	totalFrameTime += deltaTime;
 
-	// cap the framerate at 60 fps 
-	cummulativeTime += deltaTime;
-	if (cummulativeTime >= FPS60)
+	if (totalFrameTime > FPSMAX || fpsCap == 0)
 	{
-		cummulativeTime = cummulativeTime - FPS60;
+		deltaTime = totalFrameTime;
+		totalFrameTime = 0.0;
+		return deltaTime;
 	}
 	else
 	{
-		//Sleep(DWORD((FPS60 - cummulativeTime) * 1000 * 0.5));	//Sleeps thread for almost full amount of time - leaving some time for recalculation
-		return 0;
+		return -8008135.0;	//Special number for telling the program to skip the frame
 	}
-
-	return deltaTime;
 }
 
 void Update(float deltaTime)
@@ -882,6 +887,9 @@ void Render()
 
 	mat = Engine::camera.proj;
 	XMMATRIX projMat = XMMatrixTranspose(XMLoadFloat4x4(&mat));
+
+	// Set primitive topology
+	Engine::deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	for (auto& e : Engine::entities)
 	{
