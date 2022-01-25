@@ -1,4 +1,6 @@
 #include "testCharacter.h"
+#include "CDroppedItem.h"
+#include "CEquippedItem.h"
 
 testCharacter::testCharacter()
 {
@@ -24,6 +26,24 @@ void testCharacter::PressedHorizontal(int dir, float deltaTime)
 void testCharacter::PressedVertical(int dir, float deltaTime)
 {
 	AddVerticalMovement(dir, speed, deltaTime);
+}
+
+void testCharacter::PressedInteract()
+{
+	if (droppedItem == nullptr) return;
+
+	equippedItem = droppedItem->OnEquip(this);
+	Engine::DestroyEntity(droppedItem);
+	droppedItem = nullptr;
+}
+
+void testCharacter::PressedDrop()
+{
+	if (equippedItem == nullptr) return;
+
+	droppedItem = equippedItem->Drop();
+	Engine::DestroyEntity(equippedItem);
+	equippedItem = nullptr;
 }
 
 void testCharacter::Update(float deltaTime)

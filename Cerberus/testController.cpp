@@ -2,7 +2,11 @@
 #include "testCharacter.h"
 #include "InputManager.h"
 #include "ItemDatabase.h"
-#include "EquippedItem.h"
+#include "CEquippedItem.h"
+
+#include <Core/CursorEntity.h>
+#include <CAICharacter.h>
+
 void testController::Update(float deltaTime)
 {
 	HandleInput(deltaTime);
@@ -21,10 +25,17 @@ void testController::HandleInput(float deltaTime)
 	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::S))
 		dynamic_cast<IInputable*>(GetCharacter())->PressedVertical(-1, deltaTime);
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::E))
-		SwapChar();
+		dynamic_cast<IInputable*>(GetCharacter())->PressedInteract();
+	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::G))
+		dynamic_cast<IInputable*>(GetCharacter())->PressedDrop();
+
+
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
 	{
-		EquippedItem* item = ItemDatabase::Instance()->CreateItemFromID(0);
+		//EquippedItem* item = ItemDatabase::Instance()->CreateItemFromID(0);
+		//testCharacter* item = Engine::CreateEntity<testCharacter>();
+		CursorEntity* item = Engine::CreateEntity<CursorEntity>();
+		//CAICharacter* item = Engine::CreateEntity<CAICharacter>();
 		item->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
 }

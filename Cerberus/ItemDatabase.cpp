@@ -1,5 +1,7 @@
 #include "ItemDatabase.h"
 #include "ItemData.h"
+#include "CDroppedItem.h"
+#include "CEquippedItem.h"
 
 ItemDatabase* ItemDatabase::instance = nullptr;
 
@@ -22,21 +24,32 @@ ItemData* ItemDatabase::GetItemFromID(int id)
     return nullptr;
 }
 
-EquippedItem* ItemDatabase::CreateItemFromID(int id)
+CDroppedItem* ItemDatabase::CreateDroppedItemFromID(int id)
 {
 	ItemData* data = GetItemFromID(id);
 
 	if (data == nullptr)
 		return nullptr;
 
-	EquippedItem* item = data->CreateItem();
+	CDroppedItem* item = Engine::CreateEntity<CDroppedItem>();
 	item->Initialise(id);
+	return item;
+}
+
+CEquippedItem* ItemDatabase::CreateEquippedItemFromID(int id, CEntity* owner)
+{
+	ItemData* data = GetItemFromID(id);
+
+	if (data == nullptr)
+		return nullptr;
+
+	CEquippedItem* item = data->CreateItem();
+	item->Initialise(id, owner);
 	return item;
 }
 
 void ItemDatabase::AddToMap(ItemData* dataToAdd)
 {
 	itemDatabase.insert(std::pair<int, ItemData*>(GetNewID(), dataToAdd));
-	Debug::Log("%f", itemDatabase.size());
 }
 

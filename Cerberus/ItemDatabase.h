@@ -1,6 +1,9 @@
 #pragma once
 #include <map>
-#include <EquippedItem.h>
+
+class CEquippedItem;
+class CDroppedItem;
+class CEntity;
 
 struct ItemData;
 
@@ -15,7 +18,8 @@ protected:
 
 public:
 	ItemData* GetItemFromID(int id);
-	EquippedItem* CreateItemFromID(int id);
+	CEquippedItem* CreateEquippedItemFromID(int id, CEntity* owner);
+	CDroppedItem* CreateDroppedItemFromID(int id);
 
 	void AddToMap(ItemData* dataToAdd);
 

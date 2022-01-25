@@ -64,14 +64,20 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Core\TestUI.cpp" />
     <ClCompile Include="CAICharacter.cpp" />
-    <ClCompile Include="EquippedItem.cpp">
+    <ClCompile Include="CEquippedItem.cpp">
       <Filter>Item</Filter>
     </ClCompile>
-    <ClCompile Include="DroppedItem.cpp">
+    <ClCompile Include="CDroppedItem.cpp">
       <Filter>Item</Filter>
     </ClCompile>
     <ClCompile Include="ItemDatabase.cpp">
       <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="testEquippedItem.cpp">
+      <Filter>Item\test</Filter>
+    </ClCompile>
+    <ClCompile Include="testItemData.cpp">
+      <Filter>Item\test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,16 +162,22 @@
     <ClInclude Include="ItemData.h">
       <Filter>Item</Filter>
     </ClInclude>
-    <ClInclude Include="EquippedItem.h">
+    <ClInclude Include="CEquippedItem.h">
       <Filter>Item</Filter>
     </ClInclude>
-    <ClInclude Include="DroppedItem.h">
+    <ClInclude Include="CDroppedItem.h">
       <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="ItemDatabase.h">
       <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="CAINode.h" />
+    <ClInclude Include="testItemData.h">
+      <Filter>Item\test</Filter>
+    </ClInclude>
+    <ClInclude Include="testEquippedItem.h">
+      <Filter>Item\test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
@@ -189,6 +201,9 @@
     </Filter>
     <Filter Include="Item">
       <UniqueIdentifier>{d28c029a-b89f-4730-a15a-d97e3f7f08f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Item\test">
+      <UniqueIdentifier>{1cc6aaa3-e73c-4cc0-bbd9-5448516fee60}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

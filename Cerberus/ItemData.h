@@ -1,9 +1,8 @@
 #pragma once
 #include <ItemDatabase.h>
 #include <string>
-#include <EquippedItem.h>
-
-class ItemDatabase;
+#include <CEquippedItem.h>
+#include <IInputable.h>
 
 struct ItemData
 {
@@ -16,9 +15,9 @@ struct ItemData
 		ItemDatabase::Instance()->AddToMap(this);
 	}
 
-	virtual EquippedItem* CreateItem()
+	virtual CEquippedItem* CreateItem()
 	{
-		return Engine::CreateEntity<EquippedItem>();
+		return Engine::CreateEntity<CEquippedItem>();
 	}
 };
 
