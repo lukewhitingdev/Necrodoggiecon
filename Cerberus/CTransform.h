@@ -21,9 +21,9 @@ public:
 
 	void SetRotation(float Rot) { rotation = Rot; updateTransform = true; }
 
-	Vector3 GetPosition() { return position; }
-	Vector3 GetScale() { return scale; }
-	float GetRotation() { return rotation; }
+	const Vector3& GetPosition() const { return position; }
+	const Vector3& GetScale() const { return scale; }
+	const float& GetRotation() const { return rotation; }
 
 	//Convert pos, scale and rot to a XMFloat4x4
 	virtual XMFLOAT4X4 GetTransform();

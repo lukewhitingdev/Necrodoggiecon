@@ -6,12 +6,7 @@ CTextRenderComponent::CTextRenderComponent()
 	shouldUpdate = false;
 	shouldDraw = true;
 
-	for (int i = 0; i < reserveSpriteCount; i++)
-	{
-		sprites.push_back(new CSpriteComponent());
-		CSpriteComponent* t = sprites.back();
-		t->LoadTexture(font);
-	}
+	SetReserveCount(reserveSpriteCount);
 }
 
 HRESULT CTextRenderComponent::SetFont(std::string filePath)
@@ -71,10 +66,41 @@ void CTextRenderComponent::SetText(std::string newText)
 			sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - ((sprites[i]->GetSpriteSize().x * newText.length() * .5) + sprites[i]->GetSpriteSize().x * -.5), 0, 0));
 			break;
 		case TextJustification::Left:
-			//sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - ((sprites[i]->GetSpriteSize().x * newText.length()) + sprites[i]->GetSpriteSize().x), 0, 0));
+			sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - (sprites[i]->GetSpriteSize().x * newText.length() * 1.0f), 0, 0));
 			break;
 		}
 	}
+}
+
+void CTextRenderComponent::SetReserveCount(unsigned short newReserveCount)
+{
+	reserveSpriteCount = newReserveCount;
+
+	int count = reserveSpriteCount - sprites.size();
+	for (int i = 0; i < count; i++)
+	{
+		sprites.push_back(new CSpriteComponent());
+		CSpriteComponent* t = sprites.back();
+		t->LoadTexture(font);
+	}
+
+	for (int i = count; i < 0; i++)
+	{
+		CSpriteComponent* t = sprites.back();
+		delete t;
+		sprites.pop_back();
+	}
+
+	if (reserveSpriteCount < usedSpriteCount)
+		usedSpriteCount = reserveSpriteCount;
+
+	Debug::Log("Resized TextRenderComp to %i sprites", sprites.size());
+}
+
+void CTextRenderComponent::SetTextJustification(TextJustification newJustification)
+{
+	justification = newJustification;
+	SetText(text);
 }
 
 void CTextRenderComponent::Update(float deltaTime)
