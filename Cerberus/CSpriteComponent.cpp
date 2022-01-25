@@ -62,6 +62,21 @@ HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 	return S_OK;
 }
 
+HRESULT CSpriteComponent::LoadTextureWIC(std::string filePath)
+{
+	texture = AssetManager::GetTextureWIC(filePath);
+
+	if (texture == nullptr)
+		return S_FALSE;
+
+	renderRect = texture->textureSize;
+	spriteSize = texture->textureSize;
+
+	material->CreateMaterial(texture->textureSize);
+
+	return S_OK;
+}
+
 void CSpriteComponent::Update(float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);
