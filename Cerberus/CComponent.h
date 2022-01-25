@@ -25,6 +25,8 @@ public:
 	void SetAnchor(XMFLOAT2 newAnchor) { anchor = newAnchor; updateTransform = true; }
 	void SetParent(class CEntity* newParent);
 
+	XMFLOAT4X4 GetTransform();
+
 	const XMFLOAT2& GetAnchor() const { return anchor; }
 	class CEntity* GetParent() const { return parent; };
 
