@@ -11,3 +11,8 @@ void CEntity::SetCollider()
 	GetPosition();
 }
 
+void CEntity::HasCollided()
+{
+	Debug::Log("CEntity Collision!!!!!");
+}
+

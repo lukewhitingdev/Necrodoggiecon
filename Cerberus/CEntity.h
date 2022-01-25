@@ -21,6 +21,8 @@ public:
 
 	void SetCollider();
 
+	virtual void HasCollided();
+
 	template <class T>
 	T* AddComponent()
 	{

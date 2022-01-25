@@ -452,3 +452,8 @@ void CAIController::DeleteNodes()
 	closed.clear();
 	pathNodes.clear();
 }
+
+void CAIController::HasCollided()
+{
+	Debug::Log("AI Collided");
+}

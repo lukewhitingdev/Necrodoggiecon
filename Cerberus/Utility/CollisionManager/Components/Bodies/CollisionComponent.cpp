@@ -38,6 +38,20 @@ Vector3 CollisionComponent::GetPosition()
 	return position;
 }
 
+//SetCollider overload for bounding circle
+void CollisionComponent::SetCollider(float setRadius)
+{
+	collisionType = COLLISIONTYPE::BOUNDING_CIRCLE;
+	radius = setRadius;
+}
+//SetCollider overload for bounding box
+void CollisionComponent::SetCollider(float setHeight, float setWidth)
+{
+	collisionType = COLLISIONTYPE::BOUNDING_CIRCLE;
+	height = setHeight;
+	width = setWidth;
+}
+
 void CollisionComponent::SetBoundingType(COLLISIONTYPE collisionType1)
 {
 	collisionType = collisionType1;
@@ -50,25 +64,60 @@ COLLISIONTYPE CollisionComponent::GetBoundingType()
 
 bool CollisionComponent::IsColliding(CollisionComponent* collidingObject)
 {
-	switch (collidingObject->GetCollisionType())
+	if (collisionType == COLLISIONTYPE::BOUNDING_CIRCLE)
 	{
-	case COLLISIONTYPE::BOUNDING_CIRCLE:
-	{
-		Vector3 otherPos = collidingObject->GetPosition();
-		Vector3 thisPos = position;
-		otherPos.z = 0;
-		thisPos.z = 0;
-		if (distanceBetweenPoints(thisPos, otherPos) < (radius + (collidingObject)->radius))
+		switch (collidingObject->GetCollisionType())
 		{
-			Debug::Log("COLLISION DETECTED!!!!!!!!!!!!");
-			return true;
+			case COLLISIONTYPE::BOUNDING_CIRCLE:
+			{
+				Vector3 otherPos = collidingObject->GetPosition();
+				Vector3 thisPos = position;
+				otherPos.z = 0;
+				thisPos.z = 0;
+				if (distanceBetweenPoints(thisPos, otherPos) < (radius + (collidingObject)->radius))
+				{
+					return true;
+				}
+				break;
+			}
+			case COLLISIONTYPE::BOUNDING_BOX:
+			{
+				
+				break;
+			}
 		}
-		break;
+
 	}
-	case COLLISIONTYPE::BOUNDING_BOX:
+	else if (collisionType == COLLISIONTYPE::BOUNDING_BOX)
 	{
-		break;
-	}
+		switch (collidingObject->GetCollisionType())
+		{
+			case COLLISIONTYPE::BOUNDING_CIRCLE:
+			{
+				Vector3 otherPos = collidingObject->GetPosition();
+				Vector3 thisPos = position;
+				otherPos.z = 0;
+				thisPos.z = 0;
+				if (distanceBetweenPoints(thisPos, otherPos) < (radius + (collidingObject)->radius))
+				{
+					return true;
+				}
+				break;
+			}
+			case COLLISIONTYPE::BOUNDING_BOX:
+			{
+				Vector3 otherPos = collidingObject->GetPosition();
+				Vector3 thisPos = position;
+				otherPos.z = 0;
+				thisPos.z = 0;
+				if ((thisPos.x - width / 2 <= otherPos.x + collidingObject->width / 2 && thisPos.x + width / 2 >= otherPos.x - collidingObject->width / 2) && 
+					(thisPos.y + height / 2 <= otherPos.y - collidingObject->height / 2 && thisPos.y - height / 2 >= otherPos.y + collidingObject->height / 2))
+				{
+					Debug::Log("BOUNDINGBOX COLLISION");
+				}
+				break;
+			}
+		}
 	}
 	return false;
 }

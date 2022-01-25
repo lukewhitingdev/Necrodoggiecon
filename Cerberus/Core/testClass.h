@@ -13,5 +13,7 @@ public:
 	TestClass();
 	virtual void Update(float deltaTime) override;
 	virtual ~TestClass();
+
+	virtual void HasCollided() override;
 };
 

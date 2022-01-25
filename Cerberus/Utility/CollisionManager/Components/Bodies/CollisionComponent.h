@@ -28,6 +28,9 @@ public:
 	void SetPosition(Vector3 setPosition);
 	Vector3 GetPosition();
 
+	void SetCollider(float setRadius); //Bounding circle initiation
+	void SetCollider(float setHeight, float setWidth); //Bounding Box initiation
+
 	void SetBoundingType(COLLISIONTYPE collisionType1);
 	COLLISIONTYPE GetBoundingType();
 
@@ -37,6 +40,9 @@ public:
 private: 
 	float radius;
 	Vector3 position;
+	float height;
+	float width;
+
 	COLLISIONTYPE collisionType = COLLISIONTYPE::BOUNDING_CIRCLE;
 
 	//std::thread* collisionThread = nullptr;

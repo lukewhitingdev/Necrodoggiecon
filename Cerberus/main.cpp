@@ -222,6 +222,7 @@ void Load()
 	topRight->SetPosition(Vector3{ 300.0f, 100.0f, 0.0f });
 	topRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
 
+
 	TestClass* bottomLeft = Engine::CreateEntity<TestClass>();
 	bottomLeft->SetPosition(Vector3{ -300.0f, -100.0f, 0.0f });
 	bottomLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
@@ -229,22 +230,24 @@ void Load()
 	TestClass* bottomMiddleLeft = Engine::CreateEntity<TestClass>();
 	bottomMiddleLeft->SetPosition(Vector3{ -100.0f, -100.0f, 0.0f });
 	bottomMiddleLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+	bottomMiddleLeft->colComponent->SetCollider(10.0f);
+	
 
 	TestClass* bottomMiddleRight = Engine::CreateEntity<TestClass>();
 	bottomMiddleRight->SetPosition(Vector3{ 100.0f, -100.0f, 0.0f });
 	bottomMiddleRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+	bottomMiddleRight->colComponent->SetCollider(10.0f);
 
 	TestClass* bottomRight = Engine::CreateEntity<TestClass>();
 	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
 	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-	bottomRight->colComponent->SetRadius(15.0f);
+	bottomRight->colComponent->SetCollider(10.0f);
 
 	TestClass* test = Engine::CreateEntity<TestClass>();
 	test->SetPosition(Vector3{ 500.0f, -100.0f, 0.0f });
 	test->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-	test->colComponent->SetRadius(10.0f);
+	test->colComponent->SetCollider(10.0f);
 	test->shouldMove = true;
-	
 
 
 	if (editorMode)
@@ -851,7 +854,8 @@ void Update(float deltaTime)
 					//If it can move, check the collisions and it is a different entity, do collision stuff
 					if (e->colComponent->IsColliding(currentEntity->colComponent))
 					{
-						
+						e->HasCollided();
+						currentEntity->HasCollided();
 					}
 				}
 			}

@@ -32,3 +32,8 @@ TestClass::~TestClass()
 {
 	Debug::Log("destroy test class!\n");
 }
+
+void TestClass::HasCollided()
+{
+	Debug::Log("Test Class Collision");
+}

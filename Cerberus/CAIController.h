@@ -113,5 +113,8 @@ protected:
 	// Array of nodes on the path from goal to start.
 	std::vector<WaypointNode*> pathNodes;
 	int currentCount;
+
+
+	virtual void HasCollided() override;
 };
 
