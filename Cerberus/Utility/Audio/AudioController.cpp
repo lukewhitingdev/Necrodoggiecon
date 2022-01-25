@@ -125,13 +125,13 @@ bool AudioController::DestroyAudio(std::string path)
 
 void AudioController::Update(Vector3 listenerPos, float deltaTime)
 {
+	if (FMODSystem == nullptr)
+		AudioController::Initialize();
+
 	FMOD_RESULT result;
 
 	// Attenuate.
-	// Can use audio->channel->setVolume() to keep the niceties of virtualization of audio from FMOD.
-
 	float maxRange = 1000;
-
 	for(CEmitter* emitter : emitters)
 	{
 
@@ -151,8 +151,6 @@ void AudioController::Update(Vector3 listenerPos, float deltaTime)
 
 		// Attenuate.
 		emitter->audio->channel->setVolume(attentuation);
-
-		Debug::Log("Setting Emitter Volume: %f", attentuation);
 	}
 
 
