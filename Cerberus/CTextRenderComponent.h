@@ -34,11 +34,11 @@ public:
 	//Simular to SetRenderRect of CSpriteComponent
 	void SetCharacterSize(XMUINT2 newSize);
 
-	//Sets how big in pixels the characters are from the sprite sheet
-	//Simular to SetRenderRect of CSpriteComponent
+	//Set the size of a character when drawn in pixels
 	void SetCharacterDrawSize(XMUINT2 newSize);
 
-	//Set the size of a character when drawn in pixels
+	//Set how many columns are in the font sprite sheet.
+	//If 16 characters across, put 16
 	void SetSpriteSheetColumnsCount(unsigned short newColumnsCount);
 
 	const std::string& GetText() const { return text; };
