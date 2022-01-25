@@ -14,6 +14,8 @@ CTile::CTile(int ID, Vector3 Position)
 	SetPosition(Position);
 
 	sprite = AddComponent<CSpriteComponent>();
+	
+	
 }
 
 void CTile::Update(float deltaTime)
@@ -48,89 +50,55 @@ void CTile::ChangeTileID(CellID TileID)
 
 	case CellID::W_N:
 		SetRenderData(4,0);
-		colComponent = new CollisionComponent("Wall");
-		colComponent->SetCollider(tileScale, tileScale);
-		colComponent->SetPosition(GetPosition());
 		break;
 	case CellID::W_E:
 		SetRenderData(5,1);
-		colComponent = new CollisionComponent("Wall");
-		colComponent->SetCollider(tileScale, tileScale);
-		colComponent->SetPosition(GetPosition());
 		break;
 	case CellID::W_S:
 		SetRenderData(4,2);
-		colComponent = new CollisionComponent("Wall");
-		colComponent->SetCollider(tileScale, tileScale);
-		colComponent->SetPosition(GetPosition());
 		break;
 	case CellID::W_W:
 		SetRenderData(3,1);
-		colComponent = new CollisionComponent("Wall");
-		colComponent->SetCollider(tileScale, tileScale);
-		colComponent->SetPosition(GetPosition());
 		break;
 	//OUTER CORNER
 	case CellID::OC_NE:
 		SetRenderData(5,0);
-		colComponent = new CollisionComponent("Wall");
-		colComponent->SetCollider(tileScale, tileScale);
-		colComponent->SetPosition(GetPosition());
 		break;
 	case CellID::OC_NW:
 		
 		SetRenderData(3,0);
-		colComponent = new CollisionComponent("Wall");
-		colComponent->SetCollider(tileScale, tileScale);
-		colComponent->SetPosition(GetPosition());
 		break;
 	case CellID::OC_SW:
 		SetRenderData(3,2);
-		colComponent = new CollisionComponent("Wall");
-		colComponent->SetCollider(tileScale, tileScale);
-		colComponent->SetPosition(GetPosition());
 		break;
 	case CellID::OC_SE:
 		SetRenderData(5,2);
-		colComponent = new CollisionComponent("Wall");
-		colComponent->SetCollider(tileScale, tileScale);
-		colComponent->SetPosition(GetPosition());
 		break;
 		
 		//INNER CORNER
 
 	case CellID::IC_NE:
 		SetRenderData(7,0);
-		colComponent = new CollisionComponent("Wall");
-		colComponent->SetCollider(tileScale, tileScale);
-		colComponent->SetPosition(GetPosition());
 		break;
 	case CellID::IC_NW:
 		SetRenderData(6,0);
-		colComponent = new CollisionComponent("Wall");
-		colComponent->SetCollider(tileScale, tileScale);
-		colComponent->SetPosition(GetPosition());
 		break;
 	case CellID::IC_SW:
 		SetRenderData(7,2);
-		colComponent = new CollisionComponent("Wall");
-		colComponent->SetCollider(tileScale, tileScale);
-		colComponent->SetPosition(GetPosition());
 		break;
 	case CellID::IC_SE:
 		SetRenderData(6,2);
-		colComponent = new CollisionComponent("Wall");
-		colComponent->SetCollider(tileScale, tileScale);
-		colComponent->SetPosition(GetPosition());
 		break;
 	default:
 		SetRenderData(1,1);
-		colComponent = new CollisionComponent("Wall");
-		colComponent->SetCollider(tileScale, tileScale);
-		colComponent->SetPosition(GetPosition());
 		break;
 	}
+
+
+	
 }
+
+
 
 void CTile::SetRenderData(int X, int Y)
 {

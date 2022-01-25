@@ -373,10 +373,6 @@
     <ClInclude Include="Tools\CT_EditorMain.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="CTransform.h" />
-    <ClInclude Include="Utility\CollisionManager\CollisionManager.h" />
-    <ClInclude Include="Utility\CollisionManager\Components\Bodies\BoundingSphere.h" />
-    <ClInclude Include="Utility\CollisionManager\Components\Bodies\CollisionComponent.h" />
-    <ClInclude Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.h" />
     <ClInclude Include="CCharacter.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CPlayerController.h" />
@@ -435,10 +431,6 @@
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
     <ClCompile Include="Tools\CT_WindowBase.cpp" />
     <ClCompile Include="CTransform.cpp" />
-    <ClCompile Include="Utility\CollisionManager\CollisionManager.cpp" />
-    <ClCompile Include="Utility\CollisionManager\Components\Bodies\BoundingSphere.cpp" />
-    <ClCompile Include="Utility\CollisionManager\Components\Bodies\CollisionComponent.cpp" />
-    <ClCompile Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.cpp" />
     <ClCompile Include="CPlayerController.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="testCharacter.cpp" />

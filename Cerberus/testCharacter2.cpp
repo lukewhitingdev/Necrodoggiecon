@@ -9,8 +9,6 @@ testCharacter2::testCharacter2()
 
 	spriteComponent->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
 
-	colComponent = new CollisionComponent("Character 2");
-
 	if (float(rand() % 2))
 		spriteComponent->SetScale(-1, 1, 1);
 }
@@ -28,5 +26,5 @@ void testCharacter2::PressedVertical(int dir, float deltaTime)
 
 void testCharacter2::Update(float deltaTime)
 {
-	colComponent->SetPosition(GetPosition());
+
 }
