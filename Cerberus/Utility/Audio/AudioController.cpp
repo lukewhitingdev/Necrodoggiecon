@@ -125,52 +125,36 @@ bool AudioController::DestroyAudio(std::string path)
 
 void AudioController::Update(Vector3 listenerPos, float deltaTime)
 {
-	static FMOD_VECTOR* posVec;
-	static FMOD_VECTOR* prevPosVec;
-	static FMOD_VECTOR* velVec;
-	static FMOD_VECTOR* forwardVec;
-	static FMOD_VECTOR* upVec;
-
-	if(posVec == nullptr)
-	{
-		posVec = new FMOD_VECTOR();
-		prevPosVec = new FMOD_VECTOR();
-	}
-
-	if (velVec == nullptr)
-		velVec = new FMOD_VECTOR();
-
-	if (forwardVec == nullptr)
-		forwardVec = new FMOD_VECTOR();
-
-	if (upVec == nullptr)
-		upVec = new FMOD_VECTOR();
-
 	FMOD_RESULT result;
-	posVec->x = listenerPos.x;
-	posVec->y = listenerPos.y;
-	posVec->z = listenerPos.z;
 
-	velVec->x = (posVec->x - prevPosVec->x) * 1000 / deltaTime;
-	velVec->y = (posVec->y - prevPosVec->y) * 1000 / deltaTime;
-	velVec->z = (posVec->z - prevPosVec->z) * 1000 / deltaTime;
+	// Attenuate.
+	// Can use audio->channel->setVolume() to keep the niceties of virtualization of audio from FMOD.
 
-	if (prevPosVec != posVec)
-		prevPosVec = posVec;
+	float maxRange = 1000;
 
-	forwardVec->x = 0;
-	forwardVec->y = 0;
-	forwardVec->z = 1;
-
-	upVec->x = 0;
-	upVec->y = 1;
-	upVec->z = 0;
-
-	if ((result = FMODSystem->set3DListenerAttributes(0, posVec, velVec, forwardVec, upVec)) != FMOD_OK)
+	for(CEmitter* emiter : emitters)
 	{
-		Debug::LogError("[Audio Update] FMOD Error[%d]: %s ", result, FMOD_ErrorString(result));
-		return;
+
+		float distToEmitter = listenerPos.DistanceTo(emiter->position);
+
+		// Check we are in range of the emitter.
+		if (distToEmitter > emiter->range)
+			continue;
+
+		float attentuation = 1 - (distToEmitter / maxRange);
+
+		// Clamp because im bad at math.
+		if(attentuation < 0)
+		{
+			attentuation = 0;
+		}
+
+		// Attenuate.
+		emiter->audio->channel->setVolume(attentuation);
+
+		Debug::Log("Setting Emitter Volume: %f", attentuation);
 	}
+
 
 	if ((result = FMODSystem->update()) != FMOD_OK)
 	{

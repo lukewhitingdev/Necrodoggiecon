@@ -6,6 +6,6 @@ class CEmitter
 {
 public:
 	Vector3 position;
-	float range;
+	float range = 1000;
 	CAudio* audio;
 };
