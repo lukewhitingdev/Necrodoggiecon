@@ -132,13 +132,13 @@ void AudioController::Update(Vector3 listenerPos, float deltaTime)
 
 	float maxRange = 1000;
 
-	for(CEmitter* emiter : emitters)
+	for(CEmitter* emitter : emitters)
 	{
 
-		float distToEmitter = listenerPos.DistanceTo(emiter->position);
+		float distToEmitter = listenerPos.DistanceTo(emitter->position);
 
 		// Check we are in range of the emitter.
-		if (distToEmitter > emiter->range)
+		if (distToEmitter > emitter->range)
 			continue;
 
 		float attentuation = 1 - (distToEmitter / maxRange);
@@ -150,7 +150,7 @@ void AudioController::Update(Vector3 listenerPos, float deltaTime)
 		}
 
 		// Attenuate.
-		emiter->audio->channel->setVolume(attentuation);
+		emitter->audio->channel->setVolume(attentuation);
 
 		Debug::Log("Setting Emitter Volume: %f", attentuation);
 	}
@@ -163,7 +163,7 @@ void AudioController::Update(Vector3 listenerPos, float deltaTime)
 	}
 }
 
-std::vector<CEmitter*> AudioController::getAllEntitiesWithinRange(Vector3 position)
+std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 position)
 {
 	std::vector<CEmitter*> output;
 	for(CEmitter* emiter : emitters)
@@ -175,12 +175,12 @@ std::vector<CEmitter*> AudioController::getAllEntitiesWithinRange(Vector3 positi
 	return output;
 }
 
-void AudioController::addEmitter(CEmitter* emitter)
+void AudioController::AddEmitter(CEmitter* emitter)
 {
 	emitters.emplace_back(emitter);
 }
 
-void AudioController::removeEmitter(CEmitter* emitter)
+void AudioController::RemoveEmitter(CEmitter* emitter)
 {
 	for (size_t i = 0; i < emitters.size(); i++)
 	{

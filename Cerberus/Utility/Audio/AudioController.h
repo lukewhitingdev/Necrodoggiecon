@@ -19,11 +19,9 @@ public:
 
 	static void Update(Vector3 listenerPos, float deltaTime);
 
-	static std::vector<CEmitter*> getAllEntitiesWithinRange(Vector3 position);
-	static void addEmitter(CEmitter* emitter);
-	static void removeEmitter(CEmitter* emitter);
-
-	static FMOD::System* getSystem() { return FMODSystem; };
+	static std::vector<CEmitter*> GetAllEmittersWithinRange(Vector3 position);
+	static void AddEmitter(CEmitter* emitter);
+	static void RemoveEmitter(CEmitter* emitter);
 
 private:
 	static FMOD::System* FMODSystem;
