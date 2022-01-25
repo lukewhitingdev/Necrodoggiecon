@@ -10,6 +10,7 @@ class CEntity : public CTransform
 
 public:
 	bool shouldUpdate = true;
+	bool visible = true;
 
 	std::vector<CComponent*> components;
 	
@@ -21,23 +22,11 @@ public:
 	T* AddComponent()
 	{
 		CComponent* tmp = new T();
+		tmp->SetParent(this);
 		components.push_back(tmp);
 		return dynamic_cast<T*>(tmp);
 	}
 
 	// Removes the specified component.
-	void RemoveComponent(CComponent* reference)
-	{
-		for (size_t i = 0; i < components.size(); i++)
-		{
-			CComponent* component = components[i];
-
-			if (component == reference)
-			{
-				components.erase(components.begin() + i);
-				delete component;
-				return;
-			}
-		}
-	}
+	void RemoveComponent(CComponent* reference);
 };

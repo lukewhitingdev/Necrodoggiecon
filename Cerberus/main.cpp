@@ -400,7 +400,8 @@ HRESULT InitDevice()
         sd.BufferCount = 1;
         sd.BufferDesc.Width = width;
         sd.BufferDesc.Height = height;
-        sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        //sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        sd.BufferDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
         sd.BufferDesc.RefreshRate.Numerator = maxFPS;
         sd.BufferDesc.RefreshRate.Denominator = 1;
         sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -839,13 +840,20 @@ double CalculateDeltaTime(const unsigned short fpsCap)
 void Update(float deltaTime)
 {
 	for (auto& e : Engine::entities)
-		if(e->shouldUpdate)
+	{
+		if (!e->shouldUpdate)
+			continue;
+		
+		for (auto& f : e->components)
 		{
-			for (auto& f : e->components)
-				if(f->shouldUpdate)
-					f->Update(deltaTime);
-			e->Update(deltaTime);
+			if (!f->shouldUpdate)
+				continue;
+
+			f->Update(deltaTime);
 		}
+
+		e->Update(deltaTime);
+	}
 
 }
 
@@ -885,21 +893,18 @@ void Render()
 	// Set primitive topology
 	Engine::deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	for (auto& e : Engine::entities)
+	for (auto& e : Engine::entities) if (e->visible)
 	{
-		//Maybe should have a visible bool for each entity
-
 		XMFLOAT4X4 entTransform = e->GetTransform();
 
-		for (auto& f : e->components)
-			if(f->shouldDraw)
-			{
-				ConstantBuffer cb1;
-				cb1.mView = viewMat;
-				cb1.mProjection = projMat;
+		for (auto& f : e->components) if (f->shouldDraw)
+		{
+			ConstantBuffer cb1;
+			cb1.mView = viewMat;
+			cb1.mProjection = projMat;
 
-				f->Draw(Engine::deviceContext, entTransform, cb1, constantBuffer);
-			}
+			f->Draw(Engine::deviceContext, entTransform, cb1, constantBuffer);
+		}
 	}
 
 	// Render ImGUI.
