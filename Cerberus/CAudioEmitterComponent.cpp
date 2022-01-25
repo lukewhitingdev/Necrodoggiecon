@@ -1,4 +1,5 @@
 #include "CAudioEmitterComponent.h"
+#include "CEntity.h"
 
 CAudioEmitterComponent::CAudioEmitterComponent()
 {
@@ -11,7 +12,7 @@ CAudioEmitterComponent::CAudioEmitterComponent()
 
 CAudioEmitterComponent::~CAudioEmitterComponent()
 {
-	AudioController::removeEmitter(emitter);
+	AudioController::RemoveEmitter(emitter);
 }
 
 void CAudioEmitterComponent::Load(std::string path)
@@ -19,7 +20,7 @@ void CAudioEmitterComponent::Load(std::string path)
 	emitter->audio = AudioController::LoadAudio(path, false);
 	emitter->audio->path = path;
 
-	AudioController::addEmitter(emitter);
+	AudioController::AddEmitter(emitter);
 }
 
 void CAudioEmitterComponent::SetRange(float range)
@@ -30,7 +31,7 @@ void CAudioEmitterComponent::SetRange(float range)
 
 void CAudioEmitterComponent::Update(float deltaTime)
 {
-	emitter->position = this->GetPosition(); // Change this to the parent thing once we pull.
+	emitter->position = this->GetParent()->GetPosition();
 }
 
 void CAudioEmitterComponent::Play()
