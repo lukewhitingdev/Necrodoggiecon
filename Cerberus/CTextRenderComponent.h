@@ -12,12 +12,13 @@ class CTextRenderComponent : public CComponent
 	std::string font = "Resources\\font.dds";
 	std::vector<CSpriteComponent*> sprites;
 	XMUINT2 characterSize = { 7,7 };
+	XMUINT2 characterDrawSize = { 14,14 };
 	unsigned short reserveSpriteCount = 16;
 	unsigned short usedSpriteCount = 0;
 	TextJustification justification = TextJustification::Center;
-public:
-	unsigned short spriteSheetWidth = 16;
+	unsigned short spriteSheetColumns = 16;
 
+public:
 	HRESULT SetFont(std::string filePath);
 	void SetText(std::string newText);
 
@@ -28,6 +29,23 @@ public:
 	//Sets how the text will justified to the center of the component.
 	//Just look at justification in MS Word.
 	void SetJustification(TextJustification newJustification);
+
+	//Sets how big in pixels the characters are from the sprite sheet
+	//Simular to SetRenderRect of CSpriteComponent
+	void SetCharacterSize(XMUINT2 newSize);
+
+	//Sets how big in pixels the characters are from the sprite sheet
+	//Simular to SetRenderRect of CSpriteComponent
+	void SetCharacterDrawSize(XMUINT2 newSize);
+
+	//Set the size of a character when drawn in pixels
+	void SetSpriteSheetColumnsCount(unsigned short newColumnsCount);
+
+	const std::string& GetText() const { return text; };
+	const unsigned short& GetReserveCount() const { return reserveSpriteCount; };
+	const XMUINT2& GetCharacterSize() const { return characterSize; };
+	const XMUINT2& GetCharacterDrawSize() const { return characterDrawSize; };
+	const unsigned short& SetSpriteSheetColumnsCount() const { return spriteSheetColumns; };
 
 	CTextRenderComponent();
 	virtual void Update(float deltaTime) override;
