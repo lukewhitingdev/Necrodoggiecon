@@ -3,6 +3,7 @@
 #include "CWorld_Edit.h"
 #include "Engine.h"
 #include "CCamera.h"
+#include "Dependencies/IMGUI/imgui.h"
 #include <DirectXMath.h>
 
 CGridCursor::CGridCursor()
@@ -85,24 +86,12 @@ void CGridCursor::Update(float deltaTime)
 	
 
 
-	
 	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::LButton) && wasMouseReleased)
 	{
-		if (!cellSelected)
-		{
-			
-			CWorld_Editable::QueueCell(Vector2(PreScale.x, PreScale.y));
-			cellSelected = true;
-			wasMouseReleased = false;
-		}
-		else
-		{
-			CWorld_Editable::QueueCell(Vector2(PreScale.x, PreScale.y));
-			selectedCell_1 = Vector3(0, 0, 0);
-			cellSelected = false;
-		}
+		CWorld_Editable::QueueCell(Vector2(PreScale.x, PreScale.y));
+		wasMouseReleased = false;
 
-		
+
 	}
 	else if (!wasMouseReleased && !Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::LButton))
 	{
@@ -114,14 +103,13 @@ void CGridCursor::Update(float deltaTime)
 		if (cellSelected)
 		{
 			CWorld_Editable::ClearQueue();
-		
+
 			cellSelected = false;
 		}
-		
+
 
 
 	}
-	
 
 	
 	//mouseCalc. * -1;

@@ -20,15 +20,21 @@ class CWorld_Editable : public CWorld
 public:
 
 
-	static void SetOperationMode(EditOperationMode mode) { operationType = mode; }
+	static void SetOperationMode(EditOperationMode mode);
 
 	//Adds a cell to the Queue, once the queue is full (2 Cells) the grid will perform a edit operation;
 	static void QueueCell(Vector2 Cell);
+
+	static void ToggleCellQueueLock(bool setLock) { isQueueLocked = setLock; }
 
 	//Clears the Cell edit queue
 	static void ClearQueue();
 
 	static void PerformOperation(Vector2 A, Vector2 B);
+
+	static void PerformOperation_ClearSpace();
+
+	static void LoadWorld_Edit();
 
 	//Save the current tile data to a file
 	static void SaveWorld(int Slot);
@@ -37,7 +43,7 @@ public:
 
 	static void NewWorld(int Slot);
 
-	static void ClearSpace();
+	
 
 
 protected:
@@ -54,6 +60,8 @@ protected:
 	static void AdditiveBox_Scale(Vector2 A, Vector2 B);
 	//Sets space to be walkable
 	static void SubtractiveBox_Scale(Vector2 A, Vector2 B);
+
+	static void ClearSpace();
 
 
 private:
@@ -109,6 +117,8 @@ private:
 	static Vector2 editOrigin;
 
 	static bool selectedCell;
+
+	static bool isQueueLocked;
 
 };
 

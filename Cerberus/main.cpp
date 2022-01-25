@@ -260,7 +260,7 @@ void Load()
 		//CWorld_Editable::EditWorld(0);
 		//CWorld_Editable::SaveWorld(0);
 
-		CWorld::LoadWorld(0);
+		CWorld_Editable::LoadWorld_Edit();
 	}
 	else
 	{

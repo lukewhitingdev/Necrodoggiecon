@@ -11,8 +11,9 @@ void CT_WindowBase::render()
 
     {
         if (*open)
-
         {
+
+           
             ImGui::SetNextWindowSize(ImVec2(WindowScale.x, WindowScale.y), ImGuiCond_FirstUseEver);
             if (!ImGui::Begin(WindowTitle, open))
             {
@@ -20,6 +21,21 @@ void CT_WindowBase::render()
                 ImGui::End();
                 return;
             }
+
+
+           
+            if (ImGui::GetIO().WantCaptureMouse)
+            {
+               
+                CWorld_Editable::ToggleCellQueueLock(true);
+            }
+            else
+            {
+
+              
+                CWorld_Editable::ToggleCellQueueLock(false);
+            }
+
 
             if (ImGui::TreeNode("Grid Manipulation"))
             {
@@ -42,6 +58,18 @@ void CT_WindowBase::render()
                 ImGui::TreePop();
             }
 
+
+            if (ImGui::TreeNode("Utility"))
+            {
+                if (ImGui::Button("Clear Grid"))
+                {
+                    CWorld_Editable::PerformOperation_ClearSpace();
+                    CWorld_Editable::ClearQueue();
+                }
+              
+
+                ImGui::TreePop();
+            }
            
 
 

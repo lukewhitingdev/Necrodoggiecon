@@ -9,22 +9,43 @@ CellData CWorld_Editable::tileData[mapScale * mapScale];
 EditOperationMode CWorld_Editable::operationType = EditOperationMode::None;
 Vector2 CWorld_Editable::editOrigin = Vector2(0, 0);
 bool CWorld_Editable::selectedCell = false;
+bool CWorld_Editable::isQueueLocked = false;
 
+
+void CWorld_Editable::SetOperationMode(EditOperationMode mode)
+{
+	operationType = mode;
+	switch (mode)
+	{
+	case EditOperationMode::Additive:
+		Debug::Log("OperationMode: Additive");
+		break;
+	case EditOperationMode::Subtractive:
+		Debug::Log("OperationMode: Subtractive");
+		break;
+	case EditOperationMode::None:
+		Debug::Log("OperationMode: None");
+		break;
+	}
+}
 
 void CWorld_Editable::QueueCell(Vector2 Cell)
 {
-	if (!selectedCell)
+	if (!isQueueLocked)
 	{
-		editOrigin = Cell;
-		selectedCell = true;
-	}
-	else
-	{
+		if (!selectedCell)
+		{
+			editOrigin = Cell;
+			selectedCell = true;
+		}
+		else
+		{
 
 
-		PerformOperation(editOrigin, Cell);
-		
-		selectedCell = false;
+			PerformOperation(editOrigin, Cell);
+
+			selectedCell = false;
+		}
 	}
 
 }
@@ -46,6 +67,7 @@ void CWorld_Editable::PerformOperation(Vector2 A, Vector2 B)
 	{
 	case EditOperationMode::Additive:
 		AdditiveBox(A, B);
+		
 
 		break;
 	case EditOperationMode::Subtractive:
@@ -55,7 +77,74 @@ void CWorld_Editable::PerformOperation(Vector2 A, Vector2 B)
 		break;
 
 	}
+	ClearQueue();
 
+	GenerateTileMap();
+}
+
+void CWorld_Editable::PerformOperation_ClearSpace()
+{
+	ClearSpace();
+	GenerateTileMap();
+}
+
+void CWorld_Editable::LoadWorld_Edit()
+{
+	std::ifstream file("Resources/Levels/Level_1.json");
+
+
+	json storedFile;
+
+	file >> storedFile;
+
+	std::vector<std::string> convertedFile = storedFile["TileData"];
+
+
+	std::string Test = convertedFile[0];
+	std::cout << "" << std::endl;
+
+
+	for (int i = 0; i < (mapScale * mapScale); i++)
+	{
+		Vector3 temp = Vector3((float)(i % mapScale), (float)(i / mapScale), 0);
+		Vector2 gridPos = Vector2(temp.x, temp.y);
+
+		int ID = atoi(convertedFile[i].c_str());
+		Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
+
+		//tempPos += Vector3(0, 64 * tileScale, 0.0f);
+
+		tempPos.z = 10;
+
+
+
+		CTile* Tile = Engine::CreateEntity<CTile>();
+		Tile->SetPosition(tempPos);
+		Tile->SetScale(tileScaleMultiplier);
+		Tile->ChangeTileID(ID);
+
+		tileContainer[i] = Tile;
+
+
+
+		if (Tile->GetTileID() != 1)
+		{
+			tileData[i].id = 0;
+		}
+		else tileData[i].id = 1;
+
+
+		//tileData[i].id = Tile->GetTileID();
+		tileData[i].type = CellType::Empty;
+
+
+		
+
+	}
+
+	
+
+	BuildNavigationGrid();
 
 	GenerateTileMap();
 }
@@ -258,7 +347,7 @@ void CWorld_Editable::RefreshTileMapRegion(Vector2 A, Vector2 B)
 
 void CWorld_Editable::GenerateTileMap()
 {
-
+	
 
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
@@ -279,6 +368,7 @@ void CWorld_Editable::GenerateTileMap()
 		}
 
 	}
+	
 
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
@@ -288,7 +378,7 @@ void CWorld_Editable::GenerateTileMap()
 		SetCorner(Vector2(pos.x, pos.y));
 
 	}
-
+	
 
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
@@ -339,7 +429,6 @@ void CWorld_Editable::GenerateTileMap()
 			break;
 		}
 	}
-
 
 
 
