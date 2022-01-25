@@ -216,7 +216,6 @@ void Load()
 		myClass->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
 	
-	
 	// sawps and makes one of the entiys the player
 	for (int i = 0; i < 1; i++)
 	{
@@ -878,7 +877,7 @@ void Update(float deltaTime)
 			e->Update(deltaTime);
 		}
 
-	AudioController::Update(Engine::GetEntityOfType<CAIController>()[0]->GetPosition(), deltaTime);
+	AudioController::Update(Vector3(0, 0, 0), deltaTime);
 }
 
 //--------------------------------------------------------------------------------------

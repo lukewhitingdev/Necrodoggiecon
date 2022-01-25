@@ -356,7 +356,6 @@
     <ClInclude Include="CAICharacter.h" />
     <ClInclude Include="CAIController.h" />
     <ClInclude Include="CAudioEmitterComponent.h" />
-    <ClInclude Include="CAudioListenerComponent.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CTextRenderComponent.h" />
@@ -411,7 +410,6 @@
     <ClCompile Include="CAICharacter.cpp" />
     <ClCompile Include="CAIController.cpp" />
     <ClCompile Include="CAudioEmitterComponent.cpp" />
-    <ClCompile Include="CAudioListenerComponent.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCharacter.cpp" />
     <ClCompile Include="CComponent.cpp" />
