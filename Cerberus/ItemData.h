@@ -12,7 +12,7 @@ struct ItemData
 	ItemData() {};
 	ItemData(std::string name, std::string textureFilePath) : itemName(name), texturePath(textureFilePath)
 	{
-		ItemDatabase::Instance()->AddToMap(this);
+		ItemDatabase::AddToMap(this);
 	}
 
 	virtual CEquippedItem* CreateItem()

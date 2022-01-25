@@ -13,16 +13,15 @@ private:
 	static ItemDatabase* instance;
 	ItemDatabase() {};
 protected:
-	std::map<int, ItemData*> itemDatabase;
-	int GetNewID() { return (int)itemDatabase.size(); }
+	static std::map<int, ItemData*> itemDatabase;
+	static int GetNewID() { return (int)itemDatabase.size(); }
 
 public:
-	ItemData* GetItemFromID(int id);
-	CEquippedItem* CreateEquippedItemFromID(int id, CEntity* owner);
-	CDroppedItem* CreateDroppedItemFromID(int id);
+	static ItemData* GetItemFromID(int id);
+	static CEquippedItem* CreateEquippedItemFromID(int id, CEntity* owner);
+	static CDroppedItem* CreateDroppedItemFromID(int id);
 
-	void AddToMap(ItemData* dataToAdd);
+	static void AddToMap(ItemData* dataToAdd);
 
-	static ItemDatabase* Instance();
 };
 

@@ -3,16 +3,7 @@
 #include "CDroppedItem.h"
 #include "CEquippedItem.h"
 
-ItemDatabase* ItemDatabase::instance = nullptr;
-
-ItemDatabase* ItemDatabase::Instance()
-{
-	if (instance == nullptr)
-	{
-		instance = new ItemDatabase();
-	}
-	return instance;
-}
+std::map<int, ItemData*> ItemDatabase::itemDatabase = {};
 
 ItemData* ItemDatabase::GetItemFromID(int id)
 {

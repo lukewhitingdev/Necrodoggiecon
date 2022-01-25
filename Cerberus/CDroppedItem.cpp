@@ -13,14 +13,14 @@ CDroppedItem::~CDroppedItem()
 
 CEquippedItem* CDroppedItem::OnEquip(CEntity* owner)
 {
-	return ItemDatabase::Instance()->CreateEquippedItemFromID(itemID, owner);
+	return ItemDatabase::CreateEquippedItemFromID(itemID, owner);
 }
 
 void CDroppedItem::Initialise(int id)
 {
 	itemID = id;
 
-	itemData = ItemDatabase::Instance()->GetItemFromID(id);
+	itemData = ItemDatabase::GetItemFromID(id);
 
 	spriteComponent = AddComponent<CSpriteComponent>();
 	spriteComponent->LoadTexture(itemData->texturePath);

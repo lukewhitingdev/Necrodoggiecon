@@ -10,6 +10,8 @@ class testCharacter : public CCharacter, public IInputable
 protected:
 	float speed = 200;
 	float timeElapsed = 0;
+
+	void LookAt(Vector3 pos);
 public:
 	testCharacter();
 
