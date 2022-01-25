@@ -40,9 +40,10 @@ public:
 	//MUST use the .dds file type
 	HRESULT LoadTexture(std::string filePath);
 
-	CSpriteComponent();
-	HRESULT LoadTexture(std::string filePath);
+	//MUST use BMP, JPEG, PNG, TIFF, GIF, or HD Photo file types
 	HRESULT LoadTextureWIC(std::string filePath);
+
+	CSpriteComponent();
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) override;
 	virtual ~CSpriteComponent();
