@@ -1,0 +1,35 @@
+#pragma once
+#include <CSpriteComponent.h>
+#include <CEntity.h>
+
+class CDroppedItem;
+class ItemData;
+
+class CEquippedItem : public CEntity
+{
+private:
+	CSpriteComponent* spriteComponent = nullptr;
+	int itemID = 0;
+
+	CEntity* owner = nullptr;
+	ItemData* itemData = nullptr;
+
+protected:
+	CSpriteComponent* GetSpriteComponent(){ return spriteComponent; }
+	int GetItemID(){ return itemID; }
+
+	CEntity* GetOwner() { return owner; }
+	ItemData* GetItemData() { return itemData; }
+public:
+	CEquippedItem();
+	virtual ~CEquippedItem();
+
+	virtual void Update(float deltaTime) override;
+
+	virtual void Initialise(int id, CEntity* newOwner);
+
+	virtual void Equip();
+	virtual void Unequip();
+	virtual CDroppedItem* Drop();
+};
+

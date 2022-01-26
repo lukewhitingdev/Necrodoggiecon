@@ -22,9 +22,12 @@
 #include "CWorld_Edit.h"
 #include "CAIController.h"
 #include "CCamera.h"
+#include "Utility/Audio/AudioController.h"
 #include "testCharacter.h"
 #include "testCharacter2.h"
 #include "testController.h"
+#include "CDroppedItem.h"
+#include "testItemData.h"
 #include "Utility/EventSystem/EventSystem.h"
 
 #include "InputManager.h"
@@ -230,16 +233,41 @@ void Load()
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
 
+	/*for (int i = 0; i < 100; i++)
+	{
+		testCharacter* entity = Engine::CreateEntity<testCharacter>();
+		entity->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	}*/
+
+	testItemData* data = new testItemData("tempWeapon", "Resources\\birb.dds");
+
+	/*for (int i = 0; i < 1000; i++)
+	{
+		EquippedItem* item = ItemDatabase::Instance()->CreateItemFromID(0);
+		if(item != nullptr)
+			item->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	}*/
+
 	testController* controller = Engine::CreateEntity<testController>();
 	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
 	testCharacter* character2 = Engine::CreateEntity<testCharacter>();
 
-	character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
+
+	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	character1->droppedItem = droppedItem;
+
 	character2->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 
 	controller->charOne = character1;
 	controller->charTwo = character2;
+  
+	character1->SetPosition(Vector3(0, 0, 0));
 	controller->Possess(character1);
+	character1->shouldMove = true;
+	character1->colComponent->SetCollider(128.0f, 128.0f);
+
+
 
 	//Engine::DestroyEntity(character1);
 	std::vector<testCharacter*> test = Engine::GetEntityOfType<testCharacter>();
@@ -248,6 +276,41 @@ void Load()
 	{
 		CAIController* ai = Engine::CreateEntity<CAIController>();
 	}
+
+	TestClass* topLeft = Engine::CreateEntity<TestClass>();
+	topLeft->SetPosition(Vector3{ -300.0f, 100.0f, 0.0f });
+	topLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* topMiddleLeft = Engine::CreateEntity<TestClass>();
+	topMiddleLeft->SetPosition(Vector3{ -100.0f, 100.0f, 0.0f });
+	topMiddleLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* topMiddleRight = Engine::CreateEntity<TestClass>();
+	topMiddleRight->SetPosition(Vector3{ 100.0f, 100.0f, 0.0f });
+	topMiddleRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* topRight = Engine::CreateEntity<TestClass>();
+	topRight->SetPosition(Vector3{ 300.0f, 100.0f, 0.0f });
+	topRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* bottomLeft = Engine::CreateEntity<TestClass>();
+	bottomLeft->SetPosition(Vector3{ -300.0f, -100.0f, 0.0f });
+	bottomLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* bottomMiddleLeft = Engine::CreateEntity<TestClass>();
+	bottomMiddleLeft->SetPosition(Vector3{ -100.0f, -100.0f, 0.0f });
+	bottomMiddleLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* bottomMiddleRight = Engine::CreateEntity<TestClass>();
+	bottomMiddleRight->SetPosition(Vector3{ 100.0f, -100.0f, 0.0f });
+	bottomMiddleRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* bottomRight = Engine::CreateEntity<TestClass>();
+	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
+	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	//CWorld* World = new CWorld(0);
+	//World->LoadWorld(0);
 }
 
 //--------------------------------------------------------------------------------------
@@ -401,7 +464,8 @@ HRESULT InitDevice()
         sd.BufferCount = 1;
         sd.BufferDesc.Width = width;
         sd.BufferDesc.Height = height;
-        sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        //sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        sd.BufferDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
         sd.BufferDesc.RefreshRate.Numerator = maxFPS;
         sd.BufferDesc.RefreshRate.Denominator = 1;
         sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -839,15 +903,40 @@ double CalculateDeltaTime(const unsigned short fpsCap)
 
 void Update(float deltaTime)
 {
-	for (auto& e : Engine::entities)
-		if(e->shouldUpdate)
+	for (int i=0; i < Engine::entities.size(); i++)
+	{
+		CEntity* e = Engine::entities[i];
+		if (!e->shouldUpdate)
+			continue;
+		
+		for (auto& f : e->components)
 		{
-			for (auto& f : e->components)
-				if(f->shouldUpdate)
-					f->Update(deltaTime);
-			e->Update(deltaTime);
-		}
+			if (!f->shouldUpdate)
+				continue;
 
+			f->Update(deltaTime);
+		}
+		e->Update(deltaTime);
+		if (e->shouldMove)
+		{
+			for (size_t j = 0; j < Engine::entities.size(); j++)
+			{
+				CEntity* currentEntity = Engine::entities[j];
+
+				if (e != currentEntity && currentEntity->colComponent != nullptr)
+				{
+					//If it can move, check the collisions and it is a different entity, do collision stuff
+					if (e->colComponent->IsColliding(currentEntity->colComponent))
+					{
+						e->HasCollided(currentEntity->colComponent);
+						currentEntity->HasCollided(e->colComponent);
+					}
+				}
+			}
+		}
+	}
+
+	AudioController::Update(Vector3(0, 0, 0), deltaTime);
 }
 
 //--------------------------------------------------------------------------------------
@@ -886,21 +975,18 @@ void Render()
 	// Set primitive topology
 	Engine::deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	for (auto& e : Engine::entities)
+	for (auto& e : Engine::entities) if (e->visible)
 	{
-		//Maybe should have a visible bool for each entity
-
 		XMFLOAT4X4 entTransform = e->GetTransform();
 
-		for (auto& f : e->components)
-			if(f->shouldDraw)
-			{
-				ConstantBuffer cb1;
-				cb1.mView = viewMat;
-				cb1.mProjection = projMat;
+		for (auto& f : e->components) if (f->shouldDraw)
+		{
+			ConstantBuffer cb1;
+			cb1.mView = viewMat;
+			cb1.mProjection = projMat;
 
-				f->Draw(Engine::deviceContext, entTransform, cb1, constantBuffer);
-			}
+			f->Draw(Engine::deviceContext, entTransform, cb1, constantBuffer);
+		}
 	}
 
 	// Render ImGUI.

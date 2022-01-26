@@ -1603,7 +1603,7 @@ HRESULT DirectX::CreateDDSTextureFromMemoryEx( ID3D11Device* d3dDevice,
     }
     if ( alphaMode )
     {
-        *alphaMode = DDS_ALPHA_MODE_UNKNOWN;
+        *alphaMode = DDS_ALPHA_MODE::DDS_ALPHA_MODE_UNKNOWN;
     }
 
     if (!d3dDevice || !ddsData || (!texture && !textureView))
@@ -1743,7 +1743,7 @@ HRESULT DirectX::CreateDDSTextureFromFileEx( ID3D11Device* d3dDevice,
     }
     if ( alphaMode )
     {
-        *alphaMode = DDS_ALPHA_MODE_UNKNOWN;
+        *alphaMode = DDS_ALPHA_MODE::DDS_ALPHA_MODE_UNKNOWN;
     }
 
     if (!d3dDevice || !fileName || (!texture && !textureView))
