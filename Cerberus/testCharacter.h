@@ -21,6 +21,8 @@ public:
 	void PressedDrop() override;
 	virtual void Update(float deltaTime) override;
 
+	virtual void HasCollided(CollisionComponent* collidedObject) override;
+
 	CDroppedItem* droppedItem = nullptr;
 	CEquippedItem* equippedItem = nullptr;
 };

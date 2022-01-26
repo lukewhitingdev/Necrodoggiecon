@@ -264,7 +264,8 @@ void Load()
   
 	character1->SetPosition(Vector3(0, 0, 0));
 	controller->Possess(character1);
-
+	character1->shouldMove = true;
+	character1->colComponent->SetCollider(128.0f, 128.0f);
 
 
 
@@ -915,6 +916,23 @@ void Update(float deltaTime)
 			f->Update(deltaTime);
 		}
 		e->Update(deltaTime);
+		if (e->shouldMove)
+		{
+			for (size_t j = 0; j < Engine::entities.size(); j++)
+			{
+				CEntity* currentEntity = Engine::entities[j];
+
+				if (e != currentEntity && currentEntity->colComponent != nullptr)
+				{
+					//If it can move, check the collisions and it is a different entity, do collision stuff
+					if (e->colComponent->IsColliding(currentEntity->colComponent))
+					{
+						e->HasCollided(currentEntity->colComponent);
+						currentEntity->HasCollided(e->colComponent);
+					}
+				}
+			}
+		}
 	}
 
 	AudioController::Update(Vector3(0, 0, 0), deltaTime);

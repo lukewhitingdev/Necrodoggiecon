@@ -359,6 +359,7 @@
     <ClInclude Include="CAudioEmitterComponent.h" />
     <ClInclude Include="CAINode.h" />
     <ClInclude Include="CCamera.h" />
+    <ClInclude Include="CEntity.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="Core\CursorEntity.h" />
@@ -390,6 +391,7 @@
     <ClInclude Include="testCharacter2.h" />
     <ClInclude Include="testController.h" />
     <ClInclude Include="Utility\Audio\CEmitter.h" />
+    <ClInclude Include="Utility\CollisionManager\CollisionComponent.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="CTile.h" />
@@ -399,7 +401,6 @@
     <ClInclude Include="WorldConstants.h" />
     <ClInclude Include="Utility\Audio\AudioController.h" />
     <ClInclude Include="CComponent.h" />
-    <ClInclude Include="CEntity.h" />
     <ClInclude Include="CSpriteComponent.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="Libraries\json.hpp" />
@@ -452,6 +453,7 @@
     <ClCompile Include="testCharacter.cpp" />
     <ClCompile Include="testCharacter2.cpp" />
     <ClCompile Include="testController.cpp" />
+    <ClCompile Include="Utility\CollisionManager\CollisionComponent.cpp" />
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CTile.cpp" />

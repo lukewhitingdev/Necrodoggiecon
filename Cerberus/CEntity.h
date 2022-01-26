@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CComponent.h"
+#include "Utility/CollisionManager/CollisionComponent.h"
 #include "Vector3.h"
 
 ////Fundimental class of the engine with a world transform and ability to have components
@@ -10,6 +11,7 @@ class CEntity : public CTransform
 
 public:
 	bool shouldUpdate = true;
+	bool shouldMove = false;
 	bool visible = true;
 
 	std::vector<CComponent*> components;
@@ -29,4 +31,6 @@ public:
 
 	// Removes the specified component.
 	void RemoveComponent(CComponent* reference);
+	CollisionComponent* colComponent = nullptr;
+	virtual void HasCollided(CollisionComponent* collidedObject) {};
 };

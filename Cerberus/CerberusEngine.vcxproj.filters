@@ -82,6 +82,7 @@
       <Filter>Item\test</Filter>
     </ClCompile>
     <ClCompile Include="CAudioEmitterComponent.cpp" />
+    <ClCompile Include="Utility\CollisionManager\CollisionComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -93,7 +94,6 @@
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CComponent.h" />
-    <ClInclude Include="CEntity.h" />
     <ClInclude Include="CSpriteComponent.h" />
     <ClInclude Include="Dependencies\IMGUI\imconfig.h" />
     <ClInclude Include="Dependencies\IMGUI\imgui.h" />
@@ -189,6 +189,8 @@
     <ClInclude Include="testEquippedItem.h">
       <Filter>Item\test</Filter>
     </ClInclude>
+    <ClInclude Include="Utility\CollisionManager\CollisionComponent.h" />
+    <ClInclude Include="CEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
