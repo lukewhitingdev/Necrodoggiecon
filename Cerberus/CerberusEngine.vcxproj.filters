@@ -7,7 +7,6 @@
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CTexture.cpp" />
-    <ClCompile Include="Utility\Audio\AudioController.cpp" />
     <ClCompile Include="CSpriteComponent.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_draw.cpp" />
@@ -37,6 +36,7 @@
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CTransform.cpp" />
+    <ClCompile Include="Utility\Audio\AudioController.cpp" />
     <ClCompile Include="CTextRenderComponent.cpp" />
     <ClCompile Include="Core\CursorEntity.cpp" />
     <ClCompile Include="CCharacter.cpp">
@@ -81,6 +81,7 @@
     <ClCompile Include="testItemData.cpp">
       <Filter>Item\test</Filter>
     </ClCompile>
+    <ClCompile Include="CAudioEmitterComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -91,7 +92,6 @@
     </ClInclude>
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="CTexture.h" />
-    <ClInclude Include="Utility\Audio\AudioController.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CEntity.h" />
     <ClInclude Include="CSpriteComponent.h" />
@@ -120,7 +120,6 @@
       <Filter>World</Filter>
     </ClInclude>
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
-    <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
@@ -131,6 +130,8 @@
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CTransform.h" />
+    <ClInclude Include="Utility\Audio\AudioController.h" />
+    <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="Core\CursorEntity.h" />
     <ClInclude Include="CCharacter.h">
@@ -160,6 +161,8 @@
     <ClInclude Include="MathC.h" />
     <ClInclude Include="Core\TestUI.h" />
     <ClInclude Include="CAICharacter.h" />
+    <ClInclude Include="Utility\Audio\CEmitter.h" />
+    <ClInclude Include="CAudioEmitterComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="ItemData.h">
       <Filter>Item</Filter>
