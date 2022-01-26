@@ -839,8 +839,9 @@ double CalculateDeltaTime(const unsigned short fpsCap)
 
 void Update(float deltaTime)
 {
-	for (auto& e : Engine::entities)
+	for (int i=0; i < Engine::entities.size(); i++)
 	{
+		CEntity* e = Engine::entities[i];
 		if (!e->shouldUpdate)
 			continue;
 		
