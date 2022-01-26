@@ -135,6 +135,44 @@ bool CAIController::CanSee(Vector3 posOfObject)
 {
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
+	Vector3 viewCast = view * aiRange;
+	float viewCastDistance = viewCast.Magnitude();
+
+	CTile* closestObstacle = obstacles[0];
+
+	for (CTile* obstacle : obstacles)
+	{
+		if (aiPosition.DistanceTo(obstacle->GetPosition()) < aiPosition.DistanceTo(closestObstacle->GetPosition()))
+		{
+			closestObstacle = obstacle;
+		}
+	}
+	float sizeOfTiles = tileScale * closestObstacle->GetScale().x;
+
+	int numberOfCasts = (int)(viewCastDistance / sizeOfTiles);
+	for (int i = 0; i < numberOfCasts; i++)
+	{
+		Vector3 pointToCheck = aiPosition + (view * sizeOfTiles * i);
+		pointToCheck -= Vector3{ sizeOfTiles * 0.5f, sizeOfTiles * 0.5f, 0.0f };
+		pointToCheck.z = 0.0f;
+		for (CTile* obstacle : obstacles)
+		{
+			if (pointToCheck.DistanceTo(obstacle->GetPosition()) < pointToCheck.DistanceTo(closestObstacle->GetPosition()))
+			{
+				closestObstacle = obstacle;
+			}
+		}
+		if (pointToCheck.x > closestObstacle->GetPosition().x &&
+			pointToCheck.x < closestObstacle->GetPosition().x + sizeOfTiles &&
+			pointToCheck.y > closestObstacle->GetPosition().y &&
+			pointToCheck.y < closestObstacle->GetPosition().y + sizeOfTiles)
+		{
+			return false;
+		}
+
+	}
+
+	
 
 	Vector3 rightView = Vector3{ view.y, -view.x, 0.0f };
 
@@ -231,7 +269,7 @@ void CAIController::StateMachine(float deltaTime)
 			else 
 			{
 				Debug::Log("CAN NOT SEE PLAYER");
-
+				
 				if (perceptionTimer > 0.0f)
 				{
 					currentState = STATE::LOST;
