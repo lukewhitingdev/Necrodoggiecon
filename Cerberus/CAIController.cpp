@@ -646,8 +646,6 @@ float CAIController::CalculateCost(WaypointNode * from, WaypointNode* to)
 	float costX = std::abs(to->waypoint->GetPosition().x - from->waypoint->GetPosition().x);
 	float costY = std::abs(to->waypoint->GetPosition().y - from->waypoint->GetPosition().y);
 
-	//float euclidenDistance = to->waypoint->GetPosition().DistanceTo(from->waypoint->GetPosition());
-
 	float cost = costX + costY;
 	return cost;
 }

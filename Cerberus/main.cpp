@@ -233,20 +233,7 @@ void Load()
 		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
 
-	/*for (int i = 0; i < 100; i++)
-	{
-		testCharacter* entity = Engine::CreateEntity<testCharacter>();
-		entity->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	}*/
-
 	testItemData* data = new testItemData("tempWeapon", "Resources\\birb.dds");
-
-	/*for (int i = 0; i < 1000; i++)
-	{
-		EquippedItem* item = ItemDatabase::Instance()->CreateItemFromID(0);
-		if(item != nullptr)
-			item->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	}*/
 
 	testController* controller = Engine::CreateEntity<testController>();
 	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
@@ -276,41 +263,6 @@ void Load()
 	{
 		CAIController* ai = Engine::CreateEntity<CAIController>();
 	}
-
-	TestClass* topLeft = Engine::CreateEntity<TestClass>();
-	topLeft->SetPosition(Vector3{ -300.0f, 100.0f, 0.0f });
-	topLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* topMiddleLeft = Engine::CreateEntity<TestClass>();
-	topMiddleLeft->SetPosition(Vector3{ -100.0f, 100.0f, 0.0f });
-	topMiddleLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* topMiddleRight = Engine::CreateEntity<TestClass>();
-	topMiddleRight->SetPosition(Vector3{ 100.0f, 100.0f, 0.0f });
-	topMiddleRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* topRight = Engine::CreateEntity<TestClass>();
-	topRight->SetPosition(Vector3{ 300.0f, 100.0f, 0.0f });
-	topRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* bottomLeft = Engine::CreateEntity<TestClass>();
-	bottomLeft->SetPosition(Vector3{ -300.0f, -100.0f, 0.0f });
-	bottomLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* bottomMiddleLeft = Engine::CreateEntity<TestClass>();
-	bottomMiddleLeft->SetPosition(Vector3{ -100.0f, -100.0f, 0.0f });
-	bottomMiddleLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* bottomMiddleRight = Engine::CreateEntity<TestClass>();
-	bottomMiddleRight->SetPosition(Vector3{ 100.0f, -100.0f, 0.0f });
-	bottomMiddleRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	TestClass* bottomRight = Engine::CreateEntity<TestClass>();
-	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
-	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
-
-	//CWorld* World = new CWorld(0);
-	//World->LoadWorld(0);
 }
 
 //--------------------------------------------------------------------------------------
