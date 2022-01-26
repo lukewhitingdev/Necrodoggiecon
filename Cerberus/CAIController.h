@@ -19,7 +19,7 @@ enum class STATE
 	CHASE,
 	ATTACK,
 	COVER,
-	LOST
+	SEARCH
 };
 
 
@@ -28,14 +28,12 @@ class CAIController : public CEntity
 public:
 	CAIController();
 
-	float aiHealth = 2.0f;
-	float aiSpeed = 100.0f;
-	float aiMass = 10.0f;
-	float aiRange = 400.0f;
-	float aiViewAngle = 45.0f;
+	
+	void SetRotationSpeed(float speed);
+	float GetRotationSpeed();
 
-	float width = 128.0f;
-	float height = 128.0f;
+	void SetSearchTime(float time);
+	float GetSearchTime();
 
 	void SetHealth(float health);
 	float GetHealth();
@@ -47,6 +45,11 @@ public:
 	float GetRange();
 	void SetViewAngle(float angle);
 	float GetViewAngle();
+
+	void SetWidth(float wide);
+	float GetWidth();
+	void SetHeight(float high);
+	float GetHeight();
 
 	virtual void Update(float deltaTime) override;
 
@@ -84,7 +87,7 @@ protected:
 	void SearchForPlayer();
 	virtual void ChasePlayer(testCharacter* player);
 	virtual void AttackPlayer(testCharacter* player);
-	virtual void GetIntoCover(testCharacter* player);
+	virtual void GetIntoCover() {};
 
 	Vector3 Seek(Vector3 TargetPos);
 
@@ -107,7 +110,21 @@ protected:
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 	class CSpriteComponent* viewSprite = nullptr;
 
-	float perceptionTimer = 0.0f;
+	float aiHealth = 2.0f;
+	float aiSpeed = 100.0f;
+	float aiMass = 10.0f;
+	float aiRange = 400.0f;
+	float aiViewAngle = 45.0f;
+
+	float width = 128.0f;
+	float height = 128.0f;
+
+	float rotationSpeed = 0.01f;
+	float maxSearchTime = 5.0f;
+
+	float searchTimer = 0.0f;
+
+	float sizeOfTiles = 0.0f;
 
 	
 };

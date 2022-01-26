@@ -15,7 +15,6 @@ CAIController::CAIController()
 
 	sprite->SetTint(XMFLOAT4(rand() % 2 * 0.5f, rand() % 2 * 0.5f, rand() % 2 * 0.5f, 0)); 
 
-
 	currentCount = 0;
 	currentPatrolNode = nullptr;
 
@@ -24,10 +23,12 @@ CAIController::CAIController()
 	acceleration = { 0.0f, 0.0f, 0.0f };
 
 	obstacles = CWorld::GetAllObstacleTiles();
+	sizeOfTiles = tileScale * obstacles[0]->GetScale().x;
 
 	tiles = CWorld::GetAllWalkableTiles();
 	SetPosition(tiles[102]->GetPosition());
 	aiPosition = GetPosition();	
+
 
 	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 500.0f, 200.0f, 0.0f });
 	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ -500.0f, 300.0f, 0.0f });
@@ -47,12 +48,17 @@ CAIController::CAIController()
 
 void CAIController::Update(float deltaTime)
 {
+	// Set the local variable for the AI position.
 	aiPosition = GetPosition();
+
+	// Run the finite state machine
 	StateMachine(deltaTime);
 	
-	if (currentState != STATE::LOST)
+	// Move the AI if it is not lost
+	if (currentState != STATE::SEARCH)
 		Movement(deltaTime);
 
+	// Temp code for the arrow sprite so I know where the AI is looking. 
 	{
 		Vector3 velocityCopy = velocity;
 		Vector3 view = velocityCopy.Normalize();
@@ -71,13 +77,17 @@ void CAIController::Update(float deltaTime)
 		viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 0.0f });
 	}
 
+	// Make sure the AI is on a 2D vector.
 	aiPosition.z = 0.0f;
+
+	// Set the position of the entity to the local variable for the AI position.
 	SetPosition(aiPosition);
 }
 
 /* Moves the character position using acceleration, force, mass and velocity. */
 void CAIController::Movement(float deltaTime)
 {
+	// This is just some simple physics to move the AI.
 	Vector3 force = (heading * aiSpeed) - velocity;
 
 	acceleration = force / aiMass;
@@ -92,36 +102,44 @@ void CAIController::Movement(float deltaTime)
 /* Finds the closest obstacle and calculates the vector to avoid it. */
 Vector3 CAIController::CollisionAvoidance()
 {
+	// Initialize the return value for the avoidance vector.
 	Vector3 avoidance = Vector3{ 0.0f, 0.0f, 0.0f };
 	
-
+	// Initialize the closest obstable with the first obstacle temp.
 	CTile* closestObstacle = obstacles[0];
+	Vector3 centerOfClosestObstacle = Vector3{ closestObstacle->GetPosition().x + (sizeOfTiles * 0.5f), closestObstacle->GetPosition().y + (sizeOfTiles * 0.5f), 0.0f };
 
+	// Find the closest obstacle to the AI using the center of tiles because get position finds the bottom left corner of the tile. 
 	for (CTile* obstacle : obstacles)
 	{
-		if (aiPosition.DistanceTo(obstacle->GetPosition()) < aiPosition.DistanceTo(closestObstacle->GetPosition()))
+		Vector3 centerOfObstacle = Vector3{ obstacle->GetPosition().x + (sizeOfTiles * 0.5f), obstacle->GetPosition().y + (sizeOfTiles * 0.5f), 0.0f };
+		if (aiPosition.DistanceTo(centerOfObstacle) < aiPosition.DistanceTo(centerOfClosestObstacle))
 		{
 			closestObstacle = obstacle;
+			centerOfClosestObstacle = centerOfObstacle;
 		}
 	}
 
+	// Get the radius of the AI.
 	float widthRadius = width * GetScale().x;
 	float heightRadius = height * GetScale().y;
 
-	float tileRadius = tileScale * closestObstacle->GetScale().x;
-
+	// Check if the AI collides with the closest obstacle.
 	if (aiPosition.x + widthRadius > closestObstacle->GetPosition().x &&
 		aiPosition.x - widthRadius < closestObstacle->GetPosition().x &&
 		aiPosition.y + heightRadius > closestObstacle->GetPosition().y &&
 		aiPosition.y - heightRadius < closestObstacle->GetPosition().y)
 	{
+		// Calculate a vector in the facing direction of the AI.
 		Vector3 ahead = velocity;
 		ahead.Normalize();
 		ahead *= 10.0f;
 
-		Vector3 centerOfObstacle = Vector3{ closestObstacle->GetPosition().x + tileRadius * 0.5f, closestObstacle->GetPosition().y + tileRadius * 0.5f, 0.0f };
+		// Find the vector to the obstacle.
 		Vector3 test1 = ahead;
-		Vector3 test2 = centerOfObstacle - aiPosition;
+		Vector3 test2 = centerOfClosestObstacle - aiPosition;
+
+		// Calculate the vector needed to avoid the obstacle.
 		avoidance = test1 - test2;
 		avoidance.Normalize();
 		avoidance *= 5000.0f;
@@ -133,65 +151,61 @@ Vector3 CAIController::CollisionAvoidance()
 /* Maths magic that determines whether the player is in view. */
 bool CAIController::CanSee(Vector3 posOfObject)
 {
+	// Calculate the direction the AI is looking.
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
-	Vector3 viewCast = view * aiRange;
-	float viewCastDistance = viewCast.Magnitude();
 
-	CTile* closestObstacle = obstacles[0];
-
-	for (CTile* obstacle : obstacles)
-	{
-		if (aiPosition.DistanceTo(obstacle->GetPosition()) < aiPosition.DistanceTo(closestObstacle->GetPosition()))
-		{
-			closestObstacle = obstacle;
-		}
-	}
-	float sizeOfTiles = tileScale * closestObstacle->GetScale().x;
-
-	int numberOfCasts = (int)(viewCastDistance / sizeOfTiles);
-	for (int i = 0; i < numberOfCasts; i++)
-	{
-		Vector3 pointToCheck = aiPosition + (view * sizeOfTiles * i);
-		pointToCheck -= Vector3{ sizeOfTiles * 0.5f, sizeOfTiles * 0.5f, 0.0f };
-		pointToCheck.z = 0.0f;
-		for (CTile* obstacle : obstacles)
-		{
-			if (pointToCheck.DistanceTo(obstacle->GetPosition()) < pointToCheck.DistanceTo(closestObstacle->GetPosition()))
-			{
-				closestObstacle = obstacle;
-			}
-		}
-		if (pointToCheck.x > closestObstacle->GetPosition().x &&
-			pointToCheck.x < closestObstacle->GetPosition().x + sizeOfTiles &&
-			pointToCheck.y > closestObstacle->GetPosition().y &&
-			pointToCheck.y < closestObstacle->GetPosition().y + sizeOfTiles)
-		{
-			return false;
-		}
-
-	}
-
-	
-
-	Vector3 rightView = Vector3{ view.y, -view.x, 0.0f };
-
+	// Calculate the direction to the position passed in.
 	Vector3 viewToPlayer = posOfObject - aiPosition;
 	float distanceToPlayer = viewToPlayer.Magnitude();
 	
 	viewToPlayer = viewToPlayer.Normalize();
 	
+	// Find the angle between the AI view and the player.
 	float dotProduct = view.Dot(viewToPlayer);
 	float pi = atanf(1) * 4;
 	float degreeAngle = dotProduct * (180.0f / pi);
 
 	float viewingAngle = (aiViewAngle * (-2.0f / 3.0f)) + 60.0f;
 
-	//NEED TO ADD CHECK FOR OBSTACLE
-
+	// Check the player is the viewing range of the AI.
 	if (degreeAngle > viewingAngle && distanceToPlayer < aiRange)
-		return true;
+	{
+		CTile* closestObstacle = obstacles[0];
+		Vector3 centerOfClosestObstacle = Vector3{ 0.0f, 0.0f, 0.0f };
 
+		// Create a ray cast to the player and find the number of checks needed to find an obstacle.
+		float numberOfCasts = distanceToPlayer / sizeOfTiles;
+		for (float i = 0; i < numberOfCasts; i++)
+		{
+			// Calculate the check position for each check along the ray cast.
+			Vector3 pointToCheck = aiPosition + (viewToPlayer * sizeOfTiles * i);
+			pointToCheck += Vector3{ sizeOfTiles * 0.5f, sizeOfTiles * 0.5f, 0.0f };
+			pointToCheck.z = 0.0f;
+
+			// Find the closest obstacle to the check position.
+			for (CTile* obstacle : obstacles)
+			{
+				Vector3 centerOfObstacle = Vector3{ obstacle->GetPosition().x + (sizeOfTiles * 0.5f), obstacle->GetPosition().y + (sizeOfTiles * 0.5f), 0.0f };
+				if (pointToCheck.DistanceTo(centerOfObstacle) < pointToCheck.DistanceTo(centerOfClosestObstacle))
+				{
+					closestObstacle = obstacle;
+					centerOfClosestObstacle = centerOfObstacle;
+				}
+			}
+
+			// If the check position is on an obstacle then reutrn false.
+			if (pointToCheck.x > closestObstacle->GetPosition().x &&
+				pointToCheck.x < closestObstacle->GetPosition().x + sizeOfTiles &&
+				pointToCheck.y > closestObstacle->GetPosition().y &&
+				pointToCheck.y < closestObstacle->GetPosition().y + sizeOfTiles)
+			{
+				return false;
+			}
+
+		}
+		return true;
+	}
 	return false;
 }
 
@@ -249,33 +263,48 @@ void CAIController::StateMachine(float deltaTime)
 {
 	Vector3 closestPlayerPosition = { INFINITY, INFINITY, INFINITY };
 	testCharacter* closestPlayer = nullptr;
-	if (players.size() > 0)
-	{
-		for (testCharacter* player : players)
-		{
-			if (CanSee(player->GetPosition()) == true)
-			{
-				Debug::Log("CAN SEE PLAYER");
 
-				currentState = STATE::CHASE;
-				perceptionTimer = 0.0f;
-				if (aiPosition.DistanceTo(player->GetPosition()) < aiPosition.DistanceTo(closestPlayerPosition))
-				{
-					closestPlayer = player;
-					closestPlayerPosition = closestPlayer->GetPosition();
-				}
-				playerToChase = closestPlayer;
-			}
-			else 
+
+	if (currentState != STATE::ATTACK)
+	{
+		if (players.size() > 0)
+		{
+			// Check each player.
+			for (testCharacter* player : players)
 			{
-				Debug::Log("CAN NOT SEE PLAYER");
-				
-				if (perceptionTimer > 0.0f)
+				// Check if the AI can see the player.
+				if (CanSee(player->GetPosition()) == true)
 				{
-					currentState = STATE::LOST;
-					Debug::Log("I AM LOST %f", perceptionTimer);
-					perceptionTimer -= deltaTime;
-					if (perceptionTimer < 0.02f)
+					// If the AI can see the player then chase it.
+					currentState = STATE::CHASE;
+
+					// Reset the timer for the searching.
+					searchTimer = maxSearchTime;
+
+					// Find if the player is the closest in view.
+					if (aiPosition.DistanceTo(player->GetPosition()) < aiPosition.DistanceTo(closestPlayerPosition))
+					{
+						closestPlayer = player;
+						closestPlayerPosition = closestPlayer->GetPosition();
+					}
+
+					// Set the player to chase to the closest player in view.
+					playerToChase = closestPlayer;
+				}
+			}
+
+			// If no players are in view.
+			if (closestPlayer == nullptr)
+			{
+				// Create a delay for the AI to find the player if it loses track of it.
+				if (searchTimer > 0.0f)
+				{
+					// Set the AI to search for the player.
+					currentState = STATE::SEARCH;
+					searchTimer -= deltaTime;
+
+					// If the timer is up then go back to pathfinding.
+					if (searchTimer < 0.02f)
 						currentState = STATE::PATHFINDING;
 				}
 			}
@@ -297,42 +326,52 @@ void CAIController::StateMachine(float deltaTime)
 		AttackPlayer(playerToKill);
 		break;
 	case STATE::COVER:
-		GetIntoCover(closestPlayer);
+		GetIntoCover();
 		break;
-	case STATE::LOST:
+	case STATE::SEARCH:
 		SearchForPlayer();
 		break;
 	default:
 
 		break;
 	}
-	if (currentState != STATE::PATROL && currentState != STATE::LOST)
+
+	// If the AI is not pathfinding or searching then check for collisions with obstacles.
+	if (currentState != STATE::PATROL && currentState != STATE::SEARCH)
 		heading += CollisionAvoidance();
 }
 
 /* Moves the direction of the character towards the next point in the path. */
 void CAIController::Patrolling()
 {
+	// If the AI has reached the patrol node.
 	if (aiPosition.DistanceTo(currentPatrolNode->position) <= 10.0f)
 	{
-		Debug::Log("Hit patrol node: x=%f, y=%f", currentPatrolNode->position.x, currentPatrolNode->position.y);
+		// Set the new patrol node as the next one on the list.
 		currentPatrolNode = currentPatrolNode->nextPatrolNode;
 
+		// Set the state to pathfinding.
 		currentState = STATE::PATHFINDING;
+
+		// Seek to the current patrol node.
 		heading = Seek(currentPatrolNode->position);
 		DeleteNodes();
 		
 	}
 	else
 	{
+		// If at the closest waypoint node to the patrol node then seek towards the patrol node.
 		if (currentCount == -1)
 		{
 			heading = Seek(currentPatrolNode->position);
 			DeleteNodes();
 		}
+		// Else seek to the next waypoint node.
 		else
 		{
 			heading = Seek(pathNodes[currentCount]->waypoint->GetPosition());
+
+			// If close to the waypoint node then set the next waypoint node from the list.
 			if (aiPosition.DistanceTo(pathNodes[currentCount]->waypoint->GetPosition()) <= (((float)tileScale) * tiles[0]->GetScale().x))
 			{
 				currentCount--;
@@ -341,44 +380,40 @@ void CAIController::Patrolling()
 	}
 }
 
+/* Spin on the spot trying to find the player. */
 void CAIController::SearchForPlayer()
 {
-	CTile* closestTile = tiles[0];
-
-	for (CTile* tile : tiles)
-	{
-		if (aiPosition.DistanceTo(tile->GetPosition()) < aiPosition.DistanceTo(closestTile->GetPosition()))
-		{
-			closestTile = tile;
-		}
-	}
-
-	std::vector<int> neighbours = closestTile->GetConnectedTiles();
-
+	// Set the direction the AI is facing.
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
 
+	// Set the origin vector for reference.
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
 
-	float dot = up.Dot(view);
-	float det = up.x * view.y - up.y * view.x;
+	// Find the dot product and determinent between the facing direction and the origin.
+	float dot = view.Dot(up);
+	float det = view.x * up.y - view.y * up.x;
 
+	// Find the angle between the 2 vectors.
 	float angle = atan2f(det, dot);
 
-	//angle += 0.0001f;
+	// Increase the angle by the rotation speed.
+	angle += rotationSpeed;
 
+	// Find the sine and cosine of the angle.
 	float cossy = cos(angle);
 	float sinny = sin(angle);
 
-	float x = view.x * cossy - view.y * sinny;
-	float y = view.x * sinny + view.y * cossy;
+	// Calculate the new facing direction of the AI.
+	float x = up.x * cossy - up.y * sinny;
+	float y = up.x * sinny + up.y * cossy;
 
-	//velocity = Vector3{ x, y, 0.0f };
-
-	this->SetRotation(angle);
+	// Set the velocity as the new facing direction.
+	velocity = Vector3{ -x, y, 0.0f };
 	
 }
 
+// Seek towards the player and if it gets close then clart it. To be overriden by the melee and ranged AIs in the future.
 void CAIController::ChasePlayer(testCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
@@ -392,16 +427,13 @@ void CAIController::ChasePlayer(testCharacter* player)
 	}
 }
 
+// Absolutely CLART the player off the face of this virtual plane.
 void CAIController::AttackPlayer(testCharacter* player)
 {
 	Engine::DestroyEntity(player);
 	players = Engine::GetEntityOfType<testCharacter>();
 	currentState = STATE::PATHFINDING;
 	//EventSystem::TriggerEvent("GameOver");
-}
-
-void CAIController::GetIntoCover(testCharacter* player)
-{
 }
 
 
@@ -639,6 +671,26 @@ void CAIController::DeleteNodes()
 	pathNodes.clear();
 }
 
+void CAIController::SetRotationSpeed(float speed)
+{
+	rotationSpeed = speed;
+}
+
+float CAIController::GetRotationSpeed()
+{
+	return rotationSpeed;
+}
+
+void CAIController::SetSearchTime(float time)
+{
+	maxSearchTime = time;
+}
+
+float CAIController::GetSearchTime()
+{
+	return maxSearchTime;
+}
+
 void CAIController::SetHealth(float health)
 {
 	aiHealth = health;
@@ -687,4 +739,24 @@ void CAIController::SetViewAngle(float angle)
 float CAIController::GetViewAngle()
 {
 	return aiViewAngle;
+}
+
+void CAIController::SetWidth(float wide)
+{
+	width = wide;
+}
+
+float CAIController::GetWidth()
+{
+	return width;
+}
+
+void CAIController::SetHeight(float high)
+{
+	height = high;
+}
+
+float CAIController::GetHeight()
+{
+	return height;
 }
