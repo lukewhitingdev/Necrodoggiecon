@@ -73,7 +73,6 @@ protected:
 	//List of entities spawned in by this class, used for deconstruction.
 	//std::vector<CEntity> entityList;
 
-
 protected:
 
 	static Vector3 IndexToGrid(int ID);
