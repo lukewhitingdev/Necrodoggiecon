@@ -1,6 +1,8 @@
 #pragma once
 #include <CPlayerController.h>
 
+class IInputable;
+
 class testController : public CPlayerController
 {
 public:
@@ -13,5 +15,10 @@ protected:
 	virtual void HandleInput(float deltaTime) override;
 	int charIndex = 1;
 	void SwapChar();
+
+	IInputable* inputable;
+
+	virtual void OnPossess() override;
+	virtual void OnUnpossess() override;
 };
 

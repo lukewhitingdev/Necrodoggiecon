@@ -16,7 +16,6 @@ void testController::HandleInput(float deltaTime)
 {
 	if (!HasCharacter()) return;
 	
-	IInputable* inputable = dynamic_cast<IInputable*>(GetCharacter());
 	if (inputable == nullptr) return;
 
 
@@ -56,4 +55,14 @@ void testController::SwapChar()
 		Possess(charOne);
 		charIndex = 1;
 	}
+}
+
+void testController::OnPossess()
+{
+	inputable = dynamic_cast<IInputable*>(GetCharacter());
+}
+
+void testController::OnUnpossess()
+{
+	inputable = nullptr;
 }
