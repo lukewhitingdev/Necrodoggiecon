@@ -26,6 +26,8 @@
 #include "testCharacter.h"
 #include "testCharacter2.h"
 #include "testController.h"
+#include "CDroppedItem.h"
+#include "testItemData.h"
 #include "Utility/EventSystem/EventSystem.h"
 
 #include "InputManager.h"
@@ -231,10 +233,40 @@ void Load()
 		myplayer->SetPosition(Vector3(0, 0, 0));
 	}
 
+	/*for (int i = 0; i < 100; i++)
+	{
+		testCharacter* entity = Engine::CreateEntity<testCharacter>();
+		entity->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	}*/
+
+	testItemData* data = new testItemData("tempWeapon", "Resources\\birb.dds");
+
+	/*for (int i = 0; i < 1000; i++)
+	{
+		EquippedItem* item = ItemDatabase::Instance()->CreateItemFromID(0);
+		if(item != nullptr)
+			item->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	}*/
+
 	testController* controller = Engine::CreateEntity<testController>();
 	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
+	testCharacter2* character2 = Engine::CreateEntity<testCharacter2>();
+
+	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
+
+	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	character1->droppedItem = droppedItem;
+
+	character2->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+
+	controller->charOne = character1;
+	controller->charTwo = character2;
+  
 	character1->SetPosition(Vector3(0, 0, 0));
 	controller->Possess(character1);
+
+
+
 
 	for (int i = 0; i < 1; i++)
 	{
