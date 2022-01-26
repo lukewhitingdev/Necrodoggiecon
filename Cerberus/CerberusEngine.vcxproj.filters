@@ -62,6 +62,8 @@
     </ClCompile>
     <ClCompile Include="MathC.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="WICTextureLoader.cpp" />
+    <ClCompile Include="DirectXHelpers.cpp" />
     <ClCompile Include="Core\TestUI.cpp" />
     <ClCompile Include="CAICharacter.cpp" />
     <ClCompile Include="CEquippedItem.cpp">
@@ -171,6 +173,12 @@
     <ClInclude Include="ItemDatabase.h">
       <Filter>Item</Filter>
     </ClInclude>
+    <ClInclude Include="WICTextureLoader.h" />
+    <ClInclude Include="DirectXHelpers.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="PlatformHelpers.h" />
+    <ClInclude Include="LoaderHelpers.h" />
+    <ClInclude Include="DDS.h" />
     <ClInclude Include="CAINode.h" />
     <ClInclude Include="testItemData.h">
       <Filter>Item\test</Filter>

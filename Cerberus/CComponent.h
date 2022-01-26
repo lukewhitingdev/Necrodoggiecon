@@ -11,6 +11,8 @@ protected:
 	XMFLOAT2 anchor = { 0.5,0.5 };
 	XMFLOAT2 lastResolution = { 0,0 };
 
+	class CEntity* parent = nullptr;
+
 public:
 	bool ui = false;
 
@@ -21,8 +23,10 @@ public:
 	//{0,0} - top left, {1,1} - bottom right.
 	//Used for making UI elements stick to the edge of the screen when the window is resized
 	void SetAnchor(XMFLOAT2 newAnchor) { anchor = newAnchor; updateTransform = true; }
+	void SetParent(class CEntity* newParent);
 
 	const XMFLOAT2& GetAnchor() const { return anchor; }
+	class CEntity* GetParent() const { return parent; };
 
 	//Updated automatically every single frame
 	virtual void Update(float deltaTime) = 0;

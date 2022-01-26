@@ -1,4 +1,10 @@
 #include "CComponent.h"
+#include "CEntity.h"
+
+void CComponent::SetParent(CEntity* newParent)
+{
+	parent = newParent;
+}
 
 XMFLOAT4X4 CComponent::GetTransform()
 {

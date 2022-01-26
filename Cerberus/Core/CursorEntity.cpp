@@ -15,7 +15,7 @@ CursorEntity::CursorEntity()
 	sprite->ui = true;
 
 	text = AddComponent<CTextRenderComponent>();
-	text->SetTextJustification(TextJustification::Center);
+	text->SetJustification(TextJustification::Center);
 	text->SetPosition(0, -48, 0);
 	text->ui = true;
 }

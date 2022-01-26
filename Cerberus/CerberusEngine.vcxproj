@@ -363,6 +363,8 @@
     <ClInclude Include="CWorld_Edit.h" />
     <ClInclude Include="CDroppedItem.h" />
     <ClInclude Include="IInputable.h" />
+    <ClInclude Include="DDS.h" />
+    <ClInclude Include="DirectXHelpers.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="CEquippedItem.h" />
     <ClInclude Include="ItemData.h" />
@@ -371,6 +373,9 @@
     <ClInclude Include="Core\TestUI.h" />
     <ClInclude Include="testEquippedItem.h" />
     <ClInclude Include="testItemData.h" />
+    <ClInclude Include="LoaderHelpers.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="PlatformHelpers.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="CTransform.h" />
@@ -386,6 +391,7 @@
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CWorld.h" />
     <ClInclude Include="CWorldData.h" />
+    <ClInclude Include="WICTextureLoader.h" />
     <ClInclude Include="WorldConstants.h" />
     <ClInclude Include="Utility\Audio\AudioController.h" />
     <ClInclude Include="CComponent.h" />
@@ -428,6 +434,7 @@
     <ClCompile Include="CEquippedItem.cpp" />
     <ClCompile Include="ItemDatabase.cpp" />
     <ClCompile Include="MathC.cpp" />
+    <ClCompile Include="DirectXHelpers.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Core\TestUI.cpp" />
     <ClCompile Include="testEquippedItem.cpp" />
@@ -459,6 +466,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="CMesh.cpp" />
+    <ClCompile Include="WICTextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Unwalkable.dds" />
