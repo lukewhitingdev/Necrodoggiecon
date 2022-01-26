@@ -180,13 +180,6 @@ namespace DirectX
         return size;
     }
 
-    // Helper for creating a Direct3D input layout to match a shader from an IEffect
-    HRESULT __cdecl CreateInputLayoutFromEffect(_In_ ID3D11Device* device,
-        _In_ IEffect* effect,
-        _In_reads_(count) const D3D11_INPUT_ELEMENT_DESC* desc,
-        size_t count,
-        _COM_Outptr_ ID3D11InputLayout** pInputLayout) noexcept;
-
     template<typename T>
     HRESULT CreateInputLayoutFromEffect(_In_ ID3D11Device* device,
         _In_ IEffect* effect,
