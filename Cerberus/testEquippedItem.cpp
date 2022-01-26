@@ -3,6 +3,8 @@
 
 void testEquippedItem::Update(float deltaTime)
 {
+	UNREFERENCED_PARAMETER(deltaTime);
+
 	//Get Owner Position
 	auto pos = GetOwner()->GetPosition();
 	//Add Offset
@@ -15,7 +17,7 @@ void testEquippedItem::Update(float deltaTime)
 	SetRotation(GetOwner()->GetRotation());
 }
 
-void testEquippedItem::Initialise(int id, CEntity* owner)
+void testEquippedItem::Initialise(int id, CEntity* Owner)
 {
-	CEquippedItem::Initialise(id, owner);
+	CEquippedItem::Initialise(id, Owner);
 }
