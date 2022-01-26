@@ -23,7 +23,7 @@ class CT_WindowBase
 protected: 
 
     const char* WindowTitle = "Editor Window";
-    Vector2 WindowScale = (256, 256);
+    Vector2 WindowScale = (256.0f, 256.0f);
 
 public:
 

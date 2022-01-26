@@ -8,7 +8,13 @@
 #include <directxcolors.h>
 #include <DirectXCollision.h>
 #include "DDSTextureLoader.h"
+
+#pragma warning(push)
+//Disabled Warnings that reside in external libraries.
+#pragma warning( disable : 26812 )
 #include "WICTextureLoader.h"
+#pragma warning(pop)
+
 #include "resource.h"
 #include <iostream>
 
@@ -62,8 +68,8 @@ struct Engine
 	// Window and Instance.
 	static HINSTANCE instanceHandle;
 	static HWND windowHandle;
-	static int windowWidth;
-	static int windowHeight;
+	static unsigned int windowWidth;
+	static unsigned int windowHeight;
 
 	// Direct3D.
 	static D3D_DRIVER_TYPE driverType;

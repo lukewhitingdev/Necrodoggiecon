@@ -75,7 +75,7 @@ void TestUI::Update(float deltaTime)
 
 	if (fpsTimer > 0.5)
 	{
-		unsigned int time = round(1 / (fpsTimer / float(framesTotal)));
+		unsigned int time = (unsigned int)round(1 / (fpsTimer / float(framesTotal)));
 		fpsTimer = 0;
 		framesTotal = 0;
 
