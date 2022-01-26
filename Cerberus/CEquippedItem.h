@@ -3,7 +3,7 @@
 #include <CEntity.h>
 
 class CDroppedItem;
-class ItemData;
+struct ItemData;
 
 class CEquippedItem : public CEntity
 {
