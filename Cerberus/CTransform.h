@@ -10,7 +10,7 @@ class CTransform
 
 protected:
 	bool updateTransform = true;	//use get transform instead of directly using this
-	XMFLOAT4X4 world;
+	XMFLOAT4X4 world = XMFLOAT4X4();
 
 public:
 	void SetPosition(float x, float y, float z) { position = Vector3(x, y, z); updateTransform = true; }
