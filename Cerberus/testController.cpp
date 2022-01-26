@@ -16,18 +16,22 @@ void testController::HandleInput(float deltaTime)
 {
 	if (!HasCharacter()) return;
 	
+	IInputable* inputable = dynamic_cast<IInputable*>(GetCharacter());
+	if (inputable == nullptr) return;
+
+
 	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::D))
-		dynamic_cast<IInputable*>(GetCharacter())->PressedHorizontal(1, deltaTime);
+		inputable->PressedHorizontal(1, deltaTime);
 	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::A))
-		dynamic_cast<IInputable*>(GetCharacter())->PressedHorizontal(-1, deltaTime);
+		inputable->PressedHorizontal(-1, deltaTime);
 	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::W))
-		dynamic_cast<IInputable*>(GetCharacter())->PressedVertical(1, deltaTime);
+		inputable->PressedVertical(1, deltaTime);
 	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::S))
-		dynamic_cast<IInputable*>(GetCharacter())->PressedVertical(-1, deltaTime);
+		inputable->PressedVertical(-1, deltaTime);
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::E))
-		dynamic_cast<IInputable*>(GetCharacter())->PressedInteract();
+		inputable->PressedInteract();
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::G))
-		dynamic_cast<IInputable*>(GetCharacter())->PressedDrop();
+		inputable->PressedDrop();
 
 
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
