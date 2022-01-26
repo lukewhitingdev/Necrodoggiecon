@@ -13,5 +13,9 @@ public:
 	void PressedVertical(int dir, float deltaTime) override;
 
 	virtual void Update(float deltaTime) override;
+
+	// Inherited via IInputable
+	virtual void PressedInteract() override;
+	virtual void PressedDrop() override;
 };
 

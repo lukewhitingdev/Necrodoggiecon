@@ -18,12 +18,15 @@ void CPlayerController::Possess(CCharacter* characterToPossess)
 	possessedCharacter = characterToPossess;
 	hasCharacter = true;
 
+	OnPossess();
 }
 
 void CPlayerController::Unpossess()
 {
 	possessedCharacter = nullptr;
 	hasCharacter = false;
+
+	OnUnpossess();
 }
 
 void CPlayerController::HandleInput(float deltaTime)
