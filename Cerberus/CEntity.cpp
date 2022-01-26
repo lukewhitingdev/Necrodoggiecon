@@ -6,10 +6,6 @@ CEntity::~CEntity()
 		delete e;
 }
 
-void CEntity::HasCollided(CollisionComponent* collided)
-{
-}
-
 void CEntity::RemoveComponent(CComponent* reference)
 {
 	{

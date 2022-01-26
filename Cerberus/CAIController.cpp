@@ -76,9 +76,6 @@ void CAIController::Update(float deltaTime)
 
 	position.z = 0.0f;
 	SetPosition(position);
-
-	//Debug::Log("ai colComponent Position: %f %f %f %c", colComponent->GetPosition().x, colComponent->GetPosition().y, colComponent->GetPosition().z);
-	//Debug::Log("ai Controller Position: %f %f %f %c", position.x, position.y, position.z);
 }
 
 /* Moves the character position using acceleration, force, mass and velocity. */

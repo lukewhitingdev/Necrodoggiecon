@@ -1,243 +1,184 @@
 #include "AudioController.h"
-#include "Utility/AssetManager/AssetManager.h"
-IXAudio2* AudioController::audioEngine;
-IXAudio2MasteringVoice* AudioController::masterChannel;
+FMOD::System* AudioController::FMODSystem;
+std::vector<CEmitter*> AudioController::emitters;
 
-AudioController::AudioController()
+void AudioController::Initialize()
 {
-	// Initialize COM.
-	if (FAILED(CoInitializeEx(nullptr, COINIT_MULTITHREADED)))
+	if (FMOD::System_Create(&FMODSystem) != FMOD_OK)
 		throw;
 
-	// Setup Audio Engine.
-	if (FAILED(XAudio2Create(&audioEngine, 0, XAUDIO2_DEFAULT_PROCESSOR)))
-		throw;
+	FMODSystem->init(512, FMOD_INIT_NORMAL, 0);
 
-	// Setup Master Channel / Voice.
-	if (FAILED(audioEngine->CreateMasteringVoice(&masterChannel)))
-		throw;
+	FMODSystem->set3DSettings(0, 1, 1);
+
+	FMODSystem->set3DNumListeners(1);
 }
 
-// Helper function to find a chunk the RIFF file.
-HRESULT FindChunk(HANDLE fileHandle, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition)
+void AudioController::Shutdown()
 {
-    HRESULT hr = S_OK;
-    if (INVALID_SET_FILE_POINTER == SetFilePointer(fileHandle, 0, NULL, FILE_BEGIN))
-        return HRESULT_FROM_WIN32(GetLastError());
-
-    DWORD chunkType;
-    DWORD chunkDataSize;
-    DWORD RIFFDataSize = 0;
-    DWORD fileType;
-    DWORD offset = 0;
-
-    while (hr == S_OK)
-    {
-        DWORD dwRead;
-        if (ReadFile(fileHandle, &chunkType, sizeof(DWORD), &dwRead, NULL) == 0)
-            hr = HRESULT_FROM_WIN32(GetLastError());
-
-        if (ReadFile(fileHandle, &chunkDataSize, sizeof(DWORD), &dwRead, NULL) == 0)
-            hr = HRESULT_FROM_WIN32(GetLastError());
-
-        switch (chunkType)
-        {
-        case 'FFIR': // RIFF backwards cuz of little edian.
-            RIFFDataSize = chunkDataSize;
-            chunkDataSize = 4;
-            if (ReadFile(fileHandle, &fileType, sizeof(DWORD), &dwRead, NULL) == 0)
-                hr = HRESULT_FROM_WIN32(GetLastError());
-            break;
-
-        default:
-            if (SetFilePointer(fileHandle, chunkDataSize, NULL, FILE_CURRENT) == INVALID_SET_FILE_POINTER)
-                return HRESULT_FROM_WIN32(GetLastError());
-        }
-
-        offset += sizeof(DWORD) * 2;
-
-        if (chunkType == fourcc)
-        {
-            dwChunkSize = chunkDataSize;
-            dwChunkDataPosition = offset;
-            return S_OK;
-        }
-
-        offset += chunkDataSize;
-    }
-    return S_OK;
+	FMODSystem->release();
 }
 
-// Helper function to read the chunk after it has been found.
-HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD bufferoffset)
+CAudio* AudioController::LoadAudio(std::string path)
 {
-    DWORD read;
-    if (SetFilePointer(hFile, bufferoffset, NULL, FILE_BEGIN) == INVALID_SET_FILE_POINTER)
-        return HRESULT_FROM_WIN32(GetLastError());
+	if (FMODSystem == nullptr)
+		Initialize();
 
-    if (ReadFile(hFile, buffer, buffersize, &read, NULL) == 0)
-        return HRESULT_FROM_WIN32(GetLastError());
+	FMOD::Sound* sound;
 
-    return S_OK;
+	FMOD_RESULT result;
+
+	std::string fullPath = SOLUTION_DIR + path;
+
+	if ((result = FMODSystem->createSound(fullPath.c_str(), FMOD_2D, nullptr, &sound)) != FMOD_OK)
+	{
+		Debug::LogError("[Load Audio][%s] FMOD Error[%d]: %s ", path, result, FMOD_ErrorString(result));
+		return nullptr;
+	}
+
+	sound->set3DMinMaxDistance(0, 1000);
+
+	return AssetManager::AddAudio(path, new CAudio(path,sound, nullptr));
 }
 
-// Conversion Part Copied and modified from: https://xionghuilin.com/c-convert-between-string-and-cstring-lpwstr/
-HANDLE openFile(std::string inputDir)
+bool AudioController::PlayAudio(std::string path)
 {
-    // Assumes std::string is encoded in the current Windows ANSI codepage
-    int bufferlen = ::MultiByteToWideChar(CP_ACP, 0, inputDir.c_str(), (int)inputDir.size(), NULL, 0);
+	if (FMODSystem == nullptr)
+		Initialize();
 
-    if (bufferlen == 0)
-    {
-        // Something went wrong. Perhaps, check GetLastError() and log.
-        return 0;
-    }
+	CAudio* audio = AssetManager::GetAudio(path);
+	FMOD_RESULT result;
 
-    // Allocate new LPWSTR - must deallocate it later
-    LPWSTR convertedString = new WCHAR[bufferlen + 1];
+	if(audio == nullptr)
+	{
+		Debug::Log("[Play Audio][%s] Tried to play audio that isnt loaded!", path);
+		return false;
+	}
 
-    ::MultiByteToWideChar(CP_ACP, 0, inputDir.c_str(), (int)inputDir.size(), convertedString, bufferlen);
+	// Play Audio.
+	if ((result = FMODSystem->playSound(audio->sound, nullptr, false, &audio->channel)) != FMOD_OK)
+	{
+		Debug::LogError("[Play Audio][%s] FMOD Error[%d]: %s ", path, result, FMOD_ErrorString(result));
+		return false;
+	}
 
-    // Ensure wide string is null terminated
-    convertedString[bufferlen] = 0;
-
-    HANDLE fileHandle = CreateFile(convertedString, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);    // Open the file
-
-    free(convertedString);
-    return fileHandle;
+	return true;
 }
 
-// Loads the specified audio. Do not use \ in path name instead use /'s as \'s break the string.
-HRESULT AudioController::LoadAudio(std::string input, bool looping)
+bool AudioController::StopAudio(std::string path)
 {
-    if(AssetManager::GetAudio(input) != nullptr)
-    {
-        Debug::LogError("[AudioController] Tried to load audio with path that already exists! aborting load. Offending Path: %s", input);
-        return S_OK;
-    }
+	if (FMODSystem == nullptr)
+		Initialize();
 
-    std::string fullDir = SOLUTION_DIR + input;
-        
-    WAVEFORMATEXTENSIBLE waveFormat = { 0 };
-    XAUDIO2_BUFFER buffer = { 0 };
+	CAudio* audio = AssetManager::GetAudio(path);
+	FMOD_RESULT result;
 
-    // Convert String.
-    HANDLE fileHandle = openFile(fullDir);
+	bool isPlaying;
+	audio->channel->isPlaying(&isPlaying);
 
-    if (fileHandle == INVALID_HANDLE_VALUE)
-    {
-        Debug::LogHResult(HRESULT_FROM_WIN32(GetLastError()), "Error when opening file from path: %s", input);
-        return HRESULT_FROM_WIN32(GetLastError());
-    }
+	// See if it is playing on a channel.
+	if (audio->channel != nullptr && isPlaying)
+	{
+		// Stop it on that channel.
+		if ((result = audio->channel->stop()) != FMOD_OK)
+		{
+			Debug::LogError("[Stop Audio][%s] FMOD Error[%d]: %s ", path, result, FMOD_ErrorString(result));
+			return false;
+		}
+	}
 
-    if (SetFilePointer(fileHandle, 0, NULL, FILE_BEGIN) == INVALID_SET_FILE_POINTER)
-    {
-        Debug::LogHResult(HRESULT_FROM_WIN32(GetLastError()), "Error when setting file pointer on file from path: %s", input);
-        return HRESULT_FROM_WIN32(GetLastError());
-    }
-
-    // Read RIFF Chunk
-    DWORD chunkSize;
-    DWORD chunkPosition;
-    FindChunk(fileHandle, 'FFIR', chunkSize, chunkPosition);
-    DWORD filetype;
-    ReadChunkData(fileHandle, &filetype, sizeof(DWORD), chunkPosition);
-    if (filetype != 'EVAW')
-        return S_FALSE;
-
-    // Read FMT Chunk
-    FindChunk(fileHandle, ' tmf', chunkSize, chunkPosition);
-    ReadChunkData(fileHandle, &waveFormat, chunkSize, chunkPosition);
-
-    //Read the DATA Chunk and write its data to the buffer.
-    FindChunk(fileHandle, 'atad', chunkSize, chunkPosition);
-    BYTE* audioDataBuffer = new BYTE[chunkSize];
-    ReadChunkData(fileHandle, audioDataBuffer, chunkSize, chunkPosition);
-
-    // Setup Buffer properties.
-    buffer.AudioBytes = chunkSize;  //size of the audio buffer in bytes
-    buffer.pAudioData = audioDataBuffer;  //buffer containing audio data
-    buffer.Flags = XAUDIO2_END_OF_STREAM; // tell the source voice not to expect any data after this buffer
-
-    if(looping)
-    {
-        // Looping
-        buffer.LoopBegin = buffer.PlayBegin; // Tell the buffer to loop.
-        buffer.PlayBegin = 0; // Tell the buffer to play from the begining.
-        buffer.PlayLength = 0; // Tell the buffer to play the whole buffer.
-        buffer.LoopCount = XAUDIO2_LOOP_INFINITE; // Tell the buffer to loop indefinitely.
-    }
-
-    // Add to Asset Manager.
-    AssetManager::AddAudio(input, new CAudio(buffer, waveFormat));
-
-    return S_OK;
+	return true;
 }
 
-// Plays the specified audio from the AssetManager.
-HRESULT AudioController::PlayAudio(std::string path)
+bool AudioController::DestroyAudio(std::string path)
 {
-    if (audioEngine == nullptr)
-        AudioController();
+	if (FMODSystem == nullptr)
+		Initialize();
 
-    HRESULT hr;
+	FMOD_RESULT result;
+	CAudio* audio = AssetManager::GetAudio(path);
 
-    // Check if the audio exists.
-    if (AssetManager::GetAudio(path) == nullptr) {
-        Debug::LogHResult(CRYPT_E_NOT_FOUND, "[PlayAudio] Play failed at path: %s", path);
-        return CRYPT_E_NOT_FOUND;
-    }
+	StopAudio(path);
 
-    CAudio* audio = AssetManager::GetAudio(path);
+	if(audio->sound != nullptr)
+	{
+		if((result = audio->sound->release()) != FMOD_OK)
+		{
+			Debug::LogError("[Destroy Audio][%s]FMOD Error[%d]: %s ", path, result, FMOD_ErrorString(result));
+			return false;
+		}
+	}
 
-    // Create Voice.
-    IXAudio2SourceVoice* audioVoice;
-    if (FAILED(hr = audioEngine->CreateSourceVoice(&audioVoice, (WAVEFORMATEX*)&audio->format)))
-    {
-        Debug::LogHResult(hr, "[AudioVoice] Create source voice failed from Path: %s", path);
-        return hr;
-    }
-    if (FAILED(hr = audioVoice->SubmitSourceBuffer(&audio->buffer)))
-    {
-        Debug::LogHResult(hr, "[AudioVoice] Submit buffer failed from Path: %s", path);
-        return hr;
-    }
-    if (FAILED(hr = audioVoice->Start(0))) 
-    {
-        Debug::LogHResult(hr, "[AudioVoice] Start failed from Path: %s", path);
-        return hr;
-    } 
-
-    // Add voice to the audio object so it can be manipulated later.
-    audio->voice = audioVoice;
-    return S_OK;
+	AssetManager::RemoveAudio(path);
+	return true;
 }
 
-// Finds the specified audio and stops it emitting.
-HRESULT AudioController::StopAudio(std::string path)
+void AudioController::Update(Vector3 listenerPos, float deltaTime)
 {
-    // Check if the audio exists.
-    if (AssetManager::GetAudio(path) == nullptr) {
-        Debug::LogHResult(CRYPT_E_NOT_FOUND, "[StopAudio] Stop failed on audio from path: %s", path);
-        return CRYPT_E_NOT_FOUND; 
-    }
+	if (FMODSystem == nullptr)
+		AudioController::Initialize();
 
-    CAudio* audio = AssetManager::GetAudio(path);
-    if(audio->voice == nullptr)
-    {
-        Debug::LogError("[StopAudio] Cannot stop audio with path: %s because it does not exist!", path);
-        return S_FALSE;
-    }
-    return audio->voice->Stop();
+	FMOD_RESULT result;
+
+	// Attenuate.
+	float maxRange = 1000;
+	for(CEmitter* emitter : emitters)
+	{
+
+		float distToEmitter = listenerPos.DistanceTo(emitter->position);
+
+		// Check we are in range of the emitter.
+		if (distToEmitter > emitter->range)
+			continue;
+
+		float attentuation = 1 - (distToEmitter / maxRange);
+
+		// Clamp because im bad at math.
+		if(attentuation < 0)
+		{
+			attentuation = 0;
+		}
+
+		// Attenuate.
+		emitter->audio->channel->setVolume(attentuation);
+	}
+
+
+	if ((result = FMODSystem->update()) != FMOD_OK)
+	{
+		Debug::LogError("[Audio Update] FMOD Error[%d]: %s ", result, FMOD_ErrorString(result));
+		return;
+	}
 }
-// Destroys the specified audio and removes it from the AssetManager.
-HRESULT AudioController::DestroyAudio(std::string path)
+
+std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 position)
 {
-    // Check if the audio exists.
-    if (AssetManager::GetAudio(path) != nullptr) {
-        Debug::LogHResult(CRYPT_E_NOT_FOUND, "[DestroyAudio] Stop failed on audio from path: %s", path);
-        return CRYPT_E_NOT_FOUND;
-    }
-    AssetManager::RemoveAudio(path);
-    return S_OK;
+	std::vector<CEmitter*> output;
+	for(CEmitter* emiter : emitters)
+	{
+		// Check if we are inrange of the circular range emitters have.
+		if (emiter->range < position.DistanceTo(emiter->position))
+			output.emplace_back(emiter);
+	}
+	return output;
+}
+
+void AudioController::AddEmitter(CEmitter* emitter)
+{
+	emitters.emplace_back(emitter);
+}
+
+void AudioController::RemoveEmitter(CEmitter* emitter)
+{
+	for (size_t i = 0; i < emitters.size(); i++)
+	{
+		CEmitter* emiter = emitters[i];
+		if(emiter == emitter)
+		{
+			emitters.erase(emitters.begin() + i);
+			break;
+		}
+	}
+
+	delete emitter;
 }

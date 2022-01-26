@@ -7,7 +7,6 @@
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CTexture.cpp" />
-    <ClCompile Include="Utility\Audio\AudioController.cpp" />
     <ClCompile Include="CSpriteComponent.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_draw.cpp" />
@@ -37,10 +36,7 @@
     <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CTransform.cpp" />
-    <ClCompile Include="Utility\CollisionManager\CollisionManager.cpp" />
-    <ClCompile Include="Utility\CollisionManager\Components\Bodies\BoundingSphere.cpp" />
-    <ClCompile Include="Utility\CollisionManager\Components\Bodies\CollisionComponent.cpp" />
-    <ClCompile Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.cpp" />
+    <ClCompile Include="Utility\Audio\AudioController.cpp" />
     <ClCompile Include="CTextRenderComponent.cpp" />
     <ClCompile Include="Core\CursorEntity.cpp" />
     <ClCompile Include="CCharacter.cpp">
@@ -70,6 +66,22 @@
     <ClCompile Include="DirectXHelpers.cpp" />
     <ClCompile Include="Core\TestUI.cpp" />
     <ClCompile Include="CAICharacter.cpp" />
+    <ClCompile Include="CEquippedItem.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CDroppedItem.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemDatabase.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="testEquippedItem.cpp">
+      <Filter>Item\test</Filter>
+    </ClCompile>
+    <ClCompile Include="testItemData.cpp">
+      <Filter>Item\test</Filter>
+    </ClCompile>
+    <ClCompile Include="CAudioEmitterComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -80,7 +92,6 @@
     </ClInclude>
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="CTexture.h" />
-    <ClInclude Include="Utility\Audio\AudioController.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CEntity.h" />
     <ClInclude Include="CSpriteComponent.h" />
@@ -109,7 +120,6 @@
       <Filter>World</Filter>
     </ClInclude>
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
-    <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
@@ -120,10 +130,8 @@
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CTransform.h" />
-    <ClInclude Include="Utility\CollisionManager\CollisionManager.h" />
-    <ClInclude Include="Utility\CollisionManager\Components\Bodies\BoundingSphere.h" />
-    <ClInclude Include="Utility\CollisionManager\Components\Bodies\CollisionComponent.h" />
-    <ClInclude Include="Utility\CollisionManager\Components\Bodies\PhysicsBody.h" />
+    <ClInclude Include="Utility\Audio\AudioController.h" />
+    <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="Core\CursorEntity.h" />
     <ClInclude Include="CCharacter.h">
@@ -153,7 +161,21 @@
     <ClInclude Include="MathC.h" />
     <ClInclude Include="Core\TestUI.h" />
     <ClInclude Include="CAICharacter.h" />
+    <ClInclude Include="Utility\Audio\CEmitter.h" />
+    <ClInclude Include="CAudioEmitterComponent.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="ItemData.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CEquippedItem.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CDroppedItem.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemDatabase.h">
+      <Filter>Item</Filter>
+    </ClInclude>
     <ClInclude Include="WICTextureLoader.h" />
     <ClInclude Include="DirectXHelpers.h" />
     <ClInclude Include="pch.h" />
@@ -161,6 +183,12 @@
     <ClInclude Include="LoaderHelpers.h" />
     <ClInclude Include="DDS.h" />
     <ClInclude Include="CAINode.h" />
+    <ClInclude Include="testItemData.h">
+      <Filter>Item\test</Filter>
+    </ClInclude>
+    <ClInclude Include="testEquippedItem.h">
+      <Filter>Item\test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
@@ -181,6 +209,12 @@
     </Filter>
     <Filter Include="Player\testing">
       <UniqueIdentifier>{e82ce74f-5eea-42f6-a1e1-74b25f042253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Item">
+      <UniqueIdentifier>{d28c029a-b89f-4730-a15a-d97e3f7f08f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Item\test">
+      <UniqueIdentifier>{1cc6aaa3-e73c-4cc0-bbd9-5448516fee60}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

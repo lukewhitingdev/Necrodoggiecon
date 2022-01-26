@@ -15,12 +15,16 @@ protected:
 
 	virtual void HandleInput(float deltaTime);
 
+	virtual void OnPossess() {};
+	virtual void OnUnpossess() {};
+
 public:
 	CPlayerController();
 	~CPlayerController();
 
 	void Possess(CCharacter* characterToPossess);
 	void Unpossess();
+
 
 };
 

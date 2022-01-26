@@ -12,8 +12,6 @@ CPlayer::CPlayer()
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
 
-	colComponent = new CollisionComponent("Player");
-
 	sprite->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
 
 	if (float(rand() % 2))
