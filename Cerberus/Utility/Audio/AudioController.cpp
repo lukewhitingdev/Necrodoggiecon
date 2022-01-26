@@ -32,7 +32,7 @@ CAudio* AudioController::LoadAudio(std::string path)
 
 	if ((result = FMODSystem->createSound(fullPath.c_str(), FMOD_2D, nullptr, &sound)) != FMOD_OK)
 	{
-		Debug::LogError("[Load Audio][%s] FMOD Error[%d]: %s ", path, result, FMOD_ErrorString(result));
+		Debug::LogError("[Load Audio][%s] FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
 		return nullptr;
 	}
 
@@ -51,14 +51,14 @@ bool AudioController::PlayAudio(std::string path)
 
 	if(audio == nullptr)
 	{
-		Debug::Log("[Play Audio][%s] Tried to play audio that isnt loaded!", path);
+		Debug::Log("[Play Audio][%s] Tried to play audio that isnt loaded!", path.c_str());
 		return false;
 	}
 
 	// Play Audio.
 	if ((result = FMODSystem->playSound(audio->sound, nullptr, false, &audio->channel)) != FMOD_OK)
 	{
-		Debug::LogError("[Play Audio][%s] FMOD Error[%d]: %s ", path, result, FMOD_ErrorString(result));
+		Debug::LogError("[Play Audio][%s] FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
 		return false;
 	}
 
@@ -82,7 +82,7 @@ bool AudioController::StopAudio(std::string path)
 		// Stop it on that channel.
 		if ((result = audio->channel->stop()) != FMOD_OK)
 		{
-			Debug::LogError("[Stop Audio][%s] FMOD Error[%d]: %s ", path, result, FMOD_ErrorString(result));
+			Debug::LogError("[Stop Audio][%s] FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
 			return false;
 		}
 	}
@@ -104,7 +104,7 @@ bool AudioController::DestroyAudio(std::string path)
 	{
 		if((result = audio->sound->release()) != FMOD_OK)
 		{
-			Debug::LogError("[Destroy Audio][%s]FMOD Error[%d]: %s ", path, result, FMOD_ErrorString(result));
+			Debug::LogError("[Destroy Audio][%s]FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
 			return false;
 		}
 	}
