@@ -17,7 +17,7 @@ void testEquippedItem::Update(float deltaTime)
 	SetRotation(GetOwner()->GetRotation());
 }
 
-void testEquippedItem::Initialise(int id, CEntity* Owner)
+void testEquippedItem::Initialise(int id, CEntity* owner)
 {
-	CEquippedItem::Initialise(id, Owner);
+	CEquippedItem::Initialise(id, owner);
 }

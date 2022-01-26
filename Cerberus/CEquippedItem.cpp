@@ -19,7 +19,7 @@ void CEquippedItem::Update(float deltaTime)
 void CEquippedItem::Initialise(int id, CEntity* newOwner)
 {
 	itemID = id;
-	owner = newOwner;
+	itemOwner = newOwner;
 
 	itemData = ItemDatabase::GetItemFromID(id);
 

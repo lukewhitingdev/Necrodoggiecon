@@ -11,14 +11,14 @@ private:
 	CSpriteComponent* spriteComponent = nullptr;
 	int itemID = 0;
 
-	CEntity* owner = nullptr;
+	CEntity* itemOwner = nullptr;
 	ItemData* itemData = nullptr;
 
 protected:
 	CSpriteComponent* GetSpriteComponent(){ return spriteComponent; }
 	int GetItemID(){ return itemID; }
 
-	CEntity* GetOwner() { return owner; }
+	CEntity* GetOwner() { return itemOwner; }
 	ItemData* GetItemData() { return itemData; }
 public:
 	CEquippedItem();
