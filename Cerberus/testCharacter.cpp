@@ -11,6 +11,8 @@ testCharacter::testCharacter()
 
 	spriteComponent->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
 
+	colComponent = new CollisionComponent("Character 1");
+
 	if (float(rand() % 2))
 		spriteComponent->SetScale(-1, 1, 1);
 
@@ -54,6 +56,14 @@ void testCharacter::Update(float deltaTime)
 	spriteComponent->SetTextureOffset(XMFLOAT2(round(timeElapsed * animSpeed) * 128, float((int(round(timeElapsed * animSpeed) / 5) % 2)) * 128));
 
 	LookAt(Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z));
+
+	colComponent->SetPosition(GetPosition());
+}
+
+void testCharacter::HasCollided(CollisionComponent* collidedObject)
+{
+	if (collidedObject->GetName() == "Wall")
+		Debug::Log("Player has collided with a wall");
 }
 
 void testCharacter::LookAt(Vector3 pos)

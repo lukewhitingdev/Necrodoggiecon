@@ -264,7 +264,8 @@ void Load()
   
 	character1->SetPosition(Vector3(0, 0, 0));
 	controller->Possess(character1);
-
+	character1->shouldMove = true;
+	character1->colComponent->SetCollider(128.0f, 128.0f);
 
 
 
@@ -932,7 +933,6 @@ void Update(float deltaTime)
 				}
 			}
 		}
-	}
 	}
 
 	AudioController::Update(Vector3(0, 0, 0), deltaTime);
