@@ -54,6 +54,8 @@ private:
 
 public:
 
+    ImVector<char*> getItems() { return Items; }
+
     void    ClearLog()
     {
         for (int i = 0; i < Items.Size; i++)
