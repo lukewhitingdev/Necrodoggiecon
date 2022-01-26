@@ -22,6 +22,7 @@
 #include "CWorld_Edit.h"
 #include "CAIController.h"
 #include "CCamera.h"
+#include "Utility/Audio/AudioController.h"
 #include "testCharacter.h"
 #include "testCharacter2.h"
 #include "testController.h"
@@ -229,7 +230,7 @@ void Load()
 	for (int i = 0; i < 1; i++)
 	{
 		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
-		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+		myplayer->SetPosition(Vector3(0, 0, 0));
 	}
 
 	/*for (int i = 0; i < 100; i++)
@@ -253,13 +254,15 @@ void Load()
 
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
-	character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	character1->droppedItem = droppedItem;
 
 	character2->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 
 	controller->charOne = character1;
 	controller->charTwo = character2;
+  
+	character1->SetPosition(Vector3(0, 0, 0));
 	controller->Possess(character1);
 
 
@@ -271,6 +274,41 @@ void Load()
 		ai->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 		ai->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
 	}
+
+	TestClass* topLeft = Engine::CreateEntity<TestClass>();
+	topLeft->SetPosition(Vector3{ -300.0f, 100.0f, 0.0f });
+	topLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* topMiddleLeft = Engine::CreateEntity<TestClass>();
+	topMiddleLeft->SetPosition(Vector3{ -100.0f, 100.0f, 0.0f });
+	topMiddleLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* topMiddleRight = Engine::CreateEntity<TestClass>();
+	topMiddleRight->SetPosition(Vector3{ 100.0f, 100.0f, 0.0f });
+	topMiddleRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* topRight = Engine::CreateEntity<TestClass>();
+	topRight->SetPosition(Vector3{ 300.0f, 100.0f, 0.0f });
+	topRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* bottomLeft = Engine::CreateEntity<TestClass>();
+	bottomLeft->SetPosition(Vector3{ -300.0f, -100.0f, 0.0f });
+	bottomLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* bottomMiddleLeft = Engine::CreateEntity<TestClass>();
+	bottomMiddleLeft->SetPosition(Vector3{ -100.0f, -100.0f, 0.0f });
+	bottomMiddleLeft->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* bottomMiddleRight = Engine::CreateEntity<TestClass>();
+	bottomMiddleRight->SetPosition(Vector3{ 100.0f, -100.0f, 0.0f });
+	bottomMiddleRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	TestClass* bottomRight = Engine::CreateEntity<TestClass>();
+	bottomRight->SetPosition(Vector3{ 300.0f, -100.0f, 0.0f });
+	bottomRight->SetScale(Vector3{ 0.1f, 0.1f, 0.1f });
+
+	//CWorld* World = new CWorld(0);
+	//World->LoadWorld(0);
 }
 
 //--------------------------------------------------------------------------------------
@@ -863,8 +901,9 @@ double CalculateDeltaTime(const unsigned short fpsCap)
 
 void Update(float deltaTime)
 {
-	for (auto& e : Engine::entities)
+	for (int i=0; i < Engine::entities.size(); i++)
 	{
+		CEntity* e = Engine::entities[i];
 		if (!e->shouldUpdate)
 			continue;
 		
@@ -875,10 +914,10 @@ void Update(float deltaTime)
 
 			f->Update(deltaTime);
 		}
-
 		e->Update(deltaTime);
 	}
 
+	AudioController::Update(Vector3(0, 0, 0), deltaTime);
 }
 
 //--------------------------------------------------------------------------------------

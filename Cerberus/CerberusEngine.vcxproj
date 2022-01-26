@@ -168,7 +168,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;winmm.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;winmm.lib;comctl32.lib;$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LargeAddressAware>true</LargeAddressAware>
@@ -177,6 +177,7 @@
       <TargetMachine>MachineX64</TargetMachine>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
       <EnableDPIAwareness>PerMonitorHighDPIAware</EnableDPIAwareness>
@@ -355,6 +356,7 @@
   <ItemGroup>
     <ClInclude Include="CAICharacter.h" />
     <ClInclude Include="CAIController.h" />
+    <ClInclude Include="CAudioEmitterComponent.h" />
     <ClInclude Include="CAINode.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CMaterial.h" />
@@ -378,14 +380,16 @@
     <ClInclude Include="PlatformHelpers.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
     <ClInclude Include="Tools\CT_WindowBase.h" />
-    <ClInclude Include="CTransform.h" />
     <ClInclude Include="CCharacter.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CPlayerController.h" />
     <ClInclude Include="CTexture.h" />
+    <ClInclude Include="CTransform.h" />
+    <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="testCharacter.h" />
     <ClInclude Include="testCharacter2.h" />
     <ClInclude Include="testController.h" />
+    <ClInclude Include="Utility\Audio\CEmitter.h" />
     <ClInclude Include="Utility\EventSystem\EventSystem.h" />
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="CTile.h" />
@@ -414,13 +418,13 @@
     <ClInclude Include="structures.h" />
     <ClInclude Include="Core\testClass.h" />
     <ClInclude Include="UI\DebugOutput\DebugOutput.h" />
-    <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="Utility\DebugOutput\Debug.h" />
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAICharacter.cpp" />
     <ClCompile Include="CAIController.cpp" />
+    <ClCompile Include="CAudioEmitterComponent.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCharacter.cpp" />
     <ClCompile Include="CComponent.cpp" />
@@ -442,6 +446,7 @@
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
     <ClCompile Include="Tools\CT_WindowBase.cpp" />
     <ClCompile Include="CTransform.cpp" />
+    <ClCompile Include="Utility\Audio\AudioController.cpp" />
     <ClCompile Include="CPlayerController.cpp" />
     <ClCompile Include="CTexture.cpp" />
     <ClCompile Include="testCharacter.cpp" />
@@ -452,7 +457,6 @@
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CWorld.cpp" />
     <ClCompile Include="CWorldData.cpp" />
-    <ClCompile Include="Utility\Audio\AudioController.cpp" />
     <ClCompile Include="CSpriteComponent.cpp" />
     <ClCompile Include="Core\testClass.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
