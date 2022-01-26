@@ -5,6 +5,11 @@
 CTile::CTile()
 {
 	sprite = AddComponent<CSpriteComponent>();
+	isWalkable = false;
+	navId = -1;
+	tileId = -1;
+	tileStatus = TileType::Floor;
+
 }
 
 CTile::CTile(int ID, Vector3 Position)
@@ -20,6 +25,7 @@ CTile::CTile(int ID, Vector3 Position)
 
 void CTile::Update(float deltaTime)
 {
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 CTile::~CTile()
@@ -144,6 +150,6 @@ void CTile::SetRenderData(int X, int Y)
 	sprite->LoadTexture("Resources\\Tiles\\TempTileMap.dds");
 	sprite->SetRenderRect(XMUINT2(tileScale, tileScale));
 	sprite->SetSpriteSize(XMUINT2(tileScale, tileScale));
-	sprite->SetTextureOffset(XMFLOAT2(X * tileScale, Y * tileScale));
+	sprite->SetTextureOffset(XMFLOAT2(float(X * tileScale), float(Y * tileScale)));
 	
 }
