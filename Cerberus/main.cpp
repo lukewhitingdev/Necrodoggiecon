@@ -251,7 +251,7 @@ void Load()
 		ai->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 		//ai->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
 		//ai->shouldMove = true;
-		ai->colComponent->SetCollider(128.0f, 128.0f);
+		//ai->colComponent->SetCollider(128.0f, 128.0f);
 	}
 }
 
@@ -859,7 +859,6 @@ void Update(float deltaTime)
 		}
 
 		e->Update(deltaTime);
-	}
 		if (e->shouldMove)
 		{
 			for (size_t j = 0; j < Engine::entities.size(); j++)

@@ -33,4 +33,5 @@ public:
 
 
 	void RemoveComponent(CComponent* reference);
+	CollisionComponent* colComponent = nullptr;
 };
