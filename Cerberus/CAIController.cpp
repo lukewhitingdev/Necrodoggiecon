@@ -120,7 +120,9 @@ Vector3 CAIController::CollisionAvoidance()
 		ahead *= 10.0f;
 
 		Vector3 centerOfObstacle = Vector3{ closestObstacle->GetPosition().x + tileRadius * 0.5f, closestObstacle->GetPosition().y + tileRadius * 0.5f, 0.0f };
-		avoidance = (ahead + aiPosition) - (centerOfObstacle - aiPosition);
+		Vector3 test1 = ahead;
+		Vector3 test2 = centerOfObstacle - aiPosition;
+		avoidance = test1 - test2;
 		avoidance.Normalize();
 		avoidance *= 5000.0f;
 		avoidance.z = 0.0f;
@@ -129,14 +131,14 @@ Vector3 CAIController::CollisionAvoidance()
 }
 
 /* Maths magic that determines whether the player is in view. */
-bool CAIController::CanSee(Vector3 position)
+bool CAIController::CanSee(Vector3 posOfObject)
 {
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
 
 	Vector3 rightView = Vector3{ view.y, -view.x, 0.0f };
 
-	Vector3 viewToPlayer = position - aiPosition;
+	Vector3 viewToPlayer = posOfObject - aiPosition;
 	float distanceToPlayer = viewToPlayer.Magnitude();
 	
 	viewToPlayer = viewToPlayer.Normalize();
@@ -145,7 +147,7 @@ bool CAIController::CanSee(Vector3 position)
 	float pi = atanf(1) * 4;
 	float degreeAngle = dotProduct * (180.0f / pi);
 
-	float viewingAngle = (aiViewAngle * (-2.0f / 3.0f)) + 60;
+	float viewingAngle = (aiViewAngle * (-2.0f / 3.0f)) + 60.0f;
 
 	//NEED TO ADD CHECK FOR OBSTACLE
 
@@ -213,10 +215,12 @@ void CAIController::StateMachine(float deltaTime)
 	{
 		for (testCharacter* player : players)
 		{
-			if (CanSee(player->GetPosition()))
+			if (CanSee(player->GetPosition()) == true)
 			{
+				Debug::Log("CAN SEE PLAYER");
+
 				currentState = STATE::CHASE;
-				perceptionTimer = 10.0f;
+				perceptionTimer = 0.0f;
 				if (aiPosition.DistanceTo(player->GetPosition()) < aiPosition.DistanceTo(closestPlayerPosition))
 				{
 					closestPlayer = player;
@@ -224,14 +228,16 @@ void CAIController::StateMachine(float deltaTime)
 				}
 				playerToChase = closestPlayer;
 			}
-			else
+			else 
 			{
+				Debug::Log("CAN NOT SEE PLAYER");
+
 				if (perceptionTimer > 0.0f)
 				{
 					currentState = STATE::LOST;
 					Debug::Log("I AM LOST %f", perceptionTimer);
 					perceptionTimer -= deltaTime;
-					if (perceptionTimer == 0.0f)
+					if (perceptionTimer < 0.02f)
 						currentState = STATE::PATHFINDING;
 				}
 			}
@@ -321,7 +327,7 @@ void CAIController::SearchForPlayer()
 
 	float angle = atan2f(det, dot);
 
-	angle += 0.01f;
+	//angle += 0.0001f;
 
 	float cossy = cos(angle);
 	float sinny = sin(angle);
@@ -329,7 +335,7 @@ void CAIController::SearchForPlayer()
 	float x = view.x * cossy - view.y * sinny;
 	float y = view.x * sinny + view.y * cossy;
 
-	velocity = Vector3{ x, y, 0.0f };
+	//velocity = Vector3{ x, y, 0.0f };
 
 	this->SetRotation(angle);
 	
@@ -595,52 +601,52 @@ void CAIController::DeleteNodes()
 	pathNodes.clear();
 }
 
-void CAIController::SetHealth(int health)
+void CAIController::SetHealth(float health)
 {
 	aiHealth = health;
 }
 
-int CAIController::GetHealth()
+float CAIController::GetHealth()
 {
 	return aiHealth;
 }
 
-void CAIController::SetSpeed(int speed)
+void CAIController::SetSpeed(float speed)
 {
 	aiSpeed = speed;
 }
 
-int CAIController::GetSpeed()
+float CAIController::GetSpeed()
 {
 	return aiSpeed;
 }
 
-void CAIController::SetMass(int mass)
+void CAIController::SetMass(float mass)
 {
 	aiMass = mass;	
 }
 
-int CAIController::GetMass()
+float CAIController::GetMass()
 {
 	return aiMass;
 }
 
-void CAIController::SetRange(int range)
+void CAIController::SetRange(float range)
 {
 	aiRange = range;
 }
 
-int CAIController::GetRange()
+float CAIController::GetRange()
 {
 	return aiRange;
 }
 
-void CAIController::SetViewAngle(int angle)
+void CAIController::SetViewAngle(float angle)
 {
 	aiViewAngle = angle;
 }
 
-int CAIController::GetViewAngle()
+float CAIController::GetViewAngle()
 {
 	return aiViewAngle;
 }

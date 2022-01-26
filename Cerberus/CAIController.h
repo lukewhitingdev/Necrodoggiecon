@@ -28,7 +28,7 @@ class CAIController : public CEntity
 public:
 	CAIController();
 
-	int aiHealth = 2;
+	float aiHealth = 2.0f;
 	float aiSpeed = 100.0f;
 	float aiMass = 10.0f;
 	float aiRange = 400.0f;
@@ -37,27 +37,28 @@ public:
 	float width = 128.0f;
 	float height = 128.0f;
 
-	void SetHealth(int health);
-	int GetHealth();
-	void SetSpeed(int speed);
-	int GetSpeed();
-	void SetMass(int mass);
-	int GetMass();
-	void SetRange(int range);
-	int GetRange();
-	void SetViewAngle(int angle);
-	int GetViewAngle();
+	void SetHealth(float health);
+	float GetHealth();
+	void SetSpeed(float speed);
+	float GetSpeed();
+	void SetMass(float mass);
+	float GetMass();
+	void SetRange(float range);
+	float GetRange();
+	void SetViewAngle(float angle);
+	float GetViewAngle();
+
+	virtual void Update(float deltaTime) override;
 
 protected:
 	class CSpriteComponent* sprite = nullptr;
 
-	virtual void Update(float deltaTime) override;
 
 	void Movement(float deltaTime);
 
 	Vector3 CollisionAvoidance();
 
-	bool CanSee(Vector3 position);
+	bool CanSee(Vector3 posOfObject);
 
 	STATE currentState;
 
