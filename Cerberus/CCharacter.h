@@ -8,7 +8,10 @@ private:
 protected:
 	CSpriteComponent* spriteComponent = nullptr;
 
-	virtual void OnTakeDamage(float damageAmount, CEntity* damageCauser) {};
+	virtual void OnTakeDamage(float damageAmount, CEntity* damageCauser) {
+		UNREFERENCED_PARAMETER(damageCauser);
+		UNREFERENCED_PARAMETER(damageAmount);
+	};
 
 	void AddVerticalMovement(int dir, float speed, float deltaTime);
 	void AddHorizontalMovement(int dir, float speed, float deltaTime);

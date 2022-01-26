@@ -10,6 +10,7 @@ CAICharacter::CAICharacter()
 
 void CAICharacter::Update(float deltaTime)
 {
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 CAICharacter::~CAICharacter()

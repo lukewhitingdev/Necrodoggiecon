@@ -115,6 +115,8 @@ bool AudioController::DestroyAudio(std::string path)
 
 void AudioController::Update(Vector3 listenerPos, float deltaTime)
 {
+	UNREFERENCED_PARAMETER(deltaTime);
+
 	if (FMODSystem == nullptr)
 		AudioController::Initialize();
 

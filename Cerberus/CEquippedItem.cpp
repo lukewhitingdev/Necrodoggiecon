@@ -13,6 +13,7 @@ CEquippedItem::~CEquippedItem()
 
 void CEquippedItem::Update(float deltaTime)
 {
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 void CEquippedItem::Initialise(int id, CEntity* newOwner)

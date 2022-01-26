@@ -18,7 +18,13 @@ public:
 	//Updated automatically every single frame
 	virtual void Update(float deltaTime);
 
-	virtual void Draw(struct ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) {};
+	virtual void Draw(struct ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer)
+	{
+		UNREFERENCED_PARAMETER(context);
+		UNREFERENCED_PARAMETER(parentMat);
+		UNREFERENCED_PARAMETER(cb);
+		UNREFERENCED_PARAMETER(constantBuffer);
+	};
 
 private:
 	CEmitter* emitter;
