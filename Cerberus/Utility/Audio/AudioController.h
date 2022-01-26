@@ -1,6 +1,13 @@
 #pragma once
+
+#pragma warning(push)
+//Disabled Warnings that reside in external libraries.
+#pragma warning( disable : 4505 )
+#pragma warning( disable : 26812 )
 #include "Dependencies/FMOD/api/core/inc/fmod.hpp"
 #include "Dependencies/FMOD/api/core/inc/fmod_errors.h"
+#pragma warning(pop)
+
 #include "Utility/DebugOutput/Debug.h"
 #include "Utility/AssetManager/AssetManager.h"
 #include "Utility/Audio/CEmitter.h"
