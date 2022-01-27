@@ -11,6 +11,7 @@ class Debug
 
 private:
 	static DebugOutput* output;
+	static int logSize;
 	static void initOutput()
 	{
 		output = new DebugOutput();
@@ -33,6 +34,12 @@ private:
 		return "[" + timeString + "] ";
 	}
 
+	static void CheckLogSize()
+	{
+		if (output->getItems().size() > logSize)
+			output->ClearLog();
+	}
+
 public:
 
 	//Disabled Warning for C4840, which is because the compiler doesnt like the fact im passing an varadic args to a varadic args.
@@ -45,6 +52,8 @@ public:
 	{
 		if (output == nullptr)
 			initOutput();
+
+		CheckLogSize();
 
 		std::string stringInput = std::string(fmt);
 		
@@ -59,6 +68,8 @@ public:
 		if (output == nullptr)
 			initOutput();
 
+		CheckLogSize();
+
 		std::string stringInput = std::string(fmt);
 
 		stringInput = "[error] " + getCurrentTimeString() + stringInput;
@@ -71,6 +82,8 @@ public:
 	{
 		if (output == nullptr)
 			initOutput();
+
+		CheckLogSize();
 
 		std::string stringInput = "";
 

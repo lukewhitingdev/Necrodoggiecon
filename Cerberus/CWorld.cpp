@@ -4,7 +4,7 @@
 #include <fstream>
 
 CTile* CWorld::tileContainer[mapScale * mapScale];
-
+int mapSize = mapScale * mapScale;
 
 CWorld::CWorld()
 {
@@ -86,7 +86,7 @@ std::vector<CTile*> CWorld::GetAllWalkableTiles()
 {
 	std::vector<CTile*> walkableTiles;
 
-	for (int i = 0; i < (mapScale * mapScale); ++i)
+	for (int i = 0; i < mapSize; ++i)
 	{
 		if (tileContainer[i]->IsWalkable())
 		{
@@ -96,6 +96,21 @@ std::vector<CTile*> CWorld::GetAllWalkableTiles()
 
 
 	return walkableTiles;
+}
+
+std::vector<CTile*> CWorld::GetAllObstacleTiles()
+{
+	std::vector<CTile*> obstacleTiles;
+
+	for (int i = 0; i < mapSize; ++i)
+	{
+		if (!tileContainer[i]->IsWalkable())
+		{
+			obstacleTiles.emplace_back(tileContainer[i]);
+		}
+	}
+
+	return obstacleTiles;
 }
 
 Vector3 CWorld::IndexToGrid(int ID)

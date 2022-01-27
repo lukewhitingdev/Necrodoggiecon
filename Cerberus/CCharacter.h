@@ -18,5 +18,7 @@ protected:
 public:
 	void ApplyDamage(float damageAmount, CEntity* damageCauser) { OnTakeDamage(damageAmount, damageCauser); }
 
+	virtual void Update(float deltaTime) {};
+
 };
 
