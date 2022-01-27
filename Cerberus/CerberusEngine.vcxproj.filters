@@ -27,7 +27,6 @@
     </ClCompile>
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CMaterial.cpp" />
-    <ClCompile Include="Tools\CT_WindowBase.cpp" />
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
     <ClCompile Include="CWorld_Edit.cpp">
       <Filter>World</Filter>
@@ -83,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="CAudioEmitterComponent.cpp" />
     <ClCompile Include="Utility\CollisionManager\CollisionComponent.cpp" />
+    <ClCompile Include="CT_EditorGrid.cpp" />
+    <ClCompile Include="CGridCursor.cpp" />
+    <ClCompile Include="Tools\CT_EditorWindows.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DDSTextureLoader.h" />
@@ -121,7 +123,6 @@
     </ClInclude>
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="CMaterial.h" />
-    <ClInclude Include="Tools\CT_WindowBase.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
     <ClInclude Include="CWorld_Edit.h">
       <Filter>World</Filter>
@@ -193,6 +194,9 @@
     </ClInclude>
     <ClInclude Include="Utility\CollisionManager\CollisionComponent.h" />
     <ClInclude Include="CEntity.h" />
+    <ClInclude Include="CT_EditorGrid.h" />
+    <ClInclude Include="CGridCursor.h" />
+    <ClInclude Include="Tools\CT_EditorWindows.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

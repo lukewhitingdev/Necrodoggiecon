@@ -208,10 +208,8 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	bool editorMode = true;
+	bool editorMode = false;
 
-	Engine::CreateEntity<TestUI>();
-	CursorEntity* myClass = Engine::CreateEntity<CursorEntity>();
 	
 	
 /*
