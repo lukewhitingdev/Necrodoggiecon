@@ -10,7 +10,7 @@ CT_EditorGrid::CT_EditorGrid()
 
 void CT_EditorGrid::Update(float deltaTime)
 {
-
+	UNREFERENCED_PARAMETER(deltaTime);
 
 }
 

@@ -34,7 +34,7 @@ CGridCursor::CGridCursor()
 
 void CGridCursor::Update(float deltaTime)
 {
-	
+	UNREFERENCED_PARAMETER(deltaTime);
 
 	Vector3 camPos = Vector3(Engine::camera.GetCameraPosition().x, Engine::camera.GetCameraPosition().y, -10);
 

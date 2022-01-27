@@ -10,7 +10,7 @@ public:
 
 	void RenderWindows();
 	
-	class CT_EditorWindows* EditorWindow;
+	class CT_EditorWindows* editorWindow;
 
 };
 

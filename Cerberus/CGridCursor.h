@@ -6,7 +6,7 @@ class CGridCursor :
 public:
     CGridCursor();
 
-    class CSpriteComponent* ActiveCellSprite = nullptr;
+    class CSpriteComponent* activeCellSprite = nullptr;
 
     virtual void Update(float deltaTime) override;
 

@@ -19,7 +19,7 @@ public:
   
 
 protected: 
-    class CSpriteComponent* GridSprite = nullptr;
+    class CSpriteComponent* gridSprite = nullptr;
     
 
 

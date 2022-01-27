@@ -154,7 +154,7 @@ void CWorld_Editable::LoadWorld_Edit()
 
 void CWorld_Editable::SaveWorld(int Slot)
 {
-
+	UNREFERENCED_PARAMETER(Slot);
 	std::ifstream loadedData("Resources/Levels/Level_1.json");
 
 
@@ -182,6 +182,7 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 void CWorld_Editable::EditWorld(int Slot)
 {
+	UNREFERENCED_PARAMETER(Slot);
 	ClearSpace();
 
 	
@@ -189,7 +190,7 @@ void CWorld_Editable::EditWorld(int Slot)
 
 void CWorld_Editable::NewWorld(int Slot)
 {
-
+	UNREFERENCED_PARAMETER(Slot);
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
 		Vector3 ConvertedPos = IndexToGrid(i);
