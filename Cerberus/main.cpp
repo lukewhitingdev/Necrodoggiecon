@@ -270,14 +270,17 @@ void Load()
 
 
 	
+	if (!editorMode)
+	{
 
+		for (int i = 0; i < 1; i++)
+		{
+			CAIController* ai = Engine::CreateEntity<CAIController>();
+		}
+	}
 	
 	std::vector<testCharacter*> test = Engine::GetEntityOfType<testCharacter>();
 
-	for (int i = 0; i < 1; i++)
-	{
-		CAIController* ai = Engine::CreateEntity<CAIController>();
-	}
 
 
 

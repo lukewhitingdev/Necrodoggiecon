@@ -207,12 +207,12 @@ void CWorld_Editable::NewWorld(int Slot)
 	
 
 
-		CTile* Tile = Engine::CreateEntity<CTile>();
-		Tile->SetPosition(tempPos);
-		Tile->SetScale(tileScaleMultiplier);
-		Tile->ChangeTileID(0);
+		CTile* tile = Engine::CreateEntity<CTile>();
+		tile->SetPosition(tempPos);
+		tile->SetScale(tileScaleMultiplier);
+		tile->ChangeTileID(0);
 
-		tileContainer[i] = Tile;
+		tileContainer[i] = tile;
 	}
 
 }
@@ -335,23 +335,23 @@ void CWorld_Editable::GenerateTileMap()
 
 
 		Vector2 Pos = Vector2(temp.x, temp.y);
-		Vector2 FloorResult = FindAdjacents(Pos, CellType::Floor);
-		Vector2 FloorResultDiagonal = FindFloorAdjacentDiagonal(Pos);
+		Vector2 floorResult = FindAdjacents(Pos, CellType::Floor);
+		Vector2 floorResultDiagonal = FindFloorAdjacentDiagonal(Pos);
 		std::vector<CellType> TypeList;
 		TypeList.push_back(CellType::Edge);
 		TypeList.push_back(CellType::InnerCorner);
 		TypeList.push_back(CellType::OuterCorner);
-		Vector2 EdgeAdjacentResult = FindAdjacentEdges(Pos);
+		Vector2 edgeAdjacentResult = FindAdjacentEdges(Pos);
 
 		switch (tileData[i].type)
 		{
 		case CellType::Edge:
 
 
-			if (FloorResult == Vector2(0, -1)) tileContainer[i]->ChangeTileID(CellID::W_N);
-			else if (FloorResult == Vector2(0, 1)) tileContainer[i]->ChangeTileID(CellID::W_S);
-			else if (FloorResult == Vector2(1, 0)) tileContainer[i]->ChangeTileID(CellID::W_W);
-			else if (FloorResult == Vector2(-1, 0)) tileContainer[i]->ChangeTileID(CellID::W_E);
+			if (floorResult == Vector2(0, -1)) tileContainer[i]->ChangeTileID(CellID::W_N);
+			else if (floorResult == Vector2(0, 1)) tileContainer[i]->ChangeTileID(CellID::W_S);
+			else if (floorResult == Vector2(1, 0)) tileContainer[i]->ChangeTileID(CellID::W_W);
+			else if (floorResult == Vector2(-1, 0)) tileContainer[i]->ChangeTileID(CellID::W_E);
 			break;
 		case CellType::Empty:
 			tileContainer[i]->ChangeTileID(CellID::N);
@@ -363,19 +363,19 @@ void CWorld_Editable::GenerateTileMap()
 
 
 
-			if (EdgeAdjacentResult == Vector2(1, -1)) tileContainer[i]->ChangeTileID(CellID::IC_NW);
-			if (EdgeAdjacentResult == Vector2(-1, -1)) tileContainer[i]->ChangeTileID(CellID::IC_NE);
-			if (EdgeAdjacentResult == Vector2(-1, 1)) tileContainer[i]->ChangeTileID(CellID::IC_SW);
-			if (EdgeAdjacentResult == Vector2(1, 1)) tileContainer[i]->ChangeTileID(CellID::IC_SE);
+			if (edgeAdjacentResult == Vector2(1, -1)) tileContainer[i]->ChangeTileID(CellID::IC_NW);
+			if (edgeAdjacentResult == Vector2(-1, -1)) tileContainer[i]->ChangeTileID(CellID::IC_NE);
+			if (edgeAdjacentResult == Vector2(-1, 1)) tileContainer[i]->ChangeTileID(CellID::IC_SW);
+			if (edgeAdjacentResult == Vector2(1, 1)) tileContainer[i]->ChangeTileID(CellID::IC_SE);
 
 
 			break;
 		case CellType::OuterCorner:
 
-			if (FloorResultDiagonal == Vector2(1, -1)) tileContainer[i]->ChangeTileID(CellID::OC_NW);
-			else if (FloorResultDiagonal == Vector2(-1, -1)) tileContainer[i]->ChangeTileID(CellID::OC_NE);
-			else if (FloorResultDiagonal == Vector2(-1, 1)) tileContainer[i]->ChangeTileID(CellID::OC_SE);
-			else if (FloorResultDiagonal == Vector2(1, 1)) tileContainer[i]->ChangeTileID(CellID::OC_SW);
+			if (floorResultDiagonal == Vector2(1, -1)) tileContainer[i]->ChangeTileID(CellID::OC_NW);
+			else if (floorResultDiagonal == Vector2(-1, -1)) tileContainer[i]->ChangeTileID(CellID::OC_NE);
+			else if (floorResultDiagonal == Vector2(-1, 1)) tileContainer[i]->ChangeTileID(CellID::OC_SE);
+			else if (floorResultDiagonal == Vector2(1, 1)) tileContainer[i]->ChangeTileID(CellID::OC_SW);
 
 			break;
 		default:
@@ -503,10 +503,10 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 
 
 
-		std::vector<CellType> List;
-		List.push_back(CellType::Edge);
-		List.push_back(CellType::InnerCorner);
-		List.push_back(CellType::OuterCorner);
+		std::vector<CellType> list;
+		list.push_back(CellType::Edge);
+		list.push_back(CellType::InnerCorner);
+		list.push_back(CellType::OuterCorner);
 
 		if (IsEdge(Position + Vector2(1, 0)) && IsEdge(Position + Vector2(0, -1)))
 		{

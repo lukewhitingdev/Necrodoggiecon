@@ -10,12 +10,12 @@ CGridCursor::CGridCursor()
 {
 	Offset = Vector3(0, 0, 0);
 
-	ActiveCellSprite = AddComponent<CSpriteComponent>();
-	ActiveCellSprite->LoadTexture("Resources\\Tiles\\ActiveCell.dds");
+	activeCellSprite = AddComponent<CSpriteComponent>();
+	activeCellSprite->LoadTexture("Resources\\Tiles\\ActiveCell.dds");
 
-	ActiveCellSprite->SetRenderRect(XMUINT2(tileScale, tileScale));
-	ActiveCellSprite->SetSpriteSize(XMUINT2(tileScale, tileScale));
-	ActiveCellSprite->SetTextureOffset(XMFLOAT2(0, 0));
+	activeCellSprite->SetRenderRect(XMUINT2(tileScale, tileScale));
+	activeCellSprite->SetSpriteSize(XMUINT2(tileScale, tileScale));
+	activeCellSprite->SetTextureOffset(XMFLOAT2(0, 0));
 	
 	SetScale(2, 2, 2);
 
@@ -26,7 +26,7 @@ CGridCursor::CGridCursor()
 	selectedCell_1 = Vector3(0, 0, 0);
 
 
-	//ActiveCellSprite->SetSpriteSize(XMUINT2(tileScale * 50, tileScale * 50));
+	//activeCellSprite->SetSpriteSize(XMUINT2(tileScale * 50, tileScale * 50));
 
 	
 	wasMouseReleased = true;
@@ -74,7 +74,7 @@ void CGridCursor::Update(float deltaTime)
 
 	SetPosition(Pos);
 
-	//ActiveCellSprite->SetSpriteSize(XMUINT2(tileScale * mapScale, tileScale * mapScale));
+	//activeCellSprite->SetSpriteSize(XMUINT2(tileScale * mapScale, tileScale * mapScale));
 	if (cellSelected)
 	{
 		UpScale = (PreScale - selectedCell_1);
@@ -117,7 +117,7 @@ void CGridCursor::Update(float deltaTime)
 	
 
 
-	//ActiveCellSprite->SetSpriteSize(XMUINT2(X1, Y2));
+	//activeCellSprite->SetSpriteSize(XMUINT2(X1, Y2));
 	
 	
 	

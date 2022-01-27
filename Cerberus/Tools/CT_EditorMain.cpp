@@ -6,8 +6,8 @@
 
 CT_EditorMain::CT_EditorMain()
 {
-	EditorWindow = new CT_EditorWindows();
-	CT_EditorGrid* Grid = Engine::CreateEntity<CT_EditorGrid>();
+	editorWindow = new CT_EditorWindows();
+	CT_EditorGrid* grid = Engine::CreateEntity<CT_EditorGrid>();
 	Grid->SetupGrid();
 }
 
@@ -21,5 +21,5 @@ void CT_EditorMain::Initialise()
 
 void CT_EditorMain::RenderWindows()
 {
-	EditorWindow->render();
+	editorWindow->render();
 }

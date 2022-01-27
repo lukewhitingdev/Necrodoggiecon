@@ -4,7 +4,7 @@
 
 CT_EditorGrid::CT_EditorGrid()
 {
-	GridSprite = AddComponent<CSpriteComponent>();
+	gridSprite = AddComponent<CSpriteComponent>();
 	
 }
 
@@ -24,10 +24,10 @@ void CT_EditorGrid::SetupGrid()
 
 
 	//Setup the editor grid visuals
-	GridSprite->LoadTexture("Resources\\Tiles\\GridCell.dds");
-	GridSprite->SetRenderRect(XMUINT2(tileScale * mapScale, tileScale * mapScale));
-	GridSprite->SetSpriteSize(XMUINT2(tileScale * mapScale, tileScale * mapScale));
-	GridSprite->SetTextureOffset(XMFLOAT2(0, 0));
+	gridSprite->LoadTexture("Resources\\Tiles\\GridCell.dds");
+	gridSprite->SetRenderRect(XMUINT2(tileScale * mapScale, tileScale * mapScale));
+	gridSprite->SetSpriteSize(XMUINT2(tileScale * mapScale, tileScale * mapScale));
+	gridSprite->SetTextureOffset(XMFLOAT2(0, 0));
 
 	Vector3 tempPos = Vector3(31 * tileScale, 31 * tileScale, 0);
 	
