@@ -225,13 +225,6 @@ void Load()
 
 		CWorld::LoadWorld(0);
 	}
-	
-	// sawps and makes one of the entiys the player
-	for (int i = 0; i < 0; i++)
-	{
-		CCharacter* myplayer = Engine::CreateEntity<CCharacter>();
-		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	}
 
 	testController* controller = Engine::CreateEntity<testController>();
 	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
@@ -259,7 +252,7 @@ void Load()
 
 	for (int i = 0; i < 1; i++)
 	{
-		CAIController* ai = Engine::CreateEntity<CAIController>();
+		Engine::CreateEntity<CAIController>();
 	}
 }
 
