@@ -184,18 +184,7 @@ void CWorld_Editable::EditWorld(int Slot)
 {
 	ClearSpace();
 
-	//AdditiveBox(Vector2(0, 0), Vector2(mapScale, mapScale));
-
-	//SubtractiveBox(Vector2(5, 5), Vector2(mapScale - 5, mapScale - 5));
-
-
-	//AdditiveBox(Vector2(7, 7), Vector2(10, 10));
-
-	//AdditiveBox(Vector2(15, 15), Vector2(23, 23));
-
-	//GenerateTileMap();
-
-	//SaveWorld(0);
+	
 }
 
 void CWorld_Editable::NewWorld(int Slot)
@@ -241,10 +230,7 @@ void CWorld_Editable::ClearSpace()
 
 void CWorld_Editable::AdditiveBox(Vector2 A, Vector2 B)
 {
-
 	BoxOperation(A, B, 0);
-	
-
 }
 
 void CWorld_Editable::SubtractiveBox(Vector2 A, Vector2 B)
@@ -255,15 +241,12 @@ void CWorld_Editable::SubtractiveBox(Vector2 A, Vector2 B)
 
 void CWorld_Editable::AdditiveBox_Scale(Vector2 A, Vector2 B)
 {
-
 	BoxOperation(A, B + A, 0);
-	
 }
 
 void CWorld_Editable::SubtractiveBox_Scale(Vector2 A, Vector2 B)
 {
 	BoxOperation(A, A + B, 1);
-	
 }
 
 void CWorld_Editable::BoxOperation(Vector2 A, Vector2 B, int TileID)
@@ -306,48 +289,10 @@ void CWorld_Editable::BoxOperation(Vector2 A, Vector2 B, int TileID)
 
 }
 
-void CWorld_Editable::RefreshTileMapRegion(Vector2 A, Vector2 B)
-{
-
-	Vector2 dimensions = (B + Vector2(1, -1)) - (A + Vector2(-1, 1));
-
-	for (int x = A.x - 1; x < dimensions.x; x++)
-	{
-		for (int y = A.y + 1; y < dimensions.y; y++)
-		{
-
-			int i = GridToIndex(Vector2(x, y));
-			Vector2 pos = Vector2(x, y);
-
-			if (A.x + x > 0 && A.x + x < mapScale && A.y + y > 0 && A.y + y < mapScale)
-			{
-				if (tileData[i].id == 0)
-				{
-					
-
-					if (IsFloorAdjacent(Vector2(pos.x, pos.y)))
-					{
-						tileData[i].type = CellType::Edge;
-					}
-					else tileData[i].type = CellType::Empty;
-
-				}
-				else if (tileData[i].id == 1)
-				{
-					tileData[i].type = CellType::Floor;
-				}
-			}
-
-
-		}
-	}
-
-
-}
 
 void CWorld_Editable::GenerateTileMap()
 {
-	
+	//Initialises the standard tile distribution between floors, Edges and empty
 
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
@@ -369,6 +314,7 @@ void CWorld_Editable::GenerateTileMap()
 
 	}
 	
+	//Locates corners and assigns them
 
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
@@ -379,6 +325,7 @@ void CWorld_Editable::GenerateTileMap()
 
 	}
 	
+	//Assigns all the tiles based on their neighbours and assigned type
 
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
@@ -461,18 +408,6 @@ bool CWorld_Editable::IsFloorAdjacent(Vector2 Position)
 	else return false;
 }
 
-bool CWorld_Editable::IsTile(Vector2 Position, std::vector<CellType> Type)
-{
-
-	for (int i = 0; i < Type.size(); i++)
-	{
-		if (tileData[GridToIndex(Position)].type == Type[i]);
-		{
-			return false;
-		}
-	}
-	return true;
-}
 
 Vector2 CWorld_Editable::FindAdjacents(Vector2 Pos, CellType ID)
 {

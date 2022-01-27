@@ -24,12 +24,11 @@ CGridCursor::CGridCursor()
 	cellSelected = false;
 
 	selectedCell_1 = Vector3(0, 0, 0);
-	selectedCell_2 = Vector3(0, 0, 0);
+
 
 	//ActiveCellSprite->SetSpriteSize(XMUINT2(tileScale * 50, tileScale * 50));
 
-	CachedX = 0; 
-	CachedY = 0;
+	
 	wasMouseReleased = true;
 }
 
@@ -51,9 +50,9 @@ void CGridCursor::Update(float deltaTime)
 
 
 
-	int X = Result.x / (tileScale * tileScaleMultiplier);
-	int Y = Result.y / (tileScale * tileScaleMultiplier);
-	float scale = (tileScale);
+	int X = (int)(Result.x / (tileScale * tileScaleMultiplier));
+	int Y = (int)(Result.y / (tileScale * tileScaleMultiplier));
+	
 
 
 	if (X <= 0) X = 0;
@@ -66,8 +65,8 @@ void CGridCursor::Update(float deltaTime)
 
 
 
-	Vector3 Pos = Vector3(X * (64), Y * (64), -5);
-	Vector3 PreScale = Vector3(X, Y, -5);
+	Vector3 Pos = Vector3((float)(X * (64)), (float)(Y * (64)), -5);
+	Vector3 PreScale = Vector3((float)X, (float)Y, (float)-5);
 	Vector3 UpScale = (PreScale - selectedCell_1);
 
 	Vector2 RenderScale;
@@ -115,8 +114,7 @@ void CGridCursor::Update(float deltaTime)
 	//mouseCalc. * -1;
 
 
-	int X1 = tileScale * UpScale.x;
-	int Y2 = tileScale * UpScale.y;
+	
 
 
 	//ActiveCellSprite->SetSpriteSize(XMUINT2(X1, Y2));
@@ -127,16 +125,4 @@ void CGridCursor::Update(float deltaTime)
 	
 }
 
-void CGridCursor::UpdateSize(int X, int Y)
-{
-	if (X != CachedX || Y != CachedY)
-	{
-		CachedX = X;
-		CachedY = Y;
-		ActiveCellSprite->SetRenderRect(XMUINT2(tileScale, tileScale));
-		ActiveCellSprite->SetSpriteSize(XMUINT2(tileScale * X, tileScale * Y));
-		ActiveCellSprite->SetTextureOffset(XMFLOAT2(0, 0));
-	}
-	
-}
 

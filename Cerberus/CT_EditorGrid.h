@@ -13,17 +13,14 @@ public:
     void SetupGrid();
 
 
-    void SetCursorPosition(Vector2 Position);
-    void UpdateHighlightScale();
+  
+ 
 
-    void ActivateCursorScale();
-    void ClearCursorScale();
-
-    bool isCursorScaling;
+  
 
 protected: 
     class CSpriteComponent* GridSprite = nullptr;
-    class CSpriteComponent* ActiveCellSprite = nullptr;
+    
 
 
 };

@@ -8,7 +8,7 @@
 #include <iostream>
 #include "Vector3.h"
 
-class CT_WindowBase
+class CT_EditorWindows
 {
 
     char                  InputBuf[256];
@@ -28,7 +28,7 @@ protected:
 
 public:
 
-    CT_WindowBase()
+    CT_EditorWindows()
     {
         ClearLog();
         memset(InputBuf, 0, sizeof(InputBuf));
@@ -38,7 +38,7 @@ public:
         ScrollToBottom = false;
         open = new bool(true);
     }
-    ~CT_WindowBase()
+    ~CT_EditorWindows()
     {
         ClearLog();
         for (int i = 0; i < History.Size; i++)
@@ -76,7 +76,7 @@ public:
     }
 
 
-    virtual void    AdditionalRenderLogic(bool& isOpen);
+   
 
     void    render();
     

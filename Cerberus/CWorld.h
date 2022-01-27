@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include "CTile.h"
-#include "CWorldData.h"
+
 #include "WorldConstants.h"
 
 #include "Libraries/json.hpp"

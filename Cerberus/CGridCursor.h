@@ -21,19 +21,18 @@ public:
 
 
 
-    // Grid Space coordinates
-    int CachedX, CachedY;
+   
 
 
 
     bool cellSelected;
 
     Vector3 selectedCell_1;
-    Vector3 selectedCell_2;
+   
 
 
 
-    Vector2 ScreenToWorld(Vector2 Pos);
+  
 
 
 

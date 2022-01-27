@@ -27,12 +27,9 @@
     <ClCompile Include="CWorld.cpp">
       <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="CWorldData.cpp">
-      <Filter>World</Filter>
-    </ClCompile>
     <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="CMaterial.cpp" />
-    <ClCompile Include="Tools\CT_WindowBase.cpp" />
+    <ClCompile Include="Tools\CT_EditorWindows.cpp" />
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
     <ClCompile Include="CWorld_Edit.cpp">
       <Filter>World</Filter>
@@ -42,7 +39,6 @@
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CTransform.cpp" />
-    <ClCompile Include="Tools\CT_Window_ToolBar.cpp" />
     <ClCompile Include="CTextRenderComponent.cpp" />
     <ClCompile Include="Core\CursorEntity.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -82,16 +78,13 @@
     <ClInclude Include="CWorld.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="CWorldData.h">
-      <Filter>World</Filter>
-    </ClInclude>
     <ClInclude Include="WorldConstants.h">
       <Filter>World</Filter>
     </ClInclude>
     <ClInclude Include="Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="Utility\Audio\CAudio.h" />
     <ClInclude Include="CMaterial.h" />
-    <ClInclude Include="Tools\CT_WindowBase.h" />
+    <ClInclude Include="Tools\CT_EditorWindows.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
     <ClInclude Include="CWorld_Edit.h">
       <Filter>World</Filter>
@@ -101,7 +94,6 @@
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CTransform.h" />
-    <ClInclude Include="Tools\CT_Window_ToolBar.h" />
     <ClInclude Include="CTextRenderComponent.h" />
     <ClInclude Include="Core\CursorEntity.h" />
     <ClInclude Include="InputManager.h" />

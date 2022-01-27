@@ -1,12 +1,9 @@
-#include "CT_WindowBase.h"
+#include "CT_EditorWindows.h"
 #include "CWorld_Edit.h"
 
-void CT_WindowBase::AdditionalRenderLogic(bool& isOpen)
-{
 
-}
 
-void CT_WindowBase::render()
+void CT_EditorWindows::render()
 {
 
     {
