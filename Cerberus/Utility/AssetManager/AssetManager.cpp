@@ -52,6 +52,7 @@ CTexture* AssetManager::GetTexture(std::string texturePath)
 		CTexture* texture = new CTexture();
 		if (FAILED(hr = texture->LoadTextureDDS(texturePath)))
 			Debug::LogHResult(hr, "[AssetManager] Failed to load texture from path: %s", texturePath);
+
 		
 		textures.emplace(std::make_pair(texturePath, texture));
 
@@ -59,14 +60,40 @@ CTexture* AssetManager::GetTexture(std::string texturePath)
 	}
 }
 
+
+CTexture* AssetManager::GetTextureWIC(std::string texturePath)
+{
+	HRESULT hr;
+	if (textures.find(texturePath) != textures.end())
+	{
+		// The texture exists.
+		return textures.at(texturePath);
+	}
+	else
+	{
+		// The texture doesnt exist so make one.
+		CTexture* texture = new CTexture();
+		if (FAILED(hr = texture->LoadTextureWIC(texturePath))) //chaged LoadTextureDDS to LoadTextureWIC
+			Debug::LogHResult(hr, "[AssetManager] Failed to load texture from path: %s", texturePath);
+
+
+		textures.emplace(std::make_pair(texturePath, texture));
+
+		return texture;
+	}
+}
+
+
 CAudio* AssetManager::AddAudio(std::string audioPath, CAudio* audio)
 {
 	if(audios.find(audioPath) != audios.end())
 	{
+		// If we find it in the assetManager return it.
 		return audios.at(audioPath);
 	}
 	else
 	{
+		// If we dont find it add it to the audio list.
 		audios.emplace(std::make_pair(audioPath, audio));
 		return audios.at(audioPath);
 	}

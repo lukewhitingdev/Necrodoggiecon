@@ -15,8 +15,8 @@ public:
 
 	CCamera();
 	void SetCameraPosition(XMFLOAT4 newPos) { eyePosition = newPos; UpdateViewMat(); }
-	XMFLOAT4 GetCameraPosition() { return eyePosition; }
+	const XMFLOAT4& GetCameraPosition() const { return eyePosition; }
 
 	void SetZoom(float newZoom) { zoom = newZoom; UpdateProjectionMat(); }
-	float GetZoom() { return zoom; }
+	const float& GetZoom() const { return zoom; }
 };

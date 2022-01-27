@@ -8,6 +8,7 @@
 #include <directxcolors.h>
 #include <DirectXCollision.h>
 #include "DDSTextureLoader.h"
+#include "WICTextureLoader.h"
 #include "resource.h"
 #include <iostream>
 
@@ -18,7 +19,6 @@
 #include "Dependencies/IMGUI/imgui_impl_win32.h"
 
 #include "Utility/DebugOutput/Debug.h"
-#include "Utility/Audio/AudioController.h"
 
 #include <vector>
 #include "InputManager.h"

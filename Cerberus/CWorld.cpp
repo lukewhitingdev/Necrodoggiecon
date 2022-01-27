@@ -4,7 +4,7 @@
 #include <fstream>
 
 CTile* CWorld::tileContainer[mapScale * mapScale];
-
+int mapSize = mapScale * mapScale;
 
 CWorld::CWorld()
 {
@@ -46,6 +46,7 @@ void CWorld::LoadWorld(int Slot)
 
 
 		CTile* Tile = Engine::CreateEntity<CTile>();
+		Tile->SetNavID(i);
 		Tile->SetPosition(tempPos);
 		Tile->SetScale(tileScaleMultiplier);
 		Tile->ChangeTileID(ID);
@@ -77,6 +78,37 @@ void CWorld::BuildNavigationGrid()
 	}
 
 
+}
+
+std::vector<CTile*> CWorld::GetAllWalkableTiles()
+{
+	std::vector<CTile*> walkableTiles;
+
+	for (int i = 0; i < mapSize; ++i)
+	{
+		if (tileContainer[i]->IsWalkable())
+		{
+			walkableTiles.emplace_back(tileContainer[i]);
+		}
+	}
+
+
+	return walkableTiles;
+}
+
+std::vector<CTile*> CWorld::GetAllObstacleTiles()
+{
+	std::vector<CTile*> obstacleTiles;
+
+	for (int i = 0; i < mapSize; ++i)
+	{
+		if (!tileContainer[i]->IsWalkable())
+		{
+			obstacleTiles.emplace_back(tileContainer[i]);
+		}
+	}
+
+	return obstacleTiles;
 }
 
 Vector3 CWorld::IndexToGrid(int ID)

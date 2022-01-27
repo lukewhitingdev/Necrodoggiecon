@@ -47,8 +47,6 @@
 #define _Use_decl_annotations_
 #endif
 
-namespace DirectX
-{
     enum DDS_ALPHA_MODE
     {
         DDS_ALPHA_MODE_UNKNOWN       = 0,
@@ -57,6 +55,9 @@ namespace DirectX
         DDS_ALPHA_MODE_OPAQUE        = 3,
         DDS_ALPHA_MODE_CUSTOM        = 4,
     };
+
+namespace DirectX
+{
 
     // Standard version
     HRESULT CreateDDSTextureFromMemory( _In_ ID3D11Device* d3dDevice,
