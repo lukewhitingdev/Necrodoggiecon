@@ -18,7 +18,7 @@ protected:
 public:
 	void ApplyDamage(float damageAmount, CEntity* damageCauser) { OnTakeDamage(damageAmount, damageCauser); }
 
-	virtual void Update(float deltaTime) {};
+	virtual void Update(float deltaTime) { UNREFERENCED_PARAMETER(deltaTime); };
 
 };
 
