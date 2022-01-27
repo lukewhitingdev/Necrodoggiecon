@@ -132,7 +132,7 @@ namespace Inputs
 
 		static bool IsMouseButtonPressed(Mouse mouse);
 
-		static bool IsMouseButtonReleased(Mouse mouse);
+		
 	};
 
 };
