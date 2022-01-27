@@ -38,8 +38,7 @@ void CWorld::LoadWorld(int Slot)
 
 		int ID = atoi(convertedFile[i].c_str());
 		Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
-		tempPos -= Vector3((mapScale * tileScale), (mapScale * tileScale), 0);
-
+		
 		//tempPos += Vector3(0, 64 * tileScale, 0.0f);
 
 		tempPos.z = 10;
@@ -49,7 +48,7 @@ void CWorld::LoadWorld(int Slot)
 		CTile* Tile = Engine::CreateEntity<CTile>();
 		Tile->SetNavID(i);
 		Tile->SetPosition(tempPos);
-		Tile->SetScale(2, 2, 2);
+		Tile->SetScale(tileScaleMultiplier);
 		Tile->ChangeTileID(ID);
 
 		tileContainer[i] = Tile;
