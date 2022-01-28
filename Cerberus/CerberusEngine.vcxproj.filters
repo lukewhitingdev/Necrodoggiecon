@@ -1,102 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="Dependencies\Microsoft\DDSTextureLoader.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Vector3.cpp" />
-    <ClCompile Include="CComponent.cpp" />
-    <ClCompile Include="CEntity.cpp" />
-    <ClCompile Include="CTexture.cpp" />
-    <ClCompile Include="CSpriteComponent.cpp" />
+    <ClCompile Include="Core\Utility\Vector3.cpp" />
+    <ClCompile Include="Core\CComponent.cpp" />
+    <ClCompile Include="Core\CEntity.cpp" />
+    <ClCompile Include="Core\Structs\CTexture.cpp" />
+    <ClCompile Include="Core\Components\CSpriteComponent.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_draw.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_impl_dx11.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_tables.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_widgets.cpp" />
-    <ClCompile Include="Utility\DebugOutput\Debug.cpp" />
-    <ClCompile Include="CMesh.cpp" />
-    <ClCompile Include="CTile.cpp">
+    <ClCompile Include="Core\Utility\DebugOutput\Debug.cpp" />
+    <ClCompile Include="Core\Structs\CMesh.cpp" />
+    <ClCompile Include="Core\Environment\CTile.cpp">
       <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="CWorld.cpp">
+    <ClCompile Include="Core\Environment\CWorld.cpp">
       <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="CWorldData.cpp">
-      <Filter>World</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\AssetManager\AssetManager.cpp" />
-    <ClCompile Include="CMaterial.cpp" />
+    <ClCompile Include="Core\Utility\AssetManager\AssetManager.cpp" />
+    <ClCompile Include="Core\Structs\CMaterial.cpp" />
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
-    <ClCompile Include="CWorld_Edit.cpp">
+    <ClCompile Include="Core\Environment\CWorld_Edit.cpp">
       <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="CAIController.cpp" />
-    <ClCompile Include="Utility\EventSystem\EventSystem.cpp" />
-    <ClCompile Include="CCamera.cpp" />
-    <ClCompile Include="CTransform.cpp" />
-    <ClCompile Include="Utility\Audio\AudioController.cpp" />
-    <ClCompile Include="CTextRenderComponent.cpp" />
-    <ClCompile Include="Core\CursorEntity.cpp" />
-    <ClCompile Include="CCharacter.cpp">
+    <ClCompile Include="Game\AI\CAIController.cpp" />
+    <ClCompile Include="Core\Utility\EventSystem\EventSystem.cpp" />
+    <ClCompile Include="Core\Structs\CCamera.cpp" />
+    <ClCompile Include="Core\Utility\CTransform.cpp" />
+    <ClCompile Include="Core\Utility\Audio\AudioController.cpp" />
+    <ClCompile Include="Core\Components\CTextRenderComponent.cpp" />
+    <ClCompile Include="Game\CursorEntity.cpp" />
+    <ClCompile Include="Game\CCharacter.cpp">
       <Filter>Player</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayer.cpp">
+    <ClCompile Include="Game\CPlayer.cpp">
       <Filter>Player</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerController.cpp">
+    <ClCompile Include="Game\CPlayerController.cpp">
       <Filter>Player</Filter>
     </ClCompile>
-    <ClCompile Include="testCharacter.cpp">
+    <ClCompile Include="Game\testCharacter.cpp">
       <Filter>Player\testing</Filter>
     </ClCompile>
-    <ClCompile Include="testCharacter2.cpp">
+    <ClCompile Include="Game\testCharacter2.cpp">
       <Filter>Player\testing</Filter>
     </ClCompile>
-    <ClCompile Include="Core\testClass.cpp">
+    <ClCompile Include="Game\testClass.cpp">
       <Filter>Player\testing</Filter>
     </ClCompile>
-    <ClCompile Include="testController.cpp">
+    <ClCompile Include="Game\testController.cpp">
       <Filter>Player\testing</Filter>
     </ClCompile>
-    <ClCompile Include="MathC.cpp" />
-    <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="WICTextureLoader.cpp" />
-    <ClCompile Include="DirectXHelpers.cpp" />
-    <ClCompile Include="Core\TestUI.cpp" />
-    <ClCompile Include="CAICharacter.cpp" />
-    <ClCompile Include="CEquippedItem.cpp">
+    <ClCompile Include="Core\Utility\InputManager\InputManager.cpp" />
+    <ClCompile Include="Dependencies\Microsoft\WICTextureLoader.cpp" />
+    <ClCompile Include="Dependencies\Microsoft\DirectXHelpers.cpp" />
+    <ClCompile Include="Game\TestUI.cpp" />
+    <ClCompile Include="Game\AI\CAICharacter.cpp" />
+    <ClCompile Include="Game\CEquippedItem.cpp">
       <Filter>Item</Filter>
     </ClCompile>
-    <ClCompile Include="CDroppedItem.cpp">
+    <ClCompile Include="Game\CDroppedItem.cpp">
       <Filter>Item</Filter>
     </ClCompile>
-    <ClCompile Include="ItemDatabase.cpp">
+    <ClCompile Include="Game\ItemDatabase.cpp">
       <Filter>Item</Filter>
     </ClCompile>
-    <ClCompile Include="testEquippedItem.cpp">
+    <ClCompile Include="Game\testEquippedItem.cpp">
       <Filter>Item\test</Filter>
     </ClCompile>
-    <ClCompile Include="testItemData.cpp">
+    <ClCompile Include="Game\testItemData.cpp">
       <Filter>Item\test</Filter>
     </ClCompile>
-    <ClCompile Include="CAudioEmitterComponent.cpp" />
-    <ClCompile Include="Utility\CollisionManager\CollisionComponent.cpp" />
-    <ClCompile Include="CT_EditorGrid.cpp" />
-    <ClCompile Include="CGridCursor.cpp" />
+    <ClCompile Include="Core\Components\CAudioEmitterComponent.cpp" />
+    <ClCompile Include="Core\Utility\CollisionManager\CollisionComponent.cpp" />
+    <ClCompile Include="Tools\CT_EditorGrid.cpp" />
+    <ClCompile Include="Core\Environment\CGridCursor.cpp" />
     <ClCompile Include="Tools\CT_EditorWindows.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="Dependencies\Microsoft\DDSTextureLoader.h" />
     <CLInclude Include="resource.h" />
-    <ClInclude Include="structures.h" />
-    <ClInclude Include="Libraries\json.hpp">
+    <ClInclude Include="Core\Structs\structures.h" />
+    <ClInclude Include="Dependencies\NlohmannJson\json.hpp">
       <Filter>Libraries</Filter>
     </ClInclude>
-    <ClInclude Include="Vector3.h" />
-    <ClInclude Include="CTexture.h" />
-    <ClInclude Include="CComponent.h" />
-    <ClInclude Include="CSpriteComponent.h" />
+    <ClInclude Include="Core\Utility\Vector3.h" />
+    <ClInclude Include="Core\Structs\CTexture.h" />
+    <ClInclude Include="Core\CComponent.h" />
+    <ClInclude Include="Core\Components\CSpriteComponent.h" />
     <ClInclude Include="Dependencies\IMGUI\imconfig.h" />
     <ClInclude Include="Dependencies\IMGUI\imgui.h" />
     <ClInclude Include="Dependencies\IMGUI\imgui_impl_dx11.h" />
@@ -105,97 +101,93 @@
     <ClInclude Include="Dependencies\IMGUI\imstb_rectpack.h" />
     <ClInclude Include="Dependencies\IMGUI\imstb_textedit.h" />
     <ClInclude Include="Dependencies\IMGUI\imstb_truetype.h" />
-    <ClInclude Include="Engine.h" />
-    <ClInclude Include="CMesh.h" />
-    <ClInclude Include="UI\DebugOutput\DebugOutput.h" />
-    <ClInclude Include="Utility\DebugOutput\Debug.h" />
-    <ClInclude Include="CTile.h">
+    <ClInclude Include="Core\Engine.h" />
+    <ClInclude Include="Core\Structs\CMesh.h" />
+    <ClInclude Include="Core\Utility\DebugOutput\DebugOutput.h" />
+    <ClInclude Include="Core\Utility\DebugOutput\Debug.h" />
+    <ClInclude Include="Core\Environment\CTile.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="CWorld.h">
-      <Filter>World</Filter>
-    </ClInclude>
-    <ClInclude Include="CWorldData.h">
+    <ClInclude Include="Core\Environment\CWorld.h">
       <Filter>World</Filter>
     </ClInclude>
     <ClInclude Include="WorldConstants.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\AssetManager\AssetManager.h" />
-    <ClInclude Include="CMaterial.h" />
+    <ClInclude Include="Core\Utility\AssetManager\AssetManager.h" />
+    <ClInclude Include="Core\Structs\CMaterial.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
-    <ClInclude Include="CWorld_Edit.h">
+    <ClInclude Include="Core\Environment\CWorld_Edit.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="CAIController.h" />
-    <ClInclude Include="Utility\EventSystem\EventSystem.h" />
-    <ClInclude Include="CCamera.h" />
-    <ClInclude Include="CTransform.h" />
-    <ClInclude Include="Utility\Audio\AudioController.h" />
-    <ClInclude Include="Utility\Audio\CAudio.h" />
-    <ClInclude Include="CTextRenderComponent.h" />
-    <ClInclude Include="Core\CursorEntity.h" />
-    <ClInclude Include="CCharacter.h">
+    <ClInclude Include="Game\AI\CAIController.h" />
+    <ClInclude Include="Core\Utility\EventSystem\EventSystem.h" />
+    <ClInclude Include="Core\Structs\CCamera.h" />
+    <ClInclude Include="Core\Utility\CTransform.h" />
+    <ClInclude Include="Core\Utility\Audio\AudioController.h" />
+    <ClInclude Include="Core\Utility\Audio\CAudio.h" />
+    <ClInclude Include="Core\Components\CTextRenderComponent.h" />
+    <ClInclude Include="Game\CursorEntity.h" />
+    <ClInclude Include="Game\CCharacter.h">
       <Filter>Player</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayer.h">
+    <ClInclude Include="Game\CPlayer.h">
       <Filter>Player</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerController.h">
+    <ClInclude Include="Game\CPlayerController.h">
       <Filter>Player</Filter>
     </ClInclude>
-    <ClInclude Include="testController.h">
+    <ClInclude Include="Game\testController.h">
       <Filter>Player\testing</Filter>
     </ClInclude>
-    <ClInclude Include="testCharacter.h">
+    <ClInclude Include="Game\testCharacter.h">
       <Filter>Player\testing</Filter>
     </ClInclude>
-    <ClInclude Include="testCharacter2.h">
+    <ClInclude Include="Game\testCharacter2.h">
       <Filter>Player\testing</Filter>
     </ClInclude>
-    <ClInclude Include="Core\testClass.h">
+    <ClInclude Include="Game\testClass.h">
       <Filter>Player\testing</Filter>
     </ClInclude>
-    <ClInclude Include="IInputable.h">
+    <ClInclude Include="Core\Environment\IInputable.h">
       <Filter>Player\testing</Filter>
     </ClInclude>
-    <ClInclude Include="MathC.h" />
-    <ClInclude Include="Core\TestUI.h" />
-    <ClInclude Include="CAICharacter.h" />
-    <ClInclude Include="CAINode.h" />
+    <ClInclude Include="Game\TestUI.h" />
+    <ClInclude Include="Game\AI\CAICharacter.h" />
+    <ClInclude Include="Game\AI\CAINode.h" />
+    <ClInclude Include="Core\Utility\InputManager\InputManager.h" />
+    <ClInclude Include="Core\Utility\Audio\CEmitter.h" />
+    <ClInclude Include="Core\Components\CAudioEmitterComponent.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="Utility\Audio\CEmitter.h" />
-    <ClInclude Include="CAudioEmitterComponent.h" />
-    <ClInclude Include="InputManager.h" />
-    <ClInclude Include="ItemData.h">
+    <ClInclude Include="Game\ItemData.h">
       <Filter>Item</Filter>
     </ClInclude>
-    <ClInclude Include="CEquippedItem.h">
+    <ClInclude Include="Game\CEquippedItem.h">
       <Filter>Item</Filter>
     </ClInclude>
-    <ClInclude Include="CDroppedItem.h">
+    <ClInclude Include="Game\CDroppedItem.h">
       <Filter>Item</Filter>
     </ClInclude>
-    <ClInclude Include="ItemDatabase.h">
+    <ClInclude Include="Game\ItemDatabase.h">
       <Filter>Item</Filter>
     </ClInclude>
-    <ClInclude Include="WICTextureLoader.h" />
-    <ClInclude Include="DirectXHelpers.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="PlatformHelpers.h" />
-    <ClInclude Include="LoaderHelpers.h" />
-    <ClInclude Include="DDS.h" />
+    <ClInclude Include="Dependencies\Microsoft\WICTextureLoader.h" />
+    <ClInclude Include="Dependencies\Microsoft\DirectXHelpers.h" />
+    <ClInclude Include="Dependencies\Microsoft\pch.h" />
+    <ClInclude Include="Dependencies\Microsoft\PlatformHelpers.h" />
+    <ClInclude Include="Dependencies\Microsoft\LoaderHelpers.h" />
+    <ClInclude Include="Dependencies\Microsoft\DDS.h" />
     <ClInclude Include="CAINode.h" />
-    <ClInclude Include="testItemData.h">
+    <ClInclude Include="Game\testItemData.h">
       <Filter>Item\test</Filter>
     </ClInclude>
-    <ClInclude Include="testEquippedItem.h">
+    <ClInclude Include="Game\testEquippedItem.h">
       <Filter>Item\test</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\CollisionManager\CollisionComponent.h" />
-    <ClInclude Include="CEntity.h" />
-    <ClInclude Include="CT_EditorGrid.h" />
-    <ClInclude Include="CGridCursor.h" />
+    <ClInclude Include="Core\Utility\CollisionManager\CollisionComponent.h" />
+    <ClInclude Include="Core\CEntity.h" />
+    <ClInclude Include="Tools\CT_EditorGrid.h" />
+    <ClInclude Include="Core\Environment\CGridCursor.h" />
     <ClInclude Include="Tools\CT_EditorWindows.h" />
   </ItemGroup>
   <ItemGroup>
