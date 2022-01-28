@@ -15,13 +15,13 @@
 #define _XM_NO_INTRINSICS_
 
 #include "Engine.h"
-#include "Core/testClass.h"
-#include "Core/CursorEntity.h"
+#include "testClass.h"
+#include "CursorEntity.h"
 #include "CPlayer.h"
-#include "CTile.h"
-#include "CWorld_Edit.h"
-#include "CAIController.h"
-#include "CCamera.h"
+#include "Environment/CTile.h"
+#include "Environment/CWorld_Edit.h"
+#include "AI/CAIController.h"
+#include "Structs/CCamera.h"
 #include "Tools/CT_EditorMain.h"
 #include "Utility/Audio/AudioController.h"
 #include "testCharacter.h"
@@ -31,8 +31,8 @@
 #include "testItemData.h"
 #include "Utility/EventSystem/EventSystem.h"
 
-#include "InputManager.h"
-#include "Core/TestUI.h"
+#include "Utility/InputManager/InputManager.h"
+#include "TestUI.h"
 using namespace Inputs;
 #include <chrono>
 
@@ -530,7 +530,7 @@ HRESULT	InitMesh()
 {
 	// Compile the vertex shader
 	ID3DBlob* pVSBlob = nullptr;
-	HRESULT hr = CompileShaderFromFile(L"shader.fx", "VS", "vs_4_0", &pVSBlob);
+	HRESULT hr = CompileShaderFromFile(L"Resources/Shaders/shader.fx", "VS", "vs_4_0", &pVSBlob);
 	if (FAILED(hr))
 	{
 		MessageBox(nullptr,
@@ -566,7 +566,7 @@ HRESULT	InitMesh()
 
 	// Compile the pixel shader
 	ID3DBlob* pPSBlob = nullptr;
-	hr = CompileShaderFromFile(L"shader.fx", "PS", "ps_4_0", &pPSBlob);
+	hr = CompileShaderFromFile(L"Resources/Shaders/shader.fx", "PS", "ps_4_0", &pPSBlob);
 	if (FAILED(hr))
 	{
 		MessageBox(nullptr,
@@ -580,7 +580,7 @@ HRESULT	InitMesh()
 	if (FAILED(hr))
 		return hr;
 
-	hr = CompileShaderFromFile(L"shader.fx", "PSSolid", "ps_4_0", &pPSBlob);
+	hr = CompileShaderFromFile(L"Resources/Shaders/shader.fx", "PSSolid", "ps_4_0", &pPSBlob);
 	if (FAILED(hr))
 	{
 		MessageBox(nullptr,

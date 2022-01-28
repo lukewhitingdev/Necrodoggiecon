@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Cerberus/CWorld.h"
+#include "Cerberus/Core/Environment/CWorld.h"
 #include "CerberusTools/CT_EditorResources.h"
 
 #include <vector>
