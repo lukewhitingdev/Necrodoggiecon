@@ -254,10 +254,6 @@ void Load()
 	character1->shouldMove = true;
 	character1->colComponent->SetCollider(128.0f, 128.0f);
 
-	*/
-
-
-	
 	if (!editorMode)
 	{
 		Engine::CreateEntity<CAIController>();
