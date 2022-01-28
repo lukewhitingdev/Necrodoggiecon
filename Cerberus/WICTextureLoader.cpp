@@ -26,11 +26,15 @@
 
 #include "pch.h"
 
+//Disabled warnings for external dependencies.
+#pragma warning(push)
+#pragma warning( disable : 6001 )
+#pragma warning( disable : 4700 )
 #include "WICTextureLoader.h"
-
 #include "DirectXHelpers.h"
 #include "PlatformHelpers.h"
 #include "LoaderHelpers.h"
+#pragma warning(pop)
 
 using namespace DirectX;
 using Microsoft::WRL::ComPtr;
@@ -787,6 +791,10 @@ namespace
                         pstrName
                     );
                 }
+
+                //Disable warnings for dependencies.
+                #pragma warning(push)
+                #pragma warning( disable : 6385 )
 
                 if (textureView && *textureView)
                 {

@@ -31,6 +31,7 @@ void CAudioEmitterComponent::SetRange(float range)
 
 void CAudioEmitterComponent::Update(float deltaTime)
 {
+	UNREFERENCED_PARAMETER(deltaTime);
 	emitter->position = this->GetParent()->GetPosition();
 }
 

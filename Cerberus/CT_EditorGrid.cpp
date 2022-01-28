@@ -17,11 +17,8 @@ void CT_EditorGrid::Update(float deltaTime)
 void CT_EditorGrid::SetupGrid()
 {
 	
-	
 	//Instantiate the grid cursor
-	CGridCursor* GridCursor = Engine::CreateEntity<CGridCursor>();
-
-
+	Engine::CreateEntity<CGridCursor>();
 
 	//Setup the editor grid visuals
 	gridSprite->LoadTexture("Resources\\Tiles\\GridCell.dds");

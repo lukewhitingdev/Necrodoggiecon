@@ -59,8 +59,8 @@ double CalculateDeltaTime(const unsigned short fpsCap = 60);
 // Window and Instance.
 HINSTANCE Engine::instanceHandle;
 HWND Engine::windowHandle;
-int Engine::windowWidth = 1280;
-int Engine::windowHeight = 720;
+unsigned int Engine::windowWidth = 1280;
+unsigned int Engine::windowHeight = 720;
 bool resizeSwapChain = false;
 bool fillState = true;
 bool minimised = false;
@@ -149,7 +149,7 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 				globalDeltaTime = t;
 				
-				Update(globalDeltaTime);
+				Update((float)globalDeltaTime);
 				Render();
 			}
 			else
@@ -191,7 +191,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 	// Create window
 	Engine::instanceHandle = hInstance;
-	RECT rc = { 0, 0, Engine::windowWidth, Engine::windowHeight };
+	RECT rc = { 0, 0, LONG(Engine::windowWidth), LONG(Engine::windowHeight) };
 
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
 	Engine::windowHandle = CreateWindow( L"Necrodoggiecon", L"Necrodoggiecon",
@@ -220,7 +220,7 @@ void Load()
 	
 
 	Engine::CreateEntity<TestUI>();
-	CursorEntity* myClass = Engine::CreateEntity<CursorEntity>();
+	Engine::CreateEntity<CursorEntity>();
 
 	if (editorMode)
 	{
@@ -234,18 +234,6 @@ void Load()
 
 		CWorld::LoadWorld(0);
 	}
-	
-	/*
-
-	for (int i = 0; i < 1; i++)
-	// sawps and makes one of the entiys the player
-	for (int i = 0; i < 0; i++)
-	{
-		CCharacter* myplayer = Engine::CreateEntity<CCharacter>();
-		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	}
-
-	testItemData* data = new testItemData("tempWeapon", "Resources\\birb.dds");
 
 	testController* controller = Engine::CreateEntity<testController>();
 	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
@@ -272,11 +260,7 @@ void Load()
 	
 	if (!editorMode)
 	{
-
-		for (int i = 0; i < 1; i++)
-		{
-			CAIController* ai = Engine::CreateEntity<CAIController>();
-		}
+		Engine::CreateEntity<CAIController>();
 	}
 	
 	std::vector<testCharacter*> test = Engine::GetEntityOfType<testCharacter>();
@@ -632,7 +616,10 @@ HRESULT	InitMesh()
 // ***************************************************************************************
 HRESULT	InitWorld(int width, int height)
 {
-	Engine::projMatrixUI = XMMatrixOrthographicLH(Engine::windowWidth, Engine::windowHeight, 0.01f, 100.0f);
+	UNREFERENCED_PARAMETER(width);
+	UNREFERENCED_PARAMETER(height);
+
+	Engine::projMatrixUI = XMMatrixOrthographicLH(float(Engine::windowWidth), float(Engine::windowHeight), 0.01f, 100.0f);
 	Engine::camera.UpdateProjectionMat();
 	Engine::camera.UpdateViewMat();
 
@@ -730,8 +717,8 @@ HRESULT ResizeSwapChain(XMUINT2 newSize)
 //--------------------------------------------------------------------------------------
 void CleanupDevice()
 {
-	for (auto& e : Engine::entities)
-		delete e;
+	for (int i = 0; i < Engine::entities.size(); i++)
+		delete Engine::entities[i];
 
 	Engine::entities.clear();
 
@@ -792,8 +779,8 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	{
 	case WM_MOUSEMOVE:
 	{
-		Inputs::InputManager::mousePos.x = GET_X_LPARAM(lParam);
-		Inputs::InputManager::mousePos.y = GET_Y_LPARAM(lParam);
+		Inputs::InputManager::mousePos.x = float(GET_X_LPARAM(lParam));
+		Inputs::InputManager::mousePos.y = float(GET_Y_LPARAM(lParam));
 		break;
 	}
 
@@ -820,7 +807,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
 	//TEMP
 	case WM_MOUSEWHEEL:
-		Engine::camera.SetZoom(Engine::camera.GetZoom() + GET_WHEEL_DELTA_WPARAM(wParam) * Engine::camera.GetZoom() * 0.001);
+		Engine::camera.SetZoom(float(Engine::camera.GetZoom() + GET_WHEEL_DELTA_WPARAM(wParam) * Engine::camera.GetZoom() * 0.001f));
 		break;
 
 	case WM_PAINT:

@@ -57,16 +57,16 @@ protected:
 private: 
 
 
-	bool isWalkable;
+	bool isWalkable = false;
 
 	void SetRenderData(int X, int Y);
 
 
-	TileType tileStatus;
+	TileType tileStatus = TileType::Floor;
 
-	int tileId;
+	int tileId = -1;
 
-	int navId;
+	int navId = -1;
 
 	std::vector<int> connectedTiles;
 

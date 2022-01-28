@@ -24,10 +24,10 @@ HRESULT CTextRenderComponent::SetFont(std::string filePath)
 
 void CTextRenderComponent::SetText(std::string newText)
 {
-	usedSpriteCount = newText.length();
+	usedSpriteCount = unsigned short(newText.length());
 	if (usedSpriteCount > sprites.size())	//Add a reserve so you don't constantly create and delete stuff.
 	{
-		int count = usedSpriteCount - sprites.size();
+		int count = usedSpriteCount - int(sprites.size());
 		for (int i = 0; i < count; i++)
 		{
 			sprites.push_back(new CSpriteComponent());
@@ -40,7 +40,7 @@ void CTextRenderComponent::SetText(std::string newText)
 	{
 		if (usedSpriteCount < sprites.size() && usedSpriteCount >= reserveSpriteCount)
 		{
-			int count = usedSpriteCount - sprites.size();
+			int count = usedSpriteCount - int(sprites.size());
 			for (int i = count; i < 0; i++)
 			{
 				CSpriteComponent* t = sprites.back();
@@ -55,18 +55,18 @@ void CTextRenderComponent::SetText(std::string newText)
 	{
 		sprites[i]->SetRenderRect(characterSize);
 		sprites[i]->SetSpriteSize(XMUINT2(characterDrawSize.x, characterDrawSize.y));
-		sprites[i]->SetTextureOffset(XMFLOAT2(characterSize.x * (newText[i] % spriteSheetColumns), characterSize.y * floor(newText[i] / spriteSheetColumns)));
+		sprites[i]->SetTextureOffset(XMFLOAT2(float(characterSize.x) * float(newText[i] % spriteSheetColumns), float(characterSize.y) * float(floor(newText[i] / spriteSheetColumns))));
 
 		switch (justification)
 		{
 		case TextJustification::Right:
-			sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i, 0, 0));
+			sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * float(i), 0, 0));
 			break;
 		case TextJustification::Center:
-			sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - ((sprites[i]->GetSpriteSize().x * newText.length() * .5) + sprites[i]->GetSpriteSize().x * -.5), 0, 0));
+			sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * float(i) - ((float(sprites[i]->GetSpriteSize().x) * newText.length() * 0.5f) + sprites[i]->GetSpriteSize().x * -0.5f), 0, 0));
 			break;
 		case TextJustification::Left:
-			sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * i - (sprites[i]->GetSpriteSize().x * newText.length() * 1.0f), 0, 0));
+			sprites[i]->SetPosition(Vector3(sprites[i]->GetSpriteSize().x * float(i) - (sprites[i]->GetSpriteSize().x * newText.length() * 1.0f), 0, 0));
 			break;
 		}
 	}
@@ -76,7 +76,7 @@ void CTextRenderComponent::SetReserveCount(unsigned short newReserveCount)
 {
 	reserveSpriteCount = newReserveCount;
 
-	int count = reserveSpriteCount - sprites.size();
+	int count = reserveSpriteCount - int(sprites.size());
 	for (int i = 0; i < count; i++)
 	{
 		sprites.push_back(new CSpriteComponent());

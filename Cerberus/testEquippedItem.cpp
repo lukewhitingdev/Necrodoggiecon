@@ -3,6 +3,8 @@
 
 void testEquippedItem::Update(float deltaTime)
 {
+	UNREFERENCED_PARAMETER(deltaTime);
+
 	//Get Owner Position
 	auto pos = GetOwner()->GetPosition();
 	//Add Offset

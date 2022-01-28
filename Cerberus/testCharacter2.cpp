@@ -25,6 +25,7 @@ void testCharacter2::PressedVertical(int dir, float deltaTime)
 
 void testCharacter2::Update(float deltaTime)
 {
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 void testCharacter2::PressedInteract()

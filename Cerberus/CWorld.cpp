@@ -17,6 +17,7 @@ CWorld::CWorld()
 
 void CWorld::LoadWorld(int Slot)
 {
+	UNREFERENCED_PARAMETER(Slot);
 	std::ifstream file("Resources/Levels/Level_1.json");
 
 

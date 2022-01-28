@@ -32,5 +32,5 @@ public:
 	// Removes the specified component.
 	void RemoveComponent(CComponent* reference);
 	CollisionComponent* colComponent = nullptr;
-	virtual void HasCollided(CollisionComponent* collidedObject) {};
+	virtual void HasCollided(CollisionComponent* collidedObject) { UNREFERENCED_PARAMETER(collidedObject); };
 };

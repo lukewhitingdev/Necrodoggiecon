@@ -16,7 +16,7 @@ protected:
 	int charIndex = 1;
 	void SwapChar();
 
-	IInputable* inputable;
+	IInputable* inputable = nullptr;
 
 	virtual void OnPossess() override;
 	virtual void OnUnpossess() override;

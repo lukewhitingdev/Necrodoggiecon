@@ -30,4 +30,5 @@ void CDroppedItem::Initialise(int id)
 
 void CDroppedItem::Update(float deltaTime)
 {
+	UNREFERENCED_PARAMETER(deltaTime);
 }
