@@ -22,6 +22,7 @@
 #include "CWorld_Edit.h"
 #include "CAIController.h"
 #include "CCamera.h"
+#include "Tools/CT_EditorMain.h"
 #include "Utility/Audio/AudioController.h"
 #include "testCharacter.h"
 #include "testCharacter2.h"
@@ -94,6 +95,7 @@ ID3D11RasterizerState* fillRastState;
 ID3D11RasterizerState* wireframeRastState;
 
 DebugOutput* debugOutputUI;
+CT_EditorMain* EditorViewport;
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -206,18 +208,25 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	EventSystem::AddListener("GameOver", []() {exit(1); });
-
 	bool editorMode = false;
+
+	
+	
+/*
+* 	// sawps and makes one of the entiys the player
+	for (int i = 0; i < 0; i++)
+	EventSystem::AddListener("GameOver", []() {exit(1); });
+*/
+	
 
 	Engine::CreateEntity<TestUI>();
 	Engine::CreateEntity<CursorEntity>();
 
 	if (editorMode)
 	{
-		CWorld_Editable::NewWorld(0);
-		CWorld_Editable::EditWorld(0);
-		CWorld_Editable::SaveWorld(0);
+		EditorViewport = new CT_EditorMain();
+		
+		CWorld_Editable::LoadWorld_Edit();
 		CWorld_Editable::BuildNavigationGrid();
 	}
 	else
@@ -245,15 +254,20 @@ void Load()
 	character1->shouldMove = true;
 	character1->colComponent->SetCollider(128.0f, 128.0f);
 
+	*/
 
 
-	//Engine::DestroyEntity(character1);
-	std::vector<testCharacter*> test = Engine::GetEntityOfType<testCharacter>();
-
-	for (int i = 0; i < 1; i++)
+	
+	if (!editorMode)
 	{
 		Engine::CreateEntity<CAIController>();
 	}
+	
+	std::vector<testCharacter*> test = Engine::GetEntityOfType<testCharacter>();
+
+
+
+
 }
 
 //--------------------------------------------------------------------------------------
@@ -942,6 +956,7 @@ void Render()
 
 	// Do UI.
 	Debug::getOutput()->render();
+	if (EditorViewport) EditorViewport->RenderWindows();
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

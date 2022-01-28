@@ -1,11 +1,14 @@
 #include "CT_EditorMain.h"
-#include "CT_WindowBase.h"
+#include "CT_EditorWindows.h"
+#include "CT_EditorGrid.h"
 
 
 
 CT_EditorMain::CT_EditorMain()
 {
-	EditorWindow = new CT_WindowBase();
+	editorWindow = new CT_EditorWindows();
+	CT_EditorGrid* grid = Engine::CreateEntity<CT_EditorGrid>();
+	grid->SetupGrid();
 }
 
 void CT_EditorMain::Initialise()
@@ -18,5 +21,5 @@ void CT_EditorMain::Initialise()
 
 void CT_EditorMain::RenderWindows()
 {
-	EditorWindow->render();
+	editorWindow->render();
 }
