@@ -9,7 +9,7 @@ class CComponent : public CTransform
 {
 protected:
 	XMFLOAT2 anchor = { 0.5,0.5 };
-	XMFLOAT2 lastResolution = { 0,0 };
+	XMUINT2 lastResolution = { 0,0 };
 
 	class CEntity* parent = nullptr;
 

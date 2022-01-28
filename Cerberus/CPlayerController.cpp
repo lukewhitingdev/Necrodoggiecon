@@ -6,8 +6,8 @@ CPlayerController::CPlayerController()
 
 CPlayerController::~CPlayerController()
 {
+	Engine::DestroyEntity((CEntity*)possessedCharacter);
 	possessedCharacter = nullptr;
-	delete possessedCharacter;
 }
 
 void CPlayerController::Possess(CCharacter* characterToPossess)
@@ -18,14 +18,18 @@ void CPlayerController::Possess(CCharacter* characterToPossess)
 	possessedCharacter = characterToPossess;
 	hasCharacter = true;
 
+	OnPossess();
 }
 
 void CPlayerController::Unpossess()
 {
 	possessedCharacter = nullptr;
 	hasCharacter = false;
+
+	OnUnpossess();
 }
 
 void CPlayerController::HandleInput(float deltaTime)
 {
+	UNREFERENCED_PARAMETER(deltaTime);
 }

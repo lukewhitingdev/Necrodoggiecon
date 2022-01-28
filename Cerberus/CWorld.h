@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include "CTile.h"
-#include "CWorldData.h"
+
 #include "WorldConstants.h"
 
 #include "Libraries/json.hpp"
@@ -34,6 +34,8 @@ public:
 	static CTile* GetTileByID(int ID) { return tileContainer[ID]; }
 
 	static std::vector<CTile*> GetAllWalkableTiles();
+
+	static std::vector<CTile*> GetAllObstacleTiles();
 
 	static void BuildNavigationGrid();
 
@@ -70,7 +72,6 @@ protected:
 
 	//List of entities spawned in by this class, used for deconstruction.
 	//std::vector<CEntity> entityList;
-
 
 protected:
 

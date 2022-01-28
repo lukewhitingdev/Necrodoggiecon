@@ -4,7 +4,7 @@
 #include <fstream>
 
 CTile* CWorld::tileContainer[mapScale * mapScale];
-
+int mapSize = mapScale * mapScale;
 
 CWorld::CWorld()
 {
@@ -17,6 +17,7 @@ CWorld::CWorld()
 
 void CWorld::LoadWorld(int Slot)
 {
+	UNREFERENCED_PARAMETER(Slot);
 	std::ifstream file("Resources/Levels/Level_1.json");
 
 
@@ -38,8 +39,7 @@ void CWorld::LoadWorld(int Slot)
 
 		int ID = atoi(convertedFile[i].c_str());
 		Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
-		tempPos -= Vector3((mapScale * tileScale), (mapScale * tileScale), 0);
-
+		
 		//tempPos += Vector3(0, 64 * tileScale, 0.0f);
 
 		tempPos.z = 10;
@@ -49,7 +49,7 @@ void CWorld::LoadWorld(int Slot)
 		CTile* Tile = Engine::CreateEntity<CTile>();
 		Tile->SetNavID(i);
 		Tile->SetPosition(tempPos);
-		Tile->SetScale(2, 2, 2);
+		Tile->SetScale(tileScaleMultiplier);
 		Tile->ChangeTileID(ID);
 
 		tileContainer[i] = Tile;
@@ -85,7 +85,7 @@ std::vector<CTile*> CWorld::GetAllWalkableTiles()
 {
 	std::vector<CTile*> walkableTiles;
 
-	for (int i = 0; i < (mapScale * mapScale); ++i)
+	for (int i = 0; i < mapSize; ++i)
 	{
 		if (tileContainer[i]->IsWalkable())
 		{
@@ -95,6 +95,21 @@ std::vector<CTile*> CWorld::GetAllWalkableTiles()
 
 
 	return walkableTiles;
+}
+
+std::vector<CTile*> CWorld::GetAllObstacleTiles()
+{
+	std::vector<CTile*> obstacleTiles;
+
+	for (int i = 0; i < mapSize; ++i)
+	{
+		if (!tileContainer[i]->IsWalkable())
+		{
+			obstacleTiles.emplace_back(tileContainer[i]);
+		}
+	}
+
+	return obstacleTiles;
 }
 
 Vector3 CWorld::IndexToGrid(int ID)

@@ -88,10 +88,12 @@ CAudio* AssetManager::AddAudio(std::string audioPath, CAudio* audio)
 {
 	if(audios.find(audioPath) != audios.end())
 	{
+		// If we find it in the assetManager return it.
 		return audios.at(audioPath);
 	}
 	else
 	{
+		// If we dont find it add it to the audio list.
 		audios.emplace(std::make_pair(audioPath, audio));
 		return audios.at(audioPath);
 	}

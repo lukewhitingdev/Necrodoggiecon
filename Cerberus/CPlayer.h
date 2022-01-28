@@ -10,7 +10,6 @@ class CPlayer : public CEntity
     float timeElapsed = 0;
 public:
     CPlayer();
-    Vector3 Movement(float deltaTime);
     virtual void Update(float deltaTime) override;
     virtual ~CPlayer();
 };

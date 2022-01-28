@@ -494,4 +494,6 @@ namespace Inputs
 		return Inputs::mouseKeyStates[mouse][0];
 	}
 
+
+
 };

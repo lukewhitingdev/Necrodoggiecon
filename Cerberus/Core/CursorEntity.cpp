@@ -31,7 +31,7 @@ void CursorEntity::Update(float deltaTime)
 		row = 1;
 
 	const float speed = 2;
-	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * sprite->GetRenderRect().x, row * sprite->GetRenderRect().y));
+	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * float(sprite->GetRenderRect().x), row * float(sprite->GetRenderRect().y)));
 
 	SetPosition(Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z));
 

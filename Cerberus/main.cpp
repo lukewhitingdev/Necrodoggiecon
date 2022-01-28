@@ -22,9 +22,13 @@
 #include "CWorld_Edit.h"
 #include "CAIController.h"
 #include "CCamera.h"
+#include "Tools/CT_EditorMain.h"
+#include "Utility/Audio/AudioController.h"
 #include "testCharacter.h"
 #include "testCharacter2.h"
 #include "testController.h"
+#include "CDroppedItem.h"
+#include "testItemData.h"
 #include "Utility/EventSystem/EventSystem.h"
 
 #include "InputManager.h"
@@ -55,8 +59,8 @@ double CalculateDeltaTime(const unsigned short fpsCap = 60);
 // Window and Instance.
 HINSTANCE Engine::instanceHandle;
 HWND Engine::windowHandle;
-int Engine::windowWidth = 1280;
-int Engine::windowHeight = 720;
+unsigned int Engine::windowWidth = 1280;
+unsigned int Engine::windowHeight = 720;
 bool resizeSwapChain = false;
 bool fillState = true;
 bool minimised = false;
@@ -91,6 +95,7 @@ ID3D11RasterizerState* fillRastState;
 ID3D11RasterizerState* wireframeRastState;
 
 DebugOutput* debugOutputUI;
+CT_EditorMain* EditorViewport;
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -144,7 +149,7 @@ int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 				globalDeltaTime = t;
 				
-				Update(globalDeltaTime);
+				Update((float)globalDeltaTime);
 				Render();
 			}
 			else
@@ -186,7 +191,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 	// Create window
 	Engine::instanceHandle = hInstance;
-	RECT rc = { 0, 0, Engine::windowWidth, Engine::windowHeight };
+	RECT rc = { 0, 0, LONG(Engine::windowWidth), LONG(Engine::windowHeight) };
 
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
 	Engine::windowHandle = CreateWindow( L"Necrodoggiecon", L"Necrodoggiecon",
@@ -203,18 +208,25 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	EventSystem::AddListener("GameOver", []() {exit(1); });
-
 	bool editorMode = false;
 
+	
+	
+/*
+* 	// sawps and makes one of the entiys the player
+	for (int i = 0; i < 0; i++)
+	EventSystem::AddListener("GameOver", []() {exit(1); });
+*/
+	
+
 	Engine::CreateEntity<TestUI>();
-	CursorEntity* myClass = Engine::CreateEntity<CursorEntity>();
+	Engine::CreateEntity<CursorEntity>();
 
 	if (editorMode)
 	{
-		CWorld_Editable::NewWorld(0);
-		CWorld_Editable::EditWorld(0);
-		CWorld_Editable::SaveWorld(0);
+		EditorViewport = new CT_EditorMain();
+		
+		CWorld_Editable::LoadWorld_Edit();
 		CWorld_Editable::BuildNavigationGrid();
 	}
 	else
@@ -222,31 +234,36 @@ void Load()
 
 		CWorld::LoadWorld(0);
 	}
-	
-	// sawps and makes one of the entiys the player
-	for (int i = 0; i < 1; i++)
-	{
-		CPlayer* myplayer = Engine::CreateEntity<CPlayer>();
-		myplayer->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	}
 
 	testController* controller = Engine::CreateEntity<testController>();
 	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
-	testCharacter2* character2 = Engine::CreateEntity<testCharacter2>();
+	testCharacter* character2 = Engine::CreateEntity<testCharacter>();
 
-	character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
+
+	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	character1->droppedItem = droppedItem;
+
 	character2->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 
 	controller->charOne = character1;
 	controller->charTwo = character2;
+  
+	character1->SetPosition(Vector3(0, 0, 0));
 	controller->Possess(character1);
+	character1->shouldMove = true;
+	character1->colComponent->SetCollider(128.0f, 128.0f);
 
-	for (int i = 0; i < 1; i++)
+	if (!editorMode)
 	{
-		CAIController* ai = Engine::CreateEntity<CAIController>();
-		ai->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-		ai->SetScale(Vector3{ 0.2f, 0.2f, 0.2f });
+		Engine::CreateEntity<CAIController>();
 	}
+	
+	std::vector<testCharacter*> test = Engine::GetEntityOfType<testCharacter>();
+
+
+
+
 }
 
 //--------------------------------------------------------------------------------------
@@ -595,7 +612,10 @@ HRESULT	InitMesh()
 // ***************************************************************************************
 HRESULT	InitWorld(int width, int height)
 {
-	Engine::projMatrixUI = XMMatrixOrthographicLH(Engine::windowWidth, Engine::windowHeight, 0.01f, 100.0f);
+	UNREFERENCED_PARAMETER(width);
+	UNREFERENCED_PARAMETER(height);
+
+	Engine::projMatrixUI = XMMatrixOrthographicLH(float(Engine::windowWidth), float(Engine::windowHeight), 0.01f, 100.0f);
 	Engine::camera.UpdateProjectionMat();
 	Engine::camera.UpdateViewMat();
 
@@ -693,8 +713,8 @@ HRESULT ResizeSwapChain(XMUINT2 newSize)
 //--------------------------------------------------------------------------------------
 void CleanupDevice()
 {
-	for (auto& e : Engine::entities)
-		delete e;
+	for (int i = 0; i < Engine::entities.size(); i++)
+		delete Engine::entities[i];
 
 	Engine::entities.clear();
 
@@ -755,8 +775,8 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	{
 	case WM_MOUSEMOVE:
 	{
-		Inputs::InputManager::mousePos.x = GET_X_LPARAM(lParam);
-		Inputs::InputManager::mousePos.y = GET_Y_LPARAM(lParam);
+		Inputs::InputManager::mousePos.x = float(GET_X_LPARAM(lParam));
+		Inputs::InputManager::mousePos.y = float(GET_Y_LPARAM(lParam));
 		break;
 	}
 
@@ -783,7 +803,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
 	//TEMP
 	case WM_MOUSEWHEEL:
-		Engine::camera.SetZoom(Engine::camera.GetZoom() + GET_WHEEL_DELTA_WPARAM(wParam) * Engine::camera.GetZoom() * 0.001);
+		Engine::camera.SetZoom(float(Engine::camera.GetZoom() + GET_WHEEL_DELTA_WPARAM(wParam) * Engine::camera.GetZoom() * 0.001f));
 		break;
 
 	case WM_PAINT:
@@ -839,8 +859,9 @@ double CalculateDeltaTime(const unsigned short fpsCap)
 
 void Update(float deltaTime)
 {
-	for (auto& e : Engine::entities)
+	for (int i=0; i < Engine::entities.size(); i++)
 	{
+		CEntity* e = Engine::entities[i];
 		if (!e->shouldUpdate)
 			continue;
 		
@@ -851,10 +872,27 @@ void Update(float deltaTime)
 
 			f->Update(deltaTime);
 		}
-
 		e->Update(deltaTime);
+		if (e->shouldMove)
+		{
+			for (size_t j = 0; j < Engine::entities.size(); j++)
+			{
+				CEntity* currentEntity = Engine::entities[j];
+
+				if (e != currentEntity && currentEntity->colComponent != nullptr)
+				{
+					//If it can move, check the collisions and it is a different entity, do collision stuff
+					if (e->colComponent->IsColliding(currentEntity->colComponent))
+					{
+						e->HasCollided(currentEntity->colComponent);
+						currentEntity->HasCollided(e->colComponent);
+					}
+				}
+			}
+		}
 	}
 
+	AudioController::Update(Vector3(0, 0, 0), deltaTime);
 }
 
 //--------------------------------------------------------------------------------------
@@ -914,6 +952,7 @@ void Render()
 
 	// Do UI.
 	Debug::getOutput()->render();
+	if (EditorViewport) EditorViewport->RenderWindows();
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

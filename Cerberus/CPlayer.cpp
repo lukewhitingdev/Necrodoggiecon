@@ -20,16 +20,6 @@ CPlayer::CPlayer()
 	timeElapsed = float(rand() / 100);
 }
 
-// simple movement for a player
-Vector3 CPlayer::Movement(float deltaTime)
-{
-	float move = 200.0f;
-	float speed = move * deltaTime;
-
-
-	return 0;
-}
-
 
 void CPlayer::Update(float deltaTime)
 {
@@ -37,8 +27,6 @@ void CPlayer::Update(float deltaTime)
 
 	const uint32_t speed = 24;
 	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 128, float((int(round(timeElapsed * speed) / 5) % 2)) * 128));
-
-	Movement(deltaTime);
 }
 
 CPlayer::~CPlayer()
