@@ -1,8 +1,9 @@
 #include <iostream>
-#include "Cerberus/Core/testClass.h"
-#include "Cerberus/Utility/Vector3.h"
-#include "Cerberus/CWorld.h"
-#include "Cerberus/Engine.h"
+#include "Cerberus/Game/testClass.h"
+#include "Cerberus/Core/Utility/Vector3.h"
+#include "Cerberus/Core/Environment/CWorld.h"
+#include "Cerberus/Core/Engine.h"
+
 int main(int argc, char* argv[])
 {
     printf("Hello World from TOOLS! \n");
