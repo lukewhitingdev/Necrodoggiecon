@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine.h"
-#include "Vector3.h"
-#include "CTransform.h"
+#include "Utility/Vector3.h"
+#include "Utility/CTransform.h"
 
 //Fundimental component class
 //Can be extended upon to make new components to add to CEntity

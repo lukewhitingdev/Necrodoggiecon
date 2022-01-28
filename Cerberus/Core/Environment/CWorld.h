@@ -6,7 +6,7 @@
 
 #include "WorldConstants.h"
 
-#include "Libraries/json.hpp"
+#include "Dependencies/NlohmannJson/json.hpp"
 
 using json = nlohmann::json;
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <CCharacter.h>
-#include <IInputable.h>
+#include <Environment/IInputable.h>
 
 class CDroppedItem;
 class CEquippedItem;

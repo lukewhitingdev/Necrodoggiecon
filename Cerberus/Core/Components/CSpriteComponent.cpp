@@ -1,7 +1,7 @@
 #include "CSpriteComponent.h"
 #include "Engine.h"
 #include "Utility/AssetManager/AssetManager.h"
-#include "CCamera.h"
+#include "Structs/CCamera.h"
 
 void CSpriteComponent::SetRenderRect(XMUINT2 newSize)
 {

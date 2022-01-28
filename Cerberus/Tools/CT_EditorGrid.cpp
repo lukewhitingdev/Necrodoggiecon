@@ -1,6 +1,6 @@
 #include "CT_EditorGrid.h"
 #include "CSpriteComponent.h"
-#include "CGridCursor.h"
+#include "Environment/CGridCursor.h"
 
 CT_EditorGrid::CT_EditorGrid()
 {

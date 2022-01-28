@@ -7,18 +7,18 @@
 #include <directxmath.h>
 #include <directxcolors.h>
 #include <DirectXCollision.h>
-#include "DDSTextureLoader.h"
+#include "Dependencies/Microsoft/DDSTextureLoader.h"
 
 #pragma warning(push)
 //Disabled Warnings that reside in external libraries.
 #pragma warning( disable : 26812 )
-#include "WICTextureLoader.h"
+#include "Dependencies/Microsoft/WICTextureLoader.h"
 #pragma warning(pop)
 
 #include "resource.h"
 #include <iostream>
 
-#include "structures.h"
+#include "Structs/structures.h"
 
 #include "Dependencies/IMGUI/imgui.h"
 #include "Dependencies/IMGUI/imgui_impl_dx11.h"
@@ -27,7 +27,7 @@
 #include "Utility/DebugOutput/Debug.h"
 
 #include <vector>
-#include "InputManager.h"
+#include "Utility/InputManager/InputManager.h"
 
 #define PI 3.14159
 #define DEG2RAD PI / 180

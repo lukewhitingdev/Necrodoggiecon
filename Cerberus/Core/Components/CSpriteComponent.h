@@ -1,8 +1,8 @@
 #pragma once
 #include "CComponent.h"
-#include "CMesh.h"
-#include "CTexture.h"
-#include "CMaterial.h"
+#include "Structs/CMesh.h"
+#include "Structs/CTexture.h"
+#include "Structs/CMaterial.h"
 
 //A component for loading and displaying a 2D texture in world space as part of CEntity
 class CSpriteComponent : public CComponent

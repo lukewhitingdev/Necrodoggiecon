@@ -1,8 +1,8 @@
 #include "testClass.h"
 #include "Utility/DebugOutput/Debug.h"
-#include "../CTextRenderComponent.h"
+#include "CTextRenderComponent.h"
 #include <sstream>
-#include "CCamera.h"
+#include "Structs/CCamera.h"
 
 TestClass::TestClass()
 {

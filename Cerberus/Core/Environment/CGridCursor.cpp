@@ -2,7 +2,7 @@
 #include "CSpriteComponent.h"
 #include "CWorld_Edit.h"
 #include "Engine.h"
-#include "CCamera.h"
+#include "Structs/CCamera.h"
 #include "Dependencies/IMGUI/imgui.h"
 #include <DirectXMath.h>
 

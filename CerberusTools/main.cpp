@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Cerberus/Core/testClass.h"
-#include "Cerberus/Vector3.h"
+#include "Cerberus/Utility/Vector3.h"
 #include "Cerberus/CWorld.h"
 #include "Cerberus/Engine.h"
 int main(int argc, char* argv[])

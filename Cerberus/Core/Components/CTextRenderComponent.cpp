@@ -1,5 +1,5 @@
 #include "CTextRenderComponent.h"
-#include "CCamera.h"
+#include "Structs/CCamera.h"
 #include "CEntity.h"
 
 CTextRenderComponent::CTextRenderComponent()

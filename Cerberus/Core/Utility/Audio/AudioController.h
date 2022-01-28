@@ -11,7 +11,7 @@
 #include "Utility/DebugOutput/Debug.h"
 #include "Utility/AssetManager/AssetManager.h"
 #include "Utility/Audio/CEmitter.h"
-#include "Vector3.h"
+#include "Utility/Vector3.h"
 
 class AudioController
 {

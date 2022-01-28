@@ -6,7 +6,7 @@
 
 #include <corecrt_malloc.h>
 #include <iostream>
-#include "Vector3.h"
+#include "Utility/Vector3.h"
 
 class CT_EditorWindows
 {

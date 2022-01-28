@@ -1,5 +1,5 @@
 #pragma once
-#include "Vector3.h"
+#include "Utility/Vector3.h"
 #include "Utility/Audio/CAudio.h"
 
 class CEmitter

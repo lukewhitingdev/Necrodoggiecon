@@ -2,7 +2,7 @@
 #include <ItemDatabase.h>
 #include <string>
 #include <CEquippedItem.h>
-#include <IInputable.h>
+#include <Environment/IInputable.h>
 
 struct ItemData
 {

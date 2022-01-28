@@ -1,5 +1,5 @@
 #pragma once
-#include "CWorld.h"
+#include "Environment/CWorld.h"
 
 struct WaypointNode
 {

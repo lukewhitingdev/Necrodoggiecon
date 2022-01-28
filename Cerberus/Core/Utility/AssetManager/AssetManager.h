@@ -1,6 +1,6 @@
 #pragma once
-#include "CMesh.h"
-#include "CTexture.h"
+#include "Structs/CMesh.h"
+#include "Structs/CTexture.h"
 #include "Utility/Audio/CAudio.h"
 #include <string>
 #include <sstream>

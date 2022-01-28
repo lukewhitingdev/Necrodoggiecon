@@ -2,7 +2,7 @@
 
 #include "CComponent.h"
 #include "Utility/CollisionManager/CollisionComponent.h"
-#include "Vector3.h"
+#include "Utility/Vector3.h"
 
 ////Fundimental class of the engine with a world transform and ability to have components
 //Use for all gameplay things in the world

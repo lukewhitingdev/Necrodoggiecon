@@ -1,6 +1,7 @@
 #pragma once
 #include "CEntity.h"
-#include "CWorld_Edit.h"
+#include "Environment/CWorld_Edit.h"
+
 class CT_EditorGrid :
     public CEntity
 {

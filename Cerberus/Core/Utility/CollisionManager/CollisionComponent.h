@@ -1,6 +1,6 @@
 #pragma once
 //#include "CEntity.h"
-#include "Vector3.h"
+#include "Utility/Vector3.h"
 #include "Utility/DebugOutput/Debug.h"
 #include <thread>
 	

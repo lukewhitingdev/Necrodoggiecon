@@ -1,11 +1,10 @@
 #include "testController.h"
 #include "testCharacter.h"
-#include "InputManager.h"
 #include "ItemDatabase.h"
 #include "CEquippedItem.h"
 
-#include <Core/CursorEntity.h>
-#include <CAICharacter.h>
+#include <CursorEntity.h>
+#include <AI/CAICharacter.h>
 
 void testController::Update(float deltaTime)
 {

@@ -158,7 +158,6 @@
     <ClInclude Include="Core\Utility\InputManager\InputManager.h" />
     <ClInclude Include="Core\Utility\Audio\CEmitter.h" />
     <ClInclude Include="Core\Components\CAudioEmitterComponent.h" />
-    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Game\ItemData.h">
       <Filter>Item</Filter>
     </ClInclude>
@@ -177,7 +176,6 @@
     <ClInclude Include="Dependencies\Microsoft\PlatformHelpers.h" />
     <ClInclude Include="Dependencies\Microsoft\LoaderHelpers.h" />
     <ClInclude Include="Dependencies\Microsoft\DDS.h" />
-    <ClInclude Include="CAINode.h" />
     <ClInclude Include="Game\testItemData.h">
       <Filter>Item\test</Filter>
     </ClInclude>

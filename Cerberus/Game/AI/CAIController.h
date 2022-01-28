@@ -1,13 +1,13 @@
 #pragma once
 #include "CEntity.h"
-#include "Vector3.h"
+#include "Utility/Vector3.h"
 #include "CSpriteComponent.h"
 #include "CAICharacter.h"
 #include <iostream>
 #include "CPlayer.h"
-#include "Core/testClass.h"
+#include "testClass.h"
 #include "Utility/EventSystem/EventSystem.h"
-#include "CWorld.h"
+#include "Environment/CWorld.h"
 #include "CAINode.h"
 #include "testCharacter.h"
 #include "CCharacter.h"

@@ -1,7 +1,7 @@
 #include "TestUI.h"
 #include "CTextRenderComponent.h"
 #include "CSpriteComponent.h"
-#include "CCamera.h"
+#include "Structs/CCamera.h"
 #include <sstream>
 
 TestUI::TestUI()
