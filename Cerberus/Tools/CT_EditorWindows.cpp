@@ -54,6 +54,15 @@ void CT_EditorWindows::render()
 
                 ImGui::TreePop();
             }
+            if (ImGui::TreeNode("Debug"))
+            {
+                if (ImGui::Button("Toggle Debug"))
+                {
+                    CWorld_Editable::ToggleDebugMode(!debugModeToggle);
+                    debugModeToggle = !debugModeToggle;
+                }
+                ImGui::TreePop();
+            }
 
 
             if (ImGui::TreeNode("Utility"))

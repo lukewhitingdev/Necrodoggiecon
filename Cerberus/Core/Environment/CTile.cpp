@@ -145,11 +145,65 @@ void CTile::ChangeTileID(CellID TileID)
 
 
 
+bool CTile::SetDebugMode(bool newState)
+{
+	
+	if (debugSprite == nullptr)
+	{
+		debugSprite = AddComponent<CSpriteComponent>();
+	}
+
+	debugMode = newState;
+
+	if (newState)
+	{
+
+		debugSprite->SetPosition(debugSprite->GetPosition().x, debugSprite->GetPosition().y, -100);
+		debugSprite->LoadTexture("Resources\\Tiles\\DebugTexture.dds");
+		debugSprite->SetRenderRect(XMUINT2(tileScale, tileScale));
+		debugSprite->SetSpriteSize(XMUINT2(tileScale, tileScale));
+		if (isWalkable)
+		{
+			debugSprite->SetTextureOffset(XMFLOAT2(float(tileScale), float(0)));
+		}
+		else
+		{
+			debugSprite->SetTextureOffset(XMFLOAT2(float(0), float(0)));
+		}
+	}
+	else
+	{
+		debugSprite->SetPosition(debugSprite->GetPosition().x, debugSprite->GetPosition().y, +100);
+	}
+
+	
+
+	return false;
+}
+
+void CTile::UpdateDebugRender()
+{
+	if (debugMode)
+	{
+		if (isWalkable)
+		{
+			debugSprite->SetTextureOffset(XMFLOAT2(float(tileScale), float(0)));
+		}
+		else
+		{
+			debugSprite->SetTextureOffset(XMFLOAT2(float(0), float(0)));
+		}
+
+	}
+}
+
 void CTile::SetRenderData(int X, int Y)
 {
 	sprite->LoadTexture("Resources\\Tiles\\TempTileMap.dds");
 	sprite->SetRenderRect(XMUINT2(tileScale, tileScale));
 	sprite->SetSpriteSize(XMUINT2(tileScale, tileScale));
 	sprite->SetTextureOffset(XMFLOAT2(float(X * tileScale), float(Y * tileScale)));
+
+	
 	
 }

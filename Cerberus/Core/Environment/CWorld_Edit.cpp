@@ -218,6 +218,14 @@ void CWorld_Editable::NewWorld(int Slot)
 
 }
 
+void CWorld_Editable::ToggleDebugMode(bool isDebug)
+{
+	for (int i = 0; i < mapScale * mapScale; i++)
+	{
+		tileContainer[i]->SetDebugMode(isDebug);
+	}
+}
+
 
 
 
@@ -384,6 +392,9 @@ void CWorld_Editable::GenerateTileMap()
 
 			break;
 		}
+
+
+		tileContainer[i]->UpdateDebugRender();
 	}
 
 

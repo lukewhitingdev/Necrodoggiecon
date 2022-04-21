@@ -47,6 +47,8 @@ public:
 	//Initialises the tileset to empty
 	static void NewWorld(int Slot);
 
+
+	static void ToggleDebugMode(bool isDebug);
 	
 
 
