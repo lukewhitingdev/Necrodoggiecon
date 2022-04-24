@@ -124,6 +124,56 @@ void CT_EditorWindows::render()
             ImGui::SetItemDefaultFocus();
 
             ImGui::End();
+
+
+
+
+            ImGui::SetNextWindowSize(ImVec2(WindowScale.x, WindowScale.y), ImGuiCond_FirstUseEver);
+            if (!ImGui::Begin("Content", open))
+            {
+
+                ImGui::End();
+                return;
+            }
+
+            if (ImGui::TreeNode("Decoration"))
+            {
+                int ItemCount = 5;
+                for (int i = 0; i < ItemCount; i++)
+                {
+                    if (ImGui::Button("Slot " + i))
+                    {
+
+                    }
+                }
+
+
+                ImGui::TreePop();
+            }
+
+            if (ImGui::TreeNode("Gameplay Controllers"))
+            {
+                if (ImGui::Button("Player Start"))
+                {
+
+                }
+               
+                if (ImGui::Button("Item Holder"))
+                {
+
+                }
+
+                if (ImGui::Button("Goal"))
+                {
+
+                }
+                ImGui::TreePop();
+            }
+
+
+
+            ImGui::End();
+
         }
 
     }

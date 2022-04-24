@@ -25,6 +25,8 @@ public:
 	static void LoadWorld(int Slot);
 
 	
+
+	
 	//A List of all tiles in the scene
 	//std::vector<Tile*> tileList;
 
@@ -62,8 +64,12 @@ protected:
 
 	static CTile* tileContainer[mapScale * mapScale];
 
+
+	//Function that loads entities based on slot, You can change the entities in each slot inside the cpp
+	static void LoadEntity(int Slot, Vector3 Position);
+
 	//This function should only be used when Loading / Reloading the scene.
-	//void LoadEntity(CT_EntityData EntityData);
+
 
 
 	//This is a list of entities loaded in with the level data. This should not be touched outside of Loading / Reloading
@@ -71,12 +77,14 @@ protected:
 
 
 	//List of entities spawned in by this class, used for deconstruction.
-	//std::vector<CEntity> entityList;
+	static std::vector<class CEntity*> entityList;
 
 protected:
 
 	static Vector3 IndexToGrid(int ID);
 	static int GridToIndex(Vector2 Position);
+
+	
 
 
 

@@ -6,6 +6,7 @@
 CTile* CWorld::tileContainer[mapScale * mapScale];
 int mapSize = mapScale * mapScale;
 
+
 CWorld::CWorld()
 {
 	for (int i = 0; i < (mapScale * mapScale); i++)
@@ -26,7 +27,8 @@ void CWorld::LoadWorld(int Slot)
 	file >> storedFile;
 
 	std::vector<std::string> convertedFile = storedFile["TileData"];
-
+	
+	
 
 	std::string Test = convertedFile[0];
 	std::cout << "" << std::endl;
@@ -57,8 +59,23 @@ void CWorld::LoadWorld(int Slot)
 	}
 	
 
+	int propCount = storedFile["PropCount"];
+
+	std::vector<CT_PropData> propData;
+
+	for (int i = 0; i < propCount; i++)
+	{
+		int propID = storedFile["ID"][i];
+		int propX = storedFile["ID"][i]["X"];
+		int propY = storedFile["ID"][i]["Y"];
+
+	}
+
+
 	BuildNavigationGrid();
 
+
+	
 
 }
 
@@ -112,6 +129,7 @@ std::vector<CTile*> CWorld::GetAllObstacleTiles()
 	return obstacleTiles;
 }
 
+
 Vector3 CWorld::IndexToGrid(int ID)
 {
 
@@ -127,3 +145,28 @@ int CWorld::GridToIndex(Vector2 Position)
 }
 
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////FUNCTIONS BELOW ARE FOR ADDING NEW ENTITIES THAT ARE VALID WITH EDITOR//////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+void CWorld::LoadEntity(int Slot, Vector3 Position)
+{
+	CEntity* SpawnedEntity = nullptr;
+	switch (Slot)
+	{
+	case 1:
+		//Spawn the entitiy here. The ID should match the order in the resource folder.
+		//Example for what you need to do, replace CEntity with the class you want in this slot.
+		SpawnedEntity = Engine::CreateEntity<CEntity>();
+		break;
+	}
+
+	SpawnedEntity->SetPosition(Position);
+	entityList.push_back(SpawnedEntity);
+}

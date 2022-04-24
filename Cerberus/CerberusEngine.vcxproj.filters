@@ -24,7 +24,6 @@
     </ClCompile>
     <ClCompile Include="Core\Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="Core\Structs\CMaterial.cpp" />
-    <ClCompile Include="Tools\CT_EditorMain.cpp" />
     <ClCompile Include="Core\Environment\CWorld_Edit.cpp">
       <Filter>World</Filter>
     </ClCompile>
@@ -78,9 +77,19 @@
     </ClCompile>
     <ClCompile Include="Core\Components\CAudioEmitterComponent.cpp" />
     <ClCompile Include="Core\Utility\CollisionManager\CollisionComponent.cpp" />
-    <ClCompile Include="Tools\CT_EditorGrid.cpp" />
     <ClCompile Include="Core\Environment\CGridCursor.cpp" />
-    <ClCompile Include="Tools\CT_EditorWindows.cpp" />
+    <ClCompile Include="Tools\CT_EditorGrid.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\CT_EditorMain.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools\CT_EditorWindows.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="CT_EditorEntity.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Microsoft\DDSTextureLoader.h" />
@@ -116,7 +125,6 @@
     </ClInclude>
     <ClInclude Include="Core\Utility\AssetManager\AssetManager.h" />
     <ClInclude Include="Core\Structs\CMaterial.h" />
-    <ClInclude Include="Tools\CT_EditorMain.h" />
     <ClInclude Include="Core\Environment\CWorld_Edit.h">
       <Filter>World</Filter>
     </ClInclude>
@@ -184,9 +192,19 @@
     </ClInclude>
     <ClInclude Include="Core\Utility\CollisionManager\CollisionComponent.h" />
     <ClInclude Include="Core\CEntity.h" />
-    <ClInclude Include="Tools\CT_EditorGrid.h" />
     <ClInclude Include="Core\Environment\CGridCursor.h" />
-    <ClInclude Include="Tools\CT_EditorWindows.h" />
+    <ClInclude Include="Tools\CT_EditorGrid.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\CT_EditorMain.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\CT_EditorWindows.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="CT_EditorEntity.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
@@ -213,6 +231,9 @@
     </Filter>
     <Filter Include="Item\test">
       <UniqueIdentifier>{1cc6aaa3-e73c-4cc0-bbd9-5448516fee60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{8740829e-b266-43a6-a16d-3524b7c001d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

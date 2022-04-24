@@ -42,6 +42,17 @@ enum class CellID
 
 };
 
+struct CT_PropData
+{
+	CT_PropData(int ID, int Coordinate)
+	{
+		propID = ID;
+		coordinate = Coordinate;
+	}
+	int propID;
+	Vector3 coordinate;
+};
+
 
 #define tileScale 32
 #define	mapScale 32
