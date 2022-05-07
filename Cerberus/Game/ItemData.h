@@ -1,8 +1,8 @@
 #pragma once
-#include <ItemDatabase.h>
+#include <Cerberus\Game\ItemDatabase.h>
 #include <string>
-#include <CEquippedItem.h>
-#include <Environment/IInputable.h>
+#include <Cerberus\Game\CEquippedItem.h>
+#include <Cerberus\Core\Environment\IInputable.h>
 
 struct ItemData
 {

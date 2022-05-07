@@ -1,5 +1,5 @@
 #pragma once
-#include "CEntity.h"
+#include "Cerberus\Core\CEntity.h"
 #include <array>
 
 class TestUI : public CEntity

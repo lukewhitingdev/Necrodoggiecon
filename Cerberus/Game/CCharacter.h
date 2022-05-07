@@ -1,6 +1,6 @@
 #pragma once
-#include <CSpriteComponent.h>
-#include <CEntity.h>
+#include <Cerberus\Core\Components\CSpriteComponent.h>
+#include <Cerberus\Core\CEntity.h>
 
 class CCharacter : public CEntity
 {

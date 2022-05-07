@@ -1,8 +1,8 @@
 #include "testClass.h"
-#include "Utility/DebugOutput/Debug.h"
-#include "CTextRenderComponent.h"
+#include "Cerberus/Core/Utility/DebugOutput/Debug.h"
+#include "Cerberus\Core\Components\CTextRenderComponent.h"
 #include <sstream>
-#include "Structs/CCamera.h"
+#include "Cerberus\Core\Structs\CCamera.h"
 
 TestClass::TestClass()
 {

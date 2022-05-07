@@ -1,6 +1,6 @@
 #pragma once
 #include "ItemData.h"
-#include <ItemDatabase.h>
+#include <Cerberus\Game\ItemDatabase.h>
 #include "testEquippedItem.h"
 
 struct testItemData :  public ItemData

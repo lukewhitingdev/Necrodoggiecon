@@ -1,7 +1,7 @@
 #include "TestUI.h"
-#include "CTextRenderComponent.h"
-#include "CSpriteComponent.h"
-#include "Structs/CCamera.h"
+#include "Cerberus\Core\Components\CTextRenderComponent.h"
+#include "Cerberus\Core\Components\CSpriteComponent.h"
+#include "Cerberus\Core\Structs\CCamera.h"
 #include <sstream>
 
 TestUI::TestUI()

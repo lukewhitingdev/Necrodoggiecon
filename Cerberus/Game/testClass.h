@@ -1,6 +1,6 @@
 #pragma once
-#include "Engine.h"
-#include "CEntity.h"
+#include "Cerberus\Core\Engine.h"
+#include "Cerberus\Core\CEntity.h"
 #include <stdio.h>
 
 class TestClass : public CEntity

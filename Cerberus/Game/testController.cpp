@@ -3,8 +3,8 @@
 #include "ItemDatabase.h"
 #include "CEquippedItem.h"
 
-#include <CursorEntity.h>
-#include <AI/CAICharacter.h>
+#include <Cerberus\Game\CursorEntity.h>
+#include <Cerberus\Game\AI/CAICharacter.h>
 
 void testController::Update(float deltaTime)
 {

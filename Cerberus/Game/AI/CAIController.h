@@ -1,16 +1,16 @@
 #pragma once
-#include "CEntity.h"
-#include "Utility/Vector3.h"
-#include "CSpriteComponent.h"
-#include "CAICharacter.h"
+#include "Cerberus\Core\CEntity.h"
+#include "Cerberus\Core\Utility\Vector3.h"
+#include "Cerberus\Core\Components\CSpriteComponent.h"
+#include "Cerberus\Game\AI\CAICharacter.h"
 #include <iostream>
-#include "CPlayer.h"
-#include "testClass.h"
-#include "Utility/EventSystem/EventSystem.h"
-#include "Environment/CWorld.h"
+#include "Cerberus\Game\CPlayer.h"
+#include "Cerberus\Game\testClass.h"
+#include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
+#include "Cerberus\Core\Environment/CWorld.h"
 #include "CAINode.h"
-#include "testCharacter.h"
-#include "CCharacter.h"
+#include "Cerberus\Game\testCharacter.h"
+#include "Cerberus\Game\CCharacter.h"
 
 enum class STATE
 {

@@ -1,9 +1,9 @@
-#include "CGridCursor.h"
-#include "CSpriteComponent.h"
-#include "CWorld_Edit.h"
-#include "Engine.h"
-#include "Structs/CCamera.h"
-#include "Dependencies/IMGUI/imgui.h"
+#include "Cerberus\Core\Environment\CGridCursor.h"
+#include "Cerberus\Core\Components\CSpriteComponent.h"
+#include "Cerberus\Core\Environment\CWorld_Edit.h"
+#include "Cerberus\Core\Engine.h"
+#include "Cerberus\Core\Structs\CCamera.h"
+#include "Cerberus\Dependencies\IMGUI\imgui.h"
 #include <DirectXMath.h>
 
 CGridCursor::CGridCursor()

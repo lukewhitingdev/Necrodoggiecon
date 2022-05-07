@@ -1,7 +1,7 @@
 #pragma once
-#include "Engine.h"
-#include "CEntity.h"
-#include "CSpriteComponent.h"
+#include "Cerberus\Core\Engine.h"
+#include "Cerberus\Core\CEntity.h"
+#include "Cerberus\Core\Components\CSpriteComponent.h"
 #include <stdio.h>
 
 class CAICharacter : public CEntity

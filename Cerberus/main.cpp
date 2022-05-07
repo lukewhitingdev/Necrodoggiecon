@@ -14,25 +14,26 @@
 //--------------------------------------------------------------------------------------
 #define _XM_NO_INTRINSICS_
 
-#include "Engine.h"
-#include "testClass.h"
-#include "CursorEntity.h"
-#include "CPlayer.h"
-#include "Environment/CTile.h"
-#include "Environment/CWorld_Edit.h"
-#include "AI/CAIController.h"
-#include "Structs/CCamera.h"
-#include "Tools/CT_EditorMain.h"
-#include "Utility/Audio/AudioController.h"
-#include "testCharacter.h"
-#include "testCharacter2.h"
-#include "testController.h"
-#include "CDroppedItem.h"
-#include "testItemData.h"
-#include "Utility/EventSystem/EventSystem.h"
 
-#include "Utility/InputManager/InputManager.h"
-#include "TestUI.h"
+#include "Cerberus\Core\Engine.h"
+#include "Cerberus\Game\testClass.h"
+#include "Cerberus\Game\CursorEntity.h"
+#include "Cerberus\Game\CPlayer.h"
+#include "Cerberus\Core\Environment/CTile.h"
+#include "Cerberus\Core\Environment/CWorld_Edit.h"
+#include "Cerberus\Game\AI\CAIController.h"
+#include "Cerberus\Core\Structs\CCamera.h"
+#include "Cerberus\Tools/CT_EditorMain.h"
+#include "Cerberus/Core/Utility/Audio/AudioController.h"
+#include "Cerberus\Game\testCharacter.h"
+#include "Cerberus\Game\testCharacter2.h"
+#include "Cerberus\Game\testController.h"
+#include "Cerberus\Game\CDroppedItem.h"
+#include "Cerberus\Game\testItemData.h"
+#include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
+
+#include "Cerberus/Core/Utility/InputManager/InputManager.h"
+#include "Cerberus\Game\TestUI.h"
 using namespace Inputs;
 #include <chrono>
 

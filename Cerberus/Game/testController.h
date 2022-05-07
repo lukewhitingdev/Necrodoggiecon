@@ -1,5 +1,5 @@
 #pragma once
-#include <CPlayerController.h>
+#include <Cerberus\Game\CPlayerController.h>
 
 class IInputable;
 

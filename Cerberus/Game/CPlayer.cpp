@@ -1,6 +1,6 @@
 #include "CPlayer.h"
-#include "Utility/DebugOutput/Debug.h"
-#include "CSpriteComponent.h"
+#include "Cerberus/Core/Utility/DebugOutput/Debug.h"
+#include "Cerberus\Core\Components\CSpriteComponent.h"
 
 
 CPlayer::CPlayer()

@@ -1,6 +1,6 @@
 #pragma once
-#include <CCharacter.h>
-#include <Environment/IInputable.h>
+#include <Cerberus\Game\CCharacter.h>
+#include <Cerberus\Core\Environment\IInputable.h>
 
 class CDroppedItem;
 class CEquippedItem;
