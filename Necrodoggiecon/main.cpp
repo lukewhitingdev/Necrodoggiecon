@@ -1,19 +1,16 @@
-//#include "Cerberus\Core\Engine.h"
-#include "Cerberus\Game\CPlayer.h"
-#include <Cerberus\Game\TestUI.h>
-#include <Cerberus\Game\CursorEntity.h>
+#include "Cerberus\Core\Engine.h"
 #include <Cerberus\Core\Environment\CWorld.h>
-#include <Cerberus\Game\testController.h>
-#include <Cerberus\Game\testCharacter.h>
-#include <Cerberus\Game\ItemDatabase.h>
-#include <Cerberus\Game\AI\CAIController.h>
+#include "Necrodoggiecon\Game\CPlayer.h"
+#include <Necrodoggiecon\Game\TestUI.h>
+#include <Necrodoggiecon\Game\CursorEntity.h>
+#include <Necrodoggiecon\Game\testController.h>
+#include <Necrodoggiecon\Game\testCharacter.h>
+#include <Necrodoggiecon\Game\ItemDatabase.h>
+#include <Necrodoggiecon\Game\AI\CAIController.h>
 
 /*
 
 TODO:
-
-Move all Cerberus/Game code into this app
-
 Make compilation faster (pch or soemthing else)
 
 */

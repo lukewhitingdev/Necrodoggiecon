@@ -1,5 +1,5 @@
 #pragma once
-#include <Cerberus\Game\CCharacter.h>
+#include <Necrodoggiecon\Game\CCharacter.h>
 #include <Cerberus\Core\Environment\IInputable.h>
 
 class CDroppedItem;

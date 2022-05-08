@@ -2,15 +2,15 @@
 #include "Cerberus\Core\CEntity.h"
 #include "Cerberus\Core\Utility\Vector3.h"
 #include "Cerberus\Core\Components\CSpriteComponent.h"
-#include "Cerberus\Game\AI\CAICharacter.h"
+#include "Necrodoggiecon\Game\AI\CAICharacter.h"
 #include <iostream>
-#include "Cerberus\Game\CPlayer.h"
-#include "Cerberus\Game\testClass.h"
+#include "Necrodoggiecon\Game\CPlayer.h"
+#include "Necrodoggiecon\Game\testClass.h"
 #include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
 #include "Cerberus\Core\Environment/CWorld.h"
 #include "CAINode.h"
-#include "Cerberus\Game\testCharacter.h"
-#include "Cerberus\Game\CCharacter.h"
+#include "Necrodoggiecon\Game\testCharacter.h"
+#include "Necrodoggiecon\Game\CCharacter.h"
 
 enum class STATE
 {

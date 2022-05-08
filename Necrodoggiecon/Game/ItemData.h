@@ -1,7 +1,7 @@
 #pragma once
-#include <Cerberus\Game\ItemDatabase.h>
+#include <Necrodoggiecon\Game\ItemDatabase.h>
 #include <string>
-#include <Cerberus\Game\CEquippedItem.h>
+#include <Necrodoggiecon\Game\CEquippedItem.h>
 #include <Cerberus\Core\Environment\IInputable.h>
 
 struct ItemData

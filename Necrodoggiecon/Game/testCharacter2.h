@@ -1,6 +1,6 @@
 #pragma once
 #include <Cerberus\Core\Environment/IInputable.h>
-#include <Cerberus\Game\CCharacter.h>
+#include <Necrodoggiecon\Game\CCharacter.h>
 
 class testCharacter2 : public CCharacter, public IInputable
 {
