@@ -417,7 +417,7 @@
     <ClCompile Include="Core\Environment\CGridCursor.cpp" />
     <ClCompile Include="Core\Structs\CMaterial.cpp" />
     <ClCompile Include="Core\Components\CTextRenderComponent.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Core\Engine.cpp" />
     <ClCompile Include="Tools\CT_EditorGrid.cpp" />
     <ClCompile Include="Core\Environment\CWorld_Edit.cpp" />
     <ClCompile Include="Dependencies\Microsoft\DirectXHelpers.cpp" />

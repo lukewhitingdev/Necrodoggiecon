@@ -40,7 +40,7 @@
     <ClCompile Include="Tools\CT_EditorGrid.cpp" />
     <ClCompile Include="Core\Environment\CGridCursor.cpp" />
     <ClCompile Include="Tools\CT_EditorWindows.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Core\Engine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Microsoft\DDSTextureLoader.h" />
