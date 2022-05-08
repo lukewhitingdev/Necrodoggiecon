@@ -656,17 +656,17 @@ void Engine::DestroyEntity(CEntity* targetEntity)
 }
 
 // Starts the engine.
-bool Engine::Start(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow, WNDPROC wndProc)
+bool Engine::Start(HINSTANCE hInstance, int nCmdShow, WNDPROC wndProc)
 {
 	srand((unsigned int)time(0));
 
 	if (FAILED(InitWindow(hInstance, nCmdShow, wndProc)))
-		return 0;
+		return false;
 
 	if (FAILED(InitDevice()))
 	{
 		CleanupDevice();
-		return 0;
+		return false;
 	}
 
 	// Init ImGUI.
@@ -679,6 +679,8 @@ bool Engine::Start(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLin
 	ImGui_ImplDX11_Init(Engine::device, Engine::deviceContext);
 
 	tpOld = std::chrono::high_resolution_clock::now();
+
+	return true;
 }
 
 void Engine::RenderUpdateLoop()
@@ -703,11 +705,11 @@ void Engine::RenderUpdateLoop()
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-int Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
-		return 0;
+		return false;
 
 	PAINTSTRUCT ps;
 	HDC hdc;

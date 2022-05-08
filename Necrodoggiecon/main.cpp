@@ -29,7 +29,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	// Engine Start
-	Engine::Start(hInstance, hPrevInstance, lpCmdLine, nCmdShow, WndProc);
+	Engine::Start(hInstance, nCmdShow, WndProc);
 
 	Start();
 
