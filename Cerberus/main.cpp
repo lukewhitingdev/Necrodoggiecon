@@ -45,12 +45,11 @@ XMMATRIX Engine::projMatrixUI = XMMatrixIdentity();
 //--------------------------------------------------------------------------------------
 // Forward declarations
 //--------------------------------------------------------------------------------------
-HRESULT		InitWindow(HINSTANCE hInstance, int nCmdShow);
+HRESULT		InitWindow(HINSTANCE hInstance, int nCmdShow, WNDPROC wndProc);
 HRESULT		InitDevice();
 HRESULT		InitMesh();
 HRESULT		InitWorld(int width, int height);
 void		CleanupDevice();
-LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 void		Render();
 void		Update(float deltaTime);
 void		Load();
@@ -99,82 +98,15 @@ DebugOutput* debugOutputUI;
 CT_EditorMain* EditorViewport;
 
 //--------------------------------------------------------------------------------------
-// Entry point to the program. Initializes everything and goes into a message processing 
-// loop. Idle time is used to render the scene.
-//--------------------------------------------------------------------------------------
-int WINAPI wWinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow )
-{
-	UNREFERENCED_PARAMETER( hPrevInstance );
-	UNREFERENCED_PARAMETER( lpCmdLine );
-
-	srand((unsigned int)time(0));
-
-	if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
-		return 0;
-
-	if( FAILED( InitDevice() ) )
-	{
-		CleanupDevice();
-		return 0;
-	}
-
-	// Init ImGUI.
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-	ImGui::StyleColorsDark();                                   // Style colors dark
-
-	ImGui_ImplWin32_Init(Engine::windowHandle);
-	ImGui_ImplDX11_Init(Engine::device, Engine::deviceContext);
-
-	Load();
-
-	tpOld = std::chrono::high_resolution_clock::now();
-
-	// Main message loop
-	MSG msg = {0};
-	while( WM_QUIT != msg.message )
-	{
-		if( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE ) )
-		{
-			TranslateMessage( &msg );
-			DispatchMessage( &msg );
-		}
-		else
-		{
-			if (!minimised)
-			{
-				double t = CalculateDeltaTime(maxFPS);
-				if (t == -8008135.0)
-					continue;
-
-				globalDeltaTime = t;
-				
-				Update((float)globalDeltaTime);
-				Render();
-			}
-			else
-			{
-				Sleep(64);
-			}
-		}
-	}
-
-	CleanupDevice();
-
-	return ( int )msg.wParam;
-}
-
-//--------------------------------------------------------------------------------------
 // Register class and create window
 //--------------------------------------------------------------------------------------
-HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
+HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow, WNDPROC wndProc )
 {
 	// Register class
 	WNDCLASSEX wcex;
 	wcex.cbSize = sizeof( WNDCLASSEX );
 	wcex.style = CS_HREDRAW | CS_VREDRAW;
-	wcex.lpfnWndProc = WndProc;
+	wcex.lpfnWndProc = wndProc;
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
@@ -205,66 +137,6 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 	ShowWindow(Engine::windowHandle, nCmdShow);
 
 	return S_OK;
-}
-
-void Load()
-{
-	bool editorMode = false;
-
-	
-	
-/*
-* 	// sawps and makes one of the entiys the player
-	for (int i = 0; i < 0; i++)
-	EventSystem::AddListener("GameOver", []() {exit(1); });
-*/
-	
-
-	Engine::CreateEntity<TestUI>();
-	Engine::CreateEntity<CursorEntity>();
-
-	if (editorMode)
-	{
-		EditorViewport = new CT_EditorMain();
-		
-		CWorld_Editable::LoadWorld_Edit();
-		CWorld_Editable::BuildNavigationGrid();
-	}
-	else
-	{
-
-		CWorld::LoadWorld(0);
-	}
-
-	testController* controller = Engine::CreateEntity<testController>();
-	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
-	testCharacter* character2 = Engine::CreateEntity<testCharacter>();
-
-	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
-
-	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	character1->droppedItem = droppedItem;
-
-	character2->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-
-	controller->charOne = character1;
-	controller->charTwo = character2;
-  
-	character1->SetPosition(Vector3(0, 0, 0));
-	controller->Possess(character1);
-	character1->shouldMove = true;
-	character1->colComponent->SetCollider(128.0f, 128.0f);
-
-	if (!editorMode)
-	{
-		Engine::CreateEntity<CAIController>();
-	}
-	
-	std::vector<testCharacter*> test = Engine::GetEntityOfType<testCharacter>();
-
-
-
-
 }
 
 //--------------------------------------------------------------------------------------
@@ -757,17 +629,96 @@ void CleanupDevice()
 	ImGui_ImplWin32_Shutdown();
 }
 
+double CalculateDeltaTime(const unsigned short fpsCap)
+{
+	tpNew = std::chrono::high_resolution_clock::now();
+	double deltaTime = std::chrono::duration_cast<std::chrono::duration<double>>(tpNew - tpOld).count();
+	tpOld = tpNew;
+
+	const double FPSMAX = 1.0 / double(fpsCap);
+	totalFrameTime += deltaTime;
+
+	if (totalFrameTime > FPSMAX || fpsCap == 0)
+	{
+		deltaTime = totalFrameTime;
+		totalFrameTime = 0.0;
+		return deltaTime;
+	}
+	else
+	{
+		return -8008135.0;	//Special number for telling the program to skip the frame
+	}
+}
+
+void Engine::DestroyEntity(CEntity* targetEntity)
+{
+	{
+		for (size_t i = 0; i < entities.size(); i++)
+		{
+			CEntity* entity = entities[i];
+			if (entity == targetEntity)
+			{
+				entities.erase(entities.begin() + i);
+				delete entity;
+				return;
+			}
+		}
+	}
+}
+
+// Starts the engine.
+bool Engine::Start(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow, WNDPROC wndProc)
+{
+	srand((unsigned int)time(0));
+
+	if (FAILED(InitWindow(hInstance, nCmdShow, wndProc)))
+		return 0;
+
+	if (FAILED(InitDevice()))
+	{
+		CleanupDevice();
+		return 0;
+	}
+
+	// Init ImGUI.
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+	ImGui::StyleColorsDark();                                   // Style colors dark
+
+	ImGui_ImplWin32_Init(Engine::windowHandle);
+	ImGui_ImplDX11_Init(Engine::device, Engine::deviceContext);
+
+	tpOld = std::chrono::high_resolution_clock::now();
+}
+
+void Engine::RenderUpdateLoop()
+{
+	if (!minimised)
+	{
+		double t = CalculateDeltaTime(maxFPS);
+		if (t == -8008135.0)
+			return;
+
+		globalDeltaTime = t;
+
+		Update((float)globalDeltaTime);
+		Render();
+	}
+	else
+	{
+		Sleep(64);
+	}
+}
+
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-//--------------------------------------------------------------------------------------
-// Called every time the application receives a message
-//--------------------------------------------------------------------------------------
-LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+int Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
-		return true;
+		return 0;
 
 	PAINTSTRUCT ps;
 	HDC hdc;
@@ -802,18 +753,18 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
 		break;
 
-	//TEMP
+		//TEMP
 	case WM_MOUSEWHEEL:
 		Engine::camera.SetZoom(float(Engine::camera.GetZoom() + GET_WHEEL_DELTA_WPARAM(wParam) * Engine::camera.GetZoom() * 0.001f));
 		break;
 
 	case WM_PAINT:
-		hdc = BeginPaint( hWnd, &ps );
-		EndPaint( hWnd, &ps );
+		hdc = BeginPaint(hWnd, &ps);
+		EndPaint(hWnd, &ps);
 		break;
 
 	case WM_DESTROY:
-		PostQuitMessage( 0 );
+		PostQuitMessage(0);
 		break;
 
 	case WM_SIZE:
@@ -831,31 +782,15 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		break;
 
 	default:
-		return DefWindowProc( hWnd, message, wParam, lParam );
+		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 
 	return 0;
 }
 
-double CalculateDeltaTime(const unsigned short fpsCap)
+void Engine::Stop()
 {
-	tpNew = std::chrono::high_resolution_clock::now();
-	double deltaTime = std::chrono::duration_cast<std::chrono::duration<double>>(tpNew - tpOld).count();
-	tpOld = tpNew;
-
-	const double FPSMAX = 1.0 / double(fpsCap);
-	totalFrameTime += deltaTime;
-
-	if (totalFrameTime > FPSMAX || fpsCap == 0)
-	{
-		deltaTime = totalFrameTime;
-		totalFrameTime = 0.0;
-		return deltaTime;
-	}
-	else
-	{
-		return -8008135.0;	//Special number for telling the program to skip the frame
-	}
+	CleanupDevice();
 }
 
 void Update(float deltaTime)
@@ -962,18 +897,3 @@ void Render()
     swapChain->Present( 0, 0 );
 }
 
-void Engine::DestroyEntity(CEntity* targetEntity)
-{
-	{
-		for (size_t i = 0; i < entities.size(); i++)
-		{
-			CEntity* entity = entities[i];
-			if (entity == targetEntity)
-			{
-				entities.erase(entities.begin() + i);
-				delete entity;
-				return;
-			}
-		}
-	}
-}

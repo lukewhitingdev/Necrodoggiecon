@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Dependencies\Microsoft\DDSTextureLoader.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Core\Utility\Vector3.cpp" />
     <ClCompile Include="Core\CComponent.cpp" />
     <ClCompile Include="Core\CEntity.cpp" />
@@ -81,6 +80,7 @@
     <ClCompile Include="Tools\CT_EditorGrid.cpp" />
     <ClCompile Include="Core\Environment\CGridCursor.cpp" />
     <ClCompile Include="Tools\CT_EditorWindows.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Microsoft\DDSTextureLoader.h" />

@@ -439,6 +439,7 @@
     <ClCompile Include="Game\CPlayer.cpp" />
     <ClCompile Include="Core\Components\CTextRenderComponent.cpp" />
     <ClCompile Include="Game\CursorEntity.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Tools\CT_EditorGrid.cpp" />
     <ClCompile Include="Core\Environment\CWorld_Edit.cpp" />
     <ClCompile Include="Game\CDroppedItem.cpp" />
@@ -473,7 +474,6 @@
     <ClCompile Include="Dependencies\IMGUI\imgui_tables.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="Core\Utility\DebugOutput\Debug.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Core\Utility\Vector3.cpp" />
     <ClCompile Include="Core\Structs\CMesh.cpp" />
     <ClCompile Include="Dependencies\Microsoft\WICTextureLoader.cpp" />

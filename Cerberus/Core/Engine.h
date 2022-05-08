@@ -37,6 +37,14 @@ class CEntity;
 
 struct Engine
 {
+	static bool Start(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow, WNDPROC wndProc);
+
+	static void RenderUpdateLoop();
+
+	static int ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+	static void Stop();
+
 	// Drawables.
 	static std::vector<CEntity*> entities;	//Needs to be changed to CObject instead
 	
