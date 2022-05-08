@@ -11,7 +11,7 @@
 /*
 
 TODO:
-Make compilation faster (pch or soemthing else)
+Probs make Header files that hold other functionality of engine, Like Audio.h having all static audio functions etc.
 
 */
 
