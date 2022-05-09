@@ -31,20 +31,28 @@ void CWorld_Editable::SetOperationMode(EditOperationMode mode)
 
 void CWorld_Editable::QueueCell(Vector2 Cell)
 {
-	if (!isQueueLocked)
+	if (operationType == EditOperationMode::Additive_Single || operationType == EditOperationMode::Subtractive_Single)
 	{
-		if (!selectedCell)
+		editOrigin = Cell;
+		PerformOperation(editOrigin, Cell);
+	}
+	else
+	{
+		if (!isQueueLocked)
 		{
-			editOrigin = Cell;
-			selectedCell = true;
-		}
-		else
-		{
+			if (!selectedCell)
+			{
+				editOrigin = Cell;
+				selectedCell = true;
+			}
+			else
+			{
 
 
-			PerformOperation(editOrigin, Cell);
+				PerformOperation(editOrigin, Cell);
 
-			selectedCell = false;
+				selectedCell = false;
+			}
 		}
 	}
 
@@ -67,11 +75,15 @@ void CWorld_Editable::PerformOperation(Vector2 A, Vector2 B)
 	{
 	case EditOperationMode::Additive:
 		AdditiveBox(A, B);
-		
-
 		break;
 	case EditOperationMode::Subtractive:
 		SubtractiveBox(A,B);
+		break;
+	case EditOperationMode::Subtractive_Single:
+		Subtractive_Cell(A);
+		break;
+	case EditOperationMode::Additive_Single:
+		Additive_Cell(A);
 		break;
 	case EditOperationMode::None:
 		break;
@@ -236,6 +248,20 @@ void CWorld_Editable::ClearSpace()
 		tileData[i].id = 0;
 	}
 }
+void CWorld_Editable::Additive_Cell(Vector2 A)
+{
+	int Index = (A.x) + (((int)A.y) * mapScale);
+	tileData[Index].id = 0;
+
+}
+
+void CWorld_Editable::Subtractive_Cell(Vector2 A)
+{
+	int Index = (A.x) + (((int)A.y) * mapScale);
+	tileData[Index].id = 1;
+
+}
+
 
 void CWorld_Editable::AdditiveBox(Vector2 A, Vector2 B)
 {
@@ -324,15 +350,67 @@ void CWorld_Editable::GenerateTileMap()
 	}
 	
 	//Locates corners and assigns them
+	std::vector<Vector2> CornerPos;
+	for (int i = 0; i < mapScale * mapScale; i++)
+	{
+		Vector3 pos = IndexToGrid(i);
+		Vector2 p2 =  Vector2(pos.x, pos.y);
+	
+		if (IsTile(p2, CellType::Edge))
+		{
+			if (GetTotalAdjacentsOfType(p2, CellType::Edge) <= 3)
+			{
+				Vector2 Dir = FindAdjacentEdges(p2);
+				if (Dir.x != 2 && Dir.y != 2)
+				{
+					CornerPos.push_back(p2);
+				}
+
+			}
+			
+		}
+		
+
+	}
+	for (int i = 0; i < CornerPos.size(); i++)
+	{
+		tileData[GridToIndex(CornerPos[i])].type = CellType::InnerCorner;
+	}
+
+
 
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
-
 		Vector3 pos = IndexToGrid(i);
-		
-		SetCorner(Vector2(pos.x, pos.y));
+		Vector2 p2 = Vector2(pos.x, pos.y);
+		if (IsTile(p2, CellType::InnerCorner))
+		{
+			if (GetTotalAdjacentsOfType(p2, CellType::Edge) == 3)
+			{
+				tileData[GridToIndex(p2)].type = CellType::TConnector;
+			}
+			else if (GetTotalAdjacentsOfType(p2, CellType::Edge) == 4)
+			{
+				tileData[GridToIndex(p2)].type = CellType::XConnector;
+			}
+		}
+	}
+
+
+	for (int i = 0; i < mapScale * mapScale; i++)
+	{
+		Vector3 pos = IndexToGrid(i);
+		if (IsTile(Vector2(pos.x, pos.y), CellType::InnerCorner))
+		{
+			SetCorner(Vector2(pos.x, pos.y));
+		}
+
 
 	}
+
+	
+
+	
 	
 	//Assigns all the tiles based on their neighbours and assigned type
 
@@ -420,6 +498,16 @@ bool CWorld_Editable::IsFloorAdjacent(Vector2 Position)
 	else return false;
 }
 
+
+int CWorld_Editable::GetTotalAdjacentsOfType(Vector2 Pos, CellType AdjacentType)
+{
+	int Total = 0;
+	if (IsTile(Pos + Vector2(1, 0), AdjacentType)) Total++;
+	if (IsTile(Pos + Vector2(-1, 0), AdjacentType)) Total++;
+	if (IsTile(Pos + Vector2(0, -1), AdjacentType)) Total++;
+	if (IsTile(Pos + Vector2(0, 1), AdjacentType)) Total++;
+	return Total;
+}
 
 Vector2 CWorld_Editable::FindAdjacents(Vector2 Pos, CellType ID)
 {
@@ -510,11 +598,8 @@ Vector2 CWorld_Editable::FindFloorAdjacentDiagonal(Vector2 Position)
 
 bool CWorld_Editable::SetCorner(Vector2 Position)
 {
-	if (IsTile(Position, CellType::Edge))
+	if (GetTotalAdjacentsOfType(Position, CellType::Edge) <= 2)
 	{
-
-
-
 		std::vector<CellType> list;
 		list.push_back(CellType::Edge);
 		list.push_back(CellType::InnerCorner);
@@ -568,10 +653,6 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 				tileData[GridToIndex(Position)].type = CellType::InnerCorner;
 			}
 		}
-
-
-
-
 	}
 
 	return false;

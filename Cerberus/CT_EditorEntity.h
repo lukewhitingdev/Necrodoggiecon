@@ -5,7 +5,7 @@ class CT_EditorEntity :
 {
 protected:
 
-    class CSpriteComponent* sprite = nullptr;
+   // class CSpriteComponent* sprite = nullptr;
 
     int EntitySlotID;
 public:

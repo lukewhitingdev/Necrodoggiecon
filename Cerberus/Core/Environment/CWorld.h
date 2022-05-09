@@ -66,7 +66,7 @@ protected:
 
 
 	//Function that loads entities based on slot, You can change the entities in each slot inside the cpp
-	static void LoadEntity(int Slot, Vector3 Position);
+	//static void LoadEntity(int Slot, Vector3 Position);
 
 	//This function should only be used when Loading / Reloading the scene.
 
@@ -77,7 +77,7 @@ protected:
 
 
 	//List of entities spawned in by this class, used for deconstruction.
-	static std::vector<class CEntity*> entityList;
+	//static std::vector<class CEntity*> entityList;
 
 protected:
 

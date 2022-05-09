@@ -36,14 +36,24 @@ void CT_EditorWindows::render()
 
             if (ImGui::TreeNode("Grid Manipulation"))
             {
-                if (ImGui::Button("Add Walkable"))
+                if (ImGui::Button("Add Walkable (Box)"))
                 {
                     CWorld_Editable::SetOperationMode(EditOperationMode::Subtractive);
                     CWorld_Editable::ClearQueue();
                 }
-                if (ImGui::Button("Add Wall"))
+                if (ImGui::Button("Add Wall (Box)"))
                 {
                     CWorld_Editable::SetOperationMode(EditOperationMode::Additive);
+                    CWorld_Editable::ClearQueue();
+                }
+                if (ImGui::Button("Add Walkable (Single)"))
+                {
+                    CWorld_Editable::SetOperationMode(EditOperationMode::Subtractive_Single);
+                    CWorld_Editable::ClearQueue();
+                }
+                if (ImGui::Button("Add Wall (Single)"))
+                {
+                    CWorld_Editable::SetOperationMode(EditOperationMode::Additive_Single);
                     CWorld_Editable::ClearQueue();
                 }
                 if (ImGui::Button("None"))
@@ -169,6 +179,20 @@ void CT_EditorWindows::render()
                 }
                 ImGui::TreePop();
             }
+
+
+
+            ImGui::End();
+
+            ImGui::SetNextWindowSize(ImVec2(WindowScale.x, WindowScale.y), ImGuiCond_FirstUseEver);
+            if (!ImGui::Begin("Details", open))
+            {
+
+                ImGui::End();
+                return;
+            }
+
+           
 
 
 

@@ -356,6 +356,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CT_EditorEntity.h" />
+    <ClInclude Include="CWorldManager.h" />
     <ClInclude Include="Game\AI\CAICharacter.h" />
     <ClInclude Include="Game\AI\CAIController.h" />
     <ClInclude Include="Core\Components\CAudioEmitterComponent.h" />
@@ -426,6 +427,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CT_EditorEntity.cpp" />
+    <ClCompile Include="CWorldManager.cpp" />
     <ClCompile Include="Game\AI\CAICharacter.cpp" />
     <ClCompile Include="Game\AI\CAIController.cpp" />
     <ClCompile Include="Core\Components\CAudioEmitterComponent.cpp" />

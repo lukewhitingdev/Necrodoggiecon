@@ -90,6 +90,7 @@
     <ClCompile Include="CT_EditorEntity.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
+    <ClCompile Include="CWorldManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Microsoft\DDSTextureLoader.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="CT_EditorEntity.h">
       <Filter>Editor</Filter>
     </ClInclude>
+    <ClInclude Include="CWorldManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

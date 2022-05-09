@@ -154,7 +154,8 @@ int CWorld::GridToIndex(Vector2 Position)
 
 
 
-
+/*
+* 
 void CWorld::LoadEntity(int Slot, Vector3 Position)
 {
 	CEntity* SpawnedEntity = nullptr;
@@ -170,3 +171,5 @@ void CWorld::LoadEntity(int Slot, Vector3 Position)
 	SpawnedEntity->SetPosition(Position);
 	entityList.push_back(SpawnedEntity);
 }
+
+*/

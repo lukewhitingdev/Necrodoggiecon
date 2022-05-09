@@ -10,7 +10,7 @@ struct CellData
 
 enum class EditOperationMode
 {
-	None, Additive, Subtractive
+	None, Additive, Subtractive, Additive_Single, Subtractive_Single
 };
 
 class CWorld_Editable : public CWorld
@@ -70,6 +70,10 @@ protected:
 	//Clears the grid and sets all to empty
 	static void ClearSpace();
 
+	static void Additive_Cell(Vector2 A);
+
+	static void Subtractive_Cell(Vector2 A);
+
 
 private:
 
@@ -109,8 +113,8 @@ private:
 		return (tileData[GridToIndex(Pos)].type == CellType::Edge || tileData[GridToIndex(Pos)].type == CellType::OuterCorner || tileData[GridToIndex(Pos)].type == CellType::InnerCorner);
 	}
 
-
-	
+	//Returns total amount of the given type of tile adjacent to the given tile.
+	static int GetTotalAdjacentsOfType(Vector2 Pos, CellType AdjacentType);
 
 
 	//Gets the direction of adjacent tiles that match the given type. 
