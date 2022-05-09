@@ -355,6 +355,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Components\CParticleEmitter.h" />
+    <ClInclude Include="Core\Entities\CParticle.h" />
     <ClInclude Include="Game\AI\CAICharacter.h" />
     <ClInclude Include="Game\AI\CAIController.h" />
     <ClInclude Include="Core\Components\CAudioEmitterComponent.h" />
@@ -424,6 +426,8 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Components\CParticleEmitter.cpp" />
+    <ClCompile Include="Core\Entities\CParticle.cpp" />
     <ClCompile Include="Game\AI\CAICharacter.cpp" />
     <ClCompile Include="Game\AI\CAIController.cpp" />
     <ClCompile Include="Core\Components\CAudioEmitterComponent.cpp" />

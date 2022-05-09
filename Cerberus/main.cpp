@@ -36,6 +36,8 @@
 using namespace Inputs;
 #include <chrono>
 
+#include "Components\CParticleEmitter.h"
+
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
 
 CCamera Engine::camera = CCamera();
@@ -220,7 +222,14 @@ void Load()
 	
 
 	Engine::CreateEntity<TestUI>();
-	Engine::CreateEntity<CursorEntity>();
+	CursorEntity* cursor = Engine::CreateEntity<CursorEntity>();
+	CParticleEmitter* particleEmitter = cursor->AddComponent<CParticleEmitter>();
+	particleEmitter->SetSize(100);
+	particleEmitter->SetDirection(Vector3(0, 1, 0));
+	particleEmitter->UseRandomVelocity(true, 0, 5);
+	particleEmitter->UseRandomDirection(true, Vector3(0, 0, 0), Vector3(1, 10, 0));
+	particleEmitter->SetLifetime(1);
+	particleEmitter->Start();
 
 	if (editorMode)
 	{
@@ -235,34 +244,31 @@ void Load()
 		CWorld::LoadWorld(0);
 	}
 
-	testController* controller = Engine::CreateEntity<testController>();
-	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
-	testCharacter* character2 = Engine::CreateEntity<testCharacter>();
+	//testController* controller = Engine::CreateEntity<testController>();
+	//testCharacter* character1 = Engine::CreateEntity<testCharacter>();
+	//testCharacter* character2 = Engine::CreateEntity<testCharacter>();
 
-	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
+	//CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
-	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	character1->droppedItem = droppedItem;
+	////character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	//character1->droppedItem = droppedItem;
 
-	character2->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	//character2->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 
-	controller->charOne = character1;
-	controller->charTwo = character2;
-  
-	character1->SetPosition(Vector3(0, 0, 0));
-	controller->Possess(character1);
-	character1->shouldMove = true;
-	character1->colComponent->SetCollider(128.0f, 128.0f);
+	//controller->charOne = character1;
+	//controller->charTwo = character2;
+ // 
+	//character1->SetPosition(Vector3(0, 0, 0));
+	//controller->Possess(character1);
+	//character1->shouldMove = true;
+	//character1->colComponent->SetCollider(128.0f, 128.0f);
 
-	if (!editorMode)
-	{
-		Engine::CreateEntity<CAIController>();
-	}
-	
-	std::vector<testCharacter*> test = Engine::GetEntityOfType<testCharacter>();
-
-
-
+	//if (!editorMode)
+	//{
+	//	Engine::CreateEntity<CAIController>();
+	//}
+	//
+	//std::vector<testCharacter*> test = Engine::GetEntityOfType<testCharacter>();
 
 }
 
