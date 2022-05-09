@@ -14,7 +14,7 @@ void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 		}
 
 		EditorWorld = new CWorld_Editable();
-		EditorWorld->LoadWorld_Edit(Slot);
+		EditorWorld->LoadWorld(Slot);
 		
 	}
 	else
@@ -38,3 +38,4 @@ void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 
 
 }
+

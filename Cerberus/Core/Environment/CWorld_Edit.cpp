@@ -13,6 +13,149 @@ bool CWorld_Editable::isQueueLocked = false;
 */
 
 
+void CWorld_Editable::LoadWorld(int Slot)
+{
+	std::string fileName = "Resources/Levels/Level_" + std::to_string(Slot);
+	fileName += ".json";
+
+
+	std::ifstream file(fileName);
+
+
+	json storedFile;
+
+	file >> storedFile;
+
+	std::vector<std::string> convertedFile = storedFile["TileData"];
+
+
+	std::string Test = convertedFile[0];
+	std::cout << "" << std::endl;
+
+
+	for (int i = 0; i < (mapScale * mapScale); i++)
+	{
+		Vector3 temp = Vector3((float)(i % mapScale), (float)(i / mapScale), 0);
+		Vector2 gridPos = Vector2(temp.x, temp.y);
+
+		int ID = atoi(convertedFile[i].c_str());
+		Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
+
+		//tempPos += Vector3(0, 64 * tileScale, 0.0f);
+
+		tempPos.z = 10;
+
+
+
+		CTile* Tile = Engine::CreateEntity<CTile>();
+		Tile->SetPosition(tempPos);
+		Tile->SetScale(tileScaleMultiplier);
+		Tile->ChangeTileID(ID);
+
+		tileContainer[i] = Tile;
+
+
+
+		if (Tile->GetTileID() != 1)
+		{
+			tileData[i].id = 0;
+		}
+		else tileData[i].id = 1;
+
+
+		//tileData[i].id = Tile->GetTileID();
+		tileData[i].type = CellType::Empty;
+
+
+
+
+	}
+
+
+
+	BuildNavigationGrid();
+
+	GenerateTileMap();
+}
+
+void CWorld_Editable::UnloadWorld()
+{
+
+}
+
+
+
+
+void CWorld_Editable::SaveWorld(int Slot)
+{
+	UNREFERENCED_PARAMETER(Slot);
+	std::string fileName = "Resources/Levels/Level_" + Slot;
+	fileName += ".json";
+
+	std::ifstream file(fileName);
+
+
+	json SaveData;
+
+	std::vector<std::string> MapData;
+
+	GenerateTileMap();
+
+
+	for (int i = 0; i < mapScale * mapScale; i++)
+	{
+		MapData.push_back(std::to_string(tileContainer[i]->GetTileID()));
+	}
+
+
+	SaveData["TileData"] = MapData;
+
+
+	std::ofstream o(fileName);
+	o << SaveData;
+
+
+}
+
+void CWorld_Editable::EditWorld(int Slot)
+{
+	UNREFERENCED_PARAMETER(Slot);
+	ClearSpace();
+
+
+}
+
+void CWorld_Editable::NewWorld(int Slot)
+{
+	UNREFERENCED_PARAMETER(Slot);
+	for (int i = 0; i < mapScale * mapScale; i++)
+	{
+		Vector3 ConvertedPos = IndexToGrid(i);
+
+
+		tileData[i].id = 0;
+		tileData[i].type = CellType::Empty;
+
+	}
+
+	for (int i = 0; i < mapScale * mapScale; i++)
+	{
+		Vector3 convertedPos = IndexToGrid(i);
+		Vector3 tempPos = (Vector3(convertedPos.x, convertedPos.y, 0) * (tileScale * 2));
+
+
+
+		CTile* tile = Engine::CreateEntity<CTile>();
+		tile->SetPosition(tempPos);
+		tile->SetScale(tileScaleMultiplier);
+		tile->ChangeTileID(0);
+
+		tileContainer[i] = tile;
+	}
+
+}
+
+
 void CWorld_Editable::SetOperationMode(EditOperationMode mode)
 {
 	operationType = mode;
@@ -101,135 +244,6 @@ void CWorld_Editable::PerformOperation_ClearSpace()
 	GenerateTileMap();
 }
 
-void CWorld_Editable::LoadWorld_Edit()
-{
-	std::ifstream file("Resources/Levels/Level_1.json");
-
-
-	json storedFile;
-
-	file >> storedFile;
-
-	std::vector<std::string> convertedFile = storedFile["TileData"];
-
-
-	std::string Test = convertedFile[0];
-	std::cout << "" << std::endl;
-
-
-	for (int i = 0; i < (mapScale * mapScale); i++)
-	{
-		Vector3 temp = Vector3((float)(i % mapScale), (float)(i / mapScale), 0);
-		Vector2 gridPos = Vector2(temp.x, temp.y);
-
-		int ID = atoi(convertedFile[i].c_str());
-		Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
-
-		//tempPos += Vector3(0, 64 * tileScale, 0.0f);
-
-		tempPos.z = 10;
-
-
-
-		CTile* Tile = Engine::CreateEntity<CTile>();
-		Tile->SetPosition(tempPos);
-		Tile->SetScale(tileScaleMultiplier);
-		Tile->ChangeTileID(ID);
-
-		tileContainer[i] = Tile;
-
-
-
-		if (Tile->GetTileID() != 1)
-		{
-			tileData[i].id = 0;
-		}
-		else tileData[i].id = 1;
-
-
-		//tileData[i].id = Tile->GetTileID();
-		tileData[i].type = CellType::Empty;
-
-
-		
-
-	}
-
-	
-
-	BuildNavigationGrid();
-
-	GenerateTileMap();
-}
-
-
-
-
-void CWorld_Editable::SaveWorld(int Slot)
-{
-	UNREFERENCED_PARAMETER(Slot);
-	std::ifstream loadedData("Resources/Levels/Level_1.json");
-
-
-	json SaveData;
-
-	std::vector<std::string> MapData;
-
-	GenerateTileMap();
-
-
-	for (int i = 0; i < mapScale * mapScale; i++)
-	{
-		MapData.push_back(std::to_string(tileContainer[i]->GetTileID()));
-	}
-
-
-	SaveData["TileData"] = MapData;
-
-
-	std::ofstream o("Resources/Levels/Level_1.json");
-	o << SaveData;
-
-
-}
-
-void CWorld_Editable::EditWorld(int Slot)
-{
-	UNREFERENCED_PARAMETER(Slot);
-	ClearSpace();
-
-	
-}
-
-void CWorld_Editable::NewWorld(int Slot)
-{
-	UNREFERENCED_PARAMETER(Slot);
-	for (int i = 0; i < mapScale * mapScale; i++)
-	{
-		Vector3 ConvertedPos = IndexToGrid(i);
-		
-
-		tileData[i].id = 0;
-		tileData[i].type= CellType::Empty;
-
-	}
-
-	for (int i = 0; i < mapScale * mapScale; i++)
-	{
-		Vector3 convertedPos = IndexToGrid(i);
-		Vector3 tempPos = (Vector3(convertedPos.x, convertedPos.y, 0) * (tileScale * 2));
-	
-
-
-		CTile* tile = Engine::CreateEntity<CTile>();
-		tile->SetPosition(tempPos);
-		tile->SetScale(tileScaleMultiplier);
-		tile->ChangeTileID(0);
-
-		tileContainer[i] = tile;
-	}
-
-}
 
 void CWorld_Editable::ToggleDebugMode(bool isDebug)
 {

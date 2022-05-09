@@ -1,5 +1,6 @@
 #include "CT_EditorWindows.h"
 #include "Environment/CWorld_Edit.h"
+#include "CWorldManager.h"
 
 
 
@@ -24,13 +25,13 @@ void CT_EditorWindows::render()
             if (ImGui::GetIO().WantCaptureMouse)
             {
                
-                CWorld_Editable::ToggleCellQueueLock(true);
+                CWorldManager::GetEditorWorld()->ToggleCellQueueLock(true);
             }
             else
             {
 
               
-                CWorld_Editable::ToggleCellQueueLock(false);
+                CWorldManager::GetEditorWorld()->ToggleCellQueueLock(false);
             }
 
 
@@ -38,28 +39,28 @@ void CT_EditorWindows::render()
             {
                 if (ImGui::Button("Add Walkable (Box)"))
                 {
-                    CWorld_Editable::SetOperationMode(EditOperationMode::Subtractive);
-                    CWorld_Editable::ClearQueue();
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Subtractive);
+                    CWorldManager::GetEditorWorld()->ClearQueue();
                 }
                 if (ImGui::Button("Add Wall (Box)"))
                 {
-                    CWorld_Editable::SetOperationMode(EditOperationMode::Additive);
-                    CWorld_Editable::ClearQueue();
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Additive);
+                    CWorldManager::GetEditorWorld()->ClearQueue();
                 }
                 if (ImGui::Button("Add Walkable (Single)"))
                 {
-                    CWorld_Editable::SetOperationMode(EditOperationMode::Subtractive_Single);
-                    CWorld_Editable::ClearQueue();
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Subtractive_Single);
+                    CWorldManager::GetEditorWorld()->ClearQueue();
                 }
                 if (ImGui::Button("Add Wall (Single)"))
                 {
-                    CWorld_Editable::SetOperationMode(EditOperationMode::Additive_Single);
-                    CWorld_Editable::ClearQueue();
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Additive_Single);
+                    CWorldManager::GetEditorWorld()->ClearQueue();
                 }
                 if (ImGui::Button("None"))
                 {
-                    CWorld_Editable::SetOperationMode(EditOperationMode::None);
-                    CWorld_Editable::ClearQueue();
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::None);
+                    CWorldManager::GetEditorWorld()->ClearQueue();
                 }
 
                 ImGui::TreePop();
@@ -68,7 +69,7 @@ void CT_EditorWindows::render()
             {
                 if (ImGui::Button("Toggle Debug"))
                 {
-                    CWorld_Editable::ToggleDebugMode(!debugModeToggle);
+                    CWorldManager::GetEditorWorld()->ToggleDebugMode(!debugModeToggle);
                     debugModeToggle = !debugModeToggle;
                 }
                 ImGui::TreePop();
@@ -79,8 +80,8 @@ void CT_EditorWindows::render()
             {
                 if (ImGui::Button("Clear Grid"))
                 {
-                    CWorld_Editable::PerformOperation_ClearSpace();
-                    CWorld_Editable::ClearQueue();
+                    CWorldManager::GetEditorWorld()->PerformOperation_ClearSpace();
+                    CWorldManager::GetEditorWorld()->ClearQueue();
                 }
               
 
@@ -91,7 +92,7 @@ void CT_EditorWindows::render()
 
             if (ImGui::Button("Save"))
             {
-                CWorld_Editable::SaveWorld(0);
+                CWorldManager::GetEditorWorld()->SaveWorld(0);
             }
 
             //AdditionalRenderLogic(*open);

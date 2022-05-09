@@ -1,15 +1,21 @@
 #pragma once
+#include "Core/Environment/CWorld_Edit.h"
+
+
+
 class CWorldManager
 {
+public:
 	static void LoadWorld(int Slot, bool bEditorMode);
 
-	static void UnloadWorld();
 
 	static class CWorld* GetWorld() {
-		return ActiveWorld;
+		return GameWorld;
 	}
 
-
+	static class CWorld_Editable* GetEditorWorld() {
+		return EditorWorld;
+	}
 
 
 

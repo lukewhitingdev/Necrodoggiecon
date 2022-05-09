@@ -22,10 +22,10 @@ public:
 
 	
 
-	 void LoadWorld(int Slot);
+	virtual void LoadWorld(int Slot);
 	 
 
-	 void UnloadWorld();
+	virtual void UnloadWorld();
 
 	
 

@@ -37,7 +37,8 @@ public:
 	 void PerformOperation_ClearSpace();
 
 	//Loads the world and initialises TileData
-	 void LoadWorld_Edit();
+	 virtual void LoadWorld(int Slot) override;
+	 virtual void UnloadWorld() override;
 
 	//Save the current tile data to a file
 	 void SaveWorld(int Slot);

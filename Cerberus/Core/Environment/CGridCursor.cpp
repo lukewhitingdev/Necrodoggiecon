@@ -2,6 +2,7 @@
 #include "CSpriteComponent.h"
 #include "CWorld_Edit.h"
 #include "Engine.h"
+#include "CWorldManager.h"
 #include "Structs/CCamera.h"
 #include "Dependencies/IMGUI/imgui.h"
 #include <DirectXMath.h>
@@ -87,7 +88,7 @@ void CGridCursor::Update(float deltaTime)
 
 	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::LButton) && wasMouseReleased)
 	{
-		CWorld_Editable::QueueCell(Vector2(PreScale.x, PreScale.y));
+		CWorldManager::GetEditorWorld()->QueueCell(Vector2(PreScale.x, PreScale.y));
 		wasMouseReleased = false;
 
 
@@ -101,7 +102,8 @@ void CGridCursor::Update(float deltaTime)
 	{
 		if (cellSelected)
 		{
-			CWorld_Editable::ClearQueue();
+			CWorldManager::GetEditorWorld()->ClearQueue();
+		
 
 			cellSelected = false;
 		}

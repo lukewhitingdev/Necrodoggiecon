@@ -30,7 +30,7 @@
 #include "CDroppedItem.h"
 #include "testItemData.h"
 #include "Utility/EventSystem/EventSystem.h"
-
+#include "CWorldManager.h"
 #include "Utility/InputManager/InputManager.h"
 #include "TestUI.h"
 using namespace Inputs;
@@ -225,14 +225,15 @@ void Load()
 	if (editorMode)
 	{
 		EditorViewport = new CT_EditorMain();
+		CWorldManager::LoadWorld(1, true);
+		CWorldManager::GetEditorWorld()->BuildNavigationGrid();
 		
-		CWorld_Editable::LoadWorld_Edit();
-		CWorld_Editable::BuildNavigationGrid();
 	}
 	else
 	{
 
-		CWorld::LoadWorld(0);
+		CWorldManager::LoadWorld(1, false);
+	
 	}
 
 	testController* controller = Engine::CreateEntity<testController>();

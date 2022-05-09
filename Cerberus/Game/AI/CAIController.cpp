@@ -1,4 +1,5 @@
 #include "CAIController.h"
+#include "CWorldManager.h"
 
 CAIController::CAIController()
 {
@@ -22,10 +23,10 @@ CAIController::CAIController()
 	heading = { 0.0f, 0.0f, 0.0f };
 	acceleration = { 0.0f, 0.0f, 0.0f };
 
-	obstacles = CWorld::GetAllObstacleTiles();
+	obstacles = CWorldManager::GetWorld()->GetAllObstacleTiles();
 	sizeOfTiles = tileScale * obstacles[0]->GetScale().x;
 
-	tiles = CWorld::GetAllWalkableTiles();
+	tiles = CWorldManager::GetWorld()->GetAllWalkableTiles();
 	SetPosition(tiles[102]->GetPosition());
 	aiPosition = GetPosition();	
 
