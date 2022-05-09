@@ -22,7 +22,10 @@ public:
 
 	
 
-	static void LoadWorld(int Slot);
+	 void LoadWorld(int Slot);
+	 
+
+	 void UnloadWorld();
 
 	
 
@@ -33,36 +36,37 @@ public:
 
 	
 	// TODO- Add collision collector
-	static CTile* GetTileByID(int ID) { return tileContainer[ID]; }
+	 CTile* GetTileByID(int ID) { return tileContainer[ID]; }
 
-	static std::vector<CTile*> GetAllWalkableTiles();
+	 std::vector<CTile*> GetAllWalkableTiles();
 
-	static std::vector<CTile*> GetAllObstacleTiles();
+	 std::vector<CTile*> GetAllObstacleTiles();
 
-	static void BuildNavigationGrid();
-
-protected:
-
-	
-
-
-
-
-	
-
-
-
+	 void BuildNavigationGrid();
 
 protected:
 
 	
 
+
+
+
+	
+
+
+
+
+protected:
+
+	
+
+	int mapSize = mapScale * mapScale;
 
 
 	
 	//std::map<Vector3, CTile*> tileContainer;
 
-	static CTile* tileContainer[mapScale * mapScale];
+	 CTile* tileContainer[mapScale * mapScale];
 
 
 	//Function that loads entities based on slot, You can change the entities in each slot inside the cpp
@@ -81,8 +85,8 @@ protected:
 
 protected:
 
-	static Vector3 IndexToGrid(int ID);
-	static int GridToIndex(Vector2 Position);
+	 Vector3 IndexToGrid(int ID);
+	 int GridToIndex(Vector2 Position);
 
 	
 

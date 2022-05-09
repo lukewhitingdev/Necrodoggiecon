@@ -4,12 +4,13 @@
 #include <fstream>
 
 
-
+/*
 CellData CWorld_Editable::tileData[mapScale * mapScale];
 EditOperationMode CWorld_Editable::operationType = EditOperationMode::None;
 Vector2 CWorld_Editable::editOrigin = Vector2(0, 0);
 bool CWorld_Editable::selectedCell = false;
 bool CWorld_Editable::isQueueLocked = false;
+*/
 
 
 void CWorld_Editable::SetOperationMode(EditOperationMode mode)

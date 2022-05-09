@@ -3,8 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-CTile* CWorld::tileContainer[mapScale * mapScale];
-int mapSize = mapScale * mapScale;
+
 
 
 CWorld::CWorld()
@@ -77,6 +76,10 @@ void CWorld::LoadWorld(int Slot)
 
 	
 
+}
+
+void CWorld::UnloadWorld()
+{
 }
 
 
