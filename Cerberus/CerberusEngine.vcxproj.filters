@@ -81,6 +81,8 @@
     <ClCompile Include="Tools\CT_EditorGrid.cpp" />
     <ClCompile Include="Core\Environment\CGridCursor.cpp" />
     <ClCompile Include="Tools\CT_EditorWindows.cpp" />
+    <ClCompile Include="Game\AI\State.cpp" />
+    <ClCompile Include="Game\AI\Pathfinding.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Microsoft\DDSTextureLoader.h" />
@@ -187,6 +189,8 @@
     <ClInclude Include="Tools\CT_EditorGrid.h" />
     <ClInclude Include="Core\Environment\CGridCursor.h" />
     <ClInclude Include="Tools\CT_EditorWindows.h" />
+    <ClInclude Include="Game\AI\State.h" />
+    <ClInclude Include="Game\AI\Pathfinding.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

@@ -11,6 +11,8 @@
 #include "CAINode.h"
 #include "testCharacter.h"
 #include "CCharacter.h"
+#include "State.h"
+#include "Pathfinding.h"
 
 enum class STATE
 {
@@ -53,6 +55,19 @@ public:
 
 	virtual void Update(float deltaTime) override;
 
+	void Patrolling();
+	void SearchForPlayer();
+	virtual void ChasePlayer(testCharacter* player);
+	virtual void AttackPlayer(testCharacter* player);
+	virtual void GetIntoCover() {};
+	void SetCurrentState(State& state);
+
+	bool CanSee(Vector3 posOfObject);
+
+	void SetPathNodes(std::vector<WaypointNode*> nodes);
+	Pathfinding* pathing;
+	void SetPath();
+
 protected:
 	class CSpriteComponent* sprite = nullptr;
 
@@ -61,11 +76,7 @@ protected:
 
 	Vector3 CollisionAvoidance();
 
-	bool CanSee(Vector3 posOfObject);
-
-	STATE currentState;
-
-	//BehaviourTree behaviourTree;
+	//STATE currentState;
 
 	Vector3 velocity;
 	Vector3 acceleration;
@@ -75,33 +86,15 @@ protected:
 	std::vector<CTile*> tiles;
 	std::vector<CTile*> obstacles;
 
-	std::vector<PatrolNode*> patrolNodes;
-	std::vector<WaypointNode*> waypointNodes;
-	void SetPatrolNodes(std::vector<PatrolNode*> nodes, std::vector<CTile*> waypoints);
 	PatrolNode* currentPatrolNode;
 
-	PatrolNode* FindClosestPatrolNode();
 
 	void StateMachine(float deltaTime);
-	void Patrolling();
-	void SearchForPlayer();
-	virtual void ChasePlayer(testCharacter* player);
-	virtual void AttackPlayer(testCharacter* player);
-	virtual void GetIntoCover() {};
+	
+	std::vector<WaypointNode*> pathNodes;
 
 	Vector3 Seek(Vector3 TargetPos);
 
-	void SetPath(WaypointNode* goalWaypoint);
-	void CalculatePath(WaypointNode* start, WaypointNode* goal);
-	float CalculateCost(WaypointNode* from, WaypointNode* to);
-	void ResetNodes();
-	void DeleteNodes();
-	
-	std::vector<WaypointNode*> open;
-	std::vector<WaypointNode*> closed;
-
-	// Array of nodes on the path from goal to start.
-	std::vector<WaypointNode*> pathNodes;
 	int currentCount;
 
 	testCharacter* playerToKill = nullptr;
@@ -127,5 +120,7 @@ protected:
 	float sizeOfTiles = 0.0f;
 
 	
+private:
+	State* currentState;
 };
 
