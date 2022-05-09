@@ -257,6 +257,7 @@ void Load()
 	if (!editorMode)
 	{
 		Engine::CreateEntity<CAIController>();
+		Engine::CreateEntity<CAIController>();
 	}
 	
 	std::vector<testCharacter*> test = Engine::GetEntityOfType<testCharacter>();

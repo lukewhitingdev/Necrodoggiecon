@@ -2,6 +2,8 @@
 #include "testCharacter.h"
 class CAIController;
 
+//Reference: https://www.aleksandrhovhannisyan.com/blog/finite-state-machine-fsm-tutorial-implementing-an-fsm-in-c/
+
 class State
 {
 public:

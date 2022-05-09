@@ -132,6 +132,8 @@ void SearchState::Update(CAIController* controller)
 			}
 		}
 		
+		controller->SearchForPlayer();
+
 		// If the timer is up then go back to pathfinding.
 		if (searchTimer < 0.02f)
 			controller->SetCurrentState(PatrolState::getInstance());

@@ -87,9 +87,6 @@ protected:
 	std::vector<CTile*> obstacles;
 
 	PatrolNode* currentPatrolNode;
-
-
-	void StateMachine(float deltaTime);
 	
 	std::vector<WaypointNode*> pathNodes;
 

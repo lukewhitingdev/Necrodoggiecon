@@ -26,7 +26,8 @@ CAIController::CAIController()
 	sizeOfTiles = tileScale * obstacles[0]->GetScale().x;
 
 	tiles = CWorld::GetAllWalkableTiles();
-	SetPosition(tiles[102]->GetPosition());
+	int randIndex = rand() % tiles.size();
+	SetPosition(tiles[randIndex]->GetPosition());
 	aiPosition = GetPosition();	
 
 
@@ -58,7 +59,30 @@ void CAIController::Update(float deltaTime)
 
 	currentState->Update(this);
 	// Run the finite state machine
-	StateMachine(deltaTime);
+	testCharacter* closestPlayer = nullptr;
+
+	if (currentState != &AttackState::getInstance())
+	{
+		if (players.size() > 0)
+		{
+			// Check each player.
+			for (testCharacter* player : players)
+			{
+				// Check if the AI can see the player.
+				if (CanSee(player->GetPosition()) == true)
+				{
+					// If the AI can see the player then chase it.
+					SetCurrentState(ChaseState::getInstance());
+				}
+			}
+		}
+	}
+
+	currentState->Update(this);
+
+	// If the AI is not pathfinding or searching then check for collisions with obstacles.
+	if (currentState != &PatrolState::getInstance() && currentState != &SearchState::getInstance())
+		heading += CollisionAvoidance();
 	
 	// Move the AI if it is not lost
 	if (currentState != &SearchState::getInstance())
@@ -218,113 +242,6 @@ bool CAIController::CanSee(Vector3 posOfObject)
 void CAIController::SetPathNodes(std::vector<WaypointNode*> nodes)
 {
 	pathNodes = nodes;
-}
-
-/* Calls the relevant function based on the current state. */
-void CAIController::StateMachine(float deltaTime)
-{
-	testCharacter* closestPlayer = nullptr;
-
-	if (currentState != &AttackState::getInstance())
-	{
-		if (players.size() > 0)
-		{
-			// Check each player.
-			for (testCharacter* player : players)
-			{
-				// Check if the AI can see the player.
-				if (CanSee(player->GetPosition()) == true)
-				{
-					// If the AI can see the player then chase it.
-					SetCurrentState(ChaseState::getInstance());
-				}
-			}
-		}
-	}
-
-	currentState->Update(this);
-
-	//if (currentState != &AttackState::getInstance())
-	//{
-	//	if (players.size() > 0)
-	//	{
-	//		// Check each player.
-	//		for (testCharacter* player : players)
-	//		{
-	//			// Check if the AI can see the player.
-	//			if (CanSee(player->GetPosition()) == true)
-	//			{
-	//				// If the AI can see the player then chase it.
-	//				//currentState = STATE::CHASE;
-	//				SetCurrentState(ChaseState::getInstance());
-
-	//				// Reset the timer for the searching.
-	//				searchTimer = maxSearchTime;
-
-	//				// Find if the player is the closest in view.
-	//				if (closestPlayer != nullptr)
-	//				{
-	//					if (aiPosition.DistanceTo(player->GetPosition()) < aiPosition.DistanceTo(closestPlayer->GetPosition()))
-	//					{
-	//						closestPlayer = player;
-	//					}
-	//				}
-	//				else
-	//				{
-	//					closestPlayer = player;
-	//				}
-
-	//				// Set the player to chase to the closest player in view.
-	//				playerToChase = closestPlayer;
-	//			}
-	//		}
-
-	//		// If no players are in view.
-	//		if (closestPlayer == nullptr)
-	//		{
-	//			// Create a delay for the AI to find the player if it loses track of it.
-	//			if (searchTimer > 0.0f)
-	//			{
-	//				// Set the AI to search for the player.
-	//				currentState = STATE::SEARCH;
-	//				searchTimer -= deltaTime;
-
-	//				// If the timer is up then go back to pathfinding.
-	//				if (searchTimer < 0.02f)
-	//					currentState = STATE::PATHFINDING;
-	//			}
-	//		}
-	//	}
-	//}
-
-	//switch (currentState)
-	//{
-	//case STATE::PATROL:
-	//	Patrolling();
-	//	break;
-	//case STATE::PATHFINDING:
-	//	SetPath(currentPatrolNode->closestWaypoint);
-	//	break;
-	//case STATE::CHASE:
-	//	ChasePlayer(playerToChase);
-	//	break;
-	//case STATE::ATTACK:
-	//	AttackPlayer(playerToKill);
-	//	break;
-	//case STATE::COVER:
-	//	GetIntoCover();
-	//	break;
-	//case STATE::SEARCH:
-	//	SearchForPlayer();
-	//	break;
-	//default:
-
-	//	break;
-	//}
-
-	// If the AI is not pathfinding or searching then check for collisions with obstacles.
-	if (currentState != &PatrolState::getInstance() && currentState != &SearchState::getInstance())
-		heading += CollisionAvoidance();
 }
 
 /* Moves the direction of the character towards the next point in the path. */
