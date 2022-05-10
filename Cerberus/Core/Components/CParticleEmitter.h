@@ -11,6 +11,7 @@ public:
 	CParticleEmitter();
 	~CParticleEmitter();
 
+	void SetTexture(const std::string& path) { overallTexturePath = path; };
 	void SetSize(const int size);
 
 	void UseRandomDirection(bool toggle, const Vector3 min, const Vector3 max) { useRandDir = toggle; randDirMin = min; randDirMax = max; };
@@ -44,10 +45,14 @@ private:
 	std::vector<CParticle*> particles;
 	bool emit;
 
+
+	// Set Overall Variables.
 	Vector3 overallDirection;
 	float overallVelocity;
 	float overallLifetime;
+	std::string overallTexturePath;
 
+	// Random Variables
 	bool useRandDir;
 	bool useRandVelo;
 	bool useRandLife;

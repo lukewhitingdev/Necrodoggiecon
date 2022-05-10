@@ -21,6 +21,8 @@ public:
 	void SetDirection(const Vector3 dir) { direction = dir; }
 	Vector3 GetDirection() { return direction; }
 
+	CSpriteComponent* getSpriteComponent() { return sprite; }
+
 private:
 	CSpriteComponent* sprite;
 	Vector3 direction;

@@ -2,7 +2,8 @@
 
 CParticleEmitter::CParticleEmitter() : emit(false), overallDirection(), overallVelocity(), overallLifetime(), 
 										useRandDir(false), useRandLife(false), useRandVelo(false),
-										randDirMin(), randDirMax(), randLifeMin(), randLifeMax(), randVeloMin(), randVeloMax()
+										randDirMin(), randDirMax(), randLifeMin(), randLifeMax(), randVeloMin(), randVeloMax(),
+										overallTexturePath("N/A")
 {
 	shouldDraw = true;
 	shouldUpdate = true;
@@ -19,7 +20,11 @@ void CParticleEmitter::SetSize(const int size)
 	particles.resize(size);
 	for (int i = 0; i < particles.size(); ++i)
 	{
-		particles[i] = new CParticle();
+		CParticle* particle = new CParticle();
+		if(overallTexturePath != "N/A")
+			particle->getSpriteComponent()->LoadTexture(overallTexturePath);
+
+		particles[i] = particle;
 	}
 }
 
