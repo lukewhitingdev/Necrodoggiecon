@@ -17,17 +17,6 @@
 #include "Necrodoggiecon\Game\testCharacter.h"
 #include "Necrodoggiecon\Game\CCharacter.h"
 
-enum class STATE
-{
-	PATROL,
-	PATHFINDING,
-	CHASE,
-	ATTACK,
-	COVER,
-	SEARCH
-};
-
-
 class CAIController : public CEntity
 {
 public:
@@ -63,8 +52,8 @@ public:
 	virtual void ChasePlayer(testCharacter* player);
 	virtual void AttackPlayer(testCharacter* player);
 	virtual void GetIntoCover() {};
-	void SetCurrentState(State& state);
 
+	void SetCurrentState(State& state);
 	bool CanSee(Vector3 posOfObject);
 
 	void SetPathNodes(std::vector<WaypointNode*> nodes);
