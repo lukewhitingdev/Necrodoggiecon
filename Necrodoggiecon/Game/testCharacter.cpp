@@ -75,6 +75,10 @@ void testCharacter::LookAt(Vector3 pos)
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
 
 	Vector3 dir = pos - GetPosition();
+
+	if (dir == Vector3(0, 0, 0))
+		return;
+
 	auto normDir = dir.Normalize();
 
 	float dot = up.Dot(dir);
