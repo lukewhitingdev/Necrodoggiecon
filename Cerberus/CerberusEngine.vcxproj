@@ -165,6 +165,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Cerberus;$(SolutionDir)Cerberus\Core;$(SolutionDir)Cerberus\Core\Components;$(SolutionDir)Cerberus\Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -357,6 +358,7 @@
   <ItemGroup>
     <ClInclude Include="Core\Components\CParticleEmitter.h" />
     <ClInclude Include="Core\Entities\CParticle.h" />
+    <ClInclude Include="Core\Utility\Math\Math.h" />
     <ClInclude Include="Game\AI\CAICharacter.h" />
     <ClInclude Include="Game\AI\CAIController.h" />
     <ClInclude Include="Core\Components\CAudioEmitterComponent.h" />
