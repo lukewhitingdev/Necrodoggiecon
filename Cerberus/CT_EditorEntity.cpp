@@ -11,6 +11,7 @@ using json = nlohmann::json;
 
 CT_EditorEntity::CT_EditorEntity()
 {
+	InspectType = EditorEntityType::Standard;
 }
 
 void CT_EditorEntity::Update(float deltaTime)
@@ -24,13 +25,14 @@ void CT_EditorEntity::InitialiseEntity(int SlotID)
 	
 }
 
-void CT_EditorEntity::SaveEntity()
+void CT_EditorEntity::SaveEntity(int Index, int MapSlot)
 {
 }
 
 CT_EditorEntity_Enemy::CT_EditorEntity_Enemy()
 {
 	sprite = AddComponent<CSpriteComponent>();
+	InspectType = EditorEntityType::Enemy;
 
 
 }

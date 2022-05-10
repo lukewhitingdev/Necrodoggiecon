@@ -1,5 +1,6 @@
 #pragma once
 #include "CWorld.h"
+#include "CT_EditorEntity.h"
 
 
 struct CellData
@@ -65,10 +66,12 @@ public:
 	 void AddEditorEntity_ItemHolder(int Slot);
 
 	 
-
+	 EditorEntityType GetInspectedItemType();
+	 CT_EditorEntity* GetInspectedItem_Standard() { return InpsectedEntity; }
+	 class CT_EditorEntity_Enemy* GetInspectedItem_Enemy() { return static_cast<CT_EditorEntity_Enemy*>(InpsectedEntity); }
 
 	
-	
+	void ShouldInspectEntity(Vector2 MousePos);
 
 protected:
 
@@ -163,6 +166,9 @@ private:
 	//Cached position for the current edit operation
 	 Vector2 editOrigin;
 
+	 //The slot that the current map is tied to.
+	 int MapSlot;
+
 	//Whether or not an operation is taking place
 	 bool selectedCell;
 
@@ -172,10 +178,11 @@ private:
 	 //main editor viewport
 	 class CT_EditorMain* EditorViewport;
 
+	 //The ID of the selected entity brush, used to place entities from the content panel
 	 int SelectedEntityID;
 
-
-
+	 //The entity currently being inspected
+	 CT_EditorEntity* InpsectedEntity;
 
 	 std::vector<class CT_EditorEntity*> EditorEntityList;
 

@@ -20,6 +20,7 @@ void CWorld_Editable::LoadWorld(int Slot)
 	std::string fileName = "Resources/Levels/Level_" + std::to_string(Slot);
 	fileName += ".json";
 
+	MapSlot = Slot;
 
 	std::ifstream file(fileName);
 
@@ -77,9 +78,11 @@ void CWorld_Editable::LoadWorld(int Slot)
 		tileData[i].type = CellType::Empty;
 
 
-
+		
 
 	}
+
+	
 
 
 
@@ -122,6 +125,11 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 
 	SaveData["TileData"] = MapData;
+
+	for (int i = 0; i < EditorEntityList.size(); i++)
+	{
+		EditorEntityList[i]->SaveEntity(i,MapSlot);
+	}
 
 
 	std::ofstream o(fileName);
@@ -303,6 +311,7 @@ void CWorld_Editable::Subtractive_Cell(Vector2 A)
 	tileData[Index].id = 1;
 
 }
+
 
 
 void CWorld_Editable::AdditiveBox(Vector2 A, Vector2 B)
@@ -700,6 +709,31 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 	return false;
 }
 
+EditorEntityType CWorld_Editable::GetInspectedItemType()
+{
+	if (InpsectedEntity != nullptr)
+	{
+		return InpsectedEntity->GetType();
+	}
+	else return EditorEntityType::None;
+}
+
+void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
+{
+	InpsectedEntity = nullptr;
+	for (int i = 0; i < EditorEntityList.size(); i++)
+	{
+		Vector3 Pos = Vector3(MousePos.x, MousePos.y, 0) * (tileScale * tileScaleMultiplier);
+		Vector3 EPos = EditorEntityList[i]->GetPosition();
+		if (Pos.DistanceTo(EditorEntityList[i]->GetPosition()) < 64)
+		{
+			InpsectedEntity = EditorEntityList[i];
+			
+		}
+		
+	}
+
+}
 
 
 

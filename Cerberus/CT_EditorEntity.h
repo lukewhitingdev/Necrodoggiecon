@@ -1,5 +1,10 @@
 #pragma once
 #include "CEntity.h"
+
+enum class EditorEntityType
+{
+    None, Standard, Enemy, Interactable
+};
 class CT_EditorEntity :
     public CEntity
 {
@@ -9,6 +14,8 @@ protected:
 
     int EntitySlotID;
 
+
+    EditorEntityType InspectType;
 
 public:
 
@@ -23,6 +30,7 @@ public:
 
     virtual void SaveEntity(int Index, int MapSlot);
 
+    EditorEntityType GetType() { return InspectType; }
 
 
 
@@ -64,7 +72,8 @@ protected:
 
   
 public:
-    int CharacterSlot;
+    
+    int GetSlot() { return EntitySlotID; }
 
     std::vector<Vector2> Waypoints;
 

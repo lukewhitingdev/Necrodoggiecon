@@ -39,7 +39,7 @@ void CursorEntity::Update(float deltaTime)
 	ss << "X:" << round(GetPosition().x) << " Y:" << round(GetPosition().y);
 	text->SetText(ss.str());
 
-	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::RButton))
+	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::MButton))
 	{
 		if (!mouseRHeld)
 		{

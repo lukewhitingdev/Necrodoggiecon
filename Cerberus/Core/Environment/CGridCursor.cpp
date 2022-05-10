@@ -100,9 +100,11 @@ void CGridCursor::Update(float deltaTime)
 
 	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::RButton))
 	{
+		CWorldManager::GetEditorWorld()->ShouldInspectEntity(Vector2(PreScale.x, PreScale.y));
 		if (cellSelected)
 		{
 			CWorldManager::GetEditorWorld()->ClearQueue();
+			
 		
 
 			cellSelected = false;
@@ -110,6 +112,11 @@ void CGridCursor::Update(float deltaTime)
 
 
 
+	}
+
+	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::C))
+	{
+		CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::None);
 	}
 
 	

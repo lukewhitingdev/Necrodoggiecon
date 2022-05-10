@@ -93,7 +93,8 @@ void CT_EditorWindows::render()
                 ImGui::InputInt("Slot", levelToLoad, 1, 1);
                 if (ImGui::Button("Load"))
                 {
-                    CWorldManager::LoadWorld(*levelToLoad, true);
+                    int LevelID = *levelToLoad;
+                    CWorldManager::LoadWorld(LevelID, true);
                    
                 }
 
@@ -222,7 +223,29 @@ void CT_EditorWindows::render()
                 ImGui::End();
                 return;
             }
+            if (CWorldManager::GetEditorWorld()->GetInspectedItemType() != EditorEntityType::None)
+            {
+                switch (CWorldManager::GetEditorWorld()->GetInspectedItemType())
+                {
+                case EditorEntityType::Enemy:
+                    switch (CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetSlot())
+                    {
+                    case 0:
+                        ImGui::Text("Mage Enemy");
+                        break;
+                    case 1: 
+                        ImGui::Text("Melee Enemy");
+                        break;
+                    }
+                    if (ImGui::Button("Toggle Waypoints"))
+                    {
+                       
+                    }
 
+                    break;
+                }
+            }
+           
            
 
 
