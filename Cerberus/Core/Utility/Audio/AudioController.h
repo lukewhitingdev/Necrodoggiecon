@@ -8,10 +8,11 @@
 #include "Dependencies/FMOD/api/core/inc/fmod_errors.h"
 #pragma warning(pop)
 
-#include "Utility/DebugOutput/Debug.h"
-#include "Utility/AssetManager/AssetManager.h"
-#include "Utility/Audio/CEmitter.h"
-#include "Utility/Vector3.h"
+
+#include "Cerberus/Core/Utility/DebugOutput/Debug.h"
+#include "Cerberus/Core/Utility/AssetManager/AssetManager.h"
+#include "Cerberus/Core/Utility/Audio/CEmitter.h"
+#include "Cerberus\Core\Utility\Vector3.h"
 
 class AudioController
 {

@@ -1,7 +1,7 @@
 #pragma once
-//#include "CEntity.h"
-#include "Utility/Vector3.h"
-#include "Utility/DebugOutput/Debug.h"
+//#include "Cerberus\Core\CEntity.h"
+#include "Cerberus\Core\Utility\Vector3.h"
+#include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 #include <thread>
 	
 enum class COLLISIONTYPE 

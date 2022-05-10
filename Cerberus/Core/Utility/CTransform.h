@@ -1,6 +1,6 @@
 #pragma once
-#include "Engine.h"
-#include "Utility/Vector3.h"
+#include "Cerberus\Core\Engine.h"
+#include "Cerberus\Core\Utility\Vector3.h"
 
 class CTransform
 {
