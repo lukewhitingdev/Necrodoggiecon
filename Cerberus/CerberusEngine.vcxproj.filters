@@ -44,6 +44,7 @@
     <ClCompile Include="Core\Components\CParticleEmitter.cpp" />
     <ClCompile Include="Core\Entities\CParticle.cpp" />
     <ClCompile Include="Core\Engine.cpp" />
+    <ClCompile Include="Core\Utility\Math\Math.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Microsoft\DDSTextureLoader.h" />
