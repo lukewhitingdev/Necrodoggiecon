@@ -1,9 +1,8 @@
 #pragma once
-#include "CComponent.h"
-#include "CEntity.h"
-#include "Entities/CParticle.h"
-#include "Utility/Math/Math.h"
-
+#include "Cerberus/Core/CComponent.h"
+#include "Cerberus/Core/CEntity.h"
+#include "Cerberus/Core/Entities/CParticle.h"
+#include "Cerberus/Core/Utility/Math/Math.h"
 #include <vector>
 
 class CParticleEmitter : public CComponent

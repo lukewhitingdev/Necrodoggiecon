@@ -1,7 +1,7 @@
 #pragma once
-#include "CEntity.h"
-#include "CSpriteComponent.h"
-#include "Utility\Vector3.h"
+#include "Cerberus/Core/CEntity.h"
+#include "Cerberus/Core/Components/CSpriteComponent.h"
+#include "Cerberus/Core/Utility/Vector3.h"
 
 class CParticle : public CEntity
 {
