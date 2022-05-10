@@ -17,12 +17,12 @@ TestUI::TestUI()
 
 	text1 = AddComponent<CTextRenderComponent>();
 	text1->SetJustification(TextJustification::Right);
-	text1->SetPosition(-625, -346, 0);
+	text1->SetPosition(-625, -146, 0);
 	text1->SetAnchor(XMFLOAT2(0, 1));
 
 	text2 = AddComponent<CTextRenderComponent>();
 	text2->SetJustification(TextJustification::Right);
-	text2->SetPosition(-625, -326, 0);
+	text2->SetPosition(-625, -126, 0);
 	text2->SetAnchor(XMFLOAT2(0, 1));
 
 	text3 = AddComponent<CTextRenderComponent>();
