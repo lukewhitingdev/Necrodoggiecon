@@ -1,5 +1,5 @@
-#include "CComponent.h"
-#include "CEntity.h"
+#include "Cerberus\Core\CComponent.h"
+#include "Cerberus\Core\CEntity.h"
 
 void CComponent::SetParent(CEntity* newParent)
 {

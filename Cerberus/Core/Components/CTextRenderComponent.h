@@ -7,7 +7,7 @@
  *********************************************************************/
 
 #pragma once
-#include "CSpriteComponent.h"
+#include "Cerberus\Core\Components\CSpriteComponent.h"
 
 /**
  * An enum for how text will be justified relative to the component origin.

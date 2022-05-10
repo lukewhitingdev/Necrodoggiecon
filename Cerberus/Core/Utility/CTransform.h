@@ -7,8 +7,8 @@
  *********************************************************************/
 
 #pragma once
-#include "Engine.h"
-#include "Utility/Vector3.h"
+#include "Cerberus\Core\Engine.h"
+#include "Cerberus\Core\Utility\Vector3.h"
 
 /**
  * A transform class that contains getters and setters.

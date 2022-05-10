@@ -7,10 +7,10 @@
  *********************************************************************/
 
 #pragma once
-#include "CComponent.h"
-#include "Structs/CMesh.h"
-#include "Structs/CTexture.h"
-#include "Structs/CMaterial.h"
+#include "Cerberus\Core\CComponent.h"
+#include "Cerberus\Core\Structs\CMesh.h"
+#include "Cerberus\Core\Structs\CTexture.h"
+#include "Cerberus\Core\Structs\CMaterial.h"
 
 /**
  * A component for loading and displaying a 2D texture in world space as part of CEntity.

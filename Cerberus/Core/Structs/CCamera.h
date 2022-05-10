@@ -7,7 +7,7 @@
  *********************************************************************/
 
 #pragma once
-#include "Engine.h"
+#include "Cerberus\Core\Engine.h"
 
 /**
  * Class for storing all camera information needed for rendering.

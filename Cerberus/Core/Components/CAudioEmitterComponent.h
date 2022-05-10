@@ -1,7 +1,7 @@
 #pragma once
-#include "CComponent.h"
-#include "Utility/Audio/AudioController.h"
-#include "Utility/DebugOutput/Debug.h"
+#include "Cerberus\Core\CComponent.h"
+#include "Cerberus/Core/Utility/Audio/AudioController.h"
+#include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 
 //Fundimental component class
 //Can be extended upon to make new components to add to CEntity

@@ -35,35 +35,35 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|X64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|X64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
@@ -96,6 +96,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">
     <LinkIncremental>true</LinkIncremental>
     <GenerateManifest>true</GenerateManifest>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -127,6 +128,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -164,7 +166,8 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;_WIN32_WINNT=0x0600;SOLUTION_DIR=R"($(SolutionDir)Cerberus\)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Cerberus;$(SolutionDir)Cerberus\Core;$(SolutionDir)Cerberus\Core\Components;$(SolutionDir)Cerberus\Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -187,8 +190,10 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /y "$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod.dll" "$(OutDir)fmod.dll"</Command>
-      <Message>Copying FMOD dll to output dir</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -204,6 +209,7 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_WIN32_WINNT=0x0600;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -246,7 +252,8 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_WIN32_WINNT=0x0600;SOLUTION_DIR=R"($(SolutionDir)Cerberus\)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Cerberus;$(SolutionDir)Cerberus\Core;$(SolutionDir)Cerberus\Core\Components;$(SolutionDir)Cerberus\Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -287,6 +294,7 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <PreprocessorDefinitions>WIN32;NDEBUG;PROFILE;_WINDOWS;_WIN32_WINNT=0x0600;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -326,7 +334,8 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <PreprocessorDefinitions>WIN32;NDEBUG;PROFILE;_WINDOWS;_WIN32_WINNT=0x0600;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Cerberus;$(SolutionDir)Cerberus\Core;$(SolutionDir)Cerberus\Core\Components;$(SolutionDir)Cerberus\Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -356,43 +365,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Core\Components\CAnimatingSpriteComponent.h" />
-    <ClInclude Include="Game\AI\CAICharacter.h" />
-    <ClInclude Include="Game\AI\CAIController.h" />
+    <ClInclude Include="Core\Components\CParticleEmitter.h" />
+    <ClInclude Include="Core\Entities\CParticle.h" />
+    <ClInclude Include="Core\Utility\Math\Math.h" />
     <ClInclude Include="Core\Components\CAudioEmitterComponent.h" />
-    <ClInclude Include="Game\AI\CAINode.h" />
     <ClInclude Include="Core\Structs\CCamera.h" />
     <ClInclude Include="Core\CEntity.h" />
     <ClInclude Include="Core\Environment\CGridCursor.h" />
     <ClInclude Include="Core\Structs\CMaterial.h" />
     <ClInclude Include="Core\Components\CTextRenderComponent.h" />
-    <ClInclude Include="Game\CursorEntity.h" />
     <ClInclude Include="Tools\CT_EditorGrid.h" />
     <ClInclude Include="Core\Environment\CWorld_Edit.h" />
-    <ClInclude Include="Game\CDroppedItem.h" />
     <ClInclude Include="Core\Environment\IInputable.h" />
     <ClInclude Include="Dependencies\Microsoft\DDS.h" />
     <ClInclude Include="Dependencies\Microsoft\DirectXHelpers.h" />
     <ClInclude Include="Core\Utility\InputManager\InputManager.h" />
-    <ClInclude Include="Game\CEquippedItem.h" />
-    <ClInclude Include="Game\ItemData.h" />
-    <ClInclude Include="Game\ItemDatabase.h" />
-    <ClInclude Include="Game\TestUI.h" />
-    <ClInclude Include="Game\testEquippedItem.h" />
-    <ClInclude Include="Game\testItemData.h" />
     <ClInclude Include="Dependencies\Microsoft\LoaderHelpers.h" />
     <ClInclude Include="Dependencies\Microsoft\pch.h" />
     <ClInclude Include="Dependencies\Microsoft\PlatformHelpers.h" />
     <ClInclude Include="Tools\CT_EditorMain.h" />
-    <ClInclude Include="Game\CCharacter.h" />
-    <ClInclude Include="Game\CPlayer.h" />
-    <ClInclude Include="Game\CPlayerController.h" />
     <ClInclude Include="Core\Structs\CTexture.h" />
     <ClInclude Include="Core\Utility\CTransform.h" />
     <ClInclude Include="Tools\CT_EditorWindows.h" />
     <ClInclude Include="Core\Utility\Audio\CAudio.h" />
-    <ClInclude Include="Game\testCharacter.h" />
-    <ClInclude Include="Game\testCharacter2.h" />
-    <ClInclude Include="Game\testController.h" />
     <ClInclude Include="Core\Utility\Audio\CEmitter.h" />
     <ClInclude Include="Core\Utility\CollisionManager\CollisionComponent.h" />
     <ClInclude Include="Core\Utility\EventSystem\EventSystem.h" />
@@ -419,51 +414,37 @@
     <ClInclude Include="Core\Structs\CMesh.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="Core\Structs\structures.h" />
-    <ClInclude Include="Game\testClass.h" />
     <ClInclude Include="Core\Utility\DebugOutput\DebugOutput.h" />
     <ClInclude Include="Core\Utility\DebugOutput\Debug.h" />
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Components\CAnimatingSpriteComponent.cpp" />
-    <ClCompile Include="Game\AI\CAICharacter.cpp" />
-    <ClCompile Include="Game\AI\CAIController.cpp" />
+    <ClCompile Include="Core\Components\CParticleEmitter.cpp" />
+    <ClCompile Include="Core\Entities\CParticle.cpp" />
     <ClCompile Include="Core\Components\CAudioEmitterComponent.cpp" />
     <ClCompile Include="Core\Structs\CCamera.cpp" />
-    <ClCompile Include="Game\CCharacter.cpp" />
     <ClCompile Include="Core\CComponent.cpp" />
     <ClCompile Include="Core\CEntity.cpp" />
     <ClCompile Include="Core\Environment\CGridCursor.cpp" />
     <ClCompile Include="Core\Structs\CMaterial.cpp" />
-    <ClCompile Include="Game\CPlayer.cpp" />
     <ClCompile Include="Core\Components\CTextRenderComponent.cpp" />
-    <ClCompile Include="Game\CursorEntity.cpp" />
+    <ClCompile Include="Core\Engine.cpp" />
     <ClCompile Include="Tools\CT_EditorGrid.cpp" />
     <ClCompile Include="Core\Environment\CWorld_Edit.cpp" />
-    <ClCompile Include="Game\CDroppedItem.cpp" />
-    <ClCompile Include="Game\CEquippedItem.cpp" />
-    <ClCompile Include="Game\ItemDatabase.cpp" />
     <ClCompile Include="Dependencies\Microsoft\DirectXHelpers.cpp" />
     <ClCompile Include="Core\Utility\InputManager\InputManager.cpp" />
-    <ClCompile Include="Game\TestUI.cpp" />
-    <ClCompile Include="Game\testEquippedItem.cpp" />
-    <ClCompile Include="Game\testItemData.cpp" />
     <ClCompile Include="Tools\CT_EditorMain.cpp" />
     <ClCompile Include="Core\Utility\CTransform.cpp" />
     <ClCompile Include="Tools\CT_EditorWindows.cpp" />
     <ClCompile Include="Core\Utility\Audio\AudioController.cpp" />
-    <ClCompile Include="Game\CPlayerController.cpp" />
     <ClCompile Include="Core\Structs\CTexture.cpp" />
-    <ClCompile Include="Game\testCharacter.cpp" />
-    <ClCompile Include="Game\testCharacter2.cpp" />
-    <ClCompile Include="Game\testController.cpp" />
     <ClCompile Include="Core\Utility\CollisionManager\CollisionComponent.cpp" />
     <ClCompile Include="Core\Utility\EventSystem\EventSystem.cpp" />
     <ClCompile Include="Core\Utility\AssetManager\AssetManager.cpp" />
     <ClCompile Include="Core\Environment\CTile.cpp" />
     <ClCompile Include="Core\Environment\CWorld.cpp" />
     <ClCompile Include="Core\Components\CSpriteComponent.cpp" />
-    <ClCompile Include="Game\testClass.cpp" />
     <ClCompile Include="Dependencies\Microsoft\DDSTextureLoader.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_draw.cpp" />
@@ -472,7 +453,6 @@
     <ClCompile Include="Dependencies\IMGUI\imgui_tables.cpp" />
     <ClCompile Include="Dependencies\IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="Core\Utility\DebugOutput\Debug.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Core\Utility\Vector3.cpp" />
     <ClCompile Include="Core\Structs\CMesh.cpp" />
     <ClCompile Include="Dependencies\Microsoft\WICTextureLoader.cpp" />

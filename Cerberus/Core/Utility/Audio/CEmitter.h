@@ -1,6 +1,6 @@
 #pragma once
-#include "Utility/Vector3.h"
-#include "Utility/Audio/CAudio.h"
+#include "Cerberus\Core\Utility\Vector3.h"
+#include "Cerberus/Core/Utility/Audio/CAudio.h"
 
 class CEmitter
 {

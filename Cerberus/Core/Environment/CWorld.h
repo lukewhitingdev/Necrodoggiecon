@@ -4,9 +4,9 @@
 #include <vector>
 #include "CTile.h"
 
-#include "WorldConstants.h"
+#include "Cerberus\WorldConstants.h"
 
-#include "Dependencies/NlohmannJson/json.hpp"
+#include "Cerberus\Dependencies\NlohmannJson\json.hpp"
 
 using json = nlohmann::json;
 
