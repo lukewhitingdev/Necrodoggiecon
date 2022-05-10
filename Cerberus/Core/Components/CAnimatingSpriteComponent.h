@@ -17,6 +17,7 @@ class CAnimatingSpriteComponent : public CSpriteComponent
 	float timeElapsed = 0.0f;
 	uint32_t animSpeed = 24;
 	XMUINT2 numberOfAnimationSprites = { 1, 1 };
+	bool playing = true;
 
 	/**
 	 * Sets the number of sprites within the spritesheet.
@@ -24,6 +25,12 @@ class CAnimatingSpriteComponent : public CSpriteComponent
 	void SetNumberOfAnimationSprites() { numberOfAnimationSprites = XMUINT2(GetTextureSize().x / GetRenderRect().x, GetTextureSize().y / GetRenderRect().y); };
 
 public:
+	/**
+	 * Set if the animation should be playing.
+	 */
+	void SetPlaying(const bool& newState) { playing = newState; };
+	const bool& GetPlaying() { return playing; };
+
 	/**
 	 * Sets the speed of the animation in frames per second - Default 24.
 	 */

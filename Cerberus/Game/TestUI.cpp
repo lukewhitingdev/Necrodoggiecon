@@ -1,6 +1,6 @@
 #include "TestUI.h"
 #include "CTextRenderComponent.h"
-#include "CSpriteComponent.h"
+#include "CAnimatingSpriteComponent.h"
 #include "Structs/CCamera.h"
 #include <sstream>
 
@@ -8,7 +8,7 @@ TestUI::TestUI()
 {
 	SetPosition(0, 0, -100);
 
-	birb = AddComponent<CSpriteComponent>();
+	birb = AddComponent<CAnimatingSpriteComponent>();
 	birb->LoadTextureWIC("Resources\\birb.png");
 	birb->SetRenderRect(XMUINT2(128, 128));
 	birb->SetSpriteSize(XMUINT2(128, 128));
@@ -49,9 +49,6 @@ void TestUI::Update(float deltaTime)
 	textTimer += deltaTime; 
 	fpsTimer += deltaTime;
 	framesTotal++;
-
-	const uint32_t speed = 24;
-	birb->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 128, float((int(round(timeElapsed * speed) / 5) % 2)) * 128));
 
 	if (textTimer >= 5)
 	{
