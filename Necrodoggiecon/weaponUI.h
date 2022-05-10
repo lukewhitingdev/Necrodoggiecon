@@ -12,13 +12,9 @@ class weaponUI : public CEntity
 	class CTextRenderComponent* textWeaponName = nullptr;
 	class CTextRenderComponent* textAmmoDisplay = nullptr;
 
-	int currentAmmo = 0;
-	int maxAmmo = 0;
-	std::string weaponName = "null";
-
 public:
 	weaponUI();
-	virtual void updateUI();
+	virtual void updateUI(std::string WeaponName, int currentAmmo, int maxAmmo, std::string spritePath);
 	virtual void Update(float deltaTime) override {};
 	virtual ~weaponUI();
 };
