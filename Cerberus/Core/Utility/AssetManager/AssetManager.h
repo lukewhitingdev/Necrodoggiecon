@@ -1,7 +1,7 @@
 #pragma once
-#include "Structs/CMesh.h"
-#include "Structs/CTexture.h"
-#include "Utility/Audio/CAudio.h"
+#include "Cerberus\Core\Structs\CMesh.h"
+#include "Cerberus\Core\Structs\CTexture.h"
+#include "Cerberus/Core/Utility/Audio/CAudio.h"
 #include <string>
 #include <sstream>
 #include <map>
