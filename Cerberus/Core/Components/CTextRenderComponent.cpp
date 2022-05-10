@@ -1,6 +1,6 @@
 #include "CTextRenderComponent.h"
-#include "Structs/CCamera.h"
-#include "CEntity.h"
+#include "Cerberus\Core\Structs\CCamera.h"
+#include "Cerberus\Core\CEntity.h"
 
 CTextRenderComponent::CTextRenderComponent()
 {

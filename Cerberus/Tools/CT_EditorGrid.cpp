@@ -1,6 +1,6 @@
 #include "CT_EditorGrid.h"
-#include "CSpriteComponent.h"
-#include "Environment/CGridCursor.h"
+#include "Cerberus\Core\Components\CSpriteComponent.h"
+#include "Cerberus\Core\Environment/CGridCursor.h"
 
 CT_EditorGrid::CT_EditorGrid()
 {

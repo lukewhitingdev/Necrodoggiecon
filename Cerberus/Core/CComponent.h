@@ -1,7 +1,7 @@
 #pragma once
-#include "Engine.h"
-#include "Utility/Vector3.h"
-#include "Utility/CTransform.h"
+#include "Cerberus\Core\Engine.h"
+#include "Cerberus\Core\Utility\Vector3.h"
+#include "Cerberus/Core/Utility/CTransform.h"
 
 //Fundimental component class
 //Can be extended upon to make new components to add to CEntity

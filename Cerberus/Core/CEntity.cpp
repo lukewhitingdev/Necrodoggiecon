@@ -1,4 +1,4 @@
-#include "CEntity.h"
+#include "Cerberus\Core\CEntity.h"
 
 CEntity::~CEntity()
 {

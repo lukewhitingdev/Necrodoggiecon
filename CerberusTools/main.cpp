@@ -1,7 +1,7 @@
 #include <iostream>
-#include "Core/Engine.h"
+#include "Core/Cerberus\Core\Engine.h"
 #include "Game/testClass.h"
-#include "Core/Utility/Vector3.h"
+#include "Core/Cerberus\Core\Utility\Vector3.h"
 #include "Core/Environment/CWorld.h"
 
 int main(int argc, char* argv[])

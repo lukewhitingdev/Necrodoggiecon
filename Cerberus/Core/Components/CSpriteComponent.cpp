@@ -1,7 +1,7 @@
-#include "CSpriteComponent.h"
-#include "Engine.h"
-#include "Utility/AssetManager/AssetManager.h"
-#include "Structs/CCamera.h"
+#include "Cerberus\Core\Components\CSpriteComponent.h"
+#include "Cerberus\Core\Engine.h"
+#include "Cerberus/Core/Utility/AssetManager/AssetManager.h"
+#include "Cerberus\Core\Structs\CCamera.h"
 
 void CSpriteComponent::SetRenderRect(XMUINT2 newSize)
 {
