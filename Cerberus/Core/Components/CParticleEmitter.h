@@ -2,6 +2,7 @@
 #include "CComponent.h"
 #include "CEntity.h"
 #include "Entities/CParticle.h"
+#include "Utility/Math/Math.h"
 
 #include <vector>
 
@@ -10,22 +11,22 @@ class CParticleEmitter : public CComponent
 public:
 	CParticleEmitter();
 	~CParticleEmitter();
-
-	void SetTexture(const std::string& path) { overallTexturePath = path; };
+	
+	void SetTexture(const std::string& path);
 	void SetSize(const int size);
 
-	void UseRandomDirection(bool toggle, const Vector3 min, const Vector3 max) { useRandDir = toggle; randDirMin = min; randDirMax = max; };
-	void UseRandomVelocity(bool toggle, const float min, const float max) { useRandVelo = toggle; randVeloMin = min; randVeloMax = max; };
-	void UseRandomLifetime(bool toggle, const float min, const float max) { useRandLife = toggle; randLifeMin = min; randLifeMax = max; };
+	void UseRandomDirection(bool toggle, const Vector3 min, const Vector3 max);
+	void UseRandomVelocity(bool toggle, const float min, const float max);
+	void UseRandomLifetime(bool toggle, const float min, const float max);
 
-	void SetDirection(const Vector3 dir) { overallDirection = dir; useRandDir = false; };
-	Vector3 GetDirection(const Vector3 dir) { return overallDirection; };
+	void SetDirection(const Vector3 dir);
+	Vector3 GetDirection(const Vector3 dir);
 
-	void SetVelocity(const float velo) { overallVelocity = velo; useRandVelo = false; };
-	float GetVelocity(const float velo) { return overallVelocity; };
+	void SetVelocity(const float velo);
+	float GetVelocity(const float velo);
 
-	void SetLifetime(const float life) { overallLifetime = life; useRandLife = false;};
-	float GetLifetime(const float velo) { return overallLifetime; };
+	void SetLifetime(const float life);
+	float GetLifetime(const float velo);
 
 	void Start();
 	void Stop();
@@ -35,12 +36,6 @@ public:
 	virtual void Draw(struct ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer);
 
 private:
-
-	// TODO: REPLACE THIS WITH A PROPER MATHS ONE THAT CAN ACCEPT NEGATIVE MINS AND MAX'S
-	int random(int min, int max)
-	{
-		return min + (rand() % static_cast<int>(max - min + 1));
-	}
 
 	std::vector<CParticle*> particles;
 	bool emit;
