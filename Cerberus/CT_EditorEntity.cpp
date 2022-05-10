@@ -3,9 +3,10 @@
 #include <iostream>
 #include <filesystem>
 #include "Core/Components/CSpriteComponent.h"
+#include "Dependencies/NlohmannJson/json.hpp"
 #include <WorldConstants.h>
 
-
+using json = nlohmann::json;
 
 
 CT_EditorEntity::CT_EditorEntity()
@@ -40,7 +41,7 @@ void CT_EditorEntity_Enemy::Update(float deltaTime)
 
 void CT_EditorEntity_Enemy::InitialiseEntity(int SlotID)
 {
-
+	EntitySlotID = SlotID;
 	switch (SlotID)
 	{
 	case 0:
@@ -56,7 +57,18 @@ void CT_EditorEntity_Enemy::InitialiseEntity(int SlotID)
 	}
 }
 
-void CT_EditorEntity_Enemy::SaveEntity()
+void CT_EditorEntity_Enemy::SaveEntity(int Index, int MapSlot)
 {
+	std::string fileName = "Resources/Levels/Level_" + std::to_string(MapSlot);
+	fileName += ".json";
+
+	json SaveData;
+	SaveData["Enemy"][Index]["Type"] = EntitySlotID;
+
+	SaveData["Enemy"][Index]["Position"]["X"] = GetPosition().x;
+	SaveData["Enemy"][Index]["Position"]["Y"] = GetPosition().y;
+
+	std::ofstream o(fileName);
+	o << SaveData;
 
 }
