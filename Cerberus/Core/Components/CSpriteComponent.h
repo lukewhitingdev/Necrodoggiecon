@@ -36,7 +36,7 @@ public:
 	/**
 	 * The offset in pixels of where the sprite should start rendering in the texture.
 	 * Use this for selecting a section of a sprite sheet.
-	 * By default set to 0,0
+	 * By default set to 0,0.
 	 */
 	void SetTextureOffset(XMFLOAT2 newOffset);
 

@@ -1,10 +1,20 @@
+/*****************************************************************//**
+ * \file   CComponent.h
+ * \brief  Fundimental component class of the engine.
+ * 
+ * \author Arrien Bidmead
+ * \date   January 2022
+ *********************************************************************/
+
 #pragma once
 #include "Engine.h"
 #include "Utility/Vector3.h"
 #include "Utility/CTransform.h"
 
-//Fundimental component class
-//Can be extended upon to make new components to add to CEntity
+/**
+ * Fundimental component class of the engine.
+ * Can be extended upon to make new components to add to CEntity.
+ */
 class CComponent : public CTransform
 {
 protected:
@@ -19,18 +29,25 @@ public:
 	bool shouldUpdate = true;
 	bool shouldDraw = false;
 
-	//Sets the region of the screen a UI element will be "anchored" to.
-	//{0,0} - top left, {1,1} - bottom right.
-	//Used for making UI elements stick to the edge of the screen when the window is resized
+	/**
+	 * Sets the region of the screen a UI element will be "anchored" to.
+	 * {0,0} - top left, {1,1} - bottom right.
+	 * Used for making UI elements stick to the edge of the screen when the window is resized.
+	 */
 	void SetAnchor(XMFLOAT2 newAnchor) { anchor = newAnchor; updateTransform = true; }
 	void SetParent(class CEntity* newParent);
 
 	const XMFLOAT2& GetAnchor() const { return anchor; }
 	class CEntity* GetParent() const { return parent; };
 
-	//Updated automatically every single frame
+	/**
+	 * Updated automatically every single frame.
+	 */
 	virtual void Update(float deltaTime) = 0;
-	//Almost the same as Update() but to be used for drawing only.
+
+	/**
+	 * Almost the same as Update() but to be used for drawing only.
+	 */
 	virtual void Draw(struct ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) = 0;
 	virtual ~CComponent() {};
 
