@@ -47,10 +47,10 @@ void CursorEntity::Update(float deltaTime)
 			mouseOffset = Inputs::InputManager::mousePos;
 		}
 
-		Vector3 mousePos = (Inputs::InputManager::mousePos - mouseOffset) / Engine::camera.GetZoom();
+		Vector3 mousePos = (Inputs::InputManager::mousePos - mouseOffset) / camera->GetZoomLevel();
 		mouseOffset = Inputs::InputManager::mousePos;
 
-		Engine::camera.SetCameraPosition(XMFLOAT4(-mousePos.x + Engine::camera.GetCameraPosition().x, mousePos.y + Engine::camera.GetCameraPosition().y, Engine::camera.GetCameraPosition().z, Engine::camera.GetCameraPosition().w));
+		camera->SetPosition(Vector3(-mousePos.x + camera->GetPosition().x, mousePos.y + camera->GetPosition().y, camera->GetPosition().z));
 	}
 	else
 	{
@@ -62,4 +62,9 @@ void CursorEntity::Update(float deltaTime)
 CursorEntity::~CursorEntity()
 {
 
+}
+
+void CursorEntity::SetCamera(CCameraComponent* cam)
+{
+	camera = cam;
 }

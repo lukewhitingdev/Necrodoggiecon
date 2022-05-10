@@ -66,11 +66,11 @@ void TestUI::Update(float deltaTime)
 	}
 
 	std::stringstream ss;
-	ss << "Zoom:" << Engine::camera.GetZoom();
+	ss << "Zoom:" << camera->GetZoomLevel();
 	text1->SetText(ss.str());
 
 	ss.str("");
-	ss << "X:" << round(Engine::camera.GetCameraPosition().x) << " Y:" << round(Engine::camera.GetCameraPosition().y);
+	ss << "X:" << round(camera->GetPosition().x) << " Y:" << round(camera->GetPosition().y);
 	text2->SetText(ss.str());
 
 	if (fpsTimer > 0.5)
@@ -88,4 +88,9 @@ void TestUI::Update(float deltaTime)
 TestUI::~TestUI()
 {
 
+}
+
+void TestUI::SetCamera(CCameraComponent* cam)
+{
+	camera = cam;
 }

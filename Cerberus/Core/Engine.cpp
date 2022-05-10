@@ -22,13 +22,15 @@
 #include "Cerberus\Tools/CT_EditorMain.h"
 #include "Cerberus/Core/Utility/Audio/AudioController.h"
 #include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
+#include "Core/Components/CCameraComponent.h"
 #include "Cerberus/Core/Utility/InputManager/InputManager.h"
+#include "Cerberus/Core/Components/CCameraComponent.h"
 using namespace Inputs;
 #include <chrono>
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
+CCameraComponent* Engine::camera = nullptr;
 
-CCamera Engine::camera = CCamera();
 XMMATRIX Engine::projMatrixUI = XMMatrixIdentity();
 
 //--------------------------------------------------------------------------------------
@@ -478,8 +480,6 @@ HRESULT	InitWorld(int width, int height)
 	UNREFERENCED_PARAMETER(height);
 
 	Engine::projMatrixUI = XMMatrixOrthographicLH(float(Engine::windowWidth), float(Engine::windowHeight), 0.01f, 100.0f);
-	Engine::camera.UpdateProjectionMat();
-	Engine::camera.UpdateViewMat();
 
 	return S_OK;
 }
@@ -746,7 +746,7 @@ LRESULT Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 		//TEMP
 	case WM_MOUSEWHEEL:
-		Engine::camera.SetZoom(float(Engine::camera.GetZoom() + GET_WHEEL_DELTA_WPARAM(wParam) * Engine::camera.GetZoom() * 0.001f));
+		camera->SetZoomLevel(float(camera->GetZoomLevel() + GET_WHEEL_DELTA_WPARAM(wParam) * camera->GetZoomLevel() * 0.001f));
 		break;
 
 	case WM_PAINT:
@@ -782,6 +782,11 @@ LRESULT Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 void Engine::Stop()
 {
 	CleanupDevice();
+}
+
+void Engine::SetRenderCamera(CCameraComponent* cam)
+{
+	camera = cam;
 }
 
 void Update(float deltaTime)
@@ -849,10 +854,11 @@ void Render()
 	else
 		Engine::deviceContext->PSSetShader(pixelShaderSolid, nullptr, 0);
 
-	XMFLOAT4X4 mat = Engine::camera.view;
+
+	XMFLOAT4X4 mat = Engine::camera->GetViewMatrix();
 	XMMATRIX viewMat = XMMatrixTranspose(XMLoadFloat4x4(&mat));
 
-	mat = Engine::camera.proj;
+	mat = Engine::camera->GetProjectionMatrix();
 	XMMATRIX projMat = XMMatrixTranspose(XMLoadFloat4x4(&mat));
 
 	// Set primitive topology

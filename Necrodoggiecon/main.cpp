@@ -7,6 +7,7 @@
 #include <Necrodoggiecon\Game\testCharacter.h>
 #include <Necrodoggiecon\Game\ItemDatabase.h>
 #include <Necrodoggiecon\Game\AI\CAIController.h>
+#include <Cerberus/Core/Structs/CCamera.h>
 
 /*
 
@@ -67,8 +68,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 // Called once at the start of the application run.
 int Start() 
 {
-	Engine::CreateEntity<TestUI>();
-	Engine::CreateEntity<CursorEntity>();
+	CCamera* primaryCamera = Engine::CreateEntity<CCamera>();
+	CCameraComponent* primaryCameraComponent = primaryCamera->AddComponent<CCameraComponent>();
+
+	Engine::SetRenderCamera(primaryCameraComponent);
+
+	Engine::CreateEntity<TestUI>()->SetCamera(primaryCameraComponent);
+	Engine::CreateEntity<CursorEntity>()->SetCamera(primaryCameraComponent);
 
 	CWorld::LoadWorld(0);
 
