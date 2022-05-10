@@ -61,16 +61,11 @@ void CT_EditorEntity_Enemy::InitialiseEntity(int SlotID)
 
 void CT_EditorEntity_Enemy::SaveEntity(int Index, int MapSlot)
 {
-	std::string fileName = "Resources/Levels/Level_" + std::to_string(MapSlot);
-	fileName += ".json";
+	
+	
+	
+	
+	
 
-	json SaveData;
-	SaveData["Enemy"][Index]["Type"] = EntitySlotID;
-
-	SaveData["Enemy"][Index]["Position"]["X"] = GetPosition().x;
-	SaveData["Enemy"][Index]["Position"]["Y"] = GetPosition().y;
-
-	std::ofstream o(fileName);
-	o << SaveData;
 
 }

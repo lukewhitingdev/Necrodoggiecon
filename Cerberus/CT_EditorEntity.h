@@ -32,6 +32,8 @@ public:
 
     EditorEntityType GetType() { return InspectType; }
 
+    int GetSlot() { return EntitySlotID; }
+
 
 
 };
@@ -73,7 +75,7 @@ protected:
   
 public:
     
-    int GetSlot() { return EntitySlotID; }
+   
 
     std::vector<Vector2> Waypoints;
 

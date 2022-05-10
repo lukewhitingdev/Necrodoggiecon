@@ -125,11 +125,23 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 
 	SaveData["TileData"] = MapData;
+	SaveData["EnemyCount"] = EditorEntityList.size();
 
 	for (int i = 0; i < EditorEntityList.size(); i++)
 	{
-		EditorEntityList[i]->SaveEntity(i,MapSlot);
+		switch (EditorEntityList[i]->GetType())
+		{
+		case EditorEntityType::Enemy:
+			SaveData["Enemy"][i]["Type"] = EditorEntityList[i]->GetSlot();
+
+			SaveData["Enemy"][i]["Position"]["X"] = EditorEntityList[i]->GetPosition().x;
+			SaveData["Enemy"][i]["Position"]["Y"] = EditorEntityList[i]->GetPosition().y;
+
+			break;
+		}
 	}
+
+
 
 
 	std::ofstream o(fileName);

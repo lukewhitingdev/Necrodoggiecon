@@ -2,6 +2,7 @@
 #include "Dependencies/NlohmannJson/json.hpp"
 #include <iostream>
 #include <fstream>
+#include "AI/CAIController.h"
 
 
 
@@ -71,17 +72,22 @@ void CWorld::LoadWorld(int Slot)
 	}
 	
 
-	int propCount = storedFile["PropCount"];
+	int enemyCount = storedFile["EnemyCount"];
 
-	std::vector<CT_PropData> propData;
 
-	for (int i = 0; i < propCount; i++)
+
+	for (int i = 0; i < enemyCount; i++)
 	{
-		int propID = storedFile["ID"][i];
-		int propX = storedFile["ID"][i]["X"];
-		int propY = storedFile["ID"][i]["Y"];
+		int EnemyID = storedFile["Enemy"][i]["Type"];
+		int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
+		int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
+
+		CAIController* TempController = Engine::CreateEntity<CAIController>();
+		TempController->SetPosition(EnemyX, EnemyY, -1);
 
 	}
+
+
 
 
 	BuildNavigationGrid();

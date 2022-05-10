@@ -208,7 +208,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	bool editorMode = true;
+	bool editorMode = false;
 
 	
 	
@@ -225,14 +225,14 @@ void Load()
 	if (editorMode)
 	{
 		
-		CWorldManager::LoadWorld(1, true);
+		CWorldManager::LoadWorld(0, true);
 		CWorldManager::GetEditorWorld()->BuildNavigationGrid();
 		
 	}
 	else
 	{
 
-		CWorldManager::LoadWorld(1, false);
+		CWorldManager::LoadWorld(0, false);
 	
 	}
 
