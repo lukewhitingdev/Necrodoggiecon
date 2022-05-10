@@ -2,6 +2,10 @@
  * \file   CAnimatingSpriteComponent.h
  * \brief  Extends CSpriteComponent to automatically animate basic sprite sheets.
  * 
+ * This class will automatically animate an entire sprite-sheet.
+ * However, this animation is strictly the entire sprite-sheet only.
+ * If you want more fine control, the methods for doing this manually is part of CSpriteComponent. 
+ * 
  * \author Arrien Bidmead
  * \date   May 2022
  *********************************************************************/
@@ -44,6 +48,10 @@ public:
 	void SetAnimationSpeed(const uint32_t& newSpeed) { animSpeed = newSpeed; };
 	const uint32_t& GetAnimationSpeed() { return animSpeed; };
 
+	/**
+	 * Gets the auto-generated number of sprites in each dimension of the sprite-sheet.
+	 * For instance, if the texture has 5 images in a row and 2 rows of images then it would be {5,2}
+	 */
 	const XMUINT2& GetNumberOfAnimationSprites() { return numberOfAnimationSprites; };
 
 	/**
