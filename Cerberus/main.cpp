@@ -223,13 +223,6 @@ void Load()
 
 	Engine::CreateEntity<TestUI>();
 	CursorEntity* cursor = Engine::CreateEntity<CursorEntity>();
-	CParticleEmitter* particleEmitter = cursor->AddComponent<CParticleEmitter>();
-	particleEmitter->SetSize(100);
-	particleEmitter->SetDirection(Vector3(0, 1, 0));
-	particleEmitter->UseRandomVelocity(true, 0, 5);
-	particleEmitter->UseRandomDirection(true, Vector3(0, 0, 0), Vector3(1, 10, 0));
-	particleEmitter->SetLifetime(1);
-	particleEmitter->Start();
 
 	if (editorMode)
 	{
