@@ -7,6 +7,7 @@
 #include <Necrodoggiecon\Game\testCharacter.h>
 #include <Necrodoggiecon\Game\ItemDatabase.h>
 #include <Necrodoggiecon\Game\AI\CAIController.h>
+#include <weaponUI.h>
 
 /*
 
@@ -68,6 +69,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 int Start() 
 {
 	Engine::CreateEntity<TestUI>();
+	Engine::CreateEntity<weaponUI>();
 	Engine::CreateEntity<CursorEntity>();
 
 	CWorld::LoadWorld(0);
