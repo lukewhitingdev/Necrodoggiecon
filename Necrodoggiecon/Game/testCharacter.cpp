@@ -1,6 +1,7 @@
 #include "testCharacter.h"
 #include "CDroppedItem.h"
 #include "CEquippedItem.h"
+#include "Cerberus/Core/Utility/Math/Math.h"
 
 testCharacter::testCharacter()
 {
@@ -55,7 +56,10 @@ void testCharacter::Update(float deltaTime)
 	const uint32_t animSpeed = 24;
 	spriteComponent->SetTextureOffset(XMFLOAT2(round(timeElapsed * animSpeed) * 128, float((int(round(timeElapsed * animSpeed) / 5) % 2)) * 128));
 
-	LookAt(Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z));
+	XMFLOAT3 screenVec = XMFLOAT3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, Inputs::InputManager::mousePos.z);
+	screenVec = Math::FromScreenToWorld(screenVec);
+
+	LookAt(Vector3(screenVec.x, screenVec.y, screenVec.z));
 
 	colComponent->SetPosition(GetPosition());
 }
