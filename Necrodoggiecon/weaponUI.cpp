@@ -1,5 +1,5 @@
 #include "weaponUI.h"
-
+#include <sstream>
 
 weaponUI::weaponUI()
 {
@@ -41,6 +41,13 @@ weaponUI::weaponUI()
 	weaponSprite->SetScale(1,1,0);
 	weaponSprite->SetAnchor(XMFLOAT2(0, 1));
 
+	textTimer = AddComponent<CTextRenderComponent>();
+	textTimer->SetJustification(TextJustification::Right);
+	textTimer->SetReserveCount(8);
+	textTimer->SetPosition(-628, 346, 0);
+	textTimer->SetText("0:00.0");
+	textTimer->SetAnchor(XMFLOAT2(1, 0));
+
 	for (CComponent* e : components)
 		e->ui = true;
 
@@ -53,6 +60,19 @@ void weaponUI::updateUI(std::string weaponName, int currentAmmo, int maxAmmo, st
 	textWeaponName->SetText(weaponName);
 	textAmmoDisplay->SetText(std::to_string(currentAmmo) + "/" + std::to_string(maxAmmo));
 	weaponSprite->LoadTextureWIC(spritePath);
+}
+
+void weaponUI::Update(float deltaTime)
+{
+	seconds += deltaTime;
+	if (seconds >= 60)
+	{
+		minutes += 1;
+		seconds -= 60;
+	}
+	std::stringstream ss;
+	ss << minutes << ":" << float(round(seconds * 100)) / 100;
+	textTimer->SetText(ss.str());
 }
 
 weaponUI::~weaponUI()
