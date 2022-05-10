@@ -1,7 +1,18 @@
+/*****************************************************************//**
+ * \file   CTransform.h
+ * \brief  A transform class that contains getters and setters.
+ * 
+ * \author Arrien Bidmead
+ * \date   January 2022
+ *********************************************************************/
+
 #pragma once
 #include "Cerberus\Core\Engine.h"
 #include "Cerberus\Core\Utility\Vector3.h"
 
+/**
+ * A transform class that contains getters and setters.
+ */
 class CTransform
 {
 	Vector3 position = { 0,0,0 };

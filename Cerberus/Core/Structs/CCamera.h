@@ -1,6 +1,17 @@
+/*****************************************************************//**
+ * \file   CCamera.h
+ * \brief  Class for storing all camera information needed for rendering.
+ * 
+ * \author Arrien Bidmead
+ * \date   January 2022
+ *********************************************************************/
+
 #pragma once
 #include "Cerberus\Core\Engine.h"
 
+/**
+ * Class for storing all camera information needed for rendering.
+ */
 class CCamera
 {
 	XMFLOAT4 eyePosition = { 0,0,-3,1 };
