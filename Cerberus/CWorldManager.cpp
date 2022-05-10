@@ -12,21 +12,35 @@ void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 		{
 			GameWorld->UnloadWorld();
 		}
+		if (EditorWorld != nullptr)
+		{
+			EditorWorld->UnloadWorld();
+			EditorWorld->LoadWorld(Slot);
+			EditorWorld->SetupWorld();
+		}
+		else
+		{
+			EditorWorld = new CWorld_Editable();
+			EditorWorld->LoadWorld(Slot);
+			EditorWorld->SetupWorld();
 
-		EditorWorld = new CWorld_Editable();
-		EditorWorld->LoadWorld(Slot);
+		}
+
+		
+		
 		
 	}
 	else
 	{
 		if (EditorWorld != nullptr)
 		{
-
+			EditorWorld->UnloadWorld();
 		}
 		if (GameWorld == nullptr)
 		{
 			GameWorld = new CWorld();
 			GameWorld->LoadWorld(Slot);
+			GameWorld->SetupWorld();
 		}
 		else
 		{
@@ -37,5 +51,40 @@ void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 
 
 
+}
+
+void CWorldManager::LoadWorld(CWorld* World)
+{
+	if (EditorWorld != nullptr)
+	{
+		EditorWorld->UnloadWorld();
+	}
+	else if (GameWorld != nullptr)
+	{
+
+	}
+	else
+	{
+		GameWorld = World;
+		GameWorld->SetupWorld();
+	}
+}
+
+void CWorldManager::LoadWorld(CWorld_Editable* World)
+{
+
+	if (World != nullptr)
+	{
+		World->UnloadWorld();
+	}
+	else if (EditorWorld != nullptr)
+	{
+
+	}
+	else
+	{
+		EditorWorld = World;
+		EditorWorld->SetupWorld();
+	}
 }
 

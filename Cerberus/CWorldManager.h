@@ -7,6 +7,8 @@ class CWorldManager
 {
 public:
 	static void LoadWorld(int Slot, bool bEditorMode);
+	static void LoadWorld(CWorld* World);
+	static void LoadWorld(CWorld_Editable* World);
 
 
 	static class CWorld* GetWorld() {

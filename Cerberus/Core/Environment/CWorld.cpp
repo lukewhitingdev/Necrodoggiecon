@@ -14,6 +14,15 @@ CWorld::CWorld()
 	}
 }
 
+CWorld::CWorld(int Slot)
+{
+	for (int i = 0; i < (mapScale * mapScale); i++)
+	{
+		tileContainer[i] = nullptr;
+	}
+	LoadWorld(Slot);
+}
+
 
 void CWorld::LoadWorld(int Slot)
 {
@@ -80,6 +89,10 @@ void CWorld::LoadWorld(int Slot)
 
 	
 
+}
+
+void CWorld::SetupWorld()
+{
 }
 
 void CWorld::UnloadWorld()

@@ -20,6 +20,7 @@ class CT_EditorWindows
     bool                  AutoScroll;
     bool                  ScrollToBottom;
     bool* open;
+    int* levelToLoad;
 
 protected: 
 
@@ -37,6 +38,7 @@ public:
         AutoScroll = true;
         ScrollToBottom = false;
         open = new bool(true);
+        levelToLoad = new int(0);
     }
     ~CT_EditorWindows()
     {

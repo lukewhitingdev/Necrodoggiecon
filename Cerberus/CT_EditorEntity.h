@@ -8,16 +8,18 @@ protected:
    // class CSpriteComponent* sprite = nullptr;
 
     int EntitySlotID;
+
+
 public:
 
-  
+    class CSpriteComponent* sprite = nullptr;
 
     CT_EditorEntity();
 
     virtual void Update(float deltaTime) override;
 
 
-    void InitialiseEntity(int SlotID);
+    virtual void InitialiseEntity(int SlotID);
 
 
 
@@ -44,15 +46,15 @@ public:
     virtual void Update(float deltaTime) override;
 
 
-    void InitialiseEntity(int SlotID);
+  
 
-
+    virtual void InitialiseEntity(int SlotID);
 
 
 
 };
 
-class CT_Editor_Enemy :
+class CT_EditorEntity_Enemy :
     public CT_EditorEntity
 {
 protected:
@@ -66,12 +68,12 @@ public:
     std::vector<Vector2> Waypoints;
 
 
-    CT_Editor_Enemy();
+    CT_EditorEntity_Enemy();
 
     virtual void Update(float deltaTime) override;
 
 
-    void InitialiseEntity(int SlotID);
+    virtual void InitialiseEntity(int SlotID);
 
 
 

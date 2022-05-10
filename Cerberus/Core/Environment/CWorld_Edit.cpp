@@ -1,5 +1,7 @@
 #include "CWorld_Edit.h"
 #include "Dependencies/NlohmannJson/json.hpp"
+#include "Tools/CT_EditorMain.h"
+#include "CT_EditorEntity.h"
 #include <iostream>
 #include <fstream>
 
@@ -45,9 +47,17 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 		tempPos.z = 10;
 
+		CTile* Tile = nullptr;
+		if (tileContainer[i] != nullptr)
+		{
+			Tile = tileContainer[i];
+		}
+		else
+		{
+			Tile = Engine::CreateEntity<CTile>();
+		}
 
-
-		CTile* Tile = Engine::CreateEntity<CTile>();
+	
 		Tile->SetPosition(tempPos);
 		Tile->SetScale(tileScaleMultiplier);
 		Tile->ChangeTileID(ID);
@@ -82,14 +92,17 @@ void CWorld_Editable::UnloadWorld()
 {
 
 }
-
+ void CWorld_Editable::SetupWorld()
+{
+	 EditorViewport = new CT_EditorMain();
+}
 
 
 
 void CWorld_Editable::SaveWorld(int Slot)
 {
 	UNREFERENCED_PARAMETER(Slot);
-	std::string fileName = "Resources/Levels/Level_" + Slot;
+	std::string fileName = "Resources/Levels/Level_" + std::to_string(Slot);
 	fileName += ".json";
 
 	std::ifstream file(fileName);
@@ -252,6 +265,14 @@ void CWorld_Editable::ToggleDebugMode(bool isDebug)
 		tileContainer[i]->SetDebugMode(isDebug);
 	}
 }
+
+void CWorld_Editable::UpdateEditorViewport()
+{
+	if (EditorViewport) EditorViewport->RenderWindows();
+}
+
+
+
 
 
 
@@ -671,4 +692,21 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 	}
 
 	return false;
+}
+
+
+
+
+///////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+/////////////////LOOKUP DATA FOR ADDING ENTITIES////////////////
+///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+void CWorld_Editable::AddEditorEntity_EnemyCharacter(int Slot)
+{
+	CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
+	TempRef->InitialiseEntity(Slot);
+	EditorEntityList.push_back(TempRef);
 }

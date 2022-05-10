@@ -95,7 +95,7 @@ ID3D11RasterizerState* fillRastState;
 ID3D11RasterizerState* wireframeRastState;
 
 DebugOutput* debugOutputUI;
-CT_EditorMain* EditorViewport;
+
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -224,7 +224,7 @@ void Load()
 
 	if (editorMode)
 	{
-		EditorViewport = new CT_EditorMain();
+		
 		CWorldManager::LoadWorld(1, true);
 		CWorldManager::GetEditorWorld()->BuildNavigationGrid();
 		
@@ -953,7 +953,7 @@ void Render()
 
 	// Do UI.
 	Debug::getOutput()->render();
-	if (EditorViewport) EditorViewport->RenderWindows();
+	if (CWorldManager::GetEditorWorld() != nullptr)CWorldManager::GetEditorWorld()->UpdateEditorViewport();
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

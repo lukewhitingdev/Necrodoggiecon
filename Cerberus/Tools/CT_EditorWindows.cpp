@@ -87,12 +87,25 @@ void CT_EditorWindows::render()
 
                 ImGui::TreePop();
             }
+
+            if (ImGui::TreeNode("Levels"))
+            {
+                ImGui::InputInt("Slot", levelToLoad, 1, 1);
+                if (ImGui::Button("Load"))
+                {
+                    CWorldManager::LoadWorld(*levelToLoad, true);
+                   
+                }
+
+
+                ImGui::TreePop();
+            }
            
 
 
             if (ImGui::Button("Save"))
             {
-                CWorldManager::GetEditorWorld()->SaveWorld(0);
+                CWorldManager::GetEditorWorld()->SaveWorld(*levelToLoad);
             }
 
             //AdditionalRenderLogic(*open);
@@ -178,6 +191,21 @@ void CT_EditorWindows::render()
                 {
 
                 }
+                ImGui::TreePop();
+            }
+            if (ImGui::TreeNode("Enemy Units"))
+            {
+                if (ImGui::Button("Mage Enemy"))
+                {
+                    CWorldManager::GetEditorWorld()->AddEditorEntity_EnemyCharacter(0);
+                }
+                if (ImGui::Button("Melee Enemy"))
+                {
+                    CWorldManager::GetEditorWorld()->AddEditorEntity_EnemyCharacter(1);
+                }
+
+
+               
                 ImGui::TreePop();
             }
 

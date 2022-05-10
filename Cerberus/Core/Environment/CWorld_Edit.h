@@ -19,6 +19,9 @@ class CWorld_Editable : public CWorld
 
 public:
 
+
+
+
 	//Set the current operation mode
 	 void SetOperationMode(EditOperationMode mode);
 
@@ -39,6 +42,7 @@ public:
 	//Loads the world and initialises TileData
 	 virtual void LoadWorld(int Slot) override;
 	 virtual void UnloadWorld() override;
+	 virtual void SetupWorld();
 
 	//Save the current tile data to a file
 	 void SaveWorld(int Slot);
@@ -50,10 +54,23 @@ public:
 
 
 	 void ToggleDebugMode(bool isDebug);
+
+	 void UpdateEditorViewport();
+
+	 void AddEditorEntity_Prop(int Slot);
+
+	 void AddEditorEntity_EnemyCharacter(int Slot);
+
+	 void AddEditorEntity_ItemHolder(int Slot);
+
+	 
+
+
+	
 	
 
-
 protected:
+
 
 
 	//Wrapper function for BoxOperation, Sets space to be unwalkable
@@ -147,6 +164,14 @@ private:
 
 	//Whether or not any edit operations can be performed
 	 bool isQueueLocked;
+
+	 //main editor viewport
+	 class CT_EditorMain* EditorViewport;
+
+
+
+
+	 std::vector<class CT_EditorEntity*> EditorEntityList;
 
 };
 

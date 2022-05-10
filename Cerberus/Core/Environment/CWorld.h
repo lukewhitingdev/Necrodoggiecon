@@ -19,11 +19,14 @@ class CWorld
 
 public:
 	CWorld();
+	CWorld(int Slot);
 
 	
 
 	virtual void LoadWorld(int Slot);
 	 
+	//Extendable function, primarily used to setup unique level specific requirements, one of these things would be the editor peripheral
+	virtual void SetupWorld();
 
 	virtual void UnloadWorld();
 
