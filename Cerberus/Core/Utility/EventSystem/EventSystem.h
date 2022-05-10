@@ -4,7 +4,7 @@
 #include <string>
 #include <functional>
 #include <algorithm>
-#include "Utility/DebugOutput/Debug.h"
+#include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 class EventSystem
 {
 public:

@@ -1,5 +1,5 @@
 #include "CAudioEmitterComponent.h"
-#include "CEntity.h"
+#include "Cerberus\Core\CEntity.h"
 
 CAudioEmitterComponent::CAudioEmitterComponent()
 {

@@ -1,5 +1,5 @@
 #include "AssetManager.h"
-#include "Utility/DebugOutput/Debug.h"
+#include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 
 std::map<std::string, CMesh*> AssetManager::meshes;
 std::map<std::string, CTexture*> AssetManager::textures;

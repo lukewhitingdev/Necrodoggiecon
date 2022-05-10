@@ -1,5 +1,5 @@
 #pragma once
-#include "Utility/Vector3.h"
+#include "Cerberus\Core\Utility\Vector3.h"
 
 namespace Inputs
 {

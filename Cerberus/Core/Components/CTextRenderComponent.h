@@ -1,5 +1,5 @@
 #pragma once
-#include "CSpriteComponent.h"
+#include "Cerberus\Core\Components\CSpriteComponent.h"
 
 enum class TextJustification
 {

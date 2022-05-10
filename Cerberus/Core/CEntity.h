@@ -1,8 +1,8 @@
 #pragma once
 
-#include "CComponent.h"
-#include "Utility/CollisionManager/CollisionComponent.h"
-#include "Utility/Vector3.h"
+#include "Cerberus\Core\CComponent.h"
+#include "Cerberus/Core/Utility/CollisionManager/CollisionComponent.h"
+#include "Cerberus\Core\Utility\Vector3.h"
 
 ////Fundimental class of the engine with a world transform and ability to have components
 //Use for all gameplay things in the world
