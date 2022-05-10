@@ -1,5 +1,5 @@
 #pragma once
-#include "testCharacter.h"
+#include "Necrodoggiecon/Game/testCharacter.h"
 class CAIController;
 
 //Reference: https://www.aleksandrhovhannisyan.com/blog/finite-state-machine-fsm-tutorial-implementing-an-fsm-in-c/

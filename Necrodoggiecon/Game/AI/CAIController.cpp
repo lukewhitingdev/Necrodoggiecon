@@ -316,7 +316,9 @@ void CAIController::SearchForPlayer()
 	
 }
 
-// Seek towards the player and if it gets close then clart it. To be overriden by the melee and ranged AIs in the future.
+/**
+ * Seek towards the player and if it gets close then clart it. To be overriden by the melee and ranged AIs in the future.
+ */
 void CAIController::ChasePlayer(testCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
@@ -357,7 +359,7 @@ void CAIController::SetPath()
 {
 	pathing->SetPath(aiPosition, pathing->currentPatrolNode->closestWaypoint);
 	SetPathNodes(pathing->GetPathNodes());
-	currentCount = pathNodes.size() - 1;
+	currentCount = (int)pathNodes.size() - 1;
 }
 
 void CAIController::SetCurrentState(State& state)

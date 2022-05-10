@@ -1,13 +1,16 @@
 #pragma once
+#include <iostream>
 #include "Cerberus\Core\CEntity.h"
 #include "Cerberus\Core\Utility\Vector3.h"
 #include "Cerberus\Core\Components\CSpriteComponent.h"
-#include "Necrodoggiecon\Game\AI\CAICharacter.h"
-#include <iostream>
-#include "Necrodoggiecon\Game\CPlayer.h"
-#include "Necrodoggiecon\Game\testClass.h"
 #include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
 #include "Cerberus\Core\Environment/CWorld.h"
+#include "Cerberus/Core/Engine.h"
+
+#include "Necrodoggiecon\Game\AI\CAICharacter.h"
+#include "Necrodoggiecon\Game\CPlayer.h"
+#include "Necrodoggiecon\Game\testClass.h"
+
 #include "Necrodoggiecon\Game\AI\CAINode.h"
 #include "Necrodoggiecon\Game\AI\State.h"
 #include "Necrodoggiecon\Game\AI\Pathfinding.h"
@@ -30,7 +33,6 @@ class CAIController : public CEntity
 public:
 	CAIController();
 
-	
 	void SetRotationSpeed(float speed);
 	float GetRotationSpeed();
 
@@ -57,6 +59,7 @@ public:
 
 	void Patrolling();
 	void SearchForPlayer();
+	
 	virtual void ChasePlayer(testCharacter* player);
 	virtual void AttackPlayer(testCharacter* player);
 	virtual void GetIntoCover() {};
