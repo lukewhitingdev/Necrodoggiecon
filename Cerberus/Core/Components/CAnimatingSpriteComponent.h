@@ -32,6 +32,13 @@ public:
 	const bool& GetPlaying() { return playing; };
 
 	/**
+	 * Set the current animation time in the form of elapsed time.
+	 * Note: this does NOT reset when the animation has finished.
+	 */
+	void SetElapsedTime(const float& newTime) { timeElapsed = newTime; };
+	const float& GetElapsedTime() { return timeElapsed; };
+
+	/**
 	 * Sets the speed of the animation in frames per second - Default 24.
 	 */
 	void SetAnimationSpeed(const uint32_t& newSpeed) { animSpeed = newSpeed; };
