@@ -355,6 +355,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Components\CAnimatingSpriteComponent.h" />
     <ClInclude Include="Game\AI\CAICharacter.h" />
     <ClInclude Include="Game\AI\CAIController.h" />
     <ClInclude Include="Core\Components\CAudioEmitterComponent.h" />
@@ -424,6 +425,7 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Components\CAnimatingSpriteComponent.cpp" />
     <ClCompile Include="Game\AI\CAICharacter.cpp" />
     <ClCompile Include="Game\AI\CAIController.cpp" />
     <ClCompile Include="Core\Components\CAudioEmitterComponent.cpp" />

@@ -18,7 +18,7 @@ class CSpriteComponent : public CComponent
 public:
 	//Used to resize the portion of the texture you want to display on the sprite in pixels
 	//Use to set the size of a selection of a sprite sheet
-	void SetRenderRect(XMUINT2 newSize);
+	virtual void SetRenderRect(XMUINT2 newSize);
 
 	//The offset in pixels of where the sprite should start rendering in the texture
 	//Use this for selecting a section of a sprite sheet
@@ -27,7 +27,7 @@ public:
 
 	//The size of the ingame sprite in pixels
 	//Set automatically on texture load
-	void SetSpriteSize(XMUINT2 newSize) { spriteSize = newSize; };
+	virtual void SetSpriteSize(XMUINT2 newSize) { spriteSize = newSize; };
 
 	void SetTint(XMFLOAT4 newTint);
 
@@ -35,6 +35,7 @@ public:
 	const XMFLOAT2& GetTextureOffset() const { return textureOffset; };
 	const XMUINT2& GetSpriteSize() const { return spriteSize; };
 	const XMFLOAT4& GetTint() const { return tint; };
+	const XMUINT2& GetTextureSize() const { if (texture != nullptr) return texture->textureSize; else return { 0,0 }; };
 
 	//Loads the texture from a file
 	//MUST use the .dds file type

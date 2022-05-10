@@ -81,6 +81,7 @@
     <ClCompile Include="Tools\CT_EditorGrid.cpp" />
     <ClCompile Include="Core\Environment\CGridCursor.cpp" />
     <ClCompile Include="Tools\CT_EditorWindows.cpp" />
+    <ClCompile Include="Core\Components\CAnimatingSpriteComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Microsoft\DDSTextureLoader.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Tools\CT_EditorGrid.h" />
     <ClInclude Include="Core\Environment\CGridCursor.h" />
     <ClInclude Include="Tools\CT_EditorWindows.h" />
+    <ClInclude Include="Core\Components\CAnimatingSpriteComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
