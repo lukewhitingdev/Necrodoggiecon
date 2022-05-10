@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   CAnimatingSpriteComponent.h
+ * \brief  Extends CSpriteComponent to automatically animate basic sprite sheets.
+ * 
+ * \author Arrien Bidmead
+ * \date   May 2022
+ *********************************************************************/
+
 #pragma once
 #include "CSpriteComponent.h"
 

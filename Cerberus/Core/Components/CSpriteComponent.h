@@ -1,10 +1,20 @@
+/*****************************************************************//**
+ * \file   CSpriteComponent.h
+ * \brief  A component for loading and displaying a 2D texture in world space as part of CEntity.
+ * 
+ * \author Arrien Bidmead
+ * \date   January 2022
+ *********************************************************************/
+
 #pragma once
 #include "CComponent.h"
 #include "Structs/CMesh.h"
 #include "Structs/CTexture.h"
 #include "Structs/CMaterial.h"
 
-//A component for loading and displaying a 2D texture in world space as part of CEntity
+/**
+ * A component for loading and displaying a 2D texture in world space as part of CEntity.
+ */
 class CSpriteComponent : public CComponent
 {
 	CMesh* mesh = nullptr;
@@ -16,19 +26,29 @@ class CSpriteComponent : public CComponent
 	XMUINT2 spriteSize;
 	XMFLOAT4 tint = { 0,0,0,0 };
 public:
-	//Used to resize the portion of the texture you want to display on the sprite in pixels
-	//Use to set the size of a selection of a sprite sheet
+
+	/**
+	 * Used to resize the portion of the texture you want to display on the sprite in pixels.
+	 * Use to set the size of a selection of a sprite sheet.
+	 */
 	virtual void SetRenderRect(XMUINT2 newSize);
 
-	//The offset in pixels of where the sprite should start rendering in the texture
-	//Use this for selecting a section of a sprite sheet
-	//By default set to 0,0
+	/**
+	 * The offset in pixels of where the sprite should start rendering in the texture.
+	 * Use this for selecting a section of a sprite sheet.
+	 * By default set to 0,0
+	 */
 	void SetTextureOffset(XMFLOAT2 newOffset);
 
-	//The size of the ingame sprite in pixels
-	//Set automatically on texture load
+	/**
+	 * The size of the ingame sprite in pixels.
+	 * Set automatically on texture load.
+	 */
 	virtual void SetSpriteSize(XMUINT2 newSize) { spriteSize = newSize; };
 
+	/**
+	 * Set the color tint of the sprite in RGBA.
+	 */
 	void SetTint(XMFLOAT4 newTint);
 
 	const XMUINT2& GetRenderRect() const { return renderRect; };
@@ -37,11 +57,16 @@ public:
 	const XMFLOAT4& GetTint() const { return tint; };
 	const XMUINT2& GetTextureSize() const { if (texture != nullptr) return texture->textureSize; else return { 0,0 }; };
 
-	//Loads the texture from a file
-	//MUST use the .dds file type
+	/**
+	 * Loads the texture from a file.
+	 * MUST use the .dds file type.
+	 */
 	HRESULT LoadTexture(std::string filePath);
 
-	//MUST use BMP, JPEG, PNG, TIFF, GIF, or HD Photo file types
+	/**
+	 * Loads the texture from a file.
+	 * MUST use BMP, JPEG, PNG, TIFF, GIF, or HD Photo file types.
+	 */
 	HRESULT LoadTextureWIC(std::string filePath);
 
 	CSpriteComponent();
