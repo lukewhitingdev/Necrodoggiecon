@@ -75,6 +75,7 @@ void AttackState::Update(CAIController* controller)
 	if (closestPlayer != nullptr)
 	{
 		Engine::DestroyEntity(closestPlayer);
+		closestPlayer = nullptr;
 	}
 	else
 	{

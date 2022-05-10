@@ -31,9 +31,9 @@ CAIController::CAIController()
 	aiPosition = GetPosition();	
 
 
-	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 500.0f, 200.0f, 0.0f });
-	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ -500.0f, 300.0f, 0.0f });
-	PatrolNode* patrolPoint3 = new PatrolNode(Vector3{ -500.0f, -200.0f, 0.0f });
+	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 1500.0f, 300.0f, 0.0f });
+	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ 1000.0f, 1300.0f, 0.0f });
+	PatrolNode* patrolPoint3 = new PatrolNode(Vector3{ 500.0f, 300.0f, 0.0f });
 
 	patrolPoint1->nextPatrolNode = patrolPoint2;
 	patrolPoint2->nextPatrolNode = patrolPoint3;

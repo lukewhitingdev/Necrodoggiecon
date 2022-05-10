@@ -109,8 +109,8 @@ protected:
 	float aiRange = 400.0f;
 	float aiViewAngle = 45.0f;
 
-	float width = 128.0f;
-	float height = 128.0f;
+	float width = 64.0f;
+	float height = 64.0f;
 
 	float rotationSpeed = 0.01f;
 	float maxSearchTime = 5.0f;

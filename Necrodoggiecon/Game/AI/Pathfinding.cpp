@@ -10,6 +10,8 @@ Pathfinding::Pathfinding(std::vector<CTile*> waypoints)
 
 		waypointNodes.push_back(waypointNode);
 	}
+
+	currentPatrolNode = nullptr;
 }
 
 void Pathfinding::SetPatrolNodes(std::vector<PatrolNode*> nodes)
