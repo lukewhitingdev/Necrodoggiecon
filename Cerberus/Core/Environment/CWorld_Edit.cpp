@@ -183,12 +183,14 @@ void CWorld_Editable::SetOperationMode(EditOperationMode mode)
 	case EditOperationMode::None:
 		Debug::Log("OperationMode: None");
 		break;
+	case EditOperationMode::EnemyEntity:
+		break;
 	}
 }
 
 void CWorld_Editable::QueueCell(Vector2 Cell)
 {
-	if (operationType == EditOperationMode::Additive_Single || operationType == EditOperationMode::Subtractive_Single)
+	if (operationType == EditOperationMode::Additive_Single || operationType == EditOperationMode::Subtractive_Single || operationType == EditOperationMode::EnemyEntity)
 	{
 		editOrigin = Cell;
 		PerformOperation(editOrigin, Cell);
@@ -242,8 +244,12 @@ void CWorld_Editable::PerformOperation(Vector2 A, Vector2 B)
 	case EditOperationMode::Additive_Single:
 		Additive_Cell(A);
 		break;
+	case EditOperationMode::EnemyEntity:
+		AddEditorEntity_EnemyCharacter(A, SelectedEntityID);
+		break;
 	case EditOperationMode::None:
 		break;
+
 
 	}
 	ClearQueue();
@@ -704,9 +710,10 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 ///////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 
-void CWorld_Editable::AddEditorEntity_EnemyCharacter(int Slot)
+void CWorld_Editable::AddEditorEntity_EnemyCharacter(Vector2 Position, int Slot)
 {
 	CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
 	TempRef->InitialiseEntity(Slot);
+	TempRef->SetPosition(Position.x * (tileScale * tileScaleMultiplier), Position.y * (tileScale * tileScaleMultiplier), -1);
 	EditorEntityList.push_back(TempRef);
 }

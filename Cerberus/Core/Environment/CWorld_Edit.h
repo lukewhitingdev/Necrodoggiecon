@@ -10,7 +10,7 @@ struct CellData
 
 enum class EditOperationMode
 {
-	None, Additive, Subtractive, Additive_Single, Subtractive_Single
+	None, Additive, Subtractive, Additive_Single, Subtractive_Single, EnemyEntity
 };
 
 class CWorld_Editable : public CWorld
@@ -24,6 +24,7 @@ public:
 
 	//Set the current operation mode
 	 void SetOperationMode(EditOperationMode mode);
+	 void SetEntityID(int ID) { SelectedEntityID = ID; }
 
 	//Adds a cell to the Queue, once the queue is full (2 Cells) the grid will perform a edit operation;
 	 void QueueCell(Vector2 Cell);
@@ -59,7 +60,7 @@ public:
 
 	 void AddEditorEntity_Prop(int Slot);
 
-	 void AddEditorEntity_EnemyCharacter(int Slot);
+	
 
 	 void AddEditorEntity_ItemHolder(int Slot);
 
@@ -91,6 +92,9 @@ protected:
 	 void Additive_Cell(Vector2 A);
 
 	 void Subtractive_Cell(Vector2 A);
+
+	 //Add Enemy enetity to the map
+	 void AddEditorEntity_EnemyCharacter(Vector2 Position, int Slot);
 
 
 private:
@@ -167,6 +171,8 @@ private:
 
 	 //main editor viewport
 	 class CT_EditorMain* EditorViewport;
+
+	 int SelectedEntityID;
 
 
 

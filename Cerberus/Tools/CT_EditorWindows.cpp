@@ -197,11 +197,13 @@ void CT_EditorWindows::render()
             {
                 if (ImGui::Button("Mage Enemy"))
                 {
-                    CWorldManager::GetEditorWorld()->AddEditorEntity_EnemyCharacter(0);
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::EnemyEntity);
+                    CWorldManager::GetEditorWorld()->SetEntityID(0);
                 }
                 if (ImGui::Button("Melee Enemy"))
                 {
-                    CWorldManager::GetEditorWorld()->AddEditorEntity_EnemyCharacter(1);
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::EnemyEntity);
+                    CWorldManager::GetEditorWorld()->SetEntityID(1);
                 }
 
 

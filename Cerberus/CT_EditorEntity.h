@@ -21,6 +21,7 @@ public:
 
     virtual void InitialiseEntity(int SlotID);
 
+    virtual void SaveEntity();
 
 
 
@@ -74,6 +75,10 @@ public:
 
 
     virtual void InitialiseEntity(int SlotID);
+
+    virtual void SaveEntity();
+
+    
 
 
 
