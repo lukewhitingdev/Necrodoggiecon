@@ -4,7 +4,7 @@
 
 class TestUI : public CEntity
 {
-	class CSpriteComponent* birb = nullptr;
+	class CAnimatingSpriteComponent* birb = nullptr;
 	class CTextRenderComponent* text1 = nullptr;
 	class CTextRenderComponent* text2 = nullptr;
 	class CTextRenderComponent* text3 = nullptr;

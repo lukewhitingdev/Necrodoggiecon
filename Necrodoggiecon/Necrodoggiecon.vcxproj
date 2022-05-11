@@ -176,6 +176,7 @@
     <ClCompile Include="Game\testItemData.cpp" />
     <ClCompile Include="Game\TestUI.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="weaponUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\AI\CAICharacter.h" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Game\testEquippedItem.h" />
     <ClInclude Include="Game\testItemData.h" />
     <ClInclude Include="Game\TestUI.h" />
+    <ClInclude Include="weaponUI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

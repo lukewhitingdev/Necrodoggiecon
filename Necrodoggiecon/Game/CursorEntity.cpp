@@ -3,6 +3,7 @@
 #include "Cerberus/Core/Components\CTextRenderComponent.h"
 #include <sstream>
 #include "Cerberus\Core\Structs\CCamera.h"
+#include "Cerberus/Core/Utility/Math/Math.h"
 
 CursorEntity::CursorEntity()
 {
@@ -35,8 +36,11 @@ void CursorEntity::Update(float deltaTime)
 
 	SetPosition(Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z));
 
+	XMFLOAT3 screenVec = XMFLOAT3(GetPosition().x, GetPosition().y, GetPosition().z);
+	screenVec = Math::FromScreenToWorld(screenVec);
+
 	std::stringstream ss;
-	ss << "X:" << round(GetPosition().x) << " Y:" << round(GetPosition().y);
+	ss << "X:" << round(screenVec.x) << " Y:" << round(screenVec.y);
 	text->SetText(ss.str());
 
 	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::RButton))
