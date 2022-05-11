@@ -86,9 +86,28 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 
 
+	
+
+
+
 	BuildNavigationGrid();
 
 	GenerateTileMap();
+
+	int enemyCount = storedFile["EnemyCount"];
+
+	for (int i = 0; i < enemyCount; i++)
+	{
+		int EnemyID = storedFile["Enemy"][i]["Type"];
+		int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
+		int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
+
+		CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
+		TempRef->InitialiseEntity(EnemyID);
+		TempRef->SetPosition(Vector3(EnemyX, EnemyY, -1));
+		EditorEntityList.push_back(TempRef);
+
+	}
 }
 
 void CWorld_Editable::UnloadWorld()

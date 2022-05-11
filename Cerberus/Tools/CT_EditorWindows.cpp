@@ -166,7 +166,9 @@ void CT_EditorWindows::render()
                 int ItemCount = 5;
                 for (int i = 0; i < ItemCount; i++)
                 {
-                    if (ImGui::Button("Slot " + i))
+                    std::string SlotName = "Slot " + std::to_string(i);
+                 
+                    if (ImGui::Button(SlotName.c_str()))
                     {
 
                     }
