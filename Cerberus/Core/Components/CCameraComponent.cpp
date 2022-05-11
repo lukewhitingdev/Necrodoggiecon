@@ -9,6 +9,7 @@ CCameraComponent::CCameraComponent() : view(), proj(), zoom(1), prevPos(Vector3(
  */
 void CCameraComponent::Update(float deltaTime)
 {
+	UNREFERENCED_PARAMETER(deltaTime);
 	if (prevPos != this->GetParent()->GetPosition())
 	{
 		UpdateView();

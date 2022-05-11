@@ -14,5 +14,5 @@ class CCamera : public CEntity
 {
 public:
 	CCamera() {};
-	virtual void Update(float deltaTime) {};
+	virtual void Update(float deltaTime) { UNREFERENCED_PARAMETER(deltaTime); };
 };
