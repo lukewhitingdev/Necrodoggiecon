@@ -173,6 +173,7 @@
     <ClCompile Include="Game\testEquippedItem.cpp" />
     <ClCompile Include="Game\testItemData.cpp" />
     <ClCompile Include="Game\TestUI.cpp" />
+    <ClCompile Include="Game\weapons.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +195,10 @@
     <ClInclude Include="Game\testEquippedItem.h" />
     <ClInclude Include="Game\testItemData.h" />
     <ClInclude Include="Game\TestUI.h" />
+    <ClInclude Include="Game\weapons.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Weapons.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

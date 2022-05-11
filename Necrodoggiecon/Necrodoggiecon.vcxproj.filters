@@ -66,6 +66,9 @@
     <ClCompile Include="Game\TestUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game\weapons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\AI\CAICharacter.h">
@@ -122,5 +125,13 @@
     <ClInclude Include="Game\TestUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game\weapons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Weapons.json">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

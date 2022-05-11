@@ -1,6 +1,7 @@
 #include "testCharacter.h"
 #include "CDroppedItem.h"
 #include "CEquippedItem.h"
+#include "weapons.h"
 
 testCharacter::testCharacter()
 {
@@ -17,6 +18,8 @@ testCharacter::testCharacter()
 		spriteComponent->SetScale(-1, 1, 1);
 
 	timeElapsed = float(rand() / 100);
+
+	weapons weapon("Dagger");
 }
 
 void testCharacter::PressedHorizontal(int dir, float deltaTime)
