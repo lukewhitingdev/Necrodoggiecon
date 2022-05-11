@@ -10,6 +10,7 @@
 #include "Cerberus\Core\Environment/CWorld.h"
 #include "CAINode.h"
 #include "Necrodoggiecon\Game\testCharacter.h"
+#include "Necrodoggiecon\Game\testController.h"
 #include "Necrodoggiecon\Game\CCharacter.h"
 
 enum class STATE
@@ -106,6 +107,7 @@ protected:
 
 	testCharacter* playerToKill = nullptr;
 	testCharacter* playerToChase = nullptr;
+	std::vector<testController*> playersController = Engine::GetEntityOfType<testController>();
 	std::vector<testCharacter*> players = Engine::GetEntityOfType<testCharacter>();
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 	class CSpriteComponent* viewSprite = nullptr;
@@ -116,8 +118,8 @@ protected:
 	float aiRange = 400.0f;
 	float aiViewAngle = 45.0f;
 
-	float width = 128.0f;
-	float height = 128.0f;
+	float width = 64.0f;
+	float height = 64.0f;
 
 	float rotationSpeed = 0.01f;
 	float maxSearchTime = 5.0f;

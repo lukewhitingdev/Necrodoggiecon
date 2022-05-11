@@ -37,9 +37,9 @@ CAIController::CAIController()
 	aiPosition = GetPosition();	
 
 
-	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 500.0f, 200.0f, 0.0f });
-	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ -500.0f, 300.0f, 0.0f });
-	PatrolNode* patrolPoint3 = new PatrolNode(Vector3{ -500.0f, -200.0f, 0.0f });
+	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 1500.0f, 300.0f, 0.0f });
+	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ 300.0f, 1300.0f, 0.0f });
+	PatrolNode* patrolPoint3 = new PatrolNode(Vector3{ 500.0f, 200.0f, 0.0f });
 
 	patrolPoint1->nextPatrolNode = patrolPoint2;
 	patrolPoint2->nextPatrolNode = patrolPoint3;
@@ -451,6 +451,9 @@ void CAIController::ChasePlayer(testCharacter* player)
 // Absolutely CLART the player off the face of this virtual plane.
 void CAIController::AttackPlayer(testCharacter* player)
 {
+	(playersController[0]->charOne == player ? playersController[0]->charOne = nullptr : playersController[0]->charTwo = nullptr);
+	((playersController[0]->charOne != nullptr || playersController[0]->charTwo != nullptr) ? playersController[0]->SwapChar() : playersController[0]->Unpossess());
+	
 	Engine::DestroyEntity(player);
 	players = Engine::GetEntityOfType<testCharacter>();
 	currentState = STATE::PATHFINDING;
