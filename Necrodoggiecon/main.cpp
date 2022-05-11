@@ -87,6 +87,9 @@ int Start()
 	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
 	testCharacter* character2 = Engine::CreateEntity<testCharacter>();
 
+	character1->SetCamera(primaryCameraComponent);
+	character2->SetCamera(primaryCameraComponent);
+
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
 	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
