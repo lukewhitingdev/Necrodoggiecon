@@ -25,6 +25,9 @@
 #include "Necrodoggiecon\Game\testCharacter.h"
 #include "Necrodoggiecon\Game\CCharacter.h"
 
+/**
+ * Controller class for the AI.
+ */
 class CAIController : public CEntity
 {
 public:

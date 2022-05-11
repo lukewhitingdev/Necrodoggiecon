@@ -11,6 +11,9 @@ class CAIController;
 
 //Reference: https://www.aleksandrhovhannisyan.com/blog/finite-state-machine-fsm-tutorial-implementing-an-fsm-in-c/
 
+/**
+ * Base state class.
+ */
 class State
 {
 public:
@@ -21,7 +24,9 @@ public:
 	
 };
 
-
+/**
+ * State for when the AI is chasing the player.
+ */
 class ChaseState : public State
 {
 public:
@@ -35,6 +40,9 @@ private:
 	testCharacter* closestPlayer;
 };
 
+/**
+ * State for when the AI is attacking the player.
+ */
 class AttackState : public State
 {
 public:
@@ -48,6 +56,9 @@ private:
 	testCharacter* closestPlayer;
 };
 
+/**
+ * State for when the AI is patrolling between the patrol points.
+ */
 class PatrolState : public State
 {
 public:
@@ -58,6 +69,9 @@ public:
 	static State& getInstance();
 };
 
+/**
+ * State for when the AI is searching for the player.
+ */
 class SearchState : public State
 {
 public:
