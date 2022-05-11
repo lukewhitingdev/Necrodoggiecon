@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   Pathfinding.cpp
+ * \brief  All the necessary functions to help any AI to traverse any level.
+ * 
+ * \author Nasser Ksous
+ * \date   May 2022
+ *********************************************************************/
 #include "Pathfinding.h"
 
 /**

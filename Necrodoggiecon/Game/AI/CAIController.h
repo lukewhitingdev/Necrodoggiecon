@@ -1,4 +1,12 @@
 #pragma once
+/*****************************************************************//**
+ * \file   CAIController.h
+ * \brief  Header file containing all the functions and variables needed to control the AI.
+ * 
+ * \author Nasser Ksous
+ * \date   May 2022
+ *********************************************************************/
+
 #include <iostream>
 #include "Cerberus\Core\CEntity.h"
 #include "Cerberus\Core\Utility\Vector3.h"

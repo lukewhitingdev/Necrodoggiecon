@@ -1,4 +1,11 @@
 #pragma once
+/*****************************************************************//**
+ * \file   State.h
+ * \brief  Header files containing the base state class and any inheritted states for the FSM of the AI.
+ * 
+ * \author Nasser Ksous
+ * \date   May 2022
+ *********************************************************************/
 #include "Necrodoggiecon/Game/testCharacter.h"
 class CAIController;
 

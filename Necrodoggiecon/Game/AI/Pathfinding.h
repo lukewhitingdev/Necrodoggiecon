@@ -1,6 +1,16 @@
 #pragma once
+/*****************************************************************//**
+ * \file   Pathfinding.h
+ * \brief  Class that handles all the necessary functions and variables for the AI to navigate through any level.
+ * 
+ * \author Nasser Ksous
+ * \date   May 2022
+ *********************************************************************/
 #include "CAINode.h"
 
+/**
+ * Pathfinding class to handle all the pathfinding for the AI.
+ */
 class Pathfinding
 {
 public:

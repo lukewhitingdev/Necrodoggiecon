@@ -1,6 +1,6 @@
 /*****************************************************************//**
  * \file   CAIController.cpp
- * \brief  COntroller for the AI
+ * \brief  All the functions needed to control the AI.
  * 
  * \author Nasser Ksous
  * \date   May 2022

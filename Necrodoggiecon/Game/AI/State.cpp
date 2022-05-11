@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   State.cpp
+ * \brief  Functions for all the functions for the states.
+ * 
+ * \author Nasser Ksous
+ * \date   May 2022
+ *********************************************************************/
 #include "State.h"
 #include "CAIController.h"
 
