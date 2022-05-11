@@ -10,16 +10,9 @@ testCharacter::testCharacter()
 	spriteComponent->SetRenderRect(XMUINT2(16, 16));
 	spriteComponent->SetSpriteSize(XMUINT2(64, 64));
 	spriteComponent->SetAnimationSpeed(15);
-	spriteComponent->animationRectSize = { 8,1 };
-
-	//spriteComponent->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
+	spriteComponent->SetAnimationRectSize(XMUINT2(8, 1));
 
 	colComponent = new CollisionComponent("Character 1");
-
-	/*if (float(rand() % 2))
-		spriteComponent->SetScale(-1, 1, 1);*/
-
-	timeElapsed = float(rand() / 100);
 }
 
 void testCharacter::PressedHorizontal(int dir, float deltaTime)
@@ -27,9 +20,9 @@ void testCharacter::PressedHorizontal(int dir, float deltaTime)
 	AddHorizontalMovement(dir, speed, deltaTime);
 
 	if (dir > 0)
-		spriteComponent->animationRectPosition = { 0,1 };
+		spriteComponent->SetAnimationRectPosition(XMUINT2(0, 1));
 	else
-		spriteComponent->animationRectPosition = { 0,2 };
+		spriteComponent->SetAnimationRectPosition(XMUINT2(0, 2));
 }
 
 void testCharacter::PressedVertical(int dir, float deltaTime)
@@ -37,9 +30,9 @@ void testCharacter::PressedVertical(int dir, float deltaTime)
 	AddVerticalMovement(dir, speed, deltaTime);
 
 	if (dir > 0)
-		spriteComponent->animationRectPosition = { 0,0 };
+		spriteComponent->SetAnimationRectPosition(XMUINT2(0, 0));
 	else
-		spriteComponent->animationRectPosition = { 0,3 };
+		spriteComponent->SetAnimationRectPosition(XMUINT2(0, 3));
 }
 
 void testCharacter::PressedInteract()

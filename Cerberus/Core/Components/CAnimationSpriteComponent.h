@@ -21,16 +21,29 @@ class CAnimationSpriteComponent : public CSpriteComponent
 	float timeElapsed = 0.0f;
 	uint32_t animSpeed = 24;
 	bool playing = true;
-
-	/**
-	 * Sets the number of sprites within the spritesheet.
-	 */
-	//void SetNumberOfAnimationSprites() { numberOfAnimationSprites = XMUINT2(GetTextureSize().x / GetRenderRect().x, GetTextureSize().y / GetRenderRect().y); };
-
-public:
 	XMUINT2 animationRectSize = { 1,1 };
 	XMUINT2 animationRectPosition = { 0,0 };
 	XMUINT2 currentFrame = { 0,0 };	//relative to the animation rect.
+
+public:
+	void RestartAnimation() { timeElapsed = 0.0f; };
+
+	/**
+	 * Sets the size of the rectangle in sprites to which the animation is played within.
+	 * Like narrowing down the sprite to just the animation you want.
+	 */
+	void SetAnimationRectSize(const XMUINT2& newSize) { animationRectSize = newSize; };
+	const XMUINT2& GetAnimationRectSize() { return animationRectSize; };
+
+	/**
+	 * Sets the position of the rectangle in sprites to which the animation is played within.
+	 * This is the point of the top left of the animation rect.
+	 * Use this to select the portion of the sprite to display.
+	 */
+	void SetAnimationRectPosition(const XMUINT2& newPosition) { animationRectPosition = newPosition; };
+	const XMUINT2& GetAnimationRectPosition() { return animationRectPosition; };
+
+	const XMUINT2& GetCurrentFrame() { return currentFrame; };
 
 	/**
 	 * Set if the animation should be playing.
@@ -50,18 +63,6 @@ public:
 	 */
 	void SetAnimationSpeed(const uint32_t& newSpeed) { animSpeed = newSpeed; };
 	const uint32_t& GetAnimationSpeed() { return animSpeed; };
-
-	/**
-	 * Gets the auto-generated number of sprites in each dimension of the sprite-sheet.
-	 * For instance, if the texture has 5 images in a row and 2 rows of images then it would be {5,2}
-	 */
-	//const XMUINT2& GetNumberOfAnimationSprites() { return numberOfAnimationSprites; };
-
-	/**
-	 * Used to resize the portion of the texture you want to display on the sprite in pixels.
-	 * Use to set the size of a selection of a sprite sheet.
-	 */
-	//virtual void SetRenderRect(XMUINT2 newSize) override { CSpriteComponent::SetRenderRect(newSize); SetNumberOfAnimationSprites(); };
 
 	CAnimationSpriteComponent();
 	virtual void Update(float deltaTime) override;
