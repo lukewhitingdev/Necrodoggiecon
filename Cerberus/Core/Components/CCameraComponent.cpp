@@ -1,8 +1,12 @@
 #include "CCameraComponent.h"
-#include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 
 CCameraComponent::CCameraComponent() : view(), proj(), zoom(1), prevPos(Vector3(FLT_MAX, FLT_MAX, FLT_MAX)) {}
 
+/**
+ * Updates the camera's view matrix if the position has changed.
+ * 
+ * \param deltaTime
+ */
 void CCameraComponent::Update(float deltaTime)
 {
 	if (prevPos != this->GetParent()->GetPosition())
@@ -12,39 +16,71 @@ void CCameraComponent::Update(float deltaTime)
 	}
 }
 
+/**
+ * Required to be called once after the camera component has been added to a entity.
+ * 
+ */
 void CCameraComponent::Initialize()
 {
 	UpdateView();
 	UpdateProj();
 }
 
-
+/**
+ * Sets the zoom level of the camera (FOV).
+ * 
+ * \param level
+ */
 void CCameraComponent::SetZoomLevel(const float level)
 {
 	zoom = level;
 	UpdateProj();
 }
 
+/**
+ * Returns the zoom level of the camera.
+ * 
+ * \return zoom-level of camera.
+ */
 float CCameraComponent::GetZoomLevel()
 {
 	return zoom;
 }
 
+/**
+ * Returns the view matrix of the camera.
+ * 
+ * \return view-matrix of camera.
+ */
 XMFLOAT4X4 CCameraComponent::GetViewMatrix()
 {
 	return view;
 }
 
+/**
+ * Returns the projection matrix of the camera.
+ * 
+ * \return projection-matrix of camera.
+ */
 XMFLOAT4X4 CCameraComponent::GetProjectionMatrix()
 {
 	return proj;
 }
 
+/**
+ * Returns the position of the camera's parent entity.
+ * 
+ * \return cameras' parent entity's position.
+ */
 Vector3 CCameraComponent::GetPosition()
 {
 	return this->GetParent()->GetPosition();
 }
 
+/**
+ * Updates the view matrix of the camera.
+ * 
+ */
 void CCameraComponent::UpdateView()
 {
 	// Initialize the view matrix
@@ -57,9 +93,12 @@ void CCameraComponent::UpdateView()
 	XMStoreFloat4x4(&view, viewMatrix);
 }
 
+/**
+ * Updates the projection matrix of the camera.
+ * 
+ */
 void CCameraComponent::UpdateProj()
 {
-	// Initialize the projection matrix
 	XMMATRIX projMatrix = XMMatrixOrthographicLH(Engine::windowWidth / zoom, Engine::windowHeight / zoom, 0.01f, 100.0f);
 	XMStoreFloat4x4(&proj, projMatrix);
 }

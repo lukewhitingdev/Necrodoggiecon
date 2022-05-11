@@ -1,4 +1,10 @@
-
+/*****************************************************************//**
+ * \file   CCameraComponent.h
+ * \brief  Used to attach a camera to a entity.
+ * 
+ * \author Luke Whiting
+ * \date   May 2022
+ *********************************************************************/
 
 #pragma once
 #include <DirectXMath.h>
