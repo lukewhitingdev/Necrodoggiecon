@@ -64,12 +64,6 @@ void testCharacter::Update(float deltaTime)
 	colComponent->SetPosition(GetPosition());
 }
 
-void testCharacter::HasCollided(CollisionComponent* collidedObject)
-{
-	if (collidedObject->GetName() == "Wall")
-		Debug::Log("Player has collided with a wall");
-}
-
 void testCharacter::LookAt(Vector3 pos)
 {
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
