@@ -25,13 +25,13 @@ class CAnimationSpriteComponent : public CSpriteComponent
 	XMUINT2 currentFrame = { 0,0 };	//relative to the animation rect.
 
 public:
-	void RestartAnimation() { timeElapsed = 0.0f; };
+	void ResetAnimation() { timeElapsed = 0.0f; };
 
 	/**
 	 * Sets the size of the rectangle in sprites to which the animation is played within.
 	 * Like narrowing down the sprite to just the animation you want.
 	 */
-	void SetAnimationRectSize(const XMUINT2& newSize) { animationRectSize = newSize; };
+	void SetAnimationRectSize(const XMUINT2& newSize, const bool& resetAnimation = false) { animationRectSize = newSize; if (resetAnimation) ResetAnimation(); };
 	const XMUINT2& GetAnimationRectSize() { return animationRectSize; };
 
 	/**
@@ -39,7 +39,7 @@ public:
 	 * This is the point of the top left of the animation rect.
 	 * Use this to select the portion of the sprite to animate.
 	 */
-	void SetAnimationRectPosition(const XMUINT2& newPosition) { animationRectPosition = newPosition; };
+	void SetAnimationRectPosition(const XMUINT2& newPosition, const bool& resetAnimation = false) { animationRectPosition = newPosition; if (resetAnimation) ResetAnimation(); };
 	const XMUINT2& GetAnimationRectPosition() { return animationRectPosition; };
 
 	const XMUINT2& GetCurrentFrame() { return currentFrame; };
@@ -47,7 +47,7 @@ public:
 	/**
 	 * Set if the animation should be playing.
 	 */
-	void SetPlaying(const bool& newState) { playing = newState; };
+	void SetPlaying(const bool& newState, const bool& resetAnimation = false) { playing = newState; if (resetAnimation) ResetAnimation(); };
 	const bool& GetPlaying() { return playing; };
 
 	/**
