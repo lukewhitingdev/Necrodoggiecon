@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   CAIController.cpp
+ * \brief  COntroller for the AI
+ * 
+ * \author Nasser Ksous
+ * \date   May 2022
+ *********************************************************************/
 #include "CAIController.h"
 
 CAIController::CAIController()
@@ -52,6 +59,11 @@ CAIController::CAIController()
 	SetCurrentState(PatrolState::getInstance());
 }
 
+/**
+ * .
+ * 
+ * \param deltaTime
+ */
 void CAIController::Update(float deltaTime)
 {
 	// Set the local variable for the AI position.
@@ -118,6 +130,7 @@ void CAIController::Update(float deltaTime)
  * Moves the character position using acceleration, force, mass and velocity.
  * 
  * \param deltaTime Time between frames.
+ * \param deltaTime
  */
 void CAIController::Movement(float deltaTime)
 {
