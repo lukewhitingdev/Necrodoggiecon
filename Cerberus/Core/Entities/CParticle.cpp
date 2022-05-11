@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   CParticle.cpp
+ * \brief  A helper class for the ParticleEmitter, encapsulates a singluar particle that is emitted.
+ * 
+ * \author Luke Whiting
+ * \date   May 2022
+ *********************************************************************/
 #include "CParticle.h"
 
 CParticle::CParticle() : lifetime(0), velocity(0)
@@ -14,6 +21,11 @@ CParticle::~CParticle()
 	sprite = nullptr;
 }
 
+/**
+ * Updates the particles lifetime and velocity.
+ * 
+ * \param deltaTime
+ */
 void CParticle::Update(float deltaTime)
 {
 	lifetime -= deltaTime;
@@ -25,6 +37,14 @@ void CParticle::Update(float deltaTime)
 	sprite->Update(deltaTime);
 }
 
+/**
+ * Draws the particle.
+ * 
+ * \param context
+ * \param parentMat
+ * \param cb
+ * \param constantBuffer
+ */
 void CParticle::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer)
 {
 	sprite->Draw(context, parentMat, cb, constantBuffer);
