@@ -20,15 +20,18 @@ class CAnimationSpriteComponent : public CSpriteComponent
 {
 	float timeElapsed = 0.0f;
 	uint32_t animSpeed = 24;
-	XMUINT2 numberOfAnimationSprites = { 1, 1 };
 	bool playing = true;
 
 	/**
 	 * Sets the number of sprites within the spritesheet.
 	 */
-	void SetNumberOfAnimationSprites() { numberOfAnimationSprites = XMUINT2(GetTextureSize().x / GetRenderRect().x, GetTextureSize().y / GetRenderRect().y); };
+	//void SetNumberOfAnimationSprites() { numberOfAnimationSprites = XMUINT2(GetTextureSize().x / GetRenderRect().x, GetTextureSize().y / GetRenderRect().y); };
 
 public:
+	XMUINT2 animationRectSize = { 1,1 };
+	XMUINT2 animationRectPosition = { 0,0 };
+	XMUINT2 currentFrame = { 0,0 };	//relative to the animation rect.
+
 	/**
 	 * Set if the animation should be playing.
 	 */
@@ -52,19 +55,13 @@ public:
 	 * Gets the auto-generated number of sprites in each dimension of the sprite-sheet.
 	 * For instance, if the texture has 5 images in a row and 2 rows of images then it would be {5,2}
 	 */
-	const XMUINT2& GetNumberOfAnimationSprites() { return numberOfAnimationSprites; };
+	//const XMUINT2& GetNumberOfAnimationSprites() { return numberOfAnimationSprites; };
 
 	/**
 	 * Used to resize the portion of the texture you want to display on the sprite in pixels.
 	 * Use to set the size of a selection of a sprite sheet.
 	 */
-	virtual void SetRenderRect(XMUINT2 newSize) override { CSpriteComponent::SetRenderRect(newSize); SetNumberOfAnimationSprites(); };
-
-	/**
-	 * The size of the ingame sprite in pixels.
-	 * Set automatically on texture load.
-	 */
-	virtual void SetSpriteSize(XMUINT2 newSize) override { CSpriteComponent::SetSpriteSize(newSize); SetNumberOfAnimationSprites(); };
+	//virtual void SetRenderRect(XMUINT2 newSize) override { CSpriteComponent::SetRenderRect(newSize); SetNumberOfAnimationSprites(); };
 
 	CAnimationSpriteComponent();
 	virtual void Update(float deltaTime) override;
