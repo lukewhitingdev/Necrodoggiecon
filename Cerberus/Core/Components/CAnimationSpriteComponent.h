@@ -1,10 +1,9 @@
 /*****************************************************************//**
  * \file   CAnimationSpriteComponent.h
- * \brief  Extends CSpriteComponent to automatically animate basic sprite sheets.
+ * \brief  Extends CSpriteComponent to automatically animate sprite sheets.
  * 
- * This class will automatically animate an entire sprite-sheet.
- * However, this animation is strictly the entire sprite-sheet only.
- * If you want more fine control, the methods for doing this manually is part of CSpriteComponent. 
+ * This class will automatically animate a region of a sprite-sheet.
+ * Its up to you to input the region of the sprite-sheet to animate.
  * 
  * \author Arrien Bidmead
  * \date   May 2022
@@ -14,7 +13,7 @@
 #include "CSpriteComponent.h"
 
 /**
- * Extends CSpriteComponent to automatically animate basic sprite sheets.
+ * Extends CSpriteComponent to automatically animate sprite-sheets.
  */
 class CAnimationSpriteComponent : public CSpriteComponent
 {
@@ -38,7 +37,7 @@ public:
 	/**
 	 * Sets the position of the rectangle in sprites to which the animation is played within.
 	 * This is the point of the top left of the animation rect.
-	 * Use this to select the portion of the sprite to display.
+	 * Use this to select the portion of the sprite to animate.
 	 */
 	void SetAnimationRectPosition(const XMUINT2& newPosition) { animationRectPosition = newPosition; };
 	const XMUINT2& GetAnimationRectPosition() { return animationRectPosition; };

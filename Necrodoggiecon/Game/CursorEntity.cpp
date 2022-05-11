@@ -4,15 +4,18 @@
 #include <sstream>
 #include "Cerberus\Core\Structs\CCamera.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
+#include "Cerberus/Core/Components/CAnimationSpriteComponent.h"
 
 CursorEntity::CursorEntity()
 {
 	SetPosition(0, 0, -100);
 
-	sprite = AddComponent<CSpriteComponent>();
+	sprite = AddComponent<CAnimationSpriteComponent>();
 	sprite->LoadTextureWIC("Resources\\cursorSS.png");
 	sprite->SetRenderRect(XMUINT2(16, 16));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
+	sprite->SetAnimationRectSize(XMUINT2(2, 1));
+	sprite->SetAnimationSpeed(2);
 	sprite->ui = true;
 
 	text = AddComponent<CTextRenderComponent>();
@@ -31,8 +34,7 @@ void CursorEntity::Update(float deltaTime)
 	else if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::LButton))
 		row = 1;
 
-	const float speed = 2;
-	sprite->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * float(sprite->GetRenderRect().x), row * float(sprite->GetRenderRect().y)));
+	sprite->SetAnimationRectPosition(XMUINT2(0, row));
 
 	SetPosition(Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z));
 
