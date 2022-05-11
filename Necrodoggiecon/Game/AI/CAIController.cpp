@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   CAIController.cpp
+ * \brief  COntroller for the AI
+ * 
+ * \author Nasser Ksous
+ * \date   May 2022
+ *********************************************************************/
 #include "CAIController.h"
 
 CAIController::CAIController()
@@ -46,6 +53,11 @@ CAIController::CAIController()
 	SetPatrolNodes(patrolPoints, tiles);
 }
 
+/**
+ * .
+ * 
+ * \param deltaTime
+ */
 void CAIController::Update(float deltaTime)
 {
 	// Set the local variable for the AI position.
@@ -84,7 +96,11 @@ void CAIController::Update(float deltaTime)
 	SetPosition(aiPosition);
 }
 
-/* Moves the character position using acceleration, force, mass and velocity. */
+/**
+ * Moves the character position using acceleration, force, mass and velocity.
+ * 
+ * \param deltaTime
+ */
 void CAIController::Movement(float deltaTime)
 {
 	// This is just some simple physics to move the AI.
@@ -148,7 +164,12 @@ Vector3 CAIController::CollisionAvoidance()
 	return avoidance;
 }
 
-/* Maths magic that determines whether the player is in view. */
+/**
+ * Maths magic that determines whether the player is in view.
+ * 
+ * \param posOfObject position of the object for the AI to see
+ * \return bool stating whether the AI can see the object
+ */
 bool CAIController::CanSee(Vector3 posOfObject)
 {
 	// Calculate the direction the AI is looking.

@@ -9,6 +9,7 @@
 #include <Necrodoggiecon\Game\AI\CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
+#include <weaponUI.h>
 
 /*
 
@@ -77,6 +78,7 @@ int Start()
 	Engine::SetRenderCamera(primaryCameraComponent);
 
 	Engine::CreateEntity<TestUI>()->SetCamera(primaryCameraComponent);
+	Engine::CreateEntity<weaponUI>();
 	Engine::CreateEntity<CursorEntity>()->SetCamera(primaryCameraComponent);
 
 	CWorld::LoadWorld(0);
