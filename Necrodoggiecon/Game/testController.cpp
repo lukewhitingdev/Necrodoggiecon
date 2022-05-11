@@ -30,6 +30,11 @@ void testController::HandleInput(float deltaTime)
 		inputable->PressedInteract();
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::G))
 		inputable->PressedDrop();
+	if (charOne != nullptr && charTwo != nullptr)
+	{
+		if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::O))
+			SwapChar();
+	}
 
 
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
@@ -44,6 +49,7 @@ void testController::HandleInput(float deltaTime)
 
 void testController::SwapChar()
 {
+	
 	if (charIndex == 1)
 	{
 		Possess(charTwo);

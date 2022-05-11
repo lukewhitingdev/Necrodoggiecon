@@ -10,11 +10,11 @@ public:
 
 	CCharacter* charOne = nullptr;
 	CCharacter* charTwo = nullptr;
+	void SwapChar();
 
 protected:
 	virtual void HandleInput(float deltaTime) override;
 	int charIndex = 1;
-	void SwapChar();
 
 	IInputable* inputable = nullptr;
 
