@@ -8,6 +8,7 @@
 #include <Necrodoggiecon\Game\ItemDatabase.h>
 #include <Necrodoggiecon\Game\AI\CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
+#include <Cerberus\Core\Components\CCameraComponent.h>
 
 /*
 
@@ -70,6 +71,8 @@ int Start()
 {
 	CCamera* primaryCamera = Engine::CreateEntity<CCamera>();
 	CCameraComponent* primaryCameraComponent = primaryCamera->AddComponent<CCameraComponent>();
+	primaryCamera->SetPosition(0, 0, -3);
+	primaryCameraComponent->Initialize();
 
 	Engine::SetRenderCamera(primaryCameraComponent);
 

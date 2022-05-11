@@ -1,6 +1,7 @@
 #include "CCameraComponent.h"
+#include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 
-CCameraComponent::CCameraComponent() : view(), proj(), zoom(), prevPos(Vector3(FLT_MAX, FLT_MAX, FLT_MAX)) {}
+CCameraComponent::CCameraComponent() : view(), proj(), zoom(1), prevPos(Vector3(FLT_MAX, FLT_MAX, FLT_MAX)) {}
 
 void CCameraComponent::Update(float deltaTime)
 {
@@ -11,10 +12,17 @@ void CCameraComponent::Update(float deltaTime)
 	}
 }
 
+void CCameraComponent::Initialize()
+{
+	UpdateView();
+	UpdateProj();
+}
+
 
 void CCameraComponent::SetZoomLevel(const float level)
 {
 	zoom = level;
+	UpdateProj();
 }
 
 float CCameraComponent::GetZoomLevel()
@@ -40,8 +48,8 @@ Vector3 CCameraComponent::GetPosition()
 void CCameraComponent::UpdateView()
 {
 	// Initialize the view matrix
-	XMFLOAT4 pos = DirectX::XMFLOAT4(this->GetParent()->GetPosition().x, this->GetParent()->GetPosition().y, this->GetParent()->GetPosition().z, 1);
-	XMFLOAT4 at = DirectX::XMFLOAT4(this->GetParent()->GetPosition().x + 0.01f, this->GetParent()->GetPosition().y + 0.01f, 0, 0);
+	XMFLOAT4 pos = DirectX::XMFLOAT4(this->GetParent()->GetPosition().x + 0.001f, this->GetParent()->GetPosition().y + 0.001f, this->GetParent()->GetPosition().z + 0.001f, 1);
+	XMFLOAT4 at = DirectX::XMFLOAT4(this->GetParent()->GetPosition().x + 0.001f, this->GetParent()->GetPosition().y + 0.001f, 0, 0);
 	XMVECTOR Eye = XMLoadFloat4(&pos);
 	XMVECTOR At = XMLoadFloat4(&at);
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
