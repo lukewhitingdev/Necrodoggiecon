@@ -22,10 +22,10 @@ public:
 	Vector3 GetDirection(const Vector3 dir);
 
 	void SetVelocity(const float velo);
-	float GetVelocity(const float velo);
+	float GetVelocity();
 
 	void SetLifetime(const float life);
-	float GetLifetime(const float velo);
+	float GetLifetime();
 
 	void Start();
 	void Stop();

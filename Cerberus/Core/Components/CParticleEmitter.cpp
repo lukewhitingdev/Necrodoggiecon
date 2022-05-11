@@ -121,10 +121,9 @@ void CParticleEmitter::SetVelocity(const float velo)
 /**
  * Returns the overall particle velocity.
  * 
- * \param velo
- * \return 
+ * \return velocity of particle
  */
-float CParticleEmitter::GetVelocity(const float velo)
+float CParticleEmitter::GetVelocity()
 {
 	return overallVelocity;
 }
@@ -142,10 +141,9 @@ void CParticleEmitter::SetLifetime(const float life)
 /**
  * Returns the overall particles lifetime.
  * 
- * \param velo
- * \return 
+ * \return lifetime of particle
  */
-float CParticleEmitter::GetLifetime(const float velo)
+float CParticleEmitter::GetLifetime()
 {
 	return overallLifetime;
 };
@@ -185,9 +183,10 @@ void CParticleEmitter::Update(float deltaTime)
 			{
 				particle->SetPosition(Vector3(0, 0, 0));
 
-				particle->SetLifetime((useRandLife) ? Math::random(randLifeMin, randLifeMax) : overallLifetime);
-				particle->SetVelocity((useRandVelo) ? Math::random(randVeloMin, randVeloMax) : overallVelocity);
-				particle->SetDirection((useRandDir) ? Vector3(Math::random(randDirMin.x, randDirMax.x), Math::random(randDirMin.y, randDirMax.y), 0).Normalize() : overallDirection.Normalize());
+				particle->SetLifetime((useRandLife) ? Math::random(int(randLifeMin), int(randLifeMax)) : overallLifetime);
+				particle->SetVelocity((useRandVelo) ? Math::random(int(randVeloMin), int(randVeloMax)) : overallVelocity);
+				particle->SetDirection((useRandDir) ? Vector3(float(Math::random(int(randDirMin.x), int(randDirMax.x))), 
+															  float(Math::random(int(randDirMin.y), int(randDirMax.y))), 0).Normalize() : overallDirection.Normalize());
 			}
 
 			particle->SetPosition(particle->GetPosition() + (particle->GetDirection() * particle->GetVelocity()));
@@ -207,11 +206,11 @@ void CParticleEmitter::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& pare
 	// Draw the sprites for the particles.
 	for (auto& particle : particles)
 	{
-		XMFLOAT4X4 world = particle->GetTransform();
-		XMMATRIX childParent = XMLoadFloat4x4(&world) * XMLoadFloat4x4(&parentMat);
+		XMFLOAT4X4 mWorld = particle->GetTransform();
+		XMMATRIX childParent = XMLoadFloat4x4(&mWorld) * XMLoadFloat4x4(&parentMat);
 
-		XMStoreFloat4x4(&world, childParent);
+		XMStoreFloat4x4(&mWorld, childParent);
 
-		particle->Draw(context, world, cb, constantBuffer);
+		particle->Draw(context, mWorld, cb, constantBuffer);
 	}
 }
