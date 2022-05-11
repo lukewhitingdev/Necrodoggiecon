@@ -723,27 +723,34 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 
 EditorEntityType CWorld_Editable::GetInspectedItemType()
 {
-	if (InpsectedEntity != nullptr)
+	if (InspectedEnemy != nullptr)
 	{
-		return InpsectedEntity->GetType();
+		return InspectedEnemy->GetType();
 	}
 	else return EditorEntityType::None;
 }
 
 void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 {
-	InpsectedEntity = nullptr;
+
 	for (int i = 0; i < EditorEntityList.size(); i++)
 	{
-		Vector3 Pos = Vector3(MousePos.x, MousePos.y, 0) * (tileScale * tileScaleMultiplier);
+	
+		Vector3 Pos = Vector3(MousePos.x, MousePos.y, -1) * (tileScale * tileScaleMultiplier);
 		Vector3 EPos = EditorEntityList[i]->GetPosition();
-		if (Pos.DistanceTo(EditorEntityList[i]->GetPosition()) < 64)
+
+		Debug::Log("Entity Location: [%f | %f] vs Mouse Location: [%f | %f]",EPos.x, EPos.y, Pos.x, Pos.y );
+		Debug::Log("Distance: %f", Pos.DistanceTo(EPos));
+		if (Pos.DistanceTo(EditorEntityList[i]->GetPosition()) <= 64)
 		{
-			InpsectedEntity = EditorEntityList[i];
+			Debug::Log("Entity Located");
+			InspectedEnemy = EditorEntityList[i];
 			
 		}
 		
 	}
+	
+
 
 }
 
@@ -758,8 +765,27 @@ void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 
 void CWorld_Editable::AddEditorEntity_EnemyCharacter(Vector2 Position, int Slot)
 {
-	CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
-	TempRef->InitialiseEntity(Slot);
-	TempRef->SetPosition(Position.x * (tileScale * tileScaleMultiplier), Position.y * (tileScale * tileScaleMultiplier), -1);
-	EditorEntityList.push_back(TempRef);
+	Vector3 NewPos = Vector3(Position.x, Position.y, -1) * (tileScale * tileScaleMultiplier);
+	if (tileContainer[GridToIndex(Position)]->IsWalkable())
+	{
+		CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
+		TempRef->InitialiseEntity(Slot);
+		TempRef->SetPosition(NewPos);
+		EditorEntityList.push_back(TempRef);
+	
+	}
+	
+}
+
+void CWorld_Editable::MoveSelectedEntity(Vector3 Position)
+{
+	if (InspectedEnemy != nullptr)
+	{
+		Vector2 Pos2d = Vector2(Position.x, Position.y);
+		Vector3 NewPos = Position * (tileScale * tileScaleMultiplier);
+		if (tileContainer[GridToIndex(Pos2d)]->IsWalkable())
+		{
+			InspectedEnemy->SetPosition(NewPos);
+		}
+	}
 }

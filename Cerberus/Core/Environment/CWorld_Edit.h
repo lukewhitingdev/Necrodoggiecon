@@ -11,7 +11,7 @@ struct CellData
 
 enum class EditOperationMode
 {
-	None, Additive, Subtractive, Additive_Single, Subtractive_Single, EnemyEntity
+	None, Additive, Subtractive, Additive_Single, Subtractive_Single,Move_Entity ,EnemyEntity
 };
 
 class CWorld_Editable : public CWorld
@@ -22,6 +22,7 @@ public:
 
 
 
+	EditOperationMode GetOperationMode() { return operationType; }
 
 	//Set the current operation mode
 	 void SetOperationMode(EditOperationMode mode);
@@ -67,12 +68,13 @@ public:
 
 	 
 	 EditorEntityType GetInspectedItemType();
-	 CT_EditorEntity* GetInspectedItem_Standard() { return InpsectedEntity; }
-	 class CT_EditorEntity_Enemy* GetInspectedItem_Enemy() { return static_cast<CT_EditorEntity_Enemy*>(InpsectedEntity); }
+	 CT_EditorEntity* GetInspectedItem_Standard() { return InspectedEnemy; }
+	 class CT_EditorEntity_Enemy* GetInspectedItem_Enemy() { return static_cast<CT_EditorEntity_Enemy*>(InspectedEnemy); }
 
 	
 	void ShouldInspectEntity(Vector2 MousePos);
 
+	void MoveSelectedEntity(Vector3 Position);
 protected:
 
 
@@ -98,6 +100,8 @@ protected:
 
 	 //Add Enemy enetity to the map
 	 void AddEditorEntity_EnemyCharacter(Vector2 Position, int Slot);
+
+
 
 
 private:
@@ -182,7 +186,7 @@ private:
 	 int SelectedEntityID;
 
 	 //The entity currently being inspected
-	 CT_EditorEntity* InpsectedEntity;
+	 CT_EditorEntity* InspectedEnemy;
 
 	 std::vector<class CT_EditorEntity*> EditorEntityList;
 

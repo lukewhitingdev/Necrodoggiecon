@@ -208,7 +208,7 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 
 void Load()
 {
-	bool editorMode = false;
+	bool editorMode = true;
 
 	
 	

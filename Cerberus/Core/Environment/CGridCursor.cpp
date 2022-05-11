@@ -37,6 +37,8 @@ void CGridCursor::Update(float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);
 
+	
+
 	Vector3 camPos = Vector3(Engine::camera.GetCameraPosition().x, Engine::camera.GetCameraPosition().y, -10);
 
 	Vector3 MousePos2 = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100);
@@ -88,8 +90,16 @@ void CGridCursor::Update(float deltaTime)
 
 	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::LButton) && wasMouseReleased)
 	{
-		CWorldManager::GetEditorWorld()->QueueCell(Vector2(PreScale.x, PreScale.y));
-		wasMouseReleased = false;
+		if (CWorldManager::GetEditorWorld()->GetOperationMode() != EditOperationMode::Move_Entity)
+		{
+			CWorldManager::GetEditorWorld()->QueueCell(Vector2(PreScale.x, PreScale.y));
+			wasMouseReleased = false;
+		}
+		else
+		{
+			CWorldManager::GetEditorWorld()->MoveSelectedEntity(PreScale);
+		}
+		
 
 
 	}
@@ -117,6 +127,10 @@ void CGridCursor::Update(float deltaTime)
 	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::C))
 	{
 		CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::None);
+	}
+	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::W))
+	{
+		CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Move_Entity);
 	}
 
 	
