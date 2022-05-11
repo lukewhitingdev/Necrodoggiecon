@@ -7,9 +7,8 @@
  *********************************************************************/
 
 #pragma once
-#include <random>
+
 #include "Cerberus/Core/Engine.h"
-#include "Cerberus/Core/Structs/CCamera.h"
 
 /**
  * Class of all the static maths functions that don't fit into existing classes.
@@ -17,10 +16,7 @@
 class Math
 {
 public:
-	static int random(int min, int max)
-	{
-		return rand() % ((max - min) + 1) + min;
-	}
+	static int random(int min, int max);
 
 	/**
 	 * Convert screen coords to world space.
@@ -29,9 +25,16 @@ public:
 	 * \param vec vector to be converted to world space.
 	 * \return 
 	 */
-	static XMFLOAT3 FromScreenToWorld(const XMFLOAT3& vec)
-	{
-		XMFLOAT3 newVec = XMFLOAT3((vec.x * 1 / Engine::camera.GetZoom() + Engine::camera.GetCameraPosition().x), (vec.y * 1 / Engine::camera.GetZoom() + Engine::camera.GetCameraPosition().y), vec.z);
-		return newVec;
-	}
+	static XMFLOAT3 FromScreenToWorld(const XMFLOAT3& vec);
+
+	/**
+	 * unfinished right now.
+	 * 
+	 * \param number
+	 * \param numberOfDecimalPlaces
+	 * \param preserveDecimalZeros
+	 * \param numberOfIntegralPlacesZeros
+	 * \return 
+	 */
+	static std::string FloatToStringWithDigits(const float& number, const unsigned char numberOfDecimalPlaces = 3, const bool preserveDecimalZeros = false, const unsigned char numberOfIntegralPlacesZeros = 1);
 };

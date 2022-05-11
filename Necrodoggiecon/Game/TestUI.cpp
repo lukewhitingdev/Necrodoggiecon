@@ -1,5 +1,5 @@
 #include "Necrodoggiecon/Game/TestUI.h"
-#include "Cerberus\Core\Components\CAnimatingSpriteComponent.h"
+#include "Cerberus\Core\Components\CAnimationSpriteComponent.h"
 #include "Cerberus\Core\Components\CTextRenderComponent.h"
 #include "Cerberus\Core\Components\CSpriteComponent.h"
 #include "Cerberus\Core\Structs\CCamera.h"
@@ -9,7 +9,7 @@ TestUI::TestUI()
 {
 	SetPosition(0, 0, -100);
 
-	birb = AddComponent<CAnimatingSpriteComponent>();
+	birb = AddComponent<CAnimationSpriteComponent>();
 	birb->LoadTextureWIC("Resources\\birb.png");
 	birb->SetRenderRect(XMUINT2(128, 128));
 	birb->SetSpriteSize(XMUINT2(128, 128));

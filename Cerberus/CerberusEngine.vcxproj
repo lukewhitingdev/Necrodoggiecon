@@ -364,7 +364,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Components\CAnimatingSpriteComponent.h" />
+    <ClInclude Include="Core\Components\CAnimationSpriteComponent.h" />
     <ClInclude Include="Core\Components\CParticleEmitter.h" />
     <ClInclude Include="Core\Entities\CParticle.h" />
     <ClInclude Include="Core\Utility\Math\Math.h" />
@@ -419,7 +419,7 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\Components\CAnimatingSpriteComponent.cpp" />
+    <ClCompile Include="Core\Components\CAnimationSpriteComponent.cpp" />
     <ClCompile Include="Core\Components\CParticleEmitter.cpp" />
     <ClCompile Include="Core\Entities\CParticle.cpp" />
     <ClCompile Include="Core\Components\CAudioEmitterComponent.cpp" />
@@ -430,6 +430,7 @@
     <ClCompile Include="Core\Structs\CMaterial.cpp" />
     <ClCompile Include="Core\Components\CTextRenderComponent.cpp" />
     <ClCompile Include="Core\Engine.cpp" />
+    <ClCompile Include="Core\Utility\Math\Math.cpp" />
     <ClCompile Include="Tools\CT_EditorGrid.cpp" />
     <ClCompile Include="Core\Environment\CWorld_Edit.cpp" />
     <ClCompile Include="Dependencies\Microsoft\DirectXHelpers.cpp" />
