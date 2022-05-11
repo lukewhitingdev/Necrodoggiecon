@@ -1,11 +1,11 @@
-#include "CAnimatingSpriteComponent.h"
+#include "CAnimationSpriteComponent.h"
 
-CAnimatingSpriteComponent::CAnimatingSpriteComponent()
+CAnimationSpriteComponent::CAnimationSpriteComponent()
 {
 	shouldUpdate = true;
 }
 
-void CAnimatingSpriteComponent::Update(float deltaTime)
+void CAnimationSpriteComponent::Update(float deltaTime)
 {
 	if (playing)
 	{

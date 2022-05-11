@@ -1,5 +1,5 @@
 /*****************************************************************//**
- * \file   CAnimatingSpriteComponent.h
+ * \file   CAnimationSpriteComponent.h
  * \brief  Extends CSpriteComponent to automatically animate basic sprite sheets.
  * 
  * This class will automatically animate an entire sprite-sheet.
@@ -16,7 +16,7 @@
 /**
  * Extends CSpriteComponent to automatically animate basic sprite sheets.
  */
-class CAnimatingSpriteComponent : public CSpriteComponent
+class CAnimationSpriteComponent : public CSpriteComponent
 {
 	float timeElapsed = 0.0f;
 	uint32_t animSpeed = 24;
@@ -66,6 +66,6 @@ public:
 	 */
 	virtual void SetSpriteSize(XMUINT2 newSize) override { CSpriteComponent::SetSpriteSize(newSize); SetNumberOfAnimationSprites(); };
 
-	CAnimatingSpriteComponent();
+	CAnimationSpriteComponent();
 	virtual void Update(float deltaTime) override;
 };
