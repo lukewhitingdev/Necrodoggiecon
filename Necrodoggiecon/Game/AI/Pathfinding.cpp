@@ -1,5 +1,10 @@
 #include "Pathfinding.h"
 
+/**
+ * Constructor that sets the waypoints.
+ * 
+ * \param waypoints Vector array of waypoints to set.
+ */
 Pathfinding::Pathfinding(std::vector<CTile*> waypoints)
 {
 	// Create a waypoint node for each waypoint passed in.
@@ -14,6 +19,11 @@ Pathfinding::Pathfinding(std::vector<CTile*> waypoints)
 	currentPatrolNode = nullptr;
 }
 
+/**
+ * Sets the patrol nodes and the closest waypoint to each node.
+ * 
+ * \param nodes Vector array of patrol nodes.
+ */
 void Pathfinding::SetPatrolNodes(std::vector<PatrolNode*> nodes)
 {
 	patrolNodes = nodes;
@@ -31,6 +41,12 @@ void Pathfinding::SetPatrolNodes(std::vector<PatrolNode*> nodes)
 	}
 }
 
+/**
+ * Finds the closest waypoint to the position passed in.
+ * 
+ * \param position Vector3 of the position.
+ * \return Returns a pointer to the closest waypoint.
+ */
 WaypointNode* Pathfinding::FindClosestWaypoint(Vector3 position)
 {
 	WaypointNode* closestWaypoint = nullptr;
@@ -46,6 +62,12 @@ WaypointNode* Pathfinding::FindClosestWaypoint(Vector3 position)
 	return closestWaypoint;
 }
 
+/**
+ * Finds the closest patrol node to the position passed in.
+ * 
+ * \param position Vector3 representing the position.
+ * \return Return a pointer to the closest patrol node.
+ */
 PatrolNode* Pathfinding::FindClosestPatrolNode(Vector3 position)
 {
 	PatrolNode* closestPatrolNode = new PatrolNode(Vector3{ 10000.0f, 10000.0f, 0.0f });
@@ -59,6 +81,12 @@ PatrolNode* Pathfinding::FindClosestPatrolNode(Vector3 position)
 	return closestPatrolNode;
 }
 
+/**
+ * Gets the closest waypoint to be passed in with the goal waypoint to the calculate path function.
+ * 
+ * \param currentPosition Vector3 of the position .
+ * \param goalWaypoint Waypoint pointer of the goal waypoint.
+ */
 void Pathfinding::SetPath(Vector3 currentPosition, WaypointNode* goalWaypoint)
 {
 	DeleteNodes();
@@ -69,6 +97,12 @@ void Pathfinding::SetPath(Vector3 currentPosition, WaypointNode* goalWaypoint)
 	CalculatePath(closestWaypoint, goalWaypoint);
 }
 
+/**
+ * A* to calculate the shortest path between 2 waypoints.
+ * 
+ * \param start Start waypoint.
+ * \param goal End waypoint.
+ */
 void Pathfinding::CalculatePath(WaypointNode* start, WaypointNode* goal)
 {
 	// Place start node onto open list.
@@ -231,6 +265,13 @@ void Pathfinding::CalculatePath(WaypointNode* start, WaypointNode* goal)
 	pathNodes.push_back(current);
 }
 
+/**
+ * Calculates the euclidean distance between 2 waypoints.
+ * 
+ * \param from Waypoint to calculate from.
+ * \param to Waypoint to calculate to.
+ * \return Returns a float representing the distance.
+ */
 float Pathfinding::CalculateCost(WaypointNode* from, WaypointNode* to)
 {
 	float costX = std::abs(to->waypoint->GetPosition().x - from->waypoint->GetPosition().x);
@@ -240,6 +281,10 @@ float Pathfinding::CalculateCost(WaypointNode* from, WaypointNode* to)
 	return cost;
 }
 
+/**
+ * Resets the g and h costs to 10 million.
+ * 
+ */
 void Pathfinding::ResetNodes()
 {
 	for (WaypointNode* node : waypointNodes)
@@ -249,6 +294,10 @@ void Pathfinding::ResetNodes()
 	}
 }
 
+/**
+ * Calls the reset nodes function and clears the open, closed and path nodes arrays.
+ * 
+ */
 void Pathfinding::DeleteNodes()
 {
 	ResetNodes();
@@ -257,6 +306,11 @@ void Pathfinding::DeleteNodes()
 	pathNodes.clear();
 }
 
+/**
+ * Gets the path nodes vector array.
+ * 
+ * \return Returns the path nodes.
+ */
 std::vector<WaypointNode*> Pathfinding::GetPathNodes()
 {
 	return pathNodes;

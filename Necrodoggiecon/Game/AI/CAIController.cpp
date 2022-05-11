@@ -114,7 +114,11 @@ void CAIController::Update(float deltaTime)
 	SetPosition(aiPosition);
 }
 
-/* Moves the character position using acceleration, force, mass and velocity. */
+/**
+ * Moves the character position using acceleration, force, mass and velocity.
+ * 
+ * \param deltaTime Time between frames.
+ */
 void CAIController::Movement(float deltaTime)
 {
 	// This is just some simple physics to move the AI.
@@ -129,7 +133,11 @@ void CAIController::Movement(float deltaTime)
 	aiPosition += velocity * deltaTime;
 }
 
-/* Finds the closest obstacle and calculates the vector to avoid it. */
+/**
+ * Finds the closest obstacle and calculates the vector to avoid it.
+ * 
+ * \return Returns a Vector3 that is the direction to avoid the obstacle.
+ */
 Vector3 CAIController::CollisionAvoidance()
 {
 	// Initialize the return value for the avoidance vector.
@@ -178,7 +186,12 @@ Vector3 CAIController::CollisionAvoidance()
 	return avoidance;
 }
 
-/* Maths magic that determines whether the player is in view. */
+/**
+ * Maths magic that determines whether the player is in view.
+ * 
+ * \param posOfObject Vector3 representing the position of the object to see.
+ * \return Returns a boolen determining whether the objct is in view.
+ */
 bool CAIController::CanSee(Vector3 posOfObject)
 {
 	// Calculate the direction the AI is looking.
@@ -239,12 +252,20 @@ bool CAIController::CanSee(Vector3 posOfObject)
 	return false;
 }
 
+/**
+ * Sets the path nodes for the AI.
+ * 
+ * \param nodes Vector array of waypoint nodes to set.
+ */
 void CAIController::SetPathNodes(std::vector<WaypointNode*> nodes)
 {
 	pathNodes = nodes;
 }
 
-/* Moves the direction of the character towards the next point in the path. */
+/**
+ * Moves the direction of the character towards the next point in the path.
+ * 
+ */
 void CAIController::Patrolling()
 {
 	// If the AI has reached the patrol node.
@@ -283,7 +304,10 @@ void CAIController::Patrolling()
 	}
 }
 
-/* Spin on the spot trying to find the player. */
+/**
+ * Spin on the spot trying to find the player.
+ * 
+ */
 void CAIController::SearchForPlayer()
 {
 	// Set the direction the AI is facing.
@@ -317,7 +341,7 @@ void CAIController::SearchForPlayer()
 }
 
 /**
- * Seek towards the player and if it gets close then clart it. To be overriden by the melee and ranged AIs in the future.
+ * Seek towards the player and if it gets close then switch to the attacking state.
  */
 void CAIController::ChasePlayer(testCharacter* player)
 {
@@ -332,14 +356,23 @@ void CAIController::ChasePlayer(testCharacter* player)
 	}
 }
 
-// Absolutely CLART the player off the face of this virtual plane.
+/**
+ * Attack the player using the weapon attached.
+ * 
+ * \param player Player to attack.
+ */
 void CAIController::AttackPlayer(testCharacter* player)
 {
 	Engine::DestroyEntity(player);
 	players = Engine::GetEntityOfType<testCharacter>();
 }
 
-/* Returns the velocity change needed to reach the target position. */
+/**
+ * Returns the velocity change needed to reach the target position.
+ * 
+ * \param TargetPos Vector3 representing the position for the AI to go.
+ * \return Returns the direction to the target position.
+ */
 Vector3 CAIController::Seek(Vector3 TargetPos)
 {
 	Vector3 ToTarget = TargetPos - aiPosition;
@@ -354,7 +387,10 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
 	return Vector3{ 0.0f, 0.0f, 0.0f };
 }
 
-/* Sets the path betqween the closest waypoint to the character and the closest waypoint to the target patrol node. */
+/**
+ * Sets the path between the closest waypoint to the character and the closest waypoint to the target patrol node.
+ * 
+ */
 void CAIController::SetPath()
 {
 	pathing->SetPath(aiPosition, pathing->currentPatrolNode->closestWaypoint);

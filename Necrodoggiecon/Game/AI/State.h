@@ -7,6 +7,7 @@ class CAIController;
 class State
 {
 public:
+
 	virtual void Enter(CAIController* controller) {};
 	virtual void Exit(CAIController* controller) {};
 	virtual void Update(CAIController* controller) {};
