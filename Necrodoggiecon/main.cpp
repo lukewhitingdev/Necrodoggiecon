@@ -69,17 +69,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 // Called once at the start of the application run.
 int Start() 
-{
-	CCamera* primaryCamera = Engine::CreateEntity<CCamera>();
-	CCameraComponent* primaryCameraComponent = primaryCamera->AddComponent<CCameraComponent>();
-	primaryCamera->SetPosition(0, 0, -3);
-	primaryCameraComponent->Initialize();
+{	
+	// Free Camera not locked to player.
+	//CCamera* freeCamera = Engine::CreateEntity<CCamera>();
+	//CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>();
 
-	Engine::SetRenderCamera(primaryCameraComponent);
+	//Engine::CreateEntity<TestUI>()->SetCamera(freeCameraComponent);
+	//Engine::CreateEntity<CursorEntity>()->SetCamera(freeCameraComponent);
 
-	Engine::CreateEntity<TestUI>()->SetCamera(primaryCameraComponent);
-	Engine::CreateEntity<weaponUI>();
-	Engine::CreateEntity<CursorEntity>()->SetCamera(primaryCameraComponent);
+	//Engine::SetRenderCamera(freeCameraComponent);
 
 	CWorld::LoadWorld(0);
 
@@ -87,8 +85,18 @@ int Start()
 	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
 	testCharacter* character2 = Engine::CreateEntity<testCharacter>();
 
-	character1->SetCamera(primaryCameraComponent);
-	character2->SetCamera(primaryCameraComponent);
+	// Locked Camera follows player.
+	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>();
+	lockedCameraComponent->Initialize();
+
+	Engine::SetRenderCamera(lockedCameraComponent);
+
+	Engine::CreateEntity<weaponUI>();
+	Engine::CreateEntity<TestUI>()->SetCamera(lockedCameraComponent);
+	Engine::CreateEntity<CursorEntity>()->SetCamera(lockedCameraComponent);
+
+	character1->SetCamera(lockedCameraComponent);
+	character2->SetCamera(lockedCameraComponent);
 
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
