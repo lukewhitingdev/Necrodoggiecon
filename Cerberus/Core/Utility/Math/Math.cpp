@@ -23,10 +23,45 @@ XMFLOAT3 Math::FromScreenToWorld(const XMFLOAT3& vec)
 
 std::string Math::FloatToStringWithDigits(const float& number, const unsigned char numberOfDecimalPlaces, const bool preserveDecimalZeros, const unsigned char numberOfIntegralPlacesZeros)
 {
-	std::stringstream ss;
-	ss << float(round(number * pow(10, numberOfDecimalPlaces))) / pow(10, numberOfDecimalPlaces);
+	bool isNegative = number < 0;
 
-	//TODO
+	unsigned int integerPart = floor(abs(number));
+	unsigned int decimalPart = (abs(number) - integerPart) * pow(10, numberOfDecimalPlaces);
 
-	return ss.str();
+	std::string decimalPartString = std::to_string(decimalPart);
+
+	if (preserveDecimalZeros && numberOfDecimalPlaces != decimalPartString.size())
+	{
+		for (int i = 0; i < int(numberOfDecimalPlaces) - int(decimalPartString.size()); i++)
+		{
+			decimalPartString.insert(decimalPartString.begin(), '0');
+		}
+	}
+
+	std::string output = isNegative ? "-" : "";
+	output.append(IntToString(integerPart, numberOfIntegralPlacesZeros));
+	output.append(".");
+	output.append(decimalPartString);
+	
+	return output;
+}
+
+std::string Math::IntToString(const int& number, const unsigned char numberOfIntegralPlacesZeros)
+{
+	bool isNegative = number < 0;
+
+	std::string integerPartString = std::to_string(abs(number));
+
+	if (numberOfIntegralPlacesZeros != integerPartString.size())
+	{
+		for (int i = 0; i < int(numberOfIntegralPlacesZeros) - int(integerPartString.size()); i++)
+		{
+			integerPartString.insert(integerPartString.begin(), '0');
+		}
+	}
+
+	if(isNegative)
+		integerPartString.insert(integerPartString.begin(), '-');
+
+	return integerPartString;
 }

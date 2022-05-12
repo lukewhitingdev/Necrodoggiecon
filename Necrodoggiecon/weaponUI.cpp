@@ -1,5 +1,6 @@
 #include "weaponUI.h"
 #include <sstream>
+#include "Cerberus/Core/Utility/Math/Math.h"
 
 weaponUI::weaponUI()
 {
@@ -43,10 +44,10 @@ weaponUI::weaponUI()
 
 	textTimer = AddComponent<CTextRenderComponent>();
 	textTimer->SetJustification(TextJustification::Right);
-	textTimer->SetReserveCount(8);
+	textTimer->SetReserveCount(12);
 	textTimer->SetPosition(-628, 346, 0);
-	textTimer->SetText("0:00.0");
-	textTimer->SetAnchor(XMFLOAT2(1, 0));
+	textTimer->SetText("0:00.00");
+	textTimer->SetAnchor(XMFLOAT2(0, 0));
 
 	for (CComponent* e : components)
 		e->ui = true;
@@ -70,8 +71,9 @@ void weaponUI::Update(float deltaTime)
 		minutes += 1;
 		seconds -= 60;
 	}
+
 	std::stringstream ss;
-	ss << minutes << ":" << float(round(seconds * 100)) / 100;
+	ss << Math::IntToString(minutes, 2) << ":" << Math::FloatToStringWithDigits(seconds, 2, true, 2);
 	textTimer->SetText(ss.str());
 }
 
