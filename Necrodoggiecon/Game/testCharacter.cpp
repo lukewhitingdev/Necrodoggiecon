@@ -22,6 +22,13 @@ testCharacter::testCharacter()
 	weapons weapon("Dagger");
 }
 
+void testCharacter::Attack()
+{
+	weapons weapon("Dagger");
+	std::string weapontype = weapon.GetType();
+	weapon.OnFire(weapontype);
+}
+
 void testCharacter::PressedHorizontal(int dir, float deltaTime)
 {
 	AddHorizontalMovement(dir, speed, deltaTime);

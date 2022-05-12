@@ -7,4 +7,5 @@ public:
 	virtual void PressedVertical (int dir, float deltaTime) = 0;
 	virtual void PressedInteract() = 0;
 	virtual void PressedDrop() = 0;
+	virtual void Attack() = 0;
 };

@@ -19,22 +19,45 @@ void weapons::LoadWeapons(std::string weapon)
 	unique = storedFile.at(weapon).at("Unique");
 }
 
-void weapons::CoolDown(float attack_cooldown)
+void weapons::CoolDown(float attack_cooldown, std::string weapon)
 {
-	while (attack_cooldown > 0)
+	std::string weaponsave = weapon;
+	do
 	{
-		// cant attack
-		attack_cooldown - 0.1;
+		weapon = "NULL";
+		Debug::Log("Cooldown");
+		attack_cooldown - 0.01;
+	} while (attack_cooldown >= 0);
+	weapon = weaponsave;
+}
+
+void weapons::OnFire(std::string weapon)
+{
+	float num;
+	num = GetAttack_Speed();
+
+	if (weapon == "Melee")
+	{
+		Debug::Log("Melee\n");
+		CoolDown(num, weapon);
+	}
+	else if (weapon == "Ranged")
+	{
+		Debug::Log("Ranged\n");
+		CoolDown(num, weapon);
+	}
+	else if (weapon == "Magic")
+	{
+		Debug::Log("Magic\n");
+		CoolDown(num, weapon);
+	}
+	else
+	{
+		Debug::Log("Error\n");
 	}
 }
 
-void weapons::OnFire()
-{
-	float num;
 
-	num = GetAttack_Speed();
-	CoolDown(num);
-}
 
 std::string weapons::GetType()
 {

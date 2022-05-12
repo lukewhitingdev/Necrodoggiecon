@@ -6,6 +6,7 @@
 #include <Necrodoggiecon\Game\CursorEntity.h>
 #include <Necrodoggiecon\Game\AI/CAICharacter.h>
 
+
 void testController::Update(float deltaTime)
 {
 	HandleInput(deltaTime);
@@ -16,7 +17,6 @@ void testController::HandleInput(float deltaTime)
 	if (!HasCharacter()) return;
 	
 	if (inputable == nullptr) return;
-
 
 	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::D))
 		inputable->PressedHorizontal(1, deltaTime);
@@ -30,6 +30,8 @@ void testController::HandleInput(float deltaTime)
 		inputable->PressedInteract();
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::G))
 		inputable->PressedDrop();
+	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::LButton))
+		inputable->Attack();
 
 
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))

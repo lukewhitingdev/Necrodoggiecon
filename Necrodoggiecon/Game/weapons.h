@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <fstream>
-
 #include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 #include "Cerberus\Dependencies\NlohmannJson\json.hpp"
 
@@ -12,17 +11,17 @@ class weapons
 public:
 	weapons(std::string weapon);
 	void LoadWeapons(std::string weapon);
-	void OnFire();
+	void OnFire(std::string weapon);
 
-private:
-	void CoolDown(float attack_cooldown);
-
+	void CoolDown(float attack_cooldown, std::string weapon);
 	std::string GetType();
 	float GetDamage();
 	float GetRange();
 	float GetAttack_Speed();
 	float GetAmmo();
 	bool GetUnique();
+
+private:
 
 	std::string type;
 	float damage;

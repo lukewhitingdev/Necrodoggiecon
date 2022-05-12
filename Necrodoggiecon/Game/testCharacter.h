@@ -20,6 +20,7 @@ public:
 	void PressedInteract() override;
 	void PressedDrop() override;
 	virtual void Update(float deltaTime) override;
+	void Attack() override;
 
 	virtual void HasCollided(CollisionComponent* collidedObject) override;
 

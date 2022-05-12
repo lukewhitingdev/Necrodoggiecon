@@ -1,6 +1,6 @@
 {
   "Dagger": {
-    "Type": "test",
+    "Type": "Melee",
     "Damage": 1.0,
     "Range": 0.5,
     "Attack_Speed": 0.5,
