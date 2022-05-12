@@ -1,9 +1,9 @@
-#include "testCharacter.h"
+#include "PlayerCharacter.h"
 #include "CDroppedItem.h"
 #include "CEquippedItem.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
 
-testCharacter::testCharacter()
+PlayerCharacter::PlayerCharacter()
 {
 	spriteComponent = AddComponent<CAnimationSpriteComponent>();
 	spriteComponent->LoadTextureWIC("Resources\\manSS.png");
@@ -15,7 +15,7 @@ testCharacter::testCharacter()
 	colComponent = new CollisionComponent("Character 1");
 }
 
-void testCharacter::PressedHorizontal(int dir, float deltaTime)
+void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)
 {
 	AddHorizontalMovement(dir, speed, deltaTime);
 
@@ -25,7 +25,7 @@ void testCharacter::PressedHorizontal(int dir, float deltaTime)
 		spriteComponent->SetAnimationRectPosition(XMUINT2(0, 2));
 }
 
-void testCharacter::PressedVertical(int dir, float deltaTime)
+void PlayerCharacter::PressedVertical(int dir, float deltaTime)
 {
 	AddVerticalMovement(dir, speed, deltaTime);
 
@@ -35,7 +35,7 @@ void testCharacter::PressedVertical(int dir, float deltaTime)
 		spriteComponent->SetAnimationRectPosition(XMUINT2(0, 3));
 }
 
-void testCharacter::PressedInteract()
+void PlayerCharacter::PressedInteract()
 {
 	if (droppedItem == nullptr) return;
 
@@ -44,7 +44,7 @@ void testCharacter::PressedInteract()
 	droppedItem = nullptr;
 }
 
-void testCharacter::PressedDrop()
+void PlayerCharacter::PressedDrop()
 {
 	if (equippedItem == nullptr) return;
 
@@ -53,7 +53,7 @@ void testCharacter::PressedDrop()
 	equippedItem = nullptr;
 }
 
-void testCharacter::Update(float deltaTime)
+void PlayerCharacter::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
 
@@ -65,13 +65,13 @@ void testCharacter::Update(float deltaTime)
 	colComponent->SetPosition(GetPosition());
 }
 
-void testCharacter::HasCollided(CollisionComponent* collidedObject)
+void PlayerCharacter::HasCollided(CollisionComponent* collidedObject)
 {
 	if (collidedObject->GetName() == "Wall")
 		Debug::Log("Player has collided with a wall");
 }
 
-void testCharacter::LookAt(Vector3 pos)
+void PlayerCharacter::LookAt(Vector3 pos)
 {
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
 
