@@ -45,7 +45,7 @@
     <ClCompile Include="Game\ItemDatabase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\PlayerCharatcer.cpp">
+    <ClCompile Include="Game\PlayerCharacter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\testClass.cpp">
@@ -67,7 +67,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\AI\State.cpp">
-	  <Filter>Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="weaponUI.cpp">
       <Filter>Source Files</Filter>
@@ -129,7 +129,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\AI\State.h">
-	  <Filter>Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="weaponUI.h">
       <Filter>Header Files</Filter>
