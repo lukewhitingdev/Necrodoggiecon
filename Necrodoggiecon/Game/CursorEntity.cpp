@@ -43,24 +43,24 @@ void CursorEntity::Update(float deltaTime)
 	ss << "X:" << round(screenVec.x) << " Y:" << round(screenVec.y);
 	text->SetText(ss.str());
 
-	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::RButton))
-	{
-		if (!mouseRHeld)
-		{
-			mouseRHeld = true;
-			mouseOffset = Inputs::InputManager::mousePos;
-		}
+	//if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::RButton))
+	//{
+	//	if (!mouseRHeld)
+	//	{
+	//		mouseRHeld = true;
+	//		mouseOffset = Inputs::InputManager::mousePos;
+	//	}
 
-		Vector3 mousePos = (Inputs::InputManager::mousePos - mouseOffset) / camera->GetZoomLevel();
-		mouseOffset = Inputs::InputManager::mousePos;
+	//	Vector3 mousePos = (Inputs::InputManager::mousePos - mouseOffset) / camera->GetZoomLevel();
+	//	mouseOffset = Inputs::InputManager::mousePos;
 
-		camera->SetPosition(Vector3(-mousePos.x + camera->GetPosition().x, mousePos.y + camera->GetPosition().y, camera->GetPosition().z));
-	}
-	else
-	{
-		if (mouseRHeld)
-			mouseRHeld = false;
-	}
+	//	camera->SetPosition(Vector3(-mousePos.x + camera->GetPosition().x, mousePos.y + camera->GetPosition().y, camera->GetPosition().z));
+	//}
+	//else
+	//{
+	//	if (mouseRHeld)
+	//		mouseRHeld = false;
+	//}
 }
 
 CursorEntity::~CursorEntity()
