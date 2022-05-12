@@ -5,6 +5,7 @@
 #include "Cerberus\Core\Structs\CCamera.h"
 #include "Cerberus\Dependencies\IMGUI\imgui.h"
 #include <DirectXMath.h>
+#include "Cerberus/Core/Components/CCameraComponent.h"
 
 CGridCursor::CGridCursor()
 {

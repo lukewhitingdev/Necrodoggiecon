@@ -1,6 +1,6 @@
 #pragma once
 #include "Cerberus\Core\CEntity.h"
-#include "Cerberus/Core/Components/CCameraComponent.h"
+
 class CGridCursor :
     public CEntity
 {
@@ -9,7 +9,7 @@ public:
 
     class CSpriteComponent* activeCellSprite = nullptr;
 
-    void SetCamera(CCameraComponent* cam);
+    void SetCamera(class CCameraComponent* cam);
 
     virtual void Update(float deltaTime) override;
 
@@ -24,7 +24,7 @@ public:
     Vector3 selectedCell_1;
     bool wasMouseReleased;
 
-    CCameraComponent* camera;
+    class CCameraComponent* camera;
 
 };
 
