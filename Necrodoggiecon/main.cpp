@@ -8,6 +8,7 @@
 #include <Necrodoggiecon\Game\ItemDatabase.h>
 #include <Necrodoggiecon\Game\AI\CAIController.h>
 #include <weaponUI.h>
+#include <Necrodoggiecon\Game\CInteractable.h>
 
 /*
 
@@ -68,6 +69,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 // Called once at the start of the application run.
 int Start() 
 {
+	CInteractable* interactable = Engine::CreateEntity<CInteractable>();
+
+	interactable->SetPosition(-500, 0, 0);
+
 	Engine::CreateEntity<TestUI>();
 	Engine::CreateEntity<weaponUI>();
 	Engine::CreateEntity<CursorEntity>();
