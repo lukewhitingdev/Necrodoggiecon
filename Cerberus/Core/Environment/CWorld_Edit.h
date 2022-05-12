@@ -11,7 +11,14 @@ struct CellData
 
 enum class EditOperationMode
 {
-	None, Additive, Subtractive, Additive_Single, Subtractive_Single,Move_Entity ,EnemyEntity
+	None, Additive, Subtractive, Additive_Single, Subtractive_Single,Move_Entity ,EnemyEntity, Waypoints
+};
+
+struct PropData
+{
+	std::string propName;
+	Vector2 CollisionData;
+	Vector2 AtlasSize;
 };
 
 class CWorld_Editable : public CWorld
@@ -70,6 +77,7 @@ public:
 	 EditorEntityType GetInspectedItemType();
 	 CT_EditorEntity* GetInspectedItem_Standard() { return InspectedEntity; }
 	 class CT_EditorEntity_Enemy* GetInspectedItem_Enemy() { return static_cast<CT_EditorEntity_Enemy*>(InspectedEntity); }
+	 CT_EditorEntity_Waypoint* GetInspectedItem_Waypoint() { return static_cast<CT_EditorEntity_Waypoint*>(InspectedEntity); }
 
 	
 	void ShouldInspectEntity(Vector2 MousePos);
@@ -103,8 +111,12 @@ protected:
 	 //Add Enemy enetity to the map
 	 void AddEditorEntity_EnemyCharacter(Vector2 Position, int Slot);
 
+	 void AddEditorEntity_Decoration(Vector2 Position, int Slot);
+
+	 void AddEditorEntity_Waypoint(Vector2 Position);
 
 
+	 void GeneratePropList();
 
 private:
 
@@ -190,6 +202,13 @@ private:
 	 //The entity currently being inspected
 	 CT_EditorEntity* InspectedEntity;
 
+	 //Total number of enemy entnties used for saving
+	 int TotalEnemyEntities;
+	 //Total number of enemy entities used for saving
+	 int TotalPropEntities;
+
+
+	 //Full list of all editor entities
 	 std::vector<class CT_EditorEntity*> EditorEntityList;
 
 };

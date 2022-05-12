@@ -230,6 +230,7 @@ void CT_EditorWindows::render()
                 switch (CWorldManager::GetEditorWorld()->GetInspectedItemType())
                 {
                 case EditorEntityType::Enemy:
+                   
                     switch (CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetSlot())
                     {
                     case 0:
@@ -239,12 +240,18 @@ void CT_EditorWindows::render()
                         ImGui::Text("Melee Enemy");
                         break;
                     }
-                    if (ImGui::Button("Toggle Waypoints"))
+                    if (ImGui::Button("Add Waypoint"))
                     {
-                       
+                        CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Waypoints);
                     }
 
                     break;
+                case EditorEntityType::Waypoint:
+                  
+                    std::string Name = "Waypoint: ";
+                    Name += std::to_string(CWorldManager::GetEditorWorld()->GetInspectedItem_Waypoint()->WaypointOrder).c_str();
+                    ImGui::Text(Name.c_str());
+                  
                 }
             }
            

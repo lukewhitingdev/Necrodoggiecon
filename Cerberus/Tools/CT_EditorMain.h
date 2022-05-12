@@ -7,8 +7,11 @@ public:
 
 	void Initialise();
 
+	~CT_EditorMain();
 
 	void RenderWindows();
+
+	class CT_EditorGrid* grid;
 	
 	class CT_EditorWindows* editorWindow;
 

@@ -69,3 +69,66 @@ void CT_EditorEntity_Enemy::SaveEntity(int Index, int MapSlot)
 
 
 }
+
+void CT_EditorEntity_Enemy::ToggleWaypoints(bool Display)
+{
+
+	if (Display)
+	{
+		for (int i = 0; i < Waypoints.size(); i++)
+		{
+			Vector3 Pos = Waypoints[i]->GetPosition();
+			Waypoints[i]->SetPosition(Pos.x, Pos.y, 2);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < Waypoints.size(); i++)
+		{
+			Vector3 Pos = Waypoints[i]->GetPosition();
+			Waypoints[i]->SetPosition(Pos.x, Pos.y, -1);
+		}
+	}
+	
+}
+
+void CT_EditorEntity_Enemy::AddWaypoint(Vector2 Position)
+{
+	Vector3 Pos = Vector3(Position.x, Position.y, 0) * (tileScale * tileScaleMultiplier);
+	Pos.z = -1;
+	CT_EditorEntity_Waypoint* TempWaypoint = Engine::CreateEntity<CT_EditorEntity_Waypoint>();
+	TempWaypoint->SetPosition(Pos);
+	TempWaypoint->WaypointOrder = Waypoints.size();
+	Waypoints.push_back(TempWaypoint);
+}
+
+void CT_EditorEntity_Enemy::RemoveWaypoint(int Index)
+{
+	std::vector<CT_EditorEntity_Waypoint*> TempList;
+	for (int i = 0; i < Waypoints.size(); i++)
+	{
+		if (i != Index) TempList.push_back(Waypoints[i]);
+		else
+		{
+			Engine::DestroyEntity(Waypoints[i]);
+		}
+	}
+}
+
+CT_EditorEntity_Waypoint::CT_EditorEntity_Waypoint()
+{
+	InspectType = EditorEntityType::Waypoint;
+	sprite = AddComponent<CSpriteComponent>();
+	sprite->LoadTexture("Resources\\EditorEntities\\WaypointIcon.dds");
+	sprite->SetRenderRect(XMUINT2(32, 32));
+	sprite->SetSpriteSize(XMUINT2(32, 32));
+}
+
+void CT_EditorEntity_Waypoint::Update(float deltaTime)
+{
+}
+
+void CT_EditorEntity_Waypoint::InitialiseEntity(int SlotID)
+{
+
+}

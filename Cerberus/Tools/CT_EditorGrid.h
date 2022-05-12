@@ -14,7 +14,9 @@ public:
     void SetupGrid();
 
 
-  
+    ~CT_EditorGrid();
+
+    class CGridCursor* cursorEntity;
  
 
   

@@ -3,7 +3,7 @@
 
 enum class EditorEntityType
 {
-    None, Standard, Enemy, Interactable
+    None, Standard, Enemy, Interactable, Waypoint
 };
 class CT_EditorEntity :
     public CEntity
@@ -65,6 +65,40 @@ public:
 
 };
 
+
+
+class CT_EditorEntity_Waypoint :
+    public CT_EditorEntity
+{
+protected:
+
+    // class CSpriteComponent* sprite = nullptr;
+
+
+
+
+
+public:
+
+
+
+    CT_EditorEntity_Waypoint();
+
+
+    int WaypointOrder;
+
+    virtual void Update(float deltaTime) override;
+
+
+
+
+    virtual void InitialiseEntity(int SlotID);
+
+
+
+};
+
+
 class CT_EditorEntity_Enemy :
     public CT_EditorEntity
 {
@@ -72,12 +106,13 @@ protected:
 
     // class CSpriteComponent* sprite = nullptr;
 
-  
+    bool displayWaypoints = false;
+
 public:
     
    
 
-    std::vector<Vector2> WaypointLocations;
+    std::vector<CT_EditorEntity_Waypoint*> Waypoints;
 
 
     CT_EditorEntity_Enemy();
@@ -89,42 +124,19 @@ public:
 
     virtual void SaveEntity(int Index, int MapSlot);
 
+    void ToggleWaypoints(bool Display);
 
+    void AddWaypoint(Vector2 Position);
+
+    void RemoveWaypoint(int Index);
     
-
-    
-
-
-
-
-
-};
-
-class CT_EditorEntity_Waypoint :
-    public CT_EditorEntity
-{
-protected:
-
-    // class CSpriteComponent* sprite = nullptr;
-
-
-    int WaypointOrder;
-
    
-public:
+    
 
 
-
-    CT_EditorEntity_Waypoint();
-
-    virtual void Update(float deltaTime) override;
-
-
-
-
-    virtual void InitialiseEntity(int SlotID);
 
 
 
 };
+
 

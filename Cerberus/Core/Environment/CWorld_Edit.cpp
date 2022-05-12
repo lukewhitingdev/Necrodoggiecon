@@ -17,6 +17,9 @@ bool CWorld_Editable::isQueueLocked = false;
 
 void CWorld_Editable::LoadWorld(int Slot)
 {
+	TotalEnemyEntities = 0;
+	TotalPropEntities = 0;
+
 	std::string fileName = "Resources/Levels/Level_" + std::to_string(Slot);
 	fileName += ".json";
 
@@ -94,9 +97,10 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 	GenerateTileMap();
 
-	int enemyCount = storedFile["EnemyCount"];
+	TotalEnemyEntities = storedFile["EnemyCount"];
 
-	for (int i = 0; i < enemyCount; i++)
+
+	for (int i = 0; i < TotalEnemyEntities; i++)
 	{
 		int EnemyID = storedFile["Enemy"][i]["Type"];
 		int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
@@ -112,11 +116,18 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 void CWorld_Editable::UnloadWorld()
 {
+	for (int i = 0; i < EditorEntityList.size(); i++)
+	{
+		Engine::DestroyEntity(EditorEntityList[i]);
+	}
 
+	delete(EditorViewport);
 }
  void CWorld_Editable::SetupWorld()
 {
 	 EditorViewport = new CT_EditorMain();
+
+	
 }
 
 
@@ -144,7 +155,7 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 
 	SaveData["TileData"] = MapData;
-	SaveData["EnemyCount"] = EditorEntityList.size();
+	SaveData["EnemyCount"] = TotalEnemyEntities;
 
 	for (int i = 0; i < EditorEntityList.size(); i++)
 	{
@@ -155,6 +166,8 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 			SaveData["Enemy"][i]["Position"]["X"] = EditorEntityList[i]->GetPosition().x;
 			SaveData["Enemy"][i]["Position"]["Y"] = EditorEntityList[i]->GetPosition().y;
+
+			
 
 			break;
 		}
@@ -229,7 +242,7 @@ void CWorld_Editable::SetOperationMode(EditOperationMode mode)
 
 void CWorld_Editable::QueueCell(Vector2 Cell)
 {
-	if (operationType == EditOperationMode::Additive_Single || operationType == EditOperationMode::Subtractive_Single || operationType == EditOperationMode::EnemyEntity)
+	if (operationType == EditOperationMode::Additive_Single || operationType == EditOperationMode::Subtractive_Single || operationType == EditOperationMode::EnemyEntity || operationType == EditOperationMode::Waypoints)
 	{
 		editOrigin = Cell;
 		PerformOperation(editOrigin, Cell);
@@ -285,6 +298,9 @@ void CWorld_Editable::PerformOperation(Vector2 A, Vector2 B)
 		break;
 	case EditOperationMode::EnemyEntity:
 		AddEditorEntity_EnemyCharacter(A, SelectedEntityID);
+		break;
+	case EditOperationMode::Waypoints:
+		AddEditorEntity_Waypoint(A);
 		break;
 	case EditOperationMode::None:
 		break;
@@ -751,11 +767,15 @@ EditorEntityType CWorld_Editable::GetInspectedItemType()
 
 void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 {
+
+	if (InspectedEntity != nullptr && InspectedEntity->GetType() == EditorEntityType::Enemy) GetInspectedItem_Enemy()->ToggleWaypoints(false);
 	InspectedEntity = nullptr;
+
 	for (int i = 0; i < EditorEntityList.size(); i++)
 	{
 	
-		Vector3 Pos = Vector3(MousePos.x, MousePos.y, -1) * (tileScale * tileScaleMultiplier);
+		Vector3 Pos = Vector3(MousePos.x, MousePos.y, 0) * (tileScale * tileScaleMultiplier);
+		Pos.z = -1;
 		Vector3 EPos = EditorEntityList[i]->GetPosition();
 
 		Debug::Log("Entity Location: [%f | %f] vs Mouse Location: [%f | %f]",EPos.x, EPos.y, Pos.x, Pos.y );
@@ -764,6 +784,7 @@ void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 		{
 			Debug::Log("Entity Located");
 			InspectedEntity = EditorEntityList[i];
+			if (InspectedEntity->GetType() == EditorEntityType::Enemy) GetInspectedItem_Enemy()->ToggleWaypoints(true);
 			
 		}
 		
@@ -773,6 +794,37 @@ void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 
 }
 
+void CWorld_Editable::MoveSelectedEntity(Vector3 Position)
+{
+	if (InspectedEntity != nullptr)
+	{
+		Vector2 Pos2d = Vector2(Position.x, Position.y);
+		Vector3 NewPos = Position * (tileScale * tileScaleMultiplier);
+		NewPos.z = -1;
+		if (tileContainer[GridToIndex(Pos2d)]->IsWalkable())
+		{
+			InspectedEntity->SetPosition(NewPos);
+		}
+	}
+}
+
+void CWorld_Editable::RemoveSelectedEntity()
+{
+
+	for (int i = 0; i < EditorEntityList.size(); i++)
+	{
+		if (EditorEntityList[i] == InspectedEntity)
+		{
+			EditorEntityList.erase(EditorEntityList.begin() + i);
+
+			Engine::DestroyEntity(InspectedEntity);
+
+			TotalEnemyEntities--;
+			break;
+		}
+	}
+
+}
 
 
 ///////////////////////////////////////////////////////////////////
@@ -784,43 +836,29 @@ void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 
 void CWorld_Editable::AddEditorEntity_EnemyCharacter(Vector2 Position, int Slot)
 {
-	Vector3 NewPos = Vector3(Position.x, Position.y, -1) * (tileScale * tileScaleMultiplier);
+	Vector3 NewPos = Vector3(Position.x, Position.y, 0) * (tileScale * tileScaleMultiplier);
+	NewPos.z = -1;
 	if (tileContainer[GridToIndex(Position)]->IsWalkable())
 	{
 		CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
 		TempRef->InitialiseEntity(Slot);
 		TempRef->SetPosition(NewPos);
 		EditorEntityList.push_back(TempRef);
+		TotalEnemyEntities++;
 	
 	}
 	
 }
 
-void CWorld_Editable::MoveSelectedEntity(Vector3 Position)
+void CWorld_Editable::AddEditorEntity_Decoration(Vector2 Position, int Slot)
 {
-	if (InspectedEntity != nullptr)
-	{
-		Vector2 Pos2d = Vector2(Position.x, Position.y);
-		Vector3 NewPos = Position * (tileScale * tileScaleMultiplier);
-		if (tileContainer[GridToIndex(Pos2d)]->IsWalkable())
-		{
-			InspectedEntity->SetPosition(NewPos);
-		}
-	}
+
 }
 
-void CWorld_Editable::RemoveSelectedEntity()
+void CWorld_Editable::AddEditorEntity_Waypoint(Vector2 Position)
 {
-	
-	for (int i = 0; i < EditorEntityList.size(); i++)
+	if (tileContainer[GridToIndex(Position)]->IsWalkable())
 	{
-		if (EditorEntityList[i] == InspectedEntity)
-		{
-			EditorEntityList.erase(EditorEntityList.begin() + i);
-
-			Engine::DestroyEntity(InspectedEntity);
-			break;
-		}
+		GetInspectedItem_Enemy()->AddWaypoint(Position);
 	}
-
 }
