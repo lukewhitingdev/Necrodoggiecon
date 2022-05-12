@@ -10,7 +10,7 @@
 #include "Cerberus\Core\Utility\DebugOutput\Debug.h"
 
 std::map<std::uintptr_t,CCameraComponent*> CameraManager::cameras;
-std::uintptr_t CameraManager::renderingCamera;
+CCameraComponent* CameraManager::renderingCamera;
 
 /**
  * Adds a camera to the manager.
@@ -33,12 +33,12 @@ void CameraManager::RemoveCamera(CCameraComponent* camera)
 	{
 		cameras.erase((uintptr_t)camera);
 
-		if((uintptr_t)camera == renderingCamera)
+		if(camera == renderingCamera)
 		{
 			if(cameras.size() > 0)
 			{
 				std::map<std::uintptr_t, CCameraComponent*>::iterator it = cameras.begin();
-				renderingCamera = it->first;
+				renderingCamera = it->second;
 			}
 			else
 			{
@@ -60,13 +60,12 @@ void CameraManager::RemoveCamera(CCameraComponent* camera)
  */
 CCameraComponent* CameraManager::GetRenderingCamera()
 {
-	if(cameras.find(renderingCamera) != cameras.end())
+	if(renderingCamera == nullptr)
 	{
-		return cameras.at(renderingCamera);
+		Debug::LogError("Tried to get rendering camera when it has not been set.");
 	}
 
-	Debug::LogError("Tried to get rendering camera when it has not been set.");
-	return nullptr;
+	return renderingCamera;
 }
 
 /**
@@ -78,7 +77,7 @@ void CameraManager::SetRenderingCamera(CCameraComponent* camera)
 {
 	if(cameras.find((uintptr_t)camera) != cameras.end())
 	{
-		renderingCamera = (uintptr_t)camera;
+		renderingCamera = camera;
 	}
 	else
 	{

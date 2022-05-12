@@ -14,6 +14,6 @@ public:
 
 private:
 	static std::map<std::uintptr_t,CCameraComponent*> cameras;
-	static std::uintptr_t renderingCamera;
+	static CCameraComponent* renderingCamera;
 };
 
