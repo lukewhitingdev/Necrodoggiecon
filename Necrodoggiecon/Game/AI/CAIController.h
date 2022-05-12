@@ -22,8 +22,9 @@
 #include "Necrodoggiecon\Game\AI\CAINode.h"
 #include "Necrodoggiecon\Game\AI\State.h"
 #include "Necrodoggiecon\Game\AI\Pathfinding.h"
-#include "Necrodoggiecon\Game\testCharacter.h"
+#include "Necrodoggiecon\Game\PlayerCharacter.h"
 #include "Necrodoggiecon\Game\CCharacter.h"
+#include "Necrodoggiecon/Game/PlayerController.h"
 
 /**
  * Controller class for the AI.
@@ -60,8 +61,8 @@ public:
 	void Patrolling();
 	void SearchForPlayer();
 	
-	virtual void ChasePlayer(testCharacter* player);
-	virtual void AttackPlayer(testCharacter* player);
+	virtual void ChasePlayer(PlayerCharacter* player);
+	virtual void AttackPlayer(PlayerCharacter* player);
 	virtual void GetIntoCover() {};
 
 	void SetCurrentState(State& state);

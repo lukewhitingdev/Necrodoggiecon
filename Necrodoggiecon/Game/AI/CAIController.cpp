@@ -71,14 +71,15 @@ void CAIController::Update(float deltaTime)
 
 	currentState->Update(this);
 	// Run the finite state machine
-	testCharacter* closestPlayer = nullptr;
+	
+	PlayerCharacter* closestPlayer = nullptr;
 
 	if (currentState != &AttackState::getInstance())
 	{
 		if (players.size() > 0)
 		{
 			// Check each player.
-			for (testCharacter* player : players)
+			for (PlayerCharacter* player : players)
 			{
 				// Check if the AI can see the player.
 				if (CanSee(player->GetPosition()) == true)
@@ -356,7 +357,7 @@ void CAIController::SearchForPlayer()
 /**
  * Seek towards the player and if it gets close then switch to the attacking state.
  */
-void CAIController::ChasePlayer(testCharacter* player)
+void CAIController::ChasePlayer(PlayerCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 	{
@@ -374,11 +375,11 @@ void CAIController::ChasePlayer(testCharacter* player)
  * 
  * \param player Player to attack.
  */
-void CAIController::AttackPlayer(testCharacter* player)
+void CAIController::AttackPlayer(PlayerCharacter* player)
 {
 	playersController[0]->Unpossess();
 	Engine::DestroyEntity(player);
-	players = Engine::GetEntityOfType<testCharacter>();
+	players = Engine::GetEntityOfType<PlayerCharacter>();
 }
 
 /**
