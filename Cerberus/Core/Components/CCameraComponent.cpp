@@ -1,6 +1,6 @@
 #include "CCameraComponent.h"
 
-CCameraComponent::CCameraComponent() : view(), proj(), zoom(1), prevPos(Vector3(FLT_MAX, FLT_MAX, FLT_MAX)) {}
+CCameraComponent::CCameraComponent() : attachedToParent(false), view(), proj(), zoom(1), prevPos(Vector3(FLT_MAX, FLT_MAX, FLT_MAX)) {}
 
 /**
  * Updates the camera's view matrix if the position has changed.
@@ -10,10 +10,10 @@ CCameraComponent::CCameraComponent() : view(), proj(), zoom(1), prevPos(Vector3(
 void CCameraComponent::Update(float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);
-	if (prevPos != this->GetParent()->GetPosition())
+	if (prevPos != ((attachedToParent) ? this->GetParent()->GetPosition() : this->GetPosition()))
 	{
 		UpdateView();
-		prevPos = this->GetParent()->GetPosition();
+		prevPos = (attachedToParent) ? this->GetParent()->GetPosition() : this->GetPosition();
 	}
 }
 
@@ -49,6 +49,26 @@ float CCameraComponent::GetZoomLevel()
 }
 
 /**
+ * Sets whether the camera is attached to the parent or if it can move on its own.
+ * 
+ * \param value
+ */
+void CCameraComponent::SetAttachedToParent(const bool value)
+{
+	attachedToParent = value;
+}
+
+/**
+ * Returns whether the camera is attached to the parent of if it can move on its own.
+ * 
+ * \return 
+ */
+bool CCameraComponent::getAttachedToParent()
+{
+	return attachedToParent;
+}
+
+/**
  * Returns the view matrix of the camera.
  * 
  * \return view-matrix of camera.
@@ -75,6 +95,17 @@ XMFLOAT4X4 CCameraComponent::GetProjectionMatrix()
  */
 Vector3 CCameraComponent::GetPosition()
 {
+	if(!attachedToParent)
+	{
+		XMFLOAT4X4 transform = this->GetTransform();
+		XMVECTOR pos, scale, rot;
+		XMFLOAT3 floatPos;
+
+		DirectX::XMMatrixDecompose(&rot, &scale, &pos, DirectX::XMLoadFloat4x4(&transform));
+		DirectX::XMStoreFloat3(&floatPos, pos);
+		return Vector3(floatPos.x, floatPos.y, floatPos.z);
+	}
+
 	return this->GetParent()->GetPosition();
 }
 
@@ -85,8 +116,8 @@ Vector3 CCameraComponent::GetPosition()
 void CCameraComponent::UpdateView()
 {
 	// Initialize the view matrix
-	XMFLOAT4 pos = DirectX::XMFLOAT4(this->GetParent()->GetPosition().x + 0.001f, this->GetParent()->GetPosition().y + 0.001f, -3, 1);
-	XMFLOAT4 at = DirectX::XMFLOAT4(this->GetParent()->GetPosition().x + 0.001f, this->GetParent()->GetPosition().y + 0.001f, 0, 0);
+	XMFLOAT4 pos = DirectX::XMFLOAT4(this->GetPosition().x + 0.001f, this->GetPosition().y + 0.001f, -3, 1);
+	XMFLOAT4 at = DirectX::XMFLOAT4(this->GetPosition().x + 0.001f, this->GetPosition().y + 0.001f, 0, 0);
 	XMVECTOR Eye = XMLoadFloat4(&pos);
 	XMVECTOR At = XMLoadFloat4(&at);
 	XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);

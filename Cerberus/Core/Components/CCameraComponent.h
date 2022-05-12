@@ -24,15 +24,19 @@ public:
 	void SetZoomLevel(const float level);
 	float GetZoomLevel();
 
+	void SetAttachedToParent(const bool value);
+	bool getAttachedToParent();
+
 	XMFLOAT4X4 GetViewMatrix();
 	XMFLOAT4X4 GetProjectionMatrix();
 
-	void SetPosition(Vector3 pos) { this->GetParent()->SetPosition(pos); };
 	Vector3 GetPosition();
 
 private:
 	void UpdateView();
 	void UpdateProj();
+
+	bool attachedToParent;
 
 	XMFLOAT4X4 view;
 	XMFLOAT4X4 proj;
