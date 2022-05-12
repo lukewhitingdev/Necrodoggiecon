@@ -1,12 +1,12 @@
 #pragma once
-#include <Cerberus\Core\Components\CSpriteComponent.h>
+#include <Cerberus\Core\Components\CAnimationSpriteComponent.h>
 #include <Cerberus\Core\CEntity.h>
 
 class CCharacter : public CEntity
 {
 private:
 protected:
-	CSpriteComponent* spriteComponent = nullptr;
+	CAnimationSpriteComponent* spriteComponent = nullptr;
 
 	virtual void OnTakeDamage(float damageAmount, CEntity* damageCauser) {
 		UNREFERENCED_PARAMETER(damageCauser);
