@@ -6,6 +6,7 @@
  * \date   Jan 2022
  *********************************************************************/
 #include "AudioController.h"
+#include "Cerberus\Core\Utility\EventSystem\EventSystem.h"
 FMOD::System* AudioController::FMODSystem;
 std::vector<CEmitter*> AudioController::emitters;
 
@@ -88,6 +89,8 @@ bool AudioController::PlayAudio(std::string path)
 		Debug::LogError("[Play Audio][%s] FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
 		return false;
 	}
+
+	EventSystem::TriggerEvent("soundPlayed");
 
 	return true;
 }
