@@ -11,12 +11,9 @@ class CursorEntity : public CEntity
 	Vector3 mouseOffset = { 0,0,0 };
 	bool mouseRHeld = false;
 	
-	CCameraComponent* camera;
 public:
 	CursorEntity();
 	virtual void Update(float deltaTime) override;
 	virtual ~CursorEntity();
-
-	void SetCamera(CCameraComponent* cam);
 };
 

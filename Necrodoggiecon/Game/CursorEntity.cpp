@@ -4,6 +4,7 @@
 #include <sstream>
 #include "Cerberus\Core\Structs\CCamera.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
+#include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
 
 CursorEntity::CursorEntity()
 {
@@ -23,6 +24,7 @@ CursorEntity::CursorEntity()
 
 void CursorEntity::Update(float deltaTime)
 {
+	CCameraComponent* camera = CameraManager::GetRenderingCamera();
 	timeElapsed += deltaTime;
 
 	unsigned char row = 0;
@@ -37,7 +39,7 @@ void CursorEntity::Update(float deltaTime)
 	SetPosition(Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z));
 
 	XMFLOAT3 screenVec = XMFLOAT3(GetPosition().x, GetPosition().y, GetPosition().z);
-	screenVec = Math::FromScreenToWorld(screenVec, camera);
+	screenVec = Math::FromScreenToWorld(screenVec);
 
 	std::stringstream ss;
 	ss << "X:" << round(screenVec.x) << " Y:" << round(screenVec.y);
@@ -66,9 +68,4 @@ void CursorEntity::Update(float deltaTime)
 CursorEntity::~CursorEntity()
 {
 
-}
-
-void CursorEntity::SetCamera(CCameraComponent* cam)
-{
-	camera = cam;
 }

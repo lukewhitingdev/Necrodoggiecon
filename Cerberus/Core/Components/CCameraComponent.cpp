@@ -1,6 +1,13 @@
 #include "CCameraComponent.h"
+#include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
 
 CCameraComponent::CCameraComponent() : attachedToParent(false), view(), proj(), zoom(1), prevPos(Vector3(FLT_MAX, FLT_MAX, FLT_MAX)) {}
+
+CCameraComponent::~CCameraComponent()
+{
+	CameraManager::RemoveCamera(this);
+}
+
 
 /**
  * Updates the camera's view matrix if the position has changed.
@@ -105,6 +112,7 @@ Vector3 CCameraComponent::GetPosition()
 		DirectX::XMStoreFloat3(&floatPos, pos);
 		return Vector3(floatPos.x, floatPos.y, floatPos.z);
 	}
+
 
 	return this->GetParent()->GetPosition();
 }

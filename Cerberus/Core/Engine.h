@@ -93,6 +93,4 @@ struct Engine
 	static ID3D11DeviceContext* deviceContext;
 
 	static XMMATRIX projMatrixUI;
-
-	static CCameraComponent* camera;
 };

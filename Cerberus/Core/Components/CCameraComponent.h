@@ -14,7 +14,7 @@ class CCameraComponent : public CComponent
 {
 public:
 	CCameraComponent();
-	virtual ~CCameraComponent() {};
+	virtual ~CCameraComponent();
 
 	void Initialize();
 

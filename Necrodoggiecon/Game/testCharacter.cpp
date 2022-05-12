@@ -62,7 +62,7 @@ void testCharacter::Update(float deltaTime)
 	spriteComponent->SetTextureOffset(XMFLOAT2(round(timeElapsed * animSpeed) * 128, float((int(round(timeElapsed * animSpeed) / 5) % 2)) * 128));
 
 	XMFLOAT3 screenVec = XMFLOAT3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, Inputs::InputManager::mousePos.z);
-	screenVec = Math::FromScreenToWorld(screenVec, camera);
+	screenVec = Math::FromScreenToWorld(screenVec);
 
 	LookAt(Vector3(screenVec.x, screenVec.y, screenVec.z));
 

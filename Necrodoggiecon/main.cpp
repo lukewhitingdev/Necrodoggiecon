@@ -9,6 +9,7 @@
 #include <Necrodoggiecon\Game\AI\CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
+#include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <weaponUI.h>
 
 /*
@@ -71,16 +72,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 int Start() 
 {	
 	// Free Camera not locked to player.
-	//CCamera* freeCamera = Engine::CreateEntity<CCamera>();
-	//CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>();
-	//freeCameraComponent->Initialize();
-	//freeCameraComponent->SetAttachedToParent(false);
+	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
+	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>();
+	freeCameraComponent->Initialize();
+	freeCameraComponent->SetAttachedToParent(false);
 
 
-	//Engine::CreateEntity<TestUI>()->SetCamera(freeCameraComponent);
-	//Engine::CreateEntity<CursorEntity>()->SetCamera(freeCameraComponent);
+	Engine::CreateEntity<TestUI>();
+	Engine::CreateEntity<CursorEntity>();
 
-	//Engine::SetRenderCamera(freeCameraComponent);
+	CameraManager::AddCamera(freeCameraComponent);
 
 	CWorld::LoadWorld(0);
 
@@ -93,14 +94,13 @@ int Start()
 	lockedCameraComponent->Initialize();
 	lockedCameraComponent->SetAttachedToParent(true);
 
-	Engine::SetRenderCamera(lockedCameraComponent);
+	CameraManager::AddCamera(lockedCameraComponent);
+
+	CameraManager::SetRenderingCamera(lockedCameraComponent);
 
 	Engine::CreateEntity<weaponUI>();
-	Engine::CreateEntity<TestUI>()->SetCamera(lockedCameraComponent);
-	Engine::CreateEntity<CursorEntity>()->SetCamera(lockedCameraComponent);
-
-	character1->SetCamera(lockedCameraComponent);
-	character2->SetCamera(lockedCameraComponent);
+	Engine::CreateEntity<TestUI>();
+	Engine::CreateEntity<CursorEntity>();
 
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 

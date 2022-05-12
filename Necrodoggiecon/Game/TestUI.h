@@ -24,13 +24,9 @@ class TestUI : public CEntity
 		"uwu",
 		"Good Job",
 	};
-
-	CCameraComponent* camera;
 public:
 	TestUI();
 	virtual void Update(float deltaTime) override;
 	virtual ~TestUI();
-
-	void SetCamera(CCameraComponent* cam);
 };
 

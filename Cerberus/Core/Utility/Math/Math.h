@@ -26,7 +26,7 @@ public:
 	 * \param camera rendering camera.
 	 * \return 
 	 */
-	static XMFLOAT3 FromScreenToWorld(const XMFLOAT3& vec, CCameraComponent* camera);
+	static XMFLOAT3 FromScreenToWorld(const XMFLOAT3& vec);
 
 	/**
 	 * unfinished right now.
