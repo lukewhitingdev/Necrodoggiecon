@@ -105,10 +105,10 @@ Vector3 CCameraComponent::GetPosition()
 	if(!attachedToParent)
 	{
 		XMFLOAT4X4 transform = this->GetTransform();
-		XMVECTOR pos, scale, rot;
+		XMVECTOR pos, s, r;
 		XMFLOAT3 floatPos;
 
-		DirectX::XMMatrixDecompose(&rot, &scale, &pos, DirectX::XMLoadFloat4x4(&transform));
+		DirectX::XMMatrixDecompose(&r, &s, &pos, DirectX::XMLoadFloat4x4(&transform));
 		DirectX::XMStoreFloat3(&floatPos, pos);
 		return Vector3(floatPos.x, floatPos.y, floatPos.z);
 	}
