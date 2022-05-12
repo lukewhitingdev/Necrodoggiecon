@@ -2,8 +2,11 @@
 #include <Necrodoggiecon\Game\CCharacter.h>
 #include <Cerberus\Core\Environment\IInputable.h>
 
+#include "weapons.h"
+
 class CDroppedItem;
 class CEquippedItem;
+
 
 class testCharacter : public CCharacter, public IInputable
 {
@@ -25,5 +28,7 @@ public:
 
 	CDroppedItem* droppedItem = nullptr;
 	CEquippedItem* equippedItem = nullptr;
+
+	weapons* weapon = nullptr;
 };
 

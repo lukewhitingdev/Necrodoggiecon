@@ -1,8 +1,11 @@
 #include "weapons.h"
+#include "Necrodoggiecon\Game\testCharacter.h"
+#include <Necrodoggiecon\Game\AI\CAIController.h>
 
-weapons::weapons(std::string weapon)
+weapons::weapons(std::string weapon, USERTYPE userType)
 {
 	LoadWeapons(weapon);
+	this->userType = userType;
 }
 
 void weapons::LoadWeapons(std::string weapon)
@@ -14,9 +17,12 @@ void weapons::LoadWeapons(std::string weapon)
 	type = storedFile.at(weapon).at("Type");
 	damage = storedFile.at(weapon).at("Damage");
 	range = storedFile.at(weapon).at("Range");
+	range = range * rangeScale;
 	attack_speed = storedFile.at(weapon).at("Attack_Speed");
 	ammo = storedFile.at(weapon).at("Ammo");
 	unique = storedFile.at(weapon).at("Unique");
+
+	Debug::Log("Range %f", range);
 }
 
 void weapons::CoolDown(float attack_cooldown)
@@ -28,40 +34,88 @@ void weapons::CoolDown(float attack_cooldown)
 	}
 }
 
-void weapons::OnFire()
+void weapons::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players position | attackDir = mouse position
 {
-	float num;
+	//Vector3 attackDir = attackDir - actorPos;
+	auto normAttackDir = attackDir.Normalize();
 
-	num = GetAttack_Speed();
-	CoolDown(num);
+	if (type == "Melee")
+		HandleMelee(actorPos, normAttackDir);
 }
 
-std::string weapons::GetType()
+void weapons::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 {
-	return type;
+	Vector3 damagePos = actorPos + normAttackDir * range;
+
+	if (userType == USERTYPE::AI)
+	{
+		CEntity* target = GetClosestPlayer(damagePos);
+		if (target != nullptr)
+			Engine::DestroyEntity(target);
+	}
+	else if (userType == USERTYPE::PLAYER)
+	{
+		CEntity* target = GetClosestEnemy(damagePos);
+		if (target != nullptr)
+			Engine::DestroyEntity(target);
+	}
+	
 }
 
-float weapons::GetDamage()
+
+//Gets closest enemy within attack range
+CEntity* weapons::GetClosestEnemy(Vector3 actorPos)
 {
-	return damage;
+	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
+
+	if (enemies.size() == 0) //No enemies
+		return nullptr;
+
+	CAIController* closestEnemy = nullptr;
+
+	//Check each enemy
+	for (CAIController* enemy : enemies)
+	{
+
+		if (actorPos.DistanceTo(enemy->GetPosition()) > range)
+			break;
+
+		if (closestEnemy == nullptr)
+			closestEnemy = enemy;
+		else
+		{
+			if (actorPos.DistanceTo(enemy->GetPosition()) < actorPos.DistanceTo(closestEnemy->GetPosition()))
+				closestEnemy = enemy;
+		}
+	}
+
+	return closestEnemy;
 }
 
-float weapons::GetRange()
+CEntity* weapons::GetClosestPlayer(Vector3 actorPos)
 {
-	return range;
-}
+	std::vector<testCharacter*> players = Engine::GetEntityOfType<testCharacter>();
 
-float weapons::GetAttack_Speed()
-{
-	return attack_speed;
-}
+	if (players.size() == 0) //No players
+		return nullptr;
 
-float weapons::GetAmmo()
-{
-	return ammo;
-}
+	testCharacter* closestPlayer = nullptr;
 
-bool weapons::GetUnique()
-{
-	return unique;
+	//Check each player
+	for (testCharacter* player : players)
+	{
+
+		if (actorPos.DistanceTo(player->GetPosition()) > range)
+			break;
+
+		if (closestPlayer == nullptr)
+			closestPlayer = player;
+		else
+		{
+			if (actorPos.DistanceTo(player->GetPosition()) < actorPos.DistanceTo(closestPlayer->GetPosition()))
+				closestPlayer = player;
+		}
+	}
+
+	return closestPlayer;
 }
