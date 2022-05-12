@@ -5,30 +5,34 @@
 
 testCharacter::testCharacter()
 {
-	spriteComponent = AddComponent<CSpriteComponent>();
-	spriteComponent->LoadTexture("Resources\\birb.dds");
-	spriteComponent->SetRenderRect(XMUINT2(128, 128));
-	spriteComponent->SetSpriteSize(XMUINT2(128, 128));
-
-	spriteComponent->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
+	spriteComponent = AddComponent<CAnimationSpriteComponent>();
+	spriteComponent->LoadTextureWIC("Resources\\manSS.png");
+	spriteComponent->SetRenderRect(XMUINT2(16, 16));
+	spriteComponent->SetSpriteSize(XMUINT2(64, 64));
+	spriteComponent->SetAnimationSpeed(15);
+	spriteComponent->SetAnimationRectSize(XMUINT2(8, 1));
 
 	colComponent = new CollisionComponent("Character 1");
-
-	if (float(rand() % 2))
-		spriteComponent->SetScale(-1, 1, 1);
-
-	timeElapsed = float(rand() / 100);
 }
 
 void testCharacter::PressedHorizontal(int dir, float deltaTime)
 {
 	AddHorizontalMovement(dir, speed, deltaTime);
-	
+
+	if (dir > 0)
+		spriteComponent->SetAnimationRectPosition(XMUINT2(0, 1));
+	else
+		spriteComponent->SetAnimationRectPosition(XMUINT2(0, 2));
 }
 
 void testCharacter::PressedVertical(int dir, float deltaTime)
 {
 	AddVerticalMovement(dir, speed, deltaTime);
+
+	if (dir > 0)
+		spriteComponent->SetAnimationRectPosition(XMUINT2(0, 0));
+	else
+		spriteComponent->SetAnimationRectPosition(XMUINT2(0, 3));
 }
 
 void testCharacter::PressedInteract()
@@ -53,13 +57,10 @@ void testCharacter::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
 
-	const uint32_t animSpeed = 24;
-	spriteComponent->SetTextureOffset(XMFLOAT2(round(timeElapsed * animSpeed) * 128, float((int(round(timeElapsed * animSpeed) / 5) % 2)) * 128));
-
 	XMFLOAT3 screenVec = XMFLOAT3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, Inputs::InputManager::mousePos.z);
 	screenVec = Math::FromScreenToWorld(screenVec);
 
-	LookAt(Vector3(screenVec.x, screenVec.y, screenVec.z));
+	//LookAt(Vector3(screenVec.x, screenVec.y, screenVec.z));
 
 	colComponent->SetPosition(GetPosition());
 }
