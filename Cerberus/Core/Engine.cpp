@@ -25,11 +25,11 @@
 #include "Core/Components/CCameraComponent.h"
 #include "Cerberus/Core/Utility/InputManager/InputManager.h"
 #include "Cerberus/Core/Components/CCameraComponent.h"
+#include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
 using namespace Inputs;
 #include <chrono>
 
 std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
-CCameraComponent* Engine::camera = nullptr;
 
 XMMATRIX Engine::projMatrixUI = XMMatrixIdentity();
 
@@ -708,6 +708,8 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 LRESULT Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 
+	CCameraComponent* camera = CameraManager::GetRenderingCamera();
+
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
 		return false;
 
@@ -784,11 +786,6 @@ void Engine::Stop()
 	CleanupDevice();
 }
 
-void Engine::SetRenderCamera(CCameraComponent* cam)
-{
-	camera = cam;
-}
-
 void Update(float deltaTime)
 {
 	for (int i=0; i < Engine::entities.size(); i++)
@@ -832,6 +829,14 @@ void Update(float deltaTime)
 //--------------------------------------------------------------------------------------
 void Render()
 {
+	CCameraComponent* camera = CameraManager::GetRenderingCamera();
+
+	// Cant render without a rendering camera.
+	if(camera == nullptr)
+	{
+		return;
+	}
+
 	if (resizeSwapChain)
 	{
 		ResizeSwapChain(XMUINT2(Engine::windowWidth, Engine::windowHeight));
@@ -855,10 +860,10 @@ void Render()
 		Engine::deviceContext->PSSetShader(pixelShaderSolid, nullptr, 0);
 
 
-	XMFLOAT4X4 mat = Engine::camera->GetViewMatrix();
+	XMFLOAT4X4 mat = camera->GetViewMatrix();
 	XMMATRIX viewMat = XMMatrixTranspose(XMLoadFloat4x4(&mat));
 
-	mat = Engine::camera->GetProjectionMatrix();
+	mat = camera->GetProjectionMatrix();
 	XMMATRIX projMat = XMMatrixTranspose(XMLoadFloat4x4(&mat));
 
 	// Set primitive topology

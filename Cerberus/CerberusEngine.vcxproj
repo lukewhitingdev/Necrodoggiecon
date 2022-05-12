@@ -364,6 +364,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Utility\CameraManager\CameraManager.h" />
     <ClInclude Include="Core\Components\CCameraComponent.h" />
     <ClInclude Include="Core\Components\CAnimationSpriteComponent.h" />
     <ClInclude Include="Core\Components\CParticleEmitter.h" />
@@ -420,6 +421,7 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Utility\CameraManager\CameraManager.cpp" />
     <ClCompile Include="Core\Components\CCameraComponent.cpp" />
     <ClCompile Include="Core\Components\CAnimationSpriteComponent.cpp" />
     <ClCompile Include="Core\Components\CParticleEmitter.cpp" />
