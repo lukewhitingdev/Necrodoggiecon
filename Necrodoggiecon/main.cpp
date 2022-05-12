@@ -73,6 +73,9 @@ int Start()
 	// Free Camera not locked to player.
 	//CCamera* freeCamera = Engine::CreateEntity<CCamera>();
 	//CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>();
+	//freeCameraComponent->Initialize();
+	//freeCameraComponent->SetAttachedToParent(false);
+
 
 	//Engine::CreateEntity<TestUI>()->SetCamera(freeCameraComponent);
 	//Engine::CreateEntity<CursorEntity>()->SetCamera(freeCameraComponent);
@@ -88,6 +91,7 @@ int Start()
 	// Locked Camera follows player.
 	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>();
 	lockedCameraComponent->Initialize();
+	lockedCameraComponent->SetAttachedToParent(true);
 
 	Engine::SetRenderCamera(lockedCameraComponent);
 
