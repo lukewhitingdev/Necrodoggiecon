@@ -208,7 +208,7 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
 	for(CEmitter* emiter : emitters)
 	{
 		// Check if we are inrange of the circular range emitters have.
-		if (emiter->range < position.DistanceTo(emiter->position))
+		if (emiter->range > position.DistanceTo(emiter->position))
 			output.emplace_back(emiter);
 	}
 	return output;

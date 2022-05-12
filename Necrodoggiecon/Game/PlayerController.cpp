@@ -39,9 +39,7 @@ void PlayerController::HandleInput(float deltaTime)
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::G))
 		inputable->PressedDrop();
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::L))
-	{
 		loadNoise->Play();
-	}
 
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
 	{
