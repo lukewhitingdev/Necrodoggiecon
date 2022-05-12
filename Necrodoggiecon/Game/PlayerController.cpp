@@ -6,6 +6,14 @@
 #include <Necrodoggiecon\Game\CursorEntity.h>
 #include <Necrodoggiecon\Game\AI/CAICharacter.h>
 
+
+PlayerController::PlayerController()
+{
+	loadNoise = AddComponent<CAudioEmitterComponent>();
+	loadNoise->Load("Resources/TestShortAudio.wav");
+	loadNoise->SetRange(10000.0f);
+}
+
 void PlayerController::Update(float deltaTime)
 {
 	HandleInput(deltaTime);
@@ -30,7 +38,10 @@ void PlayerController::HandleInput(float deltaTime)
 		inputable->PressedInteract();
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::G))
 		inputable->PressedDrop();
-
+	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::L))
+	{
+		loadNoise->Play();
+	}
 
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
 	{
