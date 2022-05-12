@@ -124,7 +124,7 @@ void CGridCursor::Update(float deltaTime)
 
 	}
 
-	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::C))
+	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::C))
 	{
 		CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::None);
 	}
@@ -132,7 +132,10 @@ void CGridCursor::Update(float deltaTime)
 	{
 		CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Move_Entity);
 	}
-
+	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::Delete))
+	{
+		CWorldManager::GetEditorWorld()->RemoveSelectedEntity();
+	}
 	
 	//mouseCalc. * -1;
 

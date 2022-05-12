@@ -68,13 +68,15 @@ public:
 
 	 
 	 EditorEntityType GetInspectedItemType();
-	 CT_EditorEntity* GetInspectedItem_Standard() { return InspectedEnemy; }
-	 class CT_EditorEntity_Enemy* GetInspectedItem_Enemy() { return static_cast<CT_EditorEntity_Enemy*>(InspectedEnemy); }
+	 CT_EditorEntity* GetInspectedItem_Standard() { return InspectedEntity; }
+	 class CT_EditorEntity_Enemy* GetInspectedItem_Enemy() { return static_cast<CT_EditorEntity_Enemy*>(InspectedEntity); }
 
 	
 	void ShouldInspectEntity(Vector2 MousePos);
 
 	void MoveSelectedEntity(Vector3 Position);
+
+	void RemoveSelectedEntity();
 protected:
 
 
@@ -186,7 +188,7 @@ private:
 	 int SelectedEntityID;
 
 	 //The entity currently being inspected
-	 CT_EditorEntity* InspectedEnemy;
+	 CT_EditorEntity* InspectedEntity;
 
 	 std::vector<class CT_EditorEntity*> EditorEntityList;
 

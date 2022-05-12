@@ -77,7 +77,7 @@ public:
     
    
 
-    std::vector<Vector2> Waypoints;
+    std::vector<Vector2> WaypointLocations;
 
 
     CT_EditorEntity_Enemy();
@@ -92,10 +92,39 @@ public:
 
     
 
+    
+
 
 
 
 
 };
 
+class CT_EditorEntity_Waypoint :
+    public CT_EditorEntity
+{
+protected:
+
+    // class CSpriteComponent* sprite = nullptr;
+
+
+    int WaypointOrder;
+
+   
+public:
+
+
+
+    CT_EditorEntity_Waypoint();
+
+    virtual void Update(float deltaTime) override;
+
+
+
+
+    virtual void InitialiseEntity(int SlotID);
+
+
+
+};
 

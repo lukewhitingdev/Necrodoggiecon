@@ -742,16 +742,16 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 
 EditorEntityType CWorld_Editable::GetInspectedItemType()
 {
-	if (InspectedEnemy != nullptr)
+	if (InspectedEntity != nullptr)
 	{
-		return InspectedEnemy->GetType();
+		return InspectedEntity->GetType();
 	}
 	else return EditorEntityType::None;
 }
 
 void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 {
-
+	InspectedEntity = nullptr;
 	for (int i = 0; i < EditorEntityList.size(); i++)
 	{
 	
@@ -763,7 +763,7 @@ void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 		if (Pos.DistanceTo(EditorEntityList[i]->GetPosition()) <= 64)
 		{
 			Debug::Log("Entity Located");
-			InspectedEnemy = EditorEntityList[i];
+			InspectedEntity = EditorEntityList[i];
 			
 		}
 		
@@ -798,13 +798,29 @@ void CWorld_Editable::AddEditorEntity_EnemyCharacter(Vector2 Position, int Slot)
 
 void CWorld_Editable::MoveSelectedEntity(Vector3 Position)
 {
-	if (InspectedEnemy != nullptr)
+	if (InspectedEntity != nullptr)
 	{
 		Vector2 Pos2d = Vector2(Position.x, Position.y);
 		Vector3 NewPos = Position * (tileScale * tileScaleMultiplier);
 		if (tileContainer[GridToIndex(Pos2d)]->IsWalkable())
 		{
-			InspectedEnemy->SetPosition(NewPos);
+			InspectedEntity->SetPosition(NewPos);
 		}
 	}
+}
+
+void CWorld_Editable::RemoveSelectedEntity()
+{
+	
+	for (int i = 0; i < EditorEntityList.size(); i++)
+	{
+		if (EditorEntityList[i] == InspectedEntity)
+		{
+			EditorEntityList.erase(EditorEntityList.begin() + i);
+
+			Engine::DestroyEntity(InspectedEntity);
+			break;
+		}
+	}
+
 }
