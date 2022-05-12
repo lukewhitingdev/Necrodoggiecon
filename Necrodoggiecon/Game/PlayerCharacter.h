@@ -1,7 +1,6 @@
 #pragma once
 #include <Necrodoggiecon\Game\CCharacter.h>
 #include <Cerberus\Core\Environment\IInputable.h>
-#include "Cerberus\Core\Components\CCameraComponent.h"
 
 class CDroppedItem;
 class CEquippedItem;
@@ -16,7 +15,7 @@ protected:
 public:
 	PlayerCharacter();
 
-	void SetCamera(CCameraComponent* cam);
+	void SetCamera(class CCameraComponent* cam);
 
 	void PressedHorizontal(int dir, float deltaTime) override;
 	void PressedVertical(int dir, float deltaTime) override;
@@ -28,6 +27,6 @@ public:
 
 	CDroppedItem* droppedItem = nullptr;
 	CEquippedItem* equippedItem = nullptr;
-	CCameraComponent* camera = nullptr;
+	class CCameraComponent* camera = nullptr;
 };
 

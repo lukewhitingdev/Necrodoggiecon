@@ -1,7 +1,6 @@
 #pragma once
 #include "Cerberus\Core\CEntity.h"
 #include <array>
-#include "Cerberus/Core/Components/CCameraComponent.h"
 
 class TestUI : public CEntity
 {

@@ -77,10 +77,6 @@ int Start()
 	freeCameraComponent->Initialize();
 	freeCameraComponent->SetAttachedToParent(false);
 
-
-	Engine::CreateEntity<TestUI>();
-	Engine::CreateEntity<CursorEntity>();
-
 	CameraManager::AddCamera(freeCameraComponent);
 
 	CWorld::LoadWorld(0);

@@ -1,6 +1,5 @@
 #pragma once
 #include "Cerberus\Core\CEntity.h"
-#include "Cerberus/Core/Components/CCameraComponent.h"
 
 class CursorEntity : public CEntity
 {
