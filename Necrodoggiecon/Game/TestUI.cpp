@@ -16,6 +16,7 @@ TestUI::TestUI()
 	birb->SetSpriteSize(XMUINT2(128, 128));
 	birb->SetPosition(560, -296, 0);
 	birb->SetAnchor(XMFLOAT2(1, 1));
+	birb->SetAnimationRectSize(XMUINT2(5, 2));
 
 	text1 = AddComponent<CTextRenderComponent>();
 	text1->SetJustification(TextJustification::Right);

@@ -45,16 +45,13 @@
     <ClCompile Include="Game\ItemDatabase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\testCharacter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\testCharacter2.cpp">
+    <ClCompile Include="Game\PlayerCharatcer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\testClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\testController.cpp">
+    <ClCompile Include="Game\PlayerController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\testEquippedItem.cpp">
@@ -65,6 +62,12 @@
     </ClCompile>
     <ClCompile Include="Game\TestUI.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\AI\Pathfinding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\AI\State.cpp">
+	  <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="weaponUI.cpp">
       <Filter>Source Files</Filter>
@@ -104,16 +107,13 @@
     <ClInclude Include="Game\ItemDatabase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\testCharacter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\testCharacter2.h">
+    <ClInclude Include="Game\PlayerCharacter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\testClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\testController.h">
+    <ClInclude Include="Game\PlayerController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\testEquippedItem.h">
@@ -124,6 +124,12 @@
     </ClInclude>
     <ClInclude Include="Game\TestUI.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\AI\Pathfinding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\AI\State.h">
+	  <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="weaponUI.h">
       <Filter>Header Files</Filter>

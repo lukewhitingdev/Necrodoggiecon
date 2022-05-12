@@ -6,7 +6,7 @@
 class CDroppedItem;
 class CEquippedItem;
 
-class testCharacter : public CCharacter, public IInputable
+class PlayerCharacter : public CCharacter, public IInputable
 {
 protected:
 	float speed = 200;
@@ -14,7 +14,7 @@ protected:
 
 	void LookAt(Vector3 pos);
 public:
-	testCharacter();
+	PlayerCharacter();
 
 	void SetCamera(CCameraComponent* cam);
 

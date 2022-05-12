@@ -3,8 +3,8 @@
 #include "Necrodoggiecon\Game\CPlayer.h"
 #include <Necrodoggiecon\Game\TestUI.h>
 #include <Necrodoggiecon\Game\CursorEntity.h>
-#include <Necrodoggiecon\Game\testController.h>
-#include <Necrodoggiecon\Game\testCharacter.h>
+#include <Necrodoggiecon\Game\PlayerController.h>
+#include <Necrodoggiecon\Game\PlayerCharacter.h>
 #include <Necrodoggiecon\Game\ItemDatabase.h>
 #include <Necrodoggiecon\Game\AI\CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
@@ -85,9 +85,8 @@ int Start()
 
 	CWorld::LoadWorld(0);
 
-	testController* controller = Engine::CreateEntity<testController>();
-	testCharacter* character1 = Engine::CreateEntity<testCharacter>();
-	testCharacter* character2 = Engine::CreateEntity<testCharacter>();
+	PlayerController* controller = Engine::CreateEntity<PlayerController>();
+	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
 
 	// Locked Camera follows player.
 	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>();
@@ -107,10 +106,7 @@ int Start()
 	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	character1->droppedItem = droppedItem;
 
-	character2->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-
 	controller->charOne = character1;
-	controller->charTwo = character2;
 
 	character1->SetPosition(Vector3(0, 0, 0));
 	controller->Possess(character1);
@@ -119,7 +115,7 @@ int Start()
 
 	Engine::CreateEntity<CAIController>();
 
-	std::vector<testCharacter*> test = Engine::GetEntityOfType<testCharacter>();
+	std::vector<PlayerCharacter*> test = Engine::GetEntityOfType<PlayerCharacter>();
 
 	return 0;
 }

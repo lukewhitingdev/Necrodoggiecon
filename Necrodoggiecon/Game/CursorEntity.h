@@ -4,7 +4,7 @@
 
 class CursorEntity : public CEntity
 {
-	class CSpriteComponent* sprite = nullptr;
+	class CAnimationSpriteComponent* sprite = nullptr;
 	class CTextRenderComponent* text = nullptr;
 	float timeElapsed = 0;
 
