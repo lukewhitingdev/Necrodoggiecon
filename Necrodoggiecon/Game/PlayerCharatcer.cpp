@@ -2,6 +2,7 @@
 #include "CDroppedItem.h"
 #include "CEquippedItem.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
+#include "Cerberus\Core\Components\CCameraComponent.h"
 
 PlayerCharacter::PlayerCharacter()
 {

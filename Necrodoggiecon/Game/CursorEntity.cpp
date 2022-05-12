@@ -4,6 +4,7 @@
 #include <sstream>
 #include "Cerberus\Core\Structs\CCamera.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
+#include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
 #include "Cerberus/Core/Components/CAnimationSpriteComponent.h"
 
 CursorEntity::CursorEntity()
@@ -26,6 +27,7 @@ CursorEntity::CursorEntity()
 
 void CursorEntity::Update(float deltaTime)
 {
+	CCameraComponent* camera = CameraManager::GetRenderingCamera();
 	timeElapsed += deltaTime;
 
 	unsigned char row = 0;
@@ -53,10 +55,10 @@ void CursorEntity::Update(float deltaTime)
 			mouseOffset = Inputs::InputManager::mousePos;
 		}
 
-		Vector3 mousePos = (Inputs::InputManager::mousePos - mouseOffset) / Engine::camera.GetZoom();
+		Vector3 mousePos = (Inputs::InputManager::mousePos - mouseOffset) / camera->GetZoomLevel();
 		mouseOffset = Inputs::InputManager::mousePos;
 
-		Engine::camera.SetCameraPosition(XMFLOAT4(-mousePos.x + Engine::camera.GetCameraPosition().x, mousePos.y + Engine::camera.GetCameraPosition().y, Engine::camera.GetCameraPosition().z, Engine::camera.GetCameraPosition().w));
+		camera->SetPosition(Vector3(-mousePos.x + camera->GetPosition().x, mousePos.y + camera->GetPosition().y, camera->GetPosition().z));
 	}
 	else
 	{

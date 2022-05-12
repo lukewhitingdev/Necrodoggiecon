@@ -9,6 +9,7 @@ class CursorEntity : public CEntity
 
 	Vector3 mouseOffset = { 0,0,0 };
 	bool mouseRHeld = false;
+	
 public:
 	CursorEntity();
 	virtual void Update(float deltaTime) override;

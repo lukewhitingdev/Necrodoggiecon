@@ -1,6 +1,7 @@
 #include "CT_EditorGrid.h"
 #include "Cerberus\Core\Components\CSpriteComponent.h"
 #include "Cerberus\Core\Environment/CGridCursor.h"
+#include "Cerberus/Core/Components/CCameraComponent.h"
 
 CT_EditorGrid::CT_EditorGrid()
 {
@@ -14,11 +15,12 @@ void CT_EditorGrid::Update(float deltaTime)
 
 }
 
-void CT_EditorGrid::SetupGrid()
+void CT_EditorGrid::SetupGrid(CCameraComponent* cam)
 {
 	
 	//Instantiate the grid cursor
-	Engine::CreateEntity<CGridCursor>();
+	CGridCursor* gridCursor = Engine::CreateEntity<CGridCursor>();
+	gridCursor->SetCamera(cam);
 
 	//Setup the editor grid visuals
 	gridSprite->LoadTexture("Resources\\Tiles\\GridCell.dds");

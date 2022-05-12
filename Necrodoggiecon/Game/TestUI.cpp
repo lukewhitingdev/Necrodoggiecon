@@ -3,6 +3,7 @@
 #include "Cerberus\Core\Components\CTextRenderComponent.h"
 #include "Cerberus\Core\Components\CSpriteComponent.h"
 #include "Cerberus\Core\Structs\CCamera.h"
+#include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
 #include <sstream>
 
 TestUI::TestUI()
@@ -47,6 +48,11 @@ TestUI::TestUI()
 
 void TestUI::Update(float deltaTime)
 {
+	CCameraComponent* camera = CameraManager::GetRenderingCamera();
+
+	if (camera == nullptr)
+		return;
+
 	timeElapsed += deltaTime;
 	textTimer += deltaTime; 
 	fpsTimer += deltaTime;
@@ -65,11 +71,11 @@ void TestUI::Update(float deltaTime)
 	}
 
 	std::stringstream ss;
-	ss << "Zoom:" << Engine::camera.GetZoom();
+	ss << "Zoom:" << camera->GetZoomLevel();
 	text1->SetText(ss.str());
 
 	ss.str("");
-	ss << "X:" << round(Engine::camera.GetCameraPosition().x) << " Y:" << round(Engine::camera.GetCameraPosition().y);
+	ss << "X:" << round(camera->GetPosition().x) << " Y:" << round(camera->GetPosition().y);
 	text2->SetText(ss.str());
 
 	if (fpsTimer > 0.5)
