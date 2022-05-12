@@ -9,8 +9,8 @@
 #include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
 #include "Cerberus\Core\Environment/CWorld.h"
 #include "CAINode.h"
-#include "Necrodoggiecon\Game\testCharacter.h"
-#include "Necrodoggiecon\Game\testController.h"
+#include "Necrodoggiecon\Game\PlayerCharacter.h"
+#include "Necrodoggiecon\Game\PlayerController.h"
 #include "Necrodoggiecon\Game\CCharacter.h"
 
 enum class STATE
@@ -86,8 +86,8 @@ protected:
 	void StateMachine(float deltaTime);
 	void Patrolling();
 	void SearchForPlayer();
-	virtual void ChasePlayer(testCharacter* player);
-	virtual void AttackPlayer(testCharacter* player);
+	virtual void ChasePlayer(PlayerCharacter* player);
+	virtual void AttackPlayer(PlayerCharacter* player);
 	virtual void GetIntoCover() {};
 
 	Vector3 Seek(Vector3 TargetPos);
@@ -105,10 +105,10 @@ protected:
 	std::vector<WaypointNode*> pathNodes;
 	int currentCount;
 
-	testCharacter* playerToKill = nullptr;
-	testCharacter* playerToChase = nullptr;
-	std::vector<testController*> playersController = Engine::GetEntityOfType<testController>();
-	std::vector<testCharacter*> players = Engine::GetEntityOfType<testCharacter>();
+	PlayerCharacter* playerToKill = nullptr;
+	PlayerCharacter* playerToChase = nullptr;
+	std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
+	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 	class CSpriteComponent* viewSprite = nullptr;
 

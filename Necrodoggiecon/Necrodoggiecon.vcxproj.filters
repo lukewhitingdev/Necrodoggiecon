@@ -45,16 +45,13 @@
     <ClCompile Include="Game\ItemDatabase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\testCharacter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\testCharacter2.cpp">
+    <ClCompile Include="Game\PlayerCharatcer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\testClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\testController.cpp">
+    <ClCompile Include="Game\PlayerController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\testEquippedItem.cpp">
@@ -104,16 +101,13 @@
     <ClInclude Include="Game\ItemDatabase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\testCharacter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\testCharacter2.h">
+    <ClInclude Include="Game\PlayerCharacter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\testClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\testController.h">
+    <ClInclude Include="Game\PlayerController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\testEquippedItem.h">

@@ -283,7 +283,7 @@ PatrolNode* CAIController::FindClosestPatrolNode()
 void CAIController::StateMachine(float deltaTime)
 {
 	Vector3 closestPlayerPosition = { INFINITY, INFINITY, INFINITY };
-	testCharacter* closestPlayer = nullptr;
+	PlayerCharacter* closestPlayer = nullptr;
 
 
 	if (currentState != STATE::ATTACK)
@@ -291,7 +291,7 @@ void CAIController::StateMachine(float deltaTime)
 		if (players.size() > 0)
 		{
 			// Check each player.
-			for (testCharacter* player : players)
+			for (PlayerCharacter* player : players)
 			{
 				// Check if the AI can see the player.
 				if (CanSee(player->GetPosition()) == true)
@@ -435,7 +435,7 @@ void CAIController::SearchForPlayer()
 }
 
 // Seek towards the player and if it gets close then clart it. To be overriden by the melee and ranged AIs in the future.
-void CAIController::ChasePlayer(testCharacter* player)
+void CAIController::ChasePlayer(PlayerCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 	{
@@ -449,13 +449,11 @@ void CAIController::ChasePlayer(testCharacter* player)
 }
 
 // Absolutely CLART the player off the face of this virtual plane.
-void CAIController::AttackPlayer(testCharacter* player)
+void CAIController::AttackPlayer(PlayerCharacter* player)
 {
-	(playersController[0]->charOne == player ? playersController[0]->charOne = nullptr : playersController[0]->charTwo = nullptr);
-	((playersController[0]->charOne != nullptr || playersController[0]->charTwo != nullptr) ? playersController[0]->SwapChar() : playersController[0]->Unpossess());
-	
+	playersController[0]->Unpossess();
 	Engine::DestroyEntity(player);
-	players = Engine::GetEntityOfType<testCharacter>();
+	players = Engine::GetEntityOfType<PlayerCharacter>();
 	currentState = STATE::PATHFINDING;
 	//EventSystem::TriggerEvent("GameOver");
 }
