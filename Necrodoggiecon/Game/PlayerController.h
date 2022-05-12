@@ -3,14 +3,12 @@
 
 class IInputable;
 
-class testController : public CPlayerController
+class PlayerController : public CPlayerController
 {
 public:
 	virtual void Update(float deltaTime) override;
 
 	CCharacter* charOne = nullptr;
-	CCharacter* charTwo = nullptr;
-	void SwapChar();
 
 protected:
 	virtual void HandleInput(float deltaTime) override;
