@@ -118,7 +118,9 @@ void CWorld_Editable::LoadWorld(int Slot)
 		{
 			int WaypointX = storedFile["Enemy"][i]["Waypoints"][y]["X"];
 			int WaypointY = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
-			TempRef->AddWaypoint(Vector2(WaypointX, WaypointY));
+			CT_EditorEntity_Waypoint* TempWaypoint = TempRef->AddWaypoint(Vector2(WaypointX, WaypointY));
+			EditorEntityList.push_back(TempWaypoint);
+
 		}
 		 TempRef->ToggleWaypoints(false);
 		

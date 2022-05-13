@@ -1,7 +1,7 @@
 #include "Cerberus\Core\Engine.h"
 #include <Cerberus\Core\Environment\CWorld.h>
 #include "CerberusTools/CursorEntity.h"
-#include <Cerberus/CWorldManager.h>
+#include <Cerberus/Core/Utility/CWorldManager.h>
 
 
 /*
