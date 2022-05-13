@@ -27,7 +27,7 @@ void EntityManager::RemoveEntity(const CEntity* entityToRemove)
 
 void EntityManager::AddComponent(CComponent* compToAdd)
 {
-	if(compToAdd->translucency)
+	if(compToAdd->GetUseTranslucency())
 		translucentComps.push_back(compToAdd);
 	else
 		opaqueComps.emplace(std::make_pair((uintptr_t)compToAdd, compToAdd));
@@ -35,7 +35,7 @@ void EntityManager::AddComponent(CComponent* compToAdd)
 
 void EntityManager::RemoveComponent(const CComponent* compToRemove)
 {
-	if (compToRemove->translucency)
+	if (compToRemove->GetUseTranslucency())
 	{
 		auto iterator = std::find(translucentComps.begin(), translucentComps.end(), compToRemove);
 
@@ -63,10 +63,10 @@ void EntityManager::RemoveComponent(const CComponent* compToRemove)
 
 void EntityManager::SortTranslucentComponents()
 {
-	/*std::sort(translucentComps.begin(), translucentComps.end(), [](const CComponent& a, const CComponent& b) -> bool
+	std::sort(translucentComps.begin(), translucentComps.end(), [](const CComponent* a, const CComponent* b) -> bool
 		{
-			return a. > b.mProperty;
-		});*/
+			return a->GetPosition().z > b->GetPosition().z;
+		});
 }
 
 const std::unordered_map<uintptr_t, class CEntity*>* EntityManager::GetEntitiesMap()

@@ -6,6 +6,13 @@ void CComponent::SetParent(CEntity* newParent)
 	parent = newParent;
 }
 
+void CComponent::SetUseTranslucency(const bool& newTranslucency)
+{
+	EntityManager::RemoveComponent(this);
+	translucency = newTranslucency;
+	EntityManager::AddComponent(this);
+}
+
 XMFLOAT4X4 CComponent::GetTransform()
 {
 	if (!ui)

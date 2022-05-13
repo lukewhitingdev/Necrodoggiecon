@@ -23,13 +23,13 @@ protected:
 
 	class CEntity* parent = nullptr;
 
+	bool translucency = false;
+
 public:
 	bool ui = false;
 
 	bool shouldUpdate = true;
 	bool shouldDraw = false;
-
-	bool translucency = false;
 
 	/**
 	 * Sets the region of the screen a UI element will be "anchored" to.
@@ -38,6 +38,9 @@ public:
 	 */
 	void SetAnchor(XMFLOAT2 newAnchor) { anchor = newAnchor; updateTransform = true; }
 	void SetParent(class CEntity* newParent);
+
+	virtual void SetUseTranslucency(const bool& newTranslucency);
+	const bool& GetUseTranslucency() const { return translucency; };
 
 	const XMFLOAT2& GetAnchor() const { return anchor; }
 	class CEntity* GetParent() const { return parent; };

@@ -903,6 +903,8 @@ void Render()
 		}
 	}
 
+	EntityManager::SortTranslucentComponents();
+
 	for (auto it = EntityManager::GetTranslucentCompsVector()->begin(); it != EntityManager::GetTranslucentCompsVector()->end(); it++)
 	{
 		CComponent* c = it[0];
