@@ -24,7 +24,7 @@ void CT_EditorGrid::SetupGrid(CCameraComponent* cam)
 	gridCursor->SetCamera(cam);
 
 	//Setup the editor grid visuals
-	gridSprite->LoadTexture("Resources\\Tiles\\GridCell.dds");
+	gridSprite->LoadTexture("Resources/Tiles/GridCell.dds");
 	gridSprite->SetRenderRect(XMUINT2(tileScale * mapScale, tileScale * mapScale));
 	gridSprite->SetSpriteSize(XMUINT2(tileScale * mapScale, tileScale * mapScale));
 	gridSprite->SetTextureOffset(XMFLOAT2(0, 0));

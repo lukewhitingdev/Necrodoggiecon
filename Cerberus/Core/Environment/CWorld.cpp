@@ -35,7 +35,6 @@ void CWorld::LoadWorld(int Slot)
 
 	std::ifstream file(fileName);
 
-
 	json storedFile;
 
 	file >> storedFile;
