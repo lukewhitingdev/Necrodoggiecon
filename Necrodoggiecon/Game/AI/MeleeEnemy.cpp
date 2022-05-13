@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   MeleeEnemy.cpp
+ * \brief  All the functions needed to control the Melee Enemies.
+ * 
+ * \author Nasser Ksous
+ * \date   May 2022
+ *********************************************************************/
 #include "MeleeEnemy.h"
 
 MeleeEnemy::MeleeEnemy()

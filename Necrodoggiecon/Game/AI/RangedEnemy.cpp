@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   RangedEnemy.cpp
+ * \brief  All the functions needed to control the Ranged Enemies.
+ * 
+ * \author Nasser Ksous
+ * \date   May 2022
+ *********************************************************************/
 #include "RangedEnemy.h"
 
 RangedEnemy::RangedEnemy()

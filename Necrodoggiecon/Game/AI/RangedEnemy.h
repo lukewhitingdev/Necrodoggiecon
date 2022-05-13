@@ -1,5 +1,13 @@
 #pragma once
-#include "CAIController.h"
+/*****************************************************************//**
+ * \file   RangedEnemy.h
+ * \brief  Header file containing all the inherited functions from CAIController and variables needed to control the Ranged Enemies.
+ * 
+ * \author Nasser Ksous
+ * \date   May 2022
+ *********************************************************************/
+
+#include "Cerberus/Core/AI/CAIController.h"
 class RangedEnemy :
     public CAIController
 {
