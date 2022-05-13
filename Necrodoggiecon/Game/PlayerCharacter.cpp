@@ -66,7 +66,7 @@ void PlayerCharacter::Update(float deltaTime)
 	colComponent->SetPosition(GetPosition());
 }
 
-void testCharacter::LookAt(Vector3 pos)
+void PlayerCharacter::LookAt(Vector3 pos)
 {
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
 
