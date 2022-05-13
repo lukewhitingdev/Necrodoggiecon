@@ -41,6 +41,24 @@ public:
 		return dynamic_cast<T*>(tmp);
 	}
 
+	template<class T>
+	T* GetComponent()
+	{
+		for(auto& component : components)
+		{
+
+			std::string hash1 = typeid(*component).name();
+			std::string hash2 = typeid(T).name();
+
+			if(hash1 == hash2)
+			{
+				return static_cast<T*>(component);
+			}
+		}
+
+		return nullptr;
+	}
+
 	/**
 	 * Removes the specified component.
 	 */
