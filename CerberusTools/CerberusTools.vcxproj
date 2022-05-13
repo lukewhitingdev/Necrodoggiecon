@@ -119,8 +119,9 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;winmm.lib;comctl32.lib;$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -140,14 +141,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CT_EditorWorld.cpp" />
-    <ClCompile Include="CT_MainWindow.cpp" />
+    <ClCompile Include="CursorEntity.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CT_EditorResources.h" />
-    <ClInclude Include="CT_MainWindow.h" />
-    <ClInclude Include="CT_EditorWorld.h" />
+    <ProjectReference Include="..\Cerberus\CerberusEngine.vcxproj">
+      <Project>{65da4c22-93f3-4555-9579-08f8e691fc2e}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CursorEntity.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

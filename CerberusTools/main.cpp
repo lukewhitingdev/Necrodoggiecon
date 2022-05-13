@@ -1,20 +1,70 @@
-#include <iostream>
-#include "Core/Cerberus\Core\Engine.h"
-#include "Game/testClass.h"
-#include "Core/Cerberus\Core\Utility\Vector3.h"
-#include "Core/Environment/CWorld.h"
+#include "Cerberus\Core\Engine.h"
+#include <Cerberus\Core\Environment\CWorld.h>
+#include "CerberusTools/CursorEntity.h"
+#include <Cerberus/CWorldManager.h>
 
-int main(int argc, char* argv[])
+
+/*
+
+TODO:
+Probs make Header files that hold other functionality of engine, Like Audio.h having all static audio functions etc.
+
+*/
+
+int Start();
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+//--------------------------------------------------------------------------------------
+// Entry point to the program. Initializes everything and goes into a message processing 
+// loop. Idle time is used to render the scene.
+//--------------------------------------------------------------------------------------
+int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
-    printf("Hello World from TOOLS! \n");
-   
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
 
-   
+	// Engine Start
+	Engine::Start(hInstance, nCmdShow, WndProc);
 
+	Start();
 
+	// Main message loop
+	MSG msg = { 0 };
+	while (WM_QUIT != msg.message)
+	{
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		else
+		{
+			// Engine Update / Render
+			Engine::RenderUpdateLoop();
+		}
+	}
 
+	// Engine Cleanup / Destroy
+	Engine::Stop();
 
-        
-   // printf("Tile Size: (%f) \n", sizeof(Temp));
-    return 0;
+	return (int)msg.wParam;
+}
+
+//--------------------------------------------------------------------------------------
+// Called every time the application receives a message
+//--------------------------------------------------------------------------------------
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	// Engine WndProc Hook.
+	return Engine::ReadMessage(hWnd, message, wParam, lParam);
+}
+
+// Called once at the start of the application run.
+int Start()
+{
+	CWorldManager::LoadWorld(0, true);
+	Engine::CreateEntity<CursorEntity>();
+
+	return 0;
 }

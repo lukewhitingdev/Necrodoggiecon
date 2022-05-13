@@ -2,7 +2,8 @@
 #include "Dependencies/NlohmannJson/json.hpp"
 #include <iostream>
 #include <fstream>
-#include "AI/CAIController.h"
+
+
 
 
 
@@ -71,7 +72,7 @@ void CWorld::LoadWorld(int Slot)
 
 	}
 	
-
+	/*
 	int enemyCount = storedFile["EnemyCount"];
 
 
@@ -91,9 +92,10 @@ void CWorld::LoadWorld(int Slot)
 			int WaypointX = storedFile["Enemy"][i]["Waypoints"][y]["X"];
 			int WaypointY = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
 			
-			//TODO- Give waypoints to controller
+			
 		}
 	}
+	*/
 
 
 

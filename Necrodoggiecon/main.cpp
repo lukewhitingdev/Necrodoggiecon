@@ -8,6 +8,7 @@
 #include <Necrodoggiecon\Game\ItemDatabase.h>
 #include <Necrodoggiecon\Game\AI\CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
+#include <Cerberus/CWorldManager.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <weaponUI.h>
@@ -79,7 +80,7 @@ int Start()
 
 	CameraManager::AddCamera(freeCameraComponent);
 
-	CWorld::LoadWorld(0);
+	CWorldManager::LoadWorld(0, false);
 
 	PlayerController* controller = Engine::CreateEntity<PlayerController>();
 	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
