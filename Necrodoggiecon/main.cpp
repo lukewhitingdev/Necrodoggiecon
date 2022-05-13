@@ -11,6 +11,7 @@
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include "Necrodoggiecon/Game/AI/MeleeEnemy.h"
+#include "Necrodoggiecon/Game/AI/RangedEnemy.h"
 #include <weaponUI.h>
 
 /*
@@ -110,8 +111,7 @@ int Start()
 	character1->colComponent->SetCollider(128.0f, 128.0f);
 
 	Engine::CreateEntity<MeleeEnemy>();
-
-	std::vector<PlayerCharacter*> test = Engine::GetEntityOfType<PlayerCharacter>();
+	Engine::CreateEntity<RangedEnemy>();
 
 	return 0;
 }

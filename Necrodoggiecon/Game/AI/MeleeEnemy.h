@@ -6,5 +6,9 @@ class MeleeEnemy :
 public:
     MeleeEnemy();
     virtual void Update(float deltaTime) override;
+
+    virtual void ChasePlayer(PlayerCharacter* player) override;
+    virtual void AttackPlayer(PlayerCharacter* player) override;
+    virtual void GetIntoCover() override;
 };
 
