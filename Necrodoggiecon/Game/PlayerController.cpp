@@ -1,5 +1,5 @@
 #include "PlayerController.h"
-#include "PlayerCharacter.h"
+
 #include "ItemDatabase.h"
 #include "CEquippedItem.h"
 
@@ -9,9 +9,6 @@
 
 PlayerController::PlayerController()
 {
-	loadNoise = AddComponent<CAudioEmitterComponent>();
-	loadNoise->Load("Resources/TestShortAudio.wav");
-	loadNoise->SetRange(10000.0f);
 }
 
 void PlayerController::Update(float deltaTime)
@@ -39,7 +36,7 @@ void PlayerController::HandleInput(float deltaTime)
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::G))
 		inputable->PressedDrop();
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::L))
-		loadNoise->Play();
+		charOne->loadNoise->Play();
 
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
 	{

@@ -1,6 +1,6 @@
 #pragma once
 #include <Necrodoggiecon\Game\CPlayerController.h>
-#include "Cerberus/Core/Components/CAudioEmitterComponent.h"
+#include "PlayerCharacter.h"
 
 class IInputable;
 
@@ -10,7 +10,7 @@ public:
 	PlayerController();
 	virtual void Update(float deltaTime) override;
 
-	CCharacter* charOne = nullptr;
+	PlayerCharacter* charOne = nullptr;
 
 protected:
 	virtual void HandleInput(float deltaTime) override;
@@ -21,6 +21,6 @@ protected:
 	virtual void OnPossess() override;
 	virtual void OnUnpossess() override;
 
-	CAudioEmitterComponent* loadNoise;
+	
 };
 

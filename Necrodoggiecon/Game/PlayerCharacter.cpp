@@ -14,6 +14,10 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponent->SetAnimationRectSize(XMUINT2(8, 1));
 
 	colComponent = new CollisionComponent("Character 1");
+
+	loadNoise = AddComponent<CAudioEmitterComponent>();
+	loadNoise->Load("Resources/TestShortAudio.wav");
+	loadNoise->SetRange(10000.0f);
 }
 
 void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)

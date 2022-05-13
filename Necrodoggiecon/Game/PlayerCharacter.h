@@ -1,6 +1,7 @@
 #pragma once
 #include <Necrodoggiecon\Game\CCharacter.h>
 #include <Cerberus\Core\Environment\IInputable.h>
+#include "Cerberus/Core/Components/CAudioEmitterComponent.h"
 
 class CDroppedItem;
 class CEquippedItem;
@@ -28,5 +29,6 @@ public:
 	CDroppedItem* droppedItem = nullptr;
 	CEquippedItem* equippedItem = nullptr;
 	class CCameraComponent* camera = nullptr;
+	CAudioEmitterComponent* loadNoise;
 };
 
