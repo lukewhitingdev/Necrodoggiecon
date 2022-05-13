@@ -39,9 +39,10 @@ public:
 	void SetCollider(float setRadius); //Bounding circle initiation
 	void SetCollider(float setHeight, float setWidth); //Bounding Box initiation
 
-
 	bool IsColliding(CollisionComponent* collidingObject);
 	float DistanceBetweenPoints(Vector3& point1, Vector3& point2);
+
+	void Resolve(CollisionComponent* other);
 
 private: 
 	float radius;

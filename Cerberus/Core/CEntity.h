@@ -46,5 +46,8 @@ public:
 	 */
 	void RemoveComponent(CComponent* reference);
 	CollisionComponent* colComponent = nullptr;
-	virtual void HasCollided(CollisionComponent* collidedObject) { UNREFERENCED_PARAMETER(collidedObject); };
+	virtual void HasCollided(CollisionComponent* collidedObject) {
+		colComponent->Resolve(collidedObject);
+		this->SetPosition(colComponent->GetPosition());
+	};
 };
