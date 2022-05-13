@@ -202,6 +202,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\testEquippedItem.cpp" />
     <ClCompile Include="Game\testItemData.cpp" />
     <ClCompile Include="Game\TestUI.cpp" />
+    <ClCompile Include="Game\weapons.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="weaponUI.cpp" />
   </ItemGroup>
@@ -226,6 +227,10 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClInclude Include="Game\testEquippedItem.h" />
     <ClInclude Include="Game\testItemData.h" />
     <ClInclude Include="Game\TestUI.h" />
+    <ClInclude Include="Game\weapons.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Weapons.json" />
     <ClInclude Include="weaponUI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
