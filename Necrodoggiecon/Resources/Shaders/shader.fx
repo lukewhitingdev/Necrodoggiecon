@@ -88,7 +88,7 @@ float4 PS(PS_INPUT IN) : SV_TARGET
 	if (Material.UseTexture)
 	{
 		texColor = txDiffuse.Sample(samLinear, (IN.Tex + texOffset) * texSampleOffset);
-        if (texColor.a < 0.5f) discard;
+        if (texColor.a <= 0.0f) discard;
     }
 	
 	float4 finalColor = saturate(texColor + Material.tint);

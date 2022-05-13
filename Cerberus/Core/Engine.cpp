@@ -84,6 +84,7 @@ ID3D11Texture2D* depthStencil;
 ID3D11DepthStencilView* depthStencilView;
 ID3D11RasterizerState* fillRastState;
 ID3D11RasterizerState* wireframeRastState;
+ID3D11BlendState* blendState;
 
 DebugOutput* debugOutputUI;
 CT_EditorMain* EditorViewport;
@@ -352,6 +353,27 @@ HRESULT InitDevice()
     vp.TopLeftY = 0;
     Engine::deviceContext->RSSetViewports( 1, &vp );
 
+	D3D11_BLEND_DESC blend;
+	blend.RenderTarget[0].BlendEnable = TRUE;
+	blend.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	blend.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blend.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blend.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	blend.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	blend.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	blend.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	blend.IndependentBlendEnable = false;
+	blend.AlphaToCoverageEnable = false;
+	hr = Engine::device->CreateBlendState(&blend, &blendState);
+
+	if (FAILED(hr))
+		return hr;
+
+	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	UINT sampleMask = 0xffffffff;
+
+	Engine::deviceContext->OMSetBlendState(blendState, blendFactor, sampleMask);
+
 	D3D11_RASTERIZER_DESC fillDSC = {};
 	fillDSC.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 	fillDSC.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
@@ -599,6 +621,7 @@ void CleanupDevice()
     if( Engine::deviceContext ) Engine::deviceContext->Release();
 	if (fillRastState) fillRastState->Release();
 	if (wireframeRastState) wireframeRastState->Release();
+	if (blendState) blendState->Release();
 
 	ID3D11Debug* debugDevice = nullptr;
 	Engine::device->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&debugDevice));
