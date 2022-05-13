@@ -63,9 +63,25 @@ void EntityManager::RemoveComponent(const CComponent* compToRemove)
 
 void EntityManager::SortTranslucentComponents()
 {
-	std::sort(translucentComps.begin(), translucentComps.end(), [](const CComponent* a, const CComponent* b) -> bool
+	std::sort(translucentComps.begin(), translucentComps.end(), [](CComponent* a, CComponent* b) -> bool
 		{
-			return a->GetPosition().z > b->GetPosition().z;
+			XMFLOAT4X4 ivalue = a->GetTransform();
+			XMMATRIX aMat = XMLoadFloat4x4(&ivalue);
+			ivalue = a->GetParent()->GetTransform();
+			XMMATRIX aMat2 = XMLoadFloat4x4(&ivalue);
+			XMVECTOR aPos;
+			XMVECTOR junk1;
+			XMVECTOR junk2;
+			XMMatrixDecompose(&junk1, &junk2, &aPos, aMat * aMat2);
+
+			ivalue = b->GetTransform();
+			XMMATRIX bMat = XMLoadFloat4x4(&ivalue);
+			ivalue = b->GetParent()->GetTransform();
+			XMMATRIX bMat2 = XMLoadFloat4x4(&ivalue);
+			XMVECTOR bPos;
+			XMMatrixDecompose(&junk1, &junk2, &bPos, bMat * bMat2);
+
+			return XMVectorGetZ(aPos) > XMVectorGetZ(bPos);		//Make comparison the result Z not just component Z
 		});
 }
 
