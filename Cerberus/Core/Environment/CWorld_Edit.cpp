@@ -23,110 +23,116 @@ void CWorld_Editable::LoadWorld(int Slot)
 	std::string fileName = "Resources/Levels/Level_" + std::to_string(Slot);
 	fileName += ".json";
 
+
 	MapSlot = Slot;
 
 	std::ifstream file(fileName);
-
-
-	json storedFile;
-
-	file >> storedFile;
-
-	std::vector<std::string> convertedFile = storedFile["TileData"];
-
-
-	std::string Test = convertedFile[0];
-	std::cout << "" << std::endl;
-
-
-	for (int i = 0; i < (mapScale * mapScale); i++)
+	if (file.is_open())
 	{
-		Vector3 temp = Vector3((float)(i % mapScale), (float)(i / mapScale), 0);
-		Vector2 gridPos = Vector2(temp.x, temp.y);
+		json storedFile;
 
-		int ID = atoi(convertedFile[i].c_str());
-		Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
+		file >> storedFile;
 
-		//tempPos += Vector3(0, 64 * tileScale, 0.0f);
+		std::vector<std::string> convertedFile = storedFile["TileData"];
 
-		tempPos.z = 10;
 
-		CTile* Tile = nullptr;
-		if (tileContainer[i] != nullptr)
+		std::string Test = convertedFile[0];
+		std::cout << "" << std::endl;
+
+
+		for (int i = 0; i < (mapScale * mapScale); i++)
 		{
-			Tile = tileContainer[i];
+			Vector3 temp = Vector3((float)(i % mapScale), (float)(i / mapScale), 0);
+			Vector2 gridPos = Vector2(temp.x, temp.y);
+
+			int ID = atoi(convertedFile[i].c_str());
+			Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
+
+			//tempPos += Vector3(0, 64 * tileScale, 0.0f);
+
+			tempPos.z = 10;
+
+			CTile* Tile = nullptr;
+			if (tileContainer[i] != nullptr)
+			{
+				Tile = tileContainer[i];
+			}
+			else
+			{
+				Tile = Engine::CreateEntity<CTile>();
+			}
+
+
+			Tile->SetPosition(tempPos);
+			Tile->SetScale(tileScaleMultiplier);
+			Tile->ChangeTileID(ID);
+
+			tileContainer[i] = Tile;
+
+
+
+			if (Tile->GetTileID() != 1)
+			{
+				tileData[i].id = 0;
+			}
+			else tileData[i].id = 1;
+
+
+			//tileData[i].id = Tile->GetTileID();
+			tileData[i].type = CellType::Empty;
+
+
+
+
 		}
-		else
+
+
+
+
+
+
+
+
+
+		BuildNavigationGrid();
+
+		GenerateTileMap();
+
+		TotalEnemyEntities = storedFile["EnemyCount"];
+
+
+		for (int i = 0; i < TotalEnemyEntities; i++)
 		{
-			Tile = Engine::CreateEntity<CTile>();
+			int EnemyID = storedFile["Enemy"][i]["Type"];
+			int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
+			int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
+
+			CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
+			TempRef->InitialiseEntity(EnemyID);
+			TempRef->SetPosition(Vector3(EnemyX, EnemyY, -1));
+			EditorEntityList.push_back(TempRef);
+
+
+
+			int WaypointList = storedFile["Enemy"][i]["WaypointList"];
+			for (int y = 0; y < WaypointList; y++)
+			{
+				int WaypointX = storedFile["Enemy"][i]["Waypoints"][y]["X"];
+				int WaypointY = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
+				CT_EditorEntity_Waypoint* TempWaypoint = TempRef->AddWaypoint(Vector2(WaypointX, WaypointY));
+				EditorEntityList.push_back(TempWaypoint);
+
+			}
+			TempRef->ToggleWaypoints(false);
+
+
+
 		}
-
-	
-		Tile->SetPosition(tempPos);
-		Tile->SetScale(tileScaleMultiplier);
-		Tile->ChangeTileID(ID);
-
-		tileContainer[i] = Tile;
-
-
-
-		if (Tile->GetTileID() != 1)
-		{
-			tileData[i].id = 0;
-		}
-		else tileData[i].id = 1;
-
-
-		//tileData[i].id = Tile->GetTileID();
-		tileData[i].type = CellType::Empty;
-
-
-		
-
 	}
 
 	
 
-
-
 	
-
-
-
-	BuildNavigationGrid();
-
-	GenerateTileMap();
-
-	TotalEnemyEntities = storedFile["EnemyCount"];
-
-
-	for (int i = 0; i < TotalEnemyEntities; i++)
-	{
-		int EnemyID = storedFile["Enemy"][i]["Type"];
-		int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
-		int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
-
-		CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
-		TempRef->InitialiseEntity(EnemyID);
-		TempRef->SetPosition(Vector3(EnemyX, EnemyY, -1));
-		EditorEntityList.push_back(TempRef);
-
-
-		
-		 int WaypointList = storedFile["Enemy"][i]["WaypointList"];
-		 for (int y = 0; y < WaypointList; y++)
-		{
-			int WaypointX = storedFile["Enemy"][i]["Waypoints"][y]["X"];
-			int WaypointY = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
-			CT_EditorEntity_Waypoint* TempWaypoint = TempRef->AddWaypoint(Vector2(WaypointX, WaypointY));
-			EditorEntityList.push_back(TempWaypoint);
-
-		}
-		 TempRef->ToggleWaypoints(false);
-		
-		
-
-	}
 }
 
 void CWorld_Editable::UnloadWorld()

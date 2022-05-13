@@ -9,16 +9,8 @@ CT_EditorMain::CT_EditorMain()
 {
 	editorWindow = new CT_EditorWindows();
 	grid = Engine::CreateEntity<CT_EditorGrid>();
-	CCameraComponent* cam = grid->AddComponent<CCameraComponent>();
-
-	CameraManager::AddCamera(cam);
-
-	CameraManager::SetRenderingCamera(cam);
-	cam->SetAttachedToParent(false);
-	cam->SetPosition(Vector3(tileScale * (mapScale / 2)));
-	cam->SetParent(nullptr);
-	cam->SetPosition(cam->GetPosition().x, cam->GetPosition().y, 0);
-	grid->SetupGrid(cam);
+	
+	grid->SetupGrid(CameraManager::GetRenderingCamera());
 
 	
 
