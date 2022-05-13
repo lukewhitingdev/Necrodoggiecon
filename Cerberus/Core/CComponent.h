@@ -39,6 +39,13 @@ public:
 	void SetAnchor(XMFLOAT2 newAnchor) { anchor = newAnchor; updateTransform = true; }
 	void SetParent(class CEntity* newParent);
 
+	/**
+	 * Sets if this component will/can draw translucent pixels.
+	 * THIS FUNCTION IS COSTLY - do NOT micro-manage!
+	 * Use this function once per component and leave it.
+	 * Will either put the component into the opaque unsorted draw or translucent sorted draw.
+	 * Translucent components have a much higher overhead than opaque components.
+	 */
 	virtual void SetUseTranslucency(const bool& newTranslucency);
 	const bool& GetUseTranslucency() const { return translucency; };
 

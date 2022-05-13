@@ -8,6 +8,7 @@ void CComponent::SetParent(CEntity* newParent)
 
 void CComponent::SetUseTranslucency(const bool& newTranslucency)
 {
+	//This looks weird, but basically moves the component from one container to another.
 	EntityManager::RemoveComponent(this);
 	translucency = newTranslucency;
 	EntityManager::AddComponent(this);
