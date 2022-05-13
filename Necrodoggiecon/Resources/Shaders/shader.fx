@@ -31,7 +31,8 @@ struct _Material
 							//----------------------------------- (16 byte boundary)
 
 	float2	textureOffset;	// 8 bytes
-	float2	padding2;		// 8 bytes
+	bool	translucency;		// 4 bytes
+	float	padding2;		// 4 bytes
 							//----------------------------------- (16 byte boundary)
 	
 	float4	tint;			// 16 bytes
@@ -88,8 +89,13 @@ float4 PS(PS_INPUT IN) : SV_TARGET
 	if (Material.UseTexture)
 	{
 		texColor = txDiffuse.Sample(samLinear, (IN.Tex + texOffset) * texSampleOffset);
-        if (texColor.a <= 0.0f) discard;
-    }
+		
+		if (!Material.translucency)
+			texColor.w = round(texColor.w);
+			
+		if (texColor.a <= 0.0f)
+			discard;
+	}
 	
 	float4 finalColor = saturate(texColor + Material.tint);
 

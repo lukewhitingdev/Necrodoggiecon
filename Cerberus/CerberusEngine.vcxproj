@@ -376,6 +376,7 @@
     <ClInclude Include="Core\Environment\CGridCursor.h" />
     <ClInclude Include="Core\Structs\CMaterial.h" />
     <ClInclude Include="Core\Components\CTextRenderComponent.h" />
+    <ClInclude Include="Core\Utility\RenderablesManager.h" />
     <ClInclude Include="Tools\CT_EditorGrid.h" />
     <ClInclude Include="Core\Environment\CWorld_Edit.h" />
     <ClInclude Include="Core\Environment\IInputable.h" />
@@ -435,6 +436,7 @@
     <ClCompile Include="Core\Structs\CMaterial.cpp" />
     <ClCompile Include="Core\Components\CTextRenderComponent.cpp" />
     <ClCompile Include="Core\Utility\Math\Math.cpp" />
+    <ClCompile Include="Core\Utility\RenderablesManager.cpp" />
     <ClCompile Include="Tools\CT_EditorGrid.cpp" />
     <ClCompile Include="Core\Environment\CWorld_Edit.cpp" />
     <ClCompile Include="Dependencies\Microsoft\DirectXHelpers.cpp" />

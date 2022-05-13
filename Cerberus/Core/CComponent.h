@@ -29,6 +29,8 @@ public:
 	bool shouldUpdate = true;
 	bool shouldDraw = false;
 
+	bool translucency = false;
+
 	/**
 	 * Sets the region of the screen a UI element will be "anchored" to.
 	 * {0,0} - top left, {1,1} - bottom right.

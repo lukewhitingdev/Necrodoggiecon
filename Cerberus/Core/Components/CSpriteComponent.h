@@ -19,13 +19,13 @@ class CSpriteComponent : public CComponent
 {
 	CMesh* mesh = nullptr;
 	CTexture* texture = nullptr;
-	CMaterial* material = nullptr;
 
 	XMUINT2 renderRect;
 	XMFLOAT2 textureOffset = { 0,0 };
 	XMUINT2 spriteSize;
 	XMFLOAT4 tint = { 0,0,0,0 };
 public:
+	CMaterial* material = nullptr;
 
 	/**
 	 * Used to resize the portion of the texture you want to display on the sprite in pixels.
