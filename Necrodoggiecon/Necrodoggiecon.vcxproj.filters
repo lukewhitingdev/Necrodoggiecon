@@ -72,6 +72,9 @@
     <ClCompile Include="weaponUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game\AI\MeleeEnemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\AI\CAICharacter.h">
@@ -132,6 +135,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="weaponUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\AI\MeleeEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
