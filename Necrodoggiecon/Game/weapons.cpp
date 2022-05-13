@@ -138,7 +138,7 @@ CEntity* weapons::GetClosestPlayer(Vector3 actorPos)
 	{
 
 		if (actorPos.DistanceTo(player->GetPosition()) > range)
-			break;
+			continue;
 
 		if (closestPlayer == nullptr)
 			closestPlayer = player;
