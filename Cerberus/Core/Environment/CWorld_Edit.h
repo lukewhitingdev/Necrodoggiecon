@@ -210,7 +210,7 @@ private:
 	 class CT_EditorEntity* playerStartEntity;
 
 	 //Full list of all editor entities
-	 std::vector<class CT_EditorEntity*> EditorEntityList;
+	 std::vector<class CT_EditorEntity*> editorEntityList;
 
 };
 

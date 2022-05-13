@@ -11,7 +11,7 @@ using json = nlohmann::json;
 
 CT_EditorEntity::CT_EditorEntity()
 {
-	InspectType = EditorEntityType::Standard;
+	inspectType = EditorEntityType::Standard;
 }
 
 void CT_EditorEntity::Update(float deltaTime)
@@ -32,7 +32,7 @@ void CT_EditorEntity::SaveEntity(int Index, int MapSlot)
 CT_EditorEntity_Enemy::CT_EditorEntity_Enemy()
 {
 	sprite = AddComponent<CSpriteComponent>();
-	InspectType = EditorEntityType::Enemy;
+	inspectType = EditorEntityType::Enemy;
 
 
 }
@@ -43,7 +43,7 @@ void CT_EditorEntity_Enemy::Update(float deltaTime)
 
 void CT_EditorEntity_Enemy::InitialiseEntity(int SlotID)
 {
-	EntitySlotID = SlotID;
+	entitySlotID = SlotID;
 	switch (SlotID)
 	{
 	case 0:
@@ -99,8 +99,8 @@ CT_EditorEntity_Waypoint* CT_EditorEntity_Enemy::AddWaypoint(Vector2 Position)
 	Pos.z = -1;
 	CT_EditorEntity_Waypoint* TempWaypoint = Engine::CreateEntity<CT_EditorEntity_Waypoint>();
 	TempWaypoint->SetPosition(Pos);
-	TempWaypoint->GridPos = Position;
-	TempWaypoint->WaypointOrder = Waypoints.size();
+	TempWaypoint->gridPos = Position;
+	TempWaypoint->waypointOrder = Waypoints.size();
 	Waypoints.push_back(TempWaypoint);
 	return TempWaypoint;
 }
@@ -116,12 +116,13 @@ void CT_EditorEntity_Enemy::RemoveWaypoint(int Index)
 			Engine::DestroyEntity(Waypoints[i]);
 		}
 	}
+	Waypoints.clear();
 	Waypoints = TempList;
 }
 
 CT_EditorEntity_Waypoint::CT_EditorEntity_Waypoint()
 {
-	InspectType = EditorEntityType::Waypoint;
+	inspectType = EditorEntityType::Waypoint;
 	sprite = AddComponent<CSpriteComponent>();
 	sprite->LoadTexture("Resources\\EditorEntities\\WaypointIcon.dds");
 	sprite->SetRenderRect(XMUINT2(32, 32));
@@ -140,7 +141,7 @@ void CT_EditorEntity_Waypoint::InitialiseEntity(int SlotID)
 
 CT_EditorEntity_PlayerStart::CT_EditorEntity_PlayerStart()
 {
-	InspectType = EditorEntityType::Flag;
+	inspectType = EditorEntityType::Flag;
 	sprite = AddComponent<CSpriteComponent>();
 	sprite->LoadTexture("Resources\\EditorEntities\\Flag.dds");
 	sprite->SetRenderRect(XMUINT2(32, 32));

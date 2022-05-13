@@ -1,28 +1,28 @@
 #include "Cerberus/Core/Utility/CWorldManager.h"
 #include "Core/Environment/CWorld_Edit.h"
 
-CWorld* CWorldManager::GameWorld = nullptr;
-CWorld_Editable* CWorldManager::EditorWorld = nullptr;
+CWorld* CWorldManager::gameWorld = nullptr;
+CWorld_Editable* CWorldManager::editorWorld = nullptr;
 
 void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 {
 	if (bEditorMode)
 	{
-		if (GameWorld != nullptr)
+		if (gameWorld != nullptr)
 		{
-			GameWorld->UnloadWorld();
+			gameWorld->UnloadWorld();
 		}
-		if (EditorWorld != nullptr)
+		if (editorWorld != nullptr)
 		{
-			EditorWorld->UnloadWorld();
-			EditorWorld->LoadWorld(Slot);
-			EditorWorld->SetupWorld();
+			editorWorld->UnloadWorld();
+			editorWorld->LoadWorld(Slot);
+			editorWorld->SetupWorld();
 		}
 		else
 		{
-			EditorWorld = new CWorld_Editable();
-			EditorWorld->LoadWorld(Slot);
-			EditorWorld->SetupWorld();
+			editorWorld = new CWorld_Editable();
+			editorWorld->LoadWorld(Slot);
+			editorWorld->SetupWorld();
 
 		}
 
@@ -32,19 +32,19 @@ void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 	}
 	else
 	{
-		if (EditorWorld != nullptr)
+		if (editorWorld != nullptr)
 		{
-			EditorWorld->UnloadWorld();
+			editorWorld->UnloadWorld();
 		}
-		if (GameWorld == nullptr)
+		if (gameWorld == nullptr)
 		{
-			GameWorld = new CWorld();
-			GameWorld->LoadWorld(Slot);
-			GameWorld->SetupWorld();
+			gameWorld = new CWorld();
+			gameWorld->LoadWorld(Slot);
+			gameWorld->SetupWorld();
 		}
 		else
 		{
-			GameWorld->UnloadWorld();
+			gameWorld->UnloadWorld();
 		}
 
 	}
@@ -55,18 +55,18 @@ void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 
 void CWorldManager::LoadWorld(CWorld* World)
 {
-	if (EditorWorld != nullptr)
+	if (editorWorld != nullptr)
 	{
-		EditorWorld->UnloadWorld();
+		editorWorld->UnloadWorld();
 	}
-	else if (GameWorld != nullptr)
+	else if (gameWorld != nullptr)
 	{
 
 	}
 	else
 	{
-		GameWorld = World;
-		GameWorld->SetupWorld();
+		gameWorld = World;
+		gameWorld->SetupWorld();
 	}
 }
 
@@ -77,14 +77,14 @@ void CWorldManager::LoadWorld(CWorld_Editable* World)
 	{
 		World->UnloadWorld();
 	}
-	else if (EditorWorld != nullptr)
+	else if (editorWorld != nullptr)
 	{
 
 	}
 	else
 	{
-		EditorWorld = World;
-		EditorWorld->SetupWorld();
+		editorWorld = World;
+		editorWorld->SetupWorld();
 	}
 }
 

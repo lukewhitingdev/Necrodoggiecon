@@ -253,7 +253,7 @@ void CT_EditorWindows::render()
                 case EditorEntityType::Waypoint:
                   
                     std::string Name = "Waypoint: ";
-                    Name += std::to_string(CWorldManager::GetEditorWorld()->GetInspectedItem_Waypoint()->WaypointOrder).c_str();
+                    Name += std::to_string(CWorldManager::GetEditorWorld()->GetInspectedItem_Waypoint()->waypointOrder).c_str();
                     ImGui::Text(Name.c_str());
                   
                 }

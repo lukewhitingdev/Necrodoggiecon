@@ -19,22 +19,32 @@
     },
     {
       "Position": {
-        "X": 1408.0,
-        "Y": 384.0
-      },
-      "Type": 0,
-      "WaypointList": 0
-    },
-    {
-      "Position": {
         "X": 896.0,
         "Y": 960.0
       },
-      "Type": 0,
-      "WaypointList": 0
+      "Type": 1,
+      "WaypointList": 4,
+      "Waypoints": [
+        {
+          "X": 14.0,
+          "Y": 10.0
+        },
+        {
+          "X": -1.9983971555381084e+18,
+          "Y": -1.9983971555381084e+18
+        },
+        {
+          "X": 7.0,
+          "Y": 14.0
+        },
+        {
+          "X": 13.0,
+          "Y": 14.0
+        }
+      ]
     }
   ],
-  "EnemyCount": 4,
+  "EnemyCount": 2,
   "PlayerStart": {
     "X": 13,
     "Y": 5

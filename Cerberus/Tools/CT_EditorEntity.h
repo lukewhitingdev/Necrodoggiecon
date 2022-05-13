@@ -86,7 +86,7 @@ public:
 
 
     int waypointOrder;
-    Vector2 GridPos;
+    Vector2 gridPos;
 
     virtual void Update(float deltaTime) override;
 

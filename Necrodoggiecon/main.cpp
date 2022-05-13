@@ -88,17 +88,7 @@ int Start()
 
 	CWorldManager::LoadWorld(0, false);
 
-	PlayerController* controller = Engine::CreateEntity<PlayerController>();
-	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
-
-	// Locked Camera follows player.
-	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>();
-	lockedCameraComponent->Initialize();
-	lockedCameraComponent->SetAttachedToParent(true);
-
-	CameraManager::AddCamera(lockedCameraComponent);
-
-	CameraManager::SetRenderingCamera(lockedCameraComponent);
+	
 
 	Engine::CreateEntity<weaponUI>();
 	Engine::CreateEntity<TestUI>();
@@ -107,14 +97,14 @@ int Start()
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
 	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	character1->droppedItem = droppedItem;
+	//character1->droppedItem = droppedItem;
 
-	controller->charOne = character1;
+	//controller->charOne = character1;
 
-	character1->SetPosition(Vector3(0, 0, 0));
-	controller->Possess(character1);
-	character1->shouldMove = true;
-	character1->colComponent->SetCollider(128.0f, 128.0f);
+//	character1->SetPosition(Vector3(0, 0, 0));
+	//controller->Possess(character1);
+	//character1->shouldMove = true;
+	//character1->colComponent->SetCollider(128.0f, 128.0f);
 
 	Engine::CreateEntity<CAIController>();
 
