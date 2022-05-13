@@ -1,9 +1,10 @@
 #include "CollisionComponent.h"
+#include "Cerberus\Core\CEntity.h"
 
-CollisionComponent::CollisionComponent(std::string setName)
+CollisionComponent::CollisionComponent(std::string setName, CEntity* owner)
 {
 	collisionType = COLLISIONTYPE::BOUNDING_NONE;
-
+	parent = owner;
 	name = setName;
 };
 
@@ -132,3 +133,8 @@ float CollisionComponent::DistanceBetweenPoints(Vector3& point1, Vector3& point2
 	float distance = sqrt((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y) + (point1.z - point2.z) * (point1.z - point2.z));
 	return distance;
 }
+
+CEntity* CollisionComponent::GetParent()
+{
+	return parent;
+};

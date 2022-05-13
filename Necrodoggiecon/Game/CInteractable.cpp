@@ -14,7 +14,7 @@ CInteractable::CInteractable() : interactTextOffset(0), interactRange(1), sprite
 {
 	sprite = AddComponent<CSpriteComponent>();
 	interactText = AddComponent<CTextRenderComponent>();
-	colComponent = new CollisionComponent("Interactable");
+	colComponent = new CollisionComponent("Interactable", this);
 
 	colComponent->SetCollider(interactRange);
 	sprite->LoadTexture("Resources/arrow.dds");
@@ -90,6 +90,22 @@ void CInteractable::HasCollided(CollisionComponent* collidedObject)
 	{
 		OnInteract();
 	}
+}
+
+void CInteractable::SetTexture(std::string path)
+{
+	if (!sprite)
+		sprite = AddComponent<CSpriteComponent>();
+
+	sprite->LoadTexture(path);
+}
+
+void CInteractable::SetTextureWIC(std::string path)
+{
+	if (!sprite)
+		sprite = AddComponent<CSpriteComponent>();
+
+	sprite->LoadTextureWIC(path);
 }
 
 /**

@@ -16,6 +16,9 @@ public:
 
 	virtual void HasCollided(CollisionComponent* collidedObject);
 
+	void SetTexture(std::string path);
+	void SetTextureWIC(std::string path);
+
 protected:
 	void DrawUI();
 

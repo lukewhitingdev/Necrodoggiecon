@@ -12,7 +12,7 @@ testCharacter::testCharacter()
 
 	spriteComponent->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
 
-	colComponent = new CollisionComponent("Character 1");
+	colComponent = new CollisionComponent("Character 1", this);
 
 	if (float(rand() % 2))
 		spriteComponent->SetScale(-1, 1, 1);
