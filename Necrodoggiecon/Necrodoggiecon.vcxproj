@@ -157,10 +157,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game\AI\CAICharacter.cpp" />
-    <ClCompile Include="Game\AI\CAIController.cpp" />
-    <ClCompile Include="Game\AI\Pathfinding.cpp" />
-    <ClCompile Include="Game\AI\State.cpp" />
     <ClCompile Include="Game\CCharacter.cpp" />
     <ClCompile Include="Game\CDroppedItem.cpp" />
     <ClCompile Include="Game\CEquippedItem.cpp" />
@@ -180,11 +176,6 @@
     <ClCompile Include="weaponUI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game\AI\CAICharacter.h" />
-    <ClInclude Include="Game\AI\CAIController.h" />
-    <ClInclude Include="Game\AI\CAINode.h" />
-    <ClInclude Include="Game\AI\Pathfinding.h" />
-    <ClInclude Include="Game\AI\State.h" />
     <ClInclude Include="Game\CCharacter.h" />
     <ClInclude Include="Game\CDroppedItem.h" />
     <ClInclude Include="Game\CEquippedItem.h" />

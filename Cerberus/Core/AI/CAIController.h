@@ -16,13 +16,13 @@
 #include "Cerberus/Core/Engine.h"
 #include "Cerberus/Core/Utility/Audio/AudioController.h"
 
-#include "Necrodoggiecon\Game\AI\CAICharacter.h"
+#include "Cerberus/Core/AI/CAICharacter.h"
 #include "Necrodoggiecon\Game\CPlayer.h"
 #include "Necrodoggiecon\Game\testClass.h"
 
-#include "Necrodoggiecon\Game\AI\CAINode.h"
-#include "Necrodoggiecon\Game\AI\State.h"
-#include "Necrodoggiecon\Game\AI\Pathfinding.h"
+#include "Cerberus/Core/AI/CAINode.h"
+#include "Cerberus/Core/AI/State.h"
+#include "Cerberus/Core/AI/Pathfinding.h"
 #include "Necrodoggiecon\Game\PlayerCharacter.h"
 #include "Necrodoggiecon\Game\CCharacter.h"
 #include "Necrodoggiecon/Game/PlayerController.h"
