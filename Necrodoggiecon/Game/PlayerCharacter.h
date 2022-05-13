@@ -16,8 +16,6 @@ protected:
 public:
 	PlayerCharacter();
 
-	void SetCamera(class CCameraComponent* cam);
-
 	void PressedHorizontal(int dir, float deltaTime) override;
 	void PressedVertical(int dir, float deltaTime) override;
 	void PressedInteract() override;

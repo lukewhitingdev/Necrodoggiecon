@@ -13,7 +13,7 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponent->SetAnimationSpeed(15);
 	spriteComponent->SetAnimationRectSize(XMUINT2(8, 1));
 
-	colComponent = new CollisionComponent("Character 1");
+	colComponent = new CollisionComponent("Character 1", this);
 
 	loadNoise = AddComponent<CAudioEmitterComponent>();
 	loadNoise->Load("Resources/TestShortAudio.wav");
