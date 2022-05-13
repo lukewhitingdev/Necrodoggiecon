@@ -80,12 +80,13 @@ protected:
 
 public:
 
-
+    Vector2 GetGridPos();
 
     CT_EditorEntity_Waypoint();
 
 
     int WaypointOrder;
+    Vector2 GridPos;
 
     virtual void Update(float deltaTime) override;
 
@@ -126,7 +127,7 @@ public:
 
     void ToggleWaypoints(bool Display);
 
-    void AddWaypoint(Vector2 Position);
+    CT_EditorEntity_Waypoint* AddWaypoint(Vector2 Position);
 
     void RemoveWaypoint(int Index);
     

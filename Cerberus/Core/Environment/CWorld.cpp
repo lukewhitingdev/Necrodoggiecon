@@ -85,7 +85,16 @@ void CWorld::LoadWorld(int Slot)
 		CAIController* TempController = Engine::CreateEntity<CAIController>();
 		TempController->SetPosition(EnemyX, EnemyY, -1);
 
+		int WaypointList = storedFile["Enemy"][i]["WaypointList"];
+		for (int y = 0; y < WaypointList; y++)
+		{
+			int WaypointX = storedFile["Enemy"][i]["Waypoints"][y]["X"];
+			int WaypointY = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
+			
+			//TODO- Give waypoints to controller
+		}
 	}
+
 
 
 

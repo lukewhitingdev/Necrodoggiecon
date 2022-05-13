@@ -21,6 +21,7 @@ class CT_EditorWindows
     bool                  ScrollToBottom;
     bool* open;
     int* levelToLoad;
+    bool toggleWaypoints;
 
 protected: 
 
@@ -39,6 +40,7 @@ public:
         ScrollToBottom = false;
         open = new bool(true);
         levelToLoad = new int(0);
+        toggleWaypoints = false;
     }
     ~CT_EditorWindows()
     {

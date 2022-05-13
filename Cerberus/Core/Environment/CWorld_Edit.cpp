@@ -111,6 +111,19 @@ void CWorld_Editable::LoadWorld(int Slot)
 		TempRef->SetPosition(Vector3(EnemyX, EnemyY, -1));
 		EditorEntityList.push_back(TempRef);
 
+
+		
+		 int WaypointList = storedFile["Enemy"][i]["WaypointList"];
+		 for (int y = 0; y < WaypointList; y++)
+		{
+			int WaypointX = storedFile["Enemy"][i]["Waypoints"][y]["X"];
+			int WaypointY = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
+			TempRef->AddWaypoint(Vector2(WaypointX, WaypointY));
+		}
+		 TempRef->ToggleWaypoints(false);
+		
+		
+
 	}
 }
 
@@ -162,11 +175,17 @@ void CWorld_Editable::SaveWorld(int Slot)
 		switch (EditorEntityList[i]->GetType())
 		{
 		case EditorEntityType::Enemy:
+			CT_EditorEntity_Enemy* TempEnemy = static_cast<CT_EditorEntity_Enemy*>(EditorEntityList[i]);
 			SaveData["Enemy"][i]["Type"] = EditorEntityList[i]->GetSlot();
 
 			SaveData["Enemy"][i]["Position"]["X"] = EditorEntityList[i]->GetPosition().x;
 			SaveData["Enemy"][i]["Position"]["Y"] = EditorEntityList[i]->GetPosition().y;
-
+			SaveData["Enemy"][i]["WaypointList"] = TempEnemy->Waypoints.size();
+			for (int y = 0; y < TempEnemy->Waypoints.size(); y++)
+			{
+				SaveData["Enemy"][i]["Waypoints"][y]["X"] = TempEnemy->Waypoints[y]->GridPos.x;
+				SaveData["Enemy"][i]["Waypoints"][y]["Y"] = TempEnemy->Waypoints[y]->GridPos.y;
+			}
 			
 
 			break;
@@ -768,7 +787,7 @@ EditorEntityType CWorld_Editable::GetInspectedItemType()
 void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 {
 
-	if (InspectedEntity != nullptr && InspectedEntity->GetType() == EditorEntityType::Enemy) GetInspectedItem_Enemy()->ToggleWaypoints(false);
+
 	InspectedEntity = nullptr;
 
 	for (int i = 0; i < EditorEntityList.size(); i++)
@@ -784,7 +803,7 @@ void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 		{
 			Debug::Log("Entity Located");
 			InspectedEntity = EditorEntityList[i];
-			if (InspectedEntity->GetType() == EditorEntityType::Enemy) GetInspectedItem_Enemy()->ToggleWaypoints(true);
+		
 			
 		}
 		
@@ -859,6 +878,6 @@ void CWorld_Editable::AddEditorEntity_Waypoint(Vector2 Position)
 {
 	if (tileContainer[GridToIndex(Position)]->IsWalkable())
 	{
-		GetInspectedItem_Enemy()->AddWaypoint(Position);
+		EditorEntityList.push_back(GetInspectedItem_Enemy()->AddWaypoint(Position));
 	}
 }

@@ -78,7 +78,7 @@ void CT_EditorEntity_Enemy::ToggleWaypoints(bool Display)
 		for (int i = 0; i < Waypoints.size(); i++)
 		{
 			Vector3 Pos = Waypoints[i]->GetPosition();
-			Waypoints[i]->SetPosition(Pos.x, Pos.y, 2);
+			Waypoints[i]->SetPosition(Pos.x, Pos.y, 50);
 		}
 	}
 	else
@@ -92,14 +92,17 @@ void CT_EditorEntity_Enemy::ToggleWaypoints(bool Display)
 	
 }
 
-void CT_EditorEntity_Enemy::AddWaypoint(Vector2 Position)
+CT_EditorEntity_Waypoint* CT_EditorEntity_Enemy::AddWaypoint(Vector2 Position)
 {
+	
 	Vector3 Pos = Vector3(Position.x, Position.y, 0) * (tileScale * tileScaleMultiplier);
 	Pos.z = -1;
 	CT_EditorEntity_Waypoint* TempWaypoint = Engine::CreateEntity<CT_EditorEntity_Waypoint>();
 	TempWaypoint->SetPosition(Pos);
+	TempWaypoint->GridPos = Position;
 	TempWaypoint->WaypointOrder = Waypoints.size();
 	Waypoints.push_back(TempWaypoint);
+	return TempWaypoint;
 }
 
 void CT_EditorEntity_Enemy::RemoveWaypoint(int Index)

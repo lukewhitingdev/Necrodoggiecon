@@ -244,6 +244,10 @@ void CT_EditorWindows::render()
                     {
                         CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Waypoints);
                     }
+                    if (ImGui::Button("Toggle Waypoint"))
+                    {
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->ToggleWaypoints(toggleWaypoints = !toggleWaypoints);
+                    }
 
                     break;
                 case EditorEntityType::Waypoint:
