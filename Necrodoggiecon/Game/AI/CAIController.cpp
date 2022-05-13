@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   CAIController.cpp
+ * \brief  All the functions needed to control the AI.
+ * 
+ * \author Nasser Ksous
+ * \date   May 2022
+ *********************************************************************/
 #include "CAIController.h"
 
 CAIController::CAIController()
@@ -8,7 +15,7 @@ CAIController::CAIController()
 	viewFrustrum->SetPosition(GetPosition());
 
 	sprite = AddComponent<CSpriteComponent>();
-	sprite->LoadTexture("Resources\\birb.dds");
+	sprite->LoadTexture("Resources/birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
 	sprite->SetScale(Vector3{ 1.0f, 1.0f, 1.0f });
@@ -26,13 +33,14 @@ CAIController::CAIController()
 	sizeOfTiles = tileScale * obstacles[0]->GetScale().x;
 
 	tiles = CWorld::GetAllWalkableTiles();
-	SetPosition(tiles[102]->GetPosition());
+	int randIndex = rand() % tiles.size();
+	SetPosition(tiles[randIndex]->GetPosition());
 	aiPosition = GetPosition();	
 
 
-	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 500.0f, 200.0f, 0.0f });
-	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ -500.0f, 300.0f, 0.0f });
-	PatrolNode* patrolPoint3 = new PatrolNode(Vector3{ -500.0f, -200.0f, 0.0f });
+	PatrolNode* patrolPoint1 = new PatrolNode(Vector3{ 1500.0f, 300.0f, 0.0f });
+	PatrolNode* patrolPoint2 = new PatrolNode(Vector3{ 1000.0f, 1300.0f, 0.0f });
+	PatrolNode* patrolPoint3 = new PatrolNode(Vector3{ 500.0f, 300.0f, 0.0f });
 
 	patrolPoint1->nextPatrolNode = patrolPoint2;
 	patrolPoint2->nextPatrolNode = patrolPoint3;
@@ -43,19 +51,77 @@ CAIController::CAIController()
 
 	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
 
-	SetPatrolNodes(patrolPoints, tiles);
+	pathing = new Pathfinding(tiles);
+	pathing->SetPatrolNodes(patrolPoints);
+	pathing->currentPatrolNode = pathing->FindClosestPatrolNode(aiPosition);
+
+	std::function<void()> CanHearLambda = [&]()
+	{
+		std::vector<CEmitter*> audioEmitters = AudioController::GetAllEmittersWithinRange(aiPosition);
+		float closestDistance = 100000000.0f;
+		CEmitter* closestEmitter = nullptr;
+		if (audioEmitters.size() != 0)
+		{
+			for (CEmitter* emitter : audioEmitters)
+			{
+				float distanceToEmitter = aiPosition.DistanceTo(emitter->position);
+				if (distanceToEmitter < closestDistance)
+				{
+					closestDistance = distanceToEmitter;
+					closestEmitter = emitter;
+				}
+			}
+			positionToInvestigate = closestEmitter->position;
+			SetCurrentState(InvestigateState::getInstance());
+		}
+	};
+
+	EventSystem::AddListener("soundPlayed", CanHearLambda);
+
+	currentState = &PatrolState::getInstance();
+	SetCurrentState(PatrolState::getInstance());
 }
 
+/**
+ * .
+ * 
+ * \param deltaTime
+ */
 void CAIController::Update(float deltaTime)
 {
 	// Set the local variable for the AI position.
 	aiPosition = GetPosition();
 
+	currentState->Update(this);
 	// Run the finite state machine
-	StateMachine(deltaTime);
+	
+	PlayerCharacter* closestPlayer = nullptr;
+
+	if (currentState != &AttackState::getInstance())
+	{
+		if (players.size() > 0)
+		{
+			// Check each player.
+			for (PlayerCharacter* player : players)
+			{
+				// Check if the AI can see the player.
+				if (CanSee(player->GetPosition()) == true)
+				{
+					// If the AI can see the player then chase it.
+					SetCurrentState(ChaseState::getInstance());
+				}
+			}
+		}
+	}
+
+	currentState->Update(this);
+
+	// If the AI is not pathfinding or searching then check for collisions with obstacles.
+	if (currentState != &PatrolState::getInstance() && currentState != &SearchState::getInstance())
+		heading += CollisionAvoidance();
 	
 	// Move the AI if it is not lost
-	if (currentState != STATE::SEARCH)
+	if (currentState != &SearchState::getInstance())
 		Movement(deltaTime);
 
 	// Temp code for the arrow sprite so I know where the AI is looking. 
@@ -84,7 +150,12 @@ void CAIController::Update(float deltaTime)
 	SetPosition(aiPosition);
 }
 
-/* Moves the character position using acceleration, force, mass and velocity. */
+/**
+ * Moves the character position using acceleration, force, mass and velocity.
+ * 
+ * \param deltaTime Time between frames.
+ * \param deltaTime
+ */
 void CAIController::Movement(float deltaTime)
 {
 	// This is just some simple physics to move the AI.
@@ -99,7 +170,11 @@ void CAIController::Movement(float deltaTime)
 	aiPosition += velocity * deltaTime;
 }
 
-/* Finds the closest obstacle and calculates the vector to avoid it. */
+/**
+ * Finds the closest obstacle and calculates the vector to avoid it.
+ * 
+ * \return Returns a Vector3 that is the direction to avoid the obstacle.
+ */
 Vector3 CAIController::CollisionAvoidance()
 {
 	// Initialize the return value for the avoidance vector.
@@ -148,7 +223,12 @@ Vector3 CAIController::CollisionAvoidance()
 	return avoidance;
 }
 
-/* Maths magic that determines whether the player is in view. */
+/**
+ * Maths magic that determines whether the player is in view.
+ * 
+ * \param posOfObject Vector3 representing the position of the object to see.
+ * \return Returns a boolen determining whether the objct is in view.
+ */
 bool CAIController::CanSee(Vector3 posOfObject)
 {
 	// Calculate the direction the AI is looking.
@@ -209,153 +289,39 @@ bool CAIController::CanSee(Vector3 posOfObject)
 	return false;
 }
 
-/* Initialize the patrol nodes and waypoints. */
-void CAIController::SetPatrolNodes(std::vector<PatrolNode*> nodes, std::vector<CTile*> waypoints)
+void CAIController::CanHear()
 {
-	// Create a waypoint node for each waypoint passed in.
-	for (CTile* waypoint : waypoints)
-	{
-		WaypointNode* waypointNode = new WaypointNode();
-		waypointNode->waypoint = waypoint;
-
-		waypointNodes.push_back(waypointNode);
-	}
-
-	// Set the patrol nodes to the ones passed in.
-	patrolNodes = nodes;
-
-	// Find the closest waypoint to each patrol pointy.
-	for (PatrolNode* node : patrolNodes)
-	{
-		node->closestWaypoint = waypointNodes[0];
-		for (WaypointNode* waypointNode : waypointNodes)
-		{
-			if (node->position.DistanceTo(waypointNode->waypoint->GetPosition()) < node->position.DistanceTo(node->closestWaypoint->waypoint->GetPosition()))
-			{
-				node->closestWaypoint = waypointNode;
-			}
-		}
-	}
-
-	// Find the closest patrol point to the tank.
-	currentPatrolNode = FindClosestPatrolNode();
-
-	// Set the current state as patrol.
-	currentState = STATE::PATHFINDING;
+	AudioController::GetAllEmittersWithinRange(aiPosition);
 }
 
-/* Finds the closest waypoint to each patrol point. */
-PatrolNode* CAIController::FindClosestPatrolNode()
+/**
+ * Sets the path nodes for the AI.
+ * 
+ * \param nodes Vector array of waypoint nodes to set.
+ */
+void CAIController::SetPathNodes(std::vector<WaypointNode*> nodes)
 {
-	PatrolNode* closestPatrolNode = new PatrolNode(Vector3{ 10000.0f, 10000.0f, 0.0f });
-	for (PatrolNode* node : patrolNodes)
-	{
-		if (aiPosition.DistanceTo(node->position) < aiPosition.DistanceTo(closestPatrolNode->position))
-		{
-			closestPatrolNode = node;
-		}
-	}
-	return closestPatrolNode;
+	pathNodes = nodes;
 }
 
-/* Calls the relevant function based on the current state. */
-void CAIController::StateMachine(float deltaTime)
-{
-	Vector3 closestPlayerPosition = { INFINITY, INFINITY, INFINITY };
-	testCharacter* closestPlayer = nullptr;
-
-
-	if (currentState != STATE::ATTACK)
-	{
-		if (players.size() > 0)
-		{
-			// Check each player.
-			for (testCharacter* player : players)
-			{
-				// Check if the AI can see the player.
-				if (CanSee(player->GetPosition()) == true)
-				{
-					// If the AI can see the player then chase it.
-					currentState = STATE::CHASE;
-
-					// Reset the timer for the searching.
-					searchTimer = maxSearchTime;
-
-					// Find if the player is the closest in view.
-					if (aiPosition.DistanceTo(player->GetPosition()) < aiPosition.DistanceTo(closestPlayerPosition))
-					{
-						closestPlayer = player;
-						closestPlayerPosition = closestPlayer->GetPosition();
-					}
-
-					// Set the player to chase to the closest player in view.
-					playerToChase = closestPlayer;
-				}
-			}
-
-			// If no players are in view.
-			if (closestPlayer == nullptr)
-			{
-				// Create a delay for the AI to find the player if it loses track of it.
-				if (searchTimer > 0.0f)
-				{
-					// Set the AI to search for the player.
-					currentState = STATE::SEARCH;
-					searchTimer -= deltaTime;
-
-					// If the timer is up then go back to pathfinding.
-					if (searchTimer < 0.02f)
-						currentState = STATE::PATHFINDING;
-				}
-			}
-		}
-	}
-
-	switch (currentState)
-	{
-	case STATE::PATROL:
-		Patrolling();
-		break;
-	case STATE::PATHFINDING:
-		SetPath(currentPatrolNode->closestWaypoint);
-		break;
-	case STATE::CHASE:
-		ChasePlayer(playerToChase);
-		break;
-	case STATE::ATTACK:
-		AttackPlayer(playerToKill);
-		break;
-	case STATE::COVER:
-		GetIntoCover();
-		break;
-	case STATE::SEARCH:
-		SearchForPlayer();
-		break;
-	default:
-
-		break;
-	}
-
-	// If the AI is not pathfinding or searching then check for collisions with obstacles.
-	if (currentState != STATE::PATROL && currentState != STATE::SEARCH)
-		heading += CollisionAvoidance();
-}
-
-/* Moves the direction of the character towards the next point in the path. */
+/**
+ * Moves the direction of the character towards the next point in the path.
+ * 
+ */
 void CAIController::Patrolling()
 {
 	// If the AI has reached the patrol node.
-	if (aiPosition.DistanceTo(currentPatrolNode->position) <= 10.0f)
+	if (aiPosition.DistanceTo(pathing->currentPatrolNode->position) <= 10.0f)
 	{
 		// Set the new patrol node as the next one on the list.
-		currentPatrolNode = currentPatrolNode->nextPatrolNode;
+		pathing->currentPatrolNode = pathing->currentPatrolNode->nextPatrolNode;
 
 		// Set the state to pathfinding.
-		currentState = STATE::PATHFINDING;
+		SetCurrentState(PatrolState::getInstance());
 
 		// Seek to the current patrol node.
-		heading = Seek(currentPatrolNode->position);
-		DeleteNodes();
+		heading = Seek(pathing->currentPatrolNode->position);
+		pathing->DeleteNodes();
 		
 	}
 	else
@@ -363,8 +329,8 @@ void CAIController::Patrolling()
 		// If at the closest waypoint node to the patrol node then seek towards the patrol node.
 		if (currentCount == -1)
 		{
-			heading = Seek(currentPatrolNode->position);
-			DeleteNodes();
+			heading = Seek(pathing->currentPatrolNode->position);
+			pathing->DeleteNodes();
 		}
 		// Else seek to the next waypoint node.
 		else
@@ -380,7 +346,10 @@ void CAIController::Patrolling()
 	}
 }
 
-/* Spin on the spot trying to find the player. */
+/**
+ * Spin on the spot trying to find the player.
+ * 
+ */
 void CAIController::SearchForPlayer()
 {
 	// Set the direction the AI is facing.
@@ -413,12 +382,48 @@ void CAIController::SearchForPlayer()
 	
 }
 
-// Seek towards the player and if it gets close then clart it. To be overriden by the melee and ranged AIs in the future.
-void CAIController::ChasePlayer(testCharacter* player)
+
+
+void CAIController::Investigating(Vector3 positionOfInterest)
+{
+	// If the AI has reached the patrol node.
+	if (aiPosition.DistanceTo(positionOfInterest) <= 10.0f)
+	{
+		// Set the state to searching.
+		SetCurrentState(SearchState::getInstance());
+		pathing->DeleteNodes();
+
+	}
+	else
+	{
+		// If at the closest waypoint node to the patrol node then seek towards the patrol node.
+		if (currentCount == -1)
+		{
+			heading = Seek(positionOfInterest);
+			pathing->DeleteNodes();
+		}
+		// Else seek to the next waypoint node.
+		else
+		{
+			heading = Seek(pathNodes[currentCount]->waypoint->GetPosition());
+
+			// If close to the waypoint node then set the next waypoint node from the list.
+			if (aiPosition.DistanceTo(pathNodes[currentCount]->waypoint->GetPosition()) <= (((float)tileScale) * tiles[0]->GetScale().x))
+			{
+				currentCount--;
+			}
+		}
+	}
+}
+
+/**
+ * Seek towards the player and if it gets close then switch to the attacking state.
+ */
+void CAIController::ChasePlayer(PlayerCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 	{
-		currentState = STATE::ATTACK;
+		SetCurrentState(AttackState::getInstance());
 		playerToKill = player;
 	}
 	else
@@ -427,18 +432,24 @@ void CAIController::ChasePlayer(testCharacter* player)
 	}
 }
 
-// Absolutely CLART the player off the face of this virtual plane.
-void CAIController::AttackPlayer(testCharacter* player)
+/**
+ * Attack the player using the weapon attached.
+ * 
+ * \param player Player to attack.
+ */
+void CAIController::AttackPlayer(PlayerCharacter* player)
 {
+	playersController[0]->Unpossess();
 	Engine::DestroyEntity(player);
-	players = Engine::GetEntityOfType<testCharacter>();
-	currentState = STATE::PATHFINDING;
-	//EventSystem::TriggerEvent("GameOver");
+	players = Engine::GetEntityOfType<PlayerCharacter>();
 }
 
-
-
-/* Returns the velocity change needed to reach the target position. */
+/**
+ * Returns the velocity change needed to reach the target position.
+ * 
+ * \param TargetPos Vector3 representing the position for the AI to go.
+ * \return Returns the direction to the target position.
+ */
 Vector3 CAIController::Seek(Vector3 TargetPos)
 {
 	Vector3 ToTarget = TargetPos - aiPosition;
@@ -453,220 +464,29 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
 	return Vector3{ 0.0f, 0.0f, 0.0f };
 }
 
-/* Sets the path betqween the closest waypoint to the character and the closest waypoint to the target patrol node. */
-void CAIController::SetPath(WaypointNode* goalWaypoint)
+/**
+ * Sets the path between the closest waypoint to the character and the closest waypoint to the target patrol node.
+ * 
+ */
+void CAIController::SetPath()
 {
-	DeleteNodes();
-	WaypointNode* closestWaypoint = nullptr;
-	closestWaypoint = waypointNodes[0];
-	// Find the closest waypoint.
-	for (WaypointNode* waypointNode : waypointNodes)
-	{
-		if (aiPosition.DistanceTo(waypointNode->waypoint->GetPosition()) < aiPosition.DistanceTo(closestWaypoint->waypoint->GetPosition()))
-		{
-			closestWaypoint = waypointNode;
-		}
-	}
-
-	// Caluclate the path between the closest waypoint and the patrol node.
-	CalculatePath(closestWaypoint, goalWaypoint);
-}
-
-/* A* algorithm to find the list of waypoints to get from the start node to the target node. */
-void CAIController::CalculatePath(WaypointNode* start, WaypointNode* goal)
-{
-	// Place start node onto open list.
-	open.push_back(start);
-
-	// Set the current node as the start node.
-	WaypointNode* current = open[0];
-
-	// While the open list is not empty.
-	while (open.empty() != true)
-	{
-		// Set the current node to the open node.
-		if (current->waypoint == start->waypoint)
-		{
-			current = open[0];
-			// Set the g cost as 0.
-			current->gCost = CalculateCost(current, start);
-			// Set the h cost as the distance to goal.
-			current->hCost = CalculateCost(current, goal);
-
-			current->fCost = current->gCost + current->hCost;
-
-
-			// Remove the node from the open list.
-			open.erase(open.begin());
-		}
-		else
-		{
-			// If the current node is not the first node.
-			int bestNodeIndex = 0;
-			for (int i = 0; i < open.size(); i++)
-			{
-				// If the f cost is less than the current f cost then set the current node to that node and remove it from the open list.
-				if (open[i]->fCost == open[bestNodeIndex]->fCost)
-				{
-					if (open[i]->hCost < open[bestNodeIndex]->hCost)
-						bestNodeIndex = i;
-				}
-				else if (open[i]->fCost < open[bestNodeIndex]->fCost)
-				{
-					bestNodeIndex = i;
-				}
-			}
-			current = open[bestNodeIndex];
-			open.erase(open.begin() + bestNodeIndex);
-		}
-
-
-		// Found the best node at this stage so put it in the closed list.
-		closed.push_back(current);
-		
-		// If this is the goal node then stop.
-		if (current->waypoint == goal->waypoint)
-			break;
-
-		// Neighbour IDs of the current waypoint.
-		std::vector<int> _neighboursID = current->waypoint->GetConnectedTiles();
-
-		if (current->neighbours.size() == 0)
-		{
-			// Set the neighbour nodes of the current node.
-			for (int i = 0; i < _neighboursID.size(); i++)
-			{
-				for (WaypointNode* node : waypointNodes)
-				{
-					if (_neighboursID[i] == node->waypoint->GetNavID())
-					{
-						current->neighbours.push_back(node);
-						break;
-					}
-				}
-			}
-		}
-		// Loop through each neighbour node of the current node
-		for (WaypointNode * neighbour : current->neighbours)
-		{
-			bool available = true;
-			// Loop through each node on the closed list to make sure the neighbour node is not on the closed list.
-			for (WaypointNode * node : closed)
-			{
-				if (node->waypoint == neighbour->waypoint)
-				{
-					available = false;
-					break;
-				}
-			}
-
-			// If the neighbour node is not on the closed list. 
-			if (available == true)
-			{
-				// Calculate the distance from the neighbour node and the start node.
-				//float gCost = CalculateCost(neighbour->waypoint->GetPosition().x, neighbour->waypoint->GetPosition().y, start->waypoint->GetPosition().x, start->waypoint->GetPosition().y);
-				float gCost = current->gCost + (float)tileScale * 2.0f;
-				// Calculate the distance from the neighbour node and the goal node.
-				float hCost = CalculateCost(neighbour, goal);
-				//hCost = CalculateCost(neighbour->waypoint->GetPosition().x, neighbour->waypoint->GetPosition().y, goal->waypoint->GetPosition().x, goal->waypoint->GetPosition().y);
-				neighbour->gCost = gCost;
-				neighbour->hCost = hCost;
-				neighbour->fCost = neighbour->gCost + neighbour->hCost;
-
-				// Set the neighbour parent waypoint as the current waypoint
-				neighbour->parentWaypoint = current->waypoint;
-
-				// If the open list is not empty.
-				if (open.size() != 0)
-				{
-					// Loop through the open list.
-					for (int i = 0; i < open.size(); i++)
-					{
-						// If the neighbour waypoint is on the open list and the f cost is less then update that node on the open list.
-						if (open[i]->waypoint == neighbour->waypoint)
-						{
-							if (open[i]->fCost > neighbour->fCost)
-								open[i] = neighbour;
-							break;
-						}
-						// If the nieghbour node is not on the open list then add it to it.
-						else if (i == open.size() - 1)
-						{
-							
-							open.push_back(neighbour);
-						}
-					}
-				}
-				// If the open list is empty add the neighbour node to the list.
-				else
-				{
-					open.push_back(neighbour);
-				}
-			}
-		}
-	}
-
-	// Set the current node to the end node on the closed list.
-	current = goal;
-
-	// Loop through the parent nodes starting with the current node till the start node.
-	while (current->waypoint != start->waypoint)
-	{
-		// Push the current node onto the path nodes array.
-		pathNodes.push_back(current);
-
-		// Loop though all the waypoint nodes.
-		for (WaypointNode * node : closed)
-		{
-			// if this node is the parent node then set if as the current node.
-			if (node->parentWaypoint != nullptr || node == start)
-			{
-				if (node->waypoint == current->parentWaypoint)
-				{
-					current = node;
-					break;
-				}
-			}
-			
-		}
-	}
-
-	// Finally push the final node onto the array of path nodes. 
-	pathNodes.push_back(current);
-
-	// Set the current count to be the index of the final node on the list.
+	pathing->SetPath(aiPosition, pathing->currentPatrolNode->closestWaypoint);
+	SetPathNodes(pathing->GetPathNodes());
 	currentCount = (int)pathNodes.size() - 1;
-
-	currentState = STATE::PATROL;
 }
 
-/* Calculate the euclidean distance between two points. */
-float CAIController::CalculateCost(WaypointNode * from, WaypointNode* to)
+void CAIController::SetPath(Vector3 endPosition)
 {
-	float costX = std::abs(to->waypoint->GetPosition().x - from->waypoint->GetPosition().x);
-	float costY = std::abs(to->waypoint->GetPosition().y - from->waypoint->GetPosition().y);
-
-	float cost = costX + costY;
-	return cost;
+	pathing->SetPath(aiPosition, pathing->FindClosestWaypoint(endPosition));
+	SetPathNodes(pathing->GetPathNodes());
+	currentCount = (int)pathNodes.size() - 1;
 }
 
-/* Reset the nodes cost to be a large number. */
-void CAIController::ResetNodes()
+void CAIController::SetCurrentState(State& state)
 {
-	for (WaypointNode * node : waypointNodes)
-	{
-		node->gCost = 10000000.0f;
-		node->hCost = 10000000.0f;
-	}
-}
-
-/* Clear all the nodes. */
-void CAIController::DeleteNodes()
-{
-	ResetNodes();
-	open.clear();
-	closed.clear();
-	pathNodes.clear();
+	currentState->Exit(this);  // do stuff before we change state
+	currentState = &state;  // actually change states now
+	currentState->Enter(this); // do stuff after we change state
 }
 
 void CAIController::SetRotationSpeed(float speed)

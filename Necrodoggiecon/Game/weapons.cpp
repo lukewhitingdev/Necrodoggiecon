@@ -1,14 +1,13 @@
 #include "weapons.h"
-#include "Necrodoggiecon\Game\testCharacter.h"
+#include "Necrodoggiecon\Game\PlayerCharacter.h"
 #include <Necrodoggiecon\Game\AI\CAIController.h>
 
-weapons::weapons(std::string weapon, USERTYPE userType)
+Weapon::Weapon()
 {
-	LoadWeapons(weapon);
-	this->userType = userType;
+	SetWeapon("Dagger");
 }
 
-void weapons::LoadWeapons(std::string weapon)
+void Weapon::SetWeapon(std::string weapon)
 {
 	std::ifstream file("Resources/Weapons.json");
 	json storedFile;
@@ -26,7 +25,7 @@ void weapons::LoadWeapons(std::string weapon)
 	Debug::Log("Range %f", range);
 }
 
-void weapons::CoolDown(float deltaTime)
+void Weapon::CoolDown(float attack_cooldown)
 {
 	if (cooldown > 0)
 	{
@@ -39,43 +38,17 @@ void weapons::CoolDown(float deltaTime)
 	}
 }
 
-void weapons::Update(float deltaTime)
-{
-	if(!canFire)
-	CoolDown(deltaTime);
-}
-
-void weapons::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players position | attackDir = mouse position
+void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players position | attackDir = mouse position
 {
 	//Vector3 attackDir = attackDir - actorPos;
 	auto normAttackDir = attackDir.Normalize();
 
-	if (canFire)
-	{
-		Debug::Log("Can Fire");
-		cooldown = attack_speed;
-		if (type == "Melee")
-		{
-			Debug::Log("Melee\n");
-			canFire = false;
-			HandleMelee(actorPos, normAttackDir);
-		}
-		else if (type == "Melee")
-		{
-			Debug::Log("Melee\n");
-		}
-		else if (type == "Melee")
-		{
-			Debug::Log("Melee\n");
-		}
-		else
-		{
-			Debug::Log("Error\n");
-		}
-	}
+	if (type == "Melee")
+		HandleMelee(actorPos, normAttackDir);
 }
 
-void weapons::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
+
+void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 {
 	Vector3 damagePos = actorPos + normAttackDir * range;
 
@@ -96,7 +69,7 @@ void weapons::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 
 
 //Gets closest enemy within attack range
-CEntity* weapons::GetClosestEnemy(Vector3 actorPos)
+CEntity* Weapon::GetClosestEnemy(Vector3 actorPos)
 {
 	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
 
@@ -110,7 +83,7 @@ CEntity* weapons::GetClosestEnemy(Vector3 actorPos)
 	{
 
 		if (actorPos.DistanceTo(enemy->GetPosition()) > range)
-			continue;
+			break;
 
 		if (closestEnemy == nullptr)
 			closestEnemy = enemy;
@@ -124,21 +97,21 @@ CEntity* weapons::GetClosestEnemy(Vector3 actorPos)
 	return closestEnemy;
 }
 
-CEntity* weapons::GetClosestPlayer(Vector3 actorPos)
+CEntity* Weapon::GetClosestPlayer(Vector3 actorPos)
 {
-	std::vector<testCharacter*> players = Engine::GetEntityOfType<testCharacter>();
+	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
 
 	if (players.size() == 0) //No players
 		return nullptr;
 
-	testCharacter* closestPlayer = nullptr;
+	PlayerCharacter* closestPlayer = nullptr;
 
 	//Check each player
-	for (testCharacter* player : players)
+	for (PlayerCharacter* player : players)
 	{
 
 		if (actorPos.DistanceTo(player->GetPosition()) > range)
-			continue;
+			break;
 
 		if (closestPlayer == nullptr)
 			closestPlayer = player;
@@ -150,4 +123,12 @@ CEntity* weapons::GetClosestPlayer(Vector3 actorPos)
 	}
 
 	return closestPlayer;
+}
+
+void Weapon::Update(float deltaTime)
+{
+}
+
+void Weapon::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer)
+{
 }

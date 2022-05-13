@@ -1,9 +1,10 @@
 #include "CollisionComponent.h"
+#include "Cerberus\Core\CEntity.h"
 
-CollisionComponent::CollisionComponent(std::string setName)
+CollisionComponent::CollisionComponent(std::string setName, CEntity* owner)
 {
 	collisionType = COLLISIONTYPE::BOUNDING_NONE;
-
+	parent = owner;
 	name = setName;
 };
 
@@ -35,6 +36,74 @@ void CollisionComponent::SetPosition(Vector3 setPosition)
 Vector3 CollisionComponent::GetPosition()
 {
 	return position;
+}
+
+/**
+ * Resolves collisions between two objects really badly.
+ * 
+ * \param other
+ */
+void CollisionComponent::Resolve(CollisionComponent* other)
+{
+	// Make sure we are still colliding.
+	if (!this->IsColliding(other))
+		return;
+
+	// Dont resolve if we are a wall, walls dont move.... yet.
+	if (this->GetName() == "Wall")
+		return;
+
+	Vector3 toThis = other->GetPosition() - this->GetPosition();
+	Vector3 currPos = this->GetPosition();
+
+	if (other->collisionType == COLLISIONTYPE::BOUNDING_BOX)
+	{
+		// AABB vs AABB collision.
+		if (abs(toThis.x) > abs(toThis.y))
+		{
+			if (this->GetPosition().x < other->GetPosition().x)
+			{
+				// Right.
+				currPos.x -= other->GetWidth();
+			}
+			else
+			{
+				// Left.
+				currPos.x += other->GetWidth();
+			}
+		}
+
+
+		if (abs(toThis.y) > abs(toThis.x))
+		{
+			if (this->GetPosition().y < other->GetPosition().y)
+			{
+				// Up.
+				currPos.y -= other->GetHeight();
+			}
+			else
+			{
+				// Down.
+				currPos.y += other->GetHeight();
+			}
+		}
+		this->SetPosition(currPos);
+	}
+	if (other->collisionType == COLLISIONTYPE::BOUNDING_CIRCLE)
+	{
+		// AABB vs Circle collision.
+		this->SetPosition(toThis + (this->GetRadius() + other->GetRadius()));
+	}
+}
+
+void CollisionComponent::SetTrigger(bool value)
+{
+	trigger = value;
+}
+
+bool CollisionComponent::GetTrigger()
+{
+	return trigger;
 }
 
 //Checks if a circle has intersected with a box
@@ -132,3 +201,8 @@ float CollisionComponent::DistanceBetweenPoints(Vector3& point1, Vector3& point2
 	float distance = sqrt((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y) + (point1.z - point2.z) * (point1.z - point2.z));
 	return distance;
 }
+
+CEntity* CollisionComponent::GetParent()
+{
+	return parent;
+};
