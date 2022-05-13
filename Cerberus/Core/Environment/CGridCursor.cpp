@@ -1,11 +1,12 @@
-#include "CGridCursor.h"
-#include "CSpriteComponent.h"
-#include "CWorld_Edit.h"
-#include "Engine.h"
-#include "CWorldManager.h"
-#include "Structs/CCamera.h"
-#include "Dependencies/IMGUI/imgui.h"
+#include "Cerberus\Core\Environment\CGridCursor.h"
+#include "Cerberus\Core\Components\CSpriteComponent.h"
+#include "Cerberus\Core\Environment\CWorld_Edit.h"
+#include "Cerberus\Core\Engine.h"
+#include "Cerberus\Core\Structs\CCamera.h"
+#include "Cerberus\Dependencies\IMGUI\imgui.h"
+#include "Cerberus\CWorldManager.h"
 #include <DirectXMath.h>
+#include "Cerberus/Core/Components/CCameraComponent.h"
 
 CGridCursor::CGridCursor()
 {
@@ -33,17 +34,20 @@ CGridCursor::CGridCursor()
 	wasMouseReleased = true;
 }
 
+void CGridCursor::SetCamera(CCameraComponent* cam)
+{
+	camera = cam;
+}
+
 void CGridCursor::Update(float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);
 
-	
-
-	Vector3 camPos = Vector3(Engine::camera.GetCameraPosition().x, Engine::camera.GetCameraPosition().y, -10);
+	Vector3 camPos = Vector3(camera->GetPosition().x, camera->GetPosition().y, -10);
 
 	Vector3 MousePos2 = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100);
 
-	MousePos2 /= Engine::camera.GetZoom();
+	MousePos2 /= camera->GetZoomLevel();
 
 
 

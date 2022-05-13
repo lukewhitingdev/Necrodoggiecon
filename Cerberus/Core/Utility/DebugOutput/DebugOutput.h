@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Dependencies/IMGUI/imgui.h"
-#include "Dependencies/IMGUI/imgui_impl_dx11.h"
-#include "Dependencies/IMGUI/imgui_impl_win32.h"
+#include "Cerberus\Dependencies\IMGUI/imgui.h"
+#include "Cerberus\Dependencies\IMGUI/imgui_impl_dx11.h"
+#include "Cerberus\Dependencies\IMGUI/imgui_impl_win32.h"
 #include <corecrt_malloc.h>
 #include <iostream>
 

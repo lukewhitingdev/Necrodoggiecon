@@ -1,5 +1,5 @@
 #pragma once
-#include "CEntity.h"
+#include "Cerberus\Core\CEntity.h"
 class CT_EditorMain 
 {
 public:

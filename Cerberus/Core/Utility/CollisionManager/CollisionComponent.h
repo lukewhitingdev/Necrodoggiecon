@@ -1,7 +1,7 @@
 #pragma once
-//#include "CEntity.h"
-#include "Utility/Vector3.h"
-#include "Utility/DebugOutput/Debug.h"
+//#include "Cerberus\Core\CEntity.h"
+#include "Cerberus\Core\Utility\Vector3.h"
+#include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 #include <thread>
 	
 enum class COLLISIONTYPE 
@@ -39,9 +39,10 @@ public:
 	void SetCollider(float setRadius); //Bounding circle initiation
 	void SetCollider(float setHeight, float setWidth); //Bounding Box initiation
 
-
 	bool IsColliding(CollisionComponent* collidingObject);
 	float DistanceBetweenPoints(Vector3& point1, Vector3& point2);
+
+	void Resolve(CollisionComponent* other);
 
 private: 
 	float radius;

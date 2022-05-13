@@ -1,5 +1,5 @@
 #include "CTile.h"
-#include "CSpriteComponent.h"
+#include "Cerberus\Core\Components\CSpriteComponent.h"
 
 
 CTile::CTile()

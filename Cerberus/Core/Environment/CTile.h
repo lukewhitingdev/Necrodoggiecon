@@ -1,8 +1,7 @@
 #pragma once
-#include "Utility/Vector3.h"
-#include "CEntity.h"
-
-#include "WorldConstants.h"
+#include "Cerberus\Core\Utility\Vector3.h"
+#include "Cerberus\Core\CEntity.h"
+#include "Cerberus\WorldConstants.h"
 
 enum class TileType
 {

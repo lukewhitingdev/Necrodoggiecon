@@ -37,6 +37,64 @@ Vector3 CollisionComponent::GetPosition()
 	return position;
 }
 
+/**
+ * Resolves collisions between two objects really badly.
+ * 
+ * \param other
+ */
+void CollisionComponent::Resolve(CollisionComponent* other)
+{
+	// Make sure we are still colliding.
+	if (!this->IsColliding(other))
+		return;
+
+	// Dont resolve if we are a wall, walls dont move.... yet.
+	if (this->GetName() == "Wall")
+		return;
+
+	Vector3 toThis = other->GetPosition() - this->GetPosition();
+	Vector3 currPos = this->GetPosition();
+
+	if (other->collisionType == COLLISIONTYPE::BOUNDING_BOX)
+	{
+		// AABB vs AABB collision.
+		if (abs(toThis.x) > abs(toThis.y))
+		{
+			if (this->GetPosition().x < other->GetPosition().x)
+			{
+				// Right.
+				currPos.x -= other->GetWidth();
+			}
+			else
+			{
+				// Left.
+				currPos.x += other->GetWidth();
+			}
+		}
+
+
+		if (abs(toThis.y) > abs(toThis.x))
+		{
+			if (this->GetPosition().y < other->GetPosition().y)
+			{
+				// Up.
+				currPos.y -= other->GetHeight();
+			}
+			else
+			{
+				// Down.
+				currPos.y += other->GetHeight();
+			}
+		}
+		this->SetPosition(currPos);
+	}
+	if (other->collisionType == COLLISIONTYPE::BOUNDING_CIRCLE)
+	{
+		// AABB vs Circle collision.
+		this->SetPosition(toThis + (this->GetRadius() + other->GetRadius()));
+	}
+}
+
 //Checks if a circle has intersected with a box
 bool CollisionComponent::Intersects(CollisionComponent* circle, CollisionComponent* box)
 {

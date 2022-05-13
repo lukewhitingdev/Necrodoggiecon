@@ -1,5 +1,5 @@
 #pragma once
-#include "Utility/DebugOutput/DebugOutput.h"
+#include "Cerberus/Core/Utility/DebugOutput/DebugOutput.h"
 #include <string>
 #include <chrono>
 #include <ctime>

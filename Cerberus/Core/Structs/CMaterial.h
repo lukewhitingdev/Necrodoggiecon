@@ -1,5 +1,13 @@
+/*****************************************************************//**
+ * \file   CMaterial.h
+ * \brief  Holds the directx stuff for uploading sprite specific data to the shader.
+ * 
+ * \author Arrien Bidmead
+ * \date   January 2022
+ *********************************************************************/
+
 #pragma once
-#include "Engine.h"
+#include "Cerberus\Core\Engine.h"
 
 struct _Material
 {
@@ -30,7 +38,9 @@ struct MaterialPropertiesConstantBuffer
 	_Material   Material;
 };
 
-//Hold the directx stuff for uploading sprite specific data to the shader
+/**
+ * Holds the directx stuff for uploading sprite specific data to the shader.
+ */
 struct CMaterial
 {
 	MaterialPropertiesConstantBuffer material;

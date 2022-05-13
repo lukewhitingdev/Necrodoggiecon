@@ -7,36 +7,47 @@
 #include <directxmath.h>
 #include <directxcolors.h>
 #include <DirectXCollision.h>
-#include "Dependencies/Microsoft/DDSTextureLoader.h"
+#include <vector>
+#include <iostream>
+
+#include "Cerberus\Dependencies\Microsoft\DDSTextureLoader.h"
 
 #pragma warning(push)
 //Disabled Warnings that reside in external libraries.
 #pragma warning( disable : 26812 )
-#include "Dependencies/Microsoft/WICTextureLoader.h"
+#include "Cerberus\Dependencies\Microsoft/WICTextureLoader.h"
 #pragma warning(pop)
 
-#include "resource.h"
-#include <iostream>
 
-#include "Structs/structures.h"
+#include "Cerberus\Dependencies\IMGUI/imgui.h"
+#include "Cerberus\Dependencies\IMGUI/imgui_impl_dx11.h"
+#include "Cerberus\Dependencies\IMGUI/imgui_impl_win32.h"
 
-#include "Dependencies/IMGUI/imgui.h"
-#include "Dependencies/IMGUI/imgui_impl_dx11.h"
-#include "Dependencies/IMGUI/imgui_impl_win32.h"
+#include "Cerberus/Core/Utility/DebugOutput/Debug.h"
+#include "Cerberus/Core/Utility/InputManager/InputManager.h"
 
-#include "Utility/DebugOutput/Debug.h"
-
-#include <vector>
-#include "Utility/InputManager/InputManager.h"
+#include "Cerberus\Core\Structs\structures.h"
+#include "Cerberus\Resource.h"
 
 #define PI 3.14159
 #define DEG2RAD PI / 180
 #define RAD2DEG 180 / PI
 
 class CEntity;
+class CCameraComponent;
 
 struct Engine
 {
+	static bool Start(HINSTANCE hInstance, int nCmdShow, WNDPROC wndProc);
+
+	static void RenderUpdateLoop();
+
+	static LRESULT ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+	static void Stop();
+
+	static void SetRenderCamera(CCameraComponent* cam);
+
 	// Drawables.
 	static std::vector<CEntity*> entities;	//Needs to be changed to CObject instead
 	
@@ -81,6 +92,5 @@ struct Engine
 	static ID3D11Device* device;
 	static ID3D11DeviceContext* deviceContext;
 
-	static class CCamera camera;
 	static XMMATRIX projMatrixUI;
 };
