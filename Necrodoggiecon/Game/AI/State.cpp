@@ -157,3 +157,23 @@ State& SearchState::getInstance()
 	static SearchState singleton;
 	return singleton;
 }
+
+void InvestigateState::Enter(CAIController* controller)
+{
+	controller->SetPath(controller->positionToInvestigate);
+}
+
+void InvestigateState::Update(CAIController* controller)
+{
+	controller->Investigating(controller->positionToInvestigate);
+}
+
+void InvestigateState::Exit(CAIController* controller)
+{
+}
+
+State& InvestigateState::getInstance()
+{
+	static InvestigateState singleton;
+	return singleton;
+}

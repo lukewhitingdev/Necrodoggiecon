@@ -85,3 +85,16 @@ private:
 	float searchTimer;
 	std::vector<PlayerCharacter*> players;
 };
+
+class InvestigateState : public State
+{
+public:
+	void Enter(CAIController* controller) override;
+	void Update(CAIController* controller) override;
+	void Exit(CAIController* controller) override;
+
+	static State& getInstance();
+
+private:
+
+};

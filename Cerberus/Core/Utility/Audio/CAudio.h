@@ -6,7 +6,7 @@
  * \date   Jan 2022
  *********************************************************************/
 #pragma once
-#include "Dependencies/FMOD/api/core/inc/fmod.hpp"
+#include "Cerberus/Dependencies/FMOD/api/core/inc/fmod.hpp"
 class CAudio
 {
 public:
