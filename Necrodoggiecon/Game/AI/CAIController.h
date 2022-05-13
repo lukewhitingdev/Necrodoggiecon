@@ -102,6 +102,10 @@ protected:
 
 	Vector3 Seek(Vector3 TargetPos);
 
+	void CheckForPlayer();
+
+	void MoveViewFrustrum();
+
 	int currentCount;
 
 	PlayerCharacter* playerToKill = nullptr;
@@ -127,8 +131,6 @@ protected:
 
 	float sizeOfTiles = 0.0f;
 
-	
-private:
 	State* currentState;
 };
 

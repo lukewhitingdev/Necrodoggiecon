@@ -15,10 +15,11 @@ CAIController::CAIController()
 	viewFrustrum->SetPosition(GetPosition());
 
 	sprite = AddComponent<CSpriteComponent>();
-	sprite->LoadTexture("Resources\\birb.dds");
-	sprite->SetRenderRect(XMUINT2(128, 128));
-	sprite->SetSpriteSize(XMUINT2(128, 128));
-	sprite->SetScale(Vector3{ 1.0f, 1.0f, 1.0f });
+	sprite->LoadTexture("Resources\\MeleeEnemy.dds");
+	sprite->SetRotation(1.5708f);
+	sprite->SetRenderRect(XMUINT2(64, 64));
+	sprite->SetSpriteSize(XMUINT2(64, 64));
+	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
 
 	sprite->SetTint(XMFLOAT4(rand() % 2 * 0.5f, rand() % 2 * 0.5f, rand() % 2 * 0.5f, 0)); 
 
@@ -92,29 +93,12 @@ void CAIController::Update(float deltaTime)
 	// Set the local variable for the AI position.
 	aiPosition = GetPosition();
 
-	currentState->Update(this);
 	// Run the finite state machine
-	
-	PlayerCharacter* closestPlayer = nullptr;
-
-	if (currentState != &AttackState::getInstance())
-	{
-		if (players.size() > 0)
-		{
-			// Check each player.
-			for (PlayerCharacter* player : players)
-			{
-				// Check if the AI can see the player.
-				if (CanSee(player->GetPosition()) == true)
-				{
-					// If the AI can see the player then chase it.
-					SetCurrentState(ChaseState::getInstance());
-				}
-			}
-		}
-	}
-
 	currentState->Update(this);
+
+	CheckForPlayer();
+
+	MoveViewFrustrum();
 
 	// If the AI is not pathfinding or searching then check for collisions with obstacles.
 	if (currentState != &PatrolState::getInstance() && currentState != &SearchState::getInstance())
@@ -123,25 +107,6 @@ void CAIController::Update(float deltaTime)
 	// Move the AI if it is not lost
 	if (currentState != &SearchState::getInstance())
 		Movement(deltaTime);
-
-	// Temp code for the arrow sprite so I know where the AI is looking. 
-	{
-		Vector3 velocityCopy = velocity;
-		Vector3 view = velocityCopy.Normalize();
-		float offset = 128.0f * viewFrustrum->viewSprite->GetScale().x;
-
-		viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x * 0.5f))));
-
-		Vector3 up = { 0.0f, 1.0f, 0.0f };
-
-		float dot = up.Dot(view);
-		float det = up.x * view.y - up.y * view.x;
-
-		float angle = atan2f(det, dot);
-		this->SetRotation(angle);
-		viewFrustrum->SetRotation(angle);
-		viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 0.0f });
-	}
 
 	// Make sure the AI is on a 2D vector.
 	aiPosition.z = 0.0f;
@@ -462,6 +427,48 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
 		return (DesiredVelocity - velocity);
 	}
 	return Vector3{ 0.0f, 0.0f, 0.0f };
+}
+
+void CAIController::CheckForPlayer()
+{
+	PlayerCharacter* closestPlayer = nullptr;
+
+	if (currentState != &AttackState::getInstance())
+	{
+		if (players.size() > 0)
+		{
+			// Check each player.
+			for (PlayerCharacter* player : players)
+			{
+				// Check if the AI can see the player.
+				if (CanSee(player->GetPosition()) == true)
+				{
+					// If the AI can see the player then chase it.
+					SetCurrentState(ChaseState::getInstance());
+				}
+			}
+		}
+	}
+}
+
+void CAIController::MoveViewFrustrum()
+{
+	// Temp code for the arrow sprite so I know where the AI is looking. 
+	Vector3 velocityCopy = velocity;
+	Vector3 view = velocityCopy.Normalize();
+	float offset = 128.0f * viewFrustrum->viewSprite->GetScale().x;
+
+	viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x * 0.5f))));
+
+	Vector3 up = { 0.0f, 1.0f, 0.0f };
+
+	float dot = up.Dot(view);
+	float det = up.x * view.y - up.y * view.x;
+
+	float angle = atan2f(det, dot);
+	this->SetRotation(angle);
+	viewFrustrum->SetRotation(angle);
+	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 0.0f });
 }
 
 /**
