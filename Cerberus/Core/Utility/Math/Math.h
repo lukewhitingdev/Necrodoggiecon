@@ -29,7 +29,8 @@ public:
 	static XMFLOAT3 FromScreenToWorld(const XMFLOAT3& vec);
 
 	/**
-	 * unfinished right now.
+	 * Converts a float to a string.
+	 * Allows you to specify how many decimal places are in the string as well as zeros for both the decimal and integral parts.
 	 * 
 	 * \param number
 	 * \param numberOfDecimalPlaces
@@ -38,4 +39,14 @@ public:
 	 * \return 
 	 */
 	static std::string FloatToStringWithDigits(const float& number, const unsigned char numberOfDecimalPlaces = 3, const bool preserveDecimalZeros = false, const unsigned char numberOfIntegralPlacesZeros = 1);
+
+	/**
+	 * Converts an int to a string.
+	 * Allows for extra zeros to be added infront of the string.
+	 * 
+	 * \param number
+	 * \param numberOfIntegralPlacesZeros
+	 * \return 
+	 */
+	static std::string IntToString(const int& number, const unsigned char numberOfIntegralPlacesZeros = 1);
 };
