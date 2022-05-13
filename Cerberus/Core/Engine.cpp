@@ -598,8 +598,12 @@ HRESULT ResizeSwapChain(XMUINT2 newSize)
 //--------------------------------------------------------------------------------------
 void CleanupDevice()
 {
-	for (auto it = EntityManager::GetEntitiesMap()->begin(); it != EntityManager::GetEntitiesMap()->end(); it++)
-		delete it->second;
+	for (auto it = EntityManager::GetEntitiesMap()->begin(); it != EntityManager::GetEntitiesMap()->end(); it = EntityManager::GetEntitiesMap()->begin())
+	{
+		CEntity* e = it->second;
+		EntityManager::RemoveEntity(e);
+		delete e;
+	}
 
 	// Remove any bound render target or depth/stencil buffer
 	ID3D11RenderTargetView* nullViews[] = { nullptr };
@@ -663,11 +667,9 @@ double CalculateDeltaTime(const unsigned short fpsCap)
 
 void Engine::DestroyEntity(CEntity* targetEntity)
 {
-	{
-		EntityManager::RemoveEntity(targetEntity);
+	EntityManager::RemoveEntity(targetEntity);
 
-		delete targetEntity;
-	}
+	delete targetEntity;
 }
 
 // Starts the engine.
@@ -722,7 +724,6 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 LRESULT Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-
 	CCameraComponent* camera = CameraManager::GetRenderingCamera();
 
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))

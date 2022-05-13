@@ -49,23 +49,22 @@ struct Engine
 
 	static void SetRenderCamera(CCameraComponent* cam);
 	
-	template<class T>
 	// Returns all entities of provided type that exist in the engine.
+	template<class T>
 	static std::vector<T*> GetEntityOfType() 
 	{
-		/*std::vector<T*> outputVector;
+		std::vector<T*> outputVector;
 
-		size_t vectorSize = entities.size();
-		for (size_t i = 0; i < vectorSize; i++)
+		for (auto it = EntityManager::GetEntitiesMap()->begin(); it != EntityManager::GetEntitiesMap()->end(); it++)
 		{
-			T* entity = (T*)entities[i];
-			const char* evaluationEntity = typeid(*entity).name();
-			const char* searchEntity = typeid(T).name();
-			if (evaluationEntity == searchEntity)
-				outputVector.emplace_back(entity);
+			T* e = dynamic_cast<T*>(it->second);
+			if (e != nullptr)
+			{
+				outputVector.push_back(e);
+			}
 		}
-		return outputVector;*/
-		return std::vector<T*>();
+
+		return outputVector;
 	};
 
 	static void DestroyEntity(CEntity* targetEntity);
