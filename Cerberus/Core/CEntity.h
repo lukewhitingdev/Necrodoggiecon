@@ -47,7 +47,10 @@ public:
 	void RemoveComponent(CComponent* reference);
 	CollisionComponent* colComponent = nullptr;
 	virtual void HasCollided(CollisionComponent* collidedObject) {
-		colComponent->Resolve(collidedObject);
-		this->SetPosition(colComponent->GetPosition());
+		if (!collidedObject->GetTrigger())
+		{
+			colComponent->Resolve(collidedObject);
+			this->SetPosition(colComponent->GetPosition());
+		}
 	};
 };

@@ -13,6 +13,7 @@
 #include "Necrodoggiecon/Game/AI/MeleeEnemy.h"
 #include "Necrodoggiecon/Game/AI/RangedEnemy.h"
 #include <weaponUI.h>
+#include <Necrodoggiecon\Game\CInteractable.h>
 
 /*
 
@@ -72,7 +73,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 // Called once at the start of the application run.
 int Start() 
-{	
+{
+
+	CInteractable* interactable = Engine::CreateEntity<CInteractable>();
+
+	interactable->SetPosition(-500, 0, 0);
+
 	// Free Camera not locked to player.
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
 	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>();

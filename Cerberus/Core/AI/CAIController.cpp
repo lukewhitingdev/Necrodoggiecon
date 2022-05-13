@@ -15,8 +15,7 @@ CAIController::CAIController()
 	viewFrustrum->SetPosition(GetPosition());
 
 	sprite = AddComponent<CSpriteComponent>();
-	sprite->LoadTexture("Resources\\birb.dds");
-	//sprite->SetRotation(1.5708f);
+	sprite->LoadTexture("Resources/birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
 	sprite->SetScale(Vector3{ 1.0f, 1.0f, 1.0f });

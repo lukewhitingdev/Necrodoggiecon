@@ -24,7 +24,7 @@ enum class TextJustification
 class CTextRenderComponent : public CComponent
 {
 	std::string text = "";
-	std::string font = "Resources\\font.png";
+	std::string font = "Resources/Engine/font.png";
 	std::vector<CSpriteComponent*> sprites;
 	XMUINT2 characterSize = { 7,7 };
 	XMUINT2 characterDrawSize = { 14,14 };

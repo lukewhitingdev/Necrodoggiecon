@@ -122,6 +122,11 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /y "$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod.dll" "$(OutDir)fmod.dll"
+xcopy "$(SolutionDir)Cerberus\Resources" "$(ProjectDir)Resources"  /s /f /i /y
+xcopy "$(SolutionDir)Cerberus\Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
