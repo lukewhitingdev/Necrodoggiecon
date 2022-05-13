@@ -7,21 +7,23 @@
 PlayerCharacter::PlayerCharacter()
 {
 	spriteComponent = AddComponent<CAnimationSpriteComponent>();
-	spriteComponent->LoadTextureWIC("Resources\\manSS.png");
+	spriteComponent->LoadTextureWIC("Resources/manSS.png");
 	spriteComponent->SetRenderRect(XMUINT2(16, 16));
 	spriteComponent->SetSpriteSize(XMUINT2(64, 64));
 	spriteComponent->SetAnimationSpeed(15);
 	spriteComponent->SetAnimationRectSize(XMUINT2(8, 1));
 
-	colComponent = new CollisionComponent("Character 1");
+	colComponent = new CollisionComponent("Character 1", this);
 
 	loadNoise = AddComponent<CAudioEmitterComponent>();
 	loadNoise->Load("Resources/TestShortAudio.wav");
+
 	loadNoise->SetRange(10000.0f);
 
 	weaponComponent = AddComponent<Weapon>();
 	weaponComponent->SetWeapon("Dagger");
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
+
 }
 
 void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)

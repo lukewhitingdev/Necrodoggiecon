@@ -10,7 +10,7 @@
 CParticle::CParticle() : lifetime(0), velocity(0)
 {
 	sprite = new CSpriteComponent();
-	if(FAILED(sprite->LoadTexture("Resources\\arrow.dds")))
+	if(FAILED(sprite->LoadTexture("Resources/arrow.dds")))
 		throw;
 	sprite->SetScale(0.1, 0.1, 0.1);
 }
