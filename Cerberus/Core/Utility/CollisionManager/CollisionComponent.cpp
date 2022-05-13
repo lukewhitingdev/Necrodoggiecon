@@ -1,9 +1,10 @@
 #include "CollisionComponent.h"
+#include "Cerberus\Core\CEntity.h"
 
-CollisionComponent::CollisionComponent(std::string setName)
+CollisionComponent::CollisionComponent(std::string setName, CEntity* owner)
 {
 	collisionType = COLLISIONTYPE::BOUNDING_NONE;
-
+	parent = owner;
 	name = setName;
 };
 
@@ -93,6 +94,16 @@ void CollisionComponent::Resolve(CollisionComponent* other)
 		// AABB vs Circle collision.
 		this->SetPosition(toThis + (this->GetRadius() + other->GetRadius()));
 	}
+}
+
+void CollisionComponent::SetTrigger(bool value)
+{
+	trigger = value;
+}
+
+bool CollisionComponent::GetTrigger()
+{
+	return trigger;
 }
 
 //Checks if a circle has intersected with a box
@@ -190,3 +201,8 @@ float CollisionComponent::DistanceBetweenPoints(Vector3& point1, Vector3& point2
 	float distance = sqrt((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y) + (point1.z - point2.z) * (point1.z - point2.z));
 	return distance;
 }
+
+CEntity* CollisionComponent::GetParent()
+{
+	return parent;
+};

@@ -14,6 +14,7 @@
 #include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
 #include "Cerberus\Core\Environment/CWorld.h"
 #include "Cerberus/Core/Engine.h"
+#include "Cerberus/Core/Utility/Audio/AudioController.h"
 
 #include "Necrodoggiecon\Game\AI\CAICharacter.h"
 #include "Necrodoggiecon\Game\CPlayer.h"
@@ -60,6 +61,7 @@ public:
 
 	void Patrolling();
 	void SearchForPlayer();
+	void Investigating(Vector3 positionOfInterest);
 	
 	virtual void ChasePlayer(PlayerCharacter* player);
 	virtual void AttackPlayer(PlayerCharacter* player);
@@ -67,10 +69,14 @@ public:
 
 	void SetCurrentState(State& state);
 	bool CanSee(Vector3 posOfObject);
+	void CanHear();
 
 	void SetPathNodes(std::vector<WaypointNode*> nodes);
 	Pathfinding* pathing;
 	void SetPath();
+	void SetPath(Vector3 endPosition);
+
+	Vector3 positionToInvestigate;
 
 protected:
 	class CSpriteComponent* sprite = nullptr;

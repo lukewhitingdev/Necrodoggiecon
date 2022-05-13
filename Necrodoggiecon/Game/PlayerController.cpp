@@ -1,10 +1,15 @@
 #include "PlayerController.h"
-#include "PlayerCharacter.h"
+
 #include "ItemDatabase.h"
 #include "CEquippedItem.h"
 
 #include <Necrodoggiecon\Game\CursorEntity.h>
 #include <Necrodoggiecon\Game\AI/CAICharacter.h>
+
+
+PlayerController::PlayerController()
+{
+}
 
 void PlayerController::Update(float deltaTime)
 {
@@ -30,7 +35,8 @@ void PlayerController::HandleInput(float deltaTime)
 		inputable->PressedInteract();
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::G))
 		inputable->PressedDrop();
-
+	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::L))
+		charOne->loadNoise->Play();
 
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
 	{
