@@ -22,7 +22,6 @@ void PlayerController::HandleInput(float deltaTime)
 	
 	if (inputable == nullptr) return;
 
-
 	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::D))
 		inputable->PressedHorizontal(1, deltaTime);
 	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::A))

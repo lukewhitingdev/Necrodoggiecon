@@ -9,6 +9,7 @@
 #include "Cerberus\Core\Utility\Vector3.h"
 #include "Cerberus\Dependencies\NlohmannJson\json.hpp"
 
+
 #define rangeScale 320.0f
 
 using json = nlohmann::json;
@@ -55,6 +56,8 @@ private:
 	float attack_speed;
 	float ammo;
 	bool unique;
+	bool canFire = true;
+	float cooldown;
 
 	USERTYPE userType;
 
