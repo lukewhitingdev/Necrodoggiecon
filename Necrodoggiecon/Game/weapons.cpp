@@ -38,8 +38,43 @@ void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players po
 	//Vector3 attackDir = attackDir - actorPos;
 	auto normAttackDir = attackDir.Normalize();
 
+<<<<<<< Updated upstream
 	if (type == "Melee")
 		HandleMelee(actorPos, normAttackDir);
+=======
+	if (canFire)
+	{
+		Debug::Log("Can Fire");
+		cooldown = attack_speed;
+		if (type == "Melee")
+		{
+			Debug::Log("Melee\n");
+			canFire = false;
+			HandleMelee(actorPos, normAttackDir);
+		}
+		else if (type == "Ranged")
+		{
+			if (ammo > 0)
+			{
+				Debug::Log("Ranged\n");
+				canFire = false;
+				HandleRanged(actorPos, normAttackDir);
+			}
+			else if (ammo == 0)
+			{
+				Debug::Log("No ammo\n");
+			}
+		}
+		else if (type == "Magic")
+		{
+			Debug::Log("Magic\n");
+		}
+		else
+		{
+			Debug::Log("Error\n");
+		}
+	}
+>>>>>>> Stashed changes
 }
 
 
@@ -60,6 +95,12 @@ void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 			Engine::DestroyEntity(target);
 	}
 	
+}
+
+
+void weapons::HandleRanged(Vector3 actorPos, Vector3 normAttackDir)
+{
+	Projectile();
 }
 
 

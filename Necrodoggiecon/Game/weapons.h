@@ -2,8 +2,13 @@
 #include <string>
 #include <fstream>
 
+<<<<<<< Updated upstream
 #include "Cerberus/Core/CComponent.h"
 #include "Cerberus/Core/CEntity.h"
+=======
+#include "Projectile.h"
+#include <Cerberus\Core\CEntity.h>
+>>>>>>> Stashed changes
 #include "Cerberus\Core\Engine.h"
 #include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 #include "Cerberus\Core\Utility\Vector3.h"
@@ -44,7 +49,7 @@ private:
 
 
 	void HandleMelee(Vector3 actorPos, Vector3 normAttackDir);
-	void HandleRanged();
+	void HandleRanged(Vector3 actorPos, Vector3 normAttackDir);
 
 	CEntity* GetClosestEnemy(Vector3 actorPos);
 	CEntity* GetClosestPlayer(Vector3 actorPos);
