@@ -2,8 +2,11 @@
 #include <Necrodoggiecon\Game\CCharacter.h>
 #include <Cerberus\Core\Environment\IInputable.h>
 
+#include "weapons.h"
+
 class CDroppedItem;
 class CEquippedItem;
+
 
 class testCharacter : public CCharacter, public IInputable
 {
@@ -20,11 +23,12 @@ public:
 	void PressedInteract() override;
 	void PressedDrop() override;
 	virtual void Update(float deltaTime) override;
-	void Attack() override;
 
 	virtual void HasCollided(CollisionComponent* collidedObject) override;
 
 	CDroppedItem* droppedItem = nullptr;
 	CEquippedItem* equippedItem = nullptr;
+
+	weapons* weapon = nullptr;
 };
 

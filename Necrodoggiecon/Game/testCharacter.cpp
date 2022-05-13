@@ -1,7 +1,6 @@
 #include "testCharacter.h"
 #include "CDroppedItem.h"
 #include "CEquippedItem.h"
-#include "weapons.h"
 
 testCharacter::testCharacter()
 {
@@ -19,14 +18,7 @@ testCharacter::testCharacter()
 
 	timeElapsed = float(rand() / 100);
 
-	weapons weapon("Dagger");
-}
-
-void testCharacter::Attack()
-{
-	weapons weapon("Dagger");
-	std::string weapontype = weapon.GetType();
-	weapon.OnFire(weapontype);
+	weapon = new weapons("Dagger", USERTYPE::PLAYER);
 }
 
 void testCharacter::PressedHorizontal(int dir, float deltaTime)
@@ -42,11 +34,15 @@ void testCharacter::PressedVertical(int dir, float deltaTime)
 
 void testCharacter::PressedInteract()
 {
-	if (droppedItem == nullptr) return;
+	Vector3 attackDir = (Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z)) - GetPosition();
+
+	weapon->OnFire(GetPosition(), attackDir);
+	/*if (droppedItem == nullptr) return;
 
 	equippedItem = droppedItem->OnEquip(this);
 	Engine::DestroyEntity(droppedItem);
-	droppedItem = nullptr;
+	droppedItem = nullptr;*/
+
 }
 
 void testCharacter::PressedDrop()
@@ -68,12 +64,15 @@ void testCharacter::Update(float deltaTime)
 	LookAt(Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z));
 
 	colComponent->SetPosition(GetPosition());
+
+	weapon->Update(deltaTime);
+
 }
 
 void testCharacter::HasCollided(CollisionComponent* collidedObject)
 {
-	if (collidedObject->GetName() == "Wall")
-		Debug::Log("Player has collided with a wall");
+	/*if (collidedObject->GetName() == "Wall")
+		Debug::Log("Player has collided with a wall");*/
 }
 
 void testCharacter::LookAt(Vector3 pos)

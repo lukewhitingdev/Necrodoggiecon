@@ -1,8 +1,11 @@
 #include "weapons.h"
+#include "Necrodoggiecon\Game\testCharacter.h"
+#include <Necrodoggiecon\Game\AI\CAIController.h>
 
-weapons::weapons(std::string weapon)
+weapons::weapons(std::string weapon, USERTYPE userType)
 {
 	LoadWeapons(weapon);
+	this->userType = userType;
 }
 
 void weapons::LoadWeapons(std::string weapon)
@@ -14,77 +17,137 @@ void weapons::LoadWeapons(std::string weapon)
 	type = storedFile.at(weapon).at("Type");
 	damage = storedFile.at(weapon).at("Damage");
 	range = storedFile.at(weapon).at("Range");
+	range = range * rangeScale;
 	attack_speed = storedFile.at(weapon).at("Attack_Speed");
 	ammo = storedFile.at(weapon).at("Ammo");
 	unique = storedFile.at(weapon).at("Unique");
+	cooldown = attack_speed;
+
+	Debug::Log("Range %f", range);
 }
 
-void weapons::CoolDown(float attack_cooldown, std::string weapon)
+void weapons::CoolDown(float deltaTime)
 {
-	std::string weaponsave = weapon;
-	do
+	if (cooldown > 0)
 	{
-		weapon = "NULL";
-		Debug::Log("Cooldown");
-		attack_cooldown - 0.01;
-	} while (attack_cooldown >= 0);
-	weapon = weaponsave;
-}
-
-void weapons::OnFire(std::string weapon)
-{
-	float num;
-	num = GetAttack_Speed();
-
-	if (weapon == "Melee")
-	{
-		Debug::Log("Melee\n");
-		CoolDown(num, weapon);
+		cooldown -= 0.1 * deltaTime;
 	}
-	else if (weapon == "Ranged")
+	if (cooldown <= 0)
 	{
-		Debug::Log("Ranged\n");
-		CoolDown(num, weapon);
-	}
-	else if (weapon == "Magic")
-	{
-		Debug::Log("Magic\n");
-		CoolDown(num, weapon);
-	}
-	else
-	{
-		Debug::Log("Error\n");
+		Debug::Log("Cooldown Done");
+		canFire = true;
 	}
 }
 
-
-
-std::string weapons::GetType()
+void weapons::Update(float deltaTime)
 {
-	return type;
+	if(!canFire)
+	CoolDown(deltaTime);
 }
 
-float weapons::GetDamage()
+void weapons::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players position | attackDir = mouse position
 {
-	return damage;
+	//Vector3 attackDir = attackDir - actorPos;
+	auto normAttackDir = attackDir.Normalize();
+
+	if (canFire)
+	{
+		Debug::Log("Can Fire");
+		cooldown = attack_speed;
+		if (type == "Melee")
+		{
+			Debug::Log("Melee\n");
+			canFire = false;
+			HandleMelee(actorPos, normAttackDir);
+		}
+		else if (type == "Melee")
+		{
+			Debug::Log("Melee\n");
+		}
+		else if (type == "Melee")
+		{
+			Debug::Log("Melee\n");
+		}
+		else
+		{
+			Debug::Log("Error\n");
+		}
+	}
 }
 
-float weapons::GetRange()
+void weapons::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 {
-	return range;
+	Vector3 damagePos = actorPos + normAttackDir * range;
+
+	if (userType == USERTYPE::AI)
+	{
+		CEntity* target = GetClosestPlayer(damagePos);
+		if (target != nullptr)
+			Engine::DestroyEntity(target);
+	}
+	else if (userType == USERTYPE::PLAYER)
+	{
+		CEntity* target = GetClosestEnemy(damagePos);
+		if (target != nullptr)
+			Engine::DestroyEntity(target);
+	}
+	
 }
 
-float weapons::GetAttack_Speed()
+
+//Gets closest enemy within attack range
+CEntity* weapons::GetClosestEnemy(Vector3 actorPos)
 {
-	return attack_speed;
+	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
+
+	if (enemies.size() == 0) //No enemies
+		return nullptr;
+
+	CAIController* closestEnemy = nullptr;
+
+	//Check each enemy
+	for (CAIController* enemy : enemies)
+	{
+
+		if (actorPos.DistanceTo(enemy->GetPosition()) > range)
+			break;
+
+		if (closestEnemy == nullptr)
+			closestEnemy = enemy;
+		else
+		{
+			if (actorPos.DistanceTo(enemy->GetPosition()) < actorPos.DistanceTo(closestEnemy->GetPosition()))
+				closestEnemy = enemy;
+		}
+	}
+
+	return closestEnemy;
 }
 
-float weapons::GetAmmo()
+CEntity* weapons::GetClosestPlayer(Vector3 actorPos)
 {
-	return ammo;
-}
+	std::vector<testCharacter*> players = Engine::GetEntityOfType<testCharacter>();
 
-bool weapons::GetUnique()
-{
-	return unique;
+	if (players.size() == 0) //No players
+		return nullptr;
+
+	testCharacter* closestPlayer = nullptr;
+
+	//Check each player
+	for (testCharacter* player : players)
+	{
+
+		if (actorPos.DistanceTo(player->GetPosition()) > range)
+			break;
+
+		if (closestPlayer == nullptr)
+			closestPlayer = player;
+		else
+		{
+			if (actorPos.DistanceTo(player->GetPosition()) < actorPos.DistanceTo(closestPlayer->GetPosition()))
+				closestPlayer = player;
+		}
+	}
+
+	return closestPlayer;
 }
