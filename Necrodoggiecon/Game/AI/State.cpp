@@ -11,9 +11,9 @@
 void ChaseState::Enter(CAIController* controller)
 {
 	Vector3 aiPosition = controller->GetPosition();
-	std::vector<testCharacter*> players = Engine::GetEntityOfType<testCharacter>();
+	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
 
-	for (testCharacter* player : players)
+	for (PlayerCharacter* player : players)
 	{
 		// Find if the player is the closest in view.
 		if (controller->CanSee(player->GetPosition()) == true)
@@ -58,9 +58,9 @@ State& ChaseState::getInstance()
 void AttackState::Enter(CAIController* controller)
 {
 	Vector3 aiPosition = controller->GetPosition();
-	std::vector<testCharacter*> players = Engine::GetEntityOfType<testCharacter>();
+	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
 
-	for (testCharacter* player : players)
+	for (PlayerCharacter* player : players)
 	{
 		// Find if the player is the closest in view.
 		if (closestPlayer != nullptr)
@@ -81,7 +81,7 @@ void AttackState::Update(CAIController* controller)
 {
 	if (closestPlayer != nullptr)
 	{
-		Engine::DestroyEntity(closestPlayer);
+		controller->AttackPlayer(closestPlayer);
 		closestPlayer = nullptr;
 	}
 	else
@@ -123,7 +123,7 @@ State& PatrolState::getInstance()
 void SearchState::Enter(CAIController* controller)
 {
 	searchTimer = 5.0f;
-	players = Engine::GetEntityOfType<testCharacter>();
+	players = Engine::GetEntityOfType<PlayerCharacter>();
 }
 
 void SearchState::Update(CAIController* controller)
@@ -132,7 +132,7 @@ void SearchState::Update(CAIController* controller)
 	{
 		searchTimer -= 0.016f;
 
-		for (testCharacter* player : players)
+		for (PlayerCharacter* player : players)
 		{
 			if (controller->CanSee(player->GetPosition()) == true)
 			{
@@ -155,5 +155,25 @@ void SearchState::Exit(CAIController* controller)
 State& SearchState::getInstance()
 {
 	static SearchState singleton;
+	return singleton;
+}
+
+void InvestigateState::Enter(CAIController* controller)
+{
+	controller->SetPath(controller->positionToInvestigate);
+}
+
+void InvestigateState::Update(CAIController* controller)
+{
+	controller->Investigating(controller->positionToInvestigate);
+}
+
+void InvestigateState::Exit(CAIController* controller)
+{
+}
+
+State& InvestigateState::getInstance()
+{
+	static InvestigateState singleton;
 	return singleton;
 }

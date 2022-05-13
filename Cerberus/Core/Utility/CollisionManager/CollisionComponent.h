@@ -39,11 +39,14 @@ public:
 	void SetCollider(float setRadius); //Bounding circle initiation
 	void SetCollider(float setHeight, float setWidth); //Bounding Box initiation
 
-
 	bool IsColliding(CollisionComponent* collidingObject);
 	float DistanceBetweenPoints(Vector3& point1, Vector3& point2);
 
 	CEntity* GetParent();
+	void Resolve(CollisionComponent* other);
+
+	void SetTrigger(const bool value);
+	bool GetTrigger();
 
 private: 
 	float radius;
@@ -51,6 +54,8 @@ private:
 	float height;
 	float width;
 	std::string name = "none";
+
+	bool trigger = false;
 
 	CEntity* parent = nullptr;
 

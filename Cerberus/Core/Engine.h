@@ -34,6 +34,7 @@
 #define RAD2DEG 180 / PI
 
 class CEntity;
+class CCameraComponent;
 
 struct Engine
 {
@@ -44,6 +45,8 @@ struct Engine
 	static LRESULT ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	static void Stop();
+
+	static void SetRenderCamera(CCameraComponent* cam);
 
 	// Drawables.
 	static std::vector<CEntity*> entities;	//Needs to be changed to CObject instead
@@ -89,6 +92,5 @@ struct Engine
 	static ID3D11Device* device;
 	static ID3D11DeviceContext* deviceContext;
 
-	static class CCamera camera;
 	static XMMATRIX projMatrixUI;
 };

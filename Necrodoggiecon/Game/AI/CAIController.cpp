@@ -55,6 +55,29 @@ CAIController::CAIController()
 	pathing->SetPatrolNodes(patrolPoints);
 	pathing->currentPatrolNode = pathing->FindClosestPatrolNode(aiPosition);
 
+	std::function<void()> CanHearLambda = [&]()
+	{
+		std::vector<CEmitter*> audioEmitters = AudioController::GetAllEmittersWithinRange(aiPosition);
+		float closestDistance = 100000000.0f;
+		CEmitter* closestEmitter = nullptr;
+		if (audioEmitters.size() != 0)
+		{
+			for (CEmitter* emitter : audioEmitters)
+			{
+				float distanceToEmitter = aiPosition.DistanceTo(emitter->position);
+				if (distanceToEmitter < closestDistance)
+				{
+					closestDistance = distanceToEmitter;
+					closestEmitter = emitter;
+				}
+			}
+			positionToInvestigate = closestEmitter->position;
+			SetCurrentState(InvestigateState::getInstance());
+		}
+	};
+
+	EventSystem::AddListener("soundPlayed", CanHearLambda);
+
 	currentState = &PatrolState::getInstance();
 	SetCurrentState(PatrolState::getInstance());
 }
@@ -71,14 +94,15 @@ void CAIController::Update(float deltaTime)
 
 	currentState->Update(this);
 	// Run the finite state machine
-	testCharacter* closestPlayer = nullptr;
+	
+	PlayerCharacter* closestPlayer = nullptr;
 
 	if (currentState != &AttackState::getInstance())
 	{
 		if (players.size() > 0)
 		{
 			// Check each player.
-			for (testCharacter* player : players)
+			for (PlayerCharacter* player : players)
 			{
 				// Check if the AI can see the player.
 				if (CanSee(player->GetPosition()) == true)
@@ -265,6 +289,11 @@ bool CAIController::CanSee(Vector3 posOfObject)
 	return false;
 }
 
+void CAIController::CanHear()
+{
+	AudioController::GetAllEmittersWithinRange(aiPosition);
+}
+
 /**
  * Sets the path nodes for the AI.
  * 
@@ -353,10 +382,44 @@ void CAIController::SearchForPlayer()
 	
 }
 
+
+
+void CAIController::Investigating(Vector3 positionOfInterest)
+{
+	// If the AI has reached the patrol node.
+	if (aiPosition.DistanceTo(positionOfInterest) <= 10.0f)
+	{
+		// Set the state to searching.
+		SetCurrentState(SearchState::getInstance());
+		pathing->DeleteNodes();
+
+	}
+	else
+	{
+		// If at the closest waypoint node to the patrol node then seek towards the patrol node.
+		if (currentCount == -1)
+		{
+			heading = Seek(positionOfInterest);
+			pathing->DeleteNodes();
+		}
+		// Else seek to the next waypoint node.
+		else
+		{
+			heading = Seek(pathNodes[currentCount]->waypoint->GetPosition());
+
+			// If close to the waypoint node then set the next waypoint node from the list.
+			if (aiPosition.DistanceTo(pathNodes[currentCount]->waypoint->GetPosition()) <= (((float)tileScale) * tiles[0]->GetScale().x))
+			{
+				currentCount--;
+			}
+		}
+	}
+}
+
 /**
  * Seek towards the player and if it gets close then switch to the attacking state.
  */
-void CAIController::ChasePlayer(testCharacter* player)
+void CAIController::ChasePlayer(PlayerCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 	{
@@ -374,10 +437,11 @@ void CAIController::ChasePlayer(testCharacter* player)
  * 
  * \param player Player to attack.
  */
-void CAIController::AttackPlayer(testCharacter* player)
+void CAIController::AttackPlayer(PlayerCharacter* player)
 {
+	playersController[0]->Unpossess();
 	Engine::DestroyEntity(player);
-	players = Engine::GetEntityOfType<testCharacter>();
+	players = Engine::GetEntityOfType<PlayerCharacter>();
 }
 
 /**
@@ -407,6 +471,13 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
 void CAIController::SetPath()
 {
 	pathing->SetPath(aiPosition, pathing->currentPatrolNode->closestWaypoint);
+	SetPathNodes(pathing->GetPathNodes());
+	currentCount = (int)pathNodes.size() - 1;
+}
+
+void CAIController::SetPath(Vector3 endPosition)
+{
+	pathing->SetPath(aiPosition, pathing->FindClosestWaypoint(endPosition));
 	SetPathNodes(pathing->GetPathNodes());
 	currentCount = (int)pathNodes.size() - 1;
 }

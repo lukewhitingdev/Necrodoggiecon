@@ -1,11 +1,12 @@
 #pragma once
 #include <Necrodoggiecon\Game\CCharacter.h>
 #include <Cerberus\Core\Environment\IInputable.h>
+#include "Cerberus/Core/Components/CAudioEmitterComponent.h"
 
 class CDroppedItem;
 class CEquippedItem;
 
-class testCharacter : public CCharacter, public IInputable
+class PlayerCharacter : public CCharacter, public IInputable
 {
 protected:
 	float speed = 200;
@@ -13,7 +14,9 @@ protected:
 
 	void LookAt(Vector3 pos);
 public:
-	testCharacter();
+	PlayerCharacter();
+
+	void SetCamera(class CCameraComponent* cam);
 
 	void PressedHorizontal(int dir, float deltaTime) override;
 	void PressedVertical(int dir, float deltaTime) override;
@@ -21,9 +24,9 @@ public:
 	void PressedDrop() override;
 	virtual void Update(float deltaTime) override;
 
-	virtual void HasCollided(CollisionComponent* collidedObject) override;
-
 	CDroppedItem* droppedItem = nullptr;
 	CEquippedItem* equippedItem = nullptr;
+	class CCameraComponent* camera = nullptr;
+	CAudioEmitterComponent* loadNoise;
 };
 

@@ -169,10 +169,9 @@
     <ClCompile Include="Game\CPlayerController.cpp" />
     <ClCompile Include="Game\CursorEntity.cpp" />
     <ClCompile Include="Game\ItemDatabase.cpp" />
-    <ClCompile Include="Game\testCharacter.cpp" />
-    <ClCompile Include="Game\testCharacter2.cpp" />
+    <ClCompile Include="Game\PlayerCharacter.cpp" />
     <ClCompile Include="Game\testClass.cpp" />
-    <ClCompile Include="Game\testController.cpp" />
+    <ClCompile Include="Game\PlayerController.cpp" />
     <ClCompile Include="Game\testEquippedItem.cpp" />
     <ClCompile Include="Game\testItemData.cpp" />
     <ClCompile Include="Game\TestUI.cpp" />
@@ -194,10 +193,9 @@
     <ClInclude Include="Game\CursorEntity.h" />
     <ClInclude Include="Game\ItemData.h" />
     <ClInclude Include="Game\ItemDatabase.h" />
-    <ClInclude Include="Game\testCharacter.h" />
-    <ClInclude Include="Game\testCharacter2.h" />
+    <ClInclude Include="Game\PlayerCharacter.h" />
     <ClInclude Include="Game\testClass.h" />
-    <ClInclude Include="Game\testController.h" />
+    <ClInclude Include="Game\PlayerController.h" />
     <ClInclude Include="Game\testEquippedItem.h" />
     <ClInclude Include="Game\testItemData.h" />
     <ClInclude Include="Game\TestUI.h" />

@@ -6,7 +6,7 @@
  * \author Nasser Ksous
  * \date   May 2022
  *********************************************************************/
-#include "Necrodoggiecon/Game/testCharacter.h"
+#include "Necrodoggiecon/Game/PlayerCharacter.h"
 class CAIController;
 
 //Reference: https://www.aleksandrhovhannisyan.com/blog/finite-state-machine-fsm-tutorial-implementing-an-fsm-in-c/
@@ -37,7 +37,7 @@ public:
 	static State& getInstance();
 
 private:
-	testCharacter* closestPlayer;
+	PlayerCharacter* closestPlayer;
 };
 
 /**
@@ -53,7 +53,7 @@ public:
 	static State& getInstance();
 
 private:
-	testCharacter* closestPlayer;
+	PlayerCharacter* closestPlayer;
 };
 
 /**
@@ -83,5 +83,18 @@ public:
 
 private:
 	float searchTimer;
-	std::vector<testCharacter*> players;
+	std::vector<PlayerCharacter*> players;
+};
+
+class InvestigateState : public State
+{
+public:
+	void Enter(CAIController* controller) override;
+	void Update(CAIController* controller) override;
+	void Exit(CAIController* controller) override;
+
+	static State& getInstance();
+
+private:
+
 };

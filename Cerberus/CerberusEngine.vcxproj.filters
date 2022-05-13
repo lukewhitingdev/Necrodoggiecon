@@ -44,7 +44,9 @@
     <ClCompile Include="Core\Components\CParticleEmitter.cpp" />
     <ClCompile Include="Core\Entities\CParticle.cpp" />
     <ClCompile Include="Core\Engine.cpp" />
+    <ClCompile Include="Core\Components\CCameraComponent.cpp" />
     <ClCompile Include="Core\Utility\Math\Math.cpp" />
+    <ClCompile Include="Core\Utility\CameraManager\CameraManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Microsoft\DDSTextureLoader.h" />
@@ -111,6 +113,8 @@
     <ClInclude Include="Core\Components\CParticleEmitter.h" />
     <ClInclude Include="Core\Entities\CParticle.h" />
     <ClInclude Include="Core\Utility\Math\Math.h" />
+    <ClInclude Include="Core\Components\CCameraComponent.h" />
+    <ClInclude Include="Core\Utility\CameraManager\CameraManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

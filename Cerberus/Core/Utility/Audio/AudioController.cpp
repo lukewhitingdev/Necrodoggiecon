@@ -6,6 +6,7 @@
  * \date   Jan 2022
  *********************************************************************/
 #include "AudioController.h"
+#include "Cerberus\Core\Utility\EventSystem\EventSystem.h"
 FMOD::System* AudioController::FMODSystem;
 std::vector<CEmitter*> AudioController::emitters;
 
@@ -88,6 +89,8 @@ bool AudioController::PlayAudio(std::string path)
 		Debug::LogError("[Play Audio][%s] FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
 		return false;
 	}
+
+	EventSystem::TriggerEvent("soundPlayed");
 
 	return true;
 }
@@ -205,7 +208,7 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
 	for(CEmitter* emiter : emitters)
 	{
 		// Check if we are inrange of the circular range emitters have.
-		if (emiter->range < position.DistanceTo(emiter->position))
+		if (emiter->range > position.DistanceTo(emiter->position))
 			output.emplace_back(emiter);
 	}
 	return output;

@@ -14,6 +14,7 @@
 #include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
 #include "Cerberus\Core\Environment/CWorld.h"
 #include "Cerberus/Core/Engine.h"
+#include "Cerberus/Core/Utility/Audio/AudioController.h"
 
 #include "Necrodoggiecon\Game\AI\CAICharacter.h"
 #include "Necrodoggiecon\Game\CPlayer.h"
@@ -22,8 +23,9 @@
 #include "Necrodoggiecon\Game\AI\CAINode.h"
 #include "Necrodoggiecon\Game\AI\State.h"
 #include "Necrodoggiecon\Game\AI\Pathfinding.h"
-#include "Necrodoggiecon\Game\testCharacter.h"
+#include "Necrodoggiecon\Game\PlayerCharacter.h"
 #include "Necrodoggiecon\Game\CCharacter.h"
+#include "Necrodoggiecon/Game/PlayerController.h"
 
 /**
  * Controller class for the AI.
@@ -59,17 +61,22 @@ public:
 
 	void Patrolling();
 	void SearchForPlayer();
+	void Investigating(Vector3 positionOfInterest);
 	
-	virtual void ChasePlayer(testCharacter* player);
-	virtual void AttackPlayer(testCharacter* player);
+	virtual void ChasePlayer(PlayerCharacter* player);
+	virtual void AttackPlayer(PlayerCharacter* player);
 	virtual void GetIntoCover() {};
 
 	void SetCurrentState(State& state);
 	bool CanSee(Vector3 posOfObject);
+	void CanHear();
 
 	void SetPathNodes(std::vector<WaypointNode*> nodes);
 	Pathfinding* pathing;
 	void SetPath();
+	void SetPath(Vector3 endPosition);
+
+	Vector3 positionToInvestigate;
 
 protected:
 	class CSpriteComponent* sprite = nullptr;
@@ -97,9 +104,10 @@ protected:
 
 	int currentCount;
 
-	testCharacter* playerToKill = nullptr;
-	testCharacter* playerToChase = nullptr;
-	std::vector<testCharacter*> players = Engine::GetEntityOfType<testCharacter>();
+	PlayerCharacter* playerToKill = nullptr;
+	PlayerCharacter* playerToChase = nullptr;
+	std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
+	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 	class CSpriteComponent* viewSprite = nullptr;
 
