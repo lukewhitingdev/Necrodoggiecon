@@ -15,11 +15,11 @@ CAIController::CAIController()
 	viewFrustrum->SetPosition(GetPosition());
 
 	sprite = AddComponent<CSpriteComponent>();
-	sprite->LoadTexture("Resources\\MeleeEnemy.dds");
-	sprite->SetRotation(1.5708f);
-	sprite->SetRenderRect(XMUINT2(64, 64));
-	sprite->SetSpriteSize(XMUINT2(64, 64));
-	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
+	sprite->LoadTexture("Resources\\birb.dds");
+	//sprite->SetRotation(1.5708f);
+	sprite->SetRenderRect(XMUINT2(128, 128));
+	sprite->SetSpriteSize(XMUINT2(128, 128));
+	sprite->SetScale(Vector3{ 1.0f, 1.0f, 1.0f });
 
 	sprite->SetTint(XMFLOAT4(rand() % 2 * 0.5f, rand() % 2 * 0.5f, rand() % 2 * 0.5f, 0)); 
 
@@ -254,11 +254,6 @@ bool CAIController::CanSee(Vector3 posOfObject)
 	return false;
 }
 
-void CAIController::CanHear()
-{
-	AudioController::GetAllEmittersWithinRange(aiPosition);
-}
-
 /**
  * Sets the path nodes for the AI.
  * 
@@ -348,7 +343,11 @@ void CAIController::SearchForPlayer()
 }
 
 
-
+/**
+ * Moves the AI along the path to the position of interest.
+ * 
+ * \param positionOfInterest Position for the AI to investigate.
+ */
 void CAIController::Investigating(Vector3 positionOfInterest)
 {
 	// If the AI has reached the patrol node.
@@ -429,6 +428,10 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
 	return Vector3{ 0.0f, 0.0f, 0.0f };
 }
 
+/**
+ * Checks if the player is in view.
+ * 
+ */
 void CAIController::CheckForPlayer()
 {
 	PlayerCharacter* closestPlayer = nullptr;
@@ -451,6 +454,10 @@ void CAIController::CheckForPlayer()
 	}
 }
 
+/**
+ * Moves the view frustrum attached to the AI.
+ * 
+ */
 void CAIController::MoveViewFrustrum()
 {
 	// Temp code for the arrow sprite so I know where the AI is looking. 
@@ -482,6 +489,11 @@ void CAIController::SetPath()
 	currentCount = (int)pathNodes.size() - 1;
 }
 
+/**
+ * Sets the path between the closest waypoint to the AI and the closest waypoint to the end position.
+ * 
+ * \param endPosition Target position for the end of the path.
+ */
 void CAIController::SetPath(Vector3 endPosition)
 {
 	pathing->SetPath(aiPosition, pathing->FindClosestWaypoint(endPosition));
@@ -489,6 +501,11 @@ void CAIController::SetPath(Vector3 endPosition)
 	currentCount = (int)pathNodes.size() - 1;
 }
 
+/**
+ * Exits one state and enters the state passed in.
+ * 
+ * \param state State to switch to.
+ */
 void CAIController::SetCurrentState(State& state)
 {
 	currentState->Exit(this);  // do stuff before we change state

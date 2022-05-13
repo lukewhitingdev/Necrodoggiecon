@@ -69,7 +69,6 @@ public:
 
 	void SetCurrentState(State& state);
 	bool CanSee(Vector3 posOfObject);
-	void CanHear();
 
 	void SetPathNodes(std::vector<WaypointNode*> nodes);
 	Pathfinding* pathing;
@@ -85,8 +84,6 @@ protected:
 	void Movement(float deltaTime);
 
 	Vector3 CollisionAvoidance();
-
-	//STATE currentState;
 
 	Vector3 velocity;
 	Vector3 acceleration;
