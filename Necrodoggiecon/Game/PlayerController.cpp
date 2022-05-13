@@ -38,6 +38,9 @@ void PlayerController::HandleInput(float deltaTime)
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::L))
 		charOne->loadNoise->Play();
 
+	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::Mouse::LButton))
+		inputable->Attack();
+
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
 	{
 		CursorEntity* item = Engine::CreateEntity<CursorEntity>();
