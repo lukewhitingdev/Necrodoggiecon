@@ -14,7 +14,7 @@ public:
 	virtual void OnEnterOverlap();
 	virtual void OnLeaveOverlap();
 
-	virtual void HasCollided(CollisionComponent* collidedObject);
+	virtual void HasCollided(CollisionComponent* collidedObject) override;
 
 	void SetTexture(std::string path);
 	void SetTextureWIC(std::string path);

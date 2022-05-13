@@ -96,6 +96,16 @@ void CollisionComponent::Resolve(CollisionComponent* other)
 	}
 }
 
+void CollisionComponent::SetTrigger(bool value)
+{
+	trigger = value;
+}
+
+bool CollisionComponent::GetTrigger()
+{
+	return trigger;
+}
+
 //Checks if a circle has intersected with a box
 bool CollisionComponent::Intersects(CollisionComponent* circle, CollisionComponent* box)
 {
