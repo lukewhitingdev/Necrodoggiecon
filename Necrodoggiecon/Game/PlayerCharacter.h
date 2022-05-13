@@ -5,7 +5,7 @@
 class CDroppedItem;
 class CEquippedItem;
 
-class testCharacter : public CCharacter, public IInputable
+class PlayerCharacter : public CCharacter, public IInputable
 {
 protected:
 	float speed = 200;
@@ -13,7 +13,9 @@ protected:
 
 	void LookAt(Vector3 pos);
 public:
-	testCharacter();
+	PlayerCharacter();
+
+	void SetCamera(class CCameraComponent* cam);
 
 	void PressedHorizontal(int dir, float deltaTime) override;
 	void PressedVertical(int dir, float deltaTime) override;
@@ -23,5 +25,6 @@ public:
 
 	CDroppedItem* droppedItem = nullptr;
 	CEquippedItem* equippedItem = nullptr;
+	class CCameraComponent* camera = nullptr;
 };
 

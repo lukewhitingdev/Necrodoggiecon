@@ -23,6 +23,7 @@ public:
 	 * Useful for converting the mouse to world space.
 	 * 
 	 * \param vec vector to be converted to world space.
+	 * \param camera rendering camera.
 	 * \return 
 	 */
 	static XMFLOAT3 FromScreenToWorld(const XMFLOAT3& vec);
