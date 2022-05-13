@@ -116,6 +116,7 @@ void CT_EditorEntity_Enemy::RemoveWaypoint(int Index)
 			Engine::DestroyEntity(Waypoints[i]);
 		}
 	}
+	Waypoints = TempList;
 }
 
 CT_EditorEntity_Waypoint::CT_EditorEntity_Waypoint()
@@ -125,6 +126,7 @@ CT_EditorEntity_Waypoint::CT_EditorEntity_Waypoint()
 	sprite->LoadTexture("Resources\\EditorEntities\\WaypointIcon.dds");
 	sprite->SetRenderRect(XMUINT2(32, 32));
 	sprite->SetSpriteSize(XMUINT2(32, 32));
+	
 }
 
 void CT_EditorEntity_Waypoint::Update(float deltaTime)
@@ -134,4 +136,18 @@ void CT_EditorEntity_Waypoint::Update(float deltaTime)
 void CT_EditorEntity_Waypoint::InitialiseEntity(int SlotID)
 {
 
+}
+
+CT_EditorEntity_PlayerStart::CT_EditorEntity_PlayerStart()
+{
+	InspectType = EditorEntityType::Flag;
+	sprite = AddComponent<CSpriteComponent>();
+	sprite->LoadTexture("Resources\\EditorEntities\\Flag.dds");
+	sprite->SetRenderRect(XMUINT2(32, 32));
+	sprite->SetSpriteSize(XMUINT2(64, 64));
+	SetPosition(Vector3(320, 320, -1));
+}
+
+void CT_EditorEntity_PlayerStart::Update(float deltaTime)
+{
 }

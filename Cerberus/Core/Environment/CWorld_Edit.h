@@ -17,8 +17,8 @@ enum class EditOperationMode
 struct PropData
 {
 	std::string propName;
-	Vector2 CollisionData;
-	Vector2 AtlasSize;
+	Vector2 collisionData;
+	Vector2 atlasSize;
 };
 
 class CWorld_Editable : public CWorld
@@ -33,7 +33,7 @@ public:
 
 	//Set the current operation mode
 	 void SetOperationMode(EditOperationMode mode);
-	 void SetEntityID(int ID) { SelectedEntityID = ID; }
+	 void SetEntityID(int ID) { selectedEntityID = ID; }
 
 	//Adds a cell to the Queue, once the queue is full (2 Cells) the grid will perform a edit operation;
 	 void QueueCell(Vector2 Cell);
@@ -75,9 +75,9 @@ public:
 
 	 
 	 EditorEntityType GetInspectedItemType();
-	 CT_EditorEntity* GetInspectedItem_Standard() { return InspectedEntity; }
-	 class CT_EditorEntity_Enemy* GetInspectedItem_Enemy() { return static_cast<CT_EditorEntity_Enemy*>(InspectedEntity); }
-	 CT_EditorEntity_Waypoint* GetInspectedItem_Waypoint() { return static_cast<CT_EditorEntity_Waypoint*>(InspectedEntity); }
+	 CT_EditorEntity* GetInspectedItem_Standard() { return inspectedEntity; }
+	 class CT_EditorEntity_Enemy* GetInspectedItem_Enemy() { return static_cast<CT_EditorEntity_Enemy*>(inspectedEntity); }
+	 CT_EditorEntity_Waypoint* GetInspectedItem_Waypoint() { return static_cast<CT_EditorEntity_Waypoint*>(inspectedEntity); }
 
 	
 	void ShouldInspectEntity(Vector2 MousePos);
@@ -185,7 +185,7 @@ private:
 	 Vector2 editOrigin;
 
 	 //The slot that the current map is tied to.
-	 int MapSlot;
+	 int mapSlot;
 
 	//Whether or not an operation is taking place
 	 bool selectedCell;
@@ -194,19 +194,20 @@ private:
 	 bool isQueueLocked;
 
 	 //main editor viewport
-	 class CT_EditorMain* EditorViewport;
+	 class CT_EditorMain* editorViewport;
 
 	 //The ID of the selected entity brush, used to place entities from the content panel
-	 int SelectedEntityID;
+	 int selectedEntityID;
 
 	 //The entity currently being inspected
-	 CT_EditorEntity* InspectedEntity;
+	 CT_EditorEntity* inspectedEntity;
 
 	 //Total number of enemy entnties used for saving
-	 int TotalEnemyEntities;
+	 int totalEnemyEntities;
 	 //Total number of enemy entities used for saving
-	 int TotalPropEntities;
+	 int totalPropEntities;
 
+	 class CT_EditorEntity* playerStartEntity;
 
 	 //Full list of all editor entities
 	 std::vector<class CT_EditorEntity*> EditorEntityList;

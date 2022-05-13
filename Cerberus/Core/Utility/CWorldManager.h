@@ -12,18 +12,18 @@ public:
 
 
 	static class CWorld* GetWorld() {
-		return GameWorld;
+		return gameWorld;
 	}
 
 	static class CWorld_Editable* GetEditorWorld() {
-		return EditorWorld;
+		return editorWorld;
 	}
 
 
 
 private: 
 
-	static CWorld* GameWorld;
-	static CWorld_Editable* EditorWorld;
+	static CWorld* gameWorld;
+	static CWorld_Editable* editorWorld;
 };
 

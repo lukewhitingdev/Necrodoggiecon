@@ -3,7 +3,7 @@
 
 enum class EditorEntityType
 {
-    None, Standard, Enemy, Interactable, Waypoint
+    None, Standard, Enemy, Interactable, Waypoint, Flag
 };
 class CT_EditorEntity :
     public CEntity
@@ -12,10 +12,10 @@ protected:
 
    // class CSpriteComponent* sprite = nullptr;
 
-    int EntitySlotID;
+    int entitySlotID;
 
 
-    EditorEntityType InspectType;
+    EditorEntityType inspectType;
 
 public:
 
@@ -30,9 +30,9 @@ public:
 
     virtual void SaveEntity(int Index, int MapSlot);
 
-    EditorEntityType GetType() { return InspectType; }
+    EditorEntityType GetType() { return inspectType; }
 
-    int GetSlot() { return EntitySlotID; }
+    int GetSlot() { return entitySlotID; }
 
 
 
@@ -47,7 +47,7 @@ protected:
 
  
 
-    int ItemSlot;
+    int itemSlot;
 public:
 
 
@@ -85,7 +85,7 @@ public:
     CT_EditorEntity_Waypoint();
 
 
-    int WaypointOrder;
+    int waypointOrder;
     Vector2 GridPos;
 
     virtual void Update(float deltaTime) override;
@@ -133,6 +133,22 @@ public:
     
    
     
+
+
+
+
+
+};
+
+class CT_EditorEntity_PlayerStart :
+    public CT_EditorEntity
+{
+public:
+
+    CT_EditorEntity_PlayerStart();
+
+    virtual void Update(float deltaTime) override;
+
 
 
 

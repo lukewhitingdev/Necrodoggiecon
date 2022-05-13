@@ -128,7 +128,18 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 
 		}
+
+		PlayerStartEntity = Engine::CreateEntity<CT_EditorEntity_PlayerStart>();
+		EditorEntityList.push_back(PlayerStartEntity);
+		int StartX = storedFile["PlayerStart"]["X"];
+		int StartY = storedFile["PlayerStart"]["Y"];
+		PlayerStartEntity->SetPosition((Vector3(StartX, StartY, 0) * (tileScale * tileScaleMultiplier)) + Vector3(0,0,-1));
+		
+
 	}
+
+
+	
 
 	
 
@@ -178,30 +189,66 @@ void CWorld_Editable::SaveWorld(int Slot)
 	SaveData["TileData"] = MapData;
 	SaveData["EnemyCount"] = TotalEnemyEntities;
 
+	std::vector<CT_EditorEntity_Enemy*> EnemyList;
+	std::vector<CT_EditorEntity_Waypoint*> WaypointList;
+	
+
 	for (int i = 0; i < EditorEntityList.size(); i++)
 	{
 		switch (EditorEntityList[i]->GetType())
 		{
 		case EditorEntityType::Enemy:
-			CT_EditorEntity_Enemy* TempEnemy = static_cast<CT_EditorEntity_Enemy*>(EditorEntityList[i]);
-			SaveData["Enemy"][i]["Type"] = EditorEntityList[i]->GetSlot();
+		
+			EnemyList.push_back(static_cast<CT_EditorEntity_Enemy*>(EditorEntityList[i]));
+			break;
+		case EditorEntityType::Waypoint:
 
-			SaveData["Enemy"][i]["Position"]["X"] = EditorEntityList[i]->GetPosition().x;
-			SaveData["Enemy"][i]["Position"]["Y"] = EditorEntityList[i]->GetPosition().y;
-			SaveData["Enemy"][i]["WaypointList"] = TempEnemy->Waypoints.size();
-			for (int y = 0; y < TempEnemy->Waypoints.size(); y++)
-			{
-				SaveData["Enemy"][i]["Waypoints"][y]["X"] = TempEnemy->Waypoints[y]->GridPos.x;
-				SaveData["Enemy"][i]["Waypoints"][y]["Y"] = TempEnemy->Waypoints[y]->GridPos.y;
-			}
-			
-
+			WaypointList.push_back(static_cast<CT_EditorEntity_Waypoint*>(EditorEntityList[i]));
 			break;
 		}
 	}
 
+	for (int i = 0; i < EnemyList.size(); i++)
+	{
+		if (EnemyList[i] != nullptr)
+		{
+			switch (EnemyList[i]->GetType())
+			{
+			case EditorEntityType::Enemy:
+				CT_EditorEntity_Enemy* TempEnemy = EnemyList[i];
+				SaveData["Enemy"][i]["Type"] = TempEnemy->GetSlot();
+
+				SaveData["Enemy"][i]["Position"]["X"] = TempEnemy->GetPosition().x;
+				SaveData["Enemy"][i]["Position"]["Y"] = TempEnemy->GetPosition().y;
+				
+				int TrueScale = 0;
+				for (int y = 0; y < TempEnemy->Waypoints.size(); y++)
+				{
+					if (TempEnemy->Waypoints[i] != nullptr)TrueScale++;
+
+				}
+				SaveData["Enemy"][i]["WaypointList"] = TrueScale;
+				for (int y = 0; y < TempEnemy->Waypoints.size(); y++)
+				{
+					if (TempEnemy->Waypoints[i] != nullptr)
+					{
+						SaveData["Enemy"][i]["Waypoints"][y]["X"] = TempEnemy->Waypoints[y]->GridPos.x;
+						SaveData["Enemy"][i]["Waypoints"][y]["Y"] = TempEnemy->Waypoints[y]->GridPos.y;
+					}
+				}
 
 
+				break;
+			}
+		}
+		
+	}
+
+	int StartX = PlayerStartEntity->GetPosition().x / (tileScale * tileScaleMultiplier);
+	int StartY = PlayerStartEntity->GetPosition().y / (tileScale * tileScaleMultiplier);
+	SaveData["PlayerStart"]["X"] = StartX;
+	SaveData["PlayerStart"]["Y"] = StartY;
+	
 
 	std::ofstream o(fileName);
 	o << SaveData;
@@ -823,7 +870,19 @@ void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 
 void CWorld_Editable::MoveSelectedEntity(Vector3 Position)
 {
-	if (InspectedEntity != nullptr)
+	Vector3 CurPos = InspectedEntity->GetPosition() / (tileScale * tileScaleMultiplier);
+
+	if (InspectedEntity != nullptr) 
+	{
+		Vector2 Pos2d = Vector2(Position.x, Position.y);
+		Vector3 NewPos = Position * (tileScale * tileScaleMultiplier);
+		NewPos.z = -1;
+		if (tileContainer[GridToIndex(Pos2d)]->IsWalkable())
+		{
+			InspectedEntity->SetPosition(NewPos);
+		}
+	}
+	if (InspectedEntity != nullptr && !tileContainer[GridToIndex(Vector2(CurPos.x, CurPos.y))]->IsWalkable())
 	{
 		Vector2 Pos2d = Vector2(Position.x, Position.y);
 		Vector3 NewPos = Position * (tileScale * tileScaleMultiplier);
@@ -837,19 +896,22 @@ void CWorld_Editable::MoveSelectedEntity(Vector3 Position)
 
 void CWorld_Editable::RemoveSelectedEntity()
 {
-
-	for (int i = 0; i < EditorEntityList.size(); i++)
+	if (InspectedEntity != nullptr && InspectedEntity->GetType() != EditorEntityType::Flag)
 	{
-		if (EditorEntityList[i] == InspectedEntity)
+		for (int i = 0; i < EditorEntityList.size(); i++)
 		{
-			EditorEntityList.erase(EditorEntityList.begin() + i);
+			if (EditorEntityList[i] == InspectedEntity)
+			{
+				EditorEntityList.erase(EditorEntityList.begin() + i);
 
-			Engine::DestroyEntity(InspectedEntity);
+				Engine::DestroyEntity(InspectedEntity);
 
-			TotalEnemyEntities--;
-			break;
+				TotalEnemyEntities--;
+				break;
+			}
 		}
 	}
+	
 
 }
 
