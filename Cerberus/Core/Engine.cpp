@@ -28,8 +28,7 @@
 #include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
 using namespace Inputs;
 #include <chrono>
-
-std::vector<CEntity*> Engine::entities = std::vector<CEntity*>();
+#include <unordered_map>
 
 XMMATRIX Engine::projMatrixUI = XMMatrixIdentity();
 
@@ -592,15 +591,15 @@ HRESULT ResizeSwapChain(XMUINT2 newSize)
 	return hr;
 }
 
+#include <map>
+
 //--------------------------------------------------------------------------------------
 // Clean up the objects we've created
 //--------------------------------------------------------------------------------------
 void CleanupDevice()
 {
-	for (int i = 0; i < Engine::entities.size(); i++)
-		delete Engine::entities[i];
-
-	Engine::entities.clear();
+	for (auto it = EntityManager::GetEntitiesMap()->begin(); it != EntityManager::GetEntitiesMap()->end(); it++)
+		delete it->second;
 
 	// Remove any bound render target or depth/stencil buffer
 	ID3D11RenderTargetView* nullViews[] = { nullptr };
@@ -665,16 +664,9 @@ double CalculateDeltaTime(const unsigned short fpsCap)
 void Engine::DestroyEntity(CEntity* targetEntity)
 {
 	{
-		for (size_t i = 0; i < entities.size(); i++)
-		{
-			CEntity* entity = entities[i];
-			if (entity == targetEntity)
-			{
-				entities.erase(entities.begin() + i);
-				delete entity;
-				return;
-			}
-		}
+		EntityManager::RemoveEntity(targetEntity);
+
+		delete targetEntity;
 	}
 }
 
@@ -811,9 +803,9 @@ void Engine::Stop()
 
 void Update(float deltaTime)
 {
-	for (int i=0; i < Engine::entities.size(); i++)
+	for (auto it = EntityManager::GetEntitiesMap()->begin(); it != EntityManager::GetEntitiesMap()->end(); it++)
 	{
-		CEntity* e = Engine::entities[i];
+		CEntity* e = it->second;
 		if (!e->shouldUpdate)
 			continue;
 		
@@ -827,9 +819,9 @@ void Update(float deltaTime)
 		e->Update(deltaTime);
 		if (e->shouldMove)
 		{
-			for (size_t j = 0; j < Engine::entities.size(); j++)
+			for (auto it2 = EntityManager::GetEntitiesMap()->begin(); it2 != EntityManager::GetEntitiesMap()->end(); it2++)
 			{
-				CEntity* currentEntity = Engine::entities[j];
+				CEntity* currentEntity = it2->second;
 
 				if (e != currentEntity && currentEntity->colComponent != nullptr)
 				{
@@ -892,17 +884,41 @@ void Render()
 	// Set primitive topology
 	Engine::deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	for (auto& e : Engine::entities) if (e->visible)
+	for (auto it = EntityManager::GetOpaqueCompsMap()->begin(); it != EntityManager::GetOpaqueCompsMap()->end(); it++)
 	{
-		XMFLOAT4X4 entTransform = e->GetTransform();
-
-		for (auto& f : e->components) if (f->shouldDraw)
+		CComponent* c = it->second;
+		CEntity* e = c->GetParent();
+		if (e->visible)
 		{
-			ConstantBuffer cb1;
-			cb1.mView = viewMat;
-			cb1.mProjection = projMat;
+			XMFLOAT4X4 entTransform = e->GetTransform();
 
-			f->Draw(Engine::deviceContext, entTransform, cb1, constantBuffer);
+			if (c->shouldDraw)
+			{
+				ConstantBuffer cb1;
+				cb1.mView = viewMat;
+				cb1.mProjection = projMat;
+
+				c->Draw(Engine::deviceContext, entTransform, cb1, constantBuffer);
+			}
+		}
+	}
+
+	for (auto it = EntityManager::GetTranslucentCompsVector()->begin(); it != EntityManager::GetTranslucentCompsVector()->end(); it++)
+	{
+		CComponent* c = it[0];
+		CEntity* e = c->GetParent();
+		if (e->visible)
+		{
+			XMFLOAT4X4 entTransform = e->GetTransform();
+
+			if (c->shouldDraw)
+			{
+				ConstantBuffer cb1;
+				cb1.mView = viewMat;
+				cb1.mProjection = projMat;
+
+				c->Draw(Engine::deviceContext, entTransform, cb1, constantBuffer);
+			}
 		}
 	}
 

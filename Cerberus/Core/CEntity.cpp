@@ -9,6 +9,8 @@ CEntity::~CEntity()
 void CEntity::RemoveComponent(CComponent* reference)
 {
 	{
+		EntityManager::RemoveComponent(reference);
+
 		for (size_t i = 0; i < components.size(); i++)
 		{
 			CComponent* component = components[i];

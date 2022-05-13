@@ -38,6 +38,7 @@ public:
 		CComponent* tmp = new T();
 		tmp->SetParent(this);
 		components.push_back(tmp);
+		EntityManager::AddComponent(tmp);
 		return dynamic_cast<T*>(tmp);
 	}
 

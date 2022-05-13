@@ -1,5 +1,4 @@
 #pragma once
-#include "Core/Engine.h"
 #include <unordered_map>
 
 class EntityManager
