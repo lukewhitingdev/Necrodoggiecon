@@ -512,6 +512,11 @@ void CAIController::SetCurrentState(State& state)
 	currentState->Enter(this); // do stuff after we change state
 }
 
+
+
+
+
+
 void CAIController::SetRotationSpeed(float speed)
 {
 	rotationSpeed = speed;
