@@ -7,7 +7,7 @@
 PlayerCharacter::PlayerCharacter()
 {
 	spriteComponent = AddComponent<CAnimationSpriteComponent>();
-	spriteComponent->LoadTextureWIC("Resources\\manSS.png");
+	spriteComponent->LoadTextureWIC("Resources/manSS.png");
 	spriteComponent->SetRenderRect(XMUINT2(16, 16));
 	spriteComponent->SetSpriteSize(XMUINT2(64, 64));
 	spriteComponent->SetAnimationSpeed(15);
@@ -17,7 +17,7 @@ PlayerCharacter::PlayerCharacter()
 
 	loadNoise = AddComponent<CAudioEmitterComponent>();
 	loadNoise->Load("Resources/TestShortAudio.wav");
-	loadNoise->SetRange(10000.0f);
+	loadNoise->SetRange(10000.0f);  
 }
 
 void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)

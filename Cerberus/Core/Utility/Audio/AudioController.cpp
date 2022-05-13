@@ -50,9 +50,7 @@ CAudio* AudioController::LoadAudio(std::string path)
 
 	FMOD_RESULT result;
 
-	std::string fullPath = SOLUTION_DIR + path;
-
-	if ((result = FMODSystem->createSound(fullPath.c_str(), FMOD_2D, nullptr, &sound)) != FMOD_OK)
+	if ((result = FMODSystem->createSound(path.c_str(), FMOD_2D, nullptr, &sound)) != FMOD_OK)
 	{
 		Debug::LogError("[Load Audio][%s] FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
 		return nullptr;
