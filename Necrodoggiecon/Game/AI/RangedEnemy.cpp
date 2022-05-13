@@ -43,7 +43,7 @@ void RangedEnemy::Update(float deltaTime)
 	SetPosition(aiPosition);
 }
 
-void RangedEnemy::ChasePlayer(PlayerCharacter* player)
+void RangedEnemy::ChasePlayer(CCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 	{
@@ -56,7 +56,7 @@ void RangedEnemy::ChasePlayer(PlayerCharacter* player)
 	}
 }
 
-void RangedEnemy::AttackPlayer(PlayerCharacter* player)
+void RangedEnemy::AttackPlayer(CCharacter* player)
 {
 }
 

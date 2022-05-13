@@ -8,6 +8,8 @@
  *********************************************************************/
 
 #include "Cerberus/Core/AI/CAIController.h"
+#include "Necrodoggiecon/Game/weapons.h"
+
 class MeleeEnemy :
     public CAIController
 {
@@ -15,8 +17,12 @@ public:
     MeleeEnemy();
     virtual void Update(float deltaTime) override;
 
-    virtual void ChasePlayer(PlayerCharacter* player) override;
-    virtual void AttackPlayer(PlayerCharacter* player) override;
+    virtual void ChasePlayer(CCharacter* player) override;
+    virtual void AttackPlayer(CCharacter* player) override;
     virtual void GetIntoCover() override;
+
+private:
+    std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
+    Weapon* weapon = nullptr;
 };
 

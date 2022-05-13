@@ -382,7 +382,7 @@ void CAIController::Investigating(Vector3 positionOfInterest)
 /**
  * Seek towards the player and if it gets close then switch to the attacking state.
  */
-void CAIController::ChasePlayer(PlayerCharacter* player)
+void CAIController::ChasePlayer(CCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 	{
@@ -400,11 +400,8 @@ void CAIController::ChasePlayer(PlayerCharacter* player)
  * 
  * \param player Player to attack.
  */
-void CAIController::AttackPlayer(PlayerCharacter* player)
+void CAIController::AttackPlayer(CCharacter* player)
 {
-	playersController[0]->Unpossess();
-	Engine::DestroyEntity(player);
-	players = Engine::GetEntityOfType<PlayerCharacter>();
 }
 
 /**
@@ -440,7 +437,7 @@ void CAIController::CheckForPlayer()
 		if (players.size() > 0)
 		{
 			// Check each player.
-			for (PlayerCharacter* player : players)
+			for (CCharacter* player : players)
 			{
 				// Check if the AI can see the player.
 				if (CanSee(player->GetPosition()) == true)

@@ -14,6 +14,8 @@ MeleeEnemy::MeleeEnemy()
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
+
+	weapon = new Weapon();
 }
 
 void MeleeEnemy::Update(float deltaTime)
@@ -43,7 +45,7 @@ void MeleeEnemy::Update(float deltaTime)
 	SetPosition(aiPosition);
 }
 
-void MeleeEnemy::ChasePlayer(PlayerCharacter* player)
+void MeleeEnemy::ChasePlayer(CCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 	{
@@ -56,8 +58,11 @@ void MeleeEnemy::ChasePlayer(PlayerCharacter* player)
 	}
 }
 
-void MeleeEnemy::AttackPlayer(PlayerCharacter* player)
+void MeleeEnemy::AttackPlayer(CCharacter* player)
 {
+	playersController[0]->Unpossess();
+	Engine::DestroyEntity(player);
+	players = Engine::GetEntityOfType<CCharacter>();
 }
 
 void MeleeEnemy::GetIntoCover()

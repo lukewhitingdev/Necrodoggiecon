@@ -15,15 +15,11 @@
 #include "Cerberus\Core\Environment/CWorld.h"
 #include "Cerberus/Core/Engine.h"
 #include "Cerberus/Core/Utility/Audio/AudioController.h"
-
 #include "Cerberus/Core/AI/CAICharacter.h"
-#include "Necrodoggiecon\Game\CPlayer.h"
-#include "Necrodoggiecon\Game\testClass.h"
 
 #include "Cerberus/Core/AI/CAINode.h"
 #include "Cerberus/Core/AI/State.h"
 #include "Cerberus/Core/AI/Pathfinding.h"
-#include "Necrodoggiecon\Game\PlayerCharacter.h"
 #include "Necrodoggiecon\Game\CCharacter.h"
 #include "Necrodoggiecon/Game/PlayerController.h"
 
@@ -63,8 +59,8 @@ public:
 	void SearchForPlayer();
 	void Investigating(Vector3 positionOfInterest);
 	
-	virtual void ChasePlayer(PlayerCharacter* player);
-	virtual void AttackPlayer(PlayerCharacter* player);
+	virtual void ChasePlayer(CCharacter* player);
+	virtual void AttackPlayer(CCharacter* player);
 	virtual void GetIntoCover() {};
 
 	void SetCurrentState(State& state);
@@ -105,10 +101,10 @@ protected:
 
 	int currentCount;
 
-	PlayerCharacter* playerToKill = nullptr;
-	PlayerCharacter* playerToChase = nullptr;
-	std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
-	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
+	CCharacter* playerToKill = nullptr;
+	CCharacter* playerToChase = nullptr;
+	
+	std::vector<CCharacter*> players = Engine::GetEntityOfType<CCharacter>();
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 	class CSpriteComponent* viewSprite = nullptr;
 
