@@ -105,7 +105,6 @@ int Start()
 
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
-	character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	character1->droppedItem = droppedItem;
 
 	controller->charOne = character1;
