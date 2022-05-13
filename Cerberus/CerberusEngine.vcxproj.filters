@@ -51,6 +51,7 @@
     <ClCompile Include="Core\AI\Pathfinding.cpp" />
     <ClCompile Include="Core\AI\CAIController.cpp" />
     <ClCompile Include="Core\AI\CAICharacter.cpp" />
+    <ClCompile Include="Core\Components\CRigidBodyComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Microsoft\DDSTextureLoader.h" />
@@ -124,6 +125,7 @@
     <ClInclude Include="Core\AI\CAINode.h" />
     <ClInclude Include="Core\AI\CAIController.h" />
     <ClInclude Include="Core\AI\CAICharacter.h" />
+    <ClInclude Include="Core\Components\CRigidBodyComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

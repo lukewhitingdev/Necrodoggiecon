@@ -75,6 +75,9 @@
     <ClCompile Include="Game\AI\CAIController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game\weapons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Game\AI\Pathfinding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -146,6 +149,14 @@
     <ClInclude Include="Game\AI\CAINode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game\weapons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Weapons.json">
+      <Filter>Resource Files</Filter>
+    </None>
     <ClInclude Include="Game\AI\Pathfinding.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -3,6 +3,8 @@
 #include <Cerberus\Core\Environment\IInputable.h>
 #include "Cerberus/Core/Components/CAudioEmitterComponent.h"
 
+#include "weapons.h"
+
 class CDroppedItem;
 class CEquippedItem;
 
@@ -20,6 +22,7 @@ public:
 	void PressedVertical(int dir, float deltaTime) override;
 	void PressedInteract() override;
 	void PressedDrop() override;
+	void Attack() override;
 	virtual void Update(float deltaTime) override;
 
 	CDroppedItem* droppedItem = nullptr;
