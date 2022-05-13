@@ -110,7 +110,7 @@ CEntity* weapons::GetClosestEnemy(Vector3 actorPos)
 	{
 
 		if (actorPos.DistanceTo(enemy->GetPosition()) > range)
-			break;
+			continue;
 
 		if (closestEnemy == nullptr)
 			closestEnemy = enemy;
