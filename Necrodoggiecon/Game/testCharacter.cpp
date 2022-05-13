@@ -20,8 +20,6 @@ testCharacter::testCharacter()
 
 	weapon = new weapons("Dagger", USERTYPE::PLAYER);
 
-	
-	
 }
 
 void testCharacter::PressedHorizontal(int dir, float deltaTime)

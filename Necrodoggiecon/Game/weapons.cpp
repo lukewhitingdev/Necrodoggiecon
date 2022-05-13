@@ -43,6 +43,10 @@ void weapons::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players p
 		HandleMelee(actorPos, normAttackDir);
 }
 
+void weapons::Update(float deltaTime)
+{
+}
+
 void weapons::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 {
 	Vector3 damagePos = actorPos + normAttackDir * range;

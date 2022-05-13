@@ -2,11 +2,11 @@
 #include <string>
 #include <fstream>
 
+#include <Cerberus\Core\CEntity.h>
 #include "Cerberus\Core\Engine.h"
 #include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 #include "Cerberus\Core\Utility\Vector3.h"
 #include "Cerberus\Dependencies\NlohmannJson\json.hpp"
-
 
 #define rangeScale 320.0f
 
@@ -18,12 +18,13 @@ enum class USERTYPE
 	AI,
 };
 
-class weapons
+class weapons : public CEntity
 {
 public:
 	weapons(std::string weapon, USERTYPE userType);
 	void LoadWeapons(std::string weapon);
 	virtual void OnFire(Vector3 actorPos, Vector3 attackPos);
+	virtual void Update(float deltaTime) override;
 
 private:
 	void CoolDown(float attack_cooldown);
