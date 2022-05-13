@@ -1,7 +1,7 @@
 #include "CWorld_Edit.h"
 #include "Dependencies/NlohmannJson/json.hpp"
 #include "Tools/CT_EditorMain.h"
-#include "CT_EditorEntity.h"
+#include "Cerberus\Tools\CT_EditorEntity.h"
 #include <iostream>
 #include <fstream>
 

@@ -6,7 +6,7 @@
  * \date   May 2022
  *********************************************************************/
 #include "CAIController.h"
-#include "Cerberus/CWorldManager.h"
+#include "Cerberus/Core/Utility/CWorldManager.h"
 
 CAIController::CAIController()
 {

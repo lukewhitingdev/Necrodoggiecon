@@ -4,7 +4,7 @@
 #include "Cerberus\Core\Engine.h"
 #include "Cerberus\Core\Structs\CCamera.h"
 #include "Cerberus\Dependencies\IMGUI\imgui.h"
-#include "Cerberus\CWorldManager.h"
+#include "Cerberus\Core\Utility\CWorldManager.h"
 #include <DirectXMath.h>
 #include "Cerberus/Core/Components/CCameraComponent.h"
 

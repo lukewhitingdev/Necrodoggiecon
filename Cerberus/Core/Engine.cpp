@@ -26,7 +26,7 @@
 #include "Cerberus/Core/Utility/InputManager/InputManager.h"
 #include "Cerberus/Core/Components/CCameraComponent.h"
 #include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
-#include "Cerberus\CWorldManager.h"
+#include "Cerberus\Core\Utility\CWorldManager.h"
 using namespace Inputs;
 #include <chrono>
 

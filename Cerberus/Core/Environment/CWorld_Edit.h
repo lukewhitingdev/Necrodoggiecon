@@ -1,6 +1,6 @@
 #pragma once
 #include "CWorld.h"
-#include "CT_EditorEntity.h"
+#include "Cerberus\Tools\CT_EditorEntity.h"
 
 
 struct CellData
