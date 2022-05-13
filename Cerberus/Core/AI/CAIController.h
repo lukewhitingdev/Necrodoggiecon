@@ -21,6 +21,7 @@
 #include "Cerberus/Core/AI/State.h"
 #include "Cerberus/Core/AI/Pathfinding.h"
 #include "Necrodoggiecon\Game\CCharacter.h"
+#include "Necrodoggiecon\Game\PlayerCharacter.h"
 #include "Necrodoggiecon/Game/PlayerController.h"
 
 /**
@@ -104,7 +105,7 @@ protected:
 	CCharacter* playerToKill = nullptr;
 	CCharacter* playerToChase = nullptr;
 	
-	std::vector<CCharacter*> players = Engine::GetEntityOfType<CCharacter>();
+	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 	class CSpriteComponent* viewSprite = nullptr;
 

@@ -437,7 +437,7 @@ void CAIController::CheckForPlayer()
 		if (players.size() > 0)
 		{
 			// Check each player.
-			for (CCharacter* player : players)
+			for (PlayerCharacter* player : players)
 			{
 				// Check if the AI can see the player.
 				if (CanSee(player->GetPosition()) == true)

@@ -16,6 +16,7 @@ MeleeEnemy::MeleeEnemy()
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
 
 	weapon = new Weapon();
+	weapon->SetUserType(USERTYPE::AI);
 }
 
 void MeleeEnemy::Update(float deltaTime)
@@ -60,9 +61,10 @@ void MeleeEnemy::ChasePlayer(CCharacter* player)
 
 void MeleeEnemy::AttackPlayer(CCharacter* player)
 {
-	playersController[0]->Unpossess();
-	Engine::DestroyEntity(player);
-	players = Engine::GetEntityOfType<CCharacter>();
+	weapon->OnFire(aiPosition, heading);
+	/*playersController[0]->Unpossess();
+	Engine::DestroyEntity(player);*/
+	players = Engine::GetEntityOfType<PlayerCharacter>();
 }
 
 void MeleeEnemy::GetIntoCover()
