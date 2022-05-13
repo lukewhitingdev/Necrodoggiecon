@@ -12,8 +12,6 @@ weaponUI::weaponUI()
 	spriteBack->SetScale(3,1,0);
 	spriteBack->SetAnchor(XMFLOAT2(0, 1));
 	spriteBack->SetUseTranslucency(true);
-	spriteBack->material->material.Material.translucent = true;
-	spriteBack->material->UpdateMaterial();
 	spriteBack->SetTint(XMFLOAT4(0, -1, -1, 0));
 
 	ammoBack = AddComponent<CSpriteComponent>();
@@ -24,8 +22,6 @@ weaponUI::weaponUI()
 	ammoBack->SetScale(3, 1, 0);
 	ammoBack->SetAnchor(XMFLOAT2(0, 1));
 	ammoBack->SetUseTranslucency(true);
-	ammoBack->material->material.Material.translucent = true;
-	ammoBack->material->UpdateMaterial();
 	ammoBack->SetTint(XMFLOAT4(-1, 0, -1, 0));
 
 	textWeaponName = AddComponent<CTextRenderComponent>();
