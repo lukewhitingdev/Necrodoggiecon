@@ -29,7 +29,7 @@ void Weapon::CoolDown(float attack_cooldown)
 {
 	if (cooldown > 0)
 	{
-		cooldown -= 0.1 * deltaTime;
+		cooldown -= 0.1 * attack_cooldown;
 	}
 	if (cooldown <= 0)
 	{

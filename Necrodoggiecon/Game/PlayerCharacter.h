@@ -5,8 +5,6 @@
 
 #include "weapons.h"
 
-#include "weapons.h"
-
 class CDroppedItem;
 class CEquippedItem;
 
@@ -30,7 +28,7 @@ public:
 	CDroppedItem* droppedItem = nullptr;
 	CEquippedItem* equippedItem = nullptr;
 
-	weapons* weapon = nullptr;
+	Weapon* weapon = nullptr;
 	class CCameraComponent* camera = nullptr;
 	CAudioEmitterComponent* loadNoise;
 };
