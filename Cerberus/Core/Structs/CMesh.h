@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   CMesh.h
+ * \brief  Holds all information about a mesh for use by CSpriteComponent.
+ * 
+ * \author Arrien Bidmead
+ * \date   January 2022
+ *********************************************************************/
+
 #pragma once
 #include "Cerberus\Core\Engine.h"
 
@@ -7,8 +15,10 @@ struct SimpleVertex
 	XMFLOAT2 TexCoord;
 };
 
-//Holds all information about a mesh for use by CSpriteComponent
-//Right now only stores a hardcoded quad - might need extending in future for new shapes
+/**
+ * Holds all information about a mesh for use by CSpriteComponent.
+ * Right now only stores a hardcoded quad - might need extending in future for new shapes.
+ */
 struct CMesh
 {
 	ID3D11Buffer* vertexBuffer;

@@ -1,28 +1,31 @@
-#include "TestUI.h"
+#include "Necrodoggiecon/Game/TestUI.h"
+#include "Cerberus\Core\Components\CAnimationSpriteComponent.h"
 #include "Cerberus\Core\Components\CTextRenderComponent.h"
 #include "Cerberus\Core\Components\CSpriteComponent.h"
 #include "Cerberus\Core\Structs\CCamera.h"
+#include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
 #include <sstream>
 
 TestUI::TestUI()
 {
 	SetPosition(0, 0, -100);
 
-	birb = AddComponent<CSpriteComponent>();
+	birb = AddComponent<CAnimationSpriteComponent>();
 	birb->LoadTextureWIC("Resources\\birb.png");
 	birb->SetRenderRect(XMUINT2(128, 128));
 	birb->SetSpriteSize(XMUINT2(128, 128));
 	birb->SetPosition(560, -296, 0);
 	birb->SetAnchor(XMFLOAT2(1, 1));
+	birb->SetAnimationRectSize(XMUINT2(5, 2));
 
 	text1 = AddComponent<CTextRenderComponent>();
 	text1->SetJustification(TextJustification::Right);
-	text1->SetPosition(-625, -346, 0);
+	text1->SetPosition(-625, -146, 0);
 	text1->SetAnchor(XMFLOAT2(0, 1));
 
 	text2 = AddComponent<CTextRenderComponent>();
 	text2->SetJustification(TextJustification::Right);
-	text2->SetPosition(-625, -326, 0);
+	text2->SetPosition(-625, -126, 0);
 	text2->SetAnchor(XMFLOAT2(0, 1));
 
 	text3 = AddComponent<CTextRenderComponent>();
@@ -45,13 +48,15 @@ TestUI::TestUI()
 
 void TestUI::Update(float deltaTime)
 {
+	CCameraComponent* camera = CameraManager::GetRenderingCamera();
+
+	if (camera == nullptr)
+		return;
+
 	timeElapsed += deltaTime;
 	textTimer += deltaTime; 
 	fpsTimer += deltaTime;
 	framesTotal++;
-
-	const uint32_t speed = 24;
-	birb->SetTextureOffset(XMFLOAT2(round(timeElapsed * speed) * 128, float((int(round(timeElapsed * speed) / 5) % 2)) * 128));
 
 	if (textTimer >= 5)
 	{
@@ -66,11 +71,11 @@ void TestUI::Update(float deltaTime)
 	}
 
 	std::stringstream ss;
-	ss << "Zoom:" << Engine::camera.GetZoom();
+	ss << "Zoom:" << camera->GetZoomLevel();
 	text1->SetText(ss.str());
 
 	ss.str("");
-	ss << "X:" << round(Engine::camera.GetCameraPosition().x) << " Y:" << round(Engine::camera.GetCameraPosition().y);
+	ss << "X:" << round(camera->GetPosition().x) << " Y:" << round(camera->GetPosition().y);
 	text2->SetText(ss.str());
 
 	if (fpsTimer > 0.5)

@@ -1,17 +1,22 @@
-#include "testController.h"
-#include "testCharacter.h"
+#include "PlayerController.h"
+
 #include "ItemDatabase.h"
 #include "CEquippedItem.h"
 
 #include <Necrodoggiecon\Game\CursorEntity.h>
 #include <Necrodoggiecon\Game\AI/CAICharacter.h>
 
-void testController::Update(float deltaTime)
+
+PlayerController::PlayerController()
+{
+}
+
+void PlayerController::Update(float deltaTime)
 {
 	HandleInput(deltaTime);
 }
 
-void testController::HandleInput(float deltaTime)
+void PlayerController::HandleInput(float deltaTime)
 {
 	if (!HasCharacter()) return;
 	
@@ -30,38 +35,22 @@ void testController::HandleInput(float deltaTime)
 		inputable->PressedInteract();
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::G))
 		inputable->PressedDrop();
-
+	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::L))
+		charOne->loadNoise->Play();
 
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
 	{
-		//EquippedItem* item = ItemDatabase::Instance()->CreateItemFromID(0);
-		//testCharacter* item = Engine::CreateEntity<testCharacter>();
 		CursorEntity* item = Engine::CreateEntity<CursorEntity>();
-		//CAICharacter* item = Engine::CreateEntity<CAICharacter>();
 		item->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
 	}
 }
 
-void testController::SwapChar()
-{
-	if (charIndex == 1)
-	{
-		Possess(charTwo);
-		charIndex = 2;
-	}
-	else if (charIndex == 2)
-	{
-		Possess(charOne);
-		charIndex = 1;
-	}
-}
-
-void testController::OnPossess()
+void PlayerController::OnPossess()
 {
 	inputable = dynamic_cast<IInputable*>(GetCharacter());
 }
 
-void testController::OnUnpossess()
+void PlayerController::OnUnpossess()
 {
 	inputable = nullptr;
 }

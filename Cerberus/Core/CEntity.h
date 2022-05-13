@@ -1,11 +1,21 @@
+/*****************************************************************//**
+ * \file   CEntity.h
+ * \brief  Fundimental class of the engine with a world transform and ability to have components.
+ * 
+ * \author Arrien Bidmead
+ * \date   January 2022
+ *********************************************************************/
+
 #pragma once
 
 #include "Cerberus\Core\CComponent.h"
 #include "Cerberus/Core/Utility/CollisionManager/CollisionComponent.h"
 #include "Cerberus\Core\Utility\Vector3.h"
 
-////Fundimental class of the engine with a world transform and ability to have components
-//Use for all gameplay things in the world
+/**
+ * Fundimental class of the engine with a world transform and ability to have components.
+ * Use for all gameplay things in the world.
+ */
 class CEntity : public CTransform
 {
 
@@ -16,7 +26,9 @@ public:
 
 	std::vector<CComponent*> components;
 	
-	//Updated automatically every single frame
+	/**
+	 * Updated automatically every single frame.
+	 */
 	virtual void Update(float deltaTime) = 0;
 	virtual ~CEntity();
 
@@ -29,8 +41,13 @@ public:
 		return dynamic_cast<T*>(tmp);
 	}
 
-	// Removes the specified component.
+	/**
+	 * Removes the specified component.
+	 */
 	void RemoveComponent(CComponent* reference);
 	CollisionComponent* colComponent = nullptr;
-	virtual void HasCollided(CollisionComponent* collidedObject) { UNREFERENCED_PARAMETER(collidedObject); };
+	virtual void HasCollided(CollisionComponent* collidedObject) {
+		colComponent->Resolve(collidedObject);
+		this->SetPosition(colComponent->GetPosition());
+	};
 };
