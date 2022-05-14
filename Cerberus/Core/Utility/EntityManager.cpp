@@ -15,14 +15,9 @@ void EntityManager::AddEntity(CEntity* entityToAdd)
 void EntityManager::RemoveEntity(const CEntity* entityToRemove)
 {
 	if (entities.find((uintptr_t)entityToRemove) != entities.end())
-	{
 		entities.erase((uintptr_t)entityToRemove);
-	}
 	else
-	{
 		Debug::LogError("Tried to remove an entity that doesnt exist.");
-		return;
-	}
 }
 
 void EntityManager::AddComponent(CComponent* compToAdd)
@@ -40,24 +35,16 @@ void EntityManager::RemoveComponent(const CComponent* compToRemove)
 		auto iterator = std::find(translucentComps.begin(), translucentComps.end(), compToRemove);
 
 		if (iterator != translucentComps.end())
-		{
+			translucentComps.erase(iterator);
+		else
 			Debug::LogError("Tried to remove an translucent component that doesnt exist.");
-			return;
-		}
-
-		translucentComps.erase(iterator);
 	}
 	else
 	{
 		if (opaqueComps.find((uintptr_t)compToRemove) != opaqueComps.end())
-		{
 			opaqueComps.erase((uintptr_t)compToRemove);
-		}
 		else
-		{
 			Debug::LogError("Tried to remove an opaque component that doesnt exist.");
-			return;
-		}
 	}
 }
 

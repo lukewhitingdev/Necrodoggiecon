@@ -5,24 +5,20 @@
 weaponUI::weaponUI()
 {
 	spriteBack = AddComponent<CSpriteComponent>();
-	spriteBack->LoadTextureWIC("Resources\\blur1.png");
-	spriteBack->SetRenderRect(XMUINT2(64, 64));
-	spriteBack->SetSpriteSize(XMUINT2(64, 64));
-	spriteBack->SetPosition(-450, -280, 0);
-	spriteBack->SetScale(3,1,0);
+	spriteBack->LoadTextureWIC("Resources\\uiBackground.png");
+	spriteBack->SetSpriteSize(XMUINT2(70, 70));
+	spriteBack->SetPosition(-600, -320, 1);
 	spriteBack->SetAnchor(XMFLOAT2(0, 1));
 	spriteBack->SetUseTranslucency(true);
-	spriteBack->SetTint(XMFLOAT4(0, -1, -1, 0));
+	spriteBack->SetTint(XMFLOAT4(0, 0, 0, -0.3f));
 
 	ammoBack = AddComponent<CSpriteComponent>();
-	ammoBack->LoadTextureWIC("Resources\\blur3.png");
-	ammoBack->SetRenderRect(XMUINT2(64, 64));
-	ammoBack->SetSpriteSize(XMUINT2(64, 64));
-	ammoBack->SetPosition(-463, -320, 1);
-	ammoBack->SetScale(3, 1, 0);
+	ammoBack->LoadTextureWIC("Resources\\uiBackground.png");
+	ammoBack->SetSpriteSize(XMUINT2(240, 70));
+	ammoBack->SetPosition(-464, -320, 1);
 	ammoBack->SetAnchor(XMFLOAT2(0, 1));
 	ammoBack->SetUseTranslucency(true);
-	ammoBack->SetTint(XMFLOAT4(-1, 0, -1, 0));
+	ammoBack->SetTint(XMFLOAT4(0, 0, 0, -0.3f));
 
 	textWeaponName = AddComponent<CTextRenderComponent>();
 	textWeaponName->SetJustification(TextJustification::Center);
