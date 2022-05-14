@@ -56,19 +56,17 @@ void EntityManager::SortTranslucentComponents()
 			XMMATRIX aMat = XMLoadFloat4x4(&ivalue);
 			ivalue = a->GetParent()->GetTransform();
 			XMMATRIX aMat2 = XMLoadFloat4x4(&ivalue);
-			XMVECTOR aPos;
-			XMVECTOR junk1;
-			XMVECTOR junk2;
-			XMMatrixDecompose(&junk1, &junk2, &aPos, aMat * aMat2);
+			XMVECTOR aPos = { 0,0,0,0 };
+			aPos = XMVector3Transform(aPos, aMat * aMat2);
 
 			ivalue = b->GetTransform();
 			XMMATRIX bMat = XMLoadFloat4x4(&ivalue);
 			ivalue = b->GetParent()->GetTransform();
 			XMMATRIX bMat2 = XMLoadFloat4x4(&ivalue);
-			XMVECTOR bPos;
-			XMMatrixDecompose(&junk1, &junk2, &bPos, bMat * bMat2);
+			XMVECTOR bPos = { 0,0,0,0 };
+			bPos = XMVector3Transform(bPos, bMat * bMat2);
 
-			return XMVectorGetZ(aPos) > XMVectorGetZ(bPos);		//Make comparison the result Z not just component Z
+			return XMVectorGetZ(aPos) > XMVectorGetZ(bPos);
 		});
 }
 

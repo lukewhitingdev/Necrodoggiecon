@@ -46,6 +46,7 @@ public:
 	 * Removes the specified component.
 	 */
 	void RemoveComponent(CComponent* reference);
+
 	CollisionComponent* colComponent = nullptr;
 	virtual void HasCollided(CollisionComponent* collidedObject) {
 		colComponent->Resolve(collidedObject);
