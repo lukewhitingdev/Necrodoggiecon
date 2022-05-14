@@ -93,9 +93,12 @@ int Start()
 
 	CameraManager::SetRenderingCamera(lockedCameraComponent);
 
-	Engine::CreateEntity<weaponUI>();
-	Engine::CreateEntity<TestUI>();
-	Engine::CreateEntity<CursorEntity>();
+	CEntity* t = Engine::CreateEntity<weaponUI>();
+	t->SetPosition(XMFLOAT3(0, 0, -90));
+	t = Engine::CreateEntity<TestUI>();
+	t->SetPosition(XMFLOAT3(0, 0, -100));
+	t = Engine::CreateEntity<CursorEntity>();
+	t->SetPosition(XMFLOAT3(0, 0, -110));
 
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 

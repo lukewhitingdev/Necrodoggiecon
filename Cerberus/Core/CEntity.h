@@ -1,6 +1,6 @@
 /*****************************************************************//**
  * \file   CEntity.h
- * \brief  Fundimental class of the engine with a world transform and ability to have components.
+ * \brief  Fundamental class of the engine with a world transform and ability to have components.
  * 
  * \author Arrien Bidmead
  * \date   January 2022
@@ -13,7 +13,7 @@
 #include "Cerberus\Core\Utility\Vector3.h"
 
 /**
- * Fundimental class of the engine with a world transform and ability to have components.
+ * Fundamental class of the engine with a world transform and ability to have components.
  * Use for all gameplay things in the world.
  */
 class CEntity : public CTransform

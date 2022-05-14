@@ -1,6 +1,6 @@
 /*****************************************************************//**
  * \file   CComponent.h
- * \brief  Fundimental component class of the engine.
+ * \brief  Fundamental component class of the engine.
  * 
  * \author Arrien Bidmead
  * \date   January 2022
@@ -12,7 +12,7 @@
 #include "Cerberus/Core/Utility/CTransform.h"
 
 /**
- * Fundimental component class of the engine.
+ * Fundamental component class of the engine.
  * Can be extended upon to make new components to add to CEntity.
  */
 class CComponent : public CTransform

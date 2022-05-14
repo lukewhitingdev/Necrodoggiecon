@@ -500,7 +500,7 @@ HRESULT	InitWorld(int width, int height)
 	UNREFERENCED_PARAMETER(width);
 	UNREFERENCED_PARAMETER(height);
 
-	Engine::projMatrixUI = XMMatrixOrthographicLH(float(Engine::windowWidth), float(Engine::windowHeight), 0.01f, 100.0f);
+	Engine::projMatrixUI = XMMatrixOrthographicLH(float(Engine::windowWidth), float(Engine::windowHeight), -1000.0f, 1000.0f);
 
 	return S_OK;
 }

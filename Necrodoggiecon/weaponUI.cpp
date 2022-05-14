@@ -8,7 +8,7 @@ weaponUI::weaponUI()
 	spriteBack->LoadTextureWIC("Resources\\blur1.png");
 	spriteBack->SetRenderRect(XMUINT2(64, 64));
 	spriteBack->SetSpriteSize(XMUINT2(64, 64));
-	spriteBack->SetPosition(-450, -280, 3);
+	spriteBack->SetPosition(-450, -280, 0);
 	spriteBack->SetScale(3,1,0);
 	spriteBack->SetAnchor(XMFLOAT2(0, 1));
 	spriteBack->SetUseTranslucency(true);
@@ -18,7 +18,7 @@ weaponUI::weaponUI()
 	ammoBack->LoadTextureWIC("Resources\\blur3.png");
 	ammoBack->SetRenderRect(XMUINT2(64, 64));
 	ammoBack->SetSpriteSize(XMUINT2(64, 64));
-	ammoBack->SetPosition(-463, -320, 4);
+	ammoBack->SetPosition(-463, -320, 1);
 	ammoBack->SetScale(3, 1, 0);
 	ammoBack->SetAnchor(XMFLOAT2(0, 1));
 	ammoBack->SetUseTranslucency(true);
