@@ -55,6 +55,8 @@ private:
 	float attack_speed;
 	float ammo;
 	bool unique;
+	bool canFire = true;
+	float cooldown;
 
 	USERTYPE userType;
 

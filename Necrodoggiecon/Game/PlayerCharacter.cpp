@@ -82,6 +82,8 @@ void PlayerCharacter::Update(float deltaTime)
 	//LookAt(Vector3(screenVec.x, screenVec.y, screenVec.z));
 
 	colComponent->SetPosition(GetPosition());
+
+	weaponComponent->Update(deltaTime);
 }
 
 void PlayerCharacter::LookAt(Vector3 pos)

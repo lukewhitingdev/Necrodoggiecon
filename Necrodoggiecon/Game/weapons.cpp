@@ -20,17 +20,28 @@ void Weapon::SetWeapon(std::string weapon)
 	attack_speed = storedFile.at(weapon).at("Attack_Speed");
 	ammo = storedFile.at(weapon).at("Ammo");
 	unique = storedFile.at(weapon).at("Unique");
+	cooldown = attack_speed;
 
 	Debug::Log("Range %f", range);
 }
 
-void Weapon::CoolDown(float attack_cooldown)
+void Weapon::CoolDown(float deltaTime)
 {
-	while (attack_cooldown > 0)
+	if (cooldown > 0)
 	{
-		// cant attack
-		attack_cooldown - 0.1;
+		cooldown -= 0.1 * deltaTime;
 	}
+	if (cooldown <= 0)
+	{
+		Debug::Log("Cooldown Done");
+		canFire = true;
+	}
+}
+
+void Weapon::Update(float deltaTime)
+{
+	if (!canFire)
+		CoolDown(deltaTime);
 }
 
 void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players position | attackDir = mouse position
@@ -38,8 +49,29 @@ void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players po
 	//Vector3 attackDir = attackDir - actorPos;
 	auto normAttackDir = attackDir.Normalize();
 
-	if (type == "Melee")
-		HandleMelee(actorPos, normAttackDir);
+	if (canFire)
+	{
+		Debug::Log("Can Fire");
+		cooldown = attack_speed;
+		if (type == "Melee")
+		{
+			Debug::Log("Melee\n");
+			canFire = false;
+			HandleMelee(actorPos, normAttackDir);
+		}
+		else if (type == "Melee")
+		{
+			Debug::Log("Melee\n");
+		}
+		else if (type == "Melee")
+		{
+			Debug::Log("Melee\n");
+		}
+		else
+		{
+			Debug::Log("Error\n");
+		}
+	}
 }
 
 
@@ -120,9 +152,6 @@ CEntity* Weapon::GetClosestPlayer(Vector3 actorPos)
 	return closestPlayer;
 }
 
-void Weapon::Update(float deltaTime)
-{
-}
 
 void Weapon::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer)
 {

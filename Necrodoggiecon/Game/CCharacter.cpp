@@ -2,7 +2,7 @@
 
 CCharacter::CCharacter()
 {
-	rigidbody = AddComponent<CRigidBodyComponent>();
+	//rigidbody = AddComponent<CRigidBodyComponent>();
 }
 
 CCharacter::~CCharacter()
