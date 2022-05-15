@@ -71,6 +71,8 @@ void CTextRenderComponent::SetText(std::string newText)
 			break;
 		}
 	}
+
+	text = newText;
 }
 
 void CTextRenderComponent::SetReserveCount(unsigned short newReserveCount)

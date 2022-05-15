@@ -12,6 +12,7 @@
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
+#include <Necrodoggiecon/Game/DialogueUI.h>
 
 /*
 
@@ -99,10 +100,10 @@ int Start()
 
 	CameraManager::SetRenderingCamera(lockedCameraComponent);
 
-	Engine::CreateEntity<weaponUI>();
-	Engine::CreateEntity<TestUI>();
+	//Engine::CreateEntity<weaponUI>();
+	//Engine::CreateEntity<TestUI>();
 	Engine::CreateEntity<CursorEntity>();
-
+	Engine::CreateEntity<DialogueUI>();
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
 	character1->droppedItem = droppedItem;
