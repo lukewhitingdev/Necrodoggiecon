@@ -204,11 +204,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\TestUI.cpp" />
     <ClCompile Include="Game\weapons.cpp" />
     <ClCompile Include="main.cpp" />
-<<<<<<< Updated upstream
     <ClCompile Include="weaponUI.cpp" />
-=======
-    <ClCompile Include="Projectile.cpp" />
->>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\CInteractable.h" />
@@ -232,7 +228,6 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClInclude Include="Game\testItemData.h" />
     <ClInclude Include="Game\TestUI.h" />
     <ClInclude Include="Game\weapons.h" />
-    <ClInclude Include="Projectile.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />
