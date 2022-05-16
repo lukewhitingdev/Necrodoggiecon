@@ -863,10 +863,12 @@ void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 
 void CWorld_Editable::MoveSelectedEntity(Vector3 Position)
 {
-	Vector3 CurPos = inspectedEntity->GetPosition() / (tileScale * tileScaleMultiplier);
+
 
 	if (inspectedEntity != nullptr) 
 	{
+		Vector3 CurPos = inspectedEntity->GetPosition() / (tileScale * tileScaleMultiplier);
+
 		Vector2 Pos2d = Vector2(Position.x, Position.y);
 		Vector3 NewPos = Position * (tileScale * tileScaleMultiplier);
 		NewPos.z = -1;
@@ -874,17 +876,23 @@ void CWorld_Editable::MoveSelectedEntity(Vector3 Position)
 		{
 			inspectedEntity->SetPosition(NewPos);
 		}
-	}
-	if (inspectedEntity != nullptr && !tileContainer[GridToIndex(Vector2(CurPos.x, CurPos.y))]->IsWalkable())
-	{
-		Vector2 Pos2d = Vector2(Position.x, Position.y);
-		Vector3 NewPos = Position * (tileScale * tileScaleMultiplier);
-		NewPos.z = -1;
-		if (tileContainer[GridToIndex(Pos2d)]->IsWalkable())
+
+		if (!tileContainer[GridToIndex(Vector2(CurPos.x, CurPos.y))]->IsWalkable())
 		{
-			inspectedEntity->SetPosition(NewPos);
+			Vector2 Pos2d = Vector2(Position.x, Position.y);
+			Vector3 NewPos = Position * (tileScale * tileScaleMultiplier);
+			NewPos.z = -1;
+			if (tileContainer[GridToIndex(Pos2d)]->IsWalkable())
+			{
+				inspectedEntity->SetPosition(NewPos);
+			}
 		}
+
+
+
+
 	}
+	
 }
 
 void CWorld_Editable::RemoveSelectedEntity()
