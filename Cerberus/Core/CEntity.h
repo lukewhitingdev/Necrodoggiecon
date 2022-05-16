@@ -44,11 +44,13 @@ public:
 	template<class T>
 	T* GetComponent()
 	{
+		T* comp = nullptr;
 		for(auto& component : components)
 		{
-			if(dynamic_cast<T*>(component) != nullptr)
+			comp = dynamic_cast<T*>(component);
+			if(comp != nullptr)
 			{
-				return static_cast<T*>(component);
+				return comp;
 			}
 		}
 
@@ -59,11 +61,13 @@ public:
 	std::vector<T*> GetAllComponents()
 	{
 		std::vector<T*> output;
+		T* comp = nullptr;
 		for (auto& component : components)
 		{
-			if (dynamic_cast<T*>(component) != nullptr)
+			comp = dynamic_cast<T*>(component);
+			if (comp != nullptr)
 			{
-				output.push_back(static_cast<T*>(component));
+				output.push_back(comp);
 			}
 		}
 
