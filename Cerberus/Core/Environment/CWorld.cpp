@@ -1,3 +1,10 @@
+/*******************************************************************
+ * \file   CWorld.cpp
+ * \brief  Base class for the game's levels. contains all logic required for loading in and unloading a level while also containing a list of entities to be spawned in.
+ * 
+ * \author Samuel Elliot Jackson
+ * \date   May 2022
+ *********************************************************************/
 #include "CWorld.h"
 #include "Dependencies/NlohmannJson/json.hpp"
 #include <iostream>

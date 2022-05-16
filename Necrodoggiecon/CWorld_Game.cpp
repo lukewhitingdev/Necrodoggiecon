@@ -1,3 +1,10 @@
+/*******************************************************************
+ * \file   CWorld_Game.cpp
+ * \brief  Child class of CWorld created for the game, overrides world setup from parent.
+ * 
+ * \author Samuel Elliot Jackson
+ * \date   May 2022
+ *********************************************************************/
 #include "CWorld_Game.h"
 #include <Necrodoggiecon\Game\PlayerController.h>
 #include <Necrodoggiecon\Game\PlayerCharacter.h>
@@ -6,11 +13,19 @@
 #include <Cerberus/Core/Structs/CCamera.h>
 
 
+
+/**
+ * Constructor, automatically loads world based on provided slot.
+ * 
+ * \param Slot
+ * Determines which level to load.
+ */
 CWorld_Game::CWorld_Game(int Slot)
 {
 	LoadWorld(Slot);
 }
 
+/**  */
 void CWorld_Game::SetupWorld()
 {
 	PlayerController* controller = Engine::CreateEntity<PlayerController>();
