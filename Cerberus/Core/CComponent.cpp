@@ -14,6 +14,21 @@ void CComponent::SetUseTranslucency(const bool& newTranslucency)
 	EntityManager::AddComponent(this);
 }
 
+XMFLOAT3 CComponent::GetWorldPosition()
+{
+	//Not ideal, but it works for the current setup.
+	XMFLOAT4X4 ivalue = GetTransform();
+	XMMATRIX mat = XMLoadFloat4x4(&ivalue);
+	ivalue = GetParent()->GetTransform();
+	XMMATRIX mat2 = XMLoadFloat4x4(&ivalue);
+	XMVECTOR pos = { 0,0,0,0 };
+	pos = XMVector3Transform(pos, mat * mat2);
+	XMFLOAT3 result;
+	XMStoreFloat3(&result, pos);
+
+	return result;
+}
+
 XMFLOAT4X4 CComponent::GetTransform()
 {
 	if (!ui)

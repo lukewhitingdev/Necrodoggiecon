@@ -52,21 +52,7 @@ void EntityManager::SortTranslucentComponents()
 {
 	std::sort(translucentComps.begin(), translucentComps.end(), [](CComponent* a, CComponent* b) -> bool
 		{
-			XMFLOAT4X4 ivalue = a->GetTransform();
-			XMMATRIX aMat = XMLoadFloat4x4(&ivalue);
-			ivalue = a->GetParent()->GetTransform();
-			XMMATRIX aMat2 = XMLoadFloat4x4(&ivalue);
-			XMVECTOR aPos = { 0,0,0,0 };
-			aPos = XMVector3Transform(aPos, aMat * aMat2);
-
-			ivalue = b->GetTransform();
-			XMMATRIX bMat = XMLoadFloat4x4(&ivalue);
-			ivalue = b->GetParent()->GetTransform();
-			XMMATRIX bMat2 = XMLoadFloat4x4(&ivalue);
-			XMVECTOR bPos = { 0,0,0,0 };
-			bPos = XMVector3Transform(bPos, bMat * bMat2);
-
-			return XMVectorGetZ(aPos) > XMVectorGetZ(bPos);
+			return a->GetWorldPosition().z > b->GetWorldPosition().z;
 		});
 }
 

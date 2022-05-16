@@ -63,5 +63,10 @@ public:
 	virtual void Draw(struct ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) = 0;
 	virtual ~CComponent() {};
 
+	/**
+	 * Get the position of the component in world space rather than in entity space.
+	 */
+	XMFLOAT3 GetWorldPosition();
+
 	virtual XMFLOAT4X4 GetTransform() override;
 };

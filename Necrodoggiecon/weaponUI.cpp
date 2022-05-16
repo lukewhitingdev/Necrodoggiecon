@@ -1,6 +1,9 @@
 #include "weaponUI.h"
 #include <sstream>
 #include "Cerberus/Core/Utility/Math/Math.h"
+#include "Cerberus\Core\Components\CTextRenderComponent.h"
+#include "Cerberus\Core\Components\CSpriteComponent.h"
+#include "Cerberus\Core\Structs\CCamera.h"
 
 weaponUI::weaponUI()
 {
@@ -9,14 +12,16 @@ weaponUI::weaponUI()
 	spriteBack->SetSpriteSize(XMUINT2(70, 70));
 	spriteBack->SetPosition(-600, -320, 0);
 	spriteBack->SetAnchor(XMFLOAT2(0, 1));
-	spriteBack->SetTint(XMFLOAT4(0, 0, 0, -0.3f));
+	//spriteBack->SetUseTranslucency(true);
+	//spriteBack->SetTint(XMFLOAT4(0, 0, 0, -0.3f));
 
 	ammoBack = AddComponent<CSpriteComponent>();
 	ammoBack->LoadTextureWIC("Resources\\uiBackground.png");
 	ammoBack->SetSpriteSize(XMUINT2(240, 70));
 	ammoBack->SetPosition(-464, -320, 1);
 	ammoBack->SetAnchor(XMFLOAT2(0, 1));
-	ammoBack->SetTint(XMFLOAT4(0, 0, 0, -0.3f));
+	//ammoBack->SetUseTranslucency(true);
+	//ammoBack->SetTint(XMFLOAT4(0, 0, 0, -0.3f));
 
 	textWeaponName = AddComponent<CTextRenderComponent>();
 	textWeaponName->SetJustification(TextJustification::Center);
