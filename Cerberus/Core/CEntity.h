@@ -46,11 +46,7 @@ public:
 	{
 		for(auto& component : components)
 		{
-
-			std::string hash1 = typeid(*component).name();
-			std::string hash2 = typeid(T).name();
-
-			if(hash1 == hash2)
+			if(dynamic_cast<T*>(component) != nullptr)
 			{
 				return static_cast<T*>(component);
 			}
@@ -58,6 +54,23 @@ public:
 
 		return nullptr;
 	}
+
+	template<class T>
+	std::vector<T*> GetAllComponents()
+	{
+		std::vector<T*> output;
+		for (auto& component : components)
+		{
+			if (dynamic_cast<T*>(component) != nullptr)
+			{
+				output.push_back(static_cast<T*>(component));
+			}
+		}
+
+		return output;
+	}
+
+
 
 	/**
 	 * Removes the specified component.

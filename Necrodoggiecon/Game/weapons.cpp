@@ -20,16 +20,21 @@ void Weapon::SetWeapon(std::string weapon)
 	attack_speed = storedFile.at(weapon).at("Attack_Speed");
 	ammo = storedFile.at(weapon).at("Ammo");
 	unique = storedFile.at(weapon).at("Unique");
+	cooldown = attack_speed;
 
 	Debug::Log("Range %f", range);
 }
 
 void Weapon::CoolDown(float attack_cooldown)
 {
-	while (attack_cooldown > 0)
+	if (cooldown > 0)
 	{
-		// cant attack
-		attack_cooldown - 0.1;
+		cooldown -= 0.1 * attack_cooldown;
+	}
+	if (cooldown <= 0)
+	{
+		Debug::Log("Cooldown Done");
+		canFire = true;
 	}
 }
 
