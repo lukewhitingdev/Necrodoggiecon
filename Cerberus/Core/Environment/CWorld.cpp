@@ -118,24 +118,7 @@ void CWorld::LoadWorld(int Slot)
 
 void CWorld::SetupWorld()
 {
-	PlayerController* controller = Engine::CreateEntity<PlayerController>();
-	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
-
-	// Locked Camera follows player.
-	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>();
-	lockedCameraComponent->Initialize();
-	lockedCameraComponent->SetAttachedToParent(true);
-
-	CameraManager::AddCamera(lockedCameraComponent);
-
-	CameraManager::SetRenderingCamera(lockedCameraComponent);
-
-	controller->charOne = character1;
-
-	character1->SetPosition(Vector3(StartPos.x, StartPos.y, 0) * (tileScale * tileScaleMultiplier) + Vector3(0,0,-1));
-	controller->Possess(character1);
-	character1->shouldMove = true;
-	character1->colComponent->SetCollider(128.0f, 128.0f);
+	
 }
 
 void CWorld::UnloadWorld()

@@ -75,6 +75,9 @@
     <ClCompile Include="Game\CInteractable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CWorld_Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\AI\CAICharacter.h">
@@ -138,6 +141,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\CInteractable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorld_Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

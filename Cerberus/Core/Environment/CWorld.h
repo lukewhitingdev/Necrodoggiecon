@@ -93,7 +93,6 @@ protected:
 
 	
 
-private:
 
 
 	Vector2 StartPos;

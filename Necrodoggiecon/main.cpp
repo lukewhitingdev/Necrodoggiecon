@@ -1,5 +1,6 @@
 #include "Cerberus\Core\Engine.h"
 #include <Cerberus\Core\Environment\CWorld.h>
+#include "Necrodoggiecon/CWorld_Game.h"
 #include "Necrodoggiecon\Game\CPlayer.h"
 #include <Necrodoggiecon\Game\TestUI.h>
 #include <Necrodoggiecon\Game\CursorEntity.h>
@@ -86,7 +87,7 @@ int Start()
 
 	CameraManager::AddCamera(freeCameraComponent);
 
-	CWorldManager::LoadWorld(0, false);
+	CWorldManager::LoadWorld(new CWorld_Game(0));
 
 	
 
