@@ -84,6 +84,8 @@ ID3D11DepthStencilView* depthStencilView;
 ID3D11RasterizerState* fillRastState;
 ID3D11RasterizerState* wireframeRastState;
 ID3D11BlendState* blendState;
+ID3D11DepthStencilState* opaqueDepthStencilState;
+ID3D11DepthStencilState* translucentDepthStencilState;
 
 DebugOutput* debugOutputUI;
 CT_EditorMain* EditorViewport;
@@ -368,6 +370,27 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 
+	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
+	depthStencilDesc.DepthEnable = TRUE;
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	depthStencilDesc.StencilEnable = FALSE;
+	depthStencilDesc.StencilReadMask = 0xFF;
+	depthStencilDesc.StencilWriteMask = 0xFF;
+	hr = Engine::device->CreateDepthStencilState(&depthStencilDesc, &opaqueDepthStencilState);
+
+	if (FAILED(hr))
+		return hr;
+
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+
+	hr = Engine::device->CreateDepthStencilState(&depthStencilDesc, &translucentDepthStencilState);
+
+	if (FAILED(hr))
+		return hr;
+
+	Engine::deviceContext->OMSetDepthStencilState(opaqueDepthStencilState, 0);
+
 	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 	UINT sampleMask = 0xffffffff;
 
@@ -625,6 +648,8 @@ void CleanupDevice()
 	if (fillRastState) fillRastState->Release();
 	if (wireframeRastState) wireframeRastState->Release();
 	if (blendState) blendState->Release();
+	if (opaqueDepthStencilState) opaqueDepthStencilState->Release();
+	if (translucentDepthStencilState) translucentDepthStencilState->Release();
 
 	ID3D11Debug* debugDevice = nullptr;
 	Engine::device->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&debugDevice));
@@ -906,6 +931,8 @@ void Render()
 
 	EntityManager::SortTranslucentComponents();
 
+	Engine::deviceContext->OMSetDepthStencilState(translucentDepthStencilState, 0);
+
 	for (auto it = EntityManager::GetTranslucentCompsVector()->begin(); it != EntityManager::GetTranslucentCompsVector()->end(); it++)
 	{
 		CComponent* c = it[0];
@@ -924,6 +951,8 @@ void Render()
 			}
 		}
 	}
+
+	Engine::deviceContext->OMSetDepthStencilState(opaqueDepthStencilState, 0);
 
 	// Render ImGUI.
 	ImGui_ImplDX11_NewFrame();
