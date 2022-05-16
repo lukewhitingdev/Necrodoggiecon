@@ -46,11 +46,7 @@ public:
 	{
 		for(auto& component : components)
 		{
-
-			std::string hash1 = typeid(*component).name();
-			std::string hash2 = typeid(T).name();
-
-			if(hash1 == hash2)
+			if(dynamic_cast<T*>(component) != nullptr)
 			{
 				return static_cast<T*>(component);
 			}
@@ -58,6 +54,8 @@ public:
 
 		return nullptr;
 	}
+
+
 
 	/**
 	 * Removes the specified component.
