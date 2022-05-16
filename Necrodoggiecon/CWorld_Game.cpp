@@ -42,8 +42,12 @@ void CWorld_Game::SetupWorld()
 
 	controller->charOne = character1;
 
-	character1->SetPosition(Vector3(StartPos.x, StartPos.y, 0) * (tileScale * tileScaleMultiplier) + Vector3(0, 0, -1));
+	
+	Vector3 PlayerStart = Vector3(StartPos.x, StartPos.y, 0) * (tileScale * tileScaleMultiplier) + Vector3(0, 0, -1);
+	Debug::Log("Player Start Position: [%f | %f]", PlayerStart.x, PlayerStart.y);
+	character1->SetPosition(PlayerStart);
 	controller->Possess(character1);
 	character1->shouldMove = true;
 	character1->colComponent->SetCollider(128.0f, 128.0f);
+
 }
