@@ -55,6 +55,21 @@ public:
 		return nullptr;
 	}
 
+	template<class T>
+	std::vector<T*> GetAllComponents()
+	{
+		std::vector<T*> output;
+		for (auto& component : components)
+		{
+			if (dynamic_cast<T*>(component) != nullptr)
+			{
+				output.push_back(static_cast<T*>(component));
+			}
+		}
+
+		return output;
+	}
+
 
 
 	/**
