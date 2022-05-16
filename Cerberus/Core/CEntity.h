@@ -41,6 +41,37 @@ public:
 		return dynamic_cast<T*>(tmp);
 	}
 
+	template<class T>
+	T* GetComponent()
+	{
+		for(auto& component : components)
+		{
+			if(dynamic_cast<T*>(component) != nullptr)
+			{
+				return static_cast<T*>(component);
+			}
+		}
+
+		return nullptr;
+	}
+
+	template<class T>
+	std::vector<T*> GetAllComponents()
+	{
+		std::vector<T*> output;
+		for (auto& component : components)
+		{
+			if (dynamic_cast<T*>(component) != nullptr)
+			{
+				output.push_back(static_cast<T*>(component));
+			}
+		}
+
+		return output;
+	}
+
+
+
 	/**
 	 * Removes the specified component.
 	 */

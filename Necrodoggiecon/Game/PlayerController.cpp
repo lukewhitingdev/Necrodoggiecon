@@ -22,7 +22,6 @@ void PlayerController::HandleInput(float deltaTime)
 	
 	if (inputable == nullptr) return;
 
-
 	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::D))
 		inputable->PressedHorizontal(1, deltaTime);
 	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::A))
@@ -37,6 +36,9 @@ void PlayerController::HandleInput(float deltaTime)
 		inputable->PressedDrop();
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::L))
 		charOne->loadNoise->Play();
+
+	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::Mouse::LButton))
+		inputable->Attack();
 
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
 	{

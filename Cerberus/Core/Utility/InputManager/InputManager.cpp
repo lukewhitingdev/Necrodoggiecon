@@ -494,6 +494,45 @@ namespace Inputs
 		return Inputs::mouseKeyStates[mouse][0];
 	}
 
+	bool InputManager::IsMouseButtonPressedDown(Mouse mouse)
+	{
+		if (GetAsyncKeyState(SetMouse(mouse)) < 0)
+		{
+			if (Inputs::mouseKeyStates[mouse][0] == false)
+			{
+				Inputs::mouseKeyStates[mouse][0] = true;
+				return Inputs::mouseKeyStates[mouse][0];
+			}
+			else
+				return false;
+		}
+		else
+		{
+			Inputs::mouseKeyStates[mouse][0] = false;
+			return false;
+		}
+	}
 
+
+	bool InputManager::IsMouseButtonReleased(Mouse mouse)
+	{
+		if (GetAsyncKeyState(SetMouse(mouse)) < 0)
+		{
+			Inputs::mouseKeyStates[mouse][0] = true;
+			return false;
+		}
+		else
+		{
+			if (Inputs::mouseKeyStates[mouse][0] == true)
+			{
+				Inputs::mouseKeyStates[mouse][0] = false;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
 
 };

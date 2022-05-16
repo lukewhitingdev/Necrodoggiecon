@@ -46,8 +46,6 @@ struct Engine
 
 	static void Stop();
 
-	static void SetRenderCamera(CCameraComponent* cam);
-
 	// Drawables.
 	static std::vector<CEntity*> entities;	//Needs to be changed to CObject instead
 	

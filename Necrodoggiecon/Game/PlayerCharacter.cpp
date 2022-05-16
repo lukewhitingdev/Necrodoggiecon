@@ -17,7 +17,13 @@ PlayerCharacter::PlayerCharacter()
 
 	loadNoise = AddComponent<CAudioEmitterComponent>();
 	loadNoise->Load("Resources/TestShortAudio.wav");
-	loadNoise->SetRange(10000.0f);  
+
+	loadNoise->SetRange(10000.0f);
+
+	weaponComponent = AddComponent<Weapon>();
+	weaponComponent->SetWeapon("Dagger");
+	weaponComponent->SetUserType(USERTYPE::PLAYER);
+
 }
 
 void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)
@@ -56,6 +62,14 @@ void PlayerCharacter::PressedDrop()
 	droppedItem = equippedItem->Drop();
 	Engine::DestroyEntity(equippedItem);
 	equippedItem = nullptr;
+}
+
+void PlayerCharacter::Attack()
+{
+	
+	Vector3 attackDir = (Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z)) - GetPosition();
+
+	weaponComponent->OnFire(GetPosition(), attackDir);
 }
 
 void PlayerCharacter::Update(float deltaTime)
