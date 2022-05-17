@@ -48,6 +48,6 @@ void CWorld_Game::SetupWorld()
 	character1->SetPosition(PlayerStart);
 	controller->Possess(character1);
 	character1->shouldMove = true;
-	character1->colComponent->SetCollider(128.0f, 128.0f);
+	character1->colComponent->SetCollider(64.0f, 64.0f);
 
 }
