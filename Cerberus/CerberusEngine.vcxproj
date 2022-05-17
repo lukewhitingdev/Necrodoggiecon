@@ -370,8 +370,12 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\UI\CWidget_Button.h" />
     <ClInclude Include="Core\Utility\CameraManager\CameraManager.h" />
     <ClInclude Include="Core\Components\CCameraComponent.h" />
+    <ClInclude Include="Core\UI\CWidget.h" />
+    <ClInclude Include="CWidget_Canvas.h" />
+    <ClInclude Include="CWidget_Image.h" />
     <ClInclude Include="Tools\CT_EditorEntity.h" />
     <ClInclude Include="Core\Utility\CWorldManager.h" />
     <ClInclude Include="Core\Components\CAnimationSpriteComponent.h" />
@@ -430,8 +434,12 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\UI\CWidget_Button.cpp" />
     <ClCompile Include="Core\Utility\CameraManager\CameraManager.cpp" />
     <ClCompile Include="Core\Components\CCameraComponent.cpp" />
+    <ClCompile Include="Core\UI\CWidget.cpp" />
+    <ClCompile Include="CWidget_Canvas.cpp" />
+    <ClCompile Include="CWidget_Image.cpp" />
     <ClCompile Include="Tools\CT_EditorEntity.cpp" />
     <ClCompile Include="Core\Utility\CWorldManager.cpp" />
     <ClCompile Include="Core\Components\CAnimationSpriteComponent.cpp" />
