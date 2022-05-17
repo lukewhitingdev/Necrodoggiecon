@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   weapons.h
+ * \brief  Base Weapon class for the weapons in the game, this will be inherited by the custom classes of the weapons
+ * 
+ * \author Ben Brown & Flynn Brooks
+ * \date   May 2022
+ *********************************************************************/
 #pragma once
 #include <string>
 #include <fstream>
@@ -22,7 +29,7 @@ enum class USERTYPE
 class Weapon : public CComponent
 {
 public:
-	Weapon();
+	Weapon(std::string weapon);
 
 	void SetWeapon(std::string weapon);
 	virtual void OnFire(Vector3 actorPos, Vector3 attackDir);
@@ -42,7 +49,6 @@ public:
 private:
 	void CoolDown(float attack_cooldown);
 
-
 	void HandleMelee(Vector3 actorPos, Vector3 normAttackDir);
 	void HandleRanged();
 
@@ -50,6 +56,7 @@ private:
 	CEntity* GetClosestPlayer(Vector3 actorPos);
 
 	std::string type;
+	std::string name;
 	float damage;
 	float range;
 	float attack_speed;

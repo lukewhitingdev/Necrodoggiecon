@@ -2,9 +2,9 @@
 #include "Necrodoggiecon\Game\PlayerCharacter.h"
 #include <Necrodoggiecon\Game\AI\CAIController.h>
 
-Weapon::Weapon()
+Weapon::Weapon(std::string weapon)
 {
-	SetWeapon("Dagger");
+	SetWeapon(weapon);
 }
 
 void Weapon::SetWeapon(std::string weapon)
@@ -14,6 +14,7 @@ void Weapon::SetWeapon(std::string weapon)
 	file >> storedFile;
 
 	type = storedFile.at(weapon).at("Type");
+	name = storedFile.at(weapon).at("Name");
 	damage = storedFile.at(weapon).at("Damage");
 	range = storedFile.at(weapon).at("Range");
 	range = range * rangeScale;
@@ -29,7 +30,7 @@ void Weapon::CoolDown(float deltaTime)
 {
 	if (cooldown > 0)
 	{
-		cooldown -= 0.1 * deltaTime;
+		cooldown -= 0.1f * deltaTime;
 	}
 	if (cooldown <= 0)
 	{
@@ -46,6 +47,8 @@ void Weapon::Update(float deltaTime)
 
 void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players position | attackDir = mouse position
 {
+	Debug::Log("Weapon: %s", name.c_str());
+
 	//Vector3 attackDir = attackDir - actorPos;
 	auto normAttackDir = attackDir.Normalize();
 
@@ -81,15 +84,21 @@ void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 
 	if (userType == USERTYPE::AI)
 	{
+		Debug::Log("UserType is AI");
 		CEntity* target = GetClosestPlayer(damagePos);
 		if (target != nullptr)
 			Engine::DestroyEntity(target);
 	}
 	else if (userType == USERTYPE::PLAYER)
 	{
+		Debug::Log("UserType is PLAYER");
 		CEntity* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
 			Engine::DestroyEntity(target);
+	}
+	else
+	{
+		Debug::Log("ERROR: User Type Has not been set!!");
 	}
 	
 }

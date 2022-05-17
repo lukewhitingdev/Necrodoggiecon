@@ -5,7 +5,8 @@
     "Range": 0.5,
     "Attack_Speed": 0.5,
     "Ammo": 0.0,
-    "Unique": false
+    "Unique": false,
+    "Name":  "Dagger"
   },
   "Rapier": {
     "Type": "Melee",
@@ -13,7 +14,8 @@
     "Range": 2.0,
     "Attack_Speed": 0.5,
     "Ammo": 0.0,
-    "Unique": false
+    "Unique": false,
+    "Name":  "Rapier"
   },
   "Longsword": {
     "Type": "Melee",

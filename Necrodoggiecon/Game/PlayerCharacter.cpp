@@ -20,9 +20,9 @@ PlayerCharacter::PlayerCharacter()
 
 	loadNoise->SetRange(10000.0f);
 
-	weaponComponent = AddComponent<Weapon>();
-	weaponComponent->SetWeapon("Dagger");
+	weaponComponent = AddComponent<WeaponInterface>();
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
+	weaponComponent->SetWeapon(new Weapon("Dagger"));
 
 }
 
@@ -48,6 +48,8 @@ void PlayerCharacter::PressedVertical(int dir, float deltaTime)
 
 void PlayerCharacter::PressedInteract()
 {
+	weaponComponent->SetWeapon(new Weapon("Dagger"));
+
 	if (droppedItem == nullptr) return;
 
 	equippedItem = droppedItem->OnEquip(this);
@@ -57,6 +59,8 @@ void PlayerCharacter::PressedInteract()
 
 void PlayerCharacter::PressedDrop()
 {
+	weaponComponent->SetWeapon(new Weapon("Rapier"));
+
 	if (equippedItem == nullptr) return;
 
 	droppedItem = equippedItem->Drop();
@@ -66,8 +70,10 @@ void PlayerCharacter::PressedDrop()
 
 void PlayerCharacter::Attack()
 {
-	
-	Vector3 attackDir = (Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z)) - GetPosition();
+	XMFLOAT3 screenVec = XMFLOAT3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, Inputs::InputManager::mousePos.z);
+	screenVec = Math::FromScreenToWorld(screenVec);
+
+	Vector3 attackDir = (Vector3(screenVec.x, screenVec.y, screenVec.z)) - GetPosition();
 
 	weaponComponent->OnFire(GetPosition(), attackDir);
 }
