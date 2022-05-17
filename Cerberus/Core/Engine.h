@@ -55,9 +55,9 @@ struct Engine
 	{
 		std::vector<T*> outputVector;
 
-		for (auto it = EntityManager::GetEntitiesMap()->begin(); it != EntityManager::GetEntitiesMap()->end(); it++)
+		for (size_t i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
 		{
-			T* e = dynamic_cast<T*>(it->second);
+			T* e = dynamic_cast<T*>(EntityManager::GetEntitiesVector()->at(i));
 			if (e != nullptr)
 			{
 				outputVector.push_back(e);

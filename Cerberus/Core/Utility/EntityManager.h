@@ -14,19 +14,19 @@
  */
 class EntityManager
 {
-	static std::unordered_map<uintptr_t, class CEntity*> entities;
+	static std::vector<class CEntity*> entities;
 
-	static std::unordered_map<uintptr_t, class CComponent*> opaqueComps;
+	static std::vector<class CComponent*> opaqueComps;
 	static std::vector<class CComponent*> translucentComps;
 
 public:
 	/**
-	 * Adds the input entity to the internal unordered map.
+	 * Adds the input entity to the internal vector.
 	 */
 	static void AddEntity(class CEntity* entityToAdd);
 
 	/**
-	 * Removes the input entity to the internal unordered map.
+	 * Removes the input entity to the internal vector.
 	 * Note: does NOT delete the entity.
 	 */
 	static void RemoveEntity(const class CEntity* entityToRemove);
@@ -48,7 +48,7 @@ public:
 	 */
 	static void SortTranslucentComponents();
 
-	static const std::unordered_map<uintptr_t, class CEntity*>* GetEntitiesMap();
-	static const std::unordered_map<uintptr_t, class CComponent*>* GetOpaqueCompsMap();
-	static const std::vector<class CComponent*>* GetTranslucentCompsVector();
+	static const std::vector<class CEntity*>* GetEntitiesVector() { return &entities; };
+	static const std::vector<class CComponent*>* GetOpaqueCompsVector() { return &opaqueComps; };
+	static const std::vector<class CComponent*>* GetTranslucentCompsVector() { return &translucentComps; };
 };

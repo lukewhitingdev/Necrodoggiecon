@@ -3,19 +3,21 @@
 #include "Core/CComponent.h"
 #include <algorithm>
 
-std::unordered_map<uintptr_t, class CEntity*> EntityManager::entities = std::unordered_map<uintptr_t, class CEntity*>();
-std::unordered_map<uintptr_t, class CComponent*> EntityManager::opaqueComps = std::unordered_map<uintptr_t, class CComponent*>();
-std::vector<class CComponent*> EntityManager::translucentComps = std::vector<class CComponent*>();
+std::vector<CEntity*> EntityManager::entities = std::vector<CEntity*>();
+std::vector<CComponent*> EntityManager::opaqueComps = std::vector<CComponent*>();
+std::vector<CComponent*> EntityManager::translucentComps = std::vector<CComponent*>();
 
 void EntityManager::AddEntity(CEntity* entityToAdd)
 {
-	entities.emplace(std::make_pair((uintptr_t)entityToAdd, entityToAdd));
+	entities.push_back(entityToAdd);
 }
 
 void EntityManager::RemoveEntity(const CEntity* entityToRemove)
 {
-	if (entities.find((uintptr_t)entityToRemove) != entities.end())
-		entities.erase((uintptr_t)entityToRemove);
+	auto iterator = std::find(entities.begin(), entities.end(), entityToRemove);
+
+	if (iterator != entities.end())
+		entities.erase(iterator);
 	else
 		Debug::LogError("Tried to remove an entity that doesnt exist.");
 }
@@ -25,7 +27,7 @@ void EntityManager::AddComponent(CComponent* compToAdd)
 	if(compToAdd->GetUseTranslucency())
 		translucentComps.push_back(compToAdd);
 	else
-		opaqueComps.emplace(std::make_pair((uintptr_t)compToAdd, compToAdd));
+		opaqueComps.push_back(compToAdd);
 }
 
 void EntityManager::RemoveComponent(const CComponent* compToRemove)
@@ -41,8 +43,10 @@ void EntityManager::RemoveComponent(const CComponent* compToRemove)
 	}
 	else
 	{
-		if (opaqueComps.find((uintptr_t)compToRemove) != opaqueComps.end())
-			opaqueComps.erase((uintptr_t)compToRemove);
+		auto iterator = std::find(opaqueComps.begin(), opaqueComps.end(), compToRemove);
+
+		if (iterator != opaqueComps.end())
+			opaqueComps.erase(iterator);
 		else
 			Debug::LogError("Tried to remove an opaque component that doesnt exist.");
 	}
@@ -54,19 +58,4 @@ void EntityManager::SortTranslucentComponents()
 		{
 			return a->GetWorldPosition().z > b->GetWorldPosition().z;
 		});
-}
-
-const std::unordered_map<uintptr_t, class CEntity*>* EntityManager::GetEntitiesMap()
-{
-	return &entities;
-}
-
-const std::unordered_map<uintptr_t, class CComponent*>* EntityManager::GetOpaqueCompsMap()
-{
-	return &opaqueComps;
-}
-
-const std::vector<class CComponent*>* EntityManager::GetTranslucentCompsVector()
-{
-	return &translucentComps;
 }

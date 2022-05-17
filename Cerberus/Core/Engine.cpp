@@ -28,7 +28,6 @@
 #include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
 using namespace Inputs;
 #include <chrono>
-#include <unordered_map>
 
 XMMATRIX Engine::projMatrixUI = XMMatrixIdentity();
 
@@ -621,9 +620,9 @@ HRESULT ResizeSwapChain(XMUINT2 newSize)
 //--------------------------------------------------------------------------------------
 void CleanupDevice()
 {
-	for (auto it = EntityManager::GetEntitiesMap()->begin(); it != EntityManager::GetEntitiesMap()->end(); it = EntityManager::GetEntitiesMap()->begin())
+	while (EntityManager::GetEntitiesVector()->size() > 0)
 	{
-		CEntity* e = it->second;
+		CEntity* e = EntityManager::GetEntitiesVector()->at(0);
 		EntityManager::RemoveEntity(e);
 		delete e;
 	}
@@ -829,9 +828,9 @@ void Engine::Stop()
 
 void Update(float deltaTime)
 {
-	for (auto it = EntityManager::GetEntitiesMap()->begin(); it != EntityManager::GetEntitiesMap()->end(); it++)
+	for (size_t i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
 	{
-		CEntity* e = it->second;
+		CEntity* e = EntityManager::GetEntitiesVector()->at(i);
 		if (!e->shouldUpdate)
 			continue;
 		
@@ -845,9 +844,9 @@ void Update(float deltaTime)
 		e->Update(deltaTime);
 		if (e->shouldMove)
 		{
-			for (auto it2 = EntityManager::GetEntitiesMap()->begin(); it2 != EntityManager::GetEntitiesMap()->end(); it2++)
+			for (size_t j = 0; j < EntityManager::GetEntitiesVector()->size(); j++)
 			{
-				CEntity* currentEntity = it2->second;
+				CEntity* currentEntity = EntityManager::GetEntitiesVector()->at(j);
 
 				if (e != currentEntity && currentEntity->colComponent != nullptr)
 				{
@@ -910,9 +909,9 @@ void Render()
 	// Set primitive topology
 	Engine::deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	for (auto it = EntityManager::GetOpaqueCompsMap()->begin(); it != EntityManager::GetOpaqueCompsMap()->end(); it++)
+	for (size_t i = 0; i < EntityManager::GetOpaqueCompsVector()->size(); i++)
 	{
-		CComponent* c = it->second;
+		CComponent* c = EntityManager::GetOpaqueCompsVector()->at(i);
 		CEntity* e = c->GetParent();
 		if (e->visible)
 		{
@@ -933,9 +932,9 @@ void Render()
 
 	Engine::deviceContext->OMSetDepthStencilState(translucentDepthStencilState, 0);
 
-	for (auto it = EntityManager::GetTranslucentCompsVector()->begin(); it != EntityManager::GetTranslucentCompsVector()->end(); it++)
+	for (size_t i = 0; i < EntityManager::GetTranslucentCompsVector()->size(); i++)
 	{
-		CComponent* c = it[0];
+		CComponent* c = EntityManager::GetTranslucentCompsVector()->at(i);
 		CEntity* e = c->GetParent();
 		if (e->visible)
 		{
