@@ -9,6 +9,11 @@ DogEnemy::DogEnemy()
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
 }
 
+void DogEnemy::Update(float deltaTime)
+{
+	CAIController::Update(deltaTime);
+}
+
 void DogEnemy::ChasePlayer(CCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < attackRange)

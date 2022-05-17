@@ -6,11 +6,13 @@ class AlarmEnemy :
 public:
     AlarmEnemy();
 
+    virtual void Update(float deltaTime) override;
     virtual void ChasePlayer(CCharacter* player) override;
     virtual void ChaseEnter() override;
 
 private:
-    float alarmTimer = 1.0f;
+    float alarmTimer = 10.0f;
+    bool onCooldown = false;
 
     CAudioEmitterComponent* loadNoise;
 };

@@ -6,6 +6,7 @@ class DogEnemy :
 public:
     DogEnemy();
 
+    virtual void Update(float deltaTime) override;
     virtual void ChasePlayer(CCharacter* player) override;
     virtual void AttackPlayer(CCharacter* player) override;
 
