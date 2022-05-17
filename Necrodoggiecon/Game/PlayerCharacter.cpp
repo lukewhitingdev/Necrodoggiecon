@@ -94,6 +94,7 @@ void PlayerCharacter::Update(float deltaTime)
 
 void PlayerCharacter::SetWeapon(Weapon* weapon)
 {
+	weaponComponent->SetWeapon(weapon);
 }
 
 void PlayerCharacter::LookAt(Vector3 pos)

@@ -12,8 +12,6 @@ WeaponInterface::~WeaponInterface()
 void WeaponInterface::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	currentWeapon->OnFire(actorPos, attackDir);
-
-	
 }
 
 void WeaponInterface::Update(float deltaTime)

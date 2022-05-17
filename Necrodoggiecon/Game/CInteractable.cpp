@@ -16,11 +16,14 @@ CInteractable::CInteractable() : interactTextOffset(0), interactRange(1), sprite
 	interactText = AddComponent<CTextRenderComponent>();
 	colComponent = new CollisionComponent("Interactable", this);
 
+	sprite->LoadTexture("Resources/arrow.dds");
+	this->SetInteractRange(sprite->GetSpriteSize().x);
+
 	colComponent->SetCollider(interactRange);
 	colComponent->SetTrigger(true);
-	sprite->LoadTexture("Resources/arrow.dds");
 
 	interactText->SetScale(2, 2, 2);
+
 }
 
 CInteractable::~CInteractable()
@@ -93,6 +96,11 @@ void CInteractable::HasCollided(CollisionComponent* collidedObject)
 	}
 }
 
+/**
+ * Sets the texture for the interactable.
+ * 
+ * \param path
+ */
 void CInteractable::SetTexture(std::string path)
 {
 	if (!sprite)
@@ -101,12 +109,27 @@ void CInteractable::SetTexture(std::string path)
 	sprite->LoadTexture(path);
 }
 
+/**
+ * Sets the texture for the interactable.
+ * 
+ * \param path
+ */
 void CInteractable::SetTextureWIC(std::string path)
 {
 	if (!sprite)
 		sprite = AddComponent<CSpriteComponent>();
 
 	sprite->LoadTextureWIC(path);
+}
+
+/**
+ * Sets the interact range for the interactable.
+ * 
+ * \param value
+ */
+void CInteractable::SetInteractRange(const float value)
+{
+	interactRange = value;
 }
 
 /**
@@ -117,4 +140,14 @@ void CInteractable::DrawUI()
 {
 	interactText->SetPosition(Vector3(0, interactTextOffset, -3));
 	interactText->SetText("F");
+}
+
+/**
+ * Returns the last collided object of the interactable.
+ * 
+ * \return 
+ */
+CollisionComponent* CInteractable::GetLastCollidedObject()
+{
+	return lastCollidedObject;
 }
