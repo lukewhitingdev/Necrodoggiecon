@@ -19,6 +19,7 @@ struct _Material
 		, tint(0, 0, 0, 0)
 		, padding2()
 		, padding1()
+		, translucent(false)
 	{}
 
 	int			UseTexture;
@@ -28,7 +29,8 @@ struct _Material
 	XMUINT2		textureRect;
 
 	XMFLOAT2	textureOffset;
-	float		padding2[2];
+	int			translucent;
+	float		padding2;
 
 	XMFLOAT4	tint;
 };

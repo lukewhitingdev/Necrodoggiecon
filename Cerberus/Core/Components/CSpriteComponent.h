@@ -18,8 +18,8 @@
 class CSpriteComponent : public CComponent
 {
 	CMesh* mesh = nullptr;
-	CTexture* texture = nullptr;
 	CMaterial* material = nullptr;
+	CTexture* texture = nullptr;
 
 	XMUINT2 renderRect;
 	XMFLOAT2 textureOffset = { 0,0 };
@@ -68,6 +68,8 @@ public:
 	 * MUST use BMP, JPEG, PNG, TIFF, GIF, or HD Photo file types.
 	 */
 	HRESULT LoadTextureWIC(std::string filePath);
+
+	virtual void SetUseTranslucency(const bool& newTranslucency) override;
 
 	CSpriteComponent();
 	virtual void Update(float deltaTime) override;

@@ -2,6 +2,7 @@
 #include "Cerberus\Core\Engine.h"
 #include "Cerberus/Core/Utility/AssetManager/AssetManager.h"
 #include "Cerberus\Core\Structs\CCamera.h"
+#include "CSpriteComponent.h"
 
 void CSpriteComponent::SetRenderRect(XMUINT2 newSize)
 {
@@ -75,6 +76,17 @@ HRESULT CSpriteComponent::LoadTextureWIC(std::string filePath)
 	material->CreateMaterial(texture->textureSize);
 
 	return S_OK;
+}
+
+void CSpriteComponent::SetUseTranslucency(const bool& newTranslucency)
+{
+	CComponent::SetUseTranslucency(newTranslucency);
+
+	if (material->loaded && texture->loaded)
+	{
+		material->material.Material.translucent = true;
+		material->UpdateMaterial();	//Could be done once per update if a change has happened instead of here
+	}
 }
 
 void CSpriteComponent::Update(float deltaTime)
