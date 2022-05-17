@@ -566,6 +566,8 @@ HRESULT ResizeSwapChain(XMUINT2 newSize)
 		Engine::deviceContext->RSSetViewports(1, &vp);
 
 		InitWorld(newSize.x, newSize.y);
+
+		CameraManager::GetRenderingCamera()->UpdateProj();
 	}
 
 	return hr;
