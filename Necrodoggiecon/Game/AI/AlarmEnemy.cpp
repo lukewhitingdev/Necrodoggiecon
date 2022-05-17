@@ -33,4 +33,6 @@ void AlarmEnemy::ChasePlayer(CCharacter* player)
 void AlarmEnemy::ChaseEnter()
 {
 	alarmTimer = 10.0f;
+	loadNoise->Play();
+	Debug::Log("CAN SEE");
 }
