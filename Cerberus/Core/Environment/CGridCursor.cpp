@@ -6,6 +6,7 @@
 #include "Cerberus\Dependencies\IMGUI\imgui.h"
 #include "Cerberus\Core\Utility\CWorldManager.h"
 #include <DirectXMath.h>
+#include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include "Cerberus/Core/Components/CCameraComponent.h"
 
 CGridCursor::CGridCursor()
@@ -34,28 +35,22 @@ CGridCursor::CGridCursor()
 	wasMouseReleased = true;
 }
 
-void CGridCursor::SetCamera(CCameraComponent* cam)
-{
-	camera = cam;
-}
 
 void CGridCursor::Update(float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);
 
-	Vector3 camPos = Vector3(camera->GetPosition().x, camera->GetPosition().y, -10);
+	
+
+	Vector3 camPos = Vector3(CameraManager::GetRenderingCamera()->GetPosition().x, CameraManager::GetRenderingCamera()->GetPosition().y, -10);
 
 	Vector3 MousePos2 = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100);
 
-	MousePos2 /= camera->GetZoomLevel();
-
+	MousePos2 *= CameraManager::GetRenderingCamera()->GetZoomLevel();
 
 
 	Vector3 Result = MousePos2 + camPos;
 	
-
-
-
 
 	int X = (int)(Result.x / (tileScale * tileScaleMultiplier));
 	int Y = (int)(Result.y / (tileScale * tileScaleMultiplier));
@@ -68,8 +63,6 @@ void CGridCursor::Update(float deltaTime)
 
 	if (X >= mapScale) X = mapScale - 1;
 	if (Y >= mapScale) Y = mapScale - 1;
-
-
 
 
 	Vector3 Pos = Vector3((float)(X * (64)), (float)(Y * (64)), -5);
@@ -86,8 +79,6 @@ void CGridCursor::Update(float deltaTime)
 	{
 		UpScale = (PreScale - selectedCell_1);
 
-		
-		
 	}
 	
 
@@ -123,9 +114,6 @@ void CGridCursor::Update(float deltaTime)
 
 			cellSelected = false;
 		}
-
-
-
 	}
 
 	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::C))

@@ -21,7 +21,7 @@ void CT_EditorGrid::SetupGrid(CCameraComponent* cam)
 	
 	//Instantiate the grid cursor
 	CGridCursor* gridCursor = Engine::CreateEntity<CGridCursor>();
-	gridCursor->SetCamera(cam);
+	
 
 	//Setup the editor grid visuals
 	gridSprite->LoadTexture("Resources/Tiles/GridCell.dds");

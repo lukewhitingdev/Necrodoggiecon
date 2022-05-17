@@ -42,10 +42,6 @@ void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 			editorWorld->SetupWorld();
 
 		}
-
-		
-		
-		
 	}
 	else
 	{
@@ -84,7 +80,7 @@ void CWorldManager::LoadWorld(CWorld* World)
 	}
 	else if (gameWorld != nullptr)
 	{
-
+		gameWorld->UnloadWorld();
 	}
 	else
 	{
@@ -107,7 +103,7 @@ void CWorldManager::LoadWorld(CWorld_Editable* World)
 	}
 	else if (editorWorld != nullptr)
 	{
-
+		editorWorld->UnloadWorld();
 	}
 	else
 	{

@@ -50,7 +50,7 @@ public:
 
 
 
-	bool SetDebugMode(bool newState);
+	void SetDebugMode(bool newState);
 
 	void UpdateDebugRender();
 

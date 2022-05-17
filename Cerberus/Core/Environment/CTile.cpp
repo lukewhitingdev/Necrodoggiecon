@@ -145,7 +145,7 @@ void CTile::ChangeTileID(CellID TileID)
 
 
 
-bool CTile::SetDebugMode(bool newState)
+void CTile::SetDebugMode(bool newState)
 {
 	
 	if (debugSprite == nullptr)
@@ -178,7 +178,7 @@ bool CTile::SetDebugMode(bool newState)
 
 	
 
-	return false;
+	
 }
 
 void CTile::UpdateDebugRender()

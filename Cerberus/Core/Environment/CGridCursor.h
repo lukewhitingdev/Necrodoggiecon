@@ -9,7 +9,7 @@ public:
 
     class CSpriteComponent* activeCellSprite = nullptr;
 
-    void SetCamera(class CCameraComponent* cam);
+ 
 
     virtual void Update(float deltaTime) override;
 
