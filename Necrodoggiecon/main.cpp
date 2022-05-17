@@ -1,5 +1,6 @@
 #include "Cerberus\Core\Engine.h"
 #include <Cerberus\Core\Environment\CWorld.h>
+#include "Necrodoggiecon/CWorld_Game.h"
 #include "Necrodoggiecon\Game\CPlayer.h"
 #include <Necrodoggiecon\Game\TestUI.h>
 #include <Necrodoggiecon\Game\CursorEntity.h>
@@ -8,6 +9,7 @@
 #include <Necrodoggiecon\Game\ItemDatabase.h>
 #include <Cerberus/Core/AI/CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
+#include <Cerberus/Core/Utility/CWorldManager.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include "Necrodoggiecon/Game/AI/MeleeEnemy.h"
@@ -88,30 +90,23 @@ int Start()
 
 	CameraManager::AddCamera(freeCameraComponent);
 
-	CWorld::LoadWorld(0);
+	CWorldManager::LoadWorld(new CWorld_Game(0));
 
-	PlayerController* controller = Engine::CreateEntity<PlayerController>();
-	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
+	
 
-	// Locked Camera follows player.
-	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>();
-	lockedCameraComponent->Initialize();
-	lockedCameraComponent->SetAttachedToParent(true);
-
-	CameraManager::AddCamera(lockedCameraComponent);
-
-	CameraManager::SetRenderingCamera(lockedCameraComponent);
-
-	Engine::CreateEntity<weaponUI>();
-	Engine::CreateEntity<TestUI>();
-	Engine::CreateEntity<CursorEntity>();
+	CEntity* t = Engine::CreateEntity<weaponUI>();
+	t->SetPosition(XMFLOAT3(0, 0, -90));
+	t = Engine::CreateEntity<TestUI>();
+	t->SetPosition(XMFLOAT3(0, 0, -100));
+	t = Engine::CreateEntity<CursorEntity>();
+	t->SetPosition(XMFLOAT3(0, 0, -110));
 
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
 	character1->SetPosition({ 1000.0f, 200.0f, 0.0f });
 	character1->droppedItem = droppedItem;
 
-	controller->charOne = character1;
+	//controller->charOne = character1;
 
 	controller->Possess(character1);
 	character1->shouldMove = true;

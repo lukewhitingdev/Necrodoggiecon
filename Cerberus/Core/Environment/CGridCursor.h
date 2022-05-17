@@ -9,7 +9,7 @@ public:
 
     class CSpriteComponent* activeCellSprite = nullptr;
 
-    void SetCamera(class CCameraComponent* cam);
+ 
 
     virtual void Update(float deltaTime) override;
 
@@ -20,6 +20,13 @@ public:
     Vector3 Offset_End;
 
     bool screenMoved;
+
+
+
+    bool cellInspectingEntity;
+
+
+
     bool cellSelected;
     Vector3 selectedCell_1;
     bool wasMouseReleased;
