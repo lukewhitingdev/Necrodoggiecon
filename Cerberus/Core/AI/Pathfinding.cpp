@@ -6,7 +6,7 @@
  * \date   May 2022
  *********************************************************************/
 #include "Pathfinding.h"
-
+#include "Cerberus/Core/Environment/CTile.h"
 /**
  * Constructor that sets the waypoints.
  * 
