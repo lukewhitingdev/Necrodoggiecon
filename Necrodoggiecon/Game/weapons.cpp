@@ -4,7 +4,7 @@
 
 Weapon::Weapon()
 {
-	SetWeapon("Dagger");
+	SetWeapon("Crossbow");
 }
 
 void Weapon::SetWeapon(std::string weapon)
@@ -27,14 +27,17 @@ void Weapon::SetWeapon(std::string weapon)
 
 void Weapon::CoolDown(float attack_cooldown)
 {
-	if (cooldown > 0)
+	if (!canFire)
 	{
-		cooldown -= 0.1 * attack_cooldown;
-	}
-	if (cooldown <= 0)
-	{
-		Debug::Log("Cooldown Done");
-		canFire = true;
+		if (cooldown > 0)
+		{
+			cooldown -= 0.1 * attack_cooldown;
+		}
+		if (cooldown <= 0)
+		{
+			Debug::Log("Cooldown Done");
+			canFire = true;
+		}
 	}
 }
 
@@ -43,8 +46,30 @@ void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players po
 	//Vector3 attackDir = attackDir - actorPos;
 	auto normAttackDir = attackDir.Normalize();
 
-	if (type == "Melee")
-		HandleMelee(actorPos, normAttackDir);
+	if (canFire)
+	{
+		if (type == "Melee")
+		{
+			canFire = false;
+			cooldown = attack_speed;
+			HandleMelee(actorPos, normAttackDir);
+		}
+		else if (type == "Ranged")
+		{
+			if (ammo > 0)
+			{
+				//canFire = false;
+				cooldown = attack_speed;
+				HandleRanged(actorPos, normAttackDir);
+				//ammo--;3
+			}
+			else
+			{
+				canFire = false;
+				Debug::Log("No ammo");
+			}
+		}
+	}
 }
 
 
@@ -66,6 +91,18 @@ void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 	}
 	
 }
+
+
+void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
+{
+	float speed = attack_speed * 5;
+	float life = range / 10;
+	Projectile* Projectile1 = Engine::CreateEntity<Projectile>();
+	Projectile1->StartUp(attackDir, actorPos, speed, life);
+}
+
+
+
 
 
 //Gets closest enemy within attack range
@@ -127,6 +164,7 @@ CEntity* Weapon::GetClosestPlayer(Vector3 actorPos)
 
 void Weapon::Update(float deltaTime)
 {
+	CoolDown(deltaTime);
 }
 
 void Weapon::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer)
