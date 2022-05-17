@@ -24,6 +24,7 @@ public:
 	void PressedDrop() override;
 	void Attack() override;
 	virtual void Update(float deltaTime) override;
+	void SetWeapon(Weapon* weapon);
 
 	CDroppedItem* droppedItem = nullptr;
 	CEquippedItem* equippedItem = nullptr;

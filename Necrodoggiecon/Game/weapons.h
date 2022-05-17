@@ -28,8 +28,8 @@ enum class USERTYPE
 
 class Weapon : public CComponent
 {
-public:
-	Weapon(std::string weapon);
+public:	
+	Weapon(std::string weapon = "Dagger");
 
 	void SetWeapon(std::string weapon);
 	virtual void OnFire(Vector3 actorPos, Vector3 attackDir);

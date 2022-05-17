@@ -23,6 +23,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="weaponUI.cpp" />
     <ClCompile Include="Game\WeaponInterface.cpp" />
+    <ClCompile Include="Dagger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\CInteractable.h" />
@@ -48,6 +49,7 @@
     <ClInclude Include="Game\weapons.h" />
     <ClInclude Include="weaponUI.h" />
     <ClInclude Include="Game\WeaponInterface.h" />
+    <ClInclude Include="Dagger.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />

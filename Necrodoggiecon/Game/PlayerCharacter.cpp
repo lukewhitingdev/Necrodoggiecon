@@ -92,6 +92,10 @@ void PlayerCharacter::Update(float deltaTime)
 	weaponComponent->Update(deltaTime);
 }
 
+void PlayerCharacter::SetWeapon(Weapon* weapon)
+{
+}
+
 void PlayerCharacter::LookAt(Vector3 pos)
 {
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
