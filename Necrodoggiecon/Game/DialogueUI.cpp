@@ -1,8 +1,16 @@
 #include "DialogueUI.h"
 
+/*****************************************************************//**
+ * \file   DialogueUI.cpp
+ * \brief  Class that stores the UI data for dialogue as well as this, it displays it correctly.
+ *
+ * \author Cathan Bertram
+ * \date   May 2022
+ *********************************************************************/
 
-
-
+/**
+* Constructor - Initialises all of the UI elements including text components and backgrounds.
+*/
 DialogueUI::DialogueUI()
 {
 	textBackground = AddComponent<CSpriteComponent>();
@@ -39,7 +47,9 @@ DialogueUI::DialogueUI()
 	for (CComponent* e : components)
 		e->ui = true;
 }
-
+/**
+* Function to set the passed in TextRenderComponent to the correct position using the text that it is displaying
+*/
 void DialogueUI::UpdateTextComponentPosition(CTextRenderComponent* textComponent, int row)
 {
 	int charCount = textComponent->GetText().size();
@@ -49,7 +59,9 @@ void DialogueUI::UpdateTextComponentPosition(CTextRenderComponent* textComponent
 	int yPos = (GetUIHeight() * 0.5f) - charSize.y - (rowHeight * 2 * (row));
 	textComponent->SetPosition(xPos, yPos, 0);
 }
-
+/** 
+* Function to calculate the height of the dialogue UI window
+*/
 float DialogueUI::GetUIHeight()
 {
 	float height = Engine::windowHeight * UIHeightPercent;
@@ -59,7 +71,9 @@ float DialogueUI::GetUIHeight()
 DialogueUI::~DialogueUI()
 {
 }
-
+/**
+* Inherited Function - Used to add characters to the display over time
+*/
 void DialogueUI::Update(float deltaTime)
 {
 	if (!isUpdating) return;
@@ -76,7 +90,9 @@ void DialogueUI::Update(float deltaTime)
 	}
 }
 
-
+/**
+* Function used to refresh all of the TextRenderComponents with the appropriate text
+*/
 void DialogueUI::UpdateText()
 {
 	ClearText();
