@@ -31,6 +31,8 @@ void ChaseState::Enter(CAIController* controller)
 			}
 		}
 	}
+
+	controller->ChaseEnter();
 }
 
 void ChaseState::Update(CAIController* controller)
@@ -82,7 +84,11 @@ void AttackState::Update(CAIController* controller)
 	if (closestPlayer != nullptr)
 	{
 		controller->AttackPlayer(closestPlayer);
-		closestPlayer = nullptr;
+		if (controller->CanSee(closestPlayer->GetPosition()) == false)
+		{
+			closestPlayer = nullptr;
+			controller->SetCurrentState(PatrolState::getInstance());
+		}
 	}
 	else
 	{
@@ -92,6 +98,7 @@ void AttackState::Update(CAIController* controller)
 
 void AttackState::Exit(CAIController* controller)
 {
+	controller->SetSpeed(controller->GetInititalSpeed());
 }
 
 State& AttackState::getInstance()

@@ -379,6 +379,10 @@ void CAIController::Investigating(Vector3 positionOfInterest)
 	}
 }
 
+void CAIController::ChaseEnter()
+{
+}
+
 /**
  * Seek towards the player and if it gets close then switch to the attacking state.
  */
@@ -542,6 +546,17 @@ void CAIController::SetHealth(float health)
 float CAIController::GetHealth()
 {
 	return aiHealth;
+}
+
+void CAIController::SetInitialSpeed(float speed)
+{
+	initialSpeed = speed;
+	aiSpeed = initialSpeed;
+}
+
+float CAIController::GetInititalSpeed()
+{
+	return initialSpeed;
 }
 
 void CAIController::SetSpeed(float speed)

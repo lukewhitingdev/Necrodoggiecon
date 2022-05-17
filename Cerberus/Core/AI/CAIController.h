@@ -40,6 +40,8 @@ public:
 
 	void SetHealth(float health);
 	float GetHealth();
+	void SetInitialSpeed(float speed);
+	float GetInititalSpeed();
 	void SetSpeed(float speed);
 	float GetSpeed();
 	void SetMass(float mass);
@@ -60,9 +62,9 @@ public:
 	void SearchForPlayer();
 	void Investigating(Vector3 positionOfInterest);
 	
+	virtual void ChaseEnter();
 	virtual void ChasePlayer(CCharacter* player);
 	virtual void AttackPlayer(CCharacter* player);
-	virtual void GetIntoCover() {};
 
 	void SetCurrentState(State& state);
 	bool CanSee(Vector3 posOfObject);
@@ -111,6 +113,7 @@ protected:
 
 	float aiHealth = 2.0f;
 	float aiSpeed = 100.0f;
+	float initialSpeed = aiSpeed;
 	float aiMass = 10.0f;
 	float aiRange = 400.0f;
 	float aiViewAngle = 45.0f;
