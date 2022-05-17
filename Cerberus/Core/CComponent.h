@@ -17,7 +17,6 @@
  */
 class CComponent : public CTransform
 {
-protected:
 	XMFLOAT2 anchor = { 0.5,0.5 };
 	XMUINT2 lastResolution = { 0,0 };
 
@@ -25,19 +24,18 @@ protected:
 
 	bool translucency = false;
 
-public:
 	bool ui = false;
 
 	bool shouldUpdate = true;
 	bool shouldDraw = false;
 
+public:
 	/**
 	 * Sets the region of the screen a UI element will be "anchored" to.
 	 * {0,0} - top left, {1,1} - bottom right.
 	 * Used for making UI elements stick to the edge of the screen when the window is resized.
 	 */
-	void SetAnchor(XMFLOAT2 newAnchor) { anchor = newAnchor; updateTransform = true; }
-	void SetParent(class CEntity* newParent);
+	void SetAnchor(const XMFLOAT2& newAnchor) { anchor = newAnchor; updateTransform = true; }
 
 	/**
 	 * Sets if this component will/can draw translucent pixels.
@@ -47,10 +45,25 @@ public:
 	 * Translucent components have a much higher overhead than opaque components.
 	 */
 	virtual void SetUseTranslucency(const bool& newTranslucency);
-	const bool& GetUseTranslucency() const { return translucency; };
+	void SetIsUI(const bool& newIsUI) { ui = newIsUI; }
+	void SetShouldUpdate(const bool& newShouldUpdate) { shouldUpdate = newShouldUpdate; }
+	void SetShouldDraw(const bool& newShouldDraw) { shouldDraw = newShouldDraw; }
+	void SetLastResolution(const XMUINT2& newLastResolution) { lastResolution = newLastResolution; }
+	void SetParent(class CEntity* newParent);
 
+	const bool& GetShouldUpdate() const { return shouldUpdate; }
+	const bool& GetShouldDraw() const { return shouldDraw; }
+	const bool& GetIsUI() const { return ui; }
+	const XMUINT2& GetLastResolution() const { return lastResolution; }
+	const bool& GetUseTranslucency() const { return translucency; };
 	const XMFLOAT2& GetAnchor() const { return anchor; }
 	class CEntity* GetParent() const { return parent; };
+
+	/**
+	 * Get the position of the component in world space rather than in entity space.
+	 */
+	XMFLOAT3 GetWorldPosition();
+	virtual XMFLOAT4X4 GetTransform() override;
 
 	/**
 	 * Updated automatically every single frame.
@@ -62,11 +75,4 @@ public:
 	 */
 	virtual void Draw(struct ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) = 0;
 	virtual ~CComponent() {};
-
-	/**
-	 * Get the position of the component in world space rather than in entity space.
-	 */
-	XMFLOAT3 GetWorldPosition();
-
-	virtual XMFLOAT4X4 GetTransform() override;
 };

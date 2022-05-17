@@ -18,14 +18,22 @@
  */
 class CEntity : public CTransform
 {
-
-public:
 	bool shouldUpdate = true;
 	bool shouldMove = false;
 	bool visible = true;
 
 	std::vector<CComponent*> components;
-	
+
+public:
+	void SetShouldUpdate(const bool& newShouldUpdate) { shouldUpdate = newShouldUpdate; }
+	void SetShouldMove(const bool& newShouldMove) { shouldMove = newShouldMove; }
+	void SetVisible(const bool& newVisibility) { visible = newVisibility; }
+
+	const bool& GetShouldUpdate() const { return shouldUpdate; }
+	const bool& GetShouldMove() const { return shouldMove; }
+	const bool& GetVisible() const { return visible; }
+	const std::vector<CComponent*>& GetAllComponents() const { return components; }
+
 	/**
 	 * Updated automatically every single frame.
 	 */
@@ -43,7 +51,7 @@ public:
 	}
 
 	template<class T>
-	T* GetComponent()
+	T* GetComponentOfType()
 	{
 		T* comp = nullptr;
 		for(auto& component : components)
@@ -59,7 +67,7 @@ public:
 	}
 
 	template<class T>
-	std::vector<T*> GetAllComponents()
+	std::vector<T*> GetAllComponentsOfType()
 	{
 		std::vector<T*> output;
 		T* comp = nullptr;
@@ -75,15 +83,14 @@ public:
 		return output;
 	}
 
-
-
 	/**
 	 * Removes the specified component.
 	 */
 	void RemoveComponent(CComponent* reference);
 
 	CollisionComponent* colComponent = nullptr;
-	virtual void HasCollided(CollisionComponent* collidedObject) {
+	virtual void HasCollided(CollisionComponent* collidedObject) 
+	{
 		if (!collidedObject->GetTrigger())
 		{
 			colComponent->Resolve(collidedObject);

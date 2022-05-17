@@ -42,8 +42,8 @@ TestUI::TestUI()
 	textFPS->SetText("");
 	textFPS->SetAnchor(XMFLOAT2(1, 0));
 	
-	for (CComponent* e : components)
-		e->ui = true;
+	for (CComponent* e : GetAllComponents())
+		e->SetIsUI(true);
 }
 
 void TestUI::Update(float deltaTime)
