@@ -12,12 +12,10 @@
 #include "Cerberus\Core\Utility\Vector3.h"
 #include "Cerberus\Core\Components\CSpriteComponent.h"
 #include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
-#include "Cerberus\Core\Environment/CWorld.h"
 #include "Cerberus/Core/Engine.h"
 #include "Cerberus/Core/Utility/Audio/AudioController.h"
 #include "Cerberus/Core/AI/CAICharacter.h"
 
-#include "Cerberus/Core/AI/CAINode.h"
 #include "Cerberus/Core/AI/State.h"
 #include "Cerberus/Core/AI/Pathfinding.h"
 #include "Necrodoggiecon\Game\CCharacter.h"

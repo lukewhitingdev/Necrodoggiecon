@@ -7,6 +7,7 @@
  *********************************************************************/
 #include "CAIController.h"
 #include "Cerberus/Core/Utility/CWorldManager.h"
+#include "Cerberus\Core\Environment/CWorld.h"
 
 CAIController::CAIController()
 {
@@ -81,7 +82,7 @@ CAIController::CAIController()
 	EventSystem::AddListener("soundPlayed", CanHearLambda);
 
 	currentState = &PatrolState::getInstance();
-	SetCurrentState(PatrolState::getInstance());
+	//SetCurrentState(PatrolState::getInstance());
 }
 
 /**
@@ -486,6 +487,7 @@ void CAIController::MoveViewFrustrum()
  */
 void CAIController::SetPath()
 {
+	aiPosition = GetPosition();
 	pathing->SetPath(aiPosition, pathing->currentPatrolNode->closestWaypoint);
 	SetPathNodes(pathing->GetPathNodes());
 	currentCount = (int)pathNodes.size() - 1;
