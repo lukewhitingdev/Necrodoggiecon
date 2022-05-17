@@ -60,11 +60,9 @@ struct Engine
 		size_t vectorSize = entities.size();
 		for (size_t i = 0; i < vectorSize; i++)
 		{
-			T* entity = (T*)entities[i];
-			const char* evaluationEntity = typeid(*entity).name();
-			const char* searchEntity = typeid(T).name();
-			if (evaluationEntity == searchEntity)
-				outputVector.emplace_back(entity);
+			T* ent = dynamic_cast<T*>(entities.at(i));
+			if (ent != nullptr)
+				outputVector.emplace_back(ent);
 		}
 		return outputVector;
 	};
