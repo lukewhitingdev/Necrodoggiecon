@@ -2,6 +2,7 @@
 
 
 
+
 DialogueUI::DialogueUI()
 {
 	spriteComponent = AddComponent<CSpriteComponent>();
@@ -21,7 +22,7 @@ DialogueUI::DialogueUI()
 	auto trc = AddComponent<CTextRenderComponent>();
 	textRenderComponents.push_back(trc);
 
-	maxCharactersInRow = width / textRenderComponents[0]->GetCharacterSize().x;
+	maxCharactersInRow = width / (textRenderComponents[0]->GetCharacterSize().x * 2);
 	rowHeight = textRenderComponents[0]->GetCharacterSize().y + rowPadding;
 	maxRowCount = (height / rowHeight) * 0.5f;
 
@@ -37,12 +38,15 @@ DialogueUI::DialogueUI()
 
 	for (int i = 0; i < textRenderComponents.size(); i++)
 	{
-		textRenderComponents[i]->SetText("abc" + std::to_string(i));
+		textRenderComponents[i]->SetText("mynamejeff" + std::to_string(i));
 		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
 	}
 
 	Debug::Log(std::to_string(maxCharactersInRow).c_str());
 	Debug::Log(std::to_string(maxRowCount).c_str());
+
+	std::string str = "This system will contain the players’ input. This input will then be passed down to the currently attached character. This will allow us to have multiple characters with setting up input on each of them, as well as this, it will make it so that we can swap between characters mid-level easily. ";
+	SetText(str, false);
 
 	for (CComponent* e : components)
 		e->ui = true;
@@ -70,4 +74,60 @@ DialogueUI::~DialogueUI()
 
 void DialogueUI::Update(float deltaTime)
 {
+	if (!needsUpdate) return;
+
+	timer += deltaTime;
+	if (timer >= 1 / charactersPerSecond)
+	{
+		displayingText.append(reserveText.substr(0,1));
+		reserveText.erase(0, 1);
+		timer = 0;
+		UpdateText();
+		if (reserveText.length() == 0)
+			needsUpdate = false;
+	}
+}
+
+
+void DialogueUI::UpdateText()
+{
+	ClearText();
+	int rowsNeeded = ceil(displayingText.length() / maxCharactersInRow);
+
+	for (int i = 0; i <= rowsNeeded; i++)
+	{
+		std::string rowText = displayingText.substr(size_t(maxCharactersInRow) * i, size_t(maxCharactersInRow) * (i + 1));
+		textRenderComponents[i]->SetText(rowText);
+		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
+	}
+}
+
+void DialogueUI::SetText(std::string newText, bool instantDisplay)
+{
+	ClearText();
+	displayingText = "";
+	reserveText = newText;
+	needsUpdate = true;
+	if (!instantDisplay) return;
+
+	int rowsNeeded = ceil(reserveText.length() / maxCharactersInRow);
+
+	for (int i = 0; i <= rowsNeeded; i++)
+	{
+		std::string rowText = reserveText.substr(0, maxCharactersInRow);
+		textRenderComponents[i]->SetText(rowText);
+		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
+		reserveText.erase(0, maxCharactersInRow);
+		displayingText.append(rowText);
+	}
+	needsUpdate = false;
+}
+
+void DialogueUI::ClearText()
+{
+	
+	for (CTextRenderComponent* t : textRenderComponents)
+	{
+		t->SetText("");
+	}
 }

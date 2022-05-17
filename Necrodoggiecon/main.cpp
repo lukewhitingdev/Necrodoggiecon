@@ -102,10 +102,10 @@ int Start()
 
 	//Engine::CreateEntity<weaponUI>();
 	//Engine::CreateEntity<TestUI>();
-	Engine::CreateEntity<CursorEntity>();
-	Engine::CreateEntity<DialogueUI>();
+	//Engine::CreateEntity<CursorEntity>();
+	auto d = Engine::CreateEntity<DialogueUI>();
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
-
+	//d->SetText("mynamejeff");
 	character1->droppedItem = droppedItem;
 
 	controller->charOne = character1;
