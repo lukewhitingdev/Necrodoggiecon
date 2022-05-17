@@ -5,18 +5,20 @@
 
 DialogueUI::DialogueUI()
 {
-	spriteComponent = AddComponent<CSpriteComponent>();
-
-	spriteComponent->LoadTextureWIC("Resources/darkBackground.png");
+	textBackground = AddComponent<CSpriteComponent>();
+	textBackground->LoadTextureWIC("Resources/darkBackground.png");
+	nameBackground = AddComponent<CSpriteComponent>();
+	nameBackground->LoadTextureWIC("Resources/darkBackground.png");
+	nameTextRenderComponent = AddComponent<CTextRenderComponent>();
 
 	//Setup Background Sprite
 	auto width = Engine::windowWidth;
 	auto height = Engine::windowHeight * UIHeightPercent;
-	spriteComponent->SetRenderRect(XMUINT2(width, height));
-	spriteComponent->SetSpriteSize(XMUINT2(width, height));
-	spriteComponent->SetAnchor(XMFLOAT2(0, 1));
+	textBackground->SetRenderRect(XMUINT2(width, height));
+	textBackground->SetSpriteSize(XMUINT2(width, height));
+	textBackground->SetAnchor(XMFLOAT2(0, 1));
 	float UIHeight = GetUIHeight();
-	spriteComponent->SetPosition(0, UIHeight, 1);
+	textBackground->SetPosition(0, UIHeight, 1);
 
 	//Setup TextRenderComponents
 	auto trc = AddComponent<CTextRenderComponent>();
@@ -32,21 +34,6 @@ DialogueUI::DialogueUI()
 		auto trc = AddComponent<CTextRenderComponent>();
 		textRenderComponents.push_back(trc);
 	}
-
-	//textRenderComponents[0]->SetText("abc");
-	//UpdateTextComponentPosition(textRenderComponents[0], 1);
-
-	for (int i = 0; i < textRenderComponents.size(); i++)
-	{
-		textRenderComponents[i]->SetText("mynamejeff" + std::to_string(i));
-		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
-	}
-
-	Debug::Log(std::to_string(maxCharactersInRow).c_str());
-	Debug::Log(std::to_string(maxRowCount).c_str());
-
-	std::string str = "This system will contain the players’ input. This input will then be passed down to the currently attached character. This will allow us to have multiple characters with setting up input on each of them, as well as this, it will make it so that we can swap between characters mid-level easily. ";
-	SetText(str, false);
 
 	for (CComponent* e : components)
 		e->ui = true;
@@ -121,6 +108,25 @@ void DialogueUI::SetText(std::string newText, bool instantDisplay)
 		displayingText.append(rowText);
 	}
 	needsUpdate = false;
+}
+
+void DialogueUI::SetName(std::string newName)
+{
+	nameText = newName;
+	nameTextRenderComponent->SetText(nameText);
+
+	auto charSize = nameTextRenderComponent->GetCharacterDrawSize();
+	int width = charSize.x * (nameText.length() + 1);
+	int height = charSize.y * 1.5f;
+	nameBackground->SetRenderRect(XMUINT2(width, height));
+	nameBackground->SetSpriteSize(XMUINT2(width, height));
+	nameBackground->SetAnchor(XMFLOAT2(0, 1));
+
+	int xPos = -(Engine::windowWidth * 0.5f) + (charSize.x * 0.5f * (nameText.length() + 1));
+	int uiHeight = (GetUIHeight() * 0.5f - height * 0.5f) + 2; 
+	nameBackground->SetPosition(xPos, uiHeight, 1);
+
+	nameTextRenderComponent->SetPosition(xPos, uiHeight, 0);
 }
 
 void DialogueUI::ClearText()

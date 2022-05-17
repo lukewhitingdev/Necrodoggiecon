@@ -6,8 +6,12 @@
 class DialogueUI :  public CEntity
 {
 private:
-    CSpriteComponent* spriteComponent;
+    CSpriteComponent* textBackground;
     std::vector<CTextRenderComponent*> textRenderComponents;
+
+    CSpriteComponent* nameBackground;
+    CTextRenderComponent* nameTextRenderComponent;
+
 
     void UpdateTextComponentPosition(CTextRenderComponent* textComponent, int row);
     float GetUIHeight();
@@ -24,6 +28,7 @@ private:
 
     std::string displayingText;
     std::string reserveText;
+    std::string nameText;
     void UpdateText();
 
 public:
@@ -32,6 +37,7 @@ public:
     virtual void Update(float deltaTime) override;
 
     void SetText(std::string newText, bool instantDisplay);
+    void SetName(std::string newName);
     void ClearText();
 };
 
