@@ -9,7 +9,7 @@ public:
     CWidget_Button();
     class CSpriteComponent* sprite = nullptr;
 
-
+    void SetSlot(int Slot) { buttonSlot = Slot; }
     void SetText(std::string TextBody);
     void SetSize(Vector2 Size);
 
@@ -19,6 +19,19 @@ public:
 
     virtual void OnButtonHoverStart();
     virtual void OnButtonHoverEnd();
+
+
+    void IsButtonFocused(Vector2 mPos);
+    void ButtonTriggered();
+
+
+private: 
+
+   
+    int buttonSlot;
+    bool hasFocus;
+
+    class CWidget_Canvas* OwningCanvas;
 
     
 
