@@ -1,15 +1,291 @@
 #include "CWorld_Edit.h"
 #include "Dependencies/NlohmannJson/json.hpp"
+#include "Tools/CT_EditorMain.h"
+#include "Cerberus\Tools\CT_EditorEntity.h"
 #include <iostream>
 #include <fstream>
 
 
-
+/*
 CellData CWorld_Editable::tileData[mapScale * mapScale];
 EditOperationMode CWorld_Editable::operationType = EditOperationMode::None;
 Vector2 CWorld_Editable::editOrigin = Vector2(0, 0);
 bool CWorld_Editable::selectedCell = false;
 bool CWorld_Editable::isQueueLocked = false;
+*/
+
+
+void CWorld_Editable::LoadWorld(int Slot)
+{
+	totalEnemyEntities = 0;
+	totalPropEntities = 0;
+
+	std::string fileName = "Resources/Levels/Level_" + std::to_string(Slot);
+	fileName += ".json";
+
+
+	mapSlot = Slot;
+
+	std::ifstream file(fileName);
+	if (file.is_open())
+	{
+		json storedFile;
+
+		file >> storedFile;
+
+		std::vector<std::string> convertedFile = storedFile["TileData"];
+
+
+		std::string Test = convertedFile[0];
+		std::cout << "" << std::endl;
+
+
+		for (int i = 0; i < (mapScale * mapScale); i++)
+		{
+			Vector3 temp = Vector3((float)(i % mapScale), (float)(i / mapScale), 0);
+			Vector2 gridPos = Vector2(temp.x, temp.y);
+
+			int ID = atoi(convertedFile[i].c_str());
+			Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
+
+			//tempPos += Vector3(0, 64 * tileScale, 0.0f);
+
+			tempPos.z = 10;
+
+			CTile* Tile = nullptr;
+			if (tileContainer[i] != nullptr)
+			{
+				Tile = tileContainer[i];
+			}
+			else
+			{
+				Tile = Engine::CreateEntity<CTile>();
+			}
+
+
+			Tile->SetPosition(tempPos);
+			Tile->SetScale(tileScaleMultiplier);
+			Tile->ChangeTileID(ID);
+
+			tileContainer[i] = Tile;
+
+
+
+			if (Tile->GetTileID() != 1)
+			{
+				tileData[i].id = 0;
+			}
+			else tileData[i].id = 1;
+
+
+			//tileData[i].id = Tile->GetTileID();
+			tileData[i].type = CellType::Empty;
+
+
+
+
+		}
+
+
+
+
+
+
+
+
+
+		BuildNavigationGrid();
+
+		GenerateTileMap();
+
+		totalEnemyEntities = storedFile["EnemyCount"];
+
+
+		for (int i = 0; i < totalEnemyEntities; i++)
+		{
+			int EnemyID = storedFile["Enemy"][i]["Type"];
+			int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
+			int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
+
+			CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
+			TempRef->InitialiseEntity(EnemyID);
+			TempRef->SetPosition(Vector3(EnemyX, EnemyY, -1));
+			editorEntityList.push_back(TempRef);
+
+
+
+			int WaypointList = storedFile["Enemy"][i]["WaypointList"];
+			for (int y = 0; y < WaypointList; y++)
+			{
+				int WaypointX = storedFile["Enemy"][i]["Waypoints"][y]["X"];
+				int WaypointY = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
+				CT_EditorEntity_Waypoint* TempWaypoint = TempRef->AddWaypoint(Vector2(WaypointX, WaypointY));
+				editorEntityList.push_back(TempWaypoint);
+
+			}
+			TempRef->ToggleWaypoints(false);
+
+
+
+		}
+
+		playerStartEntity = Engine::CreateEntity<CT_EditorEntity_PlayerStart>();
+		editorEntityList.push_back(playerStartEntity);
+		int StartX = storedFile["PlayerStart"]["X"];
+		int StartY = storedFile["PlayerStart"]["Y"];
+		playerStartEntity->SetPosition((Vector3(StartX, StartY, 0) * (tileScale * tileScaleMultiplier)) + Vector3(0,0,-1));
+		
+
+	}
+
+
+	
+
+	
+
+	
+}
+
+void CWorld_Editable::UnloadWorld()
+{
+	for (int i = 0; i < editorEntityList.size(); i++)
+	{
+		Engine::DestroyEntity(editorEntityList[i]);
+	}
+
+	delete(editorViewport);
+}
+ void CWorld_Editable::SetupWorld()
+{
+	 editorViewport = new CT_EditorMain();
+
+	
+}
+
+
+
+void CWorld_Editable::SaveWorld(int Slot)
+{
+	UNREFERENCED_PARAMETER(Slot);
+	std::string fileName = "Resources/Levels/Level_" + std::to_string(Slot);
+	fileName += ".json";
+
+	std::ifstream file(fileName);
+
+
+	json SaveData;
+
+	std::vector<std::string> MapData;
+
+	GenerateTileMap();
+
+
+	for (int i = 0; i < mapScale * mapScale; i++)
+	{
+		MapData.push_back(std::to_string(tileContainer[i]->GetTileID()));
+	}
+
+
+	SaveData["TileData"] = MapData;
+	SaveData["EnemyCount"] = totalEnemyEntities;
+
+	std::vector<CT_EditorEntity_Enemy*> EnemyList;
+	std::vector<CT_EditorEntity_Waypoint*> WaypointList;
+	
+
+	for (int i = 0; i < editorEntityList.size(); i++)
+	{
+		switch (editorEntityList[i]->GetType())
+		{
+		case EditorEntityType::Enemy:
+		
+			EnemyList.push_back(static_cast<CT_EditorEntity_Enemy*>(editorEntityList[i]));
+			break;
+		case EditorEntityType::Waypoint:
+
+			WaypointList.push_back(static_cast<CT_EditorEntity_Waypoint*>(editorEntityList[i]));
+			break;
+		}
+	}
+
+	for (int i = 0; i < EnemyList.size(); i++)
+	{
+		if (EnemyList[i] != nullptr)
+		{
+			switch (EnemyList[i]->GetType())
+			{
+			case EditorEntityType::Enemy:
+				CT_EditorEntity_Enemy* TempEnemy = EnemyList[i];
+				SaveData["Enemy"][i]["Type"] = TempEnemy->GetSlot();
+
+				SaveData["Enemy"][i]["Position"]["X"] = TempEnemy->GetPosition().x;
+				SaveData["Enemy"][i]["Position"]["Y"] = TempEnemy->GetPosition().y;
+				
+				
+			
+				SaveData["Enemy"][i]["WaypointList"] = TempEnemy->Waypoints.size();
+				for (int y = 0; y < TempEnemy->Waypoints.size(); y++)
+				{
+					SaveData["Enemy"][i]["Waypoints"][y]["X"] = TempEnemy->Waypoints[y]->gridPos.x;
+					SaveData["Enemy"][i]["Waypoints"][y]["Y"] = TempEnemy->Waypoints[y]->gridPos.y;
+				}
+
+
+				break;
+			}
+		}
+		
+	}
+
+	int StartX = playerStartEntity->GetPosition().x / (tileScale * tileScaleMultiplier);
+	int StartY = playerStartEntity->GetPosition().y / (tileScale * tileScaleMultiplier);
+	SaveData["PlayerStart"]["X"] = StartX;
+	SaveData["PlayerStart"]["Y"] = StartY;
+	
+
+	std::ofstream o(fileName);
+	o << SaveData;
+
+
+}
+
+void CWorld_Editable::EditWorld(int Slot)
+{
+	UNREFERENCED_PARAMETER(Slot);
+	ClearSpace();
+
+
+}
+
+void CWorld_Editable::NewWorld(int Slot)
+{
+	UNREFERENCED_PARAMETER(Slot);
+	for (int i = 0; i < mapScale * mapScale; i++)
+	{
+		Vector3 ConvertedPos = IndexToGrid(i);
+
+
+		tileData[i].id = 0;
+		tileData[i].type = CellType::Empty;
+
+	}
+
+	for (int i = 0; i < mapScale * mapScale; i++)
+	{
+		Vector3 convertedPos = IndexToGrid(i);
+		Vector3 tempPos = (Vector3(convertedPos.x, convertedPos.y, 0) * (tileScale * 2));
+
+
+
+		CTile* tile = Engine::CreateEntity<CTile>();
+		tile->SetPosition(tempPos);
+		tile->SetScale(tileScaleMultiplier);
+		tile->ChangeTileID(0);
+
+		tileContainer[i] = tile;
+	}
+
+}
 
 
 void CWorld_Editable::SetOperationMode(EditOperationMode mode)
@@ -26,25 +302,35 @@ void CWorld_Editable::SetOperationMode(EditOperationMode mode)
 	case EditOperationMode::None:
 		Debug::Log("OperationMode: None");
 		break;
+	case EditOperationMode::EnemyEntity:
+		break;
 	}
 }
 
 void CWorld_Editable::QueueCell(Vector2 Cell)
 {
-	if (!isQueueLocked)
+	if (operationType == EditOperationMode::Additive_Single || operationType == EditOperationMode::Subtractive_Single || operationType == EditOperationMode::EnemyEntity || operationType == EditOperationMode::Waypoints)
 	{
-		if (!selectedCell)
+		editOrigin = Cell;
+		PerformOperation(editOrigin, Cell);
+	}
+	else
+	{
+		if (!isQueueLocked)
 		{
-			editOrigin = Cell;
-			selectedCell = true;
-		}
-		else
-		{
+			if (!selectedCell)
+			{
+				editOrigin = Cell;
+				selectedCell = true;
+			}
+			else
+			{
 
 
-			PerformOperation(editOrigin, Cell);
+				PerformOperation(editOrigin, Cell);
 
-			selectedCell = false;
+				selectedCell = false;
+			}
 		}
 	}
 
@@ -67,14 +353,25 @@ void CWorld_Editable::PerformOperation(Vector2 A, Vector2 B)
 	{
 	case EditOperationMode::Additive:
 		AdditiveBox(A, B);
-		
-
 		break;
 	case EditOperationMode::Subtractive:
 		SubtractiveBox(A,B);
 		break;
+	case EditOperationMode::Subtractive_Single:
+		Subtractive_Cell(A);
+		break;
+	case EditOperationMode::Additive_Single:
+		Additive_Cell(A);
+		break;
+	case EditOperationMode::EnemyEntity:
+		AddEditorEntity_EnemyCharacter(A, selectedEntityID);
+		break;
+	case EditOperationMode::Waypoints:
+		AddEditorEntity_Waypoint(A);
+		break;
 	case EditOperationMode::None:
 		break;
+
 
 	}
 	ClearQueue();
@@ -88,136 +385,22 @@ void CWorld_Editable::PerformOperation_ClearSpace()
 	GenerateTileMap();
 }
 
-void CWorld_Editable::LoadWorld_Edit()
+
+void CWorld_Editable::ToggleDebugMode(bool isDebug)
 {
-	std::ifstream file("Resources/Levels/Level_1.json");
-
-
-	json storedFile;
-
-	file >> storedFile;
-
-	std::vector<std::string> convertedFile = storedFile["TileData"];
-
-
-	std::string Test = convertedFile[0];
-	std::cout << "" << std::endl;
-
-
-	for (int i = 0; i < (mapScale * mapScale); i++)
-	{
-		Vector3 temp = Vector3((float)(i % mapScale), (float)(i / mapScale), 0);
-		Vector2 gridPos = Vector2(temp.x, temp.y);
-
-		int ID = atoi(convertedFile[i].c_str());
-		Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
-
-		//tempPos += Vector3(0, 64 * tileScale, 0.0f);
-
-		tempPos.z = 10;
-
-
-
-		CTile* Tile = Engine::CreateEntity<CTile>();
-		Tile->SetPosition(tempPos);
-		Tile->SetScale(tileScaleMultiplier);
-		Tile->ChangeTileID(ID);
-
-		tileContainer[i] = Tile;
-
-
-
-		if (Tile->GetTileID() != 1)
-		{
-			tileData[i].id = 0;
-		}
-		else tileData[i].id = 1;
-
-
-		//tileData[i].id = Tile->GetTileID();
-		tileData[i].type = CellType::Empty;
-
-
-		
-
-	}
-
-	
-
-	BuildNavigationGrid();
-
-	GenerateTileMap();
-}
-
-
-
-
-void CWorld_Editable::SaveWorld(int Slot)
-{
-	UNREFERENCED_PARAMETER(Slot);
-
-	std::ifstream loadedData("Resources/Levels/Level_1.json");
-
-
-	json SaveData;
-
-	std::vector<std::string> MapData;
-
-	GenerateTileMap();
-
-
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
-		MapData.push_back(std::to_string(tileContainer[i]->GetTileID()));
+		tileContainer[i]->SetDebugMode(isDebug);
 	}
-
-
-	SaveData["TileData"] = MapData;
-
-
-	std::ofstream o("Resources/Levels/Level_1.json");
-	o << SaveData;
-
-
 }
 
-void CWorld_Editable::EditWorld(int Slot)
+void CWorld_Editable::UpdateEditorViewport()
 {
-	UNREFERENCED_PARAMETER(Slot);
-	ClearSpace();
-
-	
+	if (editorViewport) editorViewport->RenderWindows();
 }
 
-void CWorld_Editable::NewWorld(int Slot)
-{
-	UNREFERENCED_PARAMETER(Slot);
-	for (int i = 0; i < mapScale * mapScale; i++)
-	{
-		Vector3 ConvertedPos = IndexToGrid(i);
-		
-
-		tileData[i].id = 0;
-		tileData[i].type= CellType::Empty;
-
-	}
-
-	for (int i = 0; i < mapScale * mapScale; i++)
-	{
-		Vector3 convertedPos = IndexToGrid(i);
-		Vector3 tempPos = (Vector3(convertedPos.x, convertedPos.y, 0) * (tileScale * 2));
-	
 
 
-		CTile* tile = Engine::CreateEntity<CTile>();
-		tile->SetPosition(tempPos);
-		tile->SetScale(tileScaleMultiplier);
-		tile->ChangeTileID(0);
-
-		tileContainer[i] = tile;
-	}
-
-}
 
 
 
@@ -229,6 +412,21 @@ void CWorld_Editable::ClearSpace()
 		tileData[i].id = 0;
 	}
 }
+void CWorld_Editable::Additive_Cell(Vector2 A)
+{
+	int Index = (A.x) + (((int)A.y) * mapScale);
+	tileData[Index].id = 0;
+
+}
+
+void CWorld_Editable::Subtractive_Cell(Vector2 A)
+{
+	int Index = (A.x) + (((int)A.y) * mapScale);
+	tileData[Index].id = 1;
+
+}
+
+
 
 void CWorld_Editable::AdditiveBox(Vector2 A, Vector2 B)
 {
@@ -317,15 +515,67 @@ void CWorld_Editable::GenerateTileMap()
 	}
 	
 	//Locates corners and assigns them
+	std::vector<Vector2> CornerPos;
+	for (int i = 0; i < mapScale * mapScale; i++)
+	{
+		Vector3 pos = IndexToGrid(i);
+		Vector2 p2 =  Vector2(pos.x, pos.y);
+	
+		if (IsTile(p2, CellType::Edge))
+		{
+			if (GetTotalAdjacentsOfType(p2, CellType::Edge) <= 3)
+			{
+				Vector2 Dir = FindAdjacentEdges(p2);
+				if (Dir.x != 2 && Dir.y != 2)
+				{
+					CornerPos.push_back(p2);
+				}
+
+			}
+			
+		}
+		
+
+	}
+	for (int i = 0; i < CornerPos.size(); i++)
+	{
+		tileData[GridToIndex(CornerPos[i])].type = CellType::InnerCorner;
+	}
+
+
 
 	for (int i = 0; i < mapScale * mapScale; i++)
 	{
-
 		Vector3 pos = IndexToGrid(i);
-		
-		SetCorner(Vector2(pos.x, pos.y));
+		Vector2 p2 = Vector2(pos.x, pos.y);
+		if (IsTile(p2, CellType::InnerCorner))
+		{
+			if (GetTotalAdjacentsOfType(p2, CellType::Edge) == 3)
+			{
+				tileData[GridToIndex(p2)].type = CellType::TConnector;
+			}
+			else if (GetTotalAdjacentsOfType(p2, CellType::Edge) == 4)
+			{
+				tileData[GridToIndex(p2)].type = CellType::XConnector;
+			}
+		}
+	}
+
+
+	for (int i = 0; i < mapScale * mapScale; i++)
+	{
+		Vector3 pos = IndexToGrid(i);
+		if (IsTile(Vector2(pos.x, pos.y), CellType::InnerCorner))
+		{
+			SetCorner(Vector2(pos.x, pos.y));
+		}
+
 
 	}
+
+	
+
+	
 	
 	//Assigns all the tiles based on their neighbours and assigned type
 
@@ -385,6 +635,9 @@ void CWorld_Editable::GenerateTileMap()
 
 			break;
 		}
+
+
+		tileContainer[i]->UpdateDebugRender();
 	}
 
 
@@ -410,6 +663,16 @@ bool CWorld_Editable::IsFloorAdjacent(Vector2 Position)
 	else return false;
 }
 
+
+int CWorld_Editable::GetTotalAdjacentsOfType(Vector2 Pos, CellType AdjacentType)
+{
+	int Total = 0;
+	if (IsTile(Pos + Vector2(1, 0), AdjacentType)) Total++;
+	if (IsTile(Pos + Vector2(-1, 0), AdjacentType)) Total++;
+	if (IsTile(Pos + Vector2(0, -1), AdjacentType)) Total++;
+	if (IsTile(Pos + Vector2(0, 1), AdjacentType)) Total++;
+	return Total;
+}
 
 Vector2 CWorld_Editable::FindAdjacents(Vector2 Pos, CellType ID)
 {
@@ -500,11 +763,8 @@ Vector2 CWorld_Editable::FindFloorAdjacentDiagonal(Vector2 Position)
 
 bool CWorld_Editable::SetCorner(Vector2 Position)
 {
-	if (IsTile(Position, CellType::Edge))
+	if (GetTotalAdjacentsOfType(Position, CellType::Edge) <= 2)
 	{
-
-
-
 		std::vector<CellType> list;
 		list.push_back(CellType::Edge);
 		list.push_back(CellType::InnerCorner);
@@ -558,11 +818,137 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 				tileData[GridToIndex(Position)].type = CellType::InnerCorner;
 			}
 		}
+	}
+
+	return false;
+}
+
+EditorEntityType CWorld_Editable::GetInspectedItemType()
+{
+	if (inspectedEntity != nullptr)
+	{
+		return inspectedEntity->GetType();
+	}
+	else return EditorEntityType::None;
+}
+
+void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
+{
+
+
+	inspectedEntity = nullptr;
+
+	for (int i = 0; i < editorEntityList.size(); i++)
+	{
+	
+		Vector3 Pos = Vector3(MousePos.x, MousePos.y, 0) * (tileScale * tileScaleMultiplier);
+		Pos.z = -1;
+		Vector3 EPos = editorEntityList[i]->GetPosition();
+
+		Debug::Log("Entity Location: [%f | %f] vs Mouse Location: [%f | %f]",EPos.x, EPos.y, Pos.x, Pos.y );
+		Debug::Log("Distance: %f", Pos.DistanceTo(EPos));
+		if (Pos.DistanceTo(editorEntityList[i]->GetPosition()) <= 64)
+		{
+			Debug::Log("Entity Located");
+			inspectedEntity = editorEntityList[i];
+		
+			
+		}
+		
+	}
+	
+
+
+}
+
+void CWorld_Editable::MoveSelectedEntity(Vector3 Position)
+{
+
+
+	if (inspectedEntity != nullptr) 
+	{
+		Vector3 CurPos = inspectedEntity->GetPosition() / (tileScale * tileScaleMultiplier);
+
+		Vector2 Pos2d = Vector2(Position.x, Position.y);
+		Vector3 NewPos = Position * (tileScale * tileScaleMultiplier);
+		NewPos.z = -1;
+		if (tileContainer[GridToIndex(Pos2d)]->IsWalkable())
+		{
+			inspectedEntity->SetPosition(NewPos);
+		}
+
+		if (!tileContainer[GridToIndex(Vector2(CurPos.x, CurPos.y))]->IsWalkable())
+		{
+			Vector2 Pos2d = Vector2(Position.x, Position.y);
+			Vector3 NewPos = Position * (tileScale * tileScaleMultiplier);
+			NewPos.z = -1;
+			if (tileContainer[GridToIndex(Pos2d)]->IsWalkable())
+			{
+				inspectedEntity->SetPosition(NewPos);
+			}
+		}
 
 
 
 
 	}
+	
+}
 
-	return false;
+void CWorld_Editable::RemoveSelectedEntity()
+{
+	if (inspectedEntity != nullptr && inspectedEntity->GetType() != EditorEntityType::Flag)
+	{
+		for (int i = 0; i < editorEntityList.size(); i++)
+		{
+			if (editorEntityList[i] == inspectedEntity)
+			{
+				editorEntityList.erase(editorEntityList.begin() + i);
+
+				Engine::DestroyEntity(inspectedEntity);
+
+				totalEnemyEntities--;
+				break;
+			}
+		}
+	}
+	
+
+}
+
+
+///////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+/////////////////LOOKUP DATA FOR ADDING ENTITIES////////////////
+///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+void CWorld_Editable::AddEditorEntity_EnemyCharacter(Vector2 Position, int Slot)
+{
+	Vector3 NewPos = Vector3(Position.x, Position.y, 0) * (tileScale * tileScaleMultiplier);
+	NewPos.z = -1;
+	if (tileContainer[GridToIndex(Position)]->IsWalkable())
+	{
+		CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
+		TempRef->InitialiseEntity(Slot);
+		TempRef->SetPosition(NewPos);
+		editorEntityList.push_back(TempRef);
+		totalEnemyEntities++;
+	
+	}
+	
+}
+
+void CWorld_Editable::AddEditorEntity_Decoration(Vector2 Position, int Slot)
+{
+
+}
+
+void CWorld_Editable::AddEditorEntity_Waypoint(Vector2 Position)
+{
+	if (tileContainer[GridToIndex(Position)]->IsWalkable())
+	{
+		editorEntityList.push_back(GetInspectedItem_Enemy()->AddWaypoint(Position));
+	}
 }

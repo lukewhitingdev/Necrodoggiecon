@@ -372,6 +372,8 @@
   <ItemGroup>
     <ClInclude Include="Core\Utility\CameraManager\CameraManager.h" />
     <ClInclude Include="Core\Components\CCameraComponent.h" />
+    <ClInclude Include="Tools\CT_EditorEntity.h" />
+    <ClInclude Include="Core\Utility\CWorldManager.h" />
     <ClInclude Include="Core\Components\CAnimationSpriteComponent.h" />
     <ClInclude Include="Core\Components\CParticleEmitter.h" />
     <ClInclude Include="Core\Entities\CParticle.h" />
@@ -430,6 +432,8 @@
   <ItemGroup>
     <ClCompile Include="Core\Utility\CameraManager\CameraManager.cpp" />
     <ClCompile Include="Core\Components\CCameraComponent.cpp" />
+    <ClCompile Include="Tools\CT_EditorEntity.cpp" />
+    <ClCompile Include="Core\Utility\CWorldManager.cpp" />
     <ClCompile Include="Core\Components\CAnimationSpriteComponent.cpp" />
     <ClCompile Include="Core\Components\CParticleEmitter.cpp" />
     <ClCompile Include="Core\Entities\CParticle.cpp" />
