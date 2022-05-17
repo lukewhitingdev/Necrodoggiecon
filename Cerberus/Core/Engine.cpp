@@ -438,7 +438,7 @@ HRESULT	InitMesh()
 {
 	// Compile the vertex shader
 	ID3DBlob* pVSBlob = nullptr;
-	HRESULT hr = CompileShaderFromFile(L"Resources/Shaders/shader.fx", "VS", "vs_4_0", &pVSBlob);
+	HRESULT hr = CompileShaderFromFile(L"Resources/Engine/Shaders/shader.fx", "VS", "vs_4_0", &pVSBlob);
 	if (FAILED(hr))
 	{
 		MessageBox(nullptr,
@@ -474,7 +474,7 @@ HRESULT	InitMesh()
 
 	// Compile the pixel shader
 	ID3DBlob* pPSBlob = nullptr;
-	hr = CompileShaderFromFile(L"Resources/Shaders/shader.fx", "PS", "ps_4_0", &pPSBlob);
+	hr = CompileShaderFromFile(L"Resources/Engine/Shaders/shader.fx", "PS", "ps_4_0", &pPSBlob);
 	if (FAILED(hr))
 	{
 		MessageBox(nullptr,
@@ -488,7 +488,7 @@ HRESULT	InitMesh()
 	if (FAILED(hr))
 		return hr;
 
-	hr = CompileShaderFromFile(L"Resources/Shaders/shader.fx", "PSSolid", "ps_4_0", &pPSBlob);
+	hr = CompileShaderFromFile(L"Resources/Engine/Shaders/shader.fx", "PSSolid", "ps_4_0", &pPSBlob);
 	if (FAILED(hr))
 	{
 		MessageBox(nullptr,

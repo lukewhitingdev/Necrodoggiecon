@@ -8,7 +8,7 @@ CPlayer::CPlayer()
 	Debug::Log("init player class!\n");
 
 	sprite = AddComponent<CSpriteComponent>();
-	sprite->LoadTexture("Resources\\birb.dds");
+	sprite->LoadTexture("Resources/birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
 

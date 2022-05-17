@@ -50,9 +50,7 @@ CAudio* AudioController::LoadAudio(std::string path)
 
 	FMOD_RESULT result;
 
-	std::string fullPath = SOLUTION_DIR + path;
-
-	if ((result = FMODSystem->createSound(fullPath.c_str(), FMOD_2D, nullptr, &sound)) != FMOD_OK)
+	if ((result = FMODSystem->createSound(path.c_str(), FMOD_2D, nullptr, &sound)) != FMOD_OK)
 	{
 		Debug::LogError("[Load Audio][%s] FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
 		return nullptr;
@@ -208,7 +206,7 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
 	for(CEmitter* emiter : emitters)
 	{
 		// Check if we are inrange of the circular range emitters have.
-		if (emiter->range < position.DistanceTo(emiter->position))
+		if (emiter->range > position.DistanceTo(emiter->position))
 			output.emplace_back(emiter);
 	}
 	return output;

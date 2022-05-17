@@ -42,6 +42,41 @@ public:
 		return dynamic_cast<T*>(tmp);
 	}
 
+	template<class T>
+	T* GetComponent()
+	{
+		T* comp = nullptr;
+		for(auto& component : components)
+		{
+			comp = dynamic_cast<T*>(component);
+			if(comp != nullptr)
+			{
+				return comp;
+			}
+		}
+
+		return nullptr;
+	}
+
+	template<class T>
+	std::vector<T*> GetAllComponents()
+	{
+		std::vector<T*> output;
+		T* comp = nullptr;
+		for (auto& component : components)
+		{
+			comp = dynamic_cast<T*>(component);
+			if (comp != nullptr)
+			{
+				output.push_back(comp);
+			}
+		}
+
+		return output;
+	}
+
+
+
 	/**
 	 * Removes the specified component.
 	 */
@@ -49,7 +84,10 @@ public:
 
 	CollisionComponent* colComponent = nullptr;
 	virtual void HasCollided(CollisionComponent* collidedObject) {
-		colComponent->Resolve(collidedObject);
-		this->SetPosition(colComponent->GetPosition());
+		if (!collidedObject->GetTrigger())
+		{
+			colComponent->Resolve(collidedObject);
+			this->SetPosition(colComponent->GetPosition());
+		}
 	};
 };

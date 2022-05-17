@@ -63,6 +63,7 @@
     <ClCompile Include="Game\TestUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game\weapons.cpp">
     <ClCompile Include="Game\AI\Pathfinding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -70,6 +71,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="weaponUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CInteractable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,6 +129,14 @@
     <ClInclude Include="Game\TestUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game\weapons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Weapons.json">
+      <Filter>Resource Files</Filter>
+    </None>
     <ClInclude Include="Game\AI\Pathfinding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -132,6 +144,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="weaponUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\CInteractable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

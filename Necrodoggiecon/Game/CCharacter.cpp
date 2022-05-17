@@ -1,5 +1,13 @@
 #include "CCharacter.h"
 
+CCharacter::CCharacter()
+{
+}
+
+CCharacter::~CCharacter()
+{
+}
+
 void CCharacter::AddVerticalMovement(int dir, float speed, float deltaTime)
 {
 	Vector3 pos = GetPosition();

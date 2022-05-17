@@ -131,8 +131,18 @@
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;winmm.lib;comctl32.lib;$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y "$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod.dll" "$(OutDir)fmod.dll"</Command>
-      <Message>Copying FMOD dll to output dir</Message>
+      <Command>echo "Copying FMOD DLL \n"
+copy /y "$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod.dll" "$(OutDir)fmod.dll"
+
+echo "Copying Engine Resources \n"
+xcopy "$(SolutionDir)Cerberus\Resources" "$(ProjectDir)Resources"  /s /f /i /y
+
+echo "Copying Engine Resources to output \n"
+xcopy "$(SolutionDir)Cerberus\Resources" "$(OutDir)Resources"  /s /f /i /y
+
+echo "Copying Game Resources to output \n"
+xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
+      <Message>Post Build Step.</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,6 +163,22 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxguid.lib;winmm.lib;comctl32.lib;$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>echo "Copying FMOD DLL \n"
+copy /y "$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod.dll" "$(OutDir)fmod.dll"
+
+echo "Copying Engine Resources \n"
+xcopy "$(SolutionDir)Cerberus\Resources" "$(ProjectDir)Resources"  /s /f /i /y
+
+echo "Copying Engine Resources to output \n"
+xcopy "$(SolutionDir)Cerberus\Resources" "$(OutDir)Resources"  /s /f /i /y
+
+echo "Copying Game Resources to output \n"
+xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Post Build Step.</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cerberus\CerberusEngine.vcxproj">
@@ -160,6 +186,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\CInteractable.cpp" />
     <ClCompile Include="Game\AI\CAICharacter.cpp" />
     <ClCompile Include="Game\AI\CAIController.cpp" />
     <ClCompile Include="Game\AI\Pathfinding.cpp" />
@@ -177,10 +204,12 @@
     <ClCompile Include="Game\testEquippedItem.cpp" />
     <ClCompile Include="Game\testItemData.cpp" />
     <ClCompile Include="Game\TestUI.cpp" />
+    <ClCompile Include="Game\weapons.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="weaponUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\CInteractable.h" />
     <ClInclude Include="Game\AI\CAICharacter.h" />
     <ClInclude Include="Game\AI\CAIController.h" />
     <ClInclude Include="Game\AI\CAINode.h" />
@@ -200,6 +229,10 @@
     <ClInclude Include="Game\testEquippedItem.h" />
     <ClInclude Include="Game\testItemData.h" />
     <ClInclude Include="Game\TestUI.h" />
+    <ClInclude Include="Game\weapons.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Weapons.json" />
     <ClInclude Include="weaponUI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

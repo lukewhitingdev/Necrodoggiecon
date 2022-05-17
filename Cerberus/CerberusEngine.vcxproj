@@ -105,6 +105,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'">
     <LinkIncremental>false</LinkIncremental>
     <GenerateManifest>true</GenerateManifest>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -113,6 +114,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|X64'">
     <LinkIncremental>false</LinkIncremental>
     <GenerateManifest>true</GenerateManifest>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -163,7 +165,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;_WIN32_WINNT=0x0600;SOLUTION_DIR=R"($(SolutionDir)Cerberus\)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;_WIN32_WINNT=0x0600;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -277,8 +279,10 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /y "$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod.dll" "$(OutDir)fmod.dll"</Command>
-      <Message>Copying FMOD dll to output dir</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
@@ -359,8 +363,10 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy /y "$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod.dll" "$(OutDir)fmod.dll"</Command>
-      <Message>Copying FMOD dll to output dir</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -377,6 +383,7 @@
     <ClInclude Include="Core\Structs\CMaterial.h" />
     <ClInclude Include="Core\Components\CTextRenderComponent.h" />
     <ClInclude Include="Core\Utility\EntityManager.h" />
+    <ClInclude Include="Core\Components\CRigidBodyComponent.h" />
     <ClInclude Include="Tools\CT_EditorGrid.h" />
     <ClInclude Include="Core\Environment\CWorld_Edit.h" />
     <ClInclude Include="Core\Environment\IInputable.h" />
@@ -437,6 +444,7 @@
     <ClCompile Include="Core\Components\CTextRenderComponent.cpp" />
     <ClCompile Include="Core\Utility\Math\Math.cpp" />
     <ClCompile Include="Core\Utility\EntityManager.cpp" />
+    <ClCompile Include="Core\Components\CRigidBodyComponent.cpp" />
     <ClCompile Include="Tools\CT_EditorGrid.cpp" />
     <ClCompile Include="Core\Environment\CWorld_Edit.cpp" />
     <ClCompile Include="Dependencies\Microsoft\DirectXHelpers.cpp" />
