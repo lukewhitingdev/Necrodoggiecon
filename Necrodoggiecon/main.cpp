@@ -13,7 +13,7 @@
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
 #include <Game/WeaponPickup.h>
-#include <Dagger.h>
+#include <Weapons/Melee/Dagger.h>
 
 /*
 
