@@ -19,16 +19,19 @@ public:
 	void SetTexture(std::string path);
 	void SetTextureWIC(std::string path);
 
+	void SetInteractRange(const float value);
+
 protected:
 	void DrawUI();
+	CollisionComponent* GetLastCollidedObject();
 
 private:
 	float interactTextOffset;
 	float interactRange;
+	CollisionComponent* lastCollidedObject;
 
 	CSpriteComponent* sprite;
 	CTextRenderComponent* interactText;
 
-	CollisionComponent* lastCollidedObject;
 };
 
