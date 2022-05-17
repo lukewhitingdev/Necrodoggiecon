@@ -58,10 +58,10 @@ void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players po
 		{
 			if (ammo > 0)
 			{
-				//canFire = false;
+				canFire = false;
 				cooldown = attack_speed;
 				HandleRanged(actorPos, normAttackDir);
-				//ammo--;3
+				ammo--;
 			}
 			else
 			{
