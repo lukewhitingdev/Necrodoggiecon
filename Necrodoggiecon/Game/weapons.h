@@ -10,7 +10,7 @@
 #include "Cerberus\Dependencies\NlohmannJson\json.hpp"
 class PlayerController;
 
-#define rangeScale 320.0f
+#define rangeScale 1.0f
 
 using json = nlohmann::json;
 

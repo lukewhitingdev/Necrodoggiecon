@@ -90,7 +90,7 @@ CEntity* Weapon::GetClosestEnemy(Vector3 actorPos)
 	{
 
 		if (actorPos.DistanceTo(enemy->GetPosition()) > range)
-			break;
+			continue;
 
 		if (closestEnemy == nullptr)
 			closestEnemy = enemy;
@@ -118,7 +118,7 @@ CEntity* Weapon::GetClosestPlayer(Vector3 actorPos)
 	{
 
 		if (actorPos.DistanceTo(player->GetPosition()) > range)
-			break;
+			continue;
 
 		if (closestPlayer == nullptr)
 			closestPlayer = player;
