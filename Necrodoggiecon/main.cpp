@@ -103,14 +103,6 @@ int Start()
 
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
-	character1->SetPosition({ 1000.0f, 200.0f, 0.0f });
-	character1->droppedItem = droppedItem;
-
-	//controller->charOne = character1;
-
-	controller->Possess(character1);
-	character1->shouldMove = true;
-	character1->colComponent->SetCollider(128.0f, 128.0f);
 
 	Engine::CreateEntity<MeleeEnemy>();
 	Engine::CreateEntity<MeleeEnemy>();
