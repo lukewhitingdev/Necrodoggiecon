@@ -63,25 +63,16 @@
     <ClCompile Include="Game\AI\MeleeEnemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\AI\RangedEnemy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game\CInteractable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\AI\CAICharacter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\AI\CAIController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\weapons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\AI\Pathfinding.cpp">
+    <ClCompile Include="Game\AI\DogEnemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\AI\State.cpp">
+    <ClCompile Include="Game\AI\AlarmEnemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -134,22 +125,16 @@
     <ClInclude Include="Game\AI\MeleeEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\AI\RangedEnemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Game\CInteractable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\AI\CAICharacter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\AI\CAIController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\AI\CAINode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Game\weapons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\AI\DogEnemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\AI\AlarmEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -157,11 +142,5 @@
     <None Include="Resources\Weapons.json">
       <Filter>Resource Files</Filter>
     </None>
-    <ClInclude Include="Game\AI\Pathfinding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\AI\State.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
