@@ -104,11 +104,11 @@ int Start()
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
 
+	/*Engine::CreateEntity<MeleeEnemy>();
 	Engine::CreateEntity<MeleeEnemy>();
 	Engine::CreateEntity<MeleeEnemy>();
 	Engine::CreateEntity<MeleeEnemy>();
-	Engine::CreateEntity<MeleeEnemy>();
-	Engine::CreateEntity<AlarmEnemy>();
+	Engine::CreateEntity<AlarmEnemy>();*/
 
 	return 0;
 }

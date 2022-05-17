@@ -184,9 +184,7 @@ private:
 	//Cached position for the current edit operation
 	 Vector2 editOrigin;
 
-	 //The slot that the current map is tied to.
-	 int mapSlot;
-
+	
 	//Whether or not an operation is taking place
 	 bool selectedCell;
 

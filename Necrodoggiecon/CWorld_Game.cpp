@@ -11,7 +11,7 @@
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <Cerberus/Core/Structs/CCamera.h>
-
+#include "Cerberus/WorldConstants.h"
 
 
 /**
@@ -49,5 +49,76 @@ void CWorld_Game::SetupWorld()
 	controller->Possess(character1);
 	character1->shouldMove = true;
 	character1->colComponent->SetCollider(64.0f, 64.0f);
+
+	std::string fileName = "Resources/Levels/Level_" + std::to_string(mapSlot);
+	fileName += ".json";
+
+	std::ifstream file(fileName);
+
+	json storedFile;
+
+	file >> storedFile;
+	
+
+	int enemyCount = storedFile["EnemyCount"];
+
+	std::vector<PatrolNode*> patrolNodes;
+
+	for (int i = 0; i < enemyCount; i++)
+	{
+		int EnemyID = storedFile["Enemy"][i]["Type"];
+		int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
+		int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
+		Vector3 position = Vector3{ (float)EnemyX, (float)EnemyY, 0.0f };
+
+		CAIController* enemy = nullptr;
+
+		switch (EnemyID)
+		{
+		case 0:
+		{
+			enemy = Engine::CreateEntity<DogEnemy>();
+			enemy->SetPosition(position);
+			break;
+		}
+		case 1:
+		{
+			enemy = Engine::CreateEntity<MeleeEnemy>();
+			enemy->SetPosition(position);
+			break;
+		}
+		default:
+			enemy = Engine::CreateEntity<CAIController>();
+			break;
+		}
+
+		int waypointlist = storedFile["Enemy"][i]["WaypointList"];
+		for (int y = 0; y < waypointlist; y++)
+		{
+			int waypointx = storedFile["Enemy"][i]["Waypoints"][y]["X"];
+			int waypointy = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
+			Vector3 patrolPosition = Vector3{ (float)waypointx * mapScale * tileScaleMultiplier, (float)waypointy * mapScale * tileScaleMultiplier, 0.0f };
+			PatrolNode* patrol = new PatrolNode(patrolPosition);
+			patrolNodes.push_back(patrol);
+		}
+
+		int numberOfPatrolNodes = patrolNodes.size();
+		for (int patrolIndex = 0; patrolIndex < numberOfPatrolNodes; ++patrolIndex)
+		{
+			if (patrolIndex == numberOfPatrolNodes - 1)
+			{
+				patrolNodes[patrolIndex]->nextPatrolNode = patrolNodes[0];
+			}
+			else
+			{
+				patrolNodes[patrolIndex]->nextPatrolNode = patrolNodes[patrolIndex+1];
+			}
+		}
+		Vector3 enemyPos = enemy->GetPosition();
+		enemy->pathing->SetPatrolNodes(patrolNodes);
+		enemy->pathing->currentPatrolNode = enemy->pathing->FindClosestPatrolNode(enemy->GetPosition());
+		enemy->SetCurrentState(PatrolState::getInstance());
+		patrolNodes.clear();
+	}
 
 }
