@@ -1,5 +1,6 @@
 #include "Cerberus\Core\Engine.h"
 #include <Cerberus\Core\Environment\CWorld.h>
+#include "Necrodoggiecon/CWorld_Game.h"
 #include "Necrodoggiecon\Game\CPlayer.h"
 #include <Necrodoggiecon\Game\TestUI.h>
 #include <Necrodoggiecon\Game\CursorEntity.h>
@@ -8,6 +9,7 @@
 #include <Necrodoggiecon\Game\ItemDatabase.h>
 #include <Necrodoggiecon\Game\AI\CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
+#include <Cerberus/Core/Utility/CWorldManager.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <weaponUI.h>
@@ -85,19 +87,9 @@ int Start()
 
 	CameraManager::AddCamera(freeCameraComponent);
 
-	CWorld::LoadWorld(0);
+	CWorldManager::LoadWorld(new CWorld_Game(0));
 
-	PlayerController* controller = Engine::CreateEntity<PlayerController>();
-	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
-
-	// Locked Camera follows player.
-	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>();
-	lockedCameraComponent->Initialize();
-	lockedCameraComponent->SetAttachedToParent(true);
-
-	CameraManager::AddCamera(lockedCameraComponent);
-
-	CameraManager::SetRenderingCamera(lockedCameraComponent);
+	
 
 	CEntity* t = Engine::CreateEntity<weaponUI>();
 	t->SetPosition(XMFLOAT3(0, 0, -90));
@@ -108,14 +100,15 @@ int Start()
 
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
-	character1->droppedItem = droppedItem;
+	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	//character1->droppedItem = droppedItem;
 
-	controller->charOne = character1;
+	//controller->charOne = character1;
 
-	character1->SetPosition(Vector3(0, 0, 0));
-	controller->Possess(character1);
-	character1->shouldMove = true;
-	character1->colComponent->SetCollider(128.0f, 128.0f);
+//	character1->SetPosition(Vector3(0, 0, 0));
+	//controller->Possess(character1);
+	//character1->shouldMove = true;
+	//character1->colComponent->SetCollider(128.0f, 128.0f);
 
 	Engine::CreateEntity<CAIController>();
 

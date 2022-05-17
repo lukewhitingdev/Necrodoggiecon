@@ -1,4 +1,5 @@
 #include "CT_EditorWindows.h"
+#include "Cerberus/Core/Utility/CWorldManager.h"
 #include "Cerberus\Core\Environment\CWorld_Edit.h"
 
 
@@ -24,34 +25,53 @@ void CT_EditorWindows::render()
             if (ImGui::GetIO().WantCaptureMouse)
             {
                
-                CWorld_Editable::ToggleCellQueueLock(true);
+                CWorldManager::GetEditorWorld()->ToggleCellQueueLock(true);
             }
             else
             {
 
               
-                CWorld_Editable::ToggleCellQueueLock(false);
+                CWorldManager::GetEditorWorld()->ToggleCellQueueLock(false);
             }
 
 
             if (ImGui::TreeNode("Grid Manipulation"))
             {
-                if (ImGui::Button("Add Walkable"))
+                if (ImGui::Button("Add Walkable (Box)"))
                 {
-                    CWorld_Editable::SetOperationMode(EditOperationMode::Subtractive);
-                    CWorld_Editable::ClearQueue();
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Subtractive);
+                    CWorldManager::GetEditorWorld()->ClearQueue();
                 }
-                if (ImGui::Button("Add Wall"))
+                if (ImGui::Button("Add Wall (Box)"))
                 {
-                    CWorld_Editable::SetOperationMode(EditOperationMode::Additive);
-                    CWorld_Editable::ClearQueue();
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Additive);
+                    CWorldManager::GetEditorWorld()->ClearQueue();
+                }
+                if (ImGui::Button("Add Walkable (Single)"))
+                {
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Subtractive_Single);
+                    CWorldManager::GetEditorWorld()->ClearQueue();
+                }
+                if (ImGui::Button("Add Wall (Single)"))
+                {
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Additive_Single);
+                    CWorldManager::GetEditorWorld()->ClearQueue();
                 }
                 if (ImGui::Button("None"))
                 {
-                    CWorld_Editable::SetOperationMode(EditOperationMode::None);
-                    CWorld_Editable::ClearQueue();
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::None);
+                    CWorldManager::GetEditorWorld()->ClearQueue();
                 }
 
+                ImGui::TreePop();
+            }
+            if (ImGui::TreeNode("Debug"))
+            {
+                if (ImGui::Button("Toggle Debug"))
+                {
+                    CWorldManager::GetEditorWorld()->ToggleDebugMode(!debugModeToggle);
+                    debugModeToggle = !debugModeToggle;
+                }
                 ImGui::TreePop();
             }
 
@@ -60,10 +80,24 @@ void CT_EditorWindows::render()
             {
                 if (ImGui::Button("Clear Grid"))
                 {
-                    CWorld_Editable::PerformOperation_ClearSpace();
-                    CWorld_Editable::ClearQueue();
+                    CWorldManager::GetEditorWorld()->PerformOperation_ClearSpace();
+                    CWorldManager::GetEditorWorld()->ClearQueue();
                 }
               
+
+                ImGui::TreePop();
+            }
+
+            if (ImGui::TreeNode("Levels"))
+            {
+                ImGui::InputInt("Slot", levelToLoad, 1, 1);
+                if (ImGui::Button("Load"))
+                {
+                    int LevelID = *levelToLoad;
+                    CWorldManager::LoadWorld(LevelID, true);
+                   
+                }
+
 
                 ImGui::TreePop();
             }
@@ -72,7 +106,7 @@ void CT_EditorWindows::render()
 
             if (ImGui::Button("Save"))
             {
-                CWorld_Editable::SaveWorld(0);
+                CWorldManager::GetEditorWorld()->SaveWorld(*levelToLoad);
             }
 
             //AdditionalRenderLogic(*open);
@@ -115,6 +149,122 @@ void CT_EditorWindows::render()
             ImGui::SetItemDefaultFocus();
 
             ImGui::End();
+
+
+
+
+            ImGui::SetNextWindowSize(ImVec2(WindowScale.x, WindowScale.y), ImGuiCond_FirstUseEver);
+            if (!ImGui::Begin("Content", open))
+            {
+
+                ImGui::End();
+                return;
+            }
+
+            if (ImGui::TreeNode("Decoration"))
+            {
+                int ItemCount = 5;
+                for (int i = 0; i < ItemCount; i++)
+                {
+                    std::string SlotName = "Slot " + std::to_string(i);
+                 
+                    if (ImGui::Button(SlotName.c_str()))
+                    {
+
+                    }
+                }
+
+
+                ImGui::TreePop();
+            }
+
+            if (ImGui::TreeNode("Gameplay Controllers"))
+            {
+                if (ImGui::Button("Player Start"))
+                {
+
+                }
+               
+                if (ImGui::Button("Item Holder"))
+                {
+
+                }
+
+                if (ImGui::Button("Goal"))
+                {
+
+                }
+                ImGui::TreePop();
+            }
+            if (ImGui::TreeNode("Enemy Units"))
+            {
+                if (ImGui::Button("Mage Enemy"))
+                {
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::EnemyEntity);
+                    CWorldManager::GetEditorWorld()->SetEntityID(0);
+                }
+                if (ImGui::Button("Melee Enemy"))
+                {
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::EnemyEntity);
+                    CWorldManager::GetEditorWorld()->SetEntityID(1);
+                }
+
+
+               
+                ImGui::TreePop();
+            }
+
+
+
+            ImGui::End();
+
+            ImGui::SetNextWindowSize(ImVec2(WindowScale.x, WindowScale.y), ImGuiCond_FirstUseEver);
+            if (!ImGui::Begin("Details", open))
+            {
+
+                ImGui::End();
+                return;
+            }
+            if (CWorldManager::GetEditorWorld()->GetInspectedItemType() != EditorEntityType::None)
+            {
+                switch (CWorldManager::GetEditorWorld()->GetInspectedItemType())
+                {
+                case EditorEntityType::Enemy:
+                   
+                    switch (CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetSlot())
+                    {
+                    case 0:
+                        ImGui::Text("Mage Enemy");
+                        break;
+                    case 1: 
+                        ImGui::Text("Melee Enemy");
+                        break;
+                    }
+                    if (ImGui::Button("Add Waypoint"))
+                    {
+                        CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Waypoints);
+                    }
+                    if (ImGui::Button("Toggle Waypoint"))
+                    {
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->ToggleWaypoints(toggleWaypoints = !toggleWaypoints);
+                    }
+
+                    break;
+                case EditorEntityType::Waypoint:
+                  
+                    std::string Name = "Waypoint: ";
+                    Name += std::to_string(CWorldManager::GetEditorWorld()->GetInspectedItem_Waypoint()->waypointOrder).c_str();
+                    ImGui::Text(Name.c_str());
+                  
+                }
+            }
+           
+           
+
+
+
+            ImGui::End();
+
         }
 
     }
