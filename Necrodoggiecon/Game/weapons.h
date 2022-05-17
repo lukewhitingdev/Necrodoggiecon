@@ -52,8 +52,8 @@ private:
 	void HandleMelee(Vector3 actorPos, Vector3 normAttackDir);
 	void HandleRanged();
 
-	CEntity* GetClosestEnemy(Vector3 actorPos);
-	CEntity* GetClosestPlayer(Vector3 actorPos);
+	CEntity* GetClosestEnemy(Vector3 actorPos, Vector3 damagePos);
+	CEntity* GetClosestPlayer(Vector3 actorPos, Vector3 damagePos);
 
 	std::string type;
 	std::string name;

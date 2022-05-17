@@ -7,6 +7,11 @@ Weapon::Weapon(std::string weapon)
 	SetWeapon(weapon);
 }
 
+/**
+ * Sets the private variables using the information stored in a JSON file of weapons
+ * 
+ * \param weapon Name of the weapon in the JSON
+ */
 void Weapon::SetWeapon(std::string weapon)
 {
 	std::ifstream file("Resources/Weapons.json");
@@ -39,13 +44,24 @@ void Weapon::CoolDown(float deltaTime)
 	}
 }
 
+/**
+ * . Update function called every frame allowing for the cooldown to be used
+ * 
+ * \param deltaTime
+ */
 void Weapon::Update(float deltaTime)
 {
 	if (!canFire)
 		CoolDown(deltaTime);
 }
 
-void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players position | attackDir = mouse position
+/**
+ * . OnFire function that handles basic firing chekcing if the weapon is a Melee or ranged weapon to use the basic logic. This will be overridden in the Sub-classes of weapons that have unique logic
+ * 
+ * \param actorPos
+ * \param attackDir
+ */
+void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	Debug::Log("Weapon: %s", name.c_str());
 
@@ -77,22 +93,27 @@ void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players po
 	}
 }
 
-
-void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
+/**
+ * Basic function to handle Melee.
+ * 
+ * \param actorPos
+ * \param normAttackDir
+ */
+void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir) // BB
 {
 	Vector3 damagePos = actorPos + normAttackDir * range;
 
 	if (userType == USERTYPE::AI)
 	{
 		Debug::Log("UserType is AI");
-		CEntity* target = GetClosestPlayer(damagePos);
+		CEntity* target = GetClosestPlayer(actorPos, damagePos);
 		if (target != nullptr)
 			Engine::DestroyEntity(target);
 	}
 	else if (userType == USERTYPE::PLAYER)
 	{
 		Debug::Log("UserType is PLAYER");
-		CEntity* target = GetClosestEnemy(damagePos);
+		CEntity* target = GetClosestEnemy(actorPos, damagePos);
 		if (target != nullptr)
 			Engine::DestroyEntity(target);
 	}
@@ -103,9 +124,14 @@ void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 	
 }
 
-
-//Gets closest enemy within attack range
-CEntity* Weapon::GetClosestEnemy(Vector3 actorPos)
+/**
+ * Gets closest enemy within attack range.
+ *
+ * \param actorPos Position of the object (Player or AI)
+ * \param damagePos Position of the damage being dealt (actorPos + attackDirection * range)
+ * \return
+ */
+CEntity* Weapon::GetClosestEnemy(Vector3 actorPos, Vector3 damagePos) // BB
 {
 	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
 
@@ -118,7 +144,7 @@ CEntity* Weapon::GetClosestEnemy(Vector3 actorPos)
 	for (CAIController* enemy : enemies)
 	{
 
-		if (actorPos.DistanceTo(enemy->GetPosition()) > range)
+		if (actorPos.DistanceTo(enemy->GetPosition()) > range && damagePos.DistanceTo(enemy->GetPosition()) > range)
 			break;
 
 		if (closestEnemy == nullptr)
@@ -133,7 +159,14 @@ CEntity* Weapon::GetClosestEnemy(Vector3 actorPos)
 	return closestEnemy;
 }
 
-CEntity* Weapon::GetClosestPlayer(Vector3 actorPos)
+/**
+ * Gets Closest Player within attack range.
+ * 
+ * \param actorPos Position of the object (Player or AI)
+ * \param damagePos Position of the damage being dealt (actorPos + attackDirection * range)
+ * \return 
+ */
+CEntity* Weapon::GetClosestPlayer(Vector3 actorPos, Vector3 damagePos) // BB
 {
 	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
 
@@ -146,8 +179,8 @@ CEntity* Weapon::GetClosestPlayer(Vector3 actorPos)
 	for (PlayerCharacter* player : players)
 	{
 
-		if (actorPos.DistanceTo(player->GetPosition()) > range)
-			break;
+		if (actorPos.DistanceTo(player->GetPosition()) > range && damagePos.DistanceTo(player->GetPosition()) > range)
+			continue;
 
 		if (closestPlayer == nullptr)
 			closestPlayer = player;

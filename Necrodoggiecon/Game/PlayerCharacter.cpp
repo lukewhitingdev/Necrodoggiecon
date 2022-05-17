@@ -22,7 +22,7 @@ PlayerCharacter::PlayerCharacter()
 
 	weaponComponent = AddComponent<WeaponInterface>();
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
-	weaponComponent->SetWeapon(new Weapon("Dagger"));
+	weaponComponent->SetWeapon(new Dagger());
 
 }
 
@@ -48,7 +48,7 @@ void PlayerCharacter::PressedVertical(int dir, float deltaTime)
 
 void PlayerCharacter::PressedInteract()
 {
-	weaponComponent->SetWeapon(new Weapon("Dagger"));
+	weaponComponent->SetWeapon(new Dagger());
 
 	if (droppedItem == nullptr) return;
 
@@ -59,7 +59,7 @@ void PlayerCharacter::PressedInteract()
 
 void PlayerCharacter::PressedDrop()
 {
-	weaponComponent->SetWeapon(new Weapon("Rapier"));
+	weaponComponent->SetWeapon(new Rapier());
 
 	if (equippedItem == nullptr) return;
 
@@ -92,8 +92,9 @@ void PlayerCharacter::Update(float deltaTime)
 	weaponComponent->Update(deltaTime);
 }
 
-void PlayerCharacter::SetWeapon(Weapon* weapon)
+void PlayerCharacter::EquipWeapon(Weapon* weapon)
 {
+	weaponComponent->SetWeapon(weapon);
 }
 
 void PlayerCharacter::LookAt(Vector3 pos)

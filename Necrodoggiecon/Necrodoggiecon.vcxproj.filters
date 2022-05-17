@@ -23,7 +23,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="weaponUI.cpp" />
     <ClCompile Include="Game\WeaponInterface.cpp" />
-    <ClCompile Include="Dagger.cpp" />
+    <ClCompile Include="Weapons\Melee\Dagger.cpp" />
+    <ClCompile Include="Weapons\Melee\Rapier.cpp" />
+    <ClCompile Include="Longsword.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\CInteractable.h" />
@@ -49,7 +51,9 @@
     <ClInclude Include="Game\weapons.h" />
     <ClInclude Include="weaponUI.h" />
     <ClInclude Include="Game\WeaponInterface.h" />
-    <ClInclude Include="Dagger.h" />
+    <ClInclude Include="Weapons\Melee\Dagger.h" />
+    <ClInclude Include="Weapons\Melee\Rapier.h" />
+    <ClInclude Include="Longsword.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />
