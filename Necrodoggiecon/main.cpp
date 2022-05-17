@@ -14,6 +14,8 @@
 #include <Necrodoggiecon\Game\CInteractable.h>
 #include <Game/WeaponPickup.h>
 #include <Weapons/Melee/Dagger.h>
+#include <Weapons/Melee/Rapier.h>
+#include <Weapons/Melee/Longsword.h>
 
 /*
 
@@ -125,6 +127,8 @@ int Start()
 
 	
 	Engine::CreateEntity<WeaponPickup<Dagger>>();
+	Engine::CreateEntity<WeaponPickup<Rapier>>()->SetPosition(-500.0f, 0.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Longsword>>()->SetPosition(500.0f, 0.0f, 0.0f);
 
 	return 0;
 }

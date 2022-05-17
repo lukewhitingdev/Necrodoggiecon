@@ -25,8 +25,7 @@
     <ClCompile Include="Game\WeaponInterface.cpp" />
     <ClCompile Include="Weapons\Melee\Dagger.cpp" />
     <ClCompile Include="Weapons\Melee\Rapier.cpp" />
-    <ClCompile Include="Longsword.cpp" />
-    <ClCompile Include="Dagger.cpp" />
+    <ClCompile Include="Weapons\Melee\Longsword.cpp" />
     <ClCompile Include="Game\WeaponPickup.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -55,8 +54,7 @@
     <ClInclude Include="Game\WeaponInterface.h" />
     <ClInclude Include="Weapons\Melee\Dagger.h" />
     <ClInclude Include="Weapons\Melee\Rapier.h" />
-    <ClInclude Include="Longsword.h" />
-    <ClInclude Include="Dagger.h" />
+    <ClInclude Include="Weapons\Melee\Longsword.h" />
     <ClInclude Include="Game\WeaponPickup.h" />
   </ItemGroup>
   <ItemGroup>

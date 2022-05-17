@@ -2,6 +2,7 @@
 
 Dagger::Dagger()
 {
+	Debug::Log("Dagger");
 	Weapon::SetWeapon("Dagger");
 }
 

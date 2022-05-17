@@ -3,6 +3,7 @@
 
 Longsword::Longsword()
 {
+	Debug::Log("Longsword");
 	Weapon::SetWeapon("Longsword");
 }
 
@@ -19,8 +20,9 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 //{
 //	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
 //
+//	std::vector<CAIController*> enemiesCanHit;
 //	if (enemies.size() == 0) //No enemies
-//		return nullptr;
+//		return std::vector<CEntity*>();
 //
 //	CAIController* closestEnemy = nullptr;
 //
@@ -29,16 +31,10 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 //	{
 //
 //		if (actorPos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange() && damagePos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
-//			break;
-//
-//		if (closestEnemy == nullptr)
-//			closestEnemy = enemy;
-//		else
-//		{
-//			if (actorPos.DistanceTo(enemy->GetPosition()) < actorPos.DistanceTo(closestEnemy->GetPosition()))
-//				closestEnemy = enemy;
-//		}
+//			continue;
+//		
+//		enemiesCanHit.push_back(enemy);
 //	}
 //
-//	return std::vector<CEntity*>();
+//	return enemiesCanHit;
 //}

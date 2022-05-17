@@ -23,7 +23,8 @@
     "Range": 1.0,
     "Attack_Speed": 1.0,
     "Ammo": 0.0,
-    "Unique": true
+    "Unique": true,
+    "Name": "Longsword"
   },
   "Crossbow": {
     "Type": "Ranged",
@@ -31,7 +32,8 @@
     "Range": 25.0,
     "Attack_Speed": 1.0,
     "Ammo": 5.0,
-    "Unique": false
+    "Unique": false,
+    "Name": "Crossbow"
   },
   "Throwing_Knives": {
     "Type": "Ranged",
@@ -39,7 +41,8 @@
     "Range": 8.0,
     "Attack_Speed": 0.2,
     "Ammo": 10.0,
-    "Unique": false
+    "Unique": false,
+    "Name": "Throwing Knives"
   },
   "Magic_Missile": {
     "Type": "Magic",
@@ -47,7 +50,8 @@
     "Range": 25.0,
     "Attack_Speed": 0.5,
     "Ammo": 3.0,
-    "Unique": true
+    "Unique": true,
+    "Name": "Magic Missile"
   },
   "IcicleBarrage": {
     "Type": "Magic",
@@ -55,7 +59,8 @@
     "Range": 25.0,
     "Attack_Speed": 0.1,
     "Ammo": 12.0,
-    "Unique": true
+    "Unique": true,
+    "Name": "Icicle Barrage"
 
   },
   "LightningDash": {
@@ -64,7 +69,8 @@
     "Range": 20.0,
     "Attack_Speed": 0.01,
     "Ammo": 1.0,
-    "Unique": true
+    "Unique": true,
+    "Name": "Lightning Dash"
   },
   "FireBall": {
     "Type": "Magic",
@@ -72,6 +78,7 @@
     "Range": 25.0,
     "Attack_Speed": 0.2,
     "Ammo": 3.0,
-    "Unique": true
+    "Unique": true,
+    "Name": "Fireball"
   }
 }
