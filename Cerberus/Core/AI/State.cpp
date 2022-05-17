@@ -129,7 +129,7 @@ State& PatrolState::getInstance()
 
 void SearchState::Enter(CAIController* controller)
 {
-	searchTimer = 5.0f;
+	searchTimer = 10.0f;
 	players = Engine::GetEntityOfType<PlayerCharacter>();
 }
 
@@ -157,6 +157,7 @@ void SearchState::Update(CAIController* controller)
 
 void SearchState::Exit(CAIController* controller)
 {
+	searchTimer = 10.0f;
 }
 
 State& SearchState::getInstance()
