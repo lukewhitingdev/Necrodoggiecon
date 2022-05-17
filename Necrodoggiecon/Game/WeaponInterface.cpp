@@ -1,4 +1,5 @@
 #include "WeaponInterface.h"
+#include <weaponUI.h>
 
 WeaponInterface::WeaponInterface()
 {
@@ -29,6 +30,14 @@ void WeaponInterface::SetWeapon(Weapon* weapon)
 	delete this->currentWeapon;
 	currentWeapon = weapon;
 	currentWeapon->SetUserType(userType);
+
+	std::vector<weaponUI*> wepUIs = Engine::GetEntityOfType<weaponUI>();
+
+	if(wepUIs.size() > 0)
+	{
+		weaponUI* wepUI = Engine::GetEntityOfType<weaponUI>()[0];
+		wepUI->updateUI(currentWeapon->GetName(), -1, currentWeapon->GetAmmo(), "");
+	}
 }
 
 void WeaponInterface::SetUserType(USERTYPE userType)

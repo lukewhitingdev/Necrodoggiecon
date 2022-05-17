@@ -45,6 +45,7 @@ public:
 	float GetAmmo() { return ammo; };
 	bool GetUnique() { return unique; };
 	USERTYPE GetUserType() { return userType; };
+	std::string GetName() { return name; }
 
 private:
 	void CoolDown(float attack_cooldown);
