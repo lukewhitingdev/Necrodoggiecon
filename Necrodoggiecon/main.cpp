@@ -113,9 +113,9 @@ int Start()
 	character1->shouldMove = true;
 	character1->colComponent->SetCollider(128.0f, 128.0f);
 
-	std::string str = "This system will contain the players’ input. This input will then be passed down to the currently attached character. This will allow us to have multiple characters with setting up input on each of them, as well as this, it will make it so that we can swap between characters mid-level easily. ";
-	DialogueHandler::SetDialogue("this is a name", str, false);
-
+	//std::string str = "This system will contain the players’ input. This input will then be passed down to the currently attached character. This will allow us to have multiple characters with setting up input on each of them, as well as this, it will make it so that we can swap between characters mid-level easily. ";
+	//DialogueHandler::SetDialogue("this is a name", str, false);
+	//DialogueHandler::LoadDialogue("Resources/Dialogue.json", "TestDialogue");
 	Engine::CreateEntity<CAIController>();
 
 	std::vector<PlayerCharacter*> test = Engine::GetEntityOfType<PlayerCharacter>();

@@ -50,6 +50,7 @@
     <ClInclude Include="weaponUI.h" />
     <ClInclude Include="Game\DialogueUI.h" />
     <ClInclude Include="Game\DialogueHandler.h" />
+    <ClInclude Include="Game\Dialogue.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />

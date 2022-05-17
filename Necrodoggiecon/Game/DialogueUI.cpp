@@ -32,6 +32,7 @@ DialogueUI::DialogueUI()
 	for (int i = 0; i < maxRowCount; i++)
 	{
 		auto trc = AddComponent<CTextRenderComponent>();
+		trc->SetReserveCount(maxCharactersInRow);
 		textRenderComponents.push_back(trc);
 	}
 
@@ -61,7 +62,7 @@ DialogueUI::~DialogueUI()
 
 void DialogueUI::Update(float deltaTime)
 {
-	if (!needsUpdate) return;
+	if (!isUpdating) return;
 
 	timer += deltaTime;
 	if (timer >= 1 / charactersPerSecond)
@@ -71,7 +72,7 @@ void DialogueUI::Update(float deltaTime)
 		timer = 0;
 		UpdateText();
 		if (reserveText.length() == 0)
-			needsUpdate = false;
+			isUpdating = false;
 	}
 }
 
@@ -80,12 +81,17 @@ void DialogueUI::UpdateText()
 {
 	ClearText();
 	int rowsNeeded = ceil(displayingText.length() / maxCharactersInRow);
+	if (rowsNeeded >= textRenderComponents.size())
+		rowsNeeded = textRenderComponents.size() - 1;
 
 	for (int i = 0; i <= rowsNeeded; i++)
 	{
 		std::string rowText = displayingText.substr(size_t(maxCharactersInRow) * i, size_t(maxCharactersInRow) * (i + 1));
 		textRenderComponents[i]->SetText(rowText);
 		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
+
+		if (i == rowsNeeded && rowText.length() >= maxCharactersInRow)
+			isUpdating = false;
 	}
 }
 
@@ -94,10 +100,13 @@ void DialogueUI::SetText(std::string newText, bool instantDisplay)
 	ClearText();
 	displayingText = "";
 	reserveText = newText;
-	needsUpdate = true;
+	isUpdating = true;
 	if (!instantDisplay) return;
 
 	int rowsNeeded = ceil(reserveText.length() / maxCharactersInRow);
+	if (rowsNeeded > textRenderComponents.size())
+		rowsNeeded = textRenderComponents.size() - 1;
+
 
 	for (int i = 0; i <= rowsNeeded; i++)
 	{
@@ -107,7 +116,7 @@ void DialogueUI::SetText(std::string newText, bool instantDisplay)
 		reserveText.erase(0, maxCharactersInRow);
 		displayingText.append(rowText);
 	}
-	needsUpdate = false;
+	isUpdating = false;
 }
 
 void DialogueUI::SetName(std::string newName)
@@ -137,3 +146,51 @@ void DialogueUI::ClearText()
 		t->SetText("");
 	}
 }
+
+void DialogueUI::Complete()
+{
+	isUpdating = false;
+	displayingText.append(reserveText);
+	UpdateText();
+}
+
+void DialogueUI::CompletePage()
+{
+	ClearText();
+	displayingText.append(reserveText);
+	reserveText = displayingText;
+	displayingText = "";
+	int rowsNeeded = ceil(reserveText.length() / maxCharactersInRow);
+	if (rowsNeeded >= textRenderComponents.size())
+		rowsNeeded = textRenderComponents.size() - 1;
+
+	for (int i = 0; i <= rowsNeeded; i++)
+	{
+		std::string rowText = reserveText.substr(0, maxCharactersInRow);
+		textRenderComponents[i]->SetText(rowText);
+		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
+		reserveText.erase(0, maxCharactersInRow);
+		displayingText.append(rowText);
+	}
+	isUpdating = false;
+}
+
+bool DialogueUI::IsComplete()
+{
+	if (!isUpdating && reserveText.size() == 0)
+		return true;
+	return false;
+}
+
+void DialogueUI::Advance()
+{
+	displayingText.clear();
+	isUpdating = true;
+}
+
+void DialogueUI::ToggleDrawing(bool shouldDraw)
+{
+	for (CComponent* e : components)
+		e->shouldDraw = shouldDraw;
+}
+

@@ -23,7 +23,7 @@ private:
     int rowHeight;
     int charactersPerSecond = 4;
     float timer = 0;
-    bool needsUpdate = false;
+    bool isUpdating = false;
 
 
     std::string displayingText;
@@ -39,5 +39,12 @@ public:
     void SetText(std::string newText, bool instantDisplay);
     void SetName(std::string newName);
     void ClearText();
+    void Complete();
+    void CompletePage();
+    bool IsUpdating() { return isUpdating; }
+    bool IsComplete();
+    void Advance();
+    void ToggleDrawing(bool shouldDraw);
+    int GetReserveCharacterCount() { return reserveText.size(); }
 };
 
