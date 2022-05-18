@@ -1,23 +1,26 @@
 {
   "Dagger": {
+    "IconPath": "Resources/weapons/Dagger.png",
     "Type": "Melee",
     "Damage": 1.0,
     "Range": 0.5,
     "Attack_Speed": 0.5,
     "Ammo": 0.0,
     "Unique": false,
-    "Name":  "Dagger"
+    "Name": "Dagger"
   },
   "Rapier": {
+    "IconPath": "Resources/weapons/Rapier.png",
     "Type": "Melee",
     "Damage": 1.0,
     "Range": 2.0,
     "Attack_Speed": 0.5,
     "Ammo": 0.0,
     "Unique": false,
-    "Name":  "Rapier"
+    "Name": "Rapier"
   },
   "Longsword": {
+    "IconPath": "Resources/weapons/Sword.png",
     "Type": "Melee",
     "Damage": 1.0,
     "Range": 1.0,
@@ -27,6 +30,7 @@
     "Name": "Longsword"
   },
   "Crossbow": {
+    "IconPath": "Resources/weapons/Crossbow.png",
     "Type": "Ranged",
     "Damage": 5.0,
     "Range": 25.0,
@@ -36,6 +40,7 @@
     "Name": "Crossbow"
   },
   "Throwing_Knives": {
+    "IconPath": "Resources/weapons/ThrowingKnives.png",
     "Type": "Ranged",
     "Damage": 1.0,
     "Range": 8.0,
@@ -45,6 +50,7 @@
     "Name": "Throwing Knives"
   },
   "Magic_Missile": {
+    "IconPath": "Resources/weapons/MagicMissile.png",
     "Type": "Magic",
     "Damage": 1.0,
     "Range": 25.0,
@@ -54,6 +60,7 @@
     "Name": "Magic Missile"
   },
   "IcicleBarrage": {
+    "IconPath": "Resources/weapons/IcicleBarrage.png",
     "Type": "Magic",
     "Damage": 0.5,
     "Range": 25.0,
@@ -64,6 +71,7 @@
 
   },
   "LightningDash": {
+    "IconPath": "Resources/weapons/LightningDash.png",
     "Type": "Magic",
     "Damage": 5.0,
     "Range": 20.0,
@@ -73,6 +81,7 @@
     "Name": "Lightning Dash"
   },
   "FireBall": {
+    "IconPath": "Resources/weapons/Fireball.png",
     "Type": "Magic",
     "Damage": 5.0,
     "Range": 25.0,

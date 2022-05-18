@@ -36,7 +36,7 @@ void WeaponInterface::SetWeapon(Weapon* weapon)
 	if(wepUIs.size() > 0)
 	{
 		weaponUI* wepUI = Engine::GetEntityOfType<weaponUI>()[0];
-		wepUI->updateUI(currentWeapon->GetName(), -1, currentWeapon->GetAmmo(), "");
+		wepUI->updateUI(currentWeapon->GetName(), -1, currentWeapon->GetAmmo(), currentWeapon->GetIconPath());
 	}
 }
 

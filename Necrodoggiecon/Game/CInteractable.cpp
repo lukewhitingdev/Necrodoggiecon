@@ -151,3 +151,8 @@ CollisionComponent* CInteractable::GetLastCollidedObject()
 {
 	return lastCollidedObject;
 }
+
+CSpriteComponent* CInteractable::GetSprite()
+{
+	return sprite;
+}

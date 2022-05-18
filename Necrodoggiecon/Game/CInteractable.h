@@ -24,6 +24,7 @@ public:
 protected:
 	void DrawUI();
 	CollisionComponent* GetLastCollidedObject();
+	CSpriteComponent* GetSprite();
 
 private:
 	float interactTextOffset;

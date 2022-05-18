@@ -46,6 +46,7 @@ public:
 	bool GetUnique() { return unique; };
 	USERTYPE GetUserType() { return userType; };
 	std::string GetName() { return name; }
+	std::string GetIconPath() { return iconPath; };
 
 private:
 	void CoolDown(float attack_cooldown);
@@ -56,6 +57,7 @@ private:
 	CEntity* GetClosestEnemy(Vector3 actorPos, Vector3 damagePos);
 	CEntity* GetClosestPlayer(Vector3 actorPos, Vector3 damagePos);
 
+	std::string iconPath;
 	std::string type;
 	std::string name;
 	float damage;

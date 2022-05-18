@@ -3,6 +3,7 @@
 #include "Necrodoggiecon/Game/weapons.h"
 #include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 #include "Necrodoggiecon/Game/PlayerCharacter.h"
+#include "Cerberus/Core/Utility/IO.h"
 
 template<typename T>
 class WeaponPickup : public CInteractable
@@ -21,9 +22,20 @@ template<typename T>
 inline WeaponPickup<T>::WeaponPickup()
 {
 	T* weapon = new T();
-	if (dynamic_cast<Weapon*>(weapon) != nullptr)
+	Weapon* baseWeapon = dynamic_cast<Weapon*>(weapon);
+	if (baseWeapon != nullptr)
 	{
 		pickup = weapon;
+
+		std::string ext = IO::FindExtension(baseWeapon->GetIconPath());
+		if(ext == "dds")
+		{
+			GetSprite()->LoadTexture(baseWeapon->GetIconPath());
+		}
+		else
+		{
+			GetSprite()->LoadTextureWIC(baseWeapon->GetIconPath());
+		}
 	}
 	else
 	{

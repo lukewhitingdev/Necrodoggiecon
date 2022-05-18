@@ -18,6 +18,7 @@ void Weapon::SetWeapon(std::string weapon)
 	json storedFile;
 	file >> storedFile;
 
+	iconPath = storedFile.at(weapon).at("IconPath");
 	type = storedFile.at(weapon).at("Type");
 	name = storedFile.at(weapon).at("Name");
 	damage = storedFile.at(weapon).at("Damage");

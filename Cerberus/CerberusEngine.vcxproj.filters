@@ -117,6 +117,7 @@
     <ClInclude Include="Core\Components\CCameraComponent.h" />
     <ClInclude Include="Core\Utility\CameraManager\CameraManager.h" />
     <ClInclude Include="Core\Components\CRigidBodyComponent.h" />
+    <ClInclude Include="Core\Utility\IO.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
