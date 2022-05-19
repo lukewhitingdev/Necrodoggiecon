@@ -47,7 +47,7 @@ void CWorld_Game::SetupWorld()
 	Debug::Log("Player Start Position: [%f | %f]", PlayerStart.x, PlayerStart.y);
 	character1->SetPosition(PlayerStart);
 	controller->Possess(character1);
-	character1->shouldMove = true;
+	character1->SetShouldMove(true);
 	character1->colComponent->SetCollider(64.0f, 64.0f);
 
 	std::string fileName = "Resources/Levels/Level_" + std::to_string(mapSlot);
@@ -120,7 +120,5 @@ void CWorld_Game::SetupWorld()
 		enemy->SetCurrentState(PatrolState::getInstance());
 		patrolNodes.clear();
 	}
-	character1->SetShouldMove(true);
-	character1->colComponent->SetCollider(128.0f, 128.0f);
 
 }
