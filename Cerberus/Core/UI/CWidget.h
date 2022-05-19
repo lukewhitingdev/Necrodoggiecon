@@ -3,22 +3,27 @@
 class CWidget :
     public CEntity
 {
+public:
 
-    CWidget* GetParent();
-    void SetParent(CWidget* NewParent);
+    CWidget();
+
+    CWidget* GetParent() { return parentWidget; }
+   
     const std::vector<CWidget*> GetChildren() { return ChildWidgets; }
 
 
+    virtual void SetWidgetTransform(Vector2 Position, Vector2 Anchor, int ZOrder);
 
+    virtual void SetVisibility(bool IsVisible);
 
+    void AddChild(CWidget* NewChild);
 
+    void RemoveAllChildren();
 
 private: 
+    CWidget* parentWidget;
 
-    CWidget* ParentWidget;
     std::vector<CWidget*> ChildWidgets;
-
-
 
 };
 

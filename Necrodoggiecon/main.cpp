@@ -15,6 +15,7 @@
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
 #include "Necrodoggiecon/MainMenu.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
 
 /*
 
@@ -90,7 +91,9 @@ int Start()
 
 	CWorldManager::LoadWorld(new CWorld_Game(0));
 
-	Engine::CreateEntity<MainMenu>();
+	CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
+
+	
 
 	Engine::CreateEntity<weaponUI>();
 	Engine::CreateEntity<TestUI>();

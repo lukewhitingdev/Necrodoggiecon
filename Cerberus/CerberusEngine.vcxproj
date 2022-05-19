@@ -376,6 +376,7 @@
     <ClInclude Include="Core\UI\CWidget.h" />
     <ClInclude Include="Core\UI\CWidget_Canvas.h" />
     <ClInclude Include="Core\UI\CWidget_Image.h" />
+    <ClInclude Include="Core\Utility\CUIManager.h" />
     <ClInclude Include="Tools\CT_EditorEntity.h" />
     <ClInclude Include="Core\Utility\CWorldManager.h" />
     <ClInclude Include="Core\Components\CAnimationSpriteComponent.h" />
@@ -440,6 +441,7 @@
     <ClCompile Include="Core\UI\CWidget.cpp" />
     <ClCompile Include="Core\UI\CWidget_Canvas.cpp" />
     <ClCompile Include="Core\UI\CWidget_Image.cpp" />
+    <ClCompile Include="Core\Utility\CUIManager.cpp" />
     <ClCompile Include="Tools\CT_EditorEntity.cpp" />
     <ClCompile Include="Core\Utility\CWorldManager.cpp" />
     <ClCompile Include="Core\Components\CAnimationSpriteComponent.cpp" />

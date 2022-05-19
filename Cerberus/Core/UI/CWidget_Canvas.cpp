@@ -6,7 +6,10 @@
 
 CWidget_Canvas::CWidget_Canvas()
 {
+	InitialiseCanvas();
 }
+
+
 
 void CWidget_Canvas::InitialiseCanvas()
 {
@@ -19,15 +22,18 @@ void CWidget_Canvas::Update(float deltaTime)
 	
 	for (int i = 0; i < buttonList.size(); i++)
 	{
-		buttonList[i]->IsButtonFocused(GetMousePosition());
-	
-		if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::Mouse::LButton))
+		if (buttonList[i] != nullptr)
 		{
-			buttonList[i]->ButtonPressed(true);
-		}
-		else if (Inputs::InputManager::IsMouseButtonReleased(Inputs::InputManager::Mouse::LButton))
-		{
-			buttonList[i]->ButtonPressed(false);
+			buttonList[i]->IsButtonFocused(GetMousePosition());
+
+			if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::Mouse::LButton))
+			{
+				buttonList[i]->ButtonPressed(true);
+			}
+			else if (Inputs::InputManager::IsMouseButtonReleased(Inputs::InputManager::Mouse::LButton))
+			{
+				buttonList[i]->ButtonPressed(false);
+			}
 		}
 
 	}
@@ -58,8 +64,19 @@ CWidget_Button* CWidget_Canvas::CreateButton(Vector2 Position, Vector2 Scale, st
 {
 	CWidget_Button* Button = Engine::CreateEntity<CWidget_Button>();
 	Button->SetText(ButtonName);
-	Button->SetPosition(Position.x, Position.y, -2);
+	Button->SetWidgetTransform(Position, Vector2(0,0), 1);
 	Button->SetSlot(ID);
 	buttonList.push_back(Button);
+	AddChild(Button);
 	return Button;
+}
+
+void CWidget_Canvas::SetVisibility(bool IsVisible)
+{
+	for (int i = 0; i < GetChildren().size(); i++)
+	{
+		GetChildren()[i]->SetVisibility(IsVisible);
+	}
+
+
 }

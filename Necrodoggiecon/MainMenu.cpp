@@ -9,10 +9,15 @@ MainMenu::MainMenu()
 
 void MainMenu::InitialiseCanvas()
 {
-	CWidget_Button* Test = CreateButton(500, 500, "Test Button", 0);
-	Test->Bind_OnButtonPressed(std::bind(&MainMenu::TestButtonPressed,this));
-	Test->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
-	Test->SetSize(Vector2(64, 32));
+	Debug::Log("Canvas Initialised");
+
+	for (int i = 0; i < 5; i++)
+	{
+		CWidget_Button* Test = CreateButton(Vector2(0, 32 * i), Vector2(1, 1), "Test Button", 0);
+		Test->Bind_OnButtonPressed(std::bind(&MainMenu::TestButtonPressed, this));
+		Test->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
+		Test->SetSize(Vector2(64, 32));
+	}
 
 }
 

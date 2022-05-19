@@ -5,7 +5,7 @@ class MainMenu :
 {
 
 
-    virtual void InitialiseCanvas();
+    virtual void InitialiseCanvas() override;
 
 
 public:

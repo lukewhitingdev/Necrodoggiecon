@@ -9,7 +9,9 @@ CWidget_Button::CWidget_Button()
 {
 	sprite = AddComponent<CSpriteComponent>();
 	sprite->ui = true;
+
 	textRenderer = AddComponent<CTextRenderComponent>();
+	textRenderer->ui = true;
 	ButtonPressedBind = nullptr;
 	ButtonReleasedBind = nullptr;
 	HoverEndBind = nullptr;
@@ -26,12 +28,27 @@ void CWidget_Button::SetText(std::string TextBody)
 void CWidget_Button::SetSize(Vector2 Size)
 {
 	sprite->SetSpriteSize(DirectX::XMUINT2(Size.x, Size.y));
+	sprite->SetRenderRect(DirectX::XMUINT2(Size.x, Size.y));
+	sprite->SetTextureOffset(DirectX::XMFLOAT2(0,0));
+
+	
 	
 }
 
 void CWidget_Button::SetTexture(std::string filePath)
 {
 	sprite->LoadTexture(filePath);
+}
+
+void CWidget_Button::SetWidgetTransform(Vector2 Position, Vector2 Anchor, int ZOrder)
+{
+	sprite->SetPosition(Position.x, Position.y, ZOrder);
+	sprite->SetScale(1, 1, 0);
+	sprite->SetAnchor(XMFLOAT2(Anchor.x, Anchor.y));
+
+	textRenderer->SetPosition(Position.x, Position.y, ZOrder - 1);
+	textRenderer->SetScale(1, 1, 0);
+	textRenderer->SetAnchor(XMFLOAT2(Anchor.x, Anchor.y));
 }
 
 void CWidget_Button::Update(float deltaTime)
@@ -67,7 +84,7 @@ void CWidget_Button::IsButtonFocused(Vector2 mPos)
 {
 
 	Vector2 Scale = Vector2(sprite->GetSpriteSize().x, sprite->GetSpriteSize().y);
-	Vector2 Pos = Vector2(GetPosition().x, GetPosition().y);
+	Vector2 Pos = Vector2(sprite->GetPosition().x, sprite->GetPosition().y);
 	if (!hasFocus)
 	{
 		if (mPos.x > Pos.x && mPos.x < Scale.x + Pos.x &&

@@ -15,6 +15,9 @@ public:
     void SetSize(Vector2 Size);
     void SetTexture(std::string filePath);
 
+    virtual void SetWidgetTransform(Vector2 Position, Vector2 Anchor, int ZOrder);
+    
+
     virtual void Update(float deltaTime) override;
 
 

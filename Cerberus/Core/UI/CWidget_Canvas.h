@@ -10,6 +10,8 @@ public:
 
     CWidget_Canvas();
 
+ 
+
     virtual void InitialiseCanvas();
 
     virtual void Update(float deltaTime) override;
@@ -19,6 +21,11 @@ public:
     virtual void RecievedUIEvent(int EventID);
 
     class CWidget_Button* CreateButton(Vector2 Position, Vector2 Scale, std::string ButtonName, int ID);
+
+    virtual void SetVisibility(bool IsVisible);
+
+
+
 
 protected: 
 

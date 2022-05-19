@@ -27,6 +27,7 @@
 #include "Cerberus/Core/Components/CCameraComponent.h"
 #include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
 #include "Cerberus\Core\Utility\CWorldManager.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
 using namespace Inputs;
 #include <chrono>
 
@@ -823,6 +824,8 @@ void Update(float deltaTime)
 	}
 
 	AudioController::Update(Vector3(0, 0, 0), deltaTime);
+	CUIManager::Update(deltaTime);
+	
 }
 
 //--------------------------------------------------------------------------------------
