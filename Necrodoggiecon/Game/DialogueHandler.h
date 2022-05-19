@@ -9,12 +9,14 @@ private:
 	static DialogueUI* dialogueUI;
 	static std::vector<Dialogue*> currentDialogue;
 	static int curDialogueIndex;
+	static bool instantDisplay;
 public:
 	DialogueHandler();
 	~DialogueHandler();
-	static void SetDialogue(std::string name, std::string dialogue, bool instantDisplay);
+	static void SetDialogue(std::string name, std::string dialogue);
 	static void LoadDialogue(std::string jsonPath, std::string dialogueName);
 	static void AdvanceDialogue();
 	static void CloseDialogue();
+	static void SetInstantDisplay(bool _instantDisplay) { instantDisplay = _instantDisplay; }
 };
 

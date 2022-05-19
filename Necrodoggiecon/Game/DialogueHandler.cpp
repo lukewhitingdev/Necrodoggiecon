@@ -15,7 +15,7 @@
 DialogueUI* DialogueHandler::dialogueUI = nullptr;
 std::vector<Dialogue*> DialogueHandler::currentDialogue;
 int DialogueHandler::curDialogueIndex = 0;
-
+bool DialogueHandler::instantDisplay = false;
 DialogueHandler::DialogueHandler()
 {
 }
@@ -26,7 +26,7 @@ DialogueHandler::~DialogueHandler()
 /**
 * Function to set the dialogue that should display. Calls the SetName and SetText functions on the dialogueUI
 */
-void DialogueHandler::SetDialogue(std::string name, std::string dialogue, bool instantDisplay)
+void DialogueHandler::SetDialogue(std::string name, std::string dialogue)
 {
 	if (dialogueUI == nullptr)
 		dialogueUI = Engine::CreateEntity<DialogueUI>();
@@ -56,7 +56,7 @@ void DialogueHandler::LoadDialogue(std::string jsonPath, std::string dialogueNam
 	}
 
 	if (!currentDialogue.empty())
-		SetDialogue(currentDialogue[0]->name, currentDialogue[0]->dialogue, false);
+		SetDialogue(currentDialogue[0]->name, currentDialogue[0]->dialogue);
 
 	curDialogueIndex = 0;
 }
@@ -80,7 +80,7 @@ void DialogueHandler::AdvanceDialogue()
 		if (curDialogueIndex < currentDialogue.size())
 		{
 			dialogueUI->Advance();
-			SetDialogue(currentDialogue[curDialogueIndex]->name, currentDialogue[curDialogueIndex]->dialogue, false);
+			SetDialogue(currentDialogue[curDialogueIndex]->name, currentDialogue[curDialogueIndex]->dialogue);
 		}
 		else
 			CloseDialogue();
