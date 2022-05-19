@@ -20,7 +20,9 @@ public:
 
     virtual void RecievedUIEvent(int EventID);
 
-    class CWidget_Button* CreateButton(Vector2 Position, Vector2 Scale, std::string ButtonName, int ID);
+    class CWidget_Button* CreateButton(Vector2 Position, Vector2 Anchor, std::string ButtonName, int ZOrder);
+
+    class CWidget_Image* CreateImage(Vector2 Position, Vector2 Anchor, int ZOrder);
 
     virtual void SetVisibility(bool IsVisible);
 

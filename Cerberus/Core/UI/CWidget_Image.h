@@ -8,10 +8,10 @@ class CWidget_Image :
 public:
     CWidget_Image();
 
-    ~CWidget_Image();
+  
    
 
-
+    virtual void Update(float deltaTime) override;
 
     virtual void SetWidgetTransform(Vector2 Position, Vector2 Anchor, int ZOrder);
 

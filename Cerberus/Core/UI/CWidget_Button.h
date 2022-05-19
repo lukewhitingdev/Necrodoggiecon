@@ -28,7 +28,7 @@ public:
     virtual void OnButtonHoverEnd();
 
 
-
+    virtual void SetVisibility(bool IsVisible);
 
     void IsButtonFocused(Vector2 mPos);
     void ButtonPressed(bool buttonPressed);
@@ -38,13 +38,11 @@ public:
     void Bind_HoverStart(std::function<void()> functionToBind) { HoverStartBind = functionToBind; }
     void Bind_HoverEnd(std::function<void()> functionToBind) { ButtonReleasedBind = functionToBind; }
 
-
+    class CSpriteComponent* GetSprite() { return sprite; }
+    class CTextRenderComponent* GetText() { return textRenderer; }
 
     bool ButtonHasFocus() { return hasFocus; }
-protected: 
 
-    class CSpriteComponent* sprite = nullptr;
-    class CTextRenderComponent* textRenderer = nullptr;
 
 private: 
 
@@ -61,6 +59,9 @@ private:
     bool hasFocus;
    
     class CWidget_Canvas* OwningCanvas;
+
+    class CSpriteComponent* sprite = nullptr;
+    class CTextRenderComponent* textRenderer = nullptr;
 
     
 

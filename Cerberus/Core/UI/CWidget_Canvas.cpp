@@ -1,6 +1,7 @@
 #include "CWidget_Canvas.h"
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include "Cerberus/Core/UI/CWidget_Button.h"
+#include "Cerberus/Core/UI/CWidget_Image.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
 
 
@@ -60,15 +61,23 @@ void CWidget_Canvas::RecievedUIEvent(int EventID)
 	}
 }
 
-CWidget_Button* CWidget_Canvas::CreateButton(Vector2 Position, Vector2 Scale, std::string ButtonName, int ID)
+CWidget_Button* CWidget_Canvas::CreateButton(Vector2 Position, Vector2 Anchor, std::string ButtonName, int ZOrder)
 {
 	CWidget_Button* Button = Engine::CreateEntity<CWidget_Button>();
 	Button->SetText(ButtonName);
-	Button->SetWidgetTransform(Position, Vector2(0,0), 1);
-	Button->SetSlot(ID);
+	Button->SetWidgetTransform(Position, Anchor, ZOrder);
+	
 	buttonList.push_back(Button);
 	AddChild(Button);
 	return Button;
+}
+
+CWidget_Image* CWidget_Canvas::CreateImage(Vector2 Position, Vector2 Anchor, int ZOrder)
+{
+	CWidget_Image* Image = Engine::CreateEntity<CWidget_Image>();
+	Image->SetWidgetTransform(Position, Anchor, ZOrder);
+	AddChild(Image);
+	return Image;
 }
 
 void CWidget_Canvas::SetVisibility(bool IsVisible)

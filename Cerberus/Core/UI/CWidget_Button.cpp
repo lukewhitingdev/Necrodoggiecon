@@ -80,6 +80,16 @@ void CWidget_Button::OnButtonHoverEnd()
 	if (HoverEndBind != nullptr) 	HoverEndBind();
 }
 
+void CWidget_Button::SetVisibility(bool IsVisible)
+{
+	sprite->shouldDraw = IsVisible;
+	textRenderer->shouldDraw = IsVisible;
+	for (int i = 0; i < GetChildren().size(); i++)
+	{
+		GetChildren()[i]->SetVisibility(IsVisible);
+	}
+}
+
 void CWidget_Button::IsButtonFocused(Vector2 mPos)
 {
 
