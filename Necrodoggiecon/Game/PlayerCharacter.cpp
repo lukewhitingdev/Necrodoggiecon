@@ -11,7 +11,7 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentBody->SetSpriteSize(XMUINT2(64, 64));
 	spriteComponentBody->SetRenderRect(XMUINT2(44, 44));
 	spriteComponentBody->SetAnimationRectSize(XMUINT2(2, 1));
-	spriteComponentBody->SetAnimationSpeed(2);
+	spriteComponentBody->SetAnimationSpeed(2 * walkAnimationSpeed);
 	spriteComponentBody->SetPlaying(false, false);
 
 	spriteComponentLegs = AddComponent<CAnimationSpriteComponent>();
@@ -21,7 +21,7 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentLegs->SetRenderRect(XMUINT2(29, 22));
 	spriteComponentLegs->SetSpriteSize(XMUINT2(29, 22));
 	spriteComponentLegs->SetAnimationRectSize(XMUINT2(10, 1));
-	spriteComponentLegs->SetAnimationSpeed(10);
+	spriteComponentLegs->SetAnimationSpeed(10 * walkAnimationSpeed);
 	spriteComponentLegs->SetPlaying(false, false);
 
 	spriteComponentShadow = AddComponent<CSpriteComponent>();
@@ -89,7 +89,7 @@ void PlayerCharacter::Update(float deltaTime)
 		spriteComponentBody->SetPlaying(false, true);
 		spriteComponentLegs->SetPlaying(false, true);
 	}
-	else
+	else if(!spriteComponentBody->GetPlaying())
 	{
 		spriteComponentBody->SetPlaying(true, false);
 		spriteComponentLegs->SetPlaying(true, false);

@@ -21,6 +21,7 @@ protected:
 	CSpriteComponent* spriteComponentShadow = nullptr;
 
 	XMFLOAT2 movementVec = { 0,0 };
+	const float walkAnimationSpeed = 1.3f;
 public:
 	PlayerCharacter();
 
