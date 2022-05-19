@@ -26,6 +26,11 @@ Pathfinding::Pathfinding(std::vector<CTile*> waypoints)
 	currentPatrolNode = nullptr;
 }
 
+Pathfinding::~Pathfinding()
+{
+	DeleteNodes();
+}
+
 /**
  * Sets the patrol nodes and the closest waypoint to each node.
  * 

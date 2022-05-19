@@ -15,6 +15,7 @@ class Pathfinding
 {
 public:
 	Pathfinding(std::vector<CTile*> waypoints);
+	~Pathfinding();
 	
 	void SetPatrolNodes(std::vector<PatrolNode*> nodes);
 	WaypointNode* FindClosestWaypoint(Vector3 position);

@@ -29,6 +29,7 @@ class CAIController : public CEntity
 {
 public:
 	CAIController();
+	~CAIController();
 
 	void SetRotationSpeed(float speed);
 	float GetRotationSpeed();
@@ -72,6 +73,8 @@ public:
 	Pathfinding* pathing;
 	void SetPath();
 	void SetPath(Vector3 endPosition);
+
+	void ApplyDamage(float damageAmount, CEntity* damageCauser);
 
 	Vector3 positionToInvestigate;
 	bool isAttacking = false;

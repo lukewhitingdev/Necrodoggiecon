@@ -85,6 +85,11 @@ CAIController::CAIController()
 	//SetCurrentState(PatrolState::getInstance());
 }
 
+CAIController::~CAIController()
+{
+	delete(pathing);
+}
+
 /**
  * .
  * 
@@ -503,6 +508,13 @@ void CAIController::SetPath(Vector3 endPosition)
 	pathing->SetPath(aiPosition, pathing->FindClosestWaypoint(endPosition));
 	SetPathNodes(pathing->GetPathNodes());
 	currentCount = (int)pathNodes.size() - 1;
+}
+
+void CAIController::ApplyDamage(float damageAmount, CEntity* damageCauser)
+{
+	SetHealth(GetHealth() - damageAmount);
+	if (GetHealth() <= 0.0f)
+		Engine::DestroyEntity(this);
 }
 
 /**
