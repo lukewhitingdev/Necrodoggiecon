@@ -1,5 +1,6 @@
 #pragma once
 #include "Cerberus/Core/UI/CWidget.h"
+#include <functional>
 class CWidget_Canvas :
     public CWidget
 {
@@ -17,7 +18,7 @@ public:
 
     virtual void RecievedUIEvent(int EventID);
 
-    void CreateButton(Vector2 Position, Vector2 Scale, std::string ButtonName, int ID);
+    class CWidget_Button* CreateButton(Vector2 Position, Vector2 Scale, std::string ButtonName, int ID);
 
 protected: 
 

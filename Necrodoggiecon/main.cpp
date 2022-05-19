@@ -14,6 +14,7 @@
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
+#include "Necrodoggiecon/MainMenu.h"
 
 /*
 
@@ -89,7 +90,7 @@ int Start()
 
 	CWorldManager::LoadWorld(new CWorld_Game(0));
 
-	
+	Engine::CreateEntity<MainMenu>();
 
 	Engine::CreateEntity<weaponUI>();
 	Engine::CreateEntity<TestUI>();
