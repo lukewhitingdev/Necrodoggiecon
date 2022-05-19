@@ -2,7 +2,7 @@
 
 CAnimationSpriteComponent::CAnimationSpriteComponent()
 {
-	shouldUpdate = true;
+	SetShouldUpdate(true);
 }
 
 void CAnimationSpriteComponent::Update(float deltaTime)
