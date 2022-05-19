@@ -24,6 +24,12 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentLegs->SetAnimationSpeed(10);
 	spriteComponentLegs->SetPlaying(false, false);
 
+	spriteComponentShadow = AddComponent<CSpriteComponent>();
+	spriteComponentShadow->LoadTextureWIC("Resources/Characters/JonathanWicke-shadow.png");
+	spriteComponentShadow->SetPosition(XMFLOAT3(0, 0, 2));
+	spriteComponentShadow->SetScale(XMFLOAT3(1.45, 1.45, 1.45));
+	spriteComponentShadow->SetUseTranslucency(true);
+
 	colComponent = new CollisionComponent("Character 1", this);
 
 	loadNoise = AddComponent<CAudioEmitterComponent>();

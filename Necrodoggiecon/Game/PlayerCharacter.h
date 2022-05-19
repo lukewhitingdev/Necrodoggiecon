@@ -18,6 +18,7 @@ protected:
 
 	CAnimationSpriteComponent* spriteComponentBody = nullptr;
 	CAnimationSpriteComponent* spriteComponentLegs = nullptr;
+	CSpriteComponent* spriteComponentShadow = nullptr;
 
 	XMFLOAT2 movementVec = { 0,0 };
 public:
