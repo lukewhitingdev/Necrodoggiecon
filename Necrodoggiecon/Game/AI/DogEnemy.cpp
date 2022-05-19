@@ -60,6 +60,9 @@ void DogEnemy::AttackPlayer(CCharacter* player)
 		onCooldown = false;
 		isAttacking = true;
 
+		if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
+			player->ApplyDamage(1.0f, this);
+
 		// If the timer is up then go back to pathfinding.
 		if (attackTimer < 0.02f)
 		{
