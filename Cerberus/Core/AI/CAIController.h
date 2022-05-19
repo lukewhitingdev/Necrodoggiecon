@@ -60,6 +60,7 @@ public:
 	void SearchForPlayer();
 	void Investigating(Vector3 positionOfInterest);
 	
+	virtual void AttackEnter(CCharacter* player) {};
 	virtual void ChaseEnter();
 	virtual void ChasePlayer(CCharacter* player);
 	virtual void AttackPlayer(CCharacter* player);
@@ -73,6 +74,7 @@ public:
 	void SetPath(Vector3 endPosition);
 
 	Vector3 positionToInvestigate;
+	bool isAttacking = false;
 
 protected:
 	class CSpriteComponent* sprite = nullptr;

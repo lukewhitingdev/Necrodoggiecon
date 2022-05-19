@@ -11,6 +11,19 @@ DogEnemy::DogEnemy()
 
 void DogEnemy::Update(float deltaTime)
 {
+	if (attackCooldown > 0.0f)
+	{
+		attackCooldown -= 0.016f;
+		isAttacking = false;
+		// If the timer is up then go back to pathfinding.
+		if (attackCooldown < 0.02f)
+		{
+			onCooldown = false;
+		}
+
+	}
+
+
 	CAIController::Update(deltaTime);
 }
 
@@ -27,24 +40,29 @@ void DogEnemy::ChasePlayer(CCharacter* player)
 	}
 }
 
+void DogEnemy::AttackEnter(CCharacter* player)
+{
+	targetPosition = player->GetPosition();
+}
+
 void DogEnemy::AttackPlayer(CCharacter* player)
 {
-	if (!onCooldown)
-		SetSpeed(1.0f);
 		
-	heading = Seek(player->GetPosition());
+	heading = Seek(targetPosition);
 
-	if (attackCooldown > 0.0f)
+	if (attackTimer > 0.0f && !onCooldown)
 	{
-		attackCooldown -= 0.016f;
+		attackTimer -= 0.016f;
 		SetSpeed(500.0f);
-		onCooldown = true;
+		onCooldown = false;
+		isAttacking = true;
 
 		// If the timer is up then go back to pathfinding.
-		if (attackCooldown < 0.02f)
+		if (attackTimer < 0.02f)
 		{
-			onCooldown = false;
-			attackCooldown = 1.0f;
+			onCooldown = true;
+			attackTimer = 0.5f;
+			attackCooldown = 20.0f;
 		}
 			
 	}

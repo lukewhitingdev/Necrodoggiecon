@@ -77,6 +77,8 @@ void AttackState::Enter(CAIController* controller)
 			closestPlayer = player;
 		}
 	}
+
+	controller->AttackEnter(closestPlayer);
 }
 
 void AttackState::Update(CAIController* controller)
@@ -84,7 +86,7 @@ void AttackState::Update(CAIController* controller)
 	if (closestPlayer != nullptr)
 	{
 		controller->AttackPlayer(closestPlayer);
-		if (controller->CanSee(closestPlayer->GetPosition()) == false)
+		if (controller->CanSee(closestPlayer->GetPosition()) == false && !controller->isAttacking)
 		{
 			closestPlayer = nullptr;
 			controller->SetCurrentState(PatrolState::getInstance());
