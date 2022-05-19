@@ -10,9 +10,9 @@
 
 CAudioEmitterComponent::CAudioEmitterComponent()
 {
-	shouldUpdate = true;
-	shouldDraw = false;
-	ui = false;
+	SetShouldUpdate(true);
+	SetShouldDraw(false);
+	SetIsUI(false);
 
 	emitter = new CEmitter();
 }

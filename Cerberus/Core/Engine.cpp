@@ -834,18 +834,18 @@ void Update(float deltaTime)
 	for (size_t i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
 	{
 		CEntity* e = EntityManager::GetEntitiesVector()->at(i);
-		if (!e->shouldUpdate)
+		if (!e->GetShouldUpdate())
 			continue;
 		
-		for (auto& f : e->components)
+		for (auto& f : e->GetAllComponents())
 		{
-			if (!f->shouldUpdate)
+			if (!f->GetShouldUpdate())
 				continue;
 
 			f->Update(deltaTime);
 		}
 		e->Update(deltaTime);
-		if (e->shouldMove)
+		if (e->GetShouldMove())
 		{
 			for (size_t j = 0; j < EntityManager::GetEntitiesVector()->size(); j++)
 			{
@@ -916,11 +916,11 @@ void Render()
 	{
 		CComponent* c = EntityManager::GetOpaqueCompsVector()->at(i);
 		CEntity* e = c->GetParent();
-		if (e->visible)
+		if (e->GetVisible())
 		{
 			XMFLOAT4X4 entTransform = e->GetTransform();
 
-			if (c->shouldDraw)
+			if (c->GetShouldDraw())
 			{
 				ConstantBuffer cb1;
 				cb1.mView = viewMat;
@@ -939,11 +939,11 @@ void Render()
 	{
 		CComponent* c = EntityManager::GetTranslucentCompsVector()->at(i);
 		CEntity* e = c->GetParent();
-		if (e->visible)
+		if (e->GetVisible())
 		{
 			XMFLOAT4X4 entTransform = e->GetTransform();
 
-			if (c->shouldDraw)
+			if (c->GetShouldDraw())
 			{
 				ConstantBuffer cb1;
 				cb1.mView = viewMat;

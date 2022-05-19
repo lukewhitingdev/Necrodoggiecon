@@ -55,8 +55,8 @@ weaponUI::weaponUI()
 	textTimer->SetText("0:00.00");
 	textTimer->SetAnchor(XMFLOAT2(0, 0));
 
-	for (CComponent* e : components)
-		e->ui = true;
+	for (CComponent* e : GetAllComponents())
+		e->SetIsUI(true);
 
 	updateUI("Dagger", 0, 0, "Resources/weapons/Dagger.png");
 }
