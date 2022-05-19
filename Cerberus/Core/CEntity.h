@@ -25,8 +25,19 @@ class CEntity : public CTransform
 	std::vector<CComponent*> components;
 
 public:
+	/**
+	 * Sets if this entity will be automatically updated via the Update().
+	 */
 	void SetShouldUpdate(const bool& newShouldUpdate) { shouldUpdate = newShouldUpdate; }
+
+	/**
+	 * Sets whether this entity will move for collision detection.
+	 */
 	void SetShouldMove(const bool& newShouldMove) { shouldMove = newShouldMove; }
+
+	/**
+	 * Sets if this entity and all it's components will be rendered.
+	 */
 	void SetVisible(const bool& newVisibility) { visible = newVisibility; }
 
 	const bool& GetShouldUpdate() const { return shouldUpdate; }

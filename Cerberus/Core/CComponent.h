@@ -45,10 +45,30 @@ public:
 	 * Translucent components have a much higher overhead than opaque components.
 	 */
 	virtual void SetUseTranslucency(const bool& newTranslucency);
+
+	/**
+	 * Sets if this component will be drawn in world space or screen space.
+	 */
 	void SetIsUI(const bool& newIsUI) { ui = newIsUI; }
+
+	/**
+	 * Sets if this component will be automatically updated via the Update().
+	 */
 	void SetShouldUpdate(const bool& newShouldUpdate) { shouldUpdate = newShouldUpdate; }
+
+	/**
+	 * Sets if this component will be automatically drawn via the Draw().
+	 */
 	void SetShouldDraw(const bool& newShouldDraw) { shouldDraw = newShouldDraw; }
+
+	/**
+	 * Sets the last resolution variable of the screen for rendering uses.
+	 */
 	void SetLastResolution(const XMUINT2& newLastResolution) { lastResolution = newLastResolution; }
+
+	/**
+	 * Set the parent entity of this component, done automatically.
+	 */
 	void SetParent(class CEntity* newParent);
 
 	const bool& GetShouldUpdate() const { return shouldUpdate; }
