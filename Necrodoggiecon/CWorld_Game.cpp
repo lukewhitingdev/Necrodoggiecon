@@ -120,5 +120,7 @@ void CWorld_Game::SetupWorld()
 		enemy->SetCurrentState(PatrolState::getInstance());
 		patrolNodes.clear();
 	}
+	character1->SetShouldMove(true);
+	character1->colComponent->SetCollider(128.0f, 128.0f);
 
 }

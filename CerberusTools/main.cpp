@@ -72,6 +72,8 @@ int Start()
 	freeCameraComponent->SetAttachedToParent(false);
 	freeCameraComponent->SetParent(freeCamera);
 
+	
+
 	CameraManager::AddCamera(freeCameraComponent);
 	CameraManager::SetRenderingCamera(freeCameraComponent);
 	CWorldManager::LoadWorld(0, true);
