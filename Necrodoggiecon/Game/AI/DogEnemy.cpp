@@ -18,6 +18,7 @@ void DogEnemy::Update(float deltaTime)
 		// If the timer is up then go back to pathfinding.
 		if (attackCooldown < 0.02f)
 		{
+			attackTimer = 0.5f;
 			onCooldown = false;
 		}
 
@@ -53,7 +54,9 @@ void DogEnemy::AttackPlayer(CCharacter* player)
 	if (attackTimer > 0.0f && !onCooldown)
 	{
 		attackTimer -= 0.016f;
-		SetSpeed(500.0f);
+		SetSpeed(1.0f);
+		if (attackTimer <= 0.3f)
+			SetSpeed(500.0f);
 		onCooldown = false;
 		isAttacking = true;
 
