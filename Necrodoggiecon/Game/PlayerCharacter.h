@@ -15,6 +15,11 @@ protected:
 	float timeElapsed = 0;
 
 	void LookAt(Vector3 pos);
+
+	CAnimationSpriteComponent* spriteComponentBody = nullptr;
+	CAnimationSpriteComponent* spriteComponentLegs = nullptr;
+
+	XMFLOAT2 movementVec = { 0,0 };
 public:
 	PlayerCharacter();
 
