@@ -85,9 +85,9 @@ void Projectile::DidItHit()
 		CAIController* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
 		{
+			target->ApplyDamage(1.0f, GetClosestPlayer(damagePos));
 			Engine::DestroyEntity(this);
 		}
-		target->ApplyDamage(1.0f, GetClosestPlayer(damagePos));
 	}
 }
 
