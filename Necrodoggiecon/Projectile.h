@@ -28,7 +28,6 @@ private:
 	float Lifetime;
 	Vector3 Direction;
 	Vector3 Position;
-	std::string Name;
 
 	CEntity* GetClosestEnemy(Vector3 actorPos);
 	CEntity* GetClosestPlayer(Vector3 actorPos);

@@ -4,11 +4,10 @@
 Projectile::Projectile()
 {
 	ProjectileSprite = AddComponent<CSpriteComponent>();
-	ProjectileSprite->LoadTextureWIC("Resources/weapons/Arrow.png");
 	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
 	ProjectileSprite->SetSpriteSize(XMUINT2(96, 96));
-
 }
+
 
 Projectile::~Projectile()
 {
@@ -50,9 +49,17 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, 
 	Direction = dir;
 	ProjectileSprite->SetPosition(pos);
 	Position = pos;
-	Speed = speed;
+	Speed = speed * 6;
 	Lifetime = lifetime;
-	Name = projectile_name;
+
+	if (projectile_name == "Arrow")
+	{
+		ProjectileSprite->LoadTextureWIC("Resources/weapons/Arrow.png");
+	}
+	else if (projectile_name == "Fire")
+	{
+		ProjectileSprite->LoadTextureWIC("Resources/weapons/Wand - Fireball Projectile.png");
+	}
 
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
 
