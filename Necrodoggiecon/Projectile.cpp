@@ -31,12 +31,15 @@ void Projectile::Update(float deltaTime)
 {
 	if (Projectile_Name != "Missle")
 	{
-		if (Lifetime > 0)
+		if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime)
 		{
 			DidItHit();
 			Position += Direction * Speed;
 			ProjectileSprite->SetPosition(Position);
-			Lifetime - 2;
+		}
+		else
+		{
+			Engine::DestroyEntity(this);
 		}
 	}
 	else if (Projectile_Name == "Missle")
@@ -59,19 +62,8 @@ void Projectile::Update(float deltaTime)
 			}
 		}
 	}
-	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime)
-	{
-		DidItHit();
-		Position += Direction * Speed;
-		ProjectileSprite->SetPosition(Position);
-	}
-	else
-	{
-		Engine::DestroyEntity(this);
-	}
 }
 
-}
 
 /**
  * Sees if the projectile is within ranged of hiting the target
@@ -93,14 +85,10 @@ void Projectile::DidItHit()
 		CAIController* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
 		{
-			Engine::DestroyEntity(target);
-			Lifetime = 0;
-			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
+			Engine::DestroyEntity(this);
 		}
+		target->ApplyDamage(1.0f, GetClosestPlayer(damagePos));
 	}
-			target->ApplyDamage(1.0f, GetClosestPlayer(damagePos));
-	}
-
 }
 
 /**
@@ -108,14 +96,14 @@ void Projectile::DidItHit()
  *
  * This also allows for the projectile to be at the right rotation when fireing
  */
-void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, std::string projectile_name)
-void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type)
+void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type, std::string projectile_name)
 {
 	Direction = dir;
 	ProjectileSprite->SetPosition(pos);
-	Position = pos;
-	Lifetime = lifetime;
 	Projectile_Name = projectile_name;
+	Speed = speed;
+	Lifetime = lifetime;
+	initialPosition = pos;
 
 	if (projectile_name == "Arrow")
 	{
@@ -132,9 +120,6 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, 
 		Speed = speed;
 		ProjectileSprite->LoadTextureWIC("Resources/weapons/Wand - Magic missile Projectile.png");
 	}
-	Speed = speed;
-	Lifetime = lifetime;
-	initialPosition = pos;
 
 	userType = (USERTYPE2)type;
 
@@ -155,7 +140,8 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, 
  *
  * \returns the enemy if within range
  */
-CEntity* Projectile::GetClosestEnemy(Vector3 actorPos)
+
+CAIController* Projectile::GetClosestEnemy(Vector3 actorPos)
 {
 	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
 
@@ -183,9 +169,7 @@ CEntity* Projectile::GetClosestEnemy(Vector3 actorPos)
 	return closestEnemy;
 }
 
-
-CEntity* Projectile::GetClosestEnemy(Vector3 actorPos, float Ranged)
-CAIController* Projectile::GetClosestEnemy(Vector3 actorPos)
+CAIController* Projectile::GetClosestEnemy(Vector3 actorPos, float ranged)
 {
 	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
 
@@ -198,7 +182,7 @@ CAIController* Projectile::GetClosestEnemy(Vector3 actorPos)
 	for (CAIController* enemy : enemies)
 	{
 
-		if (actorPos.DistanceTo(enemy->GetPosition()) > Ranged)
+		if (actorPos.DistanceTo(enemy->GetPosition()) > ranged)
 			continue;
 
 		if (closestEnemy == nullptr)
@@ -215,9 +199,6 @@ CAIController* Projectile::GetClosestEnemy(Vector3 actorPos)
 
 
 
-
-
-CEntity* Projectile::GetClosestPlayer(Vector3 actorPos)
 PlayerCharacter* Projectile::GetClosestPlayer(Vector3 actorPos)
 {
 	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();

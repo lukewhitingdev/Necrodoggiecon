@@ -28,8 +28,7 @@ public:
 	Projectile();
 	~Projectile();
 
-	void StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type);
-	void StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, std::string projectile_name);
+	void StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type, std::string projectile_name);
 	void DidItHit();
 	virtual void Update(float deltaTime) override;
 
@@ -45,9 +44,7 @@ private:
 
 	CAIController* GetClosestEnemy(Vector3 actorPos);
 	PlayerCharacter* GetClosestPlayer(Vector3 actorPos);
-	CEntity* GetClosestEnemy(Vector3 actorPos);
-	CEntity* GetClosestEnemy(Vector3 actorPos, float ranged);
-	CEntity* GetClosestPlayer(Vector3 actorPos);
+	CAIController* GetClosestEnemy(Vector3 actorPos, float ranged);
 
 	USERTYPE2 userType;
 };
