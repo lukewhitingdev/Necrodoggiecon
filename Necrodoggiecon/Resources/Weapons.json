@@ -27,8 +27,8 @@
     "Type": "Ranged",
     "Damage": 5.0,
     "Range": 25.0,
-    "Attack_Speed": 1.0,
-    "Ammo": 5.0,
+    "Attack_Speed": 0.8,
+    "Ammo": 8.0,
     "Unique": false
   },
   "Throwing_Knives": {
