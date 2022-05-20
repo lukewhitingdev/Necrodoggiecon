@@ -43,7 +43,8 @@ void ChaseState::Update(CAIController* controller)
 	}
 	else
 	{
-		controller->SetCurrentState(SearchState::getInstance());
+		controller->SetPositionToInvestigate(closestPlayer->GetPosition());
+		controller->SetCurrentState(InvestigateState::getInstance());
 	}
 }
 
@@ -86,10 +87,11 @@ void AttackState::Update(CAIController* controller)
 	if (closestPlayer != nullptr)
 	{
 		controller->AttackPlayer(closestPlayer);
-		if (controller->CanSee(closestPlayer->GetPosition()) == false && !controller->isAttacking)
+		if (controller->CanSee(closestPlayer->GetPosition()) == false && controller->GetIsAttacking() == false)
 		{
+			controller->SetPositionToInvestigate(closestPlayer->GetPosition());
 			closestPlayer = nullptr;
-			controller->SetCurrentState(PatrolState::getInstance());
+			controller->SetCurrentState(InvestigateState::getInstance());
 		}
 	}
 	else
@@ -170,12 +172,12 @@ State& SearchState::getInstance()
 
 void InvestigateState::Enter(CAIController* controller)
 {
-	controller->SetPath(controller->positionToInvestigate);
+	controller->SetPath(controller->GetPositionToInvestigate());
 }
 
 void InvestigateState::Update(CAIController* controller)
 {
-	controller->Investigating(controller->positionToInvestigate);
+	controller->Investigating(controller->GetPositionToInvestigate());
 }
 
 void InvestigateState::Exit(CAIController* controller)
