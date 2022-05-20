@@ -8,21 +8,18 @@ class CCharacter : public CEntity
 private:
 protected:
 	Weapon* weaponComponent = nullptr;
-
-	virtual void OnTakeDamage(float damageAmount, CEntity* damageCauser) {
-		UNREFERENCED_PARAMETER(damageCauser);
-		UNREFERENCED_PARAMETER(damageAmount);
-	};
+	float health = 2.0f;
 
 	void AddVerticalMovement(int dir, float speed, float deltaTime);
 	void AddHorizontalMovement(int dir, float speed, float deltaTime);
 public:
-	void ApplyDamage(float damageAmount, CEntity* damageCauser) { OnTakeDamage(damageAmount, damageCauser); }
 
-	virtual void Update(float deltaTime) { UNREFERENCED_PARAMETER(deltaTime); };
+	virtual void Update(float deltaTime) {};
 
 	CCharacter();
 	virtual ~CCharacter();
 
+	void SetHealth(float heal);
+	float GetHealth();
 };
 
