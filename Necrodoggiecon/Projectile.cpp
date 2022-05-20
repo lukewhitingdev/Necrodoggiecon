@@ -47,7 +47,7 @@ void Projectile::Update(float deltaTime)
 		if (Lifetime > 0)
 		{
 			DidItHit();
-			CEntity* target = GetClosestEnemy(Position, 50000);
+			CAIController* target = GetClosestEnemy(Position, 50000);
 			if (target != nullptr)
 			{
 				Vector3 attack = target->GetPosition() - Position;
@@ -86,7 +86,8 @@ void Projectile::DidItHit()
 		if (target != nullptr)
 		{
 			target->ApplyDamage(1.0f, GetClosestPlayer(damagePos));
-			Engine::DestroyEntity(this);
+			Lifetime = 0;
+			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
 		}
 	}
 }
