@@ -42,7 +42,7 @@ PlayerCharacter::PlayerCharacter()
 	loadNoise->SetRange(10000.0f);
 
 	weaponComponent = AddComponent<Weapon>();
-	weaponComponent->SetWeapon("Dagger");
+	weaponComponent->SetWeapon("Crossbow");
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 
 	camera = AddComponent<CCameraComponent>();
@@ -82,7 +82,11 @@ void PlayerCharacter::PressedDrop()
 
 void PlayerCharacter::Attack()
 {
-	Vector3 attackDir = (Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z)) - GetPosition();
+	
+	XMFLOAT3 screenVec = XMFLOAT3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, Inputs::InputManager::mousePos.z);
+	screenVec = Math::FromScreenToWorld(screenVec);
+
+	Vector3 attackDir = (Vector3(screenVec.x, screenVec.y, screenVec.z)) - GetPosition();
 
 	weaponComponent->OnFire(GetPosition(), attackDir);
 }
