@@ -101,18 +101,23 @@ void DialogueUI::UpdateText()
 	ClearText();
 	int rowsNeeded = ceil(displayingText.length() / maxCharactersInRow);
 	if (rowsNeeded >= textRenderComponents.size())
-		rowsNeeded = textRenderComponents.size() - 1;
+		rowsNeeded = textRenderComponents.size();
 
 	std::string tempString = displayingText;
 	for (int i = 0; i <= rowsNeeded; i++)
 	{
+		if (i == textRenderComponents.size())
+		{
+			isUpdating = false;
+			break;
+		}
 		std::string rowText = tempString.substr(0, maxCharactersInRow);
 		if (rowText.empty()) continue;
 
 		if (i != rowsNeeded)
 		{
-			while (!tempString.empty() && tempString.back() != 0x20)
-				tempString.pop_back();
+			while (!rowText.empty() && rowText.back() != 0x20)
+				rowText.pop_back();
 		}
 
 		
@@ -120,8 +125,6 @@ void DialogueUI::UpdateText()
 		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
 		tempString.erase(0, rowText.size());
 
-		if (i == rowsNeeded && rowText.length() >= maxCharactersInRow)
-			isUpdating = false;
 	}
 }
 /**
