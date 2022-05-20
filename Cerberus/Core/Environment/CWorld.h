@@ -6,10 +6,11 @@
 
 #include "Cerberus\WorldConstants.h"
 
-#include "Cerberus\Dependencies\NlohmannJson\json.hpp"
+
 #include "Necrodoggiecon/Game/AI/AlarmEnemy.h"
 #include "Necrodoggiecon/Game/AI/MeleeEnemy.h"
 #include "Necrodoggiecon/Game/AI/DogEnemy.h"
+#include "Cerberus\Dependencies\NlohmannJson\json.hpp"
 
 using json = nlohmann::json;
 

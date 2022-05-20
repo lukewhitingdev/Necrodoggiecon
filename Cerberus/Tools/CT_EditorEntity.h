@@ -109,12 +109,18 @@ protected:
 
     bool displayWaypoints = false;
 
+    char* current_item = (char*)"Dagger";
+    int itemIndex = 0;
+
 public:
     
    
 
     std::vector<CT_EditorEntity_Waypoint*> Waypoints;
 
+    char* GetWeaponName() { return current_item; }
+    int GetAssignedWeapon() { return itemIndex; }
+    void AssignWeapon(char* WeaponID, int Index);
 
     CT_EditorEntity_Enemy();
 

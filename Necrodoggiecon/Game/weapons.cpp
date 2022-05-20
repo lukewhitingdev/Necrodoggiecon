@@ -5,22 +5,22 @@
 
 Weapon::Weapon()
 {
-	SetWeapon("Crossbow");
+	SetWeapon(3);
 }
 
-void Weapon::SetWeapon(std::string weapon)
+void Weapon::SetWeapon(int ID)
 {
 	std::ifstream file("Resources/Weapons.json");
 	json storedFile;
 	file >> storedFile;
 
-	type = storedFile.at(weapon).at("Type");
-	damage = storedFile.at(weapon).at("Damage");
-	range = storedFile.at(weapon).at("Range");
+	type = storedFile["Weapons"][ID]["Type"];
+	damage = storedFile["Weapons"][ID]["Damage"];
+	range = storedFile["Weapons"][ID]["Range"];
 	range = range * rangeScale;
-	attack_speed = storedFile.at(weapon).at("Attack_Speed");
-	ammo = storedFile.at(weapon).at("Ammo");
-	unique = storedFile.at(weapon).at("Unique");
+	attack_speed = storedFile["Weapons"][ID]["Attack_Speed"];
+	ammo = storedFile["Weapons"][ID]["Ammo"];
+	unique = storedFile["Weapons"][ID]["Unique"];
 	cooldown = attack_speed;
 
 	Debug::Log("Range %f", range);

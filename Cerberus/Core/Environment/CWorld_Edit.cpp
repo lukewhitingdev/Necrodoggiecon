@@ -107,11 +107,20 @@ void CWorld_Editable::LoadWorld(int Slot)
 			int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
 			int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
 
+			
+
 			CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
 			TempRef->InitialiseEntity(EnemyID);
 			TempRef->SetPosition(Vector3(EnemyX, EnemyY, -1));
 			editorEntityList.push_back(TempRef);
 
+			if (EnemyID == 0)
+			{
+				int weaponIndex = storedFile["Enemy"][i]["WeaponIndex"];
+				//std::string weaponName = storedFile["Enemy"][i]["WeaponType"].get<std::string>();
+				//Debug::Log("WeaponName: %s", weaponName);
+				TempRef->AssignWeapon((char*)"", weaponIndex);
+			}
 
 
 			int WaypointList = storedFile["Enemy"][i]["WaypointList"];
@@ -220,7 +229,12 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 				SaveData["Enemy"][i]["Position"]["X"] = TempEnemy->GetPosition().x;
 				SaveData["Enemy"][i]["Position"]["Y"] = TempEnemy->GetPosition().y;
-				
+				if (TempEnemy->GetSlot() == 0)
+				{
+					std::string weaponName = TempEnemy->GetWeaponName();
+					SaveData["Enemy"][i]["WeaponType"] = weaponName;
+					SaveData["Enemy"][i]["WeaponIndex"] = TempEnemy->GetAssignedWeapon();
+				}
 				
 			
 				SaveData["Enemy"][i]["WaypointList"] = TempEnemy->Waypoints.size();

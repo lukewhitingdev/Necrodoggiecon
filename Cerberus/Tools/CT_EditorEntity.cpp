@@ -29,10 +29,20 @@ void CT_EditorEntity::SaveEntity(int Index, int MapSlot)
 {
 }
 
+void CT_EditorEntity_Enemy::AssignWeapon(char* WeaponID, int Index)
+{
+	 current_item = WeaponID; 
+	 itemIndex = Index; 
+
+	 Debug::Log("WeaponAssigned: %c | %d", WeaponID, Index);
+}
+
 CT_EditorEntity_Enemy::CT_EditorEntity_Enemy()
 {
 	sprite = AddComponent<CSpriteComponent>();
 	inspectType = EditorEntityType::Enemy;
+	int itemIndex = 0;
+
 
 
 }
