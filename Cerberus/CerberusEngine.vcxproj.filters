@@ -58,6 +58,7 @@
     <ClCompile Include="Core\Components\CCameraComponent.cpp" />
     <ClCompile Include="Core\Utility\Math\Math.cpp" />
     <ClCompile Include="Core\Utility\CameraManager\CameraManager.cpp" />
+    <ClCompile Include="Core\Utility\EntityManager.cpp" />
     <ClCompile Include="Core\Components\CRigidBodyComponent.cpp" />
     <ClCompile Include="Core\UI\CWidget_Button.cpp" />
     <ClCompile Include="Core\UI\CWidget.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="Core\Utility\Math\Math.h" />
     <ClInclude Include="Core\Components\CCameraComponent.h" />
     <ClInclude Include="Core\Utility\CameraManager\CameraManager.h" />
+    <ClInclude Include="Core\Utility\EntityManager.h" />
     <ClInclude Include="Core\Components\CRigidBodyComponent.h" />
     <ClInclude Include="Core\UI\CWidget_Button.h" />
     <ClInclude Include="Core\UI\CWidget.h" />

@@ -1,8 +1,5 @@
 #pragma once
 #include "Cerberus\Core\CEntity.h"
-#include "Cerberus\Core\Components\CTextRenderComponent.h"
-#include "Cerberus\Core\Components\CSpriteComponent.h"
-#include "Cerberus\Core\Structs\CCamera.h"
 
 class weaponUI : public CEntity
 {

@@ -74,7 +74,7 @@ int Start()
 	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>();
 	freeCameraComponent->Initialize();
 	freeCameraComponent->SetAttachedToParent(false);
-	freeCameraComponent->SetParent(nullptr);
+	freeCameraComponent->SetParent(freeCamera);
 
 	
 

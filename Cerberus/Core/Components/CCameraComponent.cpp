@@ -124,7 +124,7 @@ Vector3 CCameraComponent::GetPosition()
 void CCameraComponent::UpdateView()
 {
 	// Initialize the view matrix
-	XMFLOAT4 pos = DirectX::XMFLOAT4(this->GetPosition().x + 0.001f, this->GetPosition().y + 0.001f, -3, 1);
+	XMFLOAT4 pos = DirectX::XMFLOAT4(this->GetPosition().x + 0.001f, this->GetPosition().y + 0.001f, -1, 1);
 	XMFLOAT4 at = DirectX::XMFLOAT4(this->GetPosition().x + 0.001f, this->GetPosition().y + 0.001f, 0, 0);
 	XMVECTOR Eye = XMLoadFloat4(&pos);
 	XMVECTOR At = XMLoadFloat4(&at);
@@ -139,7 +139,7 @@ void CCameraComponent::UpdateView()
  */
 void CCameraComponent::UpdateProj()
 {
-	XMMATRIX projMatrix = XMMatrixOrthographicLH(Engine::windowWidth / zoom, Engine::windowHeight / zoom, 0.01f, 100.0f);
+	XMMATRIX projMatrix = XMMatrixOrthographicLH(Engine::windowWidth / zoom, Engine::windowHeight / zoom, -1000.0f, 1000.0f);
 	XMStoreFloat4x4(&proj, projMatrix);
 }
 
