@@ -46,5 +46,4 @@ void MeleeEnemy::ChasePlayer(CCharacter* player)
 void MeleeEnemy::AttackPlayer(CCharacter* player)
 {
 	weapon->OnFire(aiPosition, velocity);
-	players = Engine::GetEntityOfType<PlayerCharacter>();
 }
