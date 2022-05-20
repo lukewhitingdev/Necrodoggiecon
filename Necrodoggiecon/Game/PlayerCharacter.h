@@ -42,5 +42,9 @@ public:
 	Weapon* weapon = nullptr;
 	class CCameraComponent* camera = nullptr;
 	CAudioEmitterComponent* loadNoise;
+
+private:
+	void ResolveMovement(const float& deltaTime);
+	void AimAtMouse(const Vector3& mousePos);
 };
 

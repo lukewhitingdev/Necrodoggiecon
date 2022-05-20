@@ -88,6 +88,20 @@ void PlayerCharacter::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
 
+	ResolveMovement(deltaTime);
+
+	Vector3 mousePos = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, 1);
+	
+	AimAtMouse(mousePos);
+
+	colComponent->SetPosition(GetPosition());
+
+	movementVec = { 0,0 };
+	movementVel = XMFLOAT2(movementVel.x * (1 - deltaTime * walkDrag), movementVel.y * (1 - deltaTime * walkDrag));
+}
+
+void PlayerCharacter::ResolveMovement(const float& deltaTime)
+{
 	if (movementVec.Magnitude() > 0.01f)
 	{
 		movementVec = movementVec.Normalize();
@@ -96,32 +110,29 @@ void PlayerCharacter::Update(float deltaTime)
 
 	AddMovement(movementVel, deltaTime);
 
-	Vector3 mousePos = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, 1);
-	Vector3 mousePercent = mousePos / Vector3(Engine::windowWidth, Engine::windowHeight, 1);
-	mousePercent.z = 0;
-
-	camera->SetPosition(mousePercent * cameraMovementScalar + GetPosition());
-
 	if (movementVec.x == 0 && movementVec.y == 0 && spriteComponentBody->GetPlaying())
 	{
 		spriteComponentBody->SetPlaying(false, true);
 		spriteComponentLegs->SetPlaying(false, true);
 	}
-	else if(!spriteComponentBody->GetPlaying())
+	else if (!spriteComponentBody->GetPlaying())
 	{
 		spriteComponentBody->SetPlaying(true, false);
 		spriteComponentLegs->SetPlaying(true, false);
 	}
+}
 
-	XMFLOAT3 screenVec = Math::FromScreenToWorld(mousePos.ToXMFLOAT3());
+void PlayerCharacter::AimAtMouse(const Vector3& mousePos)
+{
+	Vector3 mousePercent = mousePos / Vector3(Engine::windowWidth, Engine::windowHeight, 1);
+	mousePercent.z = 0;
+
+	camera->SetPosition(mousePercent * cameraMovementScalar + GetPosition());
+	
+	XMFLOAT3 mousePosFloat3 = XMFLOAT3(mousePos.x, mousePos.y, mousePos.z);
+	XMFLOAT3 screenVec = Math::FromScreenToWorld(mousePosFloat3);
 
 	LookAt(Vector3(screenVec.x, screenVec.y, screenVec.z));
-
-	colComponent->SetPosition(GetPosition());
-
-	movementVec = {0,0};
-
-	movementVel = XMFLOAT2(movementVel.x * (1 - deltaTime * walkDrag), movementVel.y * (1 - deltaTime * walkDrag));
 }
 
 void PlayerCharacter::LookAt(Vector3 pos)
