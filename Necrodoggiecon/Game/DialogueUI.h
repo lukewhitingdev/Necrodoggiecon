@@ -36,8 +36,8 @@ public:
     virtual ~DialogueUI();
     virtual void Update(float deltaTime) override;
 
-    void SetText(std::string newText, bool instantDisplay);
-    void SetName(std::string newName);
+    void SetText(const std::string& newText, bool instantDisplay);
+    void SetName(const std::string& newName);
     void ClearText();
     void Complete();
     void CompletePage();

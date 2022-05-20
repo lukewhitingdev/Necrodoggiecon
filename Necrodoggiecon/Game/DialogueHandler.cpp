@@ -26,7 +26,7 @@ DialogueHandler::~DialogueHandler()
 /**
 * Function to set the dialogue that should display. Calls the SetName and SetText functions on the dialogueUI
 */
-void DialogueHandler::SetDialogue(std::string name, std::string dialogue)
+void DialogueHandler::SetDialogue(const std::string& name, const std::string& dialogue)
 {
 	if (dialogueUI == nullptr)
 		dialogueUI = Engine::CreateEntity<DialogueUI>();
@@ -39,19 +39,47 @@ void DialogueHandler::SetDialogue(std::string name, std::string dialogue)
 * Function to load dialogue from a json file. Will the call the SetDialogue function using the first instance of dialogue in the json file.
 * Called Like DialogueHandler::LoadDialogue("Resources/Dialogue.json", "TestDialogue")
 */
-void DialogueHandler::LoadDialogue(std::string jsonPath, std::string dialogueName)
+void DialogueHandler::LoadDialogue(const std::string& jsonPath, const std::string& dialogueName)
 {
 	std::ifstream file(jsonPath);
+	if (!file.is_open())
+	{
+		std::string errorMessage = "Couldn't open file at path: " + jsonPath;
+		Debug::LogError(errorMessage.c_str());
+		return;
+	}
 	nlohmann::json storedFile;
 	file >> storedFile;
 
-	if (storedFile[dialogueName].is_null() || storedFile[dialogueName]["ListOfDialogue"].is_null()) return;
+	if (storedFile[dialogueName].is_null())
+	{
+		std::string errorMessage = "Path: " + dialogueName + " does not exist in the json file";
+		Debug::LogError(errorMessage.c_str());
+		return;
+	}
+	if (storedFile[dialogueName]["ListOfDialogue"].is_null())
+	{
+		std::string errorMessage = "Path: ListOfDialogue does not exist in the json file after path: " + dialogueName;
+		Debug::LogError(errorMessage.c_str());
+		return;
+	}
 
 	currentDialogue.clear();
 
 	for (auto &array : storedFile[dialogueName]["ListOfDialogue"])
 	{
-		if (array["Name"].is_null() || array["Dialogue"].is_null()) return;
+		if (array["Name"].is_null())
+		{
+			std::string errorMessage = "Path: Name does not exist in the json file after path: " + dialogueName + ", ListOfDialogue";
+			Debug::LogError(errorMessage.c_str());
+			return;
+		}
+		if (array["Dialogue"].is_null())
+		{
+			std::string errorMessage = "Path: Dialogue does not exist in the json file after path: " + dialogueName + ", ListOfDialogue";
+			Debug::LogError(errorMessage.c_str());
+			return;
+		}
 
 		currentDialogue.push_back(new Dialogue(array["Name"], array["Dialogue"]));
 	}

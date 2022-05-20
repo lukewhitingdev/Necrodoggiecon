@@ -13,8 +13,8 @@ private:
 public:
 	DialogueHandler();
 	~DialogueHandler();
-	static void SetDialogue(std::string name, std::string dialogue);
-	static void LoadDialogue(std::string jsonPath, std::string dialogueName);
+	static void SetDialogue(const std::string& name,const std::string& dialogue);
+	static void LoadDialogue(const std::string& jsonPath, const std::string& dialogueName);
 	static void AdvanceDialogue();
 	static void CloseDialogue();
 	static void SetInstantDisplay(bool _instantDisplay) { instantDisplay = _instantDisplay; }

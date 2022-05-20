@@ -109,8 +109,12 @@ void DialogueUI::UpdateText()
 		std::string rowText = tempString.substr(0, maxCharactersInRow);
 		if (rowText.empty()) continue;
 
-		while (!rowText.empty() && rowText.back() != 0x20)
-			rowText.pop_back();
+		if (i != rowsNeeded)
+		{
+			while (!tempString.empty() && tempString.back() != 0x20)
+				tempString.pop_back();
+		}
+
 		
 		textRenderComponents[i]->SetText(rowText);
 		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
@@ -126,7 +130,7 @@ void DialogueUI::UpdateText()
  * \param newText - The new text (section of dialogue) that will display.
  * \param instantDisplay - Whether the text should update instantly or overtime
  */
-void DialogueUI::SetText(std::string newText, bool instantDisplay)
+void DialogueUI::SetText(const std::string& newText, bool instantDisplay)
 {
 	ClearText();
 	displayingText = "";
@@ -142,12 +146,16 @@ void DialogueUI::SetText(std::string newText, bool instantDisplay)
 	for (int i = 0; i <= rowsNeeded; i++)
 	{
 		std::string rowText = reserveText.substr(0, maxCharactersInRow);
-		while (!rowText.empty() && rowText.back() != 0x20)
-			rowText.pop_back();
+		if (i != rowsNeeded)
+		{
+			while (!rowText.empty() && rowText.back() != 0x20)
+				rowText.pop_back();
+		}
 		
 		textRenderComponents[i]->SetText(rowText);
 		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
-		reserveText.erase(0, rowText.size());
+		reserveText.erase(0, rowText.size());;
+
 		displayingText.append(rowText);
 	}
 	isUpdating = false;
@@ -157,7 +165,7 @@ void DialogueUI::SetText(std::string newText, bool instantDisplay)
  * 
  * \param newName - The new name that should be displayed.
  */
-void DialogueUI::SetName(std::string newName)
+void DialogueUI::SetName(const std::string& newName)
 {
 	nameText = newName;
 	nameTextRenderComponent->SetText(nameText);
@@ -211,11 +219,20 @@ void DialogueUI::CompletePage()
 	for (int i = 0; i <= rowsNeeded; i++)
 	{
 		std::string rowText = reserveText.substr(0, maxCharactersInRow);
+		if (i != rowsNeeded)
+		{
+			while (!rowText.empty() && rowText.back() != 0x20)
+				rowText.pop_back();
+		}
+		
+
 		textRenderComponents[i]->SetText(rowText);
 		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
-		reserveText.erase(0, maxCharactersInRow);
+		reserveText.erase(0, rowText.size());
+
 		displayingText.append(rowText);
 	}
+	Debug::Log(reserveText.c_str());
 	isUpdating = false;
 }
 /**
