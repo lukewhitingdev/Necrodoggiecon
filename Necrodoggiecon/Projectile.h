@@ -1,7 +1,8 @@
 #pragma once
 #include <Cerberus\Core\Components\CAnimationSpriteComponent.h>
 #include <Cerberus\Core\CEntity.h>
-
+class CAIController;
+class PlayerCharacter;
 
 enum class USERTYPE2
 {
@@ -17,7 +18,7 @@ public:
 	Projectile();
 	~Projectile();
 
-	void StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime);
+	void StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type);
 	void DidItHit();
 	virtual void Update(float deltaTime) override;
 
@@ -28,9 +29,10 @@ private:
 	float Lifetime;
 	Vector3 Direction;
 	Vector3 Position;
+	Vector3 initialPosition;
 
-	CEntity* GetClosestEnemy(Vector3 actorPos);
-	CEntity* GetClosestPlayer(Vector3 actorPos);
+	CAIController* GetClosestEnemy(Vector3 actorPos);
+	PlayerCharacter* GetClosestPlayer(Vector3 actorPos);
 
 	USERTYPE2 userType;
 };

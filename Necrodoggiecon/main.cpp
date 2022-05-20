@@ -7,11 +7,14 @@
 #include <Necrodoggiecon\Game\PlayerController.h>
 #include <Necrodoggiecon\Game\PlayerCharacter.h>
 #include <Necrodoggiecon\Game\ItemDatabase.h>
-#include <Necrodoggiecon\Game\AI\CAIController.h>
+#include <Cerberus/Core/AI/CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
 #include <Cerberus/Core/Utility/CWorldManager.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
+#include "Necrodoggiecon/Game/AI/MeleeEnemy.h"
+#include "Necrodoggiecon/Game/AI/DogEnemy.h"
+#include "Necrodoggiecon/Game/AI/AlarmEnemy.h"
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
 #include <Necrodoggiecon/Game/DialogueHandler.h>
@@ -101,22 +104,12 @@ int Start()
 
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
-	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	//character1->droppedItem = droppedItem;
 
-	//controller->charOne = character1;
-
-//	character1->SetPosition(Vector3(0, 0, 0));
-	//controller->Possess(character1);
-	//character1->shouldMove = true;
-	//character1->colComponent->SetCollider(128.0f, 128.0f);
-
-	//std::string str = "This system will contain the players� input. This input will then be passed down to the currently attached character. This will allow us to have multiple characters with setting up input on each of them, as well as this, it will make it so that we can swap between characters mid-level easily. ";
-	//DialogueHandler::SetDialogue("this is a name", str, false);
-	//DialogueHandler::LoadDialogue("Resources/Dialogue.json", "TestDialogue");
-	Engine::CreateEntity<CAIController>();
-
-	std::vector<PlayerCharacter*> test = Engine::GetEntityOfType<PlayerCharacter>();
+	/*Engine::CreateEntity<MeleeEnemy>();
+	Engine::CreateEntity<MeleeEnemy>();
+	Engine::CreateEntity<MeleeEnemy>();
+	Engine::CreateEntity<MeleeEnemy>();
+	Engine::CreateEntity<AlarmEnemy>();*/
 
 	return 0;
 }
