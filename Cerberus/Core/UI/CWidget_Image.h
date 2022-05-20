@@ -2,7 +2,7 @@
  * \file   CWidget_Image.h
  * \brief  Image widget class. 
  * 
- * \author J019857i
+ * \author Samuel Elliot Jackson
  * \date   May 2022
  *********************************************************************/
 #pragma once
