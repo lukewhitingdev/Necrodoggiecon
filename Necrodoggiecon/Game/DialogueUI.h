@@ -3,6 +3,9 @@
 #include <Cerberus/Core/Components/CSpriteComponent.h>
 #include <Cerberus/Core/Components/CTextRenderComponent.h>
 
+/**
+ * Class that handles displaying text in the dialogue window.
+ */
 class DialogueUI :  public CEntity
 {
 private:
