@@ -46,7 +46,6 @@ PlayerCharacter::PlayerCharacter()
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 
 	camera = AddComponent<CCameraComponent>();
-	camera->Initialize();
 	camera->SetAttachedToParent(false);
 	CameraManager::AddCamera(camera);
 	CameraManager::SetRenderingCamera(camera);
