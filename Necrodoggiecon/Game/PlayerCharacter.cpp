@@ -42,7 +42,7 @@ PlayerCharacter::PlayerCharacter()
 	loadNoise->SetRange(10000.0f);
 
 	weaponComponent = AddComponent<Weapon>();
-	weaponComponent->SetWeapon("Crossbow");
+	weaponComponent->SetWeapon("Magic_Missile");
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 
 	camera = AddComponent<CCameraComponent>();
