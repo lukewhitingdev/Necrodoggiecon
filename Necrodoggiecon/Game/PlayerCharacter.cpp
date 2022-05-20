@@ -3,6 +3,7 @@
 #include "CEquippedItem.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
 #include "Cerberus\Core\Components\CCameraComponent.h"
+#include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 
 PlayerCharacter::PlayerCharacter()
 {
@@ -40,6 +41,12 @@ PlayerCharacter::PlayerCharacter()
 	weaponComponent = AddComponent<Weapon>();
 	weaponComponent->SetWeapon("Dagger");
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
+
+	camera = AddComponent<CCameraComponent>();
+	camera->Initialize();
+	camera->SetAttachedToParent(false);
+	CameraManager::AddCamera(camera);
+	CameraManager::SetRenderingCamera(camera);
 }
 
 void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)
@@ -83,6 +90,12 @@ void PlayerCharacter::Attack()
 void PlayerCharacter::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
+
+	Vector3 mousePos = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, 1);
+	Vector3 mousePercent = mousePos / Vector3(Engine::windowWidth, Engine::windowHeight, 1);
+	mousePercent.z = 0;
+
+	camera->SetPosition(mousePercent * 100 + GetPosition());
 
 	if (movementVec.x == 0 && movementVec.y == 0 && spriteComponentBody->GetPlaying())
 	{
