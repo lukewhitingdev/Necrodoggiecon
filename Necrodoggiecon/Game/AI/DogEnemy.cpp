@@ -9,7 +9,7 @@
 
 DogEnemy::DogEnemy()
 {
-	sprite->LoadTexture("Resources\\MeleeEnemy.dds");
+	sprite->LoadTexture("Resources/Characters/MeleeEnemy.dds");
 	sprite->SetRotation(1.5708f);
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
@@ -40,7 +40,7 @@ void DogEnemy::Update(float deltaTime)
  * 
  * \param player Player to seek towards.
  */
-void DogEnemy::ChasePlayer(CCharacter* player)
+void DogEnemy::ChasePlayer(PlayerCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < attackRange)
 	{
@@ -58,7 +58,7 @@ void DogEnemy::ChasePlayer(CCharacter* player)
  * 
  * \param player Player to target for an attack.
  */
-void DogEnemy::AttackEnter(CCharacter* player)
+void DogEnemy::AttackEnter(PlayerCharacter* player)
 {
 	targetPosition = player->GetPosition();
 }
@@ -68,7 +68,7 @@ void DogEnemy::AttackEnter(CCharacter* player)
  * 
  * \param player Player to attack.
  */
-void DogEnemy::AttackPlayer(CCharacter* player)
+void DogEnemy::AttackPlayer(PlayerCharacter* player)
 {
 		
 	heading = Seek(targetPosition);
@@ -83,7 +83,7 @@ void DogEnemy::AttackPlayer(CCharacter* player)
 		isAttacking = true;
 
 		if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
-			player->ApplyDamage(1.0f, this);
+			player->ApplyDamage(1.0f);
 
 		// If the timer is up then go back to pathfinding.
 		if (attackTimer < 0.02f)
