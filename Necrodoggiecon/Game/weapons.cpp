@@ -4,7 +4,7 @@
 
 Weapon::Weapon()
 {
-	SetWeapon("Crossbow");
+	SetWeapon("FireBall");
 }
 
 void Weapon::SetWeapon(std::string weapon)
@@ -13,6 +13,7 @@ void Weapon::SetWeapon(std::string weapon)
 	json storedFile;
 	file >> storedFile;
 
+	projectile_name = storedFile.at(weapon).at("Projectile_Name");
 	type = storedFile.at(weapon).at("Type");
 	damage = storedFile.at(weapon).at("Damage");
 	range = storedFile.at(weapon).at("Range");
@@ -69,6 +70,21 @@ void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players po
 				Debug::Log("No ammo");
 			}
 		}
+		else if (type == "Magic")
+		{
+			if (ammo > 0)
+			{
+				canFire = false;
+				cooldown = attack_speed;
+				HandleRanged(actorPos, normAttackDir);
+				ammo--;
+			}
+			else
+			{
+				canFire = false;
+				Debug::Log("No ammo");
+			}
+		}
 	}
 }
 
@@ -95,9 +111,8 @@ void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
 {
 	float speed = attack_speed * 5;
-	float life = range;
 	Projectile* Projectile1 = Engine::CreateEntity<Projectile>();
-	Projectile1->StartUp(attackDir, actorPos, speed, life);
+	Projectile1->StartUp(attackDir, actorPos, speed, range, projectile_name);
 }
 
 

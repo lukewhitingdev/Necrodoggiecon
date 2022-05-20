@@ -1,5 +1,6 @@
 {
   "Dagger": {
+    "Projectile_Name": "N/A",
     "Type": "Melee",
     "Damage": 1.0,
     "Range": 0.5,
@@ -8,6 +9,7 @@
     "Unique": false
   },
   "Rapier": {
+    "Projectile_Name": "N/A",
     "Type": "Melee",
     "Damage": 1.0,
     "Range": 2.0,
@@ -16,6 +18,7 @@
     "Unique": false
   },
   "Longsword": {
+    "Projectile_Name": "N/A",
     "Type": "Melee",
     "Damage": 1.0,
     "Range": 1.0,
@@ -24,6 +27,7 @@
     "Unique": true
   },
   "Crossbow": {
+    "Projectile_Name": "Arrow",
     "Type": "Ranged",
     "Damage": 5.0,
     "Range": 25.0,
@@ -32,6 +36,7 @@
     "Unique": false
   },
   "Throwing_Knives": {
+    "Projectile_Name": "Knive",
     "Type": "Ranged",
     "Damage": 1.0,
     "Range": 8.0,
@@ -40,6 +45,7 @@
     "Unique": false
   },
   "Magic_Missile": {
+    "Projectile_Name": "Missle",
     "Type": "Magic",
     "Damage": 1.0,
     "Range": 25.0,
@@ -48,6 +54,7 @@
     "Unique": true
   },
   "IcicleBarrage": {
+    "Projectile_Name": "Ice",
     "Type": "Magic",
     "Damage": 0.5,
     "Range": 25.0,
@@ -57,6 +64,7 @@
 
   },
   "LightningDash": {
+    "Projectile_Name": "Lightning",
     "Type": "Magic",
     "Damage": 5.0,
     "Range": 20.0,
@@ -65,11 +73,12 @@
     "Unique": true
   },
   "FireBall": {
+    "Projectile_Name": "Fire",
     "Type": "Magic",
     "Damage": 5.0,
     "Range": 25.0,
     "Attack_Speed": 0.2,
-    "Ammo": 3.0,
+    "Ammo": 18.0,
     "Unique": true
   }
 }

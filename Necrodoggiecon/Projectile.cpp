@@ -45,13 +45,14 @@ void Projectile::DidItHit()
 
 }
 
-void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime)
+void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, std::string projectile_name)
 {
 	Direction = dir;
 	ProjectileSprite->SetPosition(pos);
 	Position = pos;
 	Speed = speed;
 	Lifetime = lifetime;
+	Name = projectile_name;
 
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
 

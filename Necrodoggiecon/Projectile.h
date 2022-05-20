@@ -17,7 +17,7 @@ public:
 	Projectile();
 	~Projectile();
 
-	void StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime);
+	void StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, std::string projectile_name);
 	void DidItHit();
 	virtual void Update(float deltaTime) override;
 
@@ -28,6 +28,7 @@ private:
 	float Lifetime;
 	Vector3 Direction;
 	Vector3 Position;
+	std::string Name;
 
 	CEntity* GetClosestEnemy(Vector3 actorPos);
 	CEntity* GetClosestPlayer(Vector3 actorPos);
