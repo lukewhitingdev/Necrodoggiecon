@@ -65,6 +65,7 @@
     <ClCompile Include="Core\UI\CWidget_Image.cpp" />
     <ClCompile Include="Core\UI\CWidget_Canvas.cpp" />
     <ClCompile Include="Core\Utility\CUIManager.cpp" />
+    <ClCompile Include="Core\UI\CWidget_Text.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Microsoft\DDSTextureLoader.h" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Core\UI\CWidget_Image.h" />
     <ClInclude Include="Core\UI\CWidget_Canvas.h" />
     <ClInclude Include="Core\Utility\CUIManager.h" />
+    <ClInclude Include="Core\UI\CWidget_Text.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

@@ -12,7 +12,7 @@ public:
 
     void SetSlot(int Slot) { buttonSlot = Slot; }
     void SetText(std::string TextBody);
-    void SetSize(Vector2 Size);
+    void SetButtonSize(Vector2 Size);
     void SetTexture(std::string filePath);
 
     virtual void SetWidgetTransform(Vector2 Position, Vector2 Anchor, int ZOrder);

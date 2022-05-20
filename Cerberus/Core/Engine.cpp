@@ -866,7 +866,7 @@ void Update(float deltaTime)
 	}
 
 	AudioController::Update(Vector3(0, 0, 0), deltaTime);
-	CUIManager::Update(deltaTime);
+	
 	
 }
 

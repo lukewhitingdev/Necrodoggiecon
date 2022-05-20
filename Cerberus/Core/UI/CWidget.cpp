@@ -2,7 +2,7 @@
 
 CWidget::CWidget()
 {
-	shouldUpdate = false;
+	SetShouldUpdate(false);
 	parentWidget = nullptr;
 
 }

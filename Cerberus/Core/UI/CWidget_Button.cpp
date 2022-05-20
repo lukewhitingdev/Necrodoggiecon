@@ -8,10 +8,13 @@ using namespace std;
 CWidget_Button::CWidget_Button()
 {
 	sprite = AddComponent<CSpriteComponent>();
-	sprite->ui = true;
+	sprite->SetIsUI(true);
+
 
 	textRenderer = AddComponent<CTextRenderComponent>();
-	textRenderer->ui = true;
+	textRenderer->SetIsUI(true);
+	
+	
 	ButtonPressedBind = nullptr;
 	ButtonReleasedBind = nullptr;
 	HoverEndBind = nullptr;
@@ -23,9 +26,10 @@ void CWidget_Button::SetText(std::string TextBody)
 {
 	textRenderer->SetText(TextBody);
 
+
 }
 
-void CWidget_Button::SetSize(Vector2 Size)
+void CWidget_Button::SetButtonSize(Vector2 Size)
 {
 	sprite->SetSpriteSize(DirectX::XMUINT2(Size.x, Size.y));
 	sprite->SetRenderRect(DirectX::XMUINT2(Size.x, Size.y));
@@ -43,10 +47,10 @@ void CWidget_Button::SetTexture(std::string filePath)
 void CWidget_Button::SetWidgetTransform(Vector2 Position, Vector2 Anchor, int ZOrder)
 {
 	sprite->SetPosition(Position.x, Position.y, ZOrder);
-	sprite->SetScale(1, 1, 0);
+	sprite->SetScale(1, 1, 1);
 	sprite->SetAnchor(XMFLOAT2(Anchor.x, Anchor.y));
 
-	textRenderer->SetPosition(Position.x, Position.y, ZOrder - 1);
+	textRenderer->SetPosition(Position.x, Position.y, ZOrder + 1);
 	textRenderer->SetScale(1, 1, 0);
 	textRenderer->SetAnchor(XMFLOAT2(Anchor.x, Anchor.y));
 }
@@ -82,8 +86,8 @@ void CWidget_Button::OnButtonHoverEnd()
 
 void CWidget_Button::SetVisibility(bool IsVisible)
 {
-	sprite->shouldDraw = IsVisible;
-	textRenderer->shouldDraw = IsVisible;
+	sprite->SetShouldDraw(IsVisible);
+	textRenderer->SetShouldDraw(IsVisible);
 	for (int i = 0; i < GetChildren().size(); i++)
 	{
 		GetChildren()[i]->SetVisibility(IsVisible);
@@ -136,7 +140,10 @@ void CWidget_Button::IsButtonFocused(Vector2 mPos)
 
 void CWidget_Button::ButtonPressed(bool buttonPressed)
 {
-	if (buttonPressed) OnButtonPressed();
-	else OnButtonReleased();
+	if (hasFocus)
+	{
+		if (buttonPressed) OnButtonPressed();
+		else OnButtonReleased();
+	}
 	
 }

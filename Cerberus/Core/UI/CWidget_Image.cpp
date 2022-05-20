@@ -6,9 +6,9 @@
 CWidget_Image::CWidget_Image()
 {
 	sprite = AddComponent<CSpriteComponent>();
-	sprite->ui = true;
+	sprite->SetIsUI(true);
 	textRenderer = AddComponent<CTextRenderComponent>();
-	textRenderer->ui = true;
+	textRenderer->SetIsUI(true);
 }
 
 void CWidget_Image::Update(float deltaTime)
@@ -37,8 +37,8 @@ void CWidget_Image::SetSpriteData(Vector2 SpriteSize, std::string filePath)
 
 void CWidget_Image::SetVisibility(bool IsVisible)
 {
-	sprite->shouldDraw = IsVisible;
-	textRenderer->shouldDraw = IsVisible;
+	sprite->SetShouldDraw(IsVisible);
+	textRenderer->SetShouldDraw(IsVisible);
 	for (int i = 0; i < GetChildren().size(); i++)
 	{
 		GetChildren()[i]->SetVisibility(IsVisible);

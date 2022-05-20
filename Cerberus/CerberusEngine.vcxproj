@@ -371,6 +371,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Core\UI\CWidget_Button.h" />
+    <ClInclude Include="Core\UI\CWidget_Text.h" />
     <ClInclude Include="Core\Utility\CameraManager\CameraManager.h" />
     <ClInclude Include="Core\Components\CCameraComponent.h" />
     <ClInclude Include="Core\UI\CWidget.h" />
@@ -437,6 +438,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\UI\CWidget_Button.cpp" />
+    <ClCompile Include="Core\UI\CWidget_Text.cpp" />
     <ClCompile Include="Core\Utility\CameraManager\CameraManager.cpp" />
     <ClCompile Include="Core\Components\CCameraComponent.cpp" />
     <ClCompile Include="Core\UI\CWidget.cpp" />
