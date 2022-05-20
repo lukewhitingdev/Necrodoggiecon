@@ -2,14 +2,14 @@
 #include <Necrodoggiecon\Game\CCharacter.h>
 #include <Cerberus\Core\Environment\IInputable.h>
 #include "Cerberus/Core/Components/CAudioEmitterComponent.h"
-#include "Game/IUsePickup.h"
 #include "weapons.h"
+#include <functional>
 
 class CDroppedItem;
 class CEquippedItem;
 struct PickupItemData;
 
-class PlayerCharacter : public CCharacter, public IInputable, public IUsePickup
+class PlayerCharacter : public CCharacter, public IInputable
 {
 protected:
 	float speed = 200;
@@ -49,7 +49,7 @@ public:
 	class CCameraComponent* camera = nullptr;
 	CAudioEmitterComponent* loadNoise;
 
-	void UsePickup(const std::string& pickupToUse, float activeTime) override;
+	void UsePickup(const std::string& pickupToUse, float activeTime);
 	bool GetVisible() { return visible; }
 
 };

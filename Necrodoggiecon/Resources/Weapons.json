@@ -74,10 +74,12 @@
   },
   "InvisScroll": {
     "Type": "Pickup",
-    "PickupType": "InvisibilityScroll"
+    "PickupType": "InvisibilityScroll",
+    "Range":  32.0
   },
   "ShieldScroll": {
     "Type": "Pickup",
-    "PickupType": "ShieldScroll"
+    "PickupType": "ShieldScroll",
+    "Range": 32.0
   }
 }

@@ -39,7 +39,7 @@ PlayerCharacter::PlayerCharacter()
 	loadNoise->SetRange(10000.0f);
 
 	weaponComponent = AddComponent<Weapon>();
-	weaponComponent->SetWeapon("Crossbow");
+	weaponComponent->SetWeapon("InvisScroll");
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 }
 
@@ -95,7 +95,7 @@ void PlayerCharacter::Attack()
 
 	weaponComponent->OnFire(GetPosition(), attackDir);
 
-	if (GetVisible()) return;
+	if (!GetVisible()) return;
 
 	pickupTimerCallback();
 }
@@ -174,7 +174,6 @@ void PlayerCharacter::PressedUse()
 */
 void PlayerCharacter::InvisibilityCallback()
 {
-	Debug::Log("invisCB");
 	ToggleVisibility(true);
 }
 
