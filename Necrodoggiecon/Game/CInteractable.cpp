@@ -56,6 +56,7 @@ void CInteractable::Update(float deltaTime)
  */
 void CInteractable::OnInteract()
 {
+	
 	Debug::Log("Interact");
 	Engine::DestroyEntity(this);
 }

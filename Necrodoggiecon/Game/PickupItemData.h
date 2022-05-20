@@ -3,14 +3,7 @@
 #include <Necrodoggiecon\Game\EquippableItemData.h>
 #include <Necrodoggiecon\Game\CPickupItem.h>
 
-enum class PickupType
-{
-	NECRODOGGICON_PAGE,
-	SHIELD_SCROLL,
-	INVISIBILITY_SCROLL,
-	CHARM_SCROLL,
-	SEEING_SCROLL
-};
+
 struct PickupItemData : public EquippableItemData
 {
 	PickupType GetPickupType() { return pickupType; }
@@ -23,11 +16,6 @@ struct PickupItemData : public EquippableItemData
 		itemType = ItemType::PICKUP;
 	}
 	virtual ~PickupItemData() {  };
-
-	virtual CEquippedItem* CreateItem() override
-	{
-		return Engine::CreateEntity<CPickupItem>();
-	}
 
 protected:
 	PickupType pickupType;

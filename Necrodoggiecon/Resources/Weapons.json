@@ -71,5 +71,13 @@
     "Attack_Speed": 0.2,
     "Ammo": 3.0,
     "Unique": true
+  },
+  "InvisScroll": {
+    "Type": "Pickup",
+    "PickupType": "InvisibilityScroll"
+  },
+  "ShieldScroll": {
+    "Type": "Pickup",
+    "PickupType": "ShieldScroll"
   }
 }

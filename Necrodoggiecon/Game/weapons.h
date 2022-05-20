@@ -47,11 +47,13 @@ private:
 
 	void HandleMelee(Vector3 actorPos, Vector3 normAttackDir);
 	void HandleRanged(Vector3 actorPos, Vector3 attackDir);
+	void HandlePickup();
 
 	CEntity* GetClosestEnemy(Vector3 actorPos);
 	CEntity* GetClosestPlayer(Vector3 actorPos);
 
 	std::string type;
+	std::string pickupType;
 	float damage;
 	float range;
 	float attack_speed;

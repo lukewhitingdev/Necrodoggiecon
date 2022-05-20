@@ -18,6 +18,7 @@
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
 #include <Necrodoggiecon/Game/DialogueHandler.h>
+#include <Game/CPickupItem.h>
 
 /*
 
@@ -79,9 +80,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 int Start() 
 {
 
-	CInteractable* interactable = Engine::CreateEntity<CInteractable>();
+	//CInteractable* interactable = Engine::CreateEntity<CInteractable>();
 
-	interactable->SetPosition(-500, 0, 0);
+	//interactable->SetPosition(-500, 0, 0);
+
+	CPickupItem* pickupItem = Engine::CreateEntity<CPickupItem>();
+	pickupItem->SetPosition(-500, 0, 0);
 
 	// Free Camera not locked to player.
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
@@ -102,9 +106,6 @@ int Start()
 	t = Engine::CreateEntity<CursorEntity>();
 	t->SetPosition(XMFLOAT3(0, 0, -110));
 
-
-	ItemDatabase::AddToMap(new PickupItemData("testItem", "Resources\\birb.dds", PickupType::INVISIBILITY_SCROLL));
-	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
 
 	/*Engine::CreateEntity<MeleeEnemy>();

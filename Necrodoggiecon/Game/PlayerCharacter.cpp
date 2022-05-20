@@ -1,4 +1,4 @@
-#include "PlayerCharacter.h"
+#include "Game/PlayerCharacter.h"
 #include "CDroppedItem.h"
 #include "CEquippedItem.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
@@ -75,11 +75,6 @@ void PlayerCharacter::PressedVertical(int dir, float deltaTime)
  */
 void PlayerCharacter::PressedInteract()
 {
-	if (droppedItem == nullptr) return;
-
-	equippedItem = droppedItem->OnEquip(this);
-	Engine::DestroyEntity(droppedItem);
-	droppedItem = nullptr;
 }
 /**
 * Function inherited from interface
@@ -88,11 +83,6 @@ void PlayerCharacter::PressedInteract()
 */
 void PlayerCharacter::PressedDrop()
 {
-	if (equippedItem == nullptr) return;
-
-	droppedItem = equippedItem->Drop();
-	Engine::DestroyEntity(equippedItem);
-	equippedItem = nullptr;
 }
 
 void PlayerCharacter::Attack()
@@ -158,59 +148,25 @@ void PlayerCharacter::LookAt(Vector3 pos)
 * Checks the pickup item type and activates the functionality for that pickup.
 * E.g, Invisibility scroll will make the player invisible and bind a callback to the timer to make the player visible after a certain amount of time.
 */
-void PlayerCharacter::UsePickup(PickupItemData* itemToPickup)
+void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime)
 {
-	if (itemToPickup == nullptr)return;
-
 	pickupActive = true;
 	pickupTimer = 0;
-	pickupActiveTime = itemToPickup->GetPickupTime();
+	pickupActiveTime = activeTime;
 
-	switch (itemToPickup->GetPickupType())
+	if (pickupToUse == "InvisibilityScroll")
 	{
-	case PickupType::NECRODOGGICON_PAGE:
-		Debug::Log("Pickup Necrodoggiecon Page \n");
-		break;
-	case PickupType::CHARM_SCROLL:
-		Debug::Log("Use Charm Scroll \n");
-		break;
-	case PickupType::INVISIBILITY_SCROLL:
 		pickupTimerCallback = std::bind(&PlayerCharacter::InvisibilityCallback, this);
 		ToggleVisibility(false);
-		Debug::Log("Use Invisibility Scroll \n");
-		break;
-	case PickupType::SEEING_SCROLL:
-		Debug::Log("Use Seeing Scroll \n");
-		break;
-	case PickupType::SHIELD_SCROLL:
-		Debug::Log("Use Shield Scroll \n");
-		break;
-	default:
-		break;
+	} 
+	else if (pickupToUse == "ShieldScroll")
+	{
+		//Give shield
 	}
-
-	Engine::DestroyEntity(equippedItem);
-	equippedItem = nullptr;
 }
-/**
-* Function inherited from interface
-* Will use the currently equipped item
-* First checks the item type and then uses the item appropriately
-*/
+
 void PlayerCharacter::PressedUse()
 {
-	if (equippedItem == nullptr) return;
-
-	ItemType itemType = equippedItem->GetItemData()->GetItemType();
-
-	if (itemType == ItemType::EQUIPPABLE)
-	{
-
-	}
-	else if (itemType == ItemType::PICKUP)
-	{
-		UsePickup(static_cast<PickupItemData*>(equippedItem->GetItemData()));
-	}
 }
 
 /**

@@ -11,15 +11,19 @@
 */
 void CPickupItem::Update(float deltaTime)
 {
-	auto ownerPos = GetOwner()->GetPosition();
-	ownerPos.y += 25;
-	SetPosition(ownerPos);
 }
-/**
-* Inherited function used to initialise the PickupItem
-* Calls the base Initialise function
-*/
-void CPickupItem::Initialise(int id, CEntity* owner)
+
+void CPickupItem::OnInteract()
 {
-	CEquippedItem::Initialise(id, owner);
+	switch (pickupType)
+	{
+	case PickupType::INVISIBILITY_SCROLL:
+		break;
+	case PickupType::SHIELD_SCROLL:
+		break;
+	case PickupType::NECRODOGGICON_PAGE:
+		break;
+	default:
+		break;
+	}
 }

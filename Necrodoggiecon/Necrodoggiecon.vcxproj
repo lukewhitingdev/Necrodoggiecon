@@ -230,6 +230,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClInclude Include="Game\EquippableItemData.h" />
     <ClInclude Include="Game\ItemData.h" />
     <ClInclude Include="Game\ItemDatabase.h" />
+    <ClInclude Include="Game\IUsePickup.h" />
     <ClInclude Include="Game\PickupItemData.h" />
     <ClInclude Include="Game\PlayerCharacter.h" />
     <ClInclude Include="Game\testClass.h" />

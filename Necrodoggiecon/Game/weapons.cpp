@@ -2,7 +2,7 @@
 #include "Necrodoggiecon\Game\PlayerCharacter.h"
 #include "Necrodoggiecon\Game\PlayerController.h"
 #include <Cerberus\Core\AI\CAIController.h>
-
+#include <Game\IUsePickup.h>
 Weapon::Weapon()
 {
 	SetWeapon("Crossbow");
@@ -15,13 +15,20 @@ void Weapon::SetWeapon(std::string weapon)
 	file >> storedFile;
 
 	type = storedFile.at(weapon).at("Type");
-	damage = storedFile.at(weapon).at("Damage");
-	range = storedFile.at(weapon).at("Range");
-	range = range * rangeScale;
-	attack_speed = storedFile.at(weapon).at("Attack_Speed");
-	ammo = storedFile.at(weapon).at("Ammo");
-	unique = storedFile.at(weapon).at("Unique");
-	cooldown = attack_speed;
+	if (type != "Pickup")
+	{
+		damage = storedFile.at(weapon).at("Damage");
+		range = storedFile.at(weapon).at("Range");
+		range = range * rangeScale;
+		attack_speed = storedFile.at(weapon).at("Attack_Speed");
+		ammo = storedFile.at(weapon).at("Ammo");
+		unique = storedFile.at(weapon).at("Unique");
+		cooldown = attack_speed;
+	}
+	else
+	{
+		pickupType == storedFile.at(weapon).at("PickupType");
+	}
 
 	Debug::Log("Range %f", range);
 }
@@ -107,9 +114,12 @@ void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
 	Projectile1->StartUp(attackDir, actorPos, speed, life, (int)userType);
 }
 
-
-
-
+void Weapon::HandlePickup()
+{
+	auto player = GetClosestPlayer(GetPosition());
+	IUsePickup* usePickup = dynamic_cast<IUsePickup*>(player);
+	usePickup->UsePickup(pickupType, 5.0f);
+}
 
 //Gets closest enemy within attack range
 CEntity* Weapon::GetClosestEnemy(Vector3 actorPos)
