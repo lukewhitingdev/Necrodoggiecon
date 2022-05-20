@@ -4,7 +4,9 @@
 #include "CEquippedItem.h"
 
 #include <Necrodoggiecon\Game\CursorEntity.h>
-#include <Necrodoggiecon\Game\AI/CAICharacter.h>
+#include <Cerberus\Core\AI\CAICharacter.h>
+
+#include <Game/DialogueHandler.h>
 
 
 PlayerController::PlayerController()
@@ -39,12 +41,6 @@ void PlayerController::HandleInput(float deltaTime)
 
 	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::Mouse::LButton))
 		inputable->Attack();
-
-	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
-	{
-		CursorEntity* item = Engine::CreateEntity<CursorEntity>();
-		item->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	}
 }
 
 void PlayerController::OnPossess()

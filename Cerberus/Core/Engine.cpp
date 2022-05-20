@@ -832,7 +832,8 @@ void Engine::Stop()
 
 void Update(float deltaTime)
 {
-	for (size_t i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
+	size_t size = EntityManager::GetEntitiesVector()->size();
+	for (size_t i = 0; i < size; i++)
 	{
 		CEntity* e = EntityManager::GetEntitiesVector()->at(i);
 		if (!e->GetShouldUpdate())
@@ -845,7 +846,12 @@ void Update(float deltaTime)
 
 			f->Update(deltaTime);
 		}
+
 		e->Update(deltaTime);
+
+		if (size != EntityManager::GetEntitiesVector()->size())
+			continue;
+
 		if (e->GetShouldMove())
 		{
 			for (size_t j = 0; j < EntityManager::GetEntitiesVector()->size(); j++)
@@ -863,6 +869,8 @@ void Update(float deltaTime)
 				}
 			}
 		}
+
+		size = EntityManager::GetEntitiesVector()->size();
 	}
 
 	AudioController::Update(Vector3(0, 0, 0), deltaTime);
