@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   AlarmEnemy.cpp
+ * \brief  File containing all the functions needed for the alarm enemy.
+ * 
+ * \author Nasser Ksous
+ * \date   May 2022
+ *********************************************************************/
 #include "AlarmEnemy.h"
 
 AlarmEnemy::AlarmEnemy()
@@ -30,6 +37,11 @@ void AlarmEnemy::Update(float deltaTime)
 	CAIController::Update(deltaTime);
 }
 
+/**
+ * If not on cooldown then play the bell sound.
+ * 
+ * \param player Player that it can see.
+ */
 void AlarmEnemy::ChasePlayer(CCharacter* player)
 {
 	if (!onCooldown)
@@ -40,6 +52,3 @@ void AlarmEnemy::ChasePlayer(CCharacter* player)
 	}
 }
 
-void AlarmEnemy::ChaseEnter()
-{
-}

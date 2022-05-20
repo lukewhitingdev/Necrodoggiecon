@@ -20,6 +20,11 @@ MeleeEnemy::MeleeEnemy()
 	
 }
 
+/**
+ * Seek towards the player and if in range go to the attack state.
+ * 
+ * \param player
+ */
 void MeleeEnemy::ChasePlayer(CCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < weapon->GetRange())
@@ -33,6 +38,11 @@ void MeleeEnemy::ChasePlayer(CCharacter* player)
 	}
 }
 
+/**
+ * Fire the weapon that it is holding.
+ * 
+ * \param player Player to attack.
+ */
 void MeleeEnemy::AttackPlayer(CCharacter* player)
 {
 	weapon->OnFire(aiPosition, heading);

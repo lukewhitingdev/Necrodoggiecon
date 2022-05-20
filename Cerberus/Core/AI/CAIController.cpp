@@ -387,6 +387,10 @@ void CAIController::Investigating(Vector3 positionOfInterest)
 	}
 }
 
+/**
+ * Enter function for the chase state. Called once when first switching to this state.
+ * 
+ */
 void CAIController::ChaseEnter()
 {
 }
@@ -510,6 +514,12 @@ void CAIController::SetPath(Vector3 endPosition)
 	currentCount = (int)pathNodes.size() - 1;
 }
 
+/**
+ * Apply damage to the enemy.
+ * 
+ * \param damageAmount Amount to damage the enemy.
+ * \param damageCauser Root of the damage.
+ */
 void CAIController::ApplyDamage(float damageAmount, CEntity* damageCauser)
 {
 	SetHealth(GetHealth() - damageAmount);

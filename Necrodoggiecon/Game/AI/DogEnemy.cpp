@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   DogEnemy.cpp
+ * \brief  File containing all the functions needed for the dog enemy.
+ * 
+ * \author Nasser Ksous
+ * \date   May 2022
+ *********************************************************************/
 #include "DogEnemy.h"
 
 DogEnemy::DogEnemy()
@@ -18,7 +25,7 @@ void DogEnemy::Update(float deltaTime)
 		// If the timer is up then go back to pathfinding.
 		if (attackCooldown < 0.02f)
 		{
-			attackTimer = 0.5f;
+			attackTimer = 1.0f;
 			onCooldown = false;
 		}
 
@@ -28,6 +35,11 @@ void DogEnemy::Update(float deltaTime)
 	CAIController::Update(deltaTime);
 }
 
+/**
+ * Seek towards the player and switch to attacking once in range.
+ * 
+ * \param player Player to seek towards.
+ */
 void DogEnemy::ChasePlayer(CCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < attackRange)
@@ -41,11 +53,21 @@ void DogEnemy::ChasePlayer(CCharacter* player)
 	}
 }
 
+/**
+ * Get the target position to dash towards.
+ * 
+ * \param player Player to target for an attack.
+ */
 void DogEnemy::AttackEnter(CCharacter* player)
 {
 	targetPosition = player->GetPosition();
 }
 
+/**
+ * If not on cooldown then charge up a dash attack and then dash at the target position.
+ * 
+ * \param player Player to attack.
+ */
 void DogEnemy::AttackPlayer(CCharacter* player)
 {
 		
@@ -55,7 +77,7 @@ void DogEnemy::AttackPlayer(CCharacter* player)
 	{
 		attackTimer -= 0.016f;
 		SetSpeed(1.0f);
-		if (attackTimer <= 0.3f)
+		if (attackTimer <= 0.6f)
 			SetSpeed(500.0f);
 		onCooldown = false;
 		isAttacking = true;
@@ -67,8 +89,9 @@ void DogEnemy::AttackPlayer(CCharacter* player)
 		if (attackTimer < 0.02f)
 		{
 			onCooldown = true;
-			attackTimer = 0.5f;
+			attackTimer = 1.0f;
 			attackCooldown = 20.0f;
+			SetCurrentState(ChaseState::getInstance());
 		}
 			
 	}
