@@ -17,8 +17,8 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 
 	Vector3 damagePos = actorPos + normAttackDir * Weapon::GetRange();
 
-	//if (GetCanFire())
-	//{
+	if (GetCanFire())
+	{
 		Debug::Log("Longsword damage pos %f %f", actorPos.x, actorPos.y);
 		std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
 		StartCooldown();
@@ -45,5 +45,5 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 			}
 			
 		}
-	//}
+	}
 }
