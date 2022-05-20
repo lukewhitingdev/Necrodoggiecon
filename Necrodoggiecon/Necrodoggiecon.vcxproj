@@ -135,12 +135,12 @@
 copy /y "$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod.dll" "$(OutDir)fmod.dll"
 
 echo "Copying Engine Resources \n"
-xcopy "$(SolutionDir)Cerberus\Resources" "$(ProjectDir)Resources"  /s /f /i /y
+xcopy "$(SolutionDir)Cerberus\Resources\Engine" "$(ProjectDir)Resources\Engine"  /s /f /i /y
 
-echo "Copying Engine Resources to output \n"
-xcopy "$(SolutionDir)Cerberus\Resources" "$(OutDir)Resources"  /s /f /i /y
+echo "Copying Levels from Tools \n"
+xcopy "$(SolutionDir)CerberusTools\Resources\Levels" "$(ProjectDir)Resources\Levels"  /s /f /i /y
 
-echo "Copying Game Resources to output \n"
+echo "Copying Resources to output \n"
 xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
       <Message>Post Build Step.</Message>
     </PostBuildEvent>
@@ -168,12 +168,12 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
 copy /y "$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod.dll" "$(OutDir)fmod.dll"
 
 echo "Copying Engine Resources \n"
-xcopy "$(SolutionDir)Cerberus\Resources" "$(ProjectDir)Resources"  /s /f /i /y
+xcopy "$(SolutionDir)Cerberus\Resources\Engine" "$(ProjectDir)Resources\Engine"  /s /f /i /y
 
-echo "Copying Engine Resources to output \n"
-xcopy "$(SolutionDir)Cerberus\Resources" "$(OutDir)Resources"  /s /f /i /y
+echo "Copying Levels from Tools \n"
+xcopy "$(SolutionDir)CerberusTools\Resources\Levels" "$(ProjectDir)Resources\Levels"  /s /f /i /y
 
-echo "Copying Game Resources to output \n"
+echo "Copying Resources to output \n"
 xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     </PostBuildEvent>
     <PostBuildEvent>

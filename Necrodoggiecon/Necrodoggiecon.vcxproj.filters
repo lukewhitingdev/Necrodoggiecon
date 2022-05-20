@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="Game\DialogueHandler.cpp" />
+    <ClCompile Include="Game\DialogueUI.cpp" />
+    <ClCompile Include="Game\AI\AlarmEnemy.cpp" />
+    <ClCompile Include="Game\AI\DogEnemy.cpp" />
     <ClCompile Include="CWorld_Game.cpp" />
     <ClCompile Include="Game\CInteractable.cpp" />
-    <ClCompile Include="Game\AI\CAICharacter.cpp" />
-    <ClCompile Include="Game\AI\CAIController.cpp" />
-    <ClCompile Include="Game\AI\Pathfinding.cpp" />
-    <ClCompile Include="Game\AI\State.cpp" />
     <ClCompile Include="Game\CCharacter.cpp" />
     <ClCompile Include="Game\CDroppedItem.cpp" />
     <ClCompile Include="Game\CEquippedItem.cpp" />
@@ -92,17 +92,16 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Projectile.cpp" />
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="weaponUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\Dialogue.h" />
+    <ClInclude Include="Game\DialogueHandler.h" />
+    <ClInclude Include="Game\DialogueUI.h" />
+    <ClInclude Include="Game\AI\AlarmEnemy.h" />
+    <ClInclude Include="Game\AI\DogEnemy.h" />
     <ClInclude Include="CWorld_Game.h" />
     <ClInclude Include="Game\CInteractable.h" />
-    <ClInclude Include="Game\AI\CAICharacter.h" />
-    <ClInclude Include="Game\AI\CAIController.h" />
-    <ClInclude Include="Game\AI\CAINode.h" />
-    <ClInclude Include="Game\AI\Pathfinding.h" />
-    <ClInclude Include="Game\AI\State.h" />
     <ClInclude Include="Game\CCharacter.h" />
     <ClInclude Include="Game\CDroppedItem.h" />
     <ClInclude Include="Game\CEquippedItem.h" />
@@ -117,7 +116,9 @@
     <ClInclude Include="Game\testEquippedItem.h" />
     <ClInclude Include="Game\testItemData.h" />
     <ClInclude Include="Game\TestUI.h" />
+    <ClInclude Include="Game\AI\MeleeEnemy.h" />
     <ClInclude Include="Game\weapons.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="weaponUI.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Projectile.h" />
@@ -127,153 +128,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\AI\CAICharacter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\AI\CAIController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\CCharacter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\CDroppedItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\CEquippedItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\CPlayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\CPlayerController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\CursorEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\ItemDatabase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\PlayerCharacter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\testClass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\PlayerController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\testEquippedItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\testItemData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\TestUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\weapons.cpp">
-    <ClCompile Include="Game\AI\Pathfinding.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\AI\State.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="weaponUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\CInteractable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CWorld_Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClInclude Include="Projectile.h" />
-    <ClInclude Include="Game\CCharacter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\CDroppedItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\CEquippedItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\CPlayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\CPlayerController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\CursorEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\ItemData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\ItemDatabase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\PlayerCharacter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\testClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\PlayerController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\testEquippedItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\testItemData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\TestUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="weaponUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\AI\MeleeEnemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\CInteractable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\weapons.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\AI\DogEnemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\AI\AlarmEnemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Weapons.json">
-      <Filter>Resource Files</Filter>
-    </None>
-    <ClInclude Include="Game\AI\Pathfinding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\AI\State.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="weaponUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\CInteractable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CWorld_Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h" />
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

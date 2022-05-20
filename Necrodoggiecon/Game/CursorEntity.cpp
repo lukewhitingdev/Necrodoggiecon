@@ -12,7 +12,7 @@ CursorEntity::CursorEntity()
 	SetPosition(0, 0, -100);
 
 	sprite = AddComponent<CAnimationSpriteComponent>();
-	sprite->LoadTextureWIC("Resources/cursorSS.png");
+	sprite->LoadTextureWIC("Resources/Game/cursorSS.png");
 	sprite->SetRenderRect(XMUINT2(16, 16));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetAnimationRectSize(XMUINT2(2, 1));

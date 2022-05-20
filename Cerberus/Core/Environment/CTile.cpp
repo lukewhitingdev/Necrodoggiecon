@@ -199,7 +199,7 @@ void CTile::UpdateDebugRender()
 
 void CTile::SetRenderData(int X, int Y)
 {
-	sprite->LoadTexture("Resources/Tiles/TempTileMap.dds");
+	sprite->LoadTexture("Resources/Game/Tiles/TempTileMap.dds");
 	sprite->SetRenderRect(XMUINT2(tileScale, tileScale));
 	sprite->SetSpriteSize(XMUINT2(tileScale, tileScale));
 	sprite->SetTextureOffset(XMFLOAT2(float(X * tileScale), float(Y * tileScale)));

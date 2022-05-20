@@ -98,7 +98,7 @@ void CSpriteComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& pare
 {
 	if (texture == nullptr || !texture->loaded)	//change to texture valid check
 	{
-		Debug::LogError("Texture not loaded for CSpriteComponent.");
+		//Debug::LogError("Texture not loaded for CSpriteComponent.");
 		return;
 	}
 
