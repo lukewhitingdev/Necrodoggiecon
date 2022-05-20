@@ -200,14 +200,27 @@ void AudioController::Update(Vector3 listenerPos, float deltaTime)
  * \param position
  * \return 
  */
-std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 position)
+std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 position, bool checkIfPlaying)
 {
 	std::vector<CEmitter*> output;
 	for(CEmitter* emiter : emitters)
 	{
 		// Check if we are inrange of the circular range emitters have.
 		if (emiter->range > position.DistanceTo(emiter->position))
-			output.emplace_back(emiter);
+		{
+			if(checkIfPlaying)
+			{
+				bool isPlaying = false;
+				FMOD_RESULT result;
+				if ((result = emiter->audio->channel->isPlaying(&isPlaying)) != FMOD_OK)
+				{
+					Debug::LogError("An Error Occured when trying to get emitter that in range that is playing. Path: %s, FMOD Error: ", emiter->audio->path.c_str(),FMOD_ErrorString(result));
+				}
+
+				if(isPlaying)
+					output.emplace_back(emiter);
+			}
+		}
 	}
 	return output;
 }

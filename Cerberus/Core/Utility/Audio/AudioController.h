@@ -27,7 +27,7 @@ public:
 
 	static void Update(Vector3 listenerPos, float deltaTime);
 
-	static std::vector<CEmitter*> GetAllEmittersWithinRange(Vector3 position);
+	static std::vector<CEmitter*> GetAllEmittersWithinRange(Vector3 position, bool checkIfPlaying);
 	static void AddEmitter(CEmitter* emitter);
 	static void RemoveEmitter(CEmitter* emitter);
 
