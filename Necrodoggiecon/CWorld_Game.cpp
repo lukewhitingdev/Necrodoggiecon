@@ -33,16 +33,12 @@ void CWorld_Game::SetupWorld()
 
 	// Locked Camera follows player.
 	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>();
-	lockedCameraComponent->Initialize();
 	lockedCameraComponent->SetAttachedToParent(true);
-
-	CameraManager::AddCamera(lockedCameraComponent);
 
 	CameraManager::SetRenderingCamera(lockedCameraComponent);
 
 	controller->charOne = character1;
 
-	
 	Vector3 PlayerStart = Vector3(StartPos.x, StartPos.y, 0) * (tileScale * tileScaleMultiplier) + Vector3(0, 0, -1);
 	Debug::Log("Player Start Position: [%f | %f]", PlayerStart.x, PlayerStart.y);
 	character1->SetPosition(PlayerStart);
