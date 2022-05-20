@@ -31,6 +31,8 @@ void ChaseState::Enter(CAIController* controller)
 			}
 		}
 	}
+
+	controller->ChaseEnter();
 }
 
 void ChaseState::Update(CAIController* controller)
@@ -75,6 +77,8 @@ void AttackState::Enter(CAIController* controller)
 			closestPlayer = player;
 		}
 	}
+
+	controller->AttackEnter(closestPlayer);
 }
 
 void AttackState::Update(CAIController* controller)
@@ -82,7 +86,11 @@ void AttackState::Update(CAIController* controller)
 	if (closestPlayer != nullptr)
 	{
 		controller->AttackPlayer(closestPlayer);
-		closestPlayer = nullptr;
+		if (controller->CanSee(closestPlayer->GetPosition()) == false && !controller->isAttacking)
+		{
+			closestPlayer = nullptr;
+			controller->SetCurrentState(PatrolState::getInstance());
+		}
 	}
 	else
 	{
@@ -92,6 +100,7 @@ void AttackState::Update(CAIController* controller)
 
 void AttackState::Exit(CAIController* controller)
 {
+	controller->SetSpeed(controller->GetInititalSpeed());
 }
 
 State& AttackState::getInstance()
@@ -122,7 +131,7 @@ State& PatrolState::getInstance()
 
 void SearchState::Enter(CAIController* controller)
 {
-	searchTimer = 5.0f;
+	searchTimer = 10.0f;
 	players = Engine::GetEntityOfType<PlayerCharacter>();
 }
 
@@ -150,6 +159,7 @@ void SearchState::Update(CAIController* controller)
 
 void SearchState::Exit(CAIController* controller)
 {
+	searchTimer = 10.0f;
 }
 
 State& SearchState::getInstance()

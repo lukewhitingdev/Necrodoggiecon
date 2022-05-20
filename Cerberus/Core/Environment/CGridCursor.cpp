@@ -46,7 +46,7 @@ void CGridCursor::Update(float deltaTime)
 
 	Vector3 MousePos2 = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100);
 
-	MousePos2 *= CameraManager::GetRenderingCamera()->GetZoomLevel();
+	MousePos2 /= CameraManager::GetRenderingCamera()->GetZoomLevel();
 
 
 	Vector3 Result = MousePos2 + camPos;
