@@ -104,7 +104,7 @@ void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
 	float speed = attack_speed * 5;
 	float life = range;
 	Projectile* Projectile1 = Engine::CreateEntity<Projectile>();
-	Projectile1->StartUp(attackDir, actorPos, speed, life);
+	Projectile1->StartUp(attackDir, actorPos, speed, life, (int)userType);
 }
 
 

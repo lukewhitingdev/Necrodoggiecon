@@ -1,5 +1,6 @@
 #include "Projectile.h"
-#include <Necrodoggiecon\Game\AI\CAIController.h>
+#include <Cerberus\Core\AI\CAIController.h>
+#include <Necrodoggiecon\Game\PlayerCharacter.h>
 
 Projectile::Projectile()
 {
@@ -12,17 +13,20 @@ Projectile::Projectile()
 
 Projectile::~Projectile()
 {
-
+	//RemoveComponent(colComponent);
 }
 
 void Projectile::Update(float deltaTime)
 {
-	if (Lifetime > 0)
+	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime)
 	{
 		DidItHit();
 		Position += Direction * Speed;
 		ProjectileSprite->SetPosition(Position);
-		Lifetime-2;
+	}
+	else
+	{
+		Engine::DestroyEntity(this);
 	}
 }
 
@@ -32,26 +36,29 @@ void Projectile::DidItHit()
 
 	if (userType == USERTYPE2::AI)
 	{
-		CEntity* target = GetClosestPlayer(damagePos);
+		PlayerCharacter* target = GetClosestPlayer(damagePos);
 		if (target != nullptr)
-			Engine::DestroyEntity(target);
+			target->ApplyDamage(1.0f, GetClosestEnemy(damagePos));
 	}
 	else if (userType == USERTYPE2::PLAYER)
 	{
-		CEntity* target = GetClosestEnemy(damagePos);
+		CAIController* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
-			Engine::DestroyEntity(target);
+			target->ApplyDamage(1.0f, GetClosestPlayer(damagePos));
 	}
 
 }
 
-void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime)
+void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type)
 {
 	Direction = dir;
 	ProjectileSprite->SetPosition(pos);
 	Position = pos;
 	Speed = speed;
 	Lifetime = lifetime;
+	initialPosition = pos;
+
+	userType = (USERTYPE2)type;
 
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
 
@@ -67,7 +74,7 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime)
 
 
 
-CEntity* Projectile::GetClosestEnemy(Vector3 actorPos)
+CAIController* Projectile::GetClosestEnemy(Vector3 actorPos)
 {
 	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
 
@@ -95,7 +102,7 @@ CEntity* Projectile::GetClosestEnemy(Vector3 actorPos)
 	return closestEnemy;
 }
 
-CEntity* Projectile::GetClosestPlayer(Vector3 actorPos)
+PlayerCharacter* Projectile::GetClosestPlayer(Vector3 actorPos)
 {
 	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
 
