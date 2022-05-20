@@ -6,6 +6,7 @@
 CT_EditorGrid::CT_EditorGrid()
 {
 	gridSprite = AddComponent<CSpriteComponent>();
+	cursorEntity = nullptr;
 	
 }
 
@@ -20,7 +21,7 @@ void CT_EditorGrid::SetupGrid(CCameraComponent* cam)
 	
 	//Instantiate the grid cursor
 	CGridCursor* gridCursor = Engine::CreateEntity<CGridCursor>();
-	gridCursor->SetCamera(cam);
+	
 
 	//Setup the editor grid visuals
 	gridSprite->LoadTexture("Resources/Tiles/GridCell.dds");
@@ -36,6 +37,12 @@ void CT_EditorGrid::SetupGrid(CCameraComponent* cam)
 	SetPosition(tempPos);
 	SetScale(Vector3(2, 2, 2));
 	
+
+}
+
+CT_EditorGrid::~CT_EditorGrid()
+{
+	Engine::DestroyEntity(cursorEntity);
 
 }
 

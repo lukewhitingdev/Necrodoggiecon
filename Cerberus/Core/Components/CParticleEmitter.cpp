@@ -13,8 +13,8 @@ CParticleEmitter::CParticleEmitter() : emit(false), overallDirection(), overallV
 										randDirMin(), randDirMax(), randLifeMin(), randLifeMax(), randVeloMin(), randVeloMax(),
 										overallTexturePath("N/A")
 {
-	shouldDraw = true;
-	shouldUpdate = true;
+	SetShouldDraw(true);
+	SetShouldUpdate(true);
 }
 
 CParticleEmitter::~CParticleEmitter()

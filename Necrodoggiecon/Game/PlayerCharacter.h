@@ -19,6 +19,13 @@ protected:
 	float timeElapsed = 0;
 
 	void LookAt(Vector3 pos);
+
+	CAnimationSpriteComponent* spriteComponentBody = nullptr;
+	CAnimationSpriteComponent* spriteComponentLegs = nullptr;
+	CSpriteComponent* spriteComponentShadow = nullptr;
+
+	XMFLOAT2 movementVec = { 0,0 };
+	const float walkAnimationSpeed = 1.3f;
 public:
 	PlayerCharacter();
 
@@ -32,6 +39,8 @@ public:
 
 	CDroppedItem* droppedItem = nullptr;
 	CEquippedItem* equippedItem = nullptr;
+
+	Weapon* weapon = nullptr;
 	class CCameraComponent* camera = nullptr;
 	CAudioEmitterComponent* loadNoise;
 };

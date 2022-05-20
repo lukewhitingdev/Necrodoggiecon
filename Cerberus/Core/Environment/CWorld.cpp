@@ -1,10 +1,24 @@
+/*******************************************************************
+ * \file   CWorld.cpp
+ * \brief  Base class for the game's levels. contains all logic required for loading in and unloading a level while also containing a list of entities to be spawned in.
+ * 
+ * \author Samuel Elliot Jackson
+ * \date   May 2022
+ *********************************************************************/
 #include "CWorld.h"
 #include "Dependencies/NlohmannJson/json.hpp"
 #include <iostream>
 #include <fstream>
+#include <Necrodoggiecon\Game\PlayerController.h>
+#include <Necrodoggiecon\Game\PlayerCharacter.h>
+#include <Cerberus\Core\Components\CCameraComponent.h>
+#include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
+#include <Cerberus/Core/Structs/CCamera.h>
 
-CTile* CWorld::tileContainer[mapScale * mapScale];
-int mapSize = mapScale * mapScale;
+
+
+
+
 
 CWorld::CWorld()
 {
@@ -14,19 +28,32 @@ CWorld::CWorld()
 	}
 }
 
+CWorld::CWorld(int Slot)
+{
+	for (int i = 0; i < (mapScale * mapScale); i++)
+	{
+		tileContainer[i] = nullptr;
+	}
+	LoadWorld(Slot);
+}
+
 
 void CWorld::LoadWorld(int Slot)
 {
-	UNREFERENCED_PARAMETER(Slot);
-	
-	std::ifstream file("Resources/Levels/Level_1.json");
+	//UNREFERENCED_PARAMETER(Slot);
+
+	std::string fileName = "Resources/Levels/Level_" + std::to_string(Slot);
+	fileName += ".json";
+
+	std::ifstream file(fileName);
 
 	json storedFile;
 
 	file >> storedFile;
 
 	std::vector<std::string> convertedFile = storedFile["TileData"];
-
+	
+	
 
 	std::string Test = convertedFile[0];
 	std::cout << "" << std::endl;
@@ -56,10 +83,53 @@ void CWorld::LoadWorld(int Slot)
 
 	}
 	
+	
+	int enemyCount = storedFile["EnemyCount"];
+
+
+
+	for (int i = 0; i < enemyCount; i++)
+	{
+		int EnemyID = storedFile["Enemy"][i]["Type"];
+		int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
+		int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
+
+		/*
+		CAIController* TempController = Engine::CreateEntity<CAIController>();
+		TempController->SetPosition(EnemyX, EnemyY, -1);
+
+		int WaypointList = storedFile["Enemy"][i]["WaypointList"];
+		for (int y = 0; y < WaypointList; y++)
+		{
+			int WaypointX = storedFile["Enemy"][i]["Waypoints"][y]["X"];
+			int WaypointY = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
+			
+			
+		}
+		*/
+	}
+	
+	StartPos.x = storedFile["PlayerStart"]["X"];
+	StartPos.y = storedFile["PlayerStart"]["Y"];
+
+
+
+
 
 	BuildNavigationGrid();
 
 
+	
+
+}
+
+void CWorld::SetupWorld()
+{
+	
+}
+
+void CWorld::UnloadWorld()
+{
 }
 
 
@@ -112,6 +182,7 @@ std::vector<CTile*> CWorld::GetAllObstacleTiles()
 	return obstacleTiles;
 }
 
+
 Vector3 CWorld::IndexToGrid(int ID)
 {
 
@@ -127,3 +198,31 @@ int CWorld::GridToIndex(Vector2 Position)
 }
 
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////FUNCTIONS BELOW ARE FOR ADDING NEW ENTITIES THAT ARE VALID WITH EDITOR//////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+/*
+* 
+void CWorld::LoadEntity(int Slot, Vector3 Position)
+{
+	CEntity* SpawnedEntity = nullptr;
+	switch (Slot)
+	{
+	case 1:
+		//Spawn the entitiy here. The ID should match the order in the resource folder.
+		//Example for what you need to do, replace CEntity with the class you want in this slot.
+		SpawnedEntity = Engine::CreateEntity<CEntity>();
+		break;
+	}
+
+	SpawnedEntity->SetPosition(Position);
+	entityList.push_back(SpawnedEntity);
+}
+
+*/

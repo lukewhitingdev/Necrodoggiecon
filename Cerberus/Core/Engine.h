@@ -25,6 +25,7 @@
 
 #include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 #include "Cerberus/Core/Utility/InputManager/InputManager.h"
+#include "Cerberus/Core/Utility/EntityManager.h"
 
 #include "Cerberus\Core\Structs\structures.h"
 #include "Cerberus\Resource.h"
@@ -47,23 +48,22 @@ struct Engine
 	static void Stop();
 
 	static void SetRenderCamera(CCameraComponent* cam);
-
-	// Drawables.
-	static std::vector<CEntity*> entities;	//Needs to be changed to CObject instead
 	
-	template<class T>
 	// Returns all entities of provided type that exist in the engine.
+	template<class T>
 	static std::vector<T*> GetEntityOfType() 
 	{
 		std::vector<T*> outputVector;
 
-		size_t vectorSize = entities.size();
-		for (size_t i = 0; i < vectorSize; i++)
+		for (size_t i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
 		{
-			T* ent = dynamic_cast<T*>(entities.at(i));
-			if (ent != nullptr)
-				outputVector.emplace_back(ent);
+			T* e = dynamic_cast<T*>(EntityManager::GetEntitiesVector()->at(i));
+			if (e != nullptr)
+			{
+				outputVector.push_back(e);
+			}
 		}
+
 		return outputVector;
 	};
 
@@ -74,7 +74,7 @@ struct Engine
 	static T* CreateEntity() 
 	{
 		CEntity* temp = new T();
-		entities.emplace_back(temp);
+		EntityManager::AddEntity(temp);
 		return (T*)temp;
 	};
 

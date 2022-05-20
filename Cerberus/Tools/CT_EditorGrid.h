@@ -10,6 +10,15 @@ public:
 
     virtual void Update(float deltaTime) override;
 
+    void SetupGrid();
+
+
+    ~CT_EditorGrid();
+
+    class CGridCursor* cursorEntity;
+ 
+
+  
     void SetupGrid(class CCameraComponent* cam);
 
 protected: 

@@ -9,6 +9,7 @@
 #include <string>
 #include <fstream>
 
+#include "Necrodoggiecon/Projectile.h"
 #include "Cerberus/Core/CComponent.h"
 #include "Cerberus/Core/CEntity.h"
 #include "Cerberus\Core\Engine.h"
@@ -56,7 +57,7 @@ private:
 	void CoolDown(float attack_cooldown);
 
 	void HandleMelee(Vector3 actorPos, Vector3 normAttackDir);
-	void HandleRanged();
+	void HandleRanged(Vector3 actorPos, Vector3 attackDir);
 
 	CEntity* GetClosestEnemy(Vector3 actorPos, Vector3 damagePos);
 	CEntity* GetClosestPlayer(Vector3 actorPos, Vector3 damagePos);

@@ -1,5 +1,7 @@
 #include "CollisionComponent.h"
 #include "Cerberus\Core\CEntity.h"
+#include <Cerberus/Core/Components/CRigidBodyComponent.h>
+
 
 CollisionComponent::CollisionComponent(std::string setName, CEntity* owner)
 {
@@ -39,61 +41,66 @@ Vector3 CollisionComponent::GetPosition()
 }
 
 /**
- * Resolves collisions between two objects really badly.
+ * Resolves collisions between two collider's.
  * 
  * \param other
  */
 void CollisionComponent::Resolve(CollisionComponent* other)
 {
-	// Make sure we are still colliding.
-	if (!this->IsColliding(other))
-		return;
-
 	// Dont resolve if we are a wall, walls dont move.... yet.
 	if (this->GetName() == "Wall")
 		return;
 
-	Vector3 toThis = other->GetPosition() - this->GetPosition();
-	Vector3 currPos = this->GetPosition();
+	Vector3 out = this->GetPosition();
 
-	if (other->collisionType == COLLISIONTYPE::BOUNDING_BOX)
+	if(this->collisionType == COLLISIONTYPE::BOUNDING_BOX && other->collisionType == COLLISIONTYPE::BOUNDING_BOX)
 	{
-		// AABB vs AABB collision.
+		Vector3 toThis = other->GetPosition() - this->GetPosition();
+
+		float intersectDepthRight = (this->GetPosition().x + this->GetWidth() / 2) - (other->GetPosition().x - other->GetWidth() / 2);
+		float intersectDepthLeft = (this->GetPosition().x - this->GetWidth() / 2) - (other->GetPosition().x + other->GetWidth() / 2);
+
+		float intersectDepthTop = (this->GetPosition().y + this->GetWidth() / 2) - (other->GetPosition().y - other->GetWidth() / 2);
+		float intersectDepthBottom = (this->GetPosition().y - this->GetWidth() / 2) - (other->GetPosition().y + other->GetWidth() / 2);
+
+
 		if (abs(toThis.x) > abs(toThis.y))
 		{
 			if (this->GetPosition().x < other->GetPosition().x)
 			{
 				// Right.
-				currPos.x -= other->GetWidth();
+				out.x -= intersectDepthRight;
 			}
 			else
 			{
 				// Left.
-				currPos.x += other->GetWidth();
+				out.x -= intersectDepthLeft;
 			}
 		}
-
-
-		if (abs(toThis.y) > abs(toThis.x))
+		else if (abs(toThis.y) > abs(toThis.x))
 		{
 			if (this->GetPosition().y < other->GetPosition().y)
 			{
 				// Up.
-				currPos.y -= other->GetHeight();
+				out.y -= intersectDepthTop;
 			}
 			else
 			{
 				// Down.
-				currPos.y += other->GetHeight();
+				out.y -= intersectDepthBottom;
 			}
 		}
-		this->SetPosition(currPos);
 	}
-	if (other->collisionType == COLLISIONTYPE::BOUNDING_CIRCLE)
+	else if(this->GetCollisionType() == COLLISIONTYPE::BOUNDING_CIRCLE && other->GetCollisionType() == COLLISIONTYPE::BOUNDING_CIRCLE)
 	{
-		// AABB vs Circle collision.
-		this->SetPosition(toThis + (this->GetRadius() + other->GetRadius()));
+		float ang = atan2f(other->GetPosition().y - this->GetPosition().y, other->GetPosition().x - this->GetPosition().x);
+		float dist = this->GetPosition().DistanceTo(other->GetPosition());
+		float resolveDist = this->GetRadius() + other->GetRadius() - dist;
+		out.x -= cos(ang) * resolveDist;
+		out.y -= sin(ang) * resolveDist;
 	}
+
+	this->SetPosition(out);
 }
 
 void CollisionComponent::SetTrigger(bool value)

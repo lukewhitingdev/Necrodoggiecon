@@ -34,14 +34,17 @@ void Weapon::SetWeapon(std::string weapon)
 
 void Weapon::CoolDown(float deltaTime)
 {
-	if (cooldown > 0)
+	if (!canFire)
 	{
-		cooldown -= 0.1f * deltaTime;
-	}
-	if (cooldown <= 0)
-	{
-		Debug::Log("Cooldown Done");
-		canFire = true;
+		if (cooldown > 0)
+		{
+			cooldown -= 0.1 * attack_cooldown;
+		}
+		if (cooldown <= 0)
+		{
+			Debug::Log("Cooldown Done");
+			canFire = true;
+		}
 	}
 }
 
@@ -71,25 +74,26 @@ void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 
 	if (canFire)
 	{
-		Debug::Log("Can Fire");
-		cooldown = attack_speed;
 		if (type == "Melee")
 		{
-			Debug::Log("Melee\n");
 			canFire = false;
+			cooldown = attack_speed;
 			HandleMelee(actorPos, normAttackDir);
 		}
-		else if (type == "Melee")
+		else if (type == "Ranged")
 		{
-			Debug::Log("Melee\n");
-		}
-		else if (type == "Melee")
-		{
-			Debug::Log("Melee\n");
-		}
-		else
-		{
-			Debug::Log("Error\n");
+			if (ammo > 0)
+			{
+				canFire = false;
+				cooldown = attack_speed;
+				HandleRanged(actorPos, normAttackDir);
+				ammo--;
+			}
+			else
+			{
+				canFire = false;
+				Debug::Log("No ammo");
+			}
 		}
 	}
 }
@@ -118,12 +122,20 @@ void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir) // BB
 		if (target != nullptr)
 			Engine::DestroyEntity(target);
 	}
-	else
-	{
-		Debug::Log("ERROR: User Type Has not been set!!");
-	}
-	
 }
+
+
+void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
+{
+	float speed = attack_speed * 5;
+	float life = range;
+	Projectile* Projectile1 = Engine::CreateEntity<Projectile>();
+	Projectile1->StartUp(attackDir, actorPos, speed, life);
+}
+
+
+
+
 
 /**
  * Gets closest enemy within attack range.
@@ -132,7 +144,7 @@ void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir) // BB
  * \param damagePos Position of the damage being dealt (actorPos + attackDirection * range)
  * \return closestEnemy CAIController Entity which is closest to the actorPos parameter position
  */
-CEntity* Weapon::GetClosestEnemy(Vector3 actorPos, Vector3 damagePos) // BB
+CEntity* Weapon::GetClosestEnemy(Vector3 actorPos)
 {
 	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
 
@@ -201,6 +213,10 @@ CEntity* Weapon::GetClosestPlayer(Vector3 actorPos, Vector3 damagePos) // BB
 	return closestPlayer;
 }
 
+void Weapon::Update(float deltaTime)
+{
+	CoolDown(deltaTime);
+}
 
 void Weapon::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer)
 {

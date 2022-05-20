@@ -4,6 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 Doxygen/html/*
+Doxygen/latex/*
 
 # User-specific files
 *.rsuser
@@ -350,4 +351,5 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
 Cerberus/imgui.ini

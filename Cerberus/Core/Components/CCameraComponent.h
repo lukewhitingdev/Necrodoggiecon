@@ -32,9 +32,9 @@ public:
 
 	Vector3 GetPosition();
 
-private:
 	void UpdateView();
 	void UpdateProj();
+private:
 
 	bool attachedToParent;
 
