@@ -32,7 +32,7 @@ void Weapon::SetWeapon(std::string weapon)
 	Debug::Log("Range %f", range);
 }
 
-void Weapon::CoolDown(float deltaTime)
+void Weapon::CoolDown(float attack_cooldown)
 {
 	if (!canFire)
 	{
@@ -49,17 +49,6 @@ void Weapon::CoolDown(float deltaTime)
 }
 
 /**
- * Update function called every frame allowing for the cooldown to be used.
- * 
- * \param deltaTime
- */
-void Weapon::Update(float deltaTime)
-{
-	if (!canFire)
-		CoolDown(deltaTime);
-}
-
-/**
  * OnFire function that handles basic firing chekcing if the weapon is a Melee or Ranged weapon to use the basic logic. This will be overridden in the Sub-classes of weapons that have unique logic.
  * 
  * \param actorPos Position of the actor that is using the function
@@ -68,8 +57,7 @@ void Weapon::Update(float deltaTime)
 void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	Debug::Log("Weapon: %s", name.c_str());
-
-	//Vector3 attackDir = attackDir - actorPos;
+	
 	auto normAttackDir = attackDir.Normalize();
 
 	if (canFire)
@@ -133,10 +121,6 @@ void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
 	Projectile1->StartUp(attackDir, actorPos, speed, life);
 }
 
-
-
-
-
 /**
  * Gets closest enemy within attack range.
  *
@@ -144,7 +128,7 @@ void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
  * \param damagePos Position of the damage being dealt (actorPos + attackDirection * range)
  * \return closestEnemy CAIController Entity which is closest to the actorPos parameter position
  */
-CEntity* Weapon::GetClosestEnemy(Vector3 actorPos)
+CEntity* Weapon::GetClosestEnemy(Vector3 actorPos, Vector3 damagePos)
 {
 	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
 

@@ -212,7 +212,6 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game\WeaponInterface.cpp" />
     <ClCompile Include="Game\WeaponPickup.cpp" />
-    <ClCompile Include="weaponUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Weapons\Melee\Longsword.h" />

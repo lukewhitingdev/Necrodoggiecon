@@ -7,7 +7,6 @@ class CCharacter : public CEntity
 {
 private:
 protected:
-	Weapon* weaponComponent = nullptr;
 	WeaponInterface* weaponComponent = nullptr;
 	virtual void OnTakeDamage(float damageAmount, CEntity* damageCauser) {
 		UNREFERENCED_PARAMETER(damageCauser);
