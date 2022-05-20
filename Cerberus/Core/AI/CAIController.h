@@ -12,19 +12,14 @@
 #include "Cerberus\Core\Utility\Vector3.h"
 #include "Cerberus\Core\Components\CSpriteComponent.h"
 #include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
-#include "Cerberus\Core\Environment/CWorld.h"
 #include "Cerberus/Core/Engine.h"
 #include "Cerberus/Core/Utility/Audio/AudioController.h"
+#include "Cerberus/Core/AI/CAICharacter.h"
 
-#include "Necrodoggiecon\Game\AI\CAICharacter.h"
-#include "Necrodoggiecon\Game\CPlayer.h"
-#include "Necrodoggiecon\Game\testClass.h"
-
-#include "Necrodoggiecon\Game\AI\CAINode.h"
-#include "Necrodoggiecon\Game\AI\State.h"
-#include "Necrodoggiecon\Game\AI\Pathfinding.h"
-#include "Necrodoggiecon\Game\PlayerCharacter.h"
+#include "Cerberus/Core/AI/State.h"
+#include "Cerberus/Core/AI/Pathfinding.h"
 #include "Necrodoggiecon\Game\CCharacter.h"
+#include "Necrodoggiecon\Game\PlayerCharacter.h"
 #include "Necrodoggiecon/Game/PlayerController.h"
 
 /**
@@ -34,6 +29,7 @@ class CAIController : public CEntity
 {
 public:
 	CAIController();
+	~CAIController();
 
 	void SetRotationSpeed(float speed);
 	float GetRotationSpeed();
@@ -43,6 +39,8 @@ public:
 
 	void SetHealth(float health);
 	float GetHealth();
+	void SetInitialSpeed(float speed);
+	float GetInititalSpeed();
 	void SetSpeed(float speed);
 	float GetSpeed();
 	void SetMass(float mass);
@@ -63,20 +61,23 @@ public:
 	void SearchForPlayer();
 	void Investigating(Vector3 positionOfInterest);
 	
-	virtual void ChasePlayer(PlayerCharacter* player);
-	virtual void AttackPlayer(PlayerCharacter* player);
-	virtual void GetIntoCover() {};
+	virtual void AttackEnter(CCharacter* player) {};
+	virtual void ChaseEnter();
+	virtual void ChasePlayer(CCharacter* player);
+	virtual void AttackPlayer(CCharacter* player);
 
 	void SetCurrentState(State& state);
 	bool CanSee(Vector3 posOfObject);
-	void CanHear();
 
 	void SetPathNodes(std::vector<WaypointNode*> nodes);
 	Pathfinding* pathing;
 	void SetPath();
 	void SetPath(Vector3 endPosition);
 
+	void ApplyDamage(float damageAmount, CEntity* damageCauser);
+
 	Vector3 positionToInvestigate;
+	bool isAttacking = false;
 
 protected:
 	class CSpriteComponent* sprite = nullptr;
@@ -85,8 +86,6 @@ protected:
 	void Movement(float deltaTime);
 
 	Vector3 CollisionAvoidance();
-
-	//STATE currentState;
 
 	Vector3 velocity;
 	Vector3 acceleration;
@@ -102,17 +101,22 @@ protected:
 
 	Vector3 Seek(Vector3 TargetPos);
 
+	void CheckForPlayer();
+
+	void MoveViewFrustrum();
+
 	int currentCount;
 
-	PlayerCharacter* playerToKill = nullptr;
-	PlayerCharacter* playerToChase = nullptr;
-	std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
+	CCharacter* playerToKill = nullptr;
+	CCharacter* playerToChase = nullptr;
+	
 	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 	class CSpriteComponent* viewSprite = nullptr;
 
 	float aiHealth = 2.0f;
 	float aiSpeed = 100.0f;
+	float initialSpeed = aiSpeed;
 	float aiMass = 10.0f;
 	float aiRange = 400.0f;
 	float aiViewAngle = 45.0f;
@@ -127,8 +131,6 @@ protected:
 
 	float sizeOfTiles = 0.0f;
 
-	
-private:
 	State* currentState;
 };
 

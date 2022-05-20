@@ -1,6 +1,7 @@
 #include "weapons.h"
 #include "Necrodoggiecon\Game\PlayerCharacter.h"
-#include <Necrodoggiecon\Game\AI\CAIController.h>
+#include "Necrodoggiecon\Game\PlayerController.h"
+#include <Cerberus\Core\AI\CAIController.h>
 
 Weapon::Weapon()
 {
@@ -81,13 +82,19 @@ void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 	{
 		CEntity* target = GetClosestPlayer(damagePos);
 		if (target != nullptr)
+		{
+			playersController[0]->Unpossess();
 			Engine::DestroyEntity(target);
+		}
+			
 	}
 	else if (userType == USERTYPE::PLAYER)
 	{
 		CEntity* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
+		{
 			Engine::DestroyEntity(target);
+		}
 	}
 }
 
@@ -97,7 +104,7 @@ void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
 	float speed = attack_speed * 5;
 	float life = range;
 	Projectile* Projectile1 = Engine::CreateEntity<Projectile>();
-	Projectile1->StartUp(attackDir, actorPos, speed, life);
+	Projectile1->StartUp(attackDir, actorPos, speed, life, (int)userType);
 }
 
 
@@ -119,7 +126,7 @@ CEntity* Weapon::GetClosestEnemy(Vector3 actorPos)
 	{
 
 		if (actorPos.DistanceTo(enemy->GetPosition()) > range)
-			break;
+			continue;
 
 		if (closestEnemy == nullptr)
 			closestEnemy = enemy;
@@ -147,7 +154,7 @@ CEntity* Weapon::GetClosestPlayer(Vector3 actorPos)
 	{
 
 		if (actorPos.DistanceTo(player->GetPosition()) > range)
-			break;
+			continue;
 
 		if (closestPlayer == nullptr)
 			closestPlayer = player;

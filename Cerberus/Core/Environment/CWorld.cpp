@@ -15,11 +15,6 @@
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <Cerberus/Core/Structs/CCamera.h>
 
-
-
-
-
-
 CWorld::CWorld()
 {
 	for (int i = 0; i < (mapScale * mapScale); i++)
@@ -37,10 +32,11 @@ CWorld::CWorld(int Slot)
 	LoadWorld(Slot);
 }
 
-
 void CWorld::LoadWorld(int Slot)
 {
 	//UNREFERENCED_PARAMETER(Slot);
+
+	mapSlot = Slot;
 
 	std::string fileName = "Resources/Levels/Level_" + std::to_string(Slot);
 	fileName += ".json";
@@ -52,8 +48,6 @@ void CWorld::LoadWorld(int Slot)
 	file >> storedFile;
 
 	std::vector<std::string> convertedFile = storedFile["TileData"];
-	
-	
 
 	std::string Test = convertedFile[0];
 	std::cout << "" << std::endl;
@@ -84,30 +78,7 @@ void CWorld::LoadWorld(int Slot)
 	}
 	
 	
-	int enemyCount = storedFile["EnemyCount"];
-
-
-
-	for (int i = 0; i < enemyCount; i++)
-	{
-		int EnemyID = storedFile["Enemy"][i]["Type"];
-		int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
-		int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
-
-		/*
-		CAIController* TempController = Engine::CreateEntity<CAIController>();
-		TempController->SetPosition(EnemyX, EnemyY, -1);
-
-		int WaypointList = storedFile["Enemy"][i]["WaypointList"];
-		for (int y = 0; y < WaypointList; y++)
-		{
-			int WaypointX = storedFile["Enemy"][i]["Waypoints"][y]["X"];
-			int WaypointY = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
-			
-			
-		}
-		*/
-	}
+	
 	
 	StartPos.x = storedFile["PlayerStart"]["X"];
 	StartPos.y = storedFile["PlayerStart"]["Y"];
@@ -131,8 +102,6 @@ void CWorld::SetupWorld()
 void CWorld::UnloadWorld()
 {
 }
-
-
 
 void CWorld::BuildNavigationGrid()
 {
@@ -182,7 +151,6 @@ std::vector<CTile*> CWorld::GetAllObstacleTiles()
 	return obstacleTiles;
 }
 
-
 Vector3 CWorld::IndexToGrid(int ID)
 {
 
@@ -196,8 +164,6 @@ int CWorld::GridToIndex(Vector2 Position)
 
 	return (int)Position.x + ((int)Position.y * mapScale);
 }
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
