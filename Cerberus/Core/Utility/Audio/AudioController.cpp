@@ -188,7 +188,7 @@ void AudioController::Update(Vector3 listenerPos, float deltaTime)
 	}
 
 	// Attenuate.
-	float maxRange = 1000;
+	maxRange = 1000;
 	for (CEmitter* emitter : ambientEmitters)
 	{
 
