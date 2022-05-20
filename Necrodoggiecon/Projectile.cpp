@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   Projectile.cpp
+ * \brief  All the functions needed for the Projectile.
+ * 
+ * \author Flynn Brooks
+ * \date   May 2022
+ *********************************************************************/
+
 #include "Projectile.h"
 #include <Necrodoggiecon\Game\AI\CAIController.h>
 
@@ -14,6 +22,11 @@ Projectile::~Projectile()
 
 }
 
+/**
+ * .
+ *
+ * \param deltaTime
+ */
 void Projectile::Update(float deltaTime)
 {
 	if (Lifetime > 0)
@@ -25,6 +38,11 @@ void Projectile::Update(float deltaTime)
 	}
 }
 
+/**
+ * Sees if the projectile is within ranged of hiting the target
+ *
+ * \Damages the target if it hit
+ */
 void Projectile::DidItHit()
 {
 	Vector3 damagePos = Position + Direction * 1;
@@ -44,22 +62,29 @@ void Projectile::DidItHit()
 
 }
 
+/**
+ * Sets up the projectile based on what weapon is using it, this makes sure that the right spriate is being used
+ *
+ * This also allows for the projectile to be at the right rotation when fireing
+ */
 void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, std::string projectile_name)
 {
 	Direction = dir;
 	ProjectileSprite->SetPosition(pos);
 	Position = pos;
-	Speed = speed * 6;
 	Lifetime = lifetime;
 
 	if (projectile_name == "Arrow")
 	{
+		Speed = speed;
 		ProjectileSprite->LoadTextureWIC("Resources/weapons/Arrow.png");
 	}
 	else if (projectile_name == "Fire")
 	{
+		Speed = speed * 2;
 		ProjectileSprite->LoadTextureWIC("Resources/weapons/Wand - Fireball Projectile.png");
 	}
+
 
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
 
@@ -73,8 +98,11 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, 
 }
 
 
-
-
+/**
+ * Looks for the closest enemy within the range of the projectile
+ *
+ * \returns the enemy if within range
+ */
 CEntity* Projectile::GetClosestEnemy(Vector3 actorPos)
 {
 	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
