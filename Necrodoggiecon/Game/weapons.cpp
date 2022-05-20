@@ -4,7 +4,7 @@
 
 Weapon::Weapon()
 {
-	SetWeapon("FireBall");
+	SetWeapon("Magic_Missile");
 }
 
 void Weapon::SetWeapon(std::string weapon)

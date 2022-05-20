@@ -49,7 +49,7 @@
     "Type": "Magic",
     "Damage": 1.0,
     "Range": 25.0,
-    "Attack_Speed": 0.5,
+    "Attack_Speed": 0.1,
     "Ammo": 3.0,
     "Unique": true
   },

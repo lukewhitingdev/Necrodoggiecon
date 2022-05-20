@@ -16,7 +16,6 @@ Projectile::Projectile()
 	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
 }
 
-
 Projectile::~Projectile()
 {
 
@@ -29,13 +28,37 @@ Projectile::~Projectile()
  */
 void Projectile::Update(float deltaTime)
 {
-	if (Lifetime > 0)
+	if (Projectile_Name != "Missle")
 	{
-		DidItHit();
-		Position += Direction * Speed;
-		ProjectileSprite->SetPosition(Position);
-		Lifetime-2;
+		if (Lifetime > 0)
+		{
+			DidItHit();
+			Position += Direction * Speed;
+			ProjectileSprite->SetPosition(Position);
+			Lifetime - 2;
+		}
 	}
+	else if (Projectile_Name == "Missle")
+	{
+		if (Lifetime > 0)
+		{
+			DidItHit();
+			CEntity* target = GetClosestEnemy(Position, 50000);
+			if (target != nullptr)
+			{
+				Vector3 attack = target->GetPosition() - Position;
+				Position += attack * (Speed * deltaTime);
+				ProjectileSprite->SetPosition(Position);
+				Lifetime - 2;
+			}
+			else
+			{
+				Position += Direction * Speed;
+				ProjectileSprite->SetPosition(Position);
+			}
+		}
+	}
+
 }
 
 /**
@@ -57,7 +80,11 @@ void Projectile::DidItHit()
 	{
 		CEntity* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
+		{
 			Engine::DestroyEntity(target);
+			Lifetime = 0;
+			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
+		}
 	}
 
 }
@@ -73,6 +100,7 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, 
 	ProjectileSprite->SetPosition(pos);
 	Position = pos;
 	Lifetime = lifetime;
+	Projectile_Name = projectile_name;
 
 	if (projectile_name == "Arrow")
 	{
@@ -84,7 +112,11 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, 
 		Speed = speed * 2;
 		ProjectileSprite->LoadTextureWIC("Resources/weapons/Wand - Fireball Projectile.png");
 	}
-
+	else if (projectile_name == "Missle")
+	{
+		Speed = speed;
+		ProjectileSprite->LoadTextureWIC("Resources/weapons/Wand - Magic missile Projectile.png");
+	}
 
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
 
@@ -130,6 +162,39 @@ CEntity* Projectile::GetClosestEnemy(Vector3 actorPos)
 
 	return closestEnemy;
 }
+
+
+CEntity* Projectile::GetClosestEnemy(Vector3 actorPos, float Ranged)
+{
+	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
+
+	if (enemies.size() == 0) //No enemies
+		return nullptr;
+
+	CAIController* closestEnemy = nullptr;
+
+	//Check each enemy
+	for (CAIController* enemy : enemies)
+	{
+
+		if (actorPos.DistanceTo(enemy->GetPosition()) > Ranged)
+			continue;
+
+		if (closestEnemy == nullptr)
+			closestEnemy = enemy;
+		else
+		{
+			if (actorPos.DistanceTo(enemy->GetPosition()) < actorPos.DistanceTo(closestEnemy->GetPosition()))
+				closestEnemy = enemy;
+		}
+	}
+
+	return closestEnemy;
+}
+
+
+
+
 
 CEntity* Projectile::GetClosestPlayer(Vector3 actorPos)
 {

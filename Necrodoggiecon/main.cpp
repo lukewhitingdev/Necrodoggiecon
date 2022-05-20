@@ -111,6 +111,13 @@ int Start()
 	//character1->colComponent->SetCollider(128.0f, 128.0f);
 
 	Engine::CreateEntity<CAIController>();
+	Engine::CreateEntity<CAIController>();
+	Engine::CreateEntity<CAIController>();
+	Engine::CreateEntity<CAIController>();
+	Engine::CreateEntity<CAIController>();
+	Engine::CreateEntity<CAIController>();
+	Engine::CreateEntity<CAIController>();
+	Engine::CreateEntity<CAIController>();
 
 	std::vector<PlayerCharacter*> test = Engine::GetEntityOfType<PlayerCharacter>();
 
