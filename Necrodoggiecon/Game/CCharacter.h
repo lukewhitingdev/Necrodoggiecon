@@ -7,7 +7,6 @@ class CCharacter : public CEntity
 {
 private:
 protected:
-	CAnimationSpriteComponent* spriteComponent = nullptr;
 	Weapon* weaponComponent = nullptr;
 
 	virtual void OnTakeDamage(float damageAmount, CEntity* damageCauser) {
