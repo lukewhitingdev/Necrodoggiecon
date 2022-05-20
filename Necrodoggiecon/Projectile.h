@@ -2,6 +2,14 @@
 #include <Cerberus\Core\Components\CAnimationSpriteComponent.h>
 #include <Cerberus\Core\CEntity.h>
 
+
+enum class USERTYPE2
+{
+	PLAYER,
+	AI,
+};
+
+
 class Projectile : public CEntity
 {
 public:
@@ -14,11 +22,16 @@ public:
 	virtual void Update(float deltaTime) override;
 
 private:
-	void RotationOfArrow();
+	
 	class CSpriteComponent* ProjectileSprite = nullptr;
 	float Speed;
 	float Lifetime;
 	Vector3 Direction;
 	Vector3 Position;
+
+	CEntity* GetClosestEnemy(Vector3 actorPos);
+	CEntity* GetClosestPlayer(Vector3 actorPos);
+
+	USERTYPE2 userType;
 };
 
