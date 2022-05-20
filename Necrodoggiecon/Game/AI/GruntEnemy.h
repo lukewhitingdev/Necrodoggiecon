@@ -1,6 +1,6 @@
 #pragma once
 /*****************************************************************//**
- * \file   MeleeEnemy.h
+ * \file   GruntEnemy.h
  * \brief  Header file containing all the inherited functions from CAIController and variables needed to control the Melee Enemies.
  * 
  * \author k013044i
@@ -10,14 +10,14 @@
 #include "Cerberus/Core/AI/CAIController.h"
 #include "Necrodoggiecon/Game/weapons.h"
 
-class MeleeEnemy :
+class GruntEnemy :
     public CAIController
 {
 public:
-    MeleeEnemy();
+    GruntEnemy();
 
-    virtual void ChasePlayer(CCharacter* player) override;
-    virtual void AttackPlayer(CCharacter* player) override;
+    virtual void ChasePlayer(PlayerCharacter* player) override;
+    virtual void AttackPlayer(PlayerCharacter* player) override;
 
 private:
     std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();

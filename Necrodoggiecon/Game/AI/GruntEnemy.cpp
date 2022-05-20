@@ -1,15 +1,15 @@
 /*****************************************************************//**
- * \file   MeleeEnemy.cpp
+ * \file   GruntEnemy.cpp
  * \brief  All the functions needed to control the Melee Enemies.
  * 
  * \author Nasser Ksous
  * \date   May 2022
  *********************************************************************/
-#include "MeleeEnemy.h"
+#include "GruntEnemy.h"
 
-MeleeEnemy::MeleeEnemy()
+GruntEnemy::GruntEnemy()
 {
-	sprite->LoadTexture("Resources\\MeleeEnemy.dds");
+	sprite->LoadTexture("Resources/Characters/MeleeEnemy.dds");
 	sprite->SetRotation(1.5708f);
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
@@ -25,7 +25,7 @@ MeleeEnemy::MeleeEnemy()
  * 
  * \param player
  */
-void MeleeEnemy::ChasePlayer(CCharacter* player)
+void GruntEnemy::ChasePlayer(PlayerCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < weapon->GetRange())
 	{
@@ -43,7 +43,7 @@ void MeleeEnemy::ChasePlayer(CCharacter* player)
  * 
  * \param player Player to attack.
  */
-void MeleeEnemy::AttackPlayer(CCharacter* player)
+void GruntEnemy::AttackPlayer(PlayerCharacter* player)
 {
 	weapon->OnFire(aiPosition, velocity);
 }
