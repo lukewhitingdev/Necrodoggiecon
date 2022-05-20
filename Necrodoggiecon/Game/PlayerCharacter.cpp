@@ -3,6 +3,7 @@
 #include "CEquippedItem.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
 #include "Cerberus\Core\Components\CCameraComponent.h"
+#include "Cerberus/Core/Utility/IO.h"
 
 PlayerCharacter::PlayerCharacter()
 {
@@ -41,6 +42,9 @@ PlayerCharacter::PlayerCharacter()
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 	weaponComponent->SetWeapon(new Dagger());
 
+	weaponSprite = AddComponent<CSpriteComponent>();
+	UpdateWeaponSprite();
+	weaponSprite->SetPosition(Vector3(spriteComponent->GetSpriteSize().x / 3, 0, 0));
 }
 
 void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)
@@ -116,7 +120,31 @@ void PlayerCharacter::Update(float deltaTime)
 void PlayerCharacter::EquipWeapon(Weapon* weapon)
 {
 	weaponComponent->SetWeapon(weapon);
+	UpdateWeaponSprite();
 	movementVec = {0,0};
+}
+
+void PlayerCharacter::UpdateWeaponSprite()
+{
+	HRESULT hr;
+	if (IO::FindExtension(weaponComponent->GetCurrentWeapon()->GetIconPath()) == "dds")
+	{
+		hr = weaponSprite->LoadTexture(weaponComponent->GetCurrentWeapon()->GetIconPath());
+		if (FAILED(hr))
+		{
+			Debug::LogHResult(hr, "Weapon Tried to load texture using path: %s but the loader returned failure.", weaponComponent->GetCurrentWeapon()->GetIconPath().c_str());
+			return;
+		}
+	}
+	else
+	{
+		hr = weaponSprite->LoadTextureWIC(weaponComponent->GetCurrentWeapon()->GetIconPath());
+		if (FAILED(hr))
+		{
+			Debug::LogHResult(hr, "Weapon Tried to load texture using path: %s but the loader returned failure.", weaponComponent->GetCurrentWeapon()->GetIconPath().c_str());
+			return;
+		}
+	}
 }
 
 void PlayerCharacter::LookAt(Vector3 pos)
