@@ -52,7 +52,7 @@ HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 	texture = AssetManager::GetTexture(filePath);
 
 	if (texture == nullptr)
-		return S_FALSE;
+		return E_FAIL;
 
 	renderRect = texture->textureSize;
 	spriteSize = texture->textureSize;
@@ -67,7 +67,7 @@ HRESULT CSpriteComponent::LoadTextureWIC(std::string filePath)
 	texture = AssetManager::GetTextureWIC(filePath);
 
 	if (texture == nullptr)
-		return S_FALSE;
+		return E_FAIL;
 
 	renderRect = texture->textureSize;
 	spriteSize = texture->textureSize;
