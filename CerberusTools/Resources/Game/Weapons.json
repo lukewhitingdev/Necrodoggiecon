@@ -1,0 +1,75 @@
+{
+  "Dagger": {
+    "Type": "Melee",
+    "Damage": 1.0,
+    "Range": 0.5,
+    "Attack_Speed": 0.5,
+    "Ammo": 0.0,
+    "Unique": false
+  },
+  "Rapier": {
+    "Type": "Melee",
+    "Damage": 1.0,
+    "Range": 2.0,
+    "Attack_Speed": 0.5,
+    "Ammo": 0.0,
+    "Unique": false
+  },
+  "Longsword": {
+    "Type": "Melee",
+    "Damage": 1.0,
+    "Range": 1.0,
+    "Attack_Speed": 1.0,
+    "Ammo": 0.0,
+    "Unique": true
+  },
+  "Crossbow": {
+    "Type": "Ranged",
+    "Damage": 5.0,
+    "Range": 100.0,
+    "Attack_Speed": 0.8,
+    "Ammo": 8.0,
+    "Unique": false
+  },
+  "Throwing_Knives": {
+    "Type": "Ranged",
+    "Damage": 1.0,
+    "Range": 8.0,
+    "Attack_Speed": 0.2,
+    "Ammo": 10.0,
+    "Unique": false
+  },
+  "Magic_Missile": {
+    "Type": "Magic",
+    "Damage": 1.0,
+    "Range": 25.0,
+    "Attack_Speed": 0.5,
+    "Ammo": 3.0,
+    "Unique": true
+  },
+  "IcicleBarrage": {
+    "Type": "Magic",
+    "Damage": 0.5,
+    "Range": 25.0,
+    "Attack_Speed": 0.1,
+    "Ammo": 12.0,
+    "Unique": true
+
+  },
+  "LightningDash": {
+    "Type": "Magic",
+    "Damage": 5.0,
+    "Range": 20.0,
+    "Attack_Speed": 0.01,
+    "Ammo": 1.0,
+    "Unique": true
+  },
+  "FireBall": {
+    "Type": "Magic",
+    "Damage": 5.0,
+    "Range": 25.0,
+    "Attack_Speed": 0.2,
+    "Ammo": 3.0,
+    "Unique": true
+  }
+}

@@ -5,7 +5,7 @@
 Projectile::Projectile()
 {
 	ProjectileSprite = AddComponent<CSpriteComponent>();
-	ProjectileSprite->LoadTextureWIC("Resources/weapons/Arrow.png");
+	ProjectileSprite->LoadTextureWIC("Resources/Game/weapons/Arrow.png");
 	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
 	ProjectileSprite->SetSpriteSize(XMUINT2(96, 96));
 

@@ -10,7 +10,7 @@ Weapon::Weapon()
 
 void Weapon::SetWeapon(std::string weapon)
 {
-	std::ifstream file("Resources/Weapons.json");
+	std::ifstream file("Resources/Game/Weapons.json");
 	json storedFile;
 	file >> storedFile;
 

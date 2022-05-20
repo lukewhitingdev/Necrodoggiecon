@@ -7,7 +7,7 @@
 PlayerCharacter::PlayerCharacter()
 {
 	spriteComponentBody = AddComponent<CAnimationSpriteComponent>();
-	spriteComponentBody->LoadTextureWIC("Resources/Characters/JonathanWicke-sheet.png");
+	spriteComponentBody->LoadTextureWIC("Resources/Game/Characters/JonathanWicke-sheet.png");
 	spriteComponentBody->SetSpriteSize(XMUINT2(64, 64));
 	spriteComponentBody->SetRenderRect(XMUINT2(44, 44));
 	spriteComponentBody->SetAnimationRectSize(XMUINT2(2, 1));
@@ -15,7 +15,7 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentBody->SetPlaying(false, false);
 
 	spriteComponentLegs = AddComponent<CAnimationSpriteComponent>();
-	spriteComponentLegs->LoadTextureWIC("Resources/Characters/legsSpriteSheet.png");
+	spriteComponentLegs->LoadTextureWIC("Resources/Game/Characters/legsSpriteSheet.png");
 	spriteComponentLegs->SetPosition(XMFLOAT3(0, 0, 1));
 	spriteComponentLegs->SetScale(XMFLOAT3(2, 1.5, 1.5));
 	spriteComponentLegs->SetRenderRect(XMUINT2(29, 22));
@@ -25,7 +25,7 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentLegs->SetPlaying(false, false);
 
 	spriteComponentShadow = AddComponent<CSpriteComponent>();
-	spriteComponentShadow->LoadTextureWIC("Resources/Characters/JonathanWicke-shadow.png");
+	spriteComponentShadow->LoadTextureWIC("Resources/Game/Characters/JonathanWicke-shadow.png");
 	spriteComponentShadow->SetPosition(XMFLOAT3(0, 0, 2));
 	spriteComponentShadow->SetScale(XMFLOAT3(1.45, 1.45, 1.45));
 	spriteComponentShadow->SetUseTranslucency(true);
@@ -33,7 +33,7 @@ PlayerCharacter::PlayerCharacter()
 	colComponent = new CollisionComponent("Character 1", this);
 
 	loadNoise = AddComponent<CAudioEmitterComponent>();
-	loadNoise->Load("Resources/TestShortAudio.wav");
+	loadNoise->Load("Resources/Game/TestShortAudio.wav");
 
 	loadNoise->SetRange(10000.0f);
 
