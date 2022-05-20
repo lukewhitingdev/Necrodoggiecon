@@ -88,6 +88,7 @@ CAIController::CAIController()
 CAIController::~CAIController()
 {
 	delete(pathing);
+	Engine::DestroyEntity(viewFrustrum);
 }
 
 /**
@@ -398,7 +399,7 @@ void CAIController::ChaseEnter()
 /**
  * Seek towards the player and if it gets close then switch to the attacking state.
  */
-void CAIController::ChasePlayer(CCharacter* player)
+void CAIController::ChasePlayer(PlayerCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 	{
@@ -416,7 +417,7 @@ void CAIController::ChasePlayer(CCharacter* player)
  * 
  * \param player Player to attack.
  */
-void CAIController::AttackPlayer(CCharacter* player)
+void CAIController::AttackPlayer(PlayerCharacter* player)
 {
 }
 
@@ -520,7 +521,7 @@ void CAIController::SetPath(Vector3 endPosition)
  * \param damageAmount Amount to damage the enemy.
  * \param damageCauser Root of the damage.
  */
-void CAIController::ApplyDamage(float damageAmount, CEntity* damageCauser)
+void CAIController::ApplyDamage(float damageAmount)
 {
 	SetHealth(GetHealth() - damageAmount);
 	if (GetHealth() <= 0.0f)
@@ -564,15 +565,6 @@ float CAIController::GetSearchTime()
 	return maxSearchTime;
 }
 
-void CAIController::SetHealth(float health)
-{
-	aiHealth = health;
-}
-
-float CAIController::GetHealth()
-{
-	return aiHealth;
-}
 
 void CAIController::SetInitialSpeed(float speed)
 {
@@ -643,4 +635,24 @@ void CAIController::SetHeight(float high)
 float CAIController::GetHeight()
 {
 	return height;
+}
+
+void CAIController::SetPositionToInvestigate(Vector3 pos)
+{
+	positionToInvestigate = pos;
+}
+
+Vector3 CAIController::GetPositionToInvestigate()
+{
+	return positionToInvestigate;
+}
+
+void CAIController::SetIsAttacking(bool isAttack)
+{
+	isAttacking = isAttack;
+}
+
+bool CAIController::GetIsAttacking()
+{
+	return isAttacking;
 }

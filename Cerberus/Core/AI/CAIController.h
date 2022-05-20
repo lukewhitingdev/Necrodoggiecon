@@ -25,7 +25,7 @@
 /**
  * Controller class for the AI.
  */
-class CAIController : public CEntity
+class CAIController : public CCharacter
 {
 public:
 	CAIController();
@@ -37,8 +37,6 @@ public:
 	void SetSearchTime(float time);
 	float GetSearchTime();
 
-	void SetHealth(float health);
-	float GetHealth();
 	void SetInitialSpeed(float speed);
 	float GetInititalSpeed();
 	void SetSpeed(float speed);
@@ -55,16 +53,22 @@ public:
 	void SetHeight(float high);
 	float GetHeight();
 
+	void SetPositionToInvestigate(Vector3 pos);
+	Vector3 GetPositionToInvestigate();
+
+	void SetIsAttacking(bool isAttack);
+	bool GetIsAttacking();
+
 	virtual void Update(float deltaTime) override;
 
 	void Patrolling();
 	void SearchForPlayer();
 	void Investigating(Vector3 positionOfInterest);
 	
-	virtual void AttackEnter(CCharacter* player) {};
+	virtual void AttackEnter(PlayerCharacter* player) {};
 	virtual void ChaseEnter();
-	virtual void ChasePlayer(CCharacter* player);
-	virtual void AttackPlayer(CCharacter* player);
+	virtual void ChasePlayer(PlayerCharacter* player);
+	virtual void AttackPlayer(PlayerCharacter* player);
 
 	void SetCurrentState(State& state);
 	bool CanSee(Vector3 posOfObject);
@@ -74,15 +78,12 @@ public:
 	void SetPath();
 	void SetPath(Vector3 endPosition);
 
-	void ApplyDamage(float damageAmount, CEntity* damageCauser);
-
-	Vector3 positionToInvestigate;
-	bool isAttacking = false;
+	void ApplyDamage(float damageAmount);
 
 protected:
 	class CSpriteComponent* sprite = nullptr;
 
-
+	Vector3 positionToInvestigate;
 	void Movement(float deltaTime);
 
 	Vector3 CollisionAvoidance();
@@ -106,15 +107,14 @@ protected:
 	void MoveViewFrustrum();
 
 	int currentCount;
+	bool isAttacking = false;
 
 	CCharacter* playerToKill = nullptr;
 	CCharacter* playerToChase = nullptr;
 	
 	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
 	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
-	class CSpriteComponent* viewSprite = nullptr;
 
-	float aiHealth = 2.0f;
 	float aiSpeed = 100.0f;
 	float initialSpeed = aiSpeed;
 	float aiMass = 10.0f;
