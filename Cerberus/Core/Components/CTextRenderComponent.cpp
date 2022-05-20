@@ -4,8 +4,8 @@
 
 CTextRenderComponent::CTextRenderComponent()
 {
-	shouldUpdate = false;
-	shouldDraw = true;
+	SetShouldUpdate(false);
+	SetShouldDraw(true);
 
 	SetReserveCount(reserveSpriteCount);
 }
@@ -135,7 +135,7 @@ void CTextRenderComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& 
 	XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * XMLoadFloat4x4(&parentMat);
 	XMStoreFloat4x4(&compWorld, mGO2);
 
-	if (ui)
+	if (GetIsUI())
 	{
 		cb.mView = XMMatrixIdentity();
 		cb.mProjection = XMMatrixTranspose(Engine::projMatrixUI);

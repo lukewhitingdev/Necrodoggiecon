@@ -1,5 +1,6 @@
 #include "Cerberus\Core\Engine.h"
 #include <Cerberus\Core\Environment\CWorld.h>
+#include "Necrodoggiecon/CWorld_Game.h"
 #include "Necrodoggiecon\Game\CPlayer.h"
 #include <Necrodoggiecon\Game\TestUI.h>
 #include <Necrodoggiecon\Game\CursorEntity.h>
@@ -8,6 +9,7 @@
 #include <Necrodoggiecon\Game\ItemDatabase.h>
 #include <Necrodoggiecon\Game\AI\CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
+#include <Cerberus/Core/Utility/CWorldManager.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <weaponUI.h>
@@ -86,34 +88,30 @@ int Start()
 
 	CameraManager::AddCamera(freeCameraComponent);
 
-	CWorld::LoadWorld(0);
+	CWorldManager::LoadWorld(new CWorld_Game(0));
 
-	PlayerController* controller = Engine::CreateEntity<PlayerController>();
-	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
+	
 
-	// Locked Camera follows player.
-	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>();
-	lockedCameraComponent->Initialize();
-	lockedCameraComponent->SetAttachedToParent(true);
+	CEntity* t = Engine::CreateEntity<weaponUI>();
+	t->SetPosition(XMFLOAT3(0, 0, -90));
+	t = Engine::CreateEntity<TestUI>();
+	t->SetPosition(XMFLOAT3(0, 0, -100));
+	t = Engine::CreateEntity<CursorEntity>();
+	t->SetPosition(XMFLOAT3(0, 0, -110));
 
-	CameraManager::AddCamera(lockedCameraComponent);
-
-	CameraManager::SetRenderingCamera(lockedCameraComponent);
-
-	//Engine::CreateEntity<weaponUI>();
-	//Engine::CreateEntity<TestUI>();
-	//Engine::CreateEntity<CursorEntity>();
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
-	character1->droppedItem = droppedItem;
 
-	controller->charOne = character1;
+	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
+	//character1->droppedItem = droppedItem;
 
-	character1->SetPosition(Vector3(0, 0, 0));
-	controller->Possess(character1);
-	character1->shouldMove = true;
-	character1->colComponent->SetCollider(128.0f, 128.0f);
+	//controller->charOne = character1;
 
-	//std::string str = "This system will contain the players’ input. This input will then be passed down to the currently attached character. This will allow us to have multiple characters with setting up input on each of them, as well as this, it will make it so that we can swap between characters mid-level easily. ";
+//	character1->SetPosition(Vector3(0, 0, 0));
+	//controller->Possess(character1);
+	//character1->shouldMove = true;
+	//character1->colComponent->SetCollider(128.0f, 128.0f);
+
+	//std::string str = "This system will contain the playersï¿½ input. This input will then be passed down to the currently attached character. This will allow us to have multiple characters with setting up input on each of them, as well as this, it will make it so that we can swap between characters mid-level easily. ";
 	//DialogueHandler::SetDialogue("this is a name", str, false);
 	//DialogueHandler::LoadDialogue("Resources/Dialogue.json", "TestDialogue");
 	Engine::CreateEntity<CAIController>();

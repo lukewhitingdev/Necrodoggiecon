@@ -19,10 +19,18 @@ class CWorld
 
 public:
 	CWorld();
+	CWorld(int Slot);
 
 	
 
-	static void LoadWorld(int Slot);
+	virtual void LoadWorld(int Slot);
+	 
+	//Extendable function, primarily used to setup unique level specific requirements, one of these things would be the editor peripheral
+	virtual void SetupWorld();
+
+	virtual void UnloadWorld();
+
+	
 
 	
 	//A List of all tiles in the scene
@@ -31,39 +39,44 @@ public:
 
 	
 	// TODO- Add collision collector
-	static CTile* GetTileByID(int ID) { return tileContainer[ID]; }
+	 CTile* GetTileByID(int ID) { return tileContainer[ID]; }
 
-	static std::vector<CTile*> GetAllWalkableTiles();
+	 std::vector<CTile*> GetAllWalkableTiles();
 
-	static std::vector<CTile*> GetAllObstacleTiles();
+	 std::vector<CTile*> GetAllObstacleTiles();
 
-	static void BuildNavigationGrid();
-
-protected:
-
-	
-
-
-
-
-	
-
-
-
+	 void BuildNavigationGrid();
 
 protected:
 
 	
 
+
+
+
+	
+
+
+
+
+protected:
+
+	
+
+	int mapSize = mapScale * mapScale;
 
 
 	
 	//std::map<Vector3, CTile*> tileContainer;
 
-	static CTile* tileContainer[mapScale * mapScale];
+	 CTile* tileContainer[mapScale * mapScale];
+
+
+	//Function that loads entities based on slot, You can change the entities in each slot inside the cpp
+	//static void LoadEntity(int Slot, Vector3 Position);
 
 	//This function should only be used when Loading / Reloading the scene.
-	//void LoadEntity(CT_EntityData EntityData);
+
 
 
 	//This is a list of entities loaded in with the level data. This should not be touched outside of Loading / Reloading
@@ -71,14 +84,18 @@ protected:
 
 
 	//List of entities spawned in by this class, used for deconstruction.
-	//std::vector<CEntity> entityList;
+	//static std::vector<class CEntity*> entityList;
 
 protected:
 
-	static Vector3 IndexToGrid(int ID);
-	static int GridToIndex(Vector2 Position);
+	 Vector3 IndexToGrid(int ID);
+	 int GridToIndex(Vector2 Position);
+
+	
 
 
+
+	Vector2 StartPos;
 
 };
 

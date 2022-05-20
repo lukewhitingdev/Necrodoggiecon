@@ -6,6 +6,7 @@
  * \date   May 2022
  *********************************************************************/
 #include "CAIController.h"
+#include "Cerberus/Core/Utility/CWorldManager.h"
 
 CAIController::CAIController()
 {
@@ -29,10 +30,11 @@ CAIController::CAIController()
 	heading = { 0.0f, 0.0f, 0.0f };
 	acceleration = { 0.0f, 0.0f, 0.0f };
 
-	obstacles = CWorld::GetAllObstacleTiles();
+	obstacles = CWorldManager::GetWorld()->GetAllObstacleTiles();
 	sizeOfTiles = tileScale * obstacles[0]->GetScale().x;
 
-	tiles = CWorld::GetAllWalkableTiles();
+	
+	tiles = CWorldManager::GetWorld()->GetAllWalkableTiles();
 	int randIndex = rand() % tiles.size();
 	SetPosition(tiles[randIndex]->GetPosition());
 	aiPosition = GetPosition();	

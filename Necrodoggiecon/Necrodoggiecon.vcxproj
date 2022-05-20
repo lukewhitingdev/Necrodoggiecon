@@ -89,6 +89,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -105,6 +106,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -186,6 +188,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
   <ItemGroup>
     <ClCompile Include="Game\DialogueHandler.cpp" />
     <ClCompile Include="Game\DialogueUI.cpp" />
+    <ClCompile Include="CWorld_Game.cpp" />
     <ClCompile Include="Game\CInteractable.cpp" />
     <ClCompile Include="Game\AI\CAICharacter.cpp" />
     <ClCompile Include="Game\AI\CAIController.cpp" />
@@ -212,6 +215,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClInclude Include="Game\Dialogue.h" />
     <ClInclude Include="Game\DialogueHandler.h" />
     <ClInclude Include="Game\DialogueUI.h" />
+    <ClInclude Include="CWorld_Game.h" />
     <ClInclude Include="Game\CInteractable.h" />
     <ClInclude Include="Game\AI\CAICharacter.h" />
     <ClInclude Include="Game\AI\CAIController.h" />

@@ -169,7 +169,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalOptions> %(AdditionalOptions)</AdditionalOptions>
@@ -372,6 +372,8 @@
   <ItemGroup>
     <ClInclude Include="Core\Utility\CameraManager\CameraManager.h" />
     <ClInclude Include="Core\Components\CCameraComponent.h" />
+    <ClInclude Include="Tools\CT_EditorEntity.h" />
+    <ClInclude Include="Core\Utility\CWorldManager.h" />
     <ClInclude Include="Core\Components\CAnimationSpriteComponent.h" />
     <ClInclude Include="Core\Components\CParticleEmitter.h" />
     <ClInclude Include="Core\Entities\CParticle.h" />
@@ -382,6 +384,7 @@
     <ClInclude Include="Core\Environment\CGridCursor.h" />
     <ClInclude Include="Core\Structs\CMaterial.h" />
     <ClInclude Include="Core\Components\CTextRenderComponent.h" />
+    <ClInclude Include="Core\Utility\EntityManager.h" />
     <ClInclude Include="Core\Components\CRigidBodyComponent.h" />
     <ClInclude Include="Tools\CT_EditorGrid.h" />
     <ClInclude Include="Core\Environment\CWorld_Edit.h" />
@@ -430,6 +433,8 @@
   <ItemGroup>
     <ClCompile Include="Core\Utility\CameraManager\CameraManager.cpp" />
     <ClCompile Include="Core\Components\CCameraComponent.cpp" />
+    <ClCompile Include="Tools\CT_EditorEntity.cpp" />
+    <ClCompile Include="Core\Utility\CWorldManager.cpp" />
     <ClCompile Include="Core\Components\CAnimationSpriteComponent.cpp" />
     <ClCompile Include="Core\Components\CParticleEmitter.cpp" />
     <ClCompile Include="Core\Entities\CParticle.cpp" />
@@ -442,6 +447,7 @@
     <ClCompile Include="Core\Structs\CMaterial.cpp" />
     <ClCompile Include="Core\Components\CTextRenderComponent.cpp" />
     <ClCompile Include="Core\Utility\Math\Math.cpp" />
+    <ClCompile Include="Core\Utility\EntityManager.cpp" />
     <ClCompile Include="Core\Components\CRigidBodyComponent.cpp" />
     <ClCompile Include="Tools\CT_EditorGrid.cpp" />
     <ClCompile Include="Core\Environment\CWorld_Edit.cpp" />
