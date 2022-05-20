@@ -8,7 +8,7 @@ Weapon::Weapon(std::string weapon)
 }
 
 /**
- * Sets the private variables using the information stored in a JSON file of weapons
+ * Sets the private variables using the information stored in a JSON file of weapons.
  * 
  * \param weapon Name of the weapon in the JSON
  */
@@ -46,7 +46,7 @@ void Weapon::CoolDown(float deltaTime)
 }
 
 /**
- * . Update function called every frame allowing for the cooldown to be used
+ * Update function called every frame allowing for the cooldown to be used.
  * 
  * \param deltaTime
  */
@@ -57,10 +57,10 @@ void Weapon::Update(float deltaTime)
 }
 
 /**
- * . OnFire function that handles basic firing chekcing if the weapon is a Melee or ranged weapon to use the basic logic. This will be overridden in the Sub-classes of weapons that have unique logic
+ * OnFire function that handles basic firing chekcing if the weapon is a Melee or Ranged weapon to use the basic logic. This will be overridden in the Sub-classes of weapons that have unique logic.
  * 
- * \param actorPos
- * \param attackDir
+ * \param actorPos Position of the actor that is using the function
+ * \param attackDir Direction of the attack
  */
 void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
@@ -97,8 +97,8 @@ void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 /**
  * Basic function to handle Melee.
  * 
- * \param actorPos
- * \param normAttackDir
+ * \param actorPos Position of the actor that is using the function
+ * \param normAttackDir Normalized direction of attack
  */
 void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir) // BB
 {
@@ -130,7 +130,7 @@ void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir) // BB
  *
  * \param actorPos Position of the object (Player or AI)
  * \param damagePos Position of the damage being dealt (actorPos + attackDirection * range)
- * \return
+ * \return closestEnemy CAIController Entity which is closest to the actorPos parameter position
  */
 CEntity* Weapon::GetClosestEnemy(Vector3 actorPos, Vector3 damagePos) // BB
 {
@@ -170,7 +170,8 @@ CEntity* Weapon::GetClosestEnemy(Vector3 actorPos, Vector3 damagePos) // BB
  * 
  * \param actorPos Position of the object (Player or AI)
  * \param damagePos Position of the damage being dealt (actorPos + attackDirection * range)
- * \return 
+ * 
+ * \return closestPlayer PlayerCharacter entity that is closest to the actorPos parameter position
  */
 CEntity* Weapon::GetClosestPlayer(Vector3 actorPos, Vector3 damagePos) // BB
 {

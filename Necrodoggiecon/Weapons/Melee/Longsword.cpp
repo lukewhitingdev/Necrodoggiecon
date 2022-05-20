@@ -13,10 +13,16 @@ Longsword::~Longsword()
 
 void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
-	if (GetCanFire())
-	{
+	auto normAttackDir = attackDir.Normalize();
+
+	Vector3 damagePos = actorPos + normAttackDir * Weapon::GetRange();
+
+	//if (GetCanFire())
+	//{
+		Debug::Log("Longsword damage pos %f %f", actorPos.x, actorPos.y);
 		std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
-		
+		StartCooldown();
+		SetCanFire(false);
 		if (enemies.size() == 0) //No enemies
 			return;
 		
@@ -25,41 +31,19 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 		for (CAIController* enemy : enemies)
 		{
 		
-			if (actorPos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange() && attackDir.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
+			if (actorPos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange() && damagePos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
 				continue;
 
-			if (attackDir.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
+			if (damagePos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
 				continue;
 
 			Debug::Log("Longsword enemy stuff");
 
+			if (actorPos.DistanceTo(enemy->GetPosition()) < Weapon::GetRange() && damagePos.DistanceTo(enemy->GetPosition()) < Weapon::GetRange())
+			{
+				Engine::DestroyEntity(enemy);
+			}
 			
-			enemiesCanHit.push_back(enemy);
 		}
-		for (int i = 0; i < enemiesCanHit.size(); i++)
-			Engine::DestroyEntity(enemiesCanHit[i]);
-	}
+	//}
 }
-
-//std::vector<CEntity*> Longsword::GetPlayersInReach(Vector3 actorPos, Vector3 damagePos)
-//{
-//	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
-//
-//	std::vector<CAIController*> enemiesCanHit;
-//	if (enemies.size() == 0) //No enemies
-//		return std::vector<CEntity*>();
-//
-//	CAIController* closestEnemy = nullptr;
-//
-//	//Check each enemy
-//	for (CAIController* enemy : enemies)
-//	{
-//
-//		if (actorPos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange() && damagePos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
-//			continue;
-//		
-//		enemiesCanHit.push_back(enemy);
-//	}
-//
-//	return enemiesCanHit;
-//}
