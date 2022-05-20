@@ -47,7 +47,6 @@ PlayerCharacter::PlayerCharacter()
 
 	camera = AddComponent<CCameraComponent>();
 	camera->SetAttachedToParent(false);
-	CameraManager::AddCamera(camera);
 	CameraManager::SetRenderingCamera(camera);
 }
 
