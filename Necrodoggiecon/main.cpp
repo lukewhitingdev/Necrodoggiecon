@@ -14,6 +14,7 @@
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
+#include <Game/PickupItemData.h>
 
 /*
 
@@ -98,6 +99,8 @@ int Start()
 	t = Engine::CreateEntity<CursorEntity>();
 	t->SetPosition(XMFLOAT3(0, 0, -110));
 
+
+	ItemDatabase::AddToMap(new PickupItemData("testItem", "Resources\\birb.dds", PickupType::INVISIBILITY_SCROLL));
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
 	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
@@ -113,6 +116,7 @@ int Start()
 	Engine::CreateEntity<CAIController>();
 
 	std::vector<PlayerCharacter*> test = Engine::GetEntityOfType<PlayerCharacter>();
+	test[0]->droppedItem = droppedItem;
 
 	return 0;
 }

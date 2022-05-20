@@ -4,6 +4,12 @@
 #include <Necrodoggiecon\Game\CEquippedItem.h>
 #include <Cerberus\Core\Environment\IInputable.h>
 
+enum class ItemType
+{
+	PICKUP,
+	EQUIPPABLE
+};
+
 struct ItemData
 {
 	std::string itemName;
@@ -19,5 +25,8 @@ struct ItemData
 	{
 		return Engine::CreateEntity<CEquippedItem>();
 	}
+	ItemType GetItemType() { return itemType; }
+protected:
+	ItemType itemType;
 };
 

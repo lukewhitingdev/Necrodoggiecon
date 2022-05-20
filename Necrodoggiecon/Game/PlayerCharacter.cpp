@@ -3,6 +3,7 @@
 #include "CEquippedItem.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
 #include "Cerberus\Core\Components\CCameraComponent.h"
+#include "Game/PickupItemData.h"
 
 PlayerCharacter::PlayerCharacter()
 {
@@ -42,18 +43,36 @@ PlayerCharacter::PlayerCharacter()
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 }
 
+/**
+ * Function inherited from interface
+ * Will use horizontal key inputs to add horizontal movement
+ * 
+ * \param dir - The direction of movement, negative for left, positive for right
+ * \param deltaTime - Time since the last frame
+ */
 void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)
 {
 	movementVec.x += dir;
 	AddHorizontalMovement(dir, speed, deltaTime);
 }
 
+/**
+ * Function inherited from interface
+ * Will use vertical key inputs to add vertical movement
+ * 
+ * \param dir  - The direction of movement, negative for down, positive for up
+ * \param deltaTime - Time since the last frame
+ */
 void PlayerCharacter::PressedVertical(int dir, float deltaTime)
 {
 	movementVec.y += dir;
 	AddVerticalMovement(dir, speed, deltaTime);
 }
-
+/**
+ * Function inherited from interface
+ * Will interact with objects in the world if one is available
+ * 
+ */
 void PlayerCharacter::PressedInteract()
 {
 	if (droppedItem == nullptr) return;
@@ -62,7 +81,11 @@ void PlayerCharacter::PressedInteract()
 	Engine::DestroyEntity(droppedItem);
 	droppedItem = nullptr;
 }
-
+/**
+* Function inherited from interface
+* Will drop the characters currently equipped item
+* Will return early if the EquippedItem is null
+*/
 void PlayerCharacter::PressedDrop()
 {
 	if (equippedItem == nullptr) return;
@@ -81,6 +104,10 @@ void PlayerCharacter::Attack()
 	Vector3 attackDir = (Vector3(screenVec.x, screenVec.y, screenVec.z)) - GetPosition();
 
 	weaponComponent->OnFire(GetPosition(), attackDir);
+
+	if (GetVisible()) return;
+
+	pickupTimerCallback();
 }
 
 void PlayerCharacter::Update(float deltaTime)
@@ -106,6 +133,8 @@ void PlayerCharacter::Update(float deltaTime)
 	colComponent->SetPosition(GetPosition());
 
 	movementVec = {0,0};
+
+	PickupTimer(deltaTime);
 }
 
 void PlayerCharacter::LookAt(Vector3 pos)
@@ -123,4 +152,100 @@ void PlayerCharacter::LookAt(Vector3 pos)
 	float det = up.x * dir.y - up.y * dir.x;
 
 	SetRotation(atan2f(det, dot) + 90 * 0.0174533);
+}
+
+/**
+* Checks the pickup item type and activates the functionality for that pickup.
+* E.g, Invisibility scroll will make the player invisible and bind a callback to the timer to make the player visible after a certain amount of time.
+*/
+void PlayerCharacter::UsePickup(PickupItemData* itemToPickup)
+{
+	if (itemToPickup == nullptr)return;
+
+	pickupActive = true;
+	pickupTimer = 0;
+	pickupActiveTime = itemToPickup->GetPickupTime();
+
+	switch (itemToPickup->GetPickupType())
+	{
+	case PickupType::NECRODOGGICON_PAGE:
+		Debug::Log("Pickup Necrodoggiecon Page \n");
+		break;
+	case PickupType::CHARM_SCROLL:
+		Debug::Log("Use Charm Scroll \n");
+		break;
+	case PickupType::INVISIBILITY_SCROLL:
+		pickupTimerCallback = std::bind(&PlayerCharacter::InvisibilityCallback, this);
+		ToggleVisibility(false);
+		Debug::Log("Use Invisibility Scroll \n");
+		break;
+	case PickupType::SEEING_SCROLL:
+		Debug::Log("Use Seeing Scroll \n");
+		break;
+	case PickupType::SHIELD_SCROLL:
+		Debug::Log("Use Shield Scroll \n");
+		break;
+	default:
+		break;
+	}
+
+	Engine::DestroyEntity(equippedItem);
+	equippedItem = nullptr;
+}
+/**
+* Function inherited from interface
+* Will use the currently equipped item
+* First checks the item type and then uses the item appropriately
+*/
+void PlayerCharacter::PressedUse()
+{
+	if (equippedItem == nullptr) return;
+
+	ItemType itemType = equippedItem->GetItemData()->GetItemType();
+
+	if (itemType == ItemType::EQUIPPABLE)
+	{
+
+	}
+	else if (itemType == ItemType::PICKUP)
+	{
+		UsePickup(static_cast<PickupItemData*>(equippedItem->GetItemData()));
+	}
+}
+
+/**
+* Function used as a callback for when the invisibility pickup runs out
+*/
+void PlayerCharacter::InvisibilityCallback()
+{
+	Debug::Log("invisCB");
+	ToggleVisibility(true);
+}
+
+/**
+* Function used to time how long a pickup has been active and call the appropriate callback when it runs out
+*/
+void PlayerCharacter::PickupTimer(float deltaTime)
+{
+	if (!pickupActive) return;
+
+	pickupTimer += deltaTime;
+
+	if (pickupTimer >= pickupActiveTime)
+	{
+		pickupActive = false;
+		pickupTimerCallback();
+	}
+}
+/**
+ * Function used to toggle the visibility of the characters sprites.
+ * 
+ * \param isVisible - Whether or not the character should be visible
+ */
+void PlayerCharacter::ToggleVisibility(bool isVisible)
+{
+	visible = isVisible;
+	spriteComponentBody->SetShouldDraw(visible);
+	spriteComponentLegs->SetShouldDraw(visible);
+	spriteComponentShadow->SetShouldDraw(visible);
 }

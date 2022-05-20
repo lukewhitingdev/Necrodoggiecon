@@ -195,6 +195,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\CCharacter.cpp" />
     <ClCompile Include="Game\CDroppedItem.cpp" />
     <ClCompile Include="Game\CEquippedItem.cpp" />
+    <ClCompile Include="Game\CPickupItem.cpp" />
     <ClCompile Include="Game\CPlayer.cpp" />
     <ClCompile Include="Game\CPlayerController.cpp" />
     <ClCompile Include="Game\CursorEntity.cpp" />
@@ -221,11 +222,14 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClInclude Include="Game\CCharacter.h" />
     <ClInclude Include="Game\CDroppedItem.h" />
     <ClInclude Include="Game\CEquippedItem.h" />
+    <ClInclude Include="Game\CPickupItem.h" />
     <ClInclude Include="Game\CPlayer.h" />
     <ClInclude Include="Game\CPlayerController.h" />
     <ClInclude Include="Game\CursorEntity.h" />
+    <ClInclude Include="Game\EquippableItemData.h" />
     <ClInclude Include="Game\ItemData.h" />
     <ClInclude Include="Game\ItemDatabase.h" />
+    <ClInclude Include="Game\PickupItemData.h" />
     <ClInclude Include="Game\PlayerCharacter.h" />
     <ClInclude Include="Game\testClass.h" />
     <ClInclude Include="Game\PlayerController.h" />

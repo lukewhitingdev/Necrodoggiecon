@@ -19,7 +19,6 @@ protected:
 	int GetItemID(){ return itemID; }
 
 	CEntity* GetOwner() { return itemOwner; }
-	ItemData* GetItemData() { return itemData; }
 public:
 	CEquippedItem();
 	virtual ~CEquippedItem();
@@ -31,5 +30,6 @@ public:
 	virtual void Equip();
 	virtual void Unequip();
 	virtual CDroppedItem* Drop();
+	ItemData* GetItemData() { return itemData; }
 };
 

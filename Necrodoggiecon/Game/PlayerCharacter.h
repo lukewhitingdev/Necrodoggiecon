@@ -7,6 +7,7 @@
 
 class CDroppedItem;
 class CEquippedItem;
+struct PickupItemData;
 
 class PlayerCharacter : public CCharacter, public IInputable
 {
@@ -22,6 +23,16 @@ protected:
 
 	XMFLOAT2 movementVec = { 0,0 };
 	const float walkAnimationSpeed = 1.3f;
+
+	float pickupTimer;
+	bool pickupActive;
+	float pickupActiveTime;
+	bool visible;
+	std::function<void()> pickupTimerCallback;
+	void InvisibilityCallback();
+	void PickupTimer(float deltaTime);
+
+	void ToggleVisibility(bool isVisible);
 public:
 	PlayerCharacter();
 
@@ -30,6 +41,8 @@ public:
 	void PressedInteract() override;
 	void PressedDrop() override;
 	void Attack() override;
+	void PressedUse() override;
+
 	virtual void Update(float deltaTime) override;
 
 	CDroppedItem* droppedItem = nullptr;
@@ -38,5 +51,9 @@ public:
 	Weapon* weapon = nullptr;
 	class CCameraComponent* camera = nullptr;
 	CAudioEmitterComponent* loadNoise;
+
+	void UsePickup(PickupItemData* itemToPickup);
+	bool GetVisible() { return visible; }
+
 };
 
