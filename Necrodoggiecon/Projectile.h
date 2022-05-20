@@ -18,7 +18,7 @@ public:
 	Projectile();
 	~Projectile();
 
-	void StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type);
+	void StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type, float dam);
 	void DidItHit();
 	virtual void Update(float deltaTime) override;
 
@@ -27,6 +27,7 @@ private:
 	class CSpriteComponent* ProjectileSprite = nullptr;
 	float Speed;
 	float Lifetime;
+	float damage;
 	Vector3 Direction;
 	Vector3 Position;
 	Vector3 initialPosition;
@@ -35,5 +36,6 @@ private:
 	PlayerCharacter* GetClosestPlayer(Vector3 actorPos);
 
 	USERTYPE2 userType;
+	bool hasHit = false;
 };
 

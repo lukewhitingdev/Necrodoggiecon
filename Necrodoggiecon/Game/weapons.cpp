@@ -80,20 +80,19 @@ void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 
 	if (userType == USERTYPE::AI)
 	{
-		CEntity* target = GetClosestPlayer(damagePos);
+		PlayerCharacter* target = GetClosestPlayer(damagePos);
 		if (target != nullptr)
 		{
-			playersController[0]->Unpossess();
-			Engine::DestroyEntity(target);
+			target->ApplyDamage(damage);
 		}
 			
 	}
 	else if (userType == USERTYPE::PLAYER)
 	{
-		CEntity* target = GetClosestEnemy(damagePos);
+		CAIController* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
 		{
-			Engine::DestroyEntity(target);
+			target->ApplyDamage(damage);
 		}
 	}
 }
@@ -104,7 +103,7 @@ void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
 	float speed = attack_speed * 5;
 	float life = range;
 	Projectile* Projectile1 = Engine::CreateEntity<Projectile>();
-	Projectile1->StartUp(attackDir, actorPos, speed, life, (int)userType);
+	Projectile1->StartUp(attackDir, actorPos, speed, life, (int)userType, damage);
 }
 
 
@@ -112,7 +111,7 @@ void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
 
 
 //Gets closest enemy within attack range
-CEntity* Weapon::GetClosestEnemy(Vector3 actorPos)
+CAIController* Weapon::GetClosestEnemy(Vector3 actorPos)
 {
 	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
 
@@ -140,7 +139,7 @@ CEntity* Weapon::GetClosestEnemy(Vector3 actorPos)
 	return closestEnemy;
 }
 
-CEntity* Weapon::GetClosestPlayer(Vector3 actorPos)
+PlayerCharacter* Weapon::GetClosestPlayer(Vector3 actorPos)
 {
 	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
 

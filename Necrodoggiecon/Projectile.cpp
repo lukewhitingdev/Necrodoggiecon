@@ -18,13 +18,11 @@ Projectile::~Projectile()
 
 void Projectile::Update(float deltaTime)
 {
-	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime)
-	{
-		DidItHit();
-		Position += Direction * Speed;
-		ProjectileSprite->SetPosition(Position);
-	}
-	else
+	DidItHit();
+	Position += Direction * Speed;
+	ProjectileSprite->SetPosition(Position);
+
+	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) > Lifetime || hasHit == true)
 	{
 		Engine::DestroyEntity(this);
 	}
@@ -38,18 +36,24 @@ void Projectile::DidItHit()
 	{
 		PlayerCharacter* target = GetClosestPlayer(damagePos);
 		if (target != nullptr)
-			target->ApplyDamage(1.0f, GetClosestEnemy(damagePos));
+		{
+			target->ApplyDamage(1.0f);
+			hasHit = true;
+		}
 	}
 	else if (userType == USERTYPE2::PLAYER)
 	{
 		CAIController* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
-			target->ApplyDamage(1.0f, GetClosestPlayer(damagePos));
+		{
+			target->ApplyDamage(1.0f);
+			hasHit = true;
+		}
 	}
 
 }
 
-void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type)
+void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type, float dam)
 {
 	Direction = dir;
 	ProjectileSprite->SetPosition(pos);
@@ -57,6 +61,7 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, 
 	Speed = speed;
 	Lifetime = lifetime;
 	initialPosition = pos;
+	damage = dam;
 
 	userType = (USERTYPE2)type;
 

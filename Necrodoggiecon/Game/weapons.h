@@ -48,8 +48,8 @@ private:
 	void HandleMelee(Vector3 actorPos, Vector3 normAttackDir);
 	void HandleRanged(Vector3 actorPos, Vector3 attackDir);
 
-	CEntity* GetClosestEnemy(Vector3 actorPos);
-	CEntity* GetClosestPlayer(Vector3 actorPos);
+	CAIController* GetClosestEnemy(Vector3 actorPos);
+	PlayerCharacter* GetClosestPlayer(Vector3 actorPos);
 
 	std::string type;
 	float damage;

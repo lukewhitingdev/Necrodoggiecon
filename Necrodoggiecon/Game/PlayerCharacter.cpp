@@ -3,6 +3,7 @@
 #include "CEquippedItem.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
 #include "Cerberus\Core\Components\CCameraComponent.h"
+#include "Necrodoggiecon/Game/PlayerController.h"
 
 PlayerCharacter::PlayerCharacter()
 {
@@ -106,6 +107,17 @@ void PlayerCharacter::Update(float deltaTime)
 	colComponent->SetPosition(GetPosition());
 
 	movementVec = {0,0};
+}
+
+void PlayerCharacter::ApplyDamage(float damage)
+{
+	SetHealth(GetHealth() - damage);
+	if (GetHealth() <= 0.0f)
+	{
+		playersController[0]->Unpossess();
+		Engine::DestroyEntity(this);
+	}
+		
 }
 
 void PlayerCharacter::LookAt(Vector3 pos)
