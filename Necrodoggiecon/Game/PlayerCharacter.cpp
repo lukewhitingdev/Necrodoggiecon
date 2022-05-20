@@ -44,7 +44,8 @@ PlayerCharacter::PlayerCharacter()
 
 	weaponSprite = AddComponent<CSpriteComponent>();
 	UpdateWeaponSprite();
-	weaponSprite->SetPosition(Vector3(spriteComponent->GetSpriteSize().x / 3, 0, 0));
+	weaponSprite->SetPosition(Vector3(spriteComponentBody->GetSpriteSize().y / 2, -int(spriteComponentBody->GetSpriteSize().x - 40), 0));
+	weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
 }
 
 void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)
