@@ -1,0 +1,14 @@
+{
+  "TestDialogue": {
+    "ListOfDialogue": [
+      {
+        "Name": "SpeakersName",
+        "Dialogue": "This system will contain the players input. This input will then be passed down to the currently attached character. This will allow us to have multiple characters with setting up input on each of them, as well as this, it will make it so that we can swap between characters mid-level easily."
+      },
+      {
+        "Name": "Speaker2sName",
+        "Dialogue": "This system will contain all functionality for a character such as movement and attacking. This class can be used as the root for both player characters and enemy characters. This class will contain the characters health, the weapon it has equipped as well as all death and taking damage functionality."
+      }
+    ]
+  }
+}

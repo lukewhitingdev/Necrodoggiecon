@@ -17,6 +17,7 @@
 #include "Necrodoggiecon/Game/AI/AlarmEnemy.h"
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
+#include <Necrodoggiecon/Game/DialogueHandler.h>
 
 /*
 
