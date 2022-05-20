@@ -44,8 +44,8 @@ DialogueUI::DialogueUI()
 		textRenderComponents.push_back(trc);
 	}
 
-	for (CComponent* e : components)
-		e->ui = true;
+	for (CComponent* e : GetAllComponents())
+		e->SetIsUI(true);
 }
 /**
 * Function to set the passed in TextRenderComponent to the correct position using the text that it is displaying
@@ -245,7 +245,7 @@ void DialogueUI::Advance()
  */
 void DialogueUI::ToggleDrawing(bool shouldDraw)
 {
-	for (CComponent* e : components)
-		e->shouldDraw = shouldDraw;
+	for (CComponent* e : GetAllComponents())
+		e->SetShouldDraw(shouldDraw);
 }
 
