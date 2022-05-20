@@ -24,6 +24,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="weaponUI.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Projectile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CWorld_Game.h" />
@@ -50,6 +51,7 @@
     <ClInclude Include="Game\weapons.h" />
     <ClInclude Include="weaponUI.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Projectile.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />
