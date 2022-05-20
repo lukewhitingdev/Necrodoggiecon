@@ -8,7 +8,6 @@
  *********************************************************************/
 
 #include "Cerberus/Core/AI/CAIController.h"
-#include "Necrodoggiecon/Game/weapons.h"
 
 class GruntEnemy :
     public CAIController
@@ -21,6 +20,5 @@ public:
 
 private:
     std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
-    Weapon* weapon = nullptr;
 };
 
