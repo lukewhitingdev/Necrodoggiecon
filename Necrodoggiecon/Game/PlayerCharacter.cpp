@@ -95,7 +95,7 @@ void PlayerCharacter::Update(float deltaTime)
 	Vector3 mousePercent = mousePos / Vector3(Engine::windowWidth, Engine::windowHeight, 1);
 	mousePercent.z = 0;
 
-	camera->SetPosition(mousePercent * 100 + GetPosition());
+	camera->SetPosition(mousePercent * cameraMovementScalar + GetPosition());
 
 	if (movementVec.x == 0 && movementVec.y == 0 && spriteComponentBody->GetPlaying())
 	{
@@ -108,8 +108,7 @@ void PlayerCharacter::Update(float deltaTime)
 		spriteComponentLegs->SetPlaying(true, false);
 	}
 
-	XMFLOAT3 screenVec = XMFLOAT3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, Inputs::InputManager::mousePos.z);
-	screenVec = Math::FromScreenToWorld(screenVec);
+	XMFLOAT3 screenVec = Math::FromScreenToWorld(mousePos.ToXMFLOAT3());
 
 	LookAt(Vector3(screenVec.x, screenVec.y, screenVec.z));
 
@@ -132,5 +131,7 @@ void PlayerCharacter::LookAt(Vector3 pos)
 	float dot = up.Dot(dir);
 	float det = up.x * dir.y - up.y * dir.x;
 
-	SetRotation(atan2f(det, dot) + 90 * 0.0174533);
+	const float degToRad = 0.0174533f;
+
+	SetRotation(atan2f(det, dot) + 90 * degToRad);
 }

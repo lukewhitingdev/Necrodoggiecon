@@ -22,6 +22,8 @@ protected:
 
 	XMFLOAT2 movementVec = { 0,0 };
 	const float walkAnimationSpeed = 1.3f;
+
+	const float cameraMovementScalar = 100.0f;
 public:
 	PlayerCharacter();
 
