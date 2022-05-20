@@ -43,8 +43,8 @@ void CWorld_Game::SetupWorld()
 	Debug::Log("Player Start Position: [%f | %f]", PlayerStart.x, PlayerStart.y);
 	character1->SetPosition(PlayerStart);
 	controller->Possess(character1);
-	character1->SetShouldMove(true);
-	character1->colComponent->SetCollider(64.0f, 64.0f);
+
+	//Please stop configuring stuff in here instead of in the class constructor - Lets not spread configuration to many different places in the project!
 
 	std::string fileName = "Resources/Levels/Level_" + std::to_string(mapSlot);
 	fileName += ".json";
@@ -54,7 +54,6 @@ void CWorld_Game::SetupWorld()
 	json storedFile;
 
 	file >> storedFile;
-	
 
 	int enemyCount = storedFile["EnemyCount"];
 
@@ -116,5 +115,4 @@ void CWorld_Game::SetupWorld()
 		enemy->SetCurrentState(PatrolState::getInstance());
 		patrolNodes.clear();
 	}
-
 }

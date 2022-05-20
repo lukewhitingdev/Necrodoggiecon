@@ -51,6 +51,7 @@ private:
 	CEntity* GetClosestEnemy(Vector3 actorPos);
 	CEntity* GetClosestPlayer(Vector3 actorPos);
 
+	std::string projectile_name;
 	std::string type;
 	float damage;
 	float range;

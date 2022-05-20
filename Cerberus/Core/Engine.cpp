@@ -27,6 +27,7 @@
 #include "Cerberus/Core/Components/CCameraComponent.h"
 #include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
 #include "Cerberus\Core\Utility\CWorldManager.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
 using namespace Inputs;
 #include <chrono>
 
@@ -831,8 +832,7 @@ void Engine::Stop()
 
 void Update(float deltaTime)
 {
-	size_t size = EntityManager::GetEntitiesVector()->size();
-	for (size_t i = 0; i < size; i++)
+	for (size_t i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
 	{
 		CEntity* e = EntityManager::GetEntitiesVector()->at(i);
 		if (!e->GetShouldUpdate())
@@ -847,10 +847,11 @@ void Update(float deltaTime)
 		}
 
 		e->Update(deltaTime);
+	}
 
-		if (size != EntityManager::GetEntitiesVector()->size())
-			continue;
-
+	for (size_t i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
+	{
+		CEntity* e = EntityManager::GetEntitiesVector()->at(i);
 		if (e->GetShouldMove())
 		{
 			for (size_t j = 0; j < EntityManager::GetEntitiesVector()->size(); j++)
@@ -868,11 +869,11 @@ void Update(float deltaTime)
 				}
 			}
 		}
-
-		size = EntityManager::GetEntitiesVector()->size();
 	}
 
 	AudioController::Update(Vector3(0, 0, 0), deltaTime);
+	
+	
 }
 
 //--------------------------------------------------------------------------------------

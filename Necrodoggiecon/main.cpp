@@ -17,6 +17,8 @@
 #include "Necrodoggiecon/Game/AI/AlarmEnemy.h"
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
+#include "Necrodoggiecon/MainMenu.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
 #include <Necrodoggiecon/Game/DialogueHandler.h>
 
 /*
@@ -90,6 +92,8 @@ int Start()
 
 	CWorldManager::LoadWorld(new CWorld_Game(0));
 
+	//CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
+
 	
 
 	CEntity* t = Engine::CreateEntity<weaponUI>();
@@ -107,6 +111,15 @@ int Start()
 	Engine::CreateEntity<MeleeEnemy>();
 	Engine::CreateEntity<MeleeEnemy>();
 	Engine::CreateEntity<AlarmEnemy>();*/
+	//controller->charOne = character1;
+
+//	character1->SetPosition(Vector3(0, 0, 0));
+	//controller->Possess(character1);
+	//character1->shouldMove = true;
+	//character1->colComponent->SetCollider(128.0f, 128.0f);
+
+
+	std::vector<PlayerCharacter*> test = Engine::GetEntityOfType<PlayerCharacter>();
 
 	return 0;
 }
