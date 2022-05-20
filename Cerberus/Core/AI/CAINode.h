@@ -6,8 +6,10 @@
  * \author Nasser Ksous
  * \date   May 2022
  *********************************************************************/
-#include "Cerberus\Core\Environment/CWorld.h"
-
+class CTile;
+#include "Cerberus/Core/Utility/Vector3.h"
+#include <iostream>
+#include <vector>
 /**
  * Waypoint node struct containing the waypoint, parent waypoint, neighbours and the costs.
  */
