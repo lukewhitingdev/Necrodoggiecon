@@ -7,14 +7,17 @@
 #include <Necrodoggiecon\Game\PlayerController.h>
 #include <Necrodoggiecon\Game\PlayerCharacter.h>
 #include <Necrodoggiecon\Game\ItemDatabase.h>
-#include <Necrodoggiecon\Game\AI\CAIController.h>
+#include <Cerberus/Core/AI/CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
 #include <Cerberus/Core/Utility/CWorldManager.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
+#include "Necrodoggiecon/Game/AI/MeleeEnemy.h"
+#include "Necrodoggiecon/Game/AI/DogEnemy.h"
+#include "Necrodoggiecon/Game/AI/AlarmEnemy.h"
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
-#include <Game/PickupItemData.h>
+#include <Necrodoggiecon/Game/DialogueHandler.h>
 
 /*
 
@@ -103,20 +106,12 @@ int Start()
 	ItemDatabase::AddToMap(new PickupItemData("testItem", "Resources\\birb.dds", PickupType::INVISIBILITY_SCROLL));
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
-	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	//character1->droppedItem = droppedItem;
 
-	//controller->charOne = character1;
-
-//	character1->SetPosition(Vector3(0, 0, 0));
-	//controller->Possess(character1);
-	//character1->shouldMove = true;
-	//character1->colComponent->SetCollider(128.0f, 128.0f);
-
-	Engine::CreateEntity<CAIController>();
-
-	std::vector<PlayerCharacter*> test = Engine::GetEntityOfType<PlayerCharacter>();
-	test[0]->droppedItem = droppedItem;
+	/*Engine::CreateEntity<MeleeEnemy>();
+	Engine::CreateEntity<MeleeEnemy>();
+	Engine::CreateEntity<MeleeEnemy>();
+	Engine::CreateEntity<MeleeEnemy>();
+	Engine::CreateEntity<AlarmEnemy>();*/
 
 	return 0;
 }

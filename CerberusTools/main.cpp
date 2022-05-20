@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Cerberus\Core\Engine.h"
 #include <Cerberus\Core\Environment\CWorld.h>
 #include "CerberusTools/CursorEntity.h"
@@ -64,12 +65,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 // Called once at the start of the application run.
 int Start()
-{
-
-	
-	
-
-	// Free Camera not locked to player.
+{// Free Camera not locked to player.
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
 	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>();
 	freeCameraComponent->Initialize();

@@ -370,6 +370,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\AI\CAICharacter.h" />
+    <ClInclude Include="Core\AI\CAIController.h" />
+    <ClInclude Include="Core\AI\CAINode.h" />
+    <ClInclude Include="Core\AI\Pathfinding.h" />
+    <ClInclude Include="Core\AI\State.h" />
     <ClInclude Include="Core\Utility\CameraManager\CameraManager.h" />
     <ClInclude Include="Core\Components\CCameraComponent.h" />
     <ClInclude Include="Tools\CT_EditorEntity.h" />
@@ -431,6 +436,10 @@
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\AI\CAICharacter.cpp" />
+    <ClCompile Include="Core\AI\CAIController.cpp" />
+    <ClCompile Include="Core\AI\Pathfinding.cpp" />
+    <ClCompile Include="Core\AI\State.cpp" />
     <ClCompile Include="Core\Utility\CameraManager\CameraManager.cpp" />
     <ClCompile Include="Core\Components\CCameraComponent.cpp" />
     <ClCompile Include="Tools\CT_EditorEntity.cpp" />
