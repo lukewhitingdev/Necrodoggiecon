@@ -14,8 +14,7 @@ protected:
 		UNREFERENCED_PARAMETER(damageAmount);
 	};
 
-	void AddVerticalMovement(int dir, float speed, float deltaTime);
-	void AddHorizontalMovement(int dir, float speed, float deltaTime);
+	void AddMovement(XMFLOAT2 vel, float deltaTime);
 public:
 	void ApplyDamage(float damageAmount, CEntity* damageCauser) { OnTakeDamage(damageAmount, damageCauser); }
 

@@ -17,6 +17,8 @@
 #include "Necrodoggiecon/Game/AI/AlarmEnemy.h"
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
+#include "Necrodoggiecon/MainMenu.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
 #include <Necrodoggiecon/Game/DialogueHandler.h>
 
 /*
@@ -92,6 +94,8 @@ int Start()
 	CameraManager::AddCamera(freeCameraComponent);
 
 	CWorldManager::LoadWorld(new CWorld_Game(0));
+
+	//CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
 
 	
 

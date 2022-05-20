@@ -23,6 +23,7 @@
     <ClCompile Include="Game\weapons.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="weaponUI.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Game\DialogueUI.cpp" />
     <ClCompile Include="Game\DialogueHandler.cpp" />
   </ItemGroup>
@@ -118,6 +119,8 @@
     <ClInclude Include="Game\TestUI.h" />
     <ClInclude Include="Game\weapons.h" />
     <ClInclude Include="weaponUI.h" />
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="Game\DialogueUI.h" />
     <ClInclude Include="Game\DialogueHandler.h" />
     <ClInclude Include="Game\Dialogue.h" />

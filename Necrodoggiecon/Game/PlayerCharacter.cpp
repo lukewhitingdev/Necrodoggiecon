@@ -3,9 +3,12 @@
 #include "CEquippedItem.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
 #include "Cerberus\Core\Components\CCameraComponent.h"
+#include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 
 PlayerCharacter::PlayerCharacter()
 {
+	SetShouldMove(true);
+
 	spriteComponentBody = AddComponent<CAnimationSpriteComponent>();
 	spriteComponentBody->LoadTextureWIC("Resources/Characters/JonathanWicke-sheet.png");
 	spriteComponentBody->SetSpriteSize(XMUINT2(64, 64));
@@ -31,6 +34,7 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentShadow->SetUseTranslucency(true);
 
 	colComponent = new CollisionComponent("Character 1", this);
+	colComponent->SetCollider(64.0f, 64.0f);
 
 	loadNoise = AddComponent<CAudioEmitterComponent>();
 	loadNoise->Load("Resources/TestShortAudio.wav");
@@ -40,18 +44,22 @@ PlayerCharacter::PlayerCharacter()
 	weaponComponent = AddComponent<Weapon>();
 	weaponComponent->SetWeapon("Magic_Missile");
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
+
+	camera = AddComponent<CCameraComponent>();
+	camera->Initialize();
+	camera->SetAttachedToParent(false);
+	CameraManager::AddCamera(camera);
+	CameraManager::SetRenderingCamera(camera);
 }
 
 void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)
 {
 	movementVec.x += dir;
-	AddHorizontalMovement(dir, speed, deltaTime);
 }
 
 void PlayerCharacter::PressedVertical(int dir, float deltaTime)
 {
 	movementVec.y += dir;
-	AddVerticalMovement(dir, speed, deltaTime);
 }
 
 void PlayerCharacter::PressedInteract()
@@ -87,25 +95,51 @@ void PlayerCharacter::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
 
+	ResolveMovement(deltaTime);
+
+	Vector3 mousePos = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, 1);
+	
+	AimAtMouse(mousePos);
+
+	colComponent->SetPosition(GetPosition());
+
+	movementVec = { 0,0 };
+	movementVel = XMFLOAT2(movementVel.x * (1 - deltaTime * walkDrag), movementVel.y * (1 - deltaTime * walkDrag));
+}
+
+void PlayerCharacter::ResolveMovement(const float& deltaTime)
+{
+	if (movementVec.Magnitude() > 0.01f)
+	{
+		movementVec = movementVec.Normalize();
+		movementVel = XMFLOAT2(movementVec.x * walkSpeed * deltaTime * 10 + movementVel.x, movementVec.y * walkSpeed * deltaTime * 10 + movementVel.y);
+	}
+
+	AddMovement(movementVel, deltaTime);
+
 	if (movementVec.x == 0 && movementVec.y == 0 && spriteComponentBody->GetPlaying())
 	{
 		spriteComponentBody->SetPlaying(false, true);
 		spriteComponentLegs->SetPlaying(false, true);
 	}
-	else if(!spriteComponentBody->GetPlaying())
+	else if (!spriteComponentBody->GetPlaying())
 	{
 		spriteComponentBody->SetPlaying(true, false);
 		spriteComponentLegs->SetPlaying(true, false);
 	}
+}
 
-	XMFLOAT3 screenVec = XMFLOAT3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, Inputs::InputManager::mousePos.z);
-	screenVec = Math::FromScreenToWorld(screenVec);
+void PlayerCharacter::AimAtMouse(const Vector3& mousePos)
+{
+	Vector3 mousePercent = mousePos / Vector3(Engine::windowWidth, Engine::windowHeight, 1);
+	mousePercent.z = 0;
+
+	camera->SetPosition(mousePercent * cameraMovementScalar + GetPosition());
+	
+	XMFLOAT3 mousePosFloat3 = XMFLOAT3(mousePos.x, mousePos.y, mousePos.z);
+	XMFLOAT3 screenVec = Math::FromScreenToWorld(mousePosFloat3);
 
 	LookAt(Vector3(screenVec.x, screenVec.y, screenVec.z));
-
-	colComponent->SetPosition(GetPosition());
-
-	movementVec = {0,0};
 }
 
 void PlayerCharacter::LookAt(Vector3 pos)
@@ -122,5 +156,7 @@ void PlayerCharacter::LookAt(Vector3 pos)
 	float dot = up.Dot(dir);
 	float det = up.x * dir.y - up.y * dir.x;
 
-	SetRotation(atan2f(det, dot) + 90 * 0.0174533);
+	const float degToRad = 0.0174533f;
+
+	SetRotation(atan2f(det, dot) + 90 * degToRad);
 }
