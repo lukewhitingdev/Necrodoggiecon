@@ -148,6 +148,11 @@ CEntity* Weapon::GetClosestEnemy(Vector3 actorPos, Vector3 damagePos) // BB
 		if (actorPos.DistanceTo(enemy->GetPosition()) > range && damagePos.DistanceTo(enemy->GetPosition()) > range)
 			continue;
 
+		if (damagePos.DistanceTo(enemy->GetPosition()) > range)
+			continue;
+
+		Debug::Log("Enemy is in range");
+
 		if (closestEnemy == nullptr)
 			closestEnemy = enemy;
 		else

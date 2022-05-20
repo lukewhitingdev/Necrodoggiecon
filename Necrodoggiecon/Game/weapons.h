@@ -44,6 +44,7 @@ public:
 	float GetAttack_Speed() { return attack_speed; };
 	float GetAmmo() { return ammo; };
 	bool GetUnique() { return unique; };
+	bool GetCanFire() { return canFire; };
 	USERTYPE GetUserType() { return userType; };
 	std::string GetName() { return name; }
 	std::string GetIconPath() { return iconPath; };

@@ -7,6 +7,7 @@
 #include "weapons.h"
 #include <Necrodoggiecon/Weapons/Melee/Dagger.h>
 #include <Necrodoggiecon/Weapons/Melee/Rapier.h>
+#include <Necrodoggiecon/Weapons/Melee/Longsword.h>
 
 class CDroppedItem;
 class CEquippedItem;

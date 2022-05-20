@@ -48,7 +48,7 @@ void PlayerCharacter::PressedVertical(int dir, float deltaTime)
 
 void PlayerCharacter::PressedInteract()
 {
-	weaponComponent->SetWeapon(new Dagger());
+	weaponComponent->SetWeapon(new Longsword());
 
 	if (droppedItem == nullptr) return;
 
