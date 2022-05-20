@@ -13,7 +13,7 @@ Projectile::Projectile()
 {
 	ProjectileSprite = AddComponent<CSpriteComponent>();
 	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
-	ProjectileSprite->SetSpriteSize(XMUINT2(96, 96));
+	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
 }
 
 
