@@ -9,7 +9,7 @@ public:
 
     CWidget* GetParent() { return parentWidget; }
    
-    const std::vector<CWidget*> GetChildren() { return ChildWidgets; }
+    const std::vector<CWidget*> GetChildren() { return childWidgets; }
 
 
     virtual void SetWidgetTransform(Vector2 Position, Vector2 Anchor, int ZOrder);
@@ -23,7 +23,7 @@ public:
 private: 
     CWidget* parentWidget;
 
-    std::vector<CWidget*> ChildWidgets;
+    std::vector<CWidget*> childWidgets;
 
 };
 

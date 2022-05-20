@@ -26,6 +26,8 @@ public:
 
     class CWidget_Text* CreateText(Vector2 Position, Vector2 Anchor, int ZOrder, std::string& Text);
 
+   
+
     virtual void SetVisibility(bool IsVisible);
 
 

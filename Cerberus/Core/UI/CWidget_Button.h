@@ -33,9 +33,29 @@ public:
     void IsButtonFocused(Vector2 mPos);
     void ButtonPressed(bool buttonPressed);
 
+    /**
+     * Binds a function to this button event.
+     * 
+     * \param functionToBind The function to be bound, to bind a function use std::bing(&ClassName::FunctionName, ObjectReference)
+     */
     void Bind_OnButtonPressed(std::function<void()> functionToBind) { ButtonPressedBind = functionToBind; }
+    /**
+     * Binds a function to this button event.
+     *
+     * \param functionToBind The function to be bound, to bind a function use std::bing(&ClassName::FunctionName, ObjectReference)
+     */
     void Bind_OnButtonReleased(std::function<void()> functionToBind) { ButtonReleasedBind = functionToBind; }
+    /**
+     * Binds a function to this button event.
+     *
+     * \param functionToBind The function to be bound, to bind a function use std::bing(&ClassName::FunctionName, ObjectReference)
+     */
     void Bind_HoverStart(std::function<void()> functionToBind) { HoverStartBind = functionToBind; }
+    /**
+     * Binds a function to this button event.
+     *
+     * \param functionToBind The function to be bound, to bind a function use std::bing(&ClassName::FunctionName, ObjectReference)
+     */
     void Bind_HoverEnd(std::function<void()> functionToBind) { ButtonReleasedBind = functionToBind; }
 
     class CSpriteComponent* GetSprite() { return sprite; }
@@ -46,7 +66,7 @@ public:
 
 private: 
 
-    Vector2 SpriteSize;
+    Vector2 spriteSize;
 
     std::function<void()> HoverStartBind;
     std::function<void()> HoverEndBind;
@@ -58,7 +78,7 @@ private:
     int buttonSlot;
     bool hasFocus;
    
-    class CWidget_Canvas* OwningCanvas;
+    class CWidget_Canvas* owningCanvas;
 
     class CSpriteComponent* sprite = nullptr;
     class CTextRenderComponent* textRenderer = nullptr;

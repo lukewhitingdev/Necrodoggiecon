@@ -8,9 +8,9 @@ class CUIManager
 	static std::vector<std::string> idList;
 public:
 
-	
 
-	static void AddCanvas(class CWidget_Canvas* Canvas, std::string ID);
+
+	static class CWidget_Canvas* AddCanvas(class CWidget_Canvas* Canvas, std::string ID);
 
 	static class CWidget_Canvas* GetCanvas(std::string ID);
 

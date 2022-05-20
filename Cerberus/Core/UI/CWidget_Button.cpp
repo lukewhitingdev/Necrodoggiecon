@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   CWidget_Button.cpp
+ * \brief  Button Widget class
+ * 
+ * \author J019857i
+ * \date   May 2022
+ *********************************************************************/
 #include "Cerberus/Core/UI/CWidget_Button.h"
 #include "Cerberus/Core/Components/CSpriteComponent.h"
 #include "Cerberus/Core/Components/CTextRenderComponent.h"
@@ -61,19 +68,19 @@ void CWidget_Button::Update(float deltaTime)
 
 void CWidget_Button::OnButtonPressed()
 {
-	sprite->SetTextureOffset(DirectX::XMFLOAT2(0, SpriteSize.y * 1));
+	sprite->SetTextureOffset(DirectX::XMFLOAT2(0, spriteSize.y * 1));
 	if (ButtonPressedBind != nullptr) 	ButtonPressedBind();
 }
 
 void CWidget_Button::OnButtonReleased()
 {
-	sprite->SetTextureOffset(DirectX::XMFLOAT2(0, SpriteSize.y * 2));
+	sprite->SetTextureOffset(DirectX::XMFLOAT2(0, spriteSize.y * 2));
 	if (ButtonReleasedBind != nullptr) ButtonReleasedBind();
 }
 
 void CWidget_Button::OnButtonHoverStart()
 {
-	sprite->SetTextureOffset(DirectX::XMFLOAT2(0, SpriteSize.y * 2));
+	sprite->SetTextureOffset(DirectX::XMFLOAT2(0, spriteSize.y * 2));
 	if (HoverStartBind != nullptr) HoverStartBind();
 	
 }

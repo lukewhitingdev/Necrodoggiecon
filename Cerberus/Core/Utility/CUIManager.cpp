@@ -8,10 +8,11 @@ std::vector<std::string> CUIManager::idList;
 
 
 
-void CUIManager::AddCanvas(CWidget_Canvas* Canvas, std::string ID)
+CWidget_Canvas* CUIManager::AddCanvas(CWidget_Canvas* Canvas, std::string ID)
 {
 	idList.push_back(ID);
 	activeCanvases.insert(std::pair<std::string, CWidget_Canvas*>(ID, Canvas));
+	return Canvas;
 }
 
 CWidget_Canvas* CUIManager::GetCanvas(std::string ID)
