@@ -41,15 +41,6 @@ void PlayerController::HandleInput(float deltaTime)
 
 	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::Mouse::LButton))
 		inputable->Attack();
-
-	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
-	{
-		DialogueHandler::AdvanceDialogue();
-	}
-	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::H))
-	{
-		DialogueHandler::LoadDialogue("Resources/Dialogue.json", "TestDialogue");
-	}
 }
 
 void PlayerController::OnPossess()
