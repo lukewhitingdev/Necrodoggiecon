@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   CWidget_Button.cpp
+ * \brief  Button Widget class, provides all functionality for buttons and allows to functions to be bound to button events.
+ *
+ * \author Samuel Elliot Jackson
+ * \date   May 2022
+ *********************************************************************/
 #pragma once
 #include "Cerberus/Core/UI/CWidget.h"
 #include <functional>
@@ -10,17 +17,41 @@ public:
     CWidget_Button();
    
 
-    void SetSlot(int Slot) { buttonSlot = Slot; }
+   /**
+    * Sets the button text.
+    * 
+    * \param TextBody
+    */
     void SetText(std::string TextBody);
+    /**
+     * Sets the button size, does not currently affect text.
+     * 
+     * \param Size
+     */
     void SetButtonSize(Vector2 Size);
+    /**
+     * Sets the button texture.
+     * 
+     * \param filePath
+     */
     void SetTexture(std::string filePath);
-
+    
+    /**
+     * Sets the widget transform on screen. Overriden from CWidget.
+     * 
+     * \param Position Position on screen, relative to anchor
+     * \param Anchor Anchor position on screen
+     * \param ZOrder Z-Order
+     */
     virtual void SetWidgetTransform(Vector2 Position, Vector2 Anchor, int ZOrder);
     
 
     virtual void Update(float deltaTime) override;
 
-
+    /**
+     * On button Pressed event.
+     * 
+     */
     virtual void OnButtonPressed();
     virtual void OnButtonReleased();
 

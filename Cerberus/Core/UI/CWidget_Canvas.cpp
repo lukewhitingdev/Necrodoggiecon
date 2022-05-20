@@ -54,15 +54,7 @@ Vector2 CWidget_Canvas::GetMousePosition()
 	return Vector2(tempPos.x, tempPos.y);
 }
 
-void CWidget_Canvas::RecievedUIEvent(int EventID)
-{
-	switch (EventID)
-	{
-	case 0:
-		//Example
-		break;
-	}
-}
+
 
 CWidget_Button* CWidget_Canvas::CreateButton(Vector2 Position, Vector2 Anchor, std::string& ButtonName, int ZOrder)
 {

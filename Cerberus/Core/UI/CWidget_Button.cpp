@@ -1,10 +1,4 @@
-/*****************************************************************//**
- * \file   CWidget_Button.cpp
- * \brief  Button Widget class
- * 
- * \author J019857i
- * \date   May 2022
- *********************************************************************/
+
 #include "Cerberus/Core/UI/CWidget_Button.h"
 #include "Cerberus/Core/Components/CSpriteComponent.h"
 #include "Cerberus/Core/Components/CTextRenderComponent.h"
