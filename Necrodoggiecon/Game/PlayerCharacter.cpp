@@ -52,13 +52,11 @@ PlayerCharacter::PlayerCharacter()
 void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)
 {
 	movementVec.x += dir;
-	AddHorizontalMovement(dir, speed, deltaTime);
 }
 
 void PlayerCharacter::PressedVertical(int dir, float deltaTime)
 {
 	movementVec.y += dir;
-	AddVerticalMovement(dir, speed, deltaTime);
 }
 
 void PlayerCharacter::PressedInteract()
@@ -81,7 +79,6 @@ void PlayerCharacter::PressedDrop()
 
 void PlayerCharacter::Attack()
 {
-	
 	Vector3 attackDir = (Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z)) - GetPosition();
 
 	weaponComponent->OnFire(GetPosition(), attackDir);
@@ -90,6 +87,14 @@ void PlayerCharacter::Attack()
 void PlayerCharacter::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
+
+	if (movementVec.Magnitude() > 0.01f)
+	{
+		movementVec = movementVec.Normalize();
+		movementVel = XMFLOAT2(movementVec.x * walkSpeed * deltaTime * 10 + movementVel.x, movementVec.y * walkSpeed * deltaTime * 10 + movementVel.y);
+	}
+
+	AddMovement(movementVel, deltaTime);
 
 	Vector3 mousePos = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, 1);
 	Vector3 mousePercent = mousePos / Vector3(Engine::windowWidth, Engine::windowHeight, 1);
@@ -115,6 +120,8 @@ void PlayerCharacter::Update(float deltaTime)
 	colComponent->SetPosition(GetPosition());
 
 	movementVec = {0,0};
+
+	movementVel = XMFLOAT2(movementVel.x * (1 - deltaTime * walkDrag), movementVel.y * (1 - deltaTime * walkDrag));
 }
 
 void PlayerCharacter::LookAt(Vector3 pos)

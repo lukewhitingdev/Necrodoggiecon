@@ -8,16 +8,10 @@ CCharacter::~CCharacter()
 {
 }
 
-void CCharacter::AddVerticalMovement(int dir, float speed, float deltaTime)
+void CCharacter::AddMovement(XMFLOAT2 vel, float deltaTime)
 {
 	Vector3 pos = GetPosition();
-	pos.y += dir * (speed * deltaTime);
-	SetPosition(pos);
-}
-
-void CCharacter::AddHorizontalMovement(int dir, float speed, float deltaTime)
-{
-	Vector3 pos = GetPosition();
-	pos.x += dir * (speed * deltaTime);
+	pos.x += vel.x * deltaTime;
+	pos.y += vel.y * deltaTime;
 	SetPosition(pos);
 }

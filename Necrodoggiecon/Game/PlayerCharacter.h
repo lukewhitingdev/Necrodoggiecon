@@ -11,7 +11,8 @@ class CEquippedItem;
 class PlayerCharacter : public CCharacter, public IInputable
 {
 protected:
-	float speed = 200;
+	float walkSpeed = 300;
+	float walkDrag = 10;
 	float timeElapsed = 0;
 
 	void LookAt(Vector3 pos);
@@ -20,7 +21,8 @@ protected:
 	CAnimationSpriteComponent* spriteComponentLegs = nullptr;
 	CSpriteComponent* spriteComponentShadow = nullptr;
 
-	XMFLOAT2 movementVec = { 0,0 };
+	Vector2 movementVec = { 0,0 };
+	XMFLOAT2 movementVel = { 0,0 };
 	const float walkAnimationSpeed = 1.3f;
 
 	const float cameraMovementScalar = 100.0f;
