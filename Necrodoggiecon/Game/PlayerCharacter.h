@@ -29,10 +29,12 @@ public:
 	void Attack() override;
 	virtual void Update(float deltaTime) override;
 	void EquipWeapon(Weapon* weapon);
+	void UpdateWeaponSprite();
 
 	CDroppedItem* droppedItem = nullptr;
 	CEquippedItem* equippedItem = nullptr;
 	class CCameraComponent* camera = nullptr;
-	CAudioEmitterComponent* loadNoise;
+	CAudioEmitterComponent* loadNoise = nullptr;
+	CSpriteComponent* weaponSprite = nullptr;
 };
 
