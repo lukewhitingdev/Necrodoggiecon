@@ -9,6 +9,7 @@
 #include "Cerberus\Core\Utility\EventSystem\EventSystem.h"
 FMOD::System* AudioController::FMODSystem;
 std::vector<CEmitter*> AudioController::emitters;
+std::vector<CEmitter*> AudioController::ambientEmitters;
 
 /**
  * Initializes the audio system and FMOD.
@@ -186,6 +187,29 @@ void AudioController::Update(Vector3 listenerPos, float deltaTime)
 		emitter->audio->channel->setVolume(attentuation);
 	}
 
+	// Attenuate.
+	float maxRange = 1000;
+	for (CEmitter* emitter : ambientEmitters)
+	{
+
+		float distToEmitter = listenerPos.DistanceTo(emitter->position);
+
+		// Check we are in range of the emitter.
+		if (distToEmitter > emitter->range)
+			continue;
+
+		float attentuation = 1 - (distToEmitter / maxRange);
+
+		// Clamp because im bad at math.
+		if (attentuation < 0)
+		{
+			attentuation = 0;
+		}
+
+		// Attenuate.
+		emitter->audio->channel->setVolume(attentuation);
+	}
+
 
 	if ((result = FMODSystem->update()) != FMOD_OK)
 	{
@@ -223,19 +247,46 @@ void AudioController::AddEmitter(CEmitter* emitter)
 }
 
 /**
+ * Adds a emitter to the audio system.
+ * 
+ * \param emitter
+ * \param ambient
+ */
+void AudioController::AddEmitter(CEmitter* emitter, bool ambient)
+{
+	(ambient) ? emitters.emplace_back(emitter) : ambientEmitters.emplace_back(emitter);
+}
+
+/**
  * Removes a emitter from the audio system.
  * 
  * \param emitter
  */
 void AudioController::RemoveEmitter(CEmitter* emitter)
 {
+	bool found = false;
 	for (size_t i = 0; i < emitters.size(); i++)
 	{
 		CEmitter* emiter = emitters[i];
 		if(emiter == emitter)
 		{
 			emitters.erase(emitters.begin() + i);
+			found = true;
 			break;
+		}
+	}
+
+	if(!found)
+	{
+		for (size_t i = 0; i < ambientEmitters.size(); i++)
+		{
+			CEmitter* emiter = emitters[i];
+			if (emiter == emitter)
+			{
+				ambientEmitters.erase(ambientEmitters.begin() + i);
+				found = true;
+				break;
+			}
 		}
 	}
 

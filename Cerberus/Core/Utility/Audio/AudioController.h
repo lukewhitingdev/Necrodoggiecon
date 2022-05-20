@@ -29,10 +29,12 @@ public:
 
 	static std::vector<CEmitter*> GetAllEmittersWithinRange(Vector3 position);
 	static void AddEmitter(CEmitter* emitter);
+	static void AddEmitter(CEmitter* emitter, bool ambient);
 	static void RemoveEmitter(CEmitter* emitter);
 
 private:
 	static FMOD::System* FMODSystem;
 	static std::vector<CEmitter*> emitters;
+	static std::vector<CEmitter*> ambientEmitters;
 };
 

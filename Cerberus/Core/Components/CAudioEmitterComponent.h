@@ -11,6 +11,7 @@ public:
 	CAudioEmitterComponent();
 	~CAudioEmitterComponent();
 	void Load(std::string path);
+	void Load(std::string path, bool ambient);
 	void Play();
 	void Stop();
 	void SetRange(float range);

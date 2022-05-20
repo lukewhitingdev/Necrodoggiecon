@@ -24,7 +24,7 @@ CAudioEmitterComponent::~CAudioEmitterComponent()
 
 /**
  * Loads a audio to be used by the emitter.
- * 
+ *
  * \param path path to audio
  */
 void CAudioEmitterComponent::Load(std::string path)
@@ -33,6 +33,19 @@ void CAudioEmitterComponent::Load(std::string path)
 	emitter->audio->path = path;
 
 	AudioController::AddEmitter(emitter);
+}
+
+/**
+ * Loads a audio to be used by the emitter.
+ * 
+ * \param path path to audio
+ */
+void CAudioEmitterComponent::Load(std::string path, bool ambient)
+{
+	emitter->audio = AudioController::LoadAudio(path);
+	emitter->audio->path = path;
+
+	AudioController::AddEmitter(emitter, ambient);
 }
 
 /**
