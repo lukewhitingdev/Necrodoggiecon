@@ -7,6 +7,8 @@
 
 PlayerCharacter::PlayerCharacter()
 {
+	SetShouldMove(true);
+
 	spriteComponentBody = AddComponent<CAnimationSpriteComponent>();
 	spriteComponentBody->LoadTextureWIC("Resources/Characters/JonathanWicke-sheet.png");
 	spriteComponentBody->SetSpriteSize(XMUINT2(64, 64));
@@ -32,6 +34,7 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentShadow->SetUseTranslucency(true);
 
 	colComponent = new CollisionComponent("Character 1", this);
+	colComponent->SetCollider(64.0f, 64.0f);
 
 	loadNoise = AddComponent<CAudioEmitterComponent>();
 	loadNoise->Load("Resources/TestShortAudio.wav");
