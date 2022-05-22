@@ -186,6 +186,9 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Weapons\Ranged\Crossbow.cpp" />
+    <ClCompile Include="Weapons\RangeWeapon.cpp" />
+    <ClCompile Include="Weapons\MeleeWeapon.cpp" />
     <ClCompile Include="Weapons\Melee\Longsword.cpp" />
     <ClCompile Include="Weapons\Melee\Rapier.cpp" />
     <ClCompile Include="Weapons\Melee\Dagger.cpp" />
@@ -214,6 +217,9 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\WeaponPickup.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Weapons\Ranged\Crossbow.h" />
+    <ClInclude Include="Weapons\RangeWeapon.h" />
+    <ClInclude Include="Weapons\MeleeWeapon.h" />
     <ClInclude Include="Weapons\Melee\Longsword.h" />
     <ClInclude Include="Weapons\Melee\Rapier.h" />
     <ClInclude Include="Weapons\Melee\Dagger.h" />

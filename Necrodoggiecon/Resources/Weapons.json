@@ -23,7 +23,7 @@
     "IconPath": "Resources/weapons/Sword.png",
     "Type": "Melee",
     "Damage": 1.0,
-    "Range": 1.0,
+    "Range": 2.0,
     "Attack_Speed": 1.0,
     "Ammo": 0.0,
     "Unique": true,
@@ -36,7 +36,8 @@
     "Range": 25.0,
     "Attack_Speed": 0.8,
     "Ammo": 8.0,
-    "Unique": false
+    "Unique": false,
+    "Name":  "Crossbow"
   },
   "Throwing_Knives": {
     "IconPath": "Resources/weapons/ThrowingKnives.png",

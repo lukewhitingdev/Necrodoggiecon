@@ -7,9 +7,9 @@
  *********************************************************************/
 
 #pragma once
-#include <Necrodoggiecon\Game\weapons.h>
+#include <Necrodoggiecon/Weapons/MeleeWeapon.h>
 
-class Longsword : public Weapon
+class Longsword : public MeleeWeapon
 {
 public:
 	Longsword();

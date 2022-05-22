@@ -31,7 +31,7 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 		for (CAIController* enemy : enemies)
 		{
 		
-			if (actorPos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange() && damagePos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
+			if (actorPos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
 				continue;
 
 			if (damagePos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
@@ -39,10 +39,7 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 
 			Debug::Log("Longsword enemy stuff");
 
-			if (actorPos.DistanceTo(enemy->GetPosition()) < Weapon::GetRange() && damagePos.DistanceTo(enemy->GetPosition()) < Weapon::GetRange())
-			{
-				Engine::DestroyEntity(enemy);
-			}
+			Engine::DestroyEntity(enemy);
 			
 		}
 	}

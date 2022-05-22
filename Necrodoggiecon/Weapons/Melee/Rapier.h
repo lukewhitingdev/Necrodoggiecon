@@ -6,9 +6,9 @@
  * \date   May 2022
  *********************************************************************/
 #pragma once
-#include <Necrodoggiecon\Game\weapons.h>
+#include <Necrodoggiecon/Weapons/MeleeWeapon.h>
 
-class Rapier : public Weapon
+class Rapier : public MeleeWeapon
 {
 public:
 	Rapier();

@@ -28,6 +28,9 @@
     <ClCompile Include="Weapons\Melee\Rapier.cpp" />
     <ClCompile Include="Weapons\Melee\Longsword.cpp" />
     <ClCompile Include="Game\WeaponPickup.cpp" />
+    <ClCompile Include="Weapons\MeleeWeapon.cpp" />
+    <ClCompile Include="Weapons\RangeWeapon.cpp" />
+    <ClCompile Include="Weapons\Ranged\Crossbow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Projectile.cpp" />
@@ -62,6 +65,9 @@
     <ClInclude Include="Weapons\Melee\Longsword.h" />
     <ClInclude Include="Game\WeaponPickup.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="Weapons\MeleeWeapon.h" />
+    <ClInclude Include="Weapons\RangeWeapon.h" />
+    <ClInclude Include="Weapons\Ranged\Crossbow.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />

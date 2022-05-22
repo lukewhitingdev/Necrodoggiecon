@@ -126,6 +126,7 @@ void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
  *
  * \param actorPos Position of the object (Player or AI)
  * \param damagePos Position of the damage being dealt (actorPos + attackDirection * range)
+ * 
  * \return closestEnemy CAIController Entity which is closest to the actorPos parameter position
  */
 CEntity* Weapon::GetClosestEnemy(Vector3 actorPos, Vector3 damagePos)
@@ -141,7 +142,7 @@ CEntity* Weapon::GetClosestEnemy(Vector3 actorPos, Vector3 damagePos)
 	for (CAIController* enemy : enemies)
 	{
 
-		if (actorPos.DistanceTo(enemy->GetPosition()) > range && damagePos.DistanceTo(enemy->GetPosition()) > range)
+		if (actorPos.DistanceTo(enemy->GetPosition()) > range)
 			continue;
 
 		if (damagePos.DistanceTo(enemy->GetPosition()) > range)

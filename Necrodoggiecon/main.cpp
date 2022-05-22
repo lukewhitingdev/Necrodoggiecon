@@ -18,6 +18,7 @@
 #include <Weapons/Melee/Dagger.h>
 #include <Weapons/Melee/Rapier.h>
 #include <Weapons/Melee/Longsword.h>
+#include <Weapons/Ranged/Crossbow.h>
 
 /*
 
@@ -159,6 +160,7 @@ int Start()
 	Engine::CreateEntity<WeaponPickup<Dagger>>();
 	Engine::CreateEntity<WeaponPickup<Rapier>>()->SetPosition(-500.0f, 0.0f, 0.0f);
 	Engine::CreateEntity<WeaponPickup<Longsword>>()->SetPosition(500.0f, 0.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Crossbow>>()->SetPosition(0.0f, 500.0f, 0.0f);
 
 	return 0;
 }

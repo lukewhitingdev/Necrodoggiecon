@@ -44,6 +44,7 @@ public:
 	float GetRange() { return range; };
 	float GetAttack_Speed() { return attack_speed; };
 	float GetAmmo() { return ammo; };
+	void SetAmmo(float amount) { ammo = amount; };
 	bool GetUnique() { return unique; };
 	bool GetCanFire() { return canFire; };
 	void SetCanFire(bool canFire) { this->canFire = canFire; };
