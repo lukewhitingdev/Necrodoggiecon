@@ -1,6 +1,7 @@
 #include "weapons.h"
 #include "Necrodoggiecon\Game\PlayerCharacter.h"
-#include <Necrodoggiecon\Game\AI\CAIController.h>
+#include "Necrodoggiecon\Game\PlayerController.h"
+#include <Cerberus\Core\AI\CAIController.h>
 
 Weapon::Weapon(std::string weapon)
 {
@@ -14,11 +15,12 @@ Weapon::Weapon(std::string weapon)
  */
 void Weapon::SetWeapon(std::string weapon)
 {
-	std::ifstream file("Resources/Weapons.json");
+	std::ifstream file("Resources/Game/Weapons.json");
 	json storedFile;
 	file >> storedFile;
 
 	iconPath = storedFile.at(weapon).at("IconPath");
+	projectile_name = storedFile.at(weapon).at("Projectile_Name");
 	type = storedFile.at(weapon).at("Type");
 	name = storedFile.at(weapon).at("Name");
 	damage = storedFile.at(weapon).at("Damage");
@@ -83,6 +85,21 @@ void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 				Debug::Log("No ammo");
 			}
 		}
+		else if (type == "Magic")
+		{
+			if (ammo > 0)
+			{
+				canFire = false;
+				cooldown = attack_speed;
+				HandleRanged(actorPos, normAttackDir);
+				ammo--;
+			}
+			else
+			{
+				canFire = false;
+				Debug::Log("No ammo");
+			}
+		}
 	}
 }
 
@@ -101,24 +118,29 @@ void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir) // BB
 		Debug::Log("UserType is AI");
 		CEntity* target = GetClosestPlayer(actorPos, damagePos);
 		if (target != nullptr)
+		{
+			playersController[0]->Unpossess();
 			Engine::DestroyEntity(target);
+		}
+			
 	}
 	else if (userType == USERTYPE::PLAYER)
 	{
 		Debug::Log("UserType is PLAYER");
 		CEntity* target = GetClosestEnemy(actorPos, damagePos);
 		if (target != nullptr)
+		{
 			Engine::DestroyEntity(target);
+		}
 	}
 }
 
 
 void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
 {
-	float speed = attack_speed * 5;
-	float life = range;
+	float speed = 4;
 	Projectile* Projectile1 = Engine::CreateEntity<Projectile>();
-	Projectile1->StartUp(attackDir, actorPos, speed, life);
+	Projectile1->StartUp(attackDir, actorPos, speed, range, (int)userType, projectile_name);
 }
 
 /**

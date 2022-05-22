@@ -7,11 +7,14 @@
 #include <Necrodoggiecon\Game\PlayerController.h>
 #include <Necrodoggiecon\Game\PlayerCharacter.h>
 #include <Necrodoggiecon\Game\ItemDatabase.h>
-#include <Necrodoggiecon\Game\AI\CAIController.h>
+#include <Cerberus/Core/AI/CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
 #include <Cerberus/Core/Utility/CWorldManager.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
+#include "Necrodoggiecon/Game/AI/MeleeEnemy.h"
+#include "Necrodoggiecon/Game/AI/DogEnemy.h"
+#include "Necrodoggiecon/Game/AI/AlarmEnemy.h"
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
 #include <Game/WeaponPickup.h>
@@ -19,6 +22,9 @@
 #include <Weapons/Melee/Rapier.h>
 #include <Weapons/Melee/Longsword.h>
 #include <Weapons/Ranged/Crossbow.h>
+#include "Necrodoggiecon/MainMenu.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
+#include <Necrodoggiecon/Game/DialogueHandler.h>
 
 /*
 
@@ -87,12 +93,11 @@ int Start()
 	// Free Camera not locked to player.
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
 	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>();
-	freeCameraComponent->Initialize();
 	freeCameraComponent->SetAttachedToParent(false);
 
-	CameraManager::AddCamera(freeCameraComponent);
-
 	CWorldManager::LoadWorld(new CWorld_Game(0));
+
+	//CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
 
 	
 
@@ -105,9 +110,12 @@ int Start()
 
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
-	//character1->SetPosition(Vector3((float(rand() % Engine::windowWidth) - Engine::windowWidth / 2), (float(rand() % Engine::windowHeight) - Engine::windowHeight / 2), 0));
-	//character1->droppedItem = droppedItem;
 
+	/*Engine::CreateEntity<MeleeEnemy>();
+	Engine::CreateEntity<MeleeEnemy>();
+	Engine::CreateEntity<MeleeEnemy>();
+	Engine::CreateEntity<MeleeEnemy>();
+	Engine::CreateEntity<AlarmEnemy>();*/
 	//controller->charOne = character1;
 
 //	character1->SetPosition(Vector3(0, 0, 0));

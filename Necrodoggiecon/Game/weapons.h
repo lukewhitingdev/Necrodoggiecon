@@ -16,6 +16,7 @@
 #include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 #include "Cerberus\Core\Utility\Vector3.h"
 #include "Cerberus\Dependencies\NlohmannJson\json.hpp"
+class PlayerController;
 
 #define rangeScale 64.0f
 
@@ -64,6 +65,7 @@ private:
 	CEntity* GetClosestPlayer(Vector3 actorPos, Vector3 damagePos);
 
 	std::string iconPath;
+	std::string projectile_name;
 	std::string type;
 	std::string name;
 	float damage;
@@ -75,6 +77,7 @@ private:
 	float cooldown;
 
 	USERTYPE userType;
+	std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
 
 protected:
 	

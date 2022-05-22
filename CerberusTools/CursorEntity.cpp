@@ -17,12 +17,12 @@ CursorEntity::CursorEntity()
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetAnimationRectSize(XMUINT2(2, 1));
 	sprite->SetAnimationSpeed(2);
-	sprite->ui = true;
+	sprite->SetIsUI(true);
 
 	text = AddComponent<CTextRenderComponent>();
 	text->SetJustification(TextJustification::Center);
 	text->SetPosition(0, -48, 0);
-	text->ui = true;
+	text->SetIsUI(true);
 }
 
 void CursorEntity::Update(float deltaTime)

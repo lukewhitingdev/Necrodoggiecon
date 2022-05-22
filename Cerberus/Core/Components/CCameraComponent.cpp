@@ -1,7 +1,13 @@
 #include "CCameraComponent.h"
 #include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
 
-CCameraComponent::CCameraComponent() : attachedToParent(false), view(), proj(), zoom(1), prevPos(Vector3(FLT_MAX, FLT_MAX, FLT_MAX)) {}
+CCameraComponent::CCameraComponent() : attachedToParent(false), view(), proj(), zoom(1), prevPos(Vector3(FLT_MAX, FLT_MAX, FLT_MAX)) 
+{
+	CameraManager::AddCamera(this);
+
+	UpdateView();
+	UpdateProj();
+}
 
 CCameraComponent::~CCameraComponent()
 {
@@ -22,16 +28,6 @@ void CCameraComponent::Update(float deltaTime)
 		UpdateView();
 		prevPos = (attachedToParent) ? this->GetParent()->GetPosition() : this->GetPosition();
 	}
-}
-
-/**
- * Required to be called once after the camera component has been added to a entity.
- * 
- */
-void CCameraComponent::Initialize()
-{
-	UpdateView();
-	UpdateProj();
 }
 
 /**

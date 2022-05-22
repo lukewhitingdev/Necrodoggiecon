@@ -14,7 +14,7 @@ CGridCursor::CGridCursor()
 	Offset = Vector3(0, 0, 0);
 
 	activeCellSprite = AddComponent<CSpriteComponent>();
-	activeCellSprite->LoadTexture("Resources/Tiles/ActiveCell.dds");
+	activeCellSprite->LoadTexture("Resources/Game/Tiles/ActiveCell.dds");
 
 	activeCellSprite->SetRenderRect(XMUINT2(tileScale, tileScale));
 	activeCellSprite->SetSpriteSize(XMUINT2(tileScale, tileScale));
@@ -46,7 +46,7 @@ void CGridCursor::Update(float deltaTime)
 
 	Vector3 MousePos2 = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100);
 
-	MousePos2 *= CameraManager::GetRenderingCamera()->GetZoomLevel();
+	MousePos2 /= CameraManager::GetRenderingCamera()->GetZoomLevel();
 
 
 	Vector3 Result = MousePos2 + camPos;
