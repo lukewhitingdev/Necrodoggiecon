@@ -18,7 +18,6 @@ CAIController::CAIController()
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
 	sprite->SetScale(Vector3{ 1.0f, 1.0f, 1.0f });
-
 	sprite->SetTint(XMFLOAT4(rand() % 2 * 0.5f, rand() % 2 * 0.5f, rand() % 2 * 0.5f, 0)); 
 
 	currentCount = 0;
@@ -48,8 +47,6 @@ CAIController::CAIController()
 
 	SetScale(Vector3{ 0.5f, 0.5f, 1.0f });
 	viewFrustrum = AddComponent<CSpriteComponent>();
-	viewFrustrum->LoadTexture("Resources/Game/viewFrustrum.dds");
-	//viewFrustrum->SetUseTranslucency(true);
 	viewFrustrum->SetTint(XMFLOAT4(0.0f, 0.0f, 0.0f, 0));
 	viewFrustrum->SetRenderRect(XMUINT2(128, 128));
 	viewFrustrum->SetSpriteSize(XMUINT2(128, 128));
@@ -58,7 +55,7 @@ CAIController::CAIController()
 	float scaleComparisonY = 128.0f / (64.0f * GetScale().y);
 	viewFrustrum->SetScale(Vector3{ ((aiRange / 128.0f) * scaleComparisonX), ((aiRange / 128.0f) * scaleComparisonY), 1.0f });
 	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y + aiRange *scaleComparisonY * GetScale().y, 1.0f });
-	
+	//viewFrustrum->SetUseTranslucency(true);
 
 	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
 
