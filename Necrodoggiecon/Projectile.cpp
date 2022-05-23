@@ -88,6 +88,7 @@ void Projectile::DidItHit()
 			target->ApplyDamage(Damage, GetClosestPlayer(damagePos));
 			Lifetime = 0;
 			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
+
 		}
 	}
 }
