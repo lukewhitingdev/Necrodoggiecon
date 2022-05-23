@@ -10,7 +10,8 @@ class CAudioEmitterComponent : public CComponent
 public:
 	CAudioEmitterComponent();
 	~CAudioEmitterComponent();
-	void Load(std::string path);
+	void Load(const std::string& path);
+	void Load(const std::string& path, bool ambient);
 	void Play();
 	void Stop();
 	void SetRange(float range);
