@@ -13,15 +13,11 @@ CAIController::CAIController()
 {
 	Debug::Log("init AI class!\n");
 
-	viewFrustrum->SetScale(Vector3{ (aiRange/128.0f) + 2.0f, (aiRange / 128.0f) + 2.0f, 1.0f });
-	viewFrustrum->SetPosition(GetPosition());
-
 	sprite = AddComponent<CSpriteComponent>();
 	sprite->LoadTexture("Resources/Game/birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
 	sprite->SetScale(Vector3{ 1.0f, 1.0f, 1.0f });
-
 	sprite->SetTint(XMFLOAT4(rand() % 2 * 0.5f, rand() % 2 * 0.5f, rand() % 2 * 0.5f, 0)); 
 
 	currentCount = 0;
@@ -49,8 +45,17 @@ CAIController::CAIController()
 	patrolPoint2->nextPatrolNode = patrolPoint3;
 	patrolPoint3->nextPatrolNode = patrolPoint1;
 
-	SetScale(Vector3{ 0.6f, 0.6f, 0.6f });
-	viewFrustrum->viewSprite->SetScale(GetScale() * 0.1f);
+	SetScale(Vector3{ 0.5f, 0.5f, 1.0f });
+	viewFrustrum = AddComponent<CSpriteComponent>();
+	viewFrustrum->SetTint(XMFLOAT4(0.0f, 0.0f, 0.0f, 0));
+	viewFrustrum->SetRenderRect(XMUINT2(128, 128));
+	viewFrustrum->SetSpriteSize(XMUINT2(128, 128));
+	viewFrustrum->SetRotation(-1.5087f);
+	float scaleComparisonX = 128.0f / (64.0f * GetScale().x);
+	float scaleComparisonY = 128.0f / (64.0f * GetScale().y);
+	viewFrustrum->SetScale(Vector3{ ((aiRange / 128.0f) * scaleComparisonX), ((aiRange / 128.0f) * scaleComparisonY), 1.0f });
+	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y + aiRange *scaleComparisonY * GetScale().y, 1.0f });
+	//viewFrustrum->SetUseTranslucency(true);
 
 	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
 
@@ -60,7 +65,7 @@ CAIController::CAIController()
 
 	std::function<void()> CanHearLambda = [&]()
 	{
-		std::vector<CEmitter*> audioEmitters = AudioController::GetAllEmittersWithinRange(aiPosition);
+		std::vector<CEmitter*> audioEmitters = AudioController::GetAllEmittersWithinRange(aiPosition, true);
 		float closestDistance = 100000000.0f;
 		CEmitter* closestEmitter = nullptr;
 		if (audioEmitters.size() != 0)
@@ -88,6 +93,7 @@ CAIController::CAIController()
 CAIController::~CAIController()
 {
 	delete(pathing);
+	//Engine::DestroyEntity(viewFrustrum);
 }
 
 /**
@@ -101,7 +107,7 @@ void CAIController::Update(float deltaTime)
 	aiPosition = GetPosition();
 
 	// Run the finite state machine
-	currentState->Update(this);
+	currentState->Update(this, deltaTime);
 
 	CheckForPlayer();
 
@@ -398,7 +404,7 @@ void CAIController::ChaseEnter()
 /**
  * Seek towards the player and if it gets close then switch to the attacking state.
  */
-void CAIController::ChasePlayer(CCharacter* player)
+void CAIController::ChasePlayer(PlayerCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 	{
@@ -416,7 +422,7 @@ void CAIController::ChasePlayer(CCharacter* player)
  * 
  * \param player Player to attack.
  */
-void CAIController::AttackPlayer(CCharacter* player)
+void CAIController::AttackPlayer(PlayerCharacter* player, float deltaTime)
 {
 }
 
@@ -475,9 +481,11 @@ void CAIController::MoveViewFrustrum()
 	// Temp code for the arrow sprite so I know where the AI is looking. 
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
-	float offset = 128.0f * viewFrustrum->viewSprite->GetScale().x;
+	float offset = 128.0f * viewFrustrum->GetScale().x;
+	//float offset = 128.0f * viewFrustrum->viewSprite->GetScale().x;
 
-	viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x * 0.5f))));
+	//viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x * 0.5f))));
+	
 
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
 
@@ -486,8 +494,9 @@ void CAIController::MoveViewFrustrum()
 
 	float angle = atan2f(det, dot);
 	this->SetRotation(angle);
-	viewFrustrum->SetRotation(angle);
-	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 0.0f });
+	viewFrustrum->SetRotation(-1.5708f*4.0f);
+	//viewFrustrum->SetRotation(angle);
+	//viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 1.0f });
 }
 
 /**
@@ -520,7 +529,7 @@ void CAIController::SetPath(Vector3 endPosition)
  * \param damageAmount Amount to damage the enemy.
  * \param damageCauser Root of the damage.
  */
-void CAIController::ApplyDamage(float damageAmount, CEntity* damageCauser)
+void CAIController::ApplyDamage(float damageAmount)
 {
 	SetHealth(GetHealth() - damageAmount);
 	if (GetHealth() <= 0.0f)
@@ -564,15 +573,6 @@ float CAIController::GetSearchTime()
 	return maxSearchTime;
 }
 
-void CAIController::SetHealth(float health)
-{
-	aiHealth = health;
-}
-
-float CAIController::GetHealth()
-{
-	return aiHealth;
-}
 
 void CAIController::SetInitialSpeed(float speed)
 {
@@ -643,4 +643,24 @@ void CAIController::SetHeight(float high)
 float CAIController::GetHeight()
 {
 	return height;
+}
+
+void CAIController::SetPositionToInvestigate(Vector3 pos)
+{
+	positionToInvestigate = pos;
+}
+
+Vector3 CAIController::GetPositionToInvestigate()
+{
+	return positionToInvestigate;
+}
+
+void CAIController::SetIsAttacking(bool isAttack)
+{
+	isAttacking = isAttack;
+}
+
+bool CAIController::GetIsAttacking()
+{
+	return isAttacking;
 }

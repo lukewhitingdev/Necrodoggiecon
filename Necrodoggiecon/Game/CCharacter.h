@@ -12,15 +12,17 @@ protected:
 		UNREFERENCED_PARAMETER(damageCauser);
 		UNREFERENCED_PARAMETER(damageAmount);
 	};
+	float health = 2.0f;
 
 	void AddMovement(XMFLOAT2 vel, float deltaTime);
 public:
-	void ApplyDamage(float damageAmount, CEntity* damageCauser) { OnTakeDamage(damageAmount, damageCauser); }
 
-	virtual void Update(float deltaTime) { UNREFERENCED_PARAMETER(deltaTime); };
+	virtual void Update(float deltaTime) {};
 
 	CCharacter();
 	virtual ~CCharacter();
 
+	void SetHealth(float heal);
+	float GetHealth();
 };
 

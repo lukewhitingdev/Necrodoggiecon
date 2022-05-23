@@ -22,6 +22,7 @@
     <ClCompile Include="Game\TestUI.cpp" />
     <ClCompile Include="Game\weapons.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Game\AI\GruntEnemy.cpp" />
     <ClCompile Include="weaponUI.cpp" />
     <ClCompile Include="Game\WeaponInterface.cpp" />
     <ClCompile Include="Weapons\Melee\Dagger.cpp" />
@@ -128,7 +129,10 @@
     <ClInclude Include="Game\testEquippedItem.h" />
     <ClInclude Include="Game\testItemData.h" />
     <ClInclude Include="Game\TestUI.h" />
-    <ClInclude Include="Game\AI\MeleeEnemy.h" />
+    <ClInclude Include="Game\AI\GruntEnemy.h" />
+    <ClInclude Include="Game\weapons.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="weaponUI.h" />
     <ClInclude Include="Game\weapons.h" />
     <ClInclude Include="weaponUI.h" />
     <ClInclude Include="Game\WeaponInterface.h" />

@@ -4,6 +4,7 @@
 #include "Cerberus/Core/Utility/Math/Math.h"
 #include "Cerberus\Core\Components\CCameraComponent.h"
 #include "Cerberus/Core/Utility/IO.h"
+#include "Necrodoggiecon/Game/PlayerController.h"
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 
 PlayerCharacter::PlayerCharacter()
@@ -181,6 +182,17 @@ void PlayerCharacter::UpdateWeaponSprite()
 			return;
 		}
 	}
+}
+
+void PlayerCharacter::ApplyDamage(float damage)
+{
+	SetHealth(GetHealth() - damage);
+	if (GetHealth() <= 0.0f)
+	{
+		playersController[0]->Unpossess();
+		Engine::DestroyEntity(this);
+	}
+		
 }
 
 void PlayerCharacter::LookAt(Vector3 pos)

@@ -36,7 +36,7 @@ void Weapon::SetWeapon(std::string weapon)
 
 void Weapon::CoolDown(float attack_cooldown)
 {
-	if (!canFire)
+	if (canFire == false)
 	{
 		if (cooldown > 0)
 		{

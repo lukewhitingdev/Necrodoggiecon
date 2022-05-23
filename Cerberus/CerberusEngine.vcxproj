@@ -372,7 +372,6 @@
   <ItemGroup>
     <ClInclude Include="Core\UI\CWidget_Button.h" />
     <ClInclude Include="Core\UI\CWidget_Text.h" />
-    <ClInclude Include="Core\AI\CAICharacter.h" />
     <ClInclude Include="Core\AI\CAIController.h" />
     <ClInclude Include="Core\AI\CAINode.h" />
     <ClInclude Include="Core\AI\Pathfinding.h" />
@@ -445,7 +444,6 @@
   <ItemGroup>
     <ClCompile Include="Core\UI\CWidget_Button.cpp" />
     <ClCompile Include="Core\UI\CWidget_Text.cpp" />
-    <ClCompile Include="Core\AI\CAICharacter.cpp" />
     <ClCompile Include="Core\AI\CAIController.cpp" />
     <ClCompile Include="Core\AI\Pathfinding.cpp" />
     <ClCompile Include="Core\AI\State.cpp" />

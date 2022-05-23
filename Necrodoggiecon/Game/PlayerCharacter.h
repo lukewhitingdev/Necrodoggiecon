@@ -11,6 +11,7 @@
 
 class CDroppedItem;
 class CEquippedItem;
+class PlayerController;
 
 class PlayerCharacter : public CCharacter, public IInputable
 {
@@ -24,6 +25,7 @@ protected:
 	CAnimationSpriteComponent* spriteComponentBody = nullptr;
 	CAnimationSpriteComponent* spriteComponentLegs = nullptr;
 	CSpriteComponent* spriteComponentShadow = nullptr;
+	std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
 
 	Vector2 movementVec = { 0,0 };
 	XMFLOAT2 movementVel = { 0,0 };
@@ -41,6 +43,8 @@ public:
 	virtual void Update(float deltaTime) override;
 	void EquipWeapon(Weapon* weapon);
 	void UpdateWeaponSprite();
+
+	void ApplyDamage(float damage);
 
 	CDroppedItem* droppedItem = nullptr;
 	CEquippedItem* equippedItem = nullptr;

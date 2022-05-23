@@ -43,6 +43,7 @@ private:
 	
 	float Speed;
 	float Lifetime;
+	float damage;
 	Vector3 Direction;
 	Vector3 Position;
 	Vector3 initialPosition;
