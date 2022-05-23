@@ -4,7 +4,6 @@
 #include "CEquippedItem.h"
 
 #include <Necrodoggiecon\Game\CursorEntity.h>
-#include <Cerberus\Core\AI\CAICharacter.h>
 
 
 PlayerController::PlayerController()
