@@ -18,6 +18,7 @@
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
 #include "Necrodoggiecon/MainMenu.h"
+#include "Necrodoggiecon/PauseMenu.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include <Necrodoggiecon/Game/DialogueHandler.h>
 
@@ -93,6 +94,7 @@ int Start()
 	CWorldManager::LoadWorld(new CWorld_Game(0));
 
 	//CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
+	CUIManager::AddCanvas(Engine::CreateEntity<PauseMenu>(), "PauseMenu");
 
 	
 
