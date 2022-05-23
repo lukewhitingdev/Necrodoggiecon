@@ -14,7 +14,12 @@ public:
 
 	virtual void OnInteract() override;
 
+	void SetWeapon(T* weapon);
+
 private:
+
+	void UpdateWeaponSprite(Weapon* weapon);
+
 	T* pickup;
 };
 
@@ -26,16 +31,7 @@ inline WeaponPickup<T>::WeaponPickup()
 	if (baseWeapon != nullptr)
 	{
 		pickup = weapon;
-
-		std::string ext = IO::FindExtension(baseWeapon->GetIconPath());
-		if(ext == "dds")
-		{
-			GetSprite()->LoadTexture(baseWeapon->GetIconPath());
-		}
-		else
-		{
-			GetSprite()->LoadTextureWIC(baseWeapon->GetIconPath());
-		}
+		UpdateWeaponSprite(baseWeapon);
 	}
 	else
 	{
@@ -79,5 +75,35 @@ inline void WeaponPickup<T>::OnInteract()
 	{
 		Debug::LogError("Tried to interact with a weapon when not the player character!.");
 		return;
+	}
+}
+
+template<typename T>
+inline void WeaponPickup<T>::SetWeapon(T* weapon)
+{
+	Weapon* baseWeapon = dynamic_cast<Weapon*>(weapon);
+	if (baseWeapon != nullptr)
+	{
+		pickup = weapon;
+		UpdateWeaponSprite(baseWeapon);
+	}
+	else
+	{
+		Debug::LogError("Tried to set weapon on pickup to a type that isnt a weapon. Type: %s", typeid(*weapon).name());
+		return;
+	}
+}
+
+template<typename T>
+inline void WeaponPickup<T>::UpdateWeaponSprite(Weapon* weapon)
+{
+	std::string ext = IO::FindExtension(weapon->GetIconPath());
+	if (ext == "dds")
+	{
+		this->GetSprite()->LoadTexture(weapon->GetIconPath());
+	}
+	else
+	{
+		this->GetSprite()->LoadTextureWIC(weapon->GetIconPath());
 	}
 }
