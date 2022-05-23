@@ -60,7 +60,7 @@ CAIController::CAIController()
 
 	std::function<void()> CanHearLambda = [&]()
 	{
-		std::vector<CEmitter*> audioEmitters = AudioController::GetAllEmittersWithinRange(aiPosition);
+		std::vector<CEmitter*> audioEmitters = AudioController::GetAllEmittersWithinRange(aiPosition, true);
 		float closestDistance = 100000000.0f;
 		CEmitter* closestEmitter = nullptr;
 		if (audioEmitters.size() != 0)
