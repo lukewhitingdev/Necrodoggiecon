@@ -9,14 +9,15 @@
 
 MeleeEnemy::MeleeEnemy()
 {
-	/*sprite->LoadTexture("Resources\\MeleeEnemy.dds");
+	sprite->LoadTexture("Resources\\MeleeEnemy.dds");
 	sprite->SetRotation(1.5708f);
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
-	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });*/
+	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
 
-	weapon = new Weapon();
+	weapon = new WeaponInterface();
 	weapon->SetUserType(USERTYPE::AI);
+	weapon->SetWeapon(new Dagger());
 	
 }
 
@@ -27,7 +28,8 @@ MeleeEnemy::MeleeEnemy()
  */
 void MeleeEnemy::ChasePlayer(CCharacter* player)
 {
-	if (aiPosition.DistanceTo(player->GetPosition()) < weapon->GetRange())
+	
+	if (aiPosition.DistanceTo(player->GetPosition()) < weapon->GetCurrentWeapon()->GetRange())
 	{
 		SetCurrentState(AttackState::getInstance());
 		playerToKill = player;
