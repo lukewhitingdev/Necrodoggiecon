@@ -20,13 +20,14 @@ void DogEnemy::Update(float deltaTime)
 {
 	if (attackCooldown > 0.0f)
 	{
-		attackCooldown -= 0.016f;
+		attackCooldown -= deltaTime;
 		isAttacking = false;
 		// If the timer is up then go back to pathfinding.
 		if (attackCooldown < 0.02f)
 		{
 			attackTimer = 1.0f;
 			onCooldown = false;
+			targetPosition = players[0]->GetPosition();
 		}
 
 	}
@@ -83,7 +84,14 @@ void DogEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 		isAttacking = true;
 
 		if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
+		{
 			player->ApplyDamage(1.0f);
+			onCooldown = true;
+			attackTimer = 1.0f;
+			attackCooldown = 20.0f;
+			SetCurrentState(ChaseState::getInstance());
+		}
+			
 
 		// If the timer is up then go back to pathfinding.
 		if (attackTimer < 0.02f)
@@ -94,6 +102,10 @@ void DogEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 			SetCurrentState(ChaseState::getInstance());
 		}
 			
+	}
+	else
+	{
+		heading = Seek(player->GetPosition());
 	}
 
 }
