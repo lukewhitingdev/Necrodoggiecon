@@ -41,6 +41,7 @@ public:
 	void SetUserType(USERTYPE userType) { this->userType = userType; };
 
 	std::string GetType() { return type; };
+	std::string GetProjectileIcon() { return projectileIconPath; };
 	float GetDamage() { return damage; };
 	float GetRange() { return range; };
 	float GetAttack_Speed() { return attack_speed; };
@@ -58,14 +59,8 @@ public:
 private:
 	void CoolDown(float attack_cooldown);
 
-	void HandleMelee(Vector3 actorPos, Vector3 normAttackDir);
-	void HandleRanged(Vector3 actorPos, Vector3 attackDir);
-
-	CEntity* GetClosestEnemy(Vector3 actorPos, Vector3 damagePos);
-	CEntity* GetClosestPlayer(Vector3 actorPos, Vector3 damagePos);
-
 	std::string iconPath;
-	std::string projectile_name;
+	std::string projectileIconPath;
 	std::string type;
 	std::string name;
 	float damage;

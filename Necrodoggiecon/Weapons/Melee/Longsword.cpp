@@ -1,5 +1,5 @@
 #include "Longsword.h"
-#include <Necrodoggiecon\Game\AI\CAIController.h>
+#include <Cerberus/Core/AI/CAIController.h>
 
 Longsword::Longsword()
 {

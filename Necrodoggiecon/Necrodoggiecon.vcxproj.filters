@@ -31,6 +31,10 @@
     <ClCompile Include="Weapons\MeleeWeapon.cpp" />
     <ClCompile Include="Weapons\RangeWeapon.cpp" />
     <ClCompile Include="Weapons\Ranged\Crossbow.cpp" />
+    <ClCompile Include="Game\AI\MeleeEnemy.cpp" />
+    <ClCompile Include="Weapons\Ranged\Fireball.cpp" />
+    <ClCompile Include="Weapons\Ranged\MagicMissile.cpp" />
+    <ClCompile Include="HomingProjectile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Projectile.cpp" />
@@ -82,9 +86,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="weaponUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\AI\MeleeEnemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\CInteractable.cpp">
@@ -146,6 +147,9 @@
     <ClInclude Include="Game\DialogueUI.h" />
     <ClInclude Include="Game\DialogueHandler.h" />
     <ClInclude Include="Game\Dialogue.h" />
+    <ClInclude Include="Weapons\Ranged\Fireball.h" />
+    <ClInclude Include="Weapons\Ranged\MagicMissile.h" />
+    <ClInclude Include="HomingProjectile.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />

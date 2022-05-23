@@ -50,6 +50,10 @@ PlayerCharacter::PlayerCharacter()
 	UpdateWeaponSprite();
 	weaponSprite->SetPosition(Vector3(spriteComponentBody->GetSpriteSize().y / 2, -int(spriteComponentBody->GetSpriteSize().x - 40), 0));
 	weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
+
+	camera = AddComponent<CCameraComponent>();
+	camera->SetAttachedToParent(false);
+	CameraManager::SetRenderingCamera(camera);
 }
 
 void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)
@@ -106,6 +110,7 @@ void PlayerCharacter::Update(float deltaTime)
 	AimAtMouse(mousePos);
 
 	colComponent->SetPosition(GetPosition());
+	weaponComponent->Update(deltaTime);
 
 	movementVec = { 0,0 };
 	movementVel = XMFLOAT2(movementVel.x * (1 - deltaTime * walkDrag), movementVel.y * (1 - deltaTime * walkDrag));
@@ -145,9 +150,7 @@ void PlayerCharacter::AimAtMouse(const Vector3& mousePos)
 
 	LookAt(Vector3(screenVec.x, screenVec.y, screenVec.z));
 
-	colComponent->SetPosition(GetPosition());
-
-	weaponComponent->Update(deltaTime);
+	
 }
 
 void PlayerCharacter::EquipWeapon(Weapon* weapon)

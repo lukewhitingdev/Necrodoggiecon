@@ -30,8 +30,6 @@ void RangeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 
 void RangeWeapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
 {
-	float speed = Weapon::GetAttack_Speed() * 5;
-	float life = Weapon::GetRange();
 	Projectile* Projectile1 = Engine::CreateEntity<Projectile>();
-	Projectile1->StartUp(attackDir, actorPos, speed, life);
+	Projectile1->StartUp(attackDir, actorPos, projectileSpeed, Weapon::GetRange(), (int)Weapon::GetUserType(), Weapon::GetProjectileIcon());
 }
