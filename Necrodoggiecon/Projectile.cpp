@@ -80,7 +80,6 @@ void Projectile::DidItHit()
 		if (target != nullptr)
 		{
 			target->ApplyDamage(1.0f);
-			hasHit = true;
 		}
 	}
 	else if (userType == USERTYPE2::PLAYER)

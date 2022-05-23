@@ -48,6 +48,5 @@ private:
 	CAIController* GetClosestEnemy(Vector3 actorPos, float ranged);
 
 	USERTYPE2 userType;
-	bool hasHit = false;
 };
 
