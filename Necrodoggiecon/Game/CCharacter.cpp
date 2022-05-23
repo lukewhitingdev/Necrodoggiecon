@@ -7,9 +7,12 @@ CCharacter::CCharacter()
 
 CCharacter::~CCharacter()
 {
-	WeaponPickup<Weapon>* pickup = Engine::CreateEntity<WeaponPickup<Weapon>>();
-	pickup->SetWeapon(weaponComponent->GetCurrentWeapon());
-	pickup->SetPosition(this->GetPosition());
+	if(weaponComponent != nullptr)
+	{
+		WeaponPickup<Weapon>* pickup = Engine::CreateEntity<WeaponPickup<Weapon>>();
+		pickup->SetWeapon(weaponComponent->GetCurrentWeapon());
+		pickup->SetPosition(this->GetPosition());
+	}
 }
 
 void CCharacter::SetHealth(float heal)
