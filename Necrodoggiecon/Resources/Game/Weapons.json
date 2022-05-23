@@ -29,7 +29,7 @@
   "Crossbow": {
     "Projectile_Name": "Arrow",
     "Type": "Ranged",
-    "Damage": 5.0,
+    "Damage": 2.0,
     "Range": 100.0,
     "Attack_Speed": 0.8,
     "Ammo": 8.0,
@@ -56,7 +56,7 @@
   "IcicleBarrage": {
     "Projectile_Name": "Ice",
     "Type": "Magic",
-    "Damage": 0.5,
+    "Damage": 1.0,
     "Range": 25.0,
     "Attack_Speed": 0.1,
     "Ammo": 12.0,
@@ -66,7 +66,7 @@
   "LightningDash": {
     "Projectile_Name": "Lightning",
     "Type": "Magic",
-    "Damage": 5.0,
+    "Damage": 1.0,
     "Range": 20.0,
     "Attack_Speed": 0.01,
     "Ammo": 1.0,
@@ -75,7 +75,7 @@
   "FireBall": {
     "Projectile_Name": "Fire",
     "Type": "Magic",
-    "Damage": 5.0,
+    "Damage": 1.0,
     "Range": 25.0,
     "Attack_Speed": 0.2,
     "Ammo": 18.0,
