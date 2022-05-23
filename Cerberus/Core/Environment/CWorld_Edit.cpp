@@ -317,18 +317,23 @@ void CWorld_Editable::SetOperationMode(EditOperationMode mode)
 		Debug::Log("OperationMode: None");
 		break;
 	case EditOperationMode::EnemyEntity:
+		Debug::Log("OperationMode: Enemy Placement");
+		break;
+	case EditOperationMode::WeaponHolder:
+		Debug::Log("OperationMode: Weapon Placement");
 		break;
 	}
 }
 
 void CWorld_Editable::QueueCell(Vector2 Cell)
 {
-	if (operationType == EditOperationMode::Additive_Single || operationType == EditOperationMode::Subtractive_Single || operationType == EditOperationMode::EnemyEntity || operationType == EditOperationMode::Waypoints)
+	//operationType == EditOperationMode::Additive_Single || operationType == EditOperationMode::Subtractive_Single || operationType == EditOperationMode::EnemyEntity || operationType == EditOperationMode::Waypoints ||
+	if (operationType != EditOperationMode::Additive && operationType != EditOperationMode::Subtractive)
 	{
 		editOrigin = Cell;
 		PerformOperation(editOrigin, Cell);
 	}
-	else
+	else if (operationType != EditOperationMode::None)
 	{
 		if (!isQueueLocked)
 		{
@@ -382,6 +387,9 @@ void CWorld_Editable::PerformOperation(Vector2 A, Vector2 B)
 		break;
 	case EditOperationMode::Waypoints:
 		AddEditorEntity_Waypoint(A);
+		break;
+	case EditOperationMode::WeaponHolder:
+		AddEditorEntity_WeaponHolder(A);
 		break;
 	case EditOperationMode::None:
 		break;
@@ -964,5 +972,20 @@ void CWorld_Editable::AddEditorEntity_Waypoint(Vector2 Position)
 	if (tileContainer[GridToIndex(Position)]->IsWalkable())
 	{
 		editorEntityList.push_back(GetInspectedItem_Enemy()->AddWaypoint(Position));
+	}
+}
+
+void CWorld_Editable::AddEditorEntity_WeaponHolder(Vector2 Position)
+{
+	Vector3 NewPos = Vector3(Position.x, Position.y, 0) * (tileScale * tileScaleMultiplier);
+	NewPos.z = -1;
+	if (tileContainer[GridToIndex(Position)]->IsWalkable())
+	{
+		CT_EditorEntity_WeaponHolder* TempRef = Engine::CreateEntity<CT_EditorEntity_WeaponHolder>();
+		TempRef->SetPosition(NewPos);
+		
+		editorEntityList.push_back(TempRef);
+		
+
 	}
 }

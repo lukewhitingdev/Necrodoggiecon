@@ -15,6 +15,7 @@ void CT_EditorWindows::LoadWeapons()
     file >> storedFile;
     std::string List[9];
   
+
     for (int i = 0; i < storedFile["TotalWeapons"]; i++)
     {
        
@@ -200,6 +201,7 @@ void CT_EditorWindows::render()
                 }
 
 
+
                 ImGui::TreePop();
             }
 
@@ -210,9 +212,9 @@ void CT_EditorWindows::render()
 
                 }
                
-                if (ImGui::Button("Item Holder"))
+                if (ImGui::Button("Weapon Holder"))
                 {
-
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::WeaponHolder);
                 }
 
                 if (ImGui::Button("Goal"))
@@ -262,6 +264,7 @@ void CT_EditorWindows::render()
 
               
                 static const char* current_item = NULL;
+                std::string Name = "Waypoint: ";
 
                 switch (CWorldManager::GetEditorWorld()->GetInspectedItemType())
                 {
@@ -322,9 +325,34 @@ void CT_EditorWindows::render()
                     break;
                 case EditorEntityType::Waypoint:
                   
-                    std::string Name = "Waypoint: ";
+                 
                     Name += std::to_string(CWorldManager::GetEditorWorld()->GetInspectedItem_Waypoint()->waypointOrder).c_str();
                     ImGui::Text(Name.c_str());
+                    break;
+                case EditorEntityType::WeaponHolder:
+                    ImGui::Text("Weapon Holder");
+                  
+                    current_item = WepList[CWorldManager::GetEditorWorld()->GetInspectedItem_WeaponHolder()->GetAssignedWeapon()].c_str();
+                     if (ImGui::BeginCombo("Items", current_item))
+                    {
+                        for (int n = 0; n < WepList.size(); n++)
+                        {
+                            bool is_selected = (CWorldManager::GetEditorWorld()->GetInspectedItem_WeaponHolder()->GetAssignedWeapon() == n); // You can store your selection however you want, outside or inside your objects
+                            if (ImGui::Selectable(WepList[n].c_str(), is_selected))
+                            {
+
+                                current_item = WepList[n].c_str();
+                                CWorldManager::GetEditorWorld()->GetInspectedItem_WeaponHolder()->AssignWeapon((char*)WepList[n].c_str(), n);
+                                if (is_selected)
+                                    ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+                            }
+
+
+                        }
+                        ImGui::EndCombo();
+                    }
+                  
+                    break;
                   
                 }
             }

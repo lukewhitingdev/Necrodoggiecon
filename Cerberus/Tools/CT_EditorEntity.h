@@ -3,7 +3,7 @@
 
 enum class EditorEntityType
 {
-    None, Standard, Enemy, Interactable, Waypoint, Flag
+    None, Standard, Enemy, Interactable, Waypoint, Flag, WeaponHolder
 };
 class CT_EditorEntity :
     public CEntity
@@ -38,7 +38,7 @@ public:
 
 };
 
-class CT_Editor_ItemHolder :
+class CT_EditorEntity_WeaponHolder :
     public CT_EditorEntity
 {
 protected:
@@ -46,18 +46,23 @@ protected:
     // class CSpriteComponent* sprite = nullptr;
 
  
+    char* current_item = (char*)"Dagger";
+    int itemSlot = 0;
 
-    int itemSlot;
+    CSpriteComponent* weaponSprite;
 public:
 
 
 
-    CT_Editor_ItemHolder();
-
-    virtual void Update(float deltaTime) override;
-
+    CT_EditorEntity_WeaponHolder();
 
   
+    char* GetWeaponName() { return current_item; }
+    int GetAssignedWeapon() { return itemSlot; }
+    void AssignWeapon(char* WeaponID, int Index);
+    
+    virtual void Update(float deltaTime) override;
+
 
     virtual void InitialiseEntity(int SlotID);
 

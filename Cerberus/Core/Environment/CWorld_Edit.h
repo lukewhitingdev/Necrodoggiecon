@@ -11,7 +11,7 @@ struct CellData
 
 enum class EditOperationMode
 {
-	None, Additive, Subtractive, Additive_Single, Subtractive_Single,Move_Entity ,EnemyEntity, Waypoints
+	None, Additive, Subtractive, Additive_Single, Subtractive_Single,Move_Entity ,EnemyEntity, Waypoints, WeaponHolder
 };
 
 struct PropData
@@ -67,18 +67,14 @@ public:
 
 	 void UpdateEditorViewport();
 
-	 void AddEditorEntity_Prop(int Slot);
-
 	
-
-	 void AddEditorEntity_ItemHolder(int Slot);
 
 	 
 	 EditorEntityType GetInspectedItemType();
 	 CT_EditorEntity* GetInspectedItem_Standard() { return inspectedEntity; }
 	 class CT_EditorEntity_Enemy* GetInspectedItem_Enemy() { return static_cast<CT_EditorEntity_Enemy*>(inspectedEntity); }
 	 CT_EditorEntity_Waypoint* GetInspectedItem_Waypoint() { return static_cast<CT_EditorEntity_Waypoint*>(inspectedEntity); }
-
+	 CT_EditorEntity_WeaponHolder* GetInspectedItem_WeaponHolder() { return static_cast<CT_EditorEntity_WeaponHolder*>(inspectedEntity); }
 	
 	void ShouldInspectEntity(Vector2 MousePos);
 
@@ -114,6 +110,10 @@ protected:
 	 void AddEditorEntity_Decoration(Vector2 Position, int Slot);
 
 	 void AddEditorEntity_Waypoint(Vector2 Position);
+
+	 void AddEditorEntity_Prop(int Slot);
+
+	 void AddEditorEntity_WeaponHolder(Vector2 Position);
 
 
 	 void GeneratePropList();
