@@ -78,7 +78,7 @@ void CWorld_Game::SetupWorld()
 		}
 		case 1:
 		{
-			enemy = Engine::CreateEntity<MeleeEnemy>();
+			enemy = Engine::CreateEntity<GruntEnemy>();
 			enemy->SetPosition(position);
 			break;
 		}

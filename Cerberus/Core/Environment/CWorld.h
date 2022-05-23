@@ -8,7 +8,7 @@
 
 #include "Cerberus\Dependencies\NlohmannJson\json.hpp"
 #include "Necrodoggiecon/Game/AI/AlarmEnemy.h"
-#include "Necrodoggiecon/Game/AI/MeleeEnemy.h"
+#include "Necrodoggiecon/Game/AI/GruntEnemy.h"
 #include "Necrodoggiecon/Game/AI/DogEnemy.h"
 
 using json = nlohmann::json;

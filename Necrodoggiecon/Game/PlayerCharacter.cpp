@@ -3,6 +3,7 @@
 #include "CEquippedItem.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
 #include "Cerberus\Core\Components\CCameraComponent.h"
+#include "Necrodoggiecon/Game/PlayerController.h"
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 
 PlayerCharacter::PlayerCharacter()
@@ -138,6 +139,17 @@ void PlayerCharacter::AimAtMouse(const Vector3& mousePos)
 	XMFLOAT3 screenVec = Math::FromScreenToWorld(mousePosFloat3);
 
 	LookAt(Vector3(screenVec.x, screenVec.y, screenVec.z));
+}
+
+void PlayerCharacter::ApplyDamage(float damage)
+{
+	SetHealth(GetHealth() - damage);
+	if (GetHealth() <= 0.0f)
+	{
+		playersController[0]->Unpossess();
+		Engine::DestroyEntity(this);
+	}
+		
 }
 
 void PlayerCharacter::LookAt(Vector3 pos)

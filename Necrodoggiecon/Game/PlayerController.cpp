@@ -4,7 +4,6 @@
 #include "CEquippedItem.h"
 
 #include <Necrodoggiecon\Game\CursorEntity.h>
-#include <Cerberus\Core\AI\CAICharacter.h>
 
 #include <Game/DialogueHandler.h>
 
@@ -36,8 +35,6 @@ void PlayerController::HandleInput(float deltaTime)
 		inputable->PressedInteract();
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::G))
 		inputable->PressedDrop();
-	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::L))
-		charOne->loadNoise->Play();
 
 	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::Mouse::LButton))
 		inputable->Attack();
