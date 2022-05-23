@@ -15,14 +15,9 @@ GruntEnemy::GruntEnemy()
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
 
-	weapon = new WeaponInterface(); //Needs to be component
+	weapon = AddComponent<WeaponInterface>();
+	weapon->SetWeapon(new Crossbow());
 	weapon->SetUserType(USERTYPE::AI);
-	weapon->SetWeapon(new Dagger()); //Needs to be a crossbow
-	
-	weaponComponent = AddComponent<Weapon>();
-	weaponComponent->SetWeapon("Crossbow");
-	weaponComponent->SetUserType(USERTYPE::AI);
-	
 }
 
 /**
@@ -51,6 +46,6 @@ void GruntEnemy::ChasePlayer(PlayerCharacter* player)
  */
 void GruntEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 {
-	weaponComponent->OnFire(aiPosition, velocity);
+	weapon->OnFire(aiPosition, velocity);
 	SetCurrentState(ChaseState::getInstance());
 }
