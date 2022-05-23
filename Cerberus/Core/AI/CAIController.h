@@ -14,7 +14,6 @@
 #include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
 #include "Cerberus/Core/Engine.h"
 #include "Cerberus/Core/Utility/Audio/AudioController.h"
-#include "Cerberus/Core/AI/CAICharacter.h"
 
 #include "Cerberus/Core/AI/State.h"
 #include "Cerberus/Core/AI/Pathfinding.h"
@@ -82,6 +81,7 @@ public:
 
 protected:
 	class CSpriteComponent* sprite = nullptr;
+	class CSpriteComponent* viewFrustrum = nullptr;
 
 	Vector3 positionToInvestigate;
 	void Movement(float deltaTime);
@@ -113,13 +113,12 @@ protected:
 	CCharacter* playerToChase = nullptr;
 	
 	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
-	CAICharacter* viewFrustrum = Engine::CreateEntity<CAICharacter>();
 
 	float aiSpeed = 100.0f;
 	float initialSpeed = aiSpeed;
 	float aiMass = 10.0f;
-	float aiRange = 400.0f;
-	float aiViewAngle = 45.0f;
+	float aiRange = 200.0f;
+	float aiViewAngle = 90.0f;
 
 	float width = 64.0f;
 	float height = 64.0f;

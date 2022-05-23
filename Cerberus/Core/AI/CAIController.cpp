@@ -13,9 +13,6 @@ CAIController::CAIController()
 {
 	Debug::Log("init AI class!\n");
 
-	viewFrustrum->SetScale(Vector3{ (aiRange/128.0f) + 2.0f, (aiRange / 128.0f) + 2.0f, 1.0f });
-	viewFrustrum->SetPosition(GetPosition());
-
 	sprite = AddComponent<CSpriteComponent>();
 	sprite->LoadTexture("Resources/birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
@@ -49,8 +46,19 @@ CAIController::CAIController()
 	patrolPoint2->nextPatrolNode = patrolPoint3;
 	patrolPoint3->nextPatrolNode = patrolPoint1;
 
-	SetScale(Vector3{ 0.6f, 0.6f, 0.6f });
-	viewFrustrum->viewSprite->SetScale(GetScale() * 0.1f);
+	SetScale(Vector3{ 0.5f, 0.5f, 1.0f });
+	viewFrustrum = AddComponent<CSpriteComponent>();
+	viewFrustrum->LoadTexture("Resources/viewFrustrum.dds");
+	//viewFrustrum->SetUseTranslucency(true);
+	viewFrustrum->SetTint(XMFLOAT4(0.0f, 0.0f, 0.0f, 0));
+	viewFrustrum->SetRenderRect(XMUINT2(128, 128));
+	viewFrustrum->SetSpriteSize(XMUINT2(128, 128));
+	viewFrustrum->SetRotation(-1.5087f);
+	float scaleComparisonX = 128.0f / (64.0f * GetScale().x);
+	float scaleComparisonY = 128.0f / (64.0f * GetScale().y);
+	viewFrustrum->SetScale(Vector3{ ((aiRange / 128.0f) * scaleComparisonX), ((aiRange / 128.0f) * scaleComparisonY), 1.0f });
+	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y + aiRange *scaleComparisonY * GetScale().y, 1.0f });
+	
 
 	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
 
@@ -88,7 +96,7 @@ CAIController::CAIController()
 CAIController::~CAIController()
 {
 	delete(pathing);
-	Engine::DestroyEntity(viewFrustrum);
+	//Engine::DestroyEntity(viewFrustrum);
 }
 
 /**
@@ -476,9 +484,11 @@ void CAIController::MoveViewFrustrum()
 	// Temp code for the arrow sprite so I know where the AI is looking. 
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
-	float offset = 128.0f * viewFrustrum->viewSprite->GetScale().x;
+	float offset = 128.0f * viewFrustrum->GetScale().x;
+	//float offset = 128.0f * viewFrustrum->viewSprite->GetScale().x;
 
-	viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x * 0.5f))));
+	//viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x * 0.5f))));
+	
 
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
 
@@ -487,8 +497,9 @@ void CAIController::MoveViewFrustrum()
 
 	float angle = atan2f(det, dot);
 	this->SetRotation(angle);
-	viewFrustrum->SetRotation(angle);
-	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 0.0f });
+	viewFrustrum->SetRotation(-1.5708f*4.0f);
+	//viewFrustrum->SetRotation(angle);
+	//viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 1.0f });
 }
 
 /**
