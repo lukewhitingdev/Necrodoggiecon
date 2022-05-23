@@ -78,6 +78,11 @@ inline void WeaponPickup<T>::OnInteract()
 	}
 }
 
+/**
+ * Sets the weapon of the pickup.
+ * 
+ * \param weapon weapon that the pickup will be set to.
+ */
 template<typename T>
 inline void WeaponPickup<T>::SetWeapon(T* weapon)
 {
@@ -94,6 +99,11 @@ inline void WeaponPickup<T>::SetWeapon(T* weapon)
 	}
 }
 
+/**
+ * Updates the weapon sprite to the sprite of the argument.
+ * 
+ * \param weapon weapon to change the current sprite to.
+ */
 template<typename T>
 inline void WeaponPickup<T>::UpdateWeaponSprite(Weapon* weapon)
 {
