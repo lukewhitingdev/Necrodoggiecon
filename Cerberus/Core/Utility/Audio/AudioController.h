@@ -20,10 +20,10 @@ public:
 	static void Initialize();
 	static void Shutdown();
 
-	static CAudio* LoadAudio(std::string path);
-	static bool PlayAudio(std::string path);
-	static bool StopAudio(std::string path);
-	static bool DestroyAudio(std::string path);
+	static CAudio* LoadAudio(const std::string& path);
+	static bool PlayAudio(const std::string& path);
+	static bool StopAudio(const std::string& path);
+	static bool DestroyAudio(const std::string& path);
 
 	static void Update(Vector3 listenerPos, float deltaTime);
 

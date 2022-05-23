@@ -42,7 +42,7 @@ void AudioController::Shutdown()
  * \param path
  * \return 
  */
-CAudio* AudioController::LoadAudio(std::string path)
+CAudio* AudioController::LoadAudio(const std::string& path)
 {
 	if (FMODSystem == nullptr)
 		Initialize();
@@ -68,7 +68,7 @@ CAudio* AudioController::LoadAudio(std::string path)
  * \param path
  * \return 
  */
-bool AudioController::PlayAudio(std::string path)
+bool AudioController::PlayAudio(const std::string& path)
 {
 	if (FMODSystem == nullptr)
 		Initialize();
@@ -100,7 +100,7 @@ bool AudioController::PlayAudio(std::string path)
  * \param path
  * \return 
  */
-bool AudioController::StopAudio(std::string path)
+bool AudioController::StopAudio(const std::string& path)
 {
 	if (FMODSystem == nullptr)
 		Initialize();
@@ -131,7 +131,7 @@ bool AudioController::StopAudio(std::string path)
  * \param path
  * \return 
  */
-bool AudioController::DestroyAudio(std::string path)
+bool AudioController::DestroyAudio(const std::string& path)
 {
 	if (FMODSystem == nullptr)
 		Initialize();
