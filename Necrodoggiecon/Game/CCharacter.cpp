@@ -18,7 +18,7 @@ float CCharacter::GetHealth()
 	return health;
 }
 
-void CCharacter::AddVerticalMovement(int dir, float speed, float deltaTime)
+void CCharacter::AddMovement(XMFLOAT2 vel, float deltaTime)
 {
 	Vector3 pos = GetPosition();
 	pos.x += vel.x * deltaTime;

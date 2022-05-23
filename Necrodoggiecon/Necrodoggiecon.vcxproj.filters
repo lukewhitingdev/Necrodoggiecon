@@ -54,7 +54,6 @@
     <ClInclude Include="Game\weapons.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="weaponUI.h" />
-    <ClInclude Include="Game\AI\MeleeEnemy.h" />
     <ClInclude Include="Game\weapons.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="weaponUI.h" />

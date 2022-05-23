@@ -88,7 +88,7 @@ void Projectile::DidItHit()
 		CAIController* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
 		{
-			target->ApplyDamage(1.0f, GetClosestPlayer(damagePos));
+			target->ApplyDamage(1.0f);
 			Lifetime = 0;
 			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
 		}
