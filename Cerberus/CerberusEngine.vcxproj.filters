@@ -63,6 +63,12 @@
     <ClCompile Include="Core\AI\CAIController.cpp" />
     <ClCompile Include="Core\Utility\EntityManager.cpp" />
     <ClCompile Include="Core\Components\CRigidBodyComponent.cpp" />
+    <ClCompile Include="Core\UI\CWidget_Button.cpp" />
+    <ClCompile Include="Core\UI\CWidget.cpp" />
+    <ClCompile Include="Core\UI\CWidget_Image.cpp" />
+    <ClCompile Include="Core\UI\CWidget_Canvas.cpp" />
+    <ClCompile Include="Core\Utility\CUIManager.cpp" />
+    <ClCompile Include="Core\UI\CWidget_Text.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Microsoft\DDSTextureLoader.h" />
@@ -147,6 +153,12 @@
     <ClInclude Include="Core\AI\CAIController.h" />
     <ClInclude Include="Core\Utility\EntityManager.h" />
     <ClInclude Include="Core\Components\CRigidBodyComponent.h" />
+    <ClInclude Include="Core\UI\CWidget_Button.h" />
+    <ClInclude Include="Core\UI\CWidget.h" />
+    <ClInclude Include="Core\UI\CWidget_Image.h" />
+    <ClInclude Include="Core\UI\CWidget_Canvas.h" />
+    <ClInclude Include="Core\Utility\CUIManager.h" />
+    <ClInclude Include="Core\UI\CWidget_Text.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

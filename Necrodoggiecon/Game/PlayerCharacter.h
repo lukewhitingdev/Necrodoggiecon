@@ -12,7 +12,8 @@ class PlayerController;
 class PlayerCharacter : public CCharacter, public IInputable
 {
 protected:
-	float speed = 200;
+	float walkSpeed = 300;
+	float walkDrag = 10;
 	float timeElapsed = 0;
 
 	void LookAt(Vector3 pos);
@@ -22,8 +23,11 @@ protected:
 	CSpriteComponent* spriteComponentShadow = nullptr;
 	std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
 
-	XMFLOAT2 movementVec = { 0,0 };
+	Vector2 movementVec = { 0,0 };
+	XMFLOAT2 movementVel = { 0,0 };
 	const float walkAnimationSpeed = 1.3f;
+
+	const float cameraMovementScalar = 100.0f;
 public:
 	PlayerCharacter();
 
@@ -42,5 +46,9 @@ public:
 	Weapon* weapon = nullptr;
 	class CCameraComponent* camera = nullptr;
 	CAudioEmitterComponent* loadNoise;
+
+private:
+	void ResolveMovement(const float& deltaTime);
+	void AimAtMouse(const Vector3& mousePos);
 };
 

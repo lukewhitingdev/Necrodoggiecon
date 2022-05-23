@@ -16,7 +16,7 @@ AlarmEnemy::AlarmEnemy()
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
 
 	loadNoise = AddComponent<CAudioEmitterComponent>();
-	loadNoise->Load("Resources/TestShortAudio.wav");
+	loadNoise->Load("Resources/Game/TestShortAudio.wav");
 
 	loadNoise->SetRange(10000.0f);
 }

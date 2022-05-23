@@ -10,8 +10,7 @@ protected:
 	Weapon* weaponComponent = nullptr;
 	float health = 2.0f;
 
-	void AddVerticalMovement(int dir, float speed, float deltaTime);
-	void AddHorizontalMovement(int dir, float speed, float deltaTime);
+	void AddMovement(XMFLOAT2 vel, float deltaTime);
 public:
 
 	virtual void Update(float deltaTime) {};

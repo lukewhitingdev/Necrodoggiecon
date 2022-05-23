@@ -33,22 +33,18 @@ void CWorld_Game::SetupWorld()
 
 	// Locked Camera follows player.
 	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>();
-	lockedCameraComponent->Initialize();
 	lockedCameraComponent->SetAttachedToParent(true);
-
-	CameraManager::AddCamera(lockedCameraComponent);
 
 	CameraManager::SetRenderingCamera(lockedCameraComponent);
 
 	controller->charOne = character1;
 
-	
 	Vector3 PlayerStart = Vector3(StartPos.x, StartPos.y, 0) * (tileScale * tileScaleMultiplier) + Vector3(0, 0, -1);
 	Debug::Log("Player Start Position: [%f | %f]", PlayerStart.x, PlayerStart.y);
 	character1->SetPosition(PlayerStart);
 	controller->Possess(character1);
-	character1->SetShouldMove(true);
-	character1->colComponent->SetCollider(64.0f, 64.0f);
+
+	//Please stop configuring stuff in here instead of in the class constructor - Lets not spread configuration to many different places in the project!
 
 	std::string fileName = "Resources/Levels/Level_" + std::to_string(mapSlot);
 	fileName += ".json";
@@ -58,7 +54,6 @@ void CWorld_Game::SetupWorld()
 	json storedFile;
 
 	file >> storedFile;
-	
 
 	int enemyCount = storedFile["EnemyCount"];
 
@@ -120,5 +115,4 @@ void CWorld_Game::SetupWorld()
 		enemy->SetCurrentState(PatrolState::getInstance());
 		patrolNodes.clear();
 	}
-
 }

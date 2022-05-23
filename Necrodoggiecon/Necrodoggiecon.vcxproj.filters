@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="Game\DialogueHandler.cpp" />
+    <ClCompile Include="Game\DialogueUI.cpp" />
     <ClCompile Include="Game\AI\AlarmEnemy.cpp" />
     <ClCompile Include="Game\AI\DogEnemy.cpp" />
     <ClCompile Include="CWorld_Game.cpp" />
@@ -21,10 +23,15 @@
     <ClCompile Include="Game\weapons.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game\AI\GruntEnemy.cpp" />
-    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="weaponUI.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Game\DialogueUI.cpp" />
+    <ClCompile Include="Game\DialogueHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\Dialogue.h" />
+    <ClInclude Include="Game\DialogueHandler.h" />
+    <ClInclude Include="Game\DialogueUI.h" />
     <ClInclude Include="Game\AI\AlarmEnemy.h" />
     <ClInclude Include="Game\AI\DogEnemy.h" />
     <ClInclude Include="CWorld_Game.h" />
@@ -47,6 +54,15 @@
     <ClInclude Include="Game\weapons.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="weaponUI.h" />
+    <ClInclude Include="Game\AI\MeleeEnemy.h" />
+    <ClInclude Include="Game\weapons.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="weaponUI.h" />
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="Game\DialogueUI.h" />
+    <ClInclude Include="Game\DialogueHandler.h" />
+    <ClInclude Include="Game\Dialogue.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />

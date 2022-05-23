@@ -51,6 +51,7 @@ private:
 	CAIController* GetClosestEnemy(Vector3 actorPos);
 	PlayerCharacter* GetClosestPlayer(Vector3 actorPos);
 
+	std::string projectile_name;
 	std::string type;
 	float damage;
 	float range;

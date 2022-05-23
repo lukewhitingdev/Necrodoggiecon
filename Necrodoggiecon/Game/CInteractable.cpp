@@ -18,7 +18,7 @@ CInteractable::CInteractable() : interactTextOffset(0), interactRange(1), sprite
 
 	colComponent->SetCollider(interactRange);
 	colComponent->SetTrigger(true);
-	sprite->LoadTexture("Resources/arrow.dds");
+	sprite->LoadTexture("Resources/Game/arrow.dds");
 
 	interactText->SetScale(2, 2, 2);
 }

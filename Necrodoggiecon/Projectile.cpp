@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   Projectile.cpp
+ * \brief  All the functions needed for the Projectile.
+ * 
+ * \author Flynn Brooks
+ * \date   May 2022
+ *********************************************************************/
+
 #include "Projectile.h"
 #include <Cerberus\Core\AI\CAIController.h>
 #include <Necrodoggiecon\Game\PlayerCharacter.h>
@@ -5,10 +13,8 @@
 Projectile::Projectile()
 {
 	ProjectileSprite = AddComponent<CSpriteComponent>();
-	ProjectileSprite->LoadTextureWIC("Resources/weapons/Arrow.png");
 	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
-	ProjectileSprite->SetSpriteSize(XMUINT2(96, 96));
-
+	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
 }
 
 Projectile::~Projectile()
@@ -16,18 +22,54 @@ Projectile::~Projectile()
 	//RemoveComponent(colComponent);
 }
 
+/**
+ * .
+ *
+ * \param deltaTime
+ */
 void Projectile::Update(float deltaTime)
 {
-	DidItHit();
-	Position += Direction * Speed;
-	ProjectileSprite->SetPosition(Position);
-
-	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) > Lifetime || hasHit == true)
+	if (Projectile_Name != "Missle")
 	{
-		Engine::DestroyEntity(this);
+		if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime)
+		{
+			DidItHit();
+			Position += Direction * Speed;
+			ProjectileSprite->SetPosition(Position);
+		}
+		else
+		{
+			Engine::DestroyEntity(this);
+		}
+	}
+	else if (Projectile_Name == "Missle")
+	{
+		if (Lifetime > 0)
+		{
+			DidItHit();
+			CAIController* target = GetClosestEnemy(Position, 50000);
+			if (target != nullptr)
+			{
+				Vector3 attack = target->GetPosition() - Position;
+				Position += attack * (Speed * deltaTime);
+				ProjectileSprite->SetPosition(Position);
+				Lifetime - 2;
+			}
+			else
+			{
+				Position += Direction * Speed;
+				ProjectileSprite->SetPosition(Position);
+			}
+		}
 	}
 }
 
+
+/**
+ * Sees if the projectile is within ranged of hiting the target
+ *
+ * \Damages the target if it hit
+ */
 void Projectile::DidItHit()
 {
 	Vector3 damagePos = Position + Direction * 1;
@@ -46,22 +88,42 @@ void Projectile::DidItHit()
 		CAIController* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
 		{
-			target->ApplyDamage(1.0f);
-			hasHit = true;
+			target->ApplyDamage(1.0f, GetClosestPlayer(damagePos));
+			Lifetime = 0;
+			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
 		}
 	}
-
 }
 
-void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type, float dam)
+/**
+ * Sets up the projectile based on what weapon is using it, this makes sure that the right spriate is being used
+ *
+ * This also allows for the projectile to be at the right rotation when fireing
+ */
+void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type, std::string projectile_name)
 {
 	Direction = dir;
 	ProjectileSprite->SetPosition(pos);
-	Position = pos;
+	Projectile_Name = projectile_name;
 	Speed = speed;
 	Lifetime = lifetime;
 	initialPosition = pos;
-	damage = dam;
+
+	if (projectile_name == "Arrow")
+	{
+		Speed = speed;
+		ProjectileSprite->LoadTextureWIC("Resources/weapons/Arrow.png");
+	}
+	else if (projectile_name == "Fire")
+	{
+		Speed = speed * 2;
+		ProjectileSprite->LoadTextureWIC("Resources/weapons/Wand - Fireball Projectile.png");
+	}
+	else if (projectile_name == "Missle")
+	{
+		Speed = speed;
+		ProjectileSprite->LoadTextureWIC("Resources/weapons/Wand - Magic missile Projectile.png");
+	}
 
 	userType = (USERTYPE2)type;
 
@@ -77,7 +139,11 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, 
 }
 
 
-
+/**
+ * Looks for the closest enemy within the range of the projectile
+ *
+ * \returns the enemy if within range
+ */
 
 CAIController* Projectile::GetClosestEnemy(Vector3 actorPos)
 {
@@ -106,6 +172,36 @@ CAIController* Projectile::GetClosestEnemy(Vector3 actorPos)
 
 	return closestEnemy;
 }
+
+CAIController* Projectile::GetClosestEnemy(Vector3 actorPos, float ranged)
+{
+	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
+
+	if (enemies.size() == 0) //No enemies
+		return nullptr;
+
+	CAIController* closestEnemy = nullptr;
+
+	//Check each enemy
+	for (CAIController* enemy : enemies)
+	{
+
+		if (actorPos.DistanceTo(enemy->GetPosition()) > ranged)
+			continue;
+
+		if (closestEnemy == nullptr)
+			closestEnemy = enemy;
+		else
+		{
+			if (actorPos.DistanceTo(enemy->GetPosition()) < actorPos.DistanceTo(closestEnemy->GetPosition()))
+				closestEnemy = enemy;
+		}
+	}
+
+	return closestEnemy;
+}
+
+
 
 PlayerCharacter* Projectile::GetClosestPlayer(Vector3 actorPos)
 {

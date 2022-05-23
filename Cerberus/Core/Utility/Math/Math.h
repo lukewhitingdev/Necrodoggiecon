@@ -49,4 +49,14 @@ public:
 	 * \return 
 	 */
 	static std::string IntToString(const int& number, const unsigned char numberOfIntegralPlacesZeros = 1);
+
+	/**
+	 * Convert degrees to radians.
+	 */
+	static float DegToRad(const float& degrees) { return degrees * 0.0174533f; }
+
+	/**
+	 * Convert radians to degrees.
+	 */
+	static float RadToDeg(const float& radians) { return radians * 57.2958f; }
 };
