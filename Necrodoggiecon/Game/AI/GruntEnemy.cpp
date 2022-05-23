@@ -44,7 +44,7 @@ void GruntEnemy::ChasePlayer(PlayerCharacter* player)
  * 
  * \param player Player to attack.
  */
-void GruntEnemy::AttackPlayer(PlayerCharacter* player)
+void GruntEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 {
 	weaponComponent->OnFire(aiPosition, velocity);
 	SetCurrentState(ChaseState::getInstance());

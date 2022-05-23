@@ -35,7 +35,7 @@ void ChaseState::Enter(CAIController* controller)
 	controller->ChaseEnter();
 }
 
-void ChaseState::Update(CAIController* controller)
+void ChaseState::Update(CAIController* controller, float deltaTime)
 {
 	if (controller->CanSee(closestPlayer->GetPosition()) == true)
 	{
@@ -82,11 +82,11 @@ void AttackState::Enter(CAIController* controller)
 	controller->AttackEnter(closestPlayer);
 }
 
-void AttackState::Update(CAIController* controller)
+void AttackState::Update(CAIController* controller, float deltaTime)
 {
 	if (closestPlayer != nullptr)
 	{
-		controller->AttackPlayer(closestPlayer);
+		controller->AttackPlayer(closestPlayer, deltaTime);
 		if (controller->CanSee(closestPlayer->GetPosition()) == false && controller->GetIsAttacking() == false)
 		{
 			controller->SetPositionToInvestigate(closestPlayer->GetPosition());
@@ -116,7 +116,7 @@ void PatrolState::Enter(CAIController* controller)
 	controller->SetPath();
 }
 
-void PatrolState::Update(CAIController* controller)
+void PatrolState::Update(CAIController* controller, float deltaTime)
 {
 	controller->Patrolling();
 }
@@ -137,7 +137,7 @@ void SearchState::Enter(CAIController* controller)
 	players = Engine::GetEntityOfType<PlayerCharacter>();
 }
 
-void SearchState::Update(CAIController* controller)
+void SearchState::Update(CAIController* controller, float deltaTime)
 {
 	if (searchTimer > 0.0f)
 	{
@@ -175,7 +175,7 @@ void InvestigateState::Enter(CAIController* controller)
 	controller->SetPath(controller->GetPositionToInvestigate());
 }
 
-void InvestigateState::Update(CAIController* controller)
+void InvestigateState::Update(CAIController* controller, float deltaTime)
 {
 	controller->Investigating(controller->GetPositionToInvestigate());
 }

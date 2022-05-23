@@ -16,7 +16,7 @@ public:
     GruntEnemy();
 
     virtual void ChasePlayer(PlayerCharacter* player) override;
-    virtual void AttackPlayer(PlayerCharacter* player) override;
+    virtual void AttackPlayer(PlayerCharacter* player, float deltaTime) override;
 
 private:
     std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();

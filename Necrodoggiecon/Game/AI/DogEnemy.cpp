@@ -68,14 +68,14 @@ void DogEnemy::AttackEnter(PlayerCharacter* player)
  * 
  * \param player Player to attack.
  */
-void DogEnemy::AttackPlayer(PlayerCharacter* player)
+void DogEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 {
 		
 	heading = Seek(targetPosition);
 
 	if (attackTimer > 0.0f && !onCooldown)
 	{
-		attackTimer -= 0.016f;
+		attackTimer -= deltaTime;
 		SetSpeed(1.0f);
 		if (attackTimer <= 0.6f)
 			SetSpeed(500.0f);

@@ -20,7 +20,7 @@ public:
 
 	virtual void Enter(CAIController* controller) {};
 	virtual void Exit(CAIController* controller) {};
-	virtual void Update(CAIController* controller) {};
+	virtual void Update(CAIController* controller, float deltaTime) {};
 	
 };
 
@@ -31,7 +31,7 @@ class ChaseState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();
@@ -47,7 +47,7 @@ class AttackState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();
@@ -63,7 +63,7 @@ class PatrolState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();
@@ -76,7 +76,7 @@ class SearchState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();
@@ -90,7 +90,7 @@ class InvestigateState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();

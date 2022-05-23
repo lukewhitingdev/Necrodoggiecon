@@ -68,7 +68,7 @@ public:
 	virtual void AttackEnter(PlayerCharacter* player) {};
 	virtual void ChaseEnter();
 	virtual void ChasePlayer(PlayerCharacter* player);
-	virtual void AttackPlayer(PlayerCharacter* player);
+	virtual void AttackPlayer(PlayerCharacter* player, float deltaTime);
 
 	void SetCurrentState(State& state);
 	bool CanSee(Vector3 posOfObject);

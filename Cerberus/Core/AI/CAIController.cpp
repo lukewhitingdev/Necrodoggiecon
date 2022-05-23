@@ -102,7 +102,7 @@ void CAIController::Update(float deltaTime)
 	aiPosition = GetPosition();
 
 	// Run the finite state machine
-	currentState->Update(this);
+	currentState->Update(this, deltaTime);
 
 	CheckForPlayer();
 
@@ -417,7 +417,7 @@ void CAIController::ChasePlayer(PlayerCharacter* player)
  * 
  * \param player Player to attack.
  */
-void CAIController::AttackPlayer(PlayerCharacter* player)
+void CAIController::AttackPlayer(PlayerCharacter* player, float deltaTime)
 {
 }
 
