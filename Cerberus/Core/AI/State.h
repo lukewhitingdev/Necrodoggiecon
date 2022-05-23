@@ -70,7 +70,7 @@ public:
 };
 
 /**
- * State for when the AI is searching for the player.
+ * State for when the AI is searching for the player. The AI will spin on the spot looking for the player.
  */
 class SearchState : public State
 {
@@ -86,6 +86,9 @@ private:
 	std::vector<PlayerCharacter*> players;
 };
 
+/**
+ * State for when the AI is investigating. The AI will path to the ivestigation position then enter the search state.
+ */
 class InvestigateState : public State
 {
 public:
