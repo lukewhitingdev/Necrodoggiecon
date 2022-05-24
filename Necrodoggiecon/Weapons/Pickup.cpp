@@ -10,6 +10,10 @@ Pickup::~Pickup()
 {
 }
 
+void Pickup::Update(float deltaTime)
+{
+}
+
 bool Pickup::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	if (Weapon::GetAmmo() == 0.0f) return false;

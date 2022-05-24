@@ -56,8 +56,6 @@ PlayerCharacter::PlayerCharacter()
 	shieldHitAudioEmitter->Load("Resources/Game/Audio/ShieldHit.wav");
 	invisibilityDeactivateAudioEmitter = AddComponent<CAudioEmitterComponent>();
 	invisibilityDeactivateAudioEmitter->Load("Resources/Game/Audio/DeactivateInvis.wav");
-	scrollActivateAudioEmitter = AddComponent<CAudioEmitterComponent>();
-	scrollActivateAudioEmitter->Load("Resources/Game/Audio/ScrollActivate.wav");
 	weaponAttackAudioEmitter = AddComponent<CAudioEmitterComponent>();
 	weaponAttackAudioEmitter->Load("Resources/Game/Audio/ShootBow.wav");
 
@@ -66,7 +64,6 @@ PlayerCharacter::PlayerCharacter()
 	footstepAudioEmitter->SetRange(100.0f);
 	shieldHitAudioEmitter->SetRange(0.0f);
 	invisibilityDeactivateAudioEmitter->SetRange(0.0f);
-	scrollActivateAudioEmitter->SetRange(0.0f);
 	weaponAttackAudioEmitter->SetRange(50.0f);
 
 	weaponComponent = AddComponent<WeaponInterface>();
@@ -127,7 +124,7 @@ void PlayerCharacter::PressedDrop()
 
 void PlayerCharacter::Attack()
 {
-	
+	Debug::Log("attack");
 	XMFLOAT3 screenVec = XMFLOAT3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, Inputs::InputManager::mousePos.z);
 	screenVec = Math::FromScreenToWorld(screenVec);
 
@@ -287,7 +284,6 @@ void PlayerCharacter::LookAt(Vector3 pos)
 */
 void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime)
 {
-	scrollActivateAudioEmitter->Play();
 	if (pickupToUse == "InvisibilityScroll")
 	{
 		pickupActive = true;
@@ -312,6 +308,7 @@ void PlayerCharacter::PressedUse()
 */
 void PlayerCharacter::InvisibilityCallback()
 {
+	pickupActive = false;
 	invisibilityDeactivateAudioEmitter->Play();
 	ToggleVisibility(true);
 }

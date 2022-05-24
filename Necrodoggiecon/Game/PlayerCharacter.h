@@ -49,7 +49,6 @@ protected:
 	CAudioEmitterComponent* footstepAudioEmitter = nullptr;
 	CAudioEmitterComponent* shieldHitAudioEmitter = nullptr;
 	CAudioEmitterComponent* invisibilityDeactivateAudioEmitter = nullptr;
-	CAudioEmitterComponent* scrollActivateAudioEmitter = nullptr;
 	CAudioEmitterComponent* weaponAttackAudioEmitter = nullptr;
 
 
