@@ -9,7 +9,7 @@
 
 DogEnemy::DogEnemy()
 {
-	sprite->LoadTexture("Resources/Game/Characters/MeleeEnemy.dds");
+	sprite->LoadTextureWIC("Resources/Game/Characters/RedEnemySprite2.png");
 	sprite->SetRotation(1.5708f);
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
