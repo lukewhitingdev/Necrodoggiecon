@@ -162,9 +162,6 @@
     <ClInclude Include="Core\UI\CWidget_Text.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Tutorial01.rc" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="Resources\Unwalkable.dds" />
     <Image Include="Resources\Walkable.dds" />
   </ItemGroup>
@@ -193,5 +190,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
 </Project>
