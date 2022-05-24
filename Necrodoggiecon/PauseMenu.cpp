@@ -74,7 +74,13 @@ void PauseMenu::Update(float deltaTime)
 	CWidget_Canvas::Update(deltaTime);
 	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::Escape))
 	{
-		PauseGame();
+		if (isPaused)
+		{
+			ResumeGame();
+		}
+		else
+		{
+			PauseGame();
+		}
 	}
-
 }

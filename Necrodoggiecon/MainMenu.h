@@ -11,7 +11,9 @@ class MainMenu :
 public:
     MainMenu();
 
-    void TestButtonPressed();
+    void QuitToDesktop();
+    void LoadLevel1();
+    void LoadLevel2();
 
 };
 

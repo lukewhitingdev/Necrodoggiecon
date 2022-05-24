@@ -93,7 +93,7 @@ int Start()
 
 	CWorldManager::LoadWorld(new CWorld_Game(0));
 
-	//CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
+	CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
 	CUIManager::AddCanvas(Engine::CreateEntity<PauseMenu>(), "PauseMenu");
 
 	
