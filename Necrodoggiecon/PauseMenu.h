@@ -13,6 +13,9 @@ public:
     void PauseGame();
     void ResumeGame();
     void QuitToMenu();
+    void QuitToDesktop();
+
+    virtual void Update(float deltaTime) override;
 
 };
 

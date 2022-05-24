@@ -14,6 +14,7 @@
 #include "Cerberus/WorldConstants.h"
 
 
+
 /**
  * Constructor, automatically loads world based on provided slot.
  * 
@@ -114,5 +115,7 @@ void CWorld_Game::SetupWorld()
 		enemy->pathing->currentPatrolNode = enemy->pathing->FindClosestPatrolNode(enemy->GetPosition());
 		enemy->SetCurrentState(PatrolState::getInstance());
 		patrolNodes.clear();
+
+
 	}
 }

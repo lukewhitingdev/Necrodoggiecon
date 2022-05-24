@@ -8,6 +8,7 @@ CWidget_Image::CWidget_Image()
 	sprite = AddComponent<CSpriteComponent>();
 	sprite->SetIsUI(true);
 	textRenderer = AddComponent<CTextRenderComponent>();
+	textRenderer->SetFont("Resources/Engine/fontBlack.png");
 	textRenderer->SetIsUI(true);
 }
 
@@ -39,6 +40,7 @@ void CWidget_Image::SetVisibility(bool IsVisible)
 {
 	sprite->SetShouldDraw(IsVisible);
 	textRenderer->SetShouldDraw(IsVisible);
+	WidgetIsVisible = IsVisible;
 	for (int i = 0; i < GetChildren().size(); i++)
 	{
 		GetChildren()[i]->SetVisibility(IsVisible);

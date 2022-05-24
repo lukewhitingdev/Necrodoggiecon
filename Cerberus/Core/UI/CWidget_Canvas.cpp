@@ -23,23 +23,25 @@ void CWidget_Canvas::InitialiseCanvas()
 void CWidget_Canvas::Update(float deltaTime)
 {
 
-	
-	for (int i = 0; i < buttonList.size(); i++)
+	if (WidgetIsVisible)
 	{
-		if (buttonList[i] != nullptr)
+		for (int i = 0; i < buttonList.size(); i++)
 		{
-			buttonList[i]->IsButtonFocused(GetMousePosition());
+			if (buttonList[i] != nullptr)
+			{
+				buttonList[i]->IsButtonFocused(GetMousePosition());
 
-			if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::Mouse::LButton))
-			{
-				buttonList[i]->ButtonPressed(true);
+				if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::Mouse::LButton))
+				{
+					buttonList[i]->ButtonPressed(true);
+				}
+				else if (Inputs::InputManager::IsMouseButtonReleased(Inputs::InputManager::Mouse::LButton))
+				{
+					buttonList[i]->ButtonPressed(false);
+				}
 			}
-			else if (Inputs::InputManager::IsMouseButtonReleased(Inputs::InputManager::Mouse::LButton))
-			{
-				buttonList[i]->ButtonPressed(false);
-			}
+
 		}
-
 	}
 	
 
@@ -85,6 +87,7 @@ CWidget_Text* CWidget_Canvas::CreateText(Vector2 Position, Vector2 Anchor, int Z
 
 void CWidget_Canvas::SetVisibility(bool IsVisible)
 {
+	WidgetIsVisible = IsVisible;
 	for (int i = 0; i < GetChildren().size(); i++)
 	{
 		GetChildren()[i]->SetVisibility(IsVisible);
