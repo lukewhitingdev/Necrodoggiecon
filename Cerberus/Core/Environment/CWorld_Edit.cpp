@@ -138,6 +138,8 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 		}
 
+
+
 		playerStartEntity = Engine::CreateEntity<CT_EditorEntity_PlayerStart>();
 		editorEntityList.push_back(playerStartEntity);
 		int StartX = storedFile["PlayerStart"]["X"];

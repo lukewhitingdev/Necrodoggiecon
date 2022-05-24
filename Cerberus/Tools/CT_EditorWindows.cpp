@@ -278,7 +278,7 @@ void CT_EditorWindows::render()
                     case 0:
                         ImGui::Text("Grunt Enemy");
                       
-                        if (ImGui::BeginCombo("Items", current_item))
+                        if (ImGui::BeginCombo("Weapon", current_item))
                         {
                             for (int n = 0; n < WepList.size(); n++)
                             {
@@ -307,6 +307,8 @@ void CT_EditorWindows::render()
                         break;
                     }
 
+                   
+
 
 
                     if (ImGui::Button("Add Waypoint"))
@@ -318,7 +320,36 @@ void CT_EditorWindows::render()
                         CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->ToggleWaypoints(toggleWaypoints = !toggleWaypoints);
                     }
 
+                    if (ImGui::TreeNode("Status"))
+                    {
+                        float* Health = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetHealth());
+                        float* Mass = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetMass());
+                        float* Speed = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetSpeed());
+                        float* Range = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetRange());
+                        float* ViewAngle = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetViewAngle());
 
+                        float* RotationSpeed = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetRotationSpeed());
+                        float* MaxSearchTime = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetMaxSearchTime());
+
+                        ImGui::SliderFloat("Health", Health, 0.0f, 100.0f);
+                        ImGui::SliderFloat("Mass", Mass, 0.0f, 100.0f);
+                        ImGui::SliderFloat("Speed", Speed, 0.0f, 100.0f);
+                        ImGui::SliderFloat("Range", Range, 0.0f, 1000.0f);
+                        ImGui::SliderFloat("ViewAngle", ViewAngle, 0.0f, 360.0f);
+                        ImGui::SliderFloat("RotationSpeed", RotationSpeed, 0.0f, 100.0f);
+                        ImGui::SliderFloat("MaxSearchTime", MaxSearchTime, 0.0f, 100.0f);
+
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetHealth(*Health);
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetMass(*Mass);
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetSpeed(*Speed);
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetRange(*Range);
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetViewAngle(*ViewAngle);
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetRotationSpeed(*RotationSpeed);
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetMaxSearchTime(*MaxSearchTime);
+
+
+                        ImGui::TreePop();
+                    }
 
 
 

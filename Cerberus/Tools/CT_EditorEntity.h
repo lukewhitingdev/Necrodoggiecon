@@ -117,9 +117,33 @@ protected:
     char* current_item = (char*)"Dagger";
     int itemIndex = 0;
 
+    float health = 2.0f;
+    float speed = 100.0f;
+  
+    float mass = 10.0f;
+    float range = 400.0f;
+    float viewAngle = 45.0f;
+
+    float rotationSpeed = 0.01f;
+    float maxSearchTime = 5.0f;
+
 public:
     
-   
+    float GetHealth() { return health; }
+    float GetSpeed() { return speed; }
+    float GetMass() { return mass; }
+    float GetRange() { return range; }
+    float GetViewAngle() { return viewAngle; }
+    float GetRotationSpeed() { return rotationSpeed; }
+    float GetMaxSearchTime() { return maxSearchTime; }
+
+    void SetHealth(float newHealth) { health = newHealth; }
+    void SetSpeed(float newSpeed) {  speed = newSpeed; }
+    void SetMass(float newMass) { mass = newMass; }
+    void SetRange(float newRange) { range = newRange; }
+    void SetViewAngle(float newViewAngle) { viewAngle = newViewAngle; }
+    void SetRotationSpeed(float newRotationSpeed) { rotationSpeed = newRotationSpeed; }
+    void SetMaxSearchTime(float newMaxSearchTime) { maxSearchTime = newMaxSearchTime; }
 
     std::vector<CT_EditorEntity_Waypoint*> Waypoints;
 
