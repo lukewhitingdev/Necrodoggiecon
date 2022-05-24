@@ -22,7 +22,7 @@ void CDroppedItem::Initialise(int id)
 
 	itemData = ItemDatabase::GetItemFromID(id);
 
-	spriteComponent = AddComponent<CSpriteComponent>();
+	spriteComponent = AddComponent<CSpriteComponent>(NAME_OF(spriteComponent));
 	spriteComponent->LoadTexture(itemData->texturePath);
 	spriteComponent->SetRenderRect(XMUINT2(128, 128));
 	spriteComponent->SetSpriteSize(XMUINT2(128, 128));
