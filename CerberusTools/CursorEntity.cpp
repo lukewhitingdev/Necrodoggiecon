@@ -11,7 +11,7 @@ CursorEntity::CursorEntity()
 {
 	SetPosition(0, 0, -100);
 
-	sprite = AddComponent<CAnimationSpriteComponent>();
+	sprite = AddComponent<CAnimationSpriteComponent>(NAME_OF(sprite));
 	sprite->LoadTextureWIC("Resources\\cursorSS.png");
 	sprite->SetRenderRect(XMUINT2(16, 16));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
@@ -19,7 +19,7 @@ CursorEntity::CursorEntity()
 	sprite->SetAnimationSpeed(2);
 	sprite->SetIsUI(true);
 
-	text = AddComponent<CTextRenderComponent>();
+	text = AddComponent<CTextRenderComponent>(NAME_OF(text));
 	text->SetJustification(TextJustification::Center);
 	text->SetPosition(0, -48, 0);
 	text->SetIsUI(true);

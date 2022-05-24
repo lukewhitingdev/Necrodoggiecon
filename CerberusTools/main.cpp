@@ -67,7 +67,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 int Start()
 {// Free Camera not locked to player.
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
-	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>();
+	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>(NAME_OF(freeCameraComponent));
 	freeCameraComponent->SetAttachedToParent(false);
 	freeCameraComponent->SetParent(freeCamera);
 	CameraManager::SetRenderingCamera(freeCameraComponent);

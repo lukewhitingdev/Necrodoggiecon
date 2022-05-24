@@ -31,7 +31,7 @@ void CT_EditorEntity::SaveEntity(int Index, int MapSlot)
 
 CT_EditorEntity_Enemy::CT_EditorEntity_Enemy()
 {
-	sprite = AddComponent<CSpriteComponent>();
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 	inspectType = EditorEntityType::Enemy;
 
 
@@ -123,7 +123,7 @@ void CT_EditorEntity_Enemy::RemoveWaypoint(int Index)
 CT_EditorEntity_Waypoint::CT_EditorEntity_Waypoint()
 {
 	inspectType = EditorEntityType::Waypoint;
-	sprite = AddComponent<CSpriteComponent>();
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 	sprite->LoadTexture("Resources\\EditorEntities\\WaypointIcon.dds");
 	sprite->SetRenderRect(XMUINT2(32, 32));
 	sprite->SetSpriteSize(XMUINT2(32, 32));
@@ -142,7 +142,7 @@ void CT_EditorEntity_Waypoint::InitialiseEntity(int SlotID)
 CT_EditorEntity_PlayerStart::CT_EditorEntity_PlayerStart()
 {
 	inspectType = EditorEntityType::Flag;
-	sprite = AddComponent<CSpriteComponent>();
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 	sprite->LoadTexture("Resources\\EditorEntities\\Flag.dds");
 	sprite->SetRenderRect(XMUINT2(32, 32));
 	sprite->SetSpriteSize(XMUINT2(64, 64));

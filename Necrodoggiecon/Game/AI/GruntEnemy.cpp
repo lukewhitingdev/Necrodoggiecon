@@ -15,7 +15,7 @@ GruntEnemy::GruntEnemy()
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
 
-	weaponComponent = AddComponent<WeaponInterface>();
+	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	weaponComponent->SetWeapon(new Crossbow());
 	weaponComponent->SetUserType(USERTYPE::AI);
 }
