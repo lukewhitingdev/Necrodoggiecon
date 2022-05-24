@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   MagicMissile.cpp
+ * \brief  All the functions needed for Magic Missile.
+ *
+ * \author Flynn Brooks
+ * \date   May 2022
+ *********************************************************************/
+
 #include "MagicMissile.h"
 
 MagicMissile::MagicMissile()
@@ -11,6 +19,11 @@ MagicMissile::~MagicMissile()
 {
 }
 
+/**
+ * Will spawn a homing projectile insaid of a normal projectile
+ *
+ * \Uses the onfire to make a homing projectile insaid of the other projectile
+ */
 void MagicMissile::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	if (Weapon::GetCanFire())

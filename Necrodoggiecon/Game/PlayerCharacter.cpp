@@ -1,11 +1,11 @@
-#include "PlayerCharacter.h"
-#include "CDroppedItem.h"
-#include "CEquippedItem.h"
+#include "Game/PlayerCharacter.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
 #include "Cerberus\Core\Components\CCameraComponent.h"
 #include "Cerberus/Core/Utility/IO.h"
 #include "Necrodoggiecon/Game/PlayerController.h"
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
+#include "Necrodoggiecon/Weapons/Pickup/ShieldScroll.h"
+#include "Necrodoggiecon/Weapons/Pickup/InvisibilityScroll.h"
 #include <Necrodoggiecon/Weapons/Ranged/MagicMissile.h>
 
 PlayerCharacter::PlayerCharacter()
@@ -36,6 +36,13 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentShadow->SetScale(XMFLOAT3(1.45, 1.45, 1.45));
 	spriteComponentShadow->SetUseTranslucency(true);
 
+	spriteComponentShield = AddComponent<CSpriteComponent>();
+	spriteComponentShield->LoadTextureWIC("Resources/Game/weapons/Shield.png");
+	spriteComponentShield->SetPosition(XMFLOAT3(0, 0, -1));
+	spriteComponentShield->SetScale(XMFLOAT3(1.45, 1.45, 1.45));
+	spriteComponentShield->SetUseTranslucency(true);
+	spriteComponentShield->SetShouldDraw(false);
+
 	colComponent = new CollisionComponent("Character 1", this);
 	colComponent->SetCollider(64.0f, 64.0f);
 
@@ -58,36 +65,46 @@ PlayerCharacter::PlayerCharacter()
 	CameraManager::SetRenderingCamera(camera);
 }
 
+/**
+ * Function inherited from interface
+ * Will use horizontal key inputs to add horizontal movement
+ * 
+ * \param dir - The direction of movement, negative for left, positive for right
+ * \param deltaTime - Time since the last frame
+ */
 void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)
 {
 	movementVec.x += dir;
 }
 
+/**
+ * Function inherited from interface
+ * Will use vertical key inputs to add vertical movement
+ * 
+ * \param dir  - The direction of movement, negative for down, positive for up
+ * \param deltaTime - Time since the last frame
+ */
 void PlayerCharacter::PressedVertical(int dir, float deltaTime)
 {
 	movementVec.y += dir;
 }
-
+/**
+ * Function inherited from interface
+ * Will interact with objects in the world if one is available
+ * 
+ */
 void PlayerCharacter::PressedInteract()
 {
-	weaponComponent->SetWeapon(new Longsword());
 
-	if (droppedItem == nullptr) return;
-
-	equippedItem = droppedItem->OnEquip(this);
-	Engine::DestroyEntity(droppedItem);
-	droppedItem = nullptr;
 }
-
+/**
+* Function inherited from interface
+* Will drop the characters currently equipped item
+* Will return early if the EquippedItem is null
+*/
 void PlayerCharacter::PressedDrop()
 {
-	weaponComponent->SetWeapon(new Rapier());
 
-	if (equippedItem == nullptr) return;
-
-	droppedItem = equippedItem->Drop();
-	Engine::DestroyEntity(equippedItem);
-	equippedItem = nullptr;
 }
 
 void PlayerCharacter::Attack()
@@ -99,6 +116,10 @@ void PlayerCharacter::Attack()
 	Vector3 attackDir = (Vector3(screenVec.x, screenVec.y, screenVec.z)) - GetPosition();
 
 	weaponComponent->OnFire(GetPosition(), attackDir);
+
+	if (!GetVisible()) return;
+
+	pickupTimerCallback();
 }
 
 void PlayerCharacter::Update(float deltaTime)
@@ -116,6 +137,9 @@ void PlayerCharacter::Update(float deltaTime)
 
 	movementVec = { 0,0 };
 	movementVel = XMFLOAT2(movementVel.x * (1 - deltaTime * walkDrag), movementVel.y * (1 - deltaTime * walkDrag));
+
+	PickupTimer(deltaTime);
+
 }
 
 void PlayerCharacter::ResolveMovement(const float& deltaTime)
@@ -187,6 +211,13 @@ void PlayerCharacter::UpdateWeaponSprite()
 
 void PlayerCharacter::ApplyDamage(float damage)
 {
+	Debug::Log("Hit");
+	if (hasShield)
+	{
+		ToggleShield(false);
+		return;
+	}
+
 	SetHealth(GetHealth() - damage);
 	if (GetHealth() <= 0.0f)
 	{
@@ -214,3 +245,72 @@ void PlayerCharacter::LookAt(Vector3 pos)
 
 	SetRotation(atan2f(det, dot) + 90 * degToRad);
 }
+
+/**
+* Checks the pickup item type and activates the functionality for that pickup.
+* E.g, Invisibility scroll will make the player invisible and bind a callback to the timer to make the player visible after a certain amount of time.
+*/
+void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime)
+{
+	if (pickupToUse == "InvisibilityScroll")
+	{
+		pickupActive = true;
+		pickupTimer = 0;
+		pickupActiveTime = activeTime;
+
+		pickupTimerCallback = std::bind(&PlayerCharacter::InvisibilityCallback, this);
+		ToggleVisibility(false);
+	} 
+	else if (pickupToUse == "ShieldScroll")
+	{
+		ToggleShield(true);
+	}
+}
+
+void PlayerCharacter::PressedUse()
+{
+}
+
+/**
+* Function used as a callback for when the invisibility pickup runs out
+*/
+void PlayerCharacter::InvisibilityCallback()
+{
+	ToggleVisibility(true);
+}
+
+/**
+* Function used to time how long a pickup has been active and call the appropriate callback when it runs out
+*/
+void PlayerCharacter::PickupTimer(float deltaTime)
+{
+	if (!pickupActive) return;
+
+	pickupTimer += deltaTime;
+
+	if (pickupTimer >= pickupActiveTime)
+	{
+		pickupActive = false;
+		pickupTimerCallback();
+	}
+}
+/**
+ * Function used to toggle the visibility of the characters sprites.
+ * 
+ * \param isVisible - Whether or not the character should be visible
+ */
+void PlayerCharacter::ToggleVisibility(bool isVisible)
+{
+	visible = isVisible;
+	spriteComponentBody->SetShouldDraw(visible);
+	spriteComponentLegs->SetShouldDraw(visible);
+	spriteComponentShadow->SetShouldDraw(visible);
+	weaponSprite->SetShouldDraw(visible);
+}
+
+void PlayerCharacter::ToggleShield(bool shield)
+{
+	hasShield = shield;
+	spriteComponentShield->SetShouldDraw(shield);
+}
+
