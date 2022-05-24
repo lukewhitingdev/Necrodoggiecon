@@ -138,5 +138,14 @@ protected:
 	float spriteSize = 64.0f;
 
 	State* currentState;
+
+	virtual void HasCollided(CollisionComponent* collidedObject)
+	{
+		if (collidedObject->GetName() == "Wall")
+		{
+			colComponent->Resolve(collidedObject);
+			this->SetPosition(colComponent->GetPosition());
+		}
+	}
 };
 

@@ -61,6 +61,7 @@ CAIController::CAIController()
 	colComponent = new CollisionComponent("Enemy", this);
 	colComponent->SetCollider(64.0f, 64.0f);
 
+
 	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
 
 	pathing = new Pathfinding(tiles);
