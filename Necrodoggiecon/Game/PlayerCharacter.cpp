@@ -13,6 +13,8 @@ PlayerCharacter::PlayerCharacter()
 	SetShouldMove(true);
 
 	spriteComponentBody = AddComponent<CAnimationSpriteComponent>();
+	spriteComponentBody->SetName(NAME_OF(spriteComponentBody));
+
 	spriteComponentBody->LoadTextureWIC("Resources/Game/Characters/JonathanWicke-sheet.png");
 	spriteComponentBody->SetSpriteSize(XMUINT2(64, 64));
 	spriteComponentBody->SetRenderRect(XMUINT2(44, 44));
