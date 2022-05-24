@@ -61,7 +61,7 @@ inline void WeaponPickup<T>::OnInteract()
 	{
 		if (this->pickup != nullptr)
 		{
-			player->EquipWeapon(reinterpret_cast<Weapon*>(new T()));
+			player->EquipWeapon(reinterpret_cast<Weapon*>(this->pickup));
 			this->pickup = nullptr;
 			Engine::DestroyEntity(this);
 		}
