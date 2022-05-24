@@ -153,6 +153,7 @@
     <ClInclude Include="Core\AI\CAIController.h" />
     <ClInclude Include="Core\Utility\EntityManager.h" />
     <ClInclude Include="Core\Components\CRigidBodyComponent.h" />
+    <ClInclude Include="Core\Utility\IO.h" />
     <ClInclude Include="Core\UI\CWidget_Button.h" />
     <ClInclude Include="Core\UI\CWidget.h" />
     <ClInclude Include="Core\UI\CWidget_Image.h" />

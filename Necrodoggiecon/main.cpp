@@ -17,6 +17,13 @@
 #include "Necrodoggiecon/Game/AI/AlarmEnemy.h"
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
+#include <Game/WeaponPickup.h>
+#include <Weapons/Melee/Dagger.h>
+#include <Weapons/Melee/Rapier.h>
+#include <Weapons/Melee/Longsword.h>
+#include <Weapons/Ranged/Crossbow.h>
+#include <Weapons/Ranged/Fireball.h>
+#include <Weapons/Ranged/MagicMissile.h>
 #include "Necrodoggiecon/MainMenu.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include <Necrodoggiecon/Game/DialogueHandler.h>
@@ -118,8 +125,15 @@ int Start()
 	//character1->shouldMove = true;
 	//character1->colComponent->SetCollider(128.0f, 128.0f);
 
-
 	std::vector<PlayerCharacter*> test = Engine::GetEntityOfType<PlayerCharacter>();
+
+	
+	Engine::CreateEntity<WeaponPickup<Dagger>>();
+	Engine::CreateEntity<WeaponPickup<Rapier>>()->SetPosition(-100.0f, 0.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Longsword>>()->SetPosition(100.0f, 0.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Crossbow>>()->SetPosition(100.0f, 100.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Fireball>>()->SetPosition(0.0f, 100.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<MagicMissile>>()->SetPosition(-100.0f, 100.0f, 0.0f);
 
 	return 0;
 }

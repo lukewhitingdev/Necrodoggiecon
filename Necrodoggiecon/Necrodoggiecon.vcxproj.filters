@@ -24,9 +24,88 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game\AI\GruntEnemy.cpp" />
     <ClCompile Include="weaponUI.cpp" />
+    <ClCompile Include="Game\WeaponInterface.cpp" />
+    <ClCompile Include="Weapons\Melee\Dagger.cpp" />
+    <ClCompile Include="Weapons\Melee\Rapier.cpp" />
+    <ClCompile Include="Weapons\Melee\Longsword.cpp" />
+    <ClCompile Include="Game\WeaponPickup.cpp" />
+    <ClCompile Include="Weapons\MeleeWeapon.cpp" />
+    <ClCompile Include="Weapons\RangeWeapon.cpp" />
+    <ClCompile Include="Weapons\Ranged\Crossbow.cpp" />
+    <ClCompile Include="Game\AI\MeleeEnemy.cpp" />
+    <ClCompile Include="Weapons\Ranged\Fireball.cpp" />
+    <ClCompile Include="Weapons\Ranged\MagicMissile.cpp" />
+    <ClCompile Include="HomingProjectile.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Game\DialogueUI.cpp" />
     <ClCompile Include="Game\DialogueHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CCharacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CDroppedItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CEquippedItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CPlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CPlayerController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CursorEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ItemDatabase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\PlayerCharacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\testClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\PlayerController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\testEquippedItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\testItemData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TestUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="weaponUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CInteractable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\weapons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\AI\DogEnemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\AI\AlarmEnemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorld_Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="weaponUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Dialogue.h" />
@@ -55,6 +134,16 @@
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="weaponUI.h" />
     <ClInclude Include="Game\weapons.h" />
+    <ClInclude Include="weaponUI.h" />
+    <ClInclude Include="Game\WeaponInterface.h" />
+    <ClInclude Include="Weapons\Melee\Dagger.h" />
+    <ClInclude Include="Weapons\Melee\Rapier.h" />
+    <ClInclude Include="Weapons\Melee\Longsword.h" />
+    <ClInclude Include="Game\WeaponPickup.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="Weapons\MeleeWeapon.h" />
+    <ClInclude Include="Weapons\RangeWeapon.h" />
+    <ClInclude Include="Weapons\Ranged\Crossbow.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="weaponUI.h" />
     <ClInclude Include="MainMenu.h" />
@@ -62,6 +151,9 @@
     <ClInclude Include="Game\DialogueUI.h" />
     <ClInclude Include="Game\DialogueHandler.h" />
     <ClInclude Include="Game\Dialogue.h" />
+    <ClInclude Include="Weapons\Ranged\Fireball.h" />
+    <ClInclude Include="Weapons\Ranged\MagicMissile.h" />
+    <ClInclude Include="HomingProjectile.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />

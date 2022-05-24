@@ -28,13 +28,20 @@ public:
 	Projectile();
 	~Projectile();
 
-	void StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type, std::string projectile_name);
+	void StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string &projectile_name);
 	void DidItHit();
 	virtual void Update(float deltaTime) override;
 
-private:
-	
+	float GetLifetime() { return Lifetime; };
+	Vector3 GetPosition() { return Position; };
+	void SetPosition(Vector3 newPosition) { Position = newPosition; };
+	Vector3 GetDirection() { return Direction; };
+	float GetSpeed() { return Speed; };
+
 	class CSpriteComponent* ProjectileSprite = nullptr;
+private:
+	float Damage;
+
 	float Speed;
 	float Lifetime;
 	float damage;
