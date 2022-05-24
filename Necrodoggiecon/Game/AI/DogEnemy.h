@@ -18,9 +18,9 @@ public:
     DogEnemy();
 
     virtual void Update(float deltaTime) override;
-    virtual void ChasePlayer(CCharacter* player) override;
-    virtual void AttackEnter(CCharacter* player) override;
-    virtual void AttackPlayer(CCharacter* player) override;
+    virtual void ChasePlayer(PlayerCharacter* player) override;
+    virtual void AttackEnter(PlayerCharacter* player) override;
+    virtual void AttackPlayer(PlayerCharacter* player, float deltaTime) override;
 
 private:
     bool onCooldown = false;

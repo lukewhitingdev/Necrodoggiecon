@@ -18,7 +18,7 @@ public:
     AlarmEnemy();
 
     virtual void Update(float deltaTime) override;
-    virtual void ChasePlayer(CCharacter* player) override;
+    virtual void ChasePlayer(PlayerCharacter* player) override;
 
 private:
     float alarmTimer = 10.0f;

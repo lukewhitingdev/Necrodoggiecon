@@ -20,19 +20,21 @@ public:
 	static void Initialize();
 	static void Shutdown();
 
-	static CAudio* LoadAudio(std::string path);
-	static bool PlayAudio(std::string path);
-	static bool StopAudio(std::string path);
-	static bool DestroyAudio(std::string path);
+	static CAudio* LoadAudio(const std::string& path);
+	static bool PlayAudio(const std::string& path);
+	static bool StopAudio(const std::string& path);
+	static bool DestroyAudio(const std::string& path);
 
 	static void Update(Vector3 listenerPos, float deltaTime);
 
-	static std::vector<CEmitter*> GetAllEmittersWithinRange(Vector3 position);
+	static std::vector<CEmitter*> GetAllEmittersWithinRange(Vector3 position, bool checkIfPlaying);
 	static void AddEmitter(CEmitter* emitter);
+	static void AddEmitter(CEmitter* emitter, bool ambient);
 	static void RemoveEmitter(CEmitter* emitter);
 
 private:
 	static FMOD::System* FMODSystem;
 	static std::vector<CEmitter*> emitters;
+	static std::vector<CEmitter*> ambientEmitters;
 };
 

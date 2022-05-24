@@ -78,6 +78,9 @@ void Projectile::DidItHit()
 	{
 		PlayerCharacter* target = GetClosestPlayer(damagePos);
 		if (target != nullptr)
+		{
+			target->ApplyDamage(1.0f);
+		}
 			target->ApplyDamage(Damage, GetClosestEnemy(damagePos));
 	}
 	else if (userType == USERTYPE2::PLAYER)
@@ -85,6 +88,7 @@ void Projectile::DidItHit()
 		CAIController* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
 		{
+			target->ApplyDamage(1.0f);
 			target->ApplyDamage(Damage, GetClosestPlayer(damagePos));
 			Lifetime = 0;
 			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));

@@ -12,7 +12,7 @@
 #include <Cerberus/Core/Utility/CWorldManager.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
-#include "Necrodoggiecon/Game/AI/MeleeEnemy.h"
+#include "Necrodoggiecon/Game/AI/GruntEnemy.h"
 #include "Necrodoggiecon/Game/AI/DogEnemy.h"
 #include "Necrodoggiecon/Game/AI/AlarmEnemy.h"
 #include <weaponUI.h>
@@ -106,10 +106,10 @@ int Start()
 	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
 
-	/*Engine::CreateEntity<MeleeEnemy>();
-	Engine::CreateEntity<MeleeEnemy>();
-	Engine::CreateEntity<MeleeEnemy>();
-	Engine::CreateEntity<MeleeEnemy>();
+	/*Engine::CreateEntity<GruntEnemy>();
+	Engine::CreateEntity<GruntEnemy>();
+	Engine::CreateEntity<GruntEnemy>();
+	Engine::CreateEntity<GruntEnemy>();
 	Engine::CreateEntity<AlarmEnemy>();*/
 	//controller->charOne = character1;
 
