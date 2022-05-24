@@ -88,6 +88,7 @@ private:
 	std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
 
 protected:
-	
+	std::string pickupType;
+
 };
 
