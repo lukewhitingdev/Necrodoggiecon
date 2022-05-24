@@ -2,8 +2,12 @@
 #include <Necrodoggiecon\Game\CCharacter.h>
 #include <Cerberus\Core\Environment\IInputable.h>
 #include "Cerberus/Core/Components/CAudioEmitterComponent.h"
+#include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 
 #include "weapons.h"
+#include <Necrodoggiecon/Weapons/Melee/Dagger.h>
+#include <Necrodoggiecon/Weapons/Melee/Rapier.h>
+#include <Necrodoggiecon/Weapons/Melee/Longsword.h>
 
 class CDroppedItem;
 class CEquippedItem;
@@ -37,15 +41,16 @@ public:
 	void PressedDrop() override;
 	void Attack() override;
 	virtual void Update(float deltaTime) override;
+	void EquipWeapon(Weapon* weapon);
+	void UpdateWeaponSprite();
 
 	void ApplyDamage(float damage);
 
 	CDroppedItem* droppedItem = nullptr;
 	CEquippedItem* equippedItem = nullptr;
-
-	Weapon* weapon = nullptr;
 	class CCameraComponent* camera = nullptr;
-	CAudioEmitterComponent* loadNoise;
+	CAudioEmitterComponent* loadNoise = nullptr;
+	CSpriteComponent* weaponSprite = nullptr;
 
 private:
 	void ResolveMovement(const float& deltaTime);

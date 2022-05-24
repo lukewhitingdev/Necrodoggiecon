@@ -32,10 +32,19 @@ public:
 	void DidItHit();
 	virtual void Update(float deltaTime) override;
 
+	float GetLifetime() { return Lifetime; };
+	Vector3 GetPosition() { return Position; };
+	void SetPosition(Vector3 newPosition) { Position = newPosition; };
+	Vector3 GetDirection() { return Direction; };
+	float GetSpeed() { return Speed; };
+
+	class CSpriteComponent* ProjectileSprite = nullptr;
 private:
 	
+
 	class CSpriteComponent* ProjectileSprite = nullptr;
 	float Damage;
+
 	float Speed;
 	float Lifetime;
 	float damage;

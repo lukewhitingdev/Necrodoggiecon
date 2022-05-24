@@ -23,14 +23,12 @@ Projectile::~Projectile()
 }
 
 /**
- * .
+ * Update for constantly moving projectile (Virtually overridden when unique logic is needed).
  *
  * \param deltaTime
  */
 void Projectile::Update(float deltaTime)
 {
-	if (Projectile_Name != "Missle")
-	{
 		if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime)
 		{
 			DidItHit();
@@ -41,27 +39,6 @@ void Projectile::Update(float deltaTime)
 		{
 			Engine::DestroyEntity(this);
 		}
-	}
-	else if (Projectile_Name == "Missle")
-	{
-		if (Lifetime > 0)
-		{
-			DidItHit();
-			CAIController* target = GetClosestEnemy(Position, 50000);
-			if (target != nullptr)
-			{
-				Vector3 attack = target->GetPosition() - Position;
-				Position += attack * (Speed * deltaTime);
-				ProjectileSprite->SetPosition(Position);
-				Lifetime - 2;
-			}
-			else
-			{
-				Position += Direction * Speed;
-				ProjectileSprite->SetPosition(Position);
-			}
-		}
-	}
 }
 
 
@@ -107,24 +84,10 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, fl
 	Speed = speed;
 	Lifetime = lifetime;
 	initialPosition = pos;
-	ProjectileSprite->SetPosition(initialPosition);
-	Position = pos;
+	Position = initialPosition;
 
-	if (Projectile_Name == "Arrow")
-	{
-		Speed = speed;
-		ProjectileSprite->LoadTextureWIC("Resources/Game/weapons/Arrow.png");
-	}
-	else if (Projectile_Name == "Fire")
-	{
-		Speed = speed * 2;
-		ProjectileSprite->LoadTextureWIC("Resources/Game/weapons/Wand - Fireball Projectile.png");
-	}
-	else if (Projectile_Name == "Missle")
-	{
-		Speed = speed;
-		ProjectileSprite->LoadTextureWIC("Resources/Game/weapons/Wand - Magic missile Projectile.png");
-	}
+	ProjectileSprite->LoadTextureWIC(projectile_name);
+
 
 	userType = (USERTYPE2)type;
 

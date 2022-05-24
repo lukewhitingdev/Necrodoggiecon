@@ -186,6 +186,15 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HomingProjectile.cpp" />
+    <ClCompile Include="Weapons\Ranged\Fireball.cpp" />
+    <ClCompile Include="Weapons\Ranged\MagicMissile.cpp" />
+    <ClCompile Include="Weapons\Ranged\Crossbow.cpp" />
+    <ClCompile Include="Weapons\RangeWeapon.cpp" />
+    <ClCompile Include="Weapons\MeleeWeapon.cpp" />
+    <ClCompile Include="Weapons\Melee\Longsword.cpp" />
+    <ClCompile Include="Weapons\Melee\Rapier.cpp" />
+    <ClCompile Include="Weapons\Melee\Dagger.cpp" />
     <ClCompile Include="Game\DialogueHandler.cpp" />
     <ClCompile Include="Game\DialogueUI.cpp" />
     <ClCompile Include="Game\AI\AlarmEnemy.cpp" />
@@ -207,6 +216,19 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\TestUI.cpp" />
     <ClCompile Include="Game\weapons.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Game\WeaponInterface.cpp" />
+    <ClCompile Include="Game\WeaponPickup.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HomingProjectile.h" />
+    <ClInclude Include="Weapons\Ranged\Fireball.h" />
+    <ClInclude Include="Weapons\Ranged\MagicMissile.h" />
+    <ClInclude Include="Weapons\Ranged\Crossbow.h" />
+    <ClInclude Include="Weapons\RangeWeapon.h" />
+    <ClInclude Include="Weapons\MeleeWeapon.h" />
+    <ClInclude Include="Weapons\Melee\Longsword.h" />
+    <ClInclude Include="Weapons\Melee\Rapier.h" />
+    <ClInclude Include="Weapons\Melee\Dagger.h" />
     <ClCompile Include="Game\AI\GruntEnemy.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Projectile.cpp" />
@@ -239,6 +261,8 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />
+    <ClInclude Include="Game\WeaponInterface.h" />
+    <ClInclude Include="Game\WeaponPickup.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="weaponUI.h" />

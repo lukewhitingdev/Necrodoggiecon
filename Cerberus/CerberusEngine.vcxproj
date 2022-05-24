@@ -387,6 +387,7 @@
     <ClInclude Include="Core\Components\CAnimationSpriteComponent.h" />
     <ClInclude Include="Core\Components\CParticleEmitter.h" />
     <ClInclude Include="Core\Entities\CParticle.h" />
+    <ClInclude Include="Core\Utility\IO.h" />
     <ClInclude Include="Core\Utility\Math\Math.h" />
     <ClInclude Include="Core\Components\CAudioEmitterComponent.h" />
     <ClInclude Include="Core\Structs\CCamera.h" />

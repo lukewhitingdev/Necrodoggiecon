@@ -3,6 +3,7 @@
 #include "CEquippedItem.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
 #include "Cerberus\Core\Components\CCameraComponent.h"
+#include "Cerberus/Core/Utility/IO.h"
 #include "Necrodoggiecon/Game/PlayerController.h"
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 
@@ -42,9 +43,14 @@ PlayerCharacter::PlayerCharacter()
 
 	loadNoise->SetRange(10000.0f);
 
-	weaponComponent = AddComponent<Weapon>();
-	weaponComponent->SetWeapon("Magic_Missile");
+	weaponComponent = AddComponent<WeaponInterface>();
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
+	weaponComponent->SetWeapon(new Dagger());
+
+	weaponSprite = AddComponent<CSpriteComponent>();
+	UpdateWeaponSprite();
+	weaponSprite->SetPosition(Vector3(spriteComponentBody->GetSpriteSize().y / 2, -int(spriteComponentBody->GetSpriteSize().x - 40), 0));
+	weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
 
 	camera = AddComponent<CCameraComponent>();
 	camera->SetAttachedToParent(false);
@@ -63,6 +69,8 @@ void PlayerCharacter::PressedVertical(int dir, float deltaTime)
 
 void PlayerCharacter::PressedInteract()
 {
+	weaponComponent->SetWeapon(new Longsword());
+
 	if (droppedItem == nullptr) return;
 
 	equippedItem = droppedItem->OnEquip(this);
@@ -72,6 +80,8 @@ void PlayerCharacter::PressedInteract()
 
 void PlayerCharacter::PressedDrop()
 {
+	weaponComponent->SetWeapon(new Rapier());
+
 	if (equippedItem == nullptr) return;
 
 	droppedItem = equippedItem->Drop();
@@ -101,6 +111,7 @@ void PlayerCharacter::Update(float deltaTime)
 	AimAtMouse(mousePos);
 
 	colComponent->SetPosition(GetPosition());
+	weaponComponent->Update(deltaTime);
 
 	movementVec = { 0,0 };
 	movementVel = XMFLOAT2(movementVel.x * (1 - deltaTime * walkDrag), movementVel.y * (1 - deltaTime * walkDrag));
@@ -139,6 +150,38 @@ void PlayerCharacter::AimAtMouse(const Vector3& mousePos)
 	XMFLOAT3 screenVec = Math::FromScreenToWorld(mousePosFloat3);
 
 	LookAt(Vector3(screenVec.x, screenVec.y, screenVec.z));
+
+	
+}
+
+void PlayerCharacter::EquipWeapon(Weapon* weapon)
+{
+	weaponComponent->SetWeapon(weapon);
+	UpdateWeaponSprite();
+	movementVec = {0,0};
+}
+
+void PlayerCharacter::UpdateWeaponSprite()
+{
+	HRESULT hr;
+	if (IO::FindExtension(weaponComponent->GetCurrentWeapon()->GetIconPath()) == "dds")
+	{
+		hr = weaponSprite->LoadTexture(weaponComponent->GetCurrentWeapon()->GetIconPath());
+		if (FAILED(hr))
+		{
+			Debug::LogHResult(hr, "Weapon Tried to load texture using path: %s but the loader returned failure.", weaponComponent->GetCurrentWeapon()->GetIconPath().c_str());
+			return;
+		}
+	}
+	else
+	{
+		hr = weaponSprite->LoadTextureWIC(weaponComponent->GetCurrentWeapon()->GetIconPath());
+		if (FAILED(hr))
+		{
+			Debug::LogHResult(hr, "Weapon Tried to load texture using path: %s but the loader returned failure.", weaponComponent->GetCurrentWeapon()->GetIconPath().c_str());
+			return;
+		}
+	}
 }
 
 void PlayerCharacter::ApplyDamage(float damage)
