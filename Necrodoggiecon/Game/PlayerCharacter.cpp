@@ -157,12 +157,12 @@ void PlayerCharacter::LookAt(Vector3 pos)
 */
 void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime)
 {
-	pickupActive = true;
-	pickupTimer = 0;
-	pickupActiveTime = activeTime;
-
 	if (pickupToUse == "InvisibilityScroll")
 	{
+		pickupActive = true;
+		pickupTimer = 0;
+		pickupActiveTime = activeTime;
+
 		pickupTimerCallback = std::bind(&PlayerCharacter::InvisibilityCallback, this);
 		ToggleVisibility(false);
 	} 
