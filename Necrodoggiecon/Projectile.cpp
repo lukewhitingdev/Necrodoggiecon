@@ -90,7 +90,6 @@ void Projectile::DidItHit()
 			target->ApplyDamage(Damage);
 			Lifetime = 0;
 			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
-
 		}
 	}
 }
@@ -103,12 +102,13 @@ void Projectile::DidItHit()
 void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string projectile_name)
 {
 	Direction = dir;
-	ProjectileSprite->SetPosition(pos);
 	Damage = damage;
 	Projectile_Name = projectile_name;
 	Speed = speed;
 	Lifetime = lifetime;
 	initialPosition = pos;
+	ProjectileSprite->SetPosition(initialPosition);
+	Position = pos;
 
 	if (Projectile_Name == "Arrow")
 	{
