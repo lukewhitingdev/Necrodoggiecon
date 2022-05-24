@@ -8,7 +8,7 @@ public:
 	CInteractable();
 	virtual ~CInteractable();
 
-	void Update(float deltaTime);
+	virtual void Update(float deltaTime) override;
 
 	virtual void OnInteract();
 	virtual void OnEnterOverlap();

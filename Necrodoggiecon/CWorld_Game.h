@@ -14,6 +14,8 @@ public:
 
     virtual void UnloadWorld();
 
+    virtual void ReloadWorld();
+
     virtual void LoadEntities(int Slot);
 };
 

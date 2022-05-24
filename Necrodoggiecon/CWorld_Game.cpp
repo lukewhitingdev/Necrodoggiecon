@@ -29,16 +29,23 @@ CWorld_Game::CWorld_Game(int Slot)
 void CWorld_Game::SetupWorld()
 {
 	PlayerController* controller = Engine::CreateEntity<PlayerController>();
+	EntityList.push_back(controller);
 	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
+	EntityList.push_back(character1);
 
 	// Locked Camera follows player.
 	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>();
 	lockedCameraComponent->Initialize();
 	lockedCameraComponent->SetAttachedToParent(true);
 
+
+
 	CameraManager::AddCamera(lockedCameraComponent);
 
 	CameraManager::SetRenderingCamera(lockedCameraComponent);
+
+
+	
 
 	controller->charOne = character1;
 
@@ -63,6 +70,19 @@ void CWorld_Game::UnloadWorld()
 			Engine::DestroyEntity(EntityList[i]);
 		}
 	}
+}
+
+void CWorld_Game::ReloadWorld()
+{
+	for (int i = 0; i < EntityList.size(); i++)
+	{
+		if (EntityList[i] != nullptr)
+		{
+			Engine::DestroyEntity(EntityList[i]);
+		}
+	}
+	SetupWorld();
+	LoadEntities(mapSlot);
 }
 
 void CWorld_Game::LoadEntities(int Slot)

@@ -333,7 +333,7 @@ void CT_EditorWindows::render()
 
                         ImGui::SliderFloat("Health", Health, 0.0f, 100.0f);
                         ImGui::SliderFloat("Mass", Mass, 0.0f, 100.0f);
-                        ImGui::SliderFloat("Speed", Speed, 0.0f, 100.0f);
+                        ImGui::SliderFloat("Speed", Speed, 0.0f, 500.0f);
                         ImGui::SliderFloat("Range", Range, 0.0f, 1000.0f);
                         ImGui::SliderFloat("ViewAngle", ViewAngle, 0.0f, 360.0f);
                         ImGui::SliderFloat("RotationSpeed", RotationSpeed, 0.0f, 100.0f);

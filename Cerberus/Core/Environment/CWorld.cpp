@@ -103,6 +103,10 @@ void CWorld::UnloadWorld()
 {
 }
 
+void CWorld::ReloadWorld()
+{
+}
+
 void CWorld::BuildNavigationGrid()
 {
 

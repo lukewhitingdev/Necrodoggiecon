@@ -32,6 +32,10 @@ public:
 
 	
 
+	virtual void ReloadWorld();
+
+	
+
 	
 	//A List of all tiles in the scene
 	//std::vector<Tile*> tileList;

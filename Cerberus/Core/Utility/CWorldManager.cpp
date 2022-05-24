@@ -77,16 +77,15 @@ void CWorldManager::LoadWorld(CWorld* World)
 	if (editorWorld != nullptr)
 	{
 		editorWorld->UnloadWorld();
+		delete(editorWorld);
+
 	}
 	else if (gameWorld != nullptr)
 	{
 		gameWorld->UnloadWorld();
 	}
-	else
-	{
-		gameWorld = World;
-		gameWorld->SetupWorld();
-	}
+	gameWorld = World;
+	gameWorld->SetupWorld();
 }
 
 /**
@@ -110,5 +109,10 @@ void CWorldManager::LoadWorld(CWorld_Editable* World)
 		editorWorld = World;
 		editorWorld->SetupWorld();
 	}
+}
+
+void CWorldManager::ReloadWorld()
+{
+	gameWorld->ReloadWorld();
 }
 
