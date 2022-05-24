@@ -46,6 +46,8 @@ void GruntEnemy::ChasePlayer(PlayerCharacter* player)
  */
 void GruntEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 {
+	heading = Seek(player->GetPosition());
+
 	weaponComponent->OnFire(aiPosition, velocity);
 	SetCurrentState(ChaseState::getInstance());
 }
