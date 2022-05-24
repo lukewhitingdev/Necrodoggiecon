@@ -5,8 +5,7 @@
 #include <Necrodoggiecon\Game\TestUI.h>
 #include <Necrodoggiecon\Game\CursorEntity.h>
 #include <Necrodoggiecon\Game\PlayerController.h>
-#include <Necrodoggiecon\Game\PlayerCharacter.h>
-#include <Necrodoggiecon\Game\ItemDatabase.h>
+#include <Necrodoggiecon\Game\PlayerCharacter.h>>
 #include <Cerberus/Core/AI/CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
 #include <Cerberus/Core/Utility/CWorldManager.h>
@@ -27,6 +26,8 @@
 #include "Necrodoggiecon/MainMenu.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include <Necrodoggiecon/Game/DialogueHandler.h>
+#include "Weapons/Pickup/InvisibilityScroll.h"
+#include "Weapons/Pickup/ShieldScroll.h"
 
 /*
 
@@ -88,9 +89,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 int Start() 
 {
 
-	CInteractable* interactable = Engine::CreateEntity<CInteractable>();
+	//CInteractable* interactable = Engine::CreateEntity<CInteractable>();
 
-	interactable->SetPosition(-500, 0, 0);
+	//interactable->SetPosition(-500, 0, 0);
 
 	// Free Camera not locked to player.
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
@@ -110,7 +111,6 @@ int Start()
 	t = Engine::CreateEntity<CursorEntity>();
 	t->SetPosition(XMFLOAT3(0, 0, -110));
 
-	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
 
 	/*Engine::CreateEntity<GruntEnemy>();
@@ -134,6 +134,8 @@ int Start()
 	Engine::CreateEntity<WeaponPickup<Crossbow>>()->SetPosition(100.0f, 100.0f, 0.0f);
 	Engine::CreateEntity<WeaponPickup<Fireball>>()->SetPosition(0.0f, 100.0f, 0.0f);
 	Engine::CreateEntity<WeaponPickup<MagicMissile>>()->SetPosition(-100.0f, 100.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<ShieldScroll>>()->SetPosition(800.0f, 400, 0.0f);
+	Engine::CreateEntity<WeaponPickup<InvisibilityScroll>>()->SetPosition(800.0f, 450, 0.0f);
 
 	return 0;
 }
