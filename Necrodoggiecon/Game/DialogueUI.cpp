@@ -37,7 +37,7 @@ DialogueUI::DialogueUI()
 	rowHeight = textRenderComponents[0]->GetCharacterSize().y + rowPadding;
 	maxRowCount = (height / rowHeight) * 0.5f;
 
-	audioEmitterComponent = AddComponent<CAudioEmitterComponent>();
+	audioEmitterComponent = AddComponent<CAudioEmitterComponent>(NAME_OF(audioEmitterComponent));
 	audioEmitterComponent->Load("Resources/Game/Audio/TextAppear.wav");
 	audioEmitterComponent->SetRange(0.0f);
 

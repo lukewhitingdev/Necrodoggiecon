@@ -40,7 +40,7 @@ inline WeaponPickup<T>::WeaponPickup()
 		delete weapon;
 		return;
 	}
-	pickupAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	pickupAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(pickupAudioEmitter));
 	pickupAudioEmitter->Load("Resources/Game/Audio/ItemPickup.wav");
 };
 

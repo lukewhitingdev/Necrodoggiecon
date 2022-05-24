@@ -48,15 +48,15 @@ PlayerCharacter::PlayerCharacter()
 
 	loadNoise = AddComponent<CAudioEmitterComponent>(NAME_OF(loadNoise));
 	loadNoise->Load("Resources/Game/TestShortAudio.wav");
-	deathAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	deathAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(deathAudioEmitter));
 	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.wav");
-	footstepAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	footstepAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(footstepAudioEmitter));
 	footstepAudioEmitter->Load("Resources/Game/Audio/Footstep.wav");
-	shieldHitAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	shieldHitAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(shieldHitAudioEmitter));
 	shieldHitAudioEmitter->Load("Resources/Game/Audio/ShieldHit.wav");
-	invisibilityDeactivateAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	invisibilityDeactivateAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(invisibilityDeactivateAudioEmitter));
 	invisibilityDeactivateAudioEmitter->Load("Resources/Game/Audio/DeactivateInvis.wav");
-	weaponAttackAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	weaponAttackAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(weaponAttackAudioEmitter));
 	weaponAttackAudioEmitter->Load("Resources/Game/Audio/ShootBow.wav");
 
 	loadNoise->SetRange(10000.0f);

@@ -19,11 +19,11 @@ GruntEnemy::GruntEnemy()
 	weaponComponent->SetWeapon(new Crossbow());
 	weaponComponent->SetUserType(USERTYPE::AI);
 
-	attackAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	attackAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(attackAudioEmitter));
 	attackAudioEmitter->Load(weaponComponent->GetCurrentWeapon()->GetAttackSoundPath());
 	attackAudioEmitter->SetRange(0.0f);
 
-	deathAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	deathAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(deathAudioEmitter));
 	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.wav");
 	deathAudioEmitter->SetRange(0.0f);
 }

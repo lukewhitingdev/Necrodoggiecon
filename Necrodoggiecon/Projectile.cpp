@@ -17,7 +17,7 @@ Projectile::Projectile()
 	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
 	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
 
-	audioEmitter = AddComponent<CAudioEmitterComponent>();
+	audioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(audioEmitter));
 }
 
 Projectile::~Projectile()

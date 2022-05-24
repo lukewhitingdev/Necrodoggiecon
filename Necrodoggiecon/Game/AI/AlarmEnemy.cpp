@@ -20,11 +20,11 @@ AlarmEnemy::AlarmEnemy()
 
 	loadNoise->SetRange(10000.0f);
 
-	alarmAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	alarmAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(alarmAudioEmitter));
 	alarmAudioEmitter->Load("Resources/Game/Audio/Bell.wav");
 	alarmAudioEmitter->SetRange(0.0f);
 
-	deathAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	deathAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(deathAudioEmitter));
 	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.wav");
 	deathAudioEmitter->SetRange(0.0f);
 }

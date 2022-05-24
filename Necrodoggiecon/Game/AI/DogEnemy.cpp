@@ -15,11 +15,11 @@ DogEnemy::DogEnemy()
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
 
-	attackAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	attackAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(attackAudioEmitter));
 	attackAudioEmitter->Load("Resources/Game/Audio/DogBark.wav");
 	attackAudioEmitter->SetRange(0.0f);
 
-	deathAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	deathAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(deathAudioEmitter));
 	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.wav");
 	deathAudioEmitter->SetRange(0.0f);
 }
