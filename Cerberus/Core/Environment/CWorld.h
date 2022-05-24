@@ -92,6 +92,8 @@ protected:
 	 Vector3 IndexToGrid(int ID);
 	 int GridToIndex(Vector2 Position);
 
+	 
+
 	 //The slot that the current map is tied to.
 	 int mapSlot;
 
@@ -99,6 +101,8 @@ protected:
 
 
 	Vector2 StartPos;
+
+
 
 };
 
