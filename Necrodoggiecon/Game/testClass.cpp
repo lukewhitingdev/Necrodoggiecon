@@ -11,7 +11,7 @@ TestClass::TestClass()
 
 	sprite = AddComponent<CSpriteComponent>();
 	
-	sprite->LoadTexture("Resources/birb.dds");
+	sprite->LoadTexture("Resources/Game/birb.dds");
 
 	//sprite->SetTint(XMFLOAT4(float(rand() % 2 * .5), float(rand() % 2 * .5), float(rand() % 2 * .5), 0));
 

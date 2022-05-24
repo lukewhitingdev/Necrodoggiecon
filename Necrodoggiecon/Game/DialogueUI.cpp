@@ -14,9 +14,9 @@
 DialogueUI::DialogueUI()
 {
 	textBackground = AddComponent<CSpriteComponent>();
-	textBackground->LoadTextureWIC("Resources/darkBackground.png");
+	textBackground->LoadTextureWIC("Resources/Game/darkBackground.png");
 	nameBackground = AddComponent<CSpriteComponent>();
-	nameBackground->LoadTextureWIC("Resources/darkBackground.png");
+	nameBackground->LoadTextureWIC("Resources/Game/darkBackground.png");
 	nameTextRenderComponent = AddComponent<CTextRenderComponent>();
 
 	//Setup Background Sprite

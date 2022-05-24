@@ -12,11 +12,20 @@
 #include <Cerberus/Core/Utility/CWorldManager.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
-#include "Necrodoggiecon/Game/AI/MeleeEnemy.h"
+#include "Necrodoggiecon/Game/AI/GruntEnemy.h"
 #include "Necrodoggiecon/Game/AI/DogEnemy.h"
 #include "Necrodoggiecon/Game/AI/AlarmEnemy.h"
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
+#include <Game/WeaponPickup.h>
+#include <Weapons/Melee/Dagger.h>
+#include <Weapons/Melee/Rapier.h>
+#include <Weapons/Melee/Longsword.h>
+#include <Weapons/Ranged/Crossbow.h>
+#include <Weapons/Ranged/Fireball.h>
+#include <Weapons/Ranged/MagicMissile.h>
+#include "Necrodoggiecon/MainMenu.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
 #include <Necrodoggiecon/Game/DialogueHandler.h>
 #include <Game/CPickupItem.h>
 
@@ -90,12 +99,11 @@ int Start()
 	// Free Camera not locked to player.
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
 	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>();
-	freeCameraComponent->Initialize();
 	freeCameraComponent->SetAttachedToParent(false);
 
-	CameraManager::AddCamera(freeCameraComponent);
-
 	CWorldManager::LoadWorld(new CWorld_Game(0));
+
+	//CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
 
 	
 
@@ -108,11 +116,27 @@ int Start()
 
 
 
-	/*Engine::CreateEntity<MeleeEnemy>();
-	Engine::CreateEntity<MeleeEnemy>();
-	Engine::CreateEntity<MeleeEnemy>();
-	Engine::CreateEntity<MeleeEnemy>();
+	/*Engine::CreateEntity<GruntEnemy>();
+	Engine::CreateEntity<GruntEnemy>();
+	Engine::CreateEntity<GruntEnemy>();
+	Engine::CreateEntity<GruntEnemy>();
 	Engine::CreateEntity<AlarmEnemy>();*/
+	//controller->charOne = character1;
+
+//	character1->SetPosition(Vector3(0, 0, 0));
+	//controller->Possess(character1);
+	//character1->shouldMove = true;
+	//character1->colComponent->SetCollider(128.0f, 128.0f);
+
+	std::vector<PlayerCharacter*> test = Engine::GetEntityOfType<PlayerCharacter>();
+
+	
+	Engine::CreateEntity<WeaponPickup<Dagger>>();
+	Engine::CreateEntity<WeaponPickup<Rapier>>()->SetPosition(-100.0f, 0.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Longsword>>()->SetPosition(100.0f, 0.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Crossbow>>()->SetPosition(100.0f, 100.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Fireball>>()->SetPosition(0.0f, 100.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<MagicMissile>>()->SetPosition(-100.0f, 100.0f, 0.0f);
 
 	return 0;
 }

@@ -135,12 +135,12 @@
 copy /y "$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod.dll" "$(OutDir)fmod.dll"
 
 echo "Copying Engine Resources \n"
-xcopy "$(SolutionDir)Cerberus\Resources" "$(ProjectDir)Resources"  /s /f /i /y
+xcopy "$(SolutionDir)Cerberus\Resources\Engine" "$(ProjectDir)Resources\Engine"  /s /f /i /y
 
-echo "Copying Engine Resources to output \n"
-xcopy "$(SolutionDir)Cerberus\Resources" "$(OutDir)Resources"  /s /f /i /y
+echo "Copying Levels from Tools \n"
+xcopy "$(SolutionDir)CerberusTools\Resources\Levels" "$(ProjectDir)Resources\Levels"  /s /f /i /y
 
-echo "Copying Game Resources to output \n"
+echo "Copying Resources to output \n"
 xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
       <Message>Post Build Step.</Message>
     </PostBuildEvent>
@@ -168,12 +168,12 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
 copy /y "$(SolutionDir)Cerberus\Dependencies\FMOD\lib\x64\fmod.dll" "$(OutDir)fmod.dll"
 
 echo "Copying Engine Resources \n"
-xcopy "$(SolutionDir)Cerberus\Resources" "$(ProjectDir)Resources"  /s /f /i /y
+xcopy "$(SolutionDir)Cerberus\Resources\Engine" "$(ProjectDir)Resources\Engine"  /s /f /i /y
 
-echo "Copying Engine Resources to output \n"
-xcopy "$(SolutionDir)Cerberus\Resources" "$(OutDir)Resources"  /s /f /i /y
+echo "Copying Levels from Tools \n"
+xcopy "$(SolutionDir)CerberusTools\Resources\Levels" "$(ProjectDir)Resources\Levels"  /s /f /i /y
 
-echo "Copying Game Resources to output \n"
+echo "Copying Resources to output \n"
 xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     </PostBuildEvent>
     <PostBuildEvent>
@@ -186,6 +186,15 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HomingProjectile.cpp" />
+    <ClCompile Include="Weapons\Ranged\Fireball.cpp" />
+    <ClCompile Include="Weapons\Ranged\MagicMissile.cpp" />
+    <ClCompile Include="Weapons\Ranged\Crossbow.cpp" />
+    <ClCompile Include="Weapons\RangeWeapon.cpp" />
+    <ClCompile Include="Weapons\MeleeWeapon.cpp" />
+    <ClCompile Include="Weapons\Melee\Longsword.cpp" />
+    <ClCompile Include="Weapons\Melee\Rapier.cpp" />
+    <ClCompile Include="Weapons\Melee\Dagger.cpp" />
     <ClCompile Include="Game\DialogueHandler.cpp" />
     <ClCompile Include="Game\DialogueUI.cpp" />
     <ClCompile Include="Game\AI\AlarmEnemy.cpp" />
@@ -208,7 +217,21 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\TestUI.cpp" />
     <ClCompile Include="Game\weapons.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Game\AI\MeleeEnemy.cpp" />
+    <ClCompile Include="Game\WeaponInterface.cpp" />
+    <ClCompile Include="Game\WeaponPickup.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HomingProjectile.h" />
+    <ClInclude Include="Weapons\Ranged\Fireball.h" />
+    <ClInclude Include="Weapons\Ranged\MagicMissile.h" />
+    <ClInclude Include="Weapons\Ranged\Crossbow.h" />
+    <ClInclude Include="Weapons\RangeWeapon.h" />
+    <ClInclude Include="Weapons\MeleeWeapon.h" />
+    <ClInclude Include="Weapons\Melee\Longsword.h" />
+    <ClInclude Include="Weapons\Melee\Rapier.h" />
+    <ClInclude Include="Weapons\Melee\Dagger.h" />
+    <ClCompile Include="Game\AI\GruntEnemy.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="weaponUI.cpp" />
   </ItemGroup>
@@ -238,11 +261,14 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClInclude Include="Game\testEquippedItem.h" />
     <ClInclude Include="Game\testItemData.h" />
     <ClInclude Include="Game\TestUI.h" />
-    <ClInclude Include="Game\AI\MeleeEnemy.h" />
+    <ClInclude Include="Game\AI\GruntEnemy.h" />
     <ClInclude Include="Game\weapons.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />
+    <ClInclude Include="Game\WeaponInterface.h" />
+    <ClInclude Include="Game\WeaponPickup.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="weaponUI.h" />
   </ItemGroup>

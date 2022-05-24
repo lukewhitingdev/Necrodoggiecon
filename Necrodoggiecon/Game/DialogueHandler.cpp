@@ -37,7 +37,7 @@ void DialogueHandler::SetDialogue(const std::string& name, const std::string& di
 }
 /**
 * Function to load dialogue from a json file. Will the call the SetDialogue function using the first instance of dialogue in the json file.
-* Called Like DialogueHandler::LoadDialogue("Resources/Dialogue.json", "TestDialogue")
+* Called Like DialogueHandler::LoadDialogue("Resources/Game/Dialogue.json", "TestDialogue")
 */
 void DialogueHandler::LoadDialogue(const std::string& jsonPath, const std::string& dialogueName)
 {

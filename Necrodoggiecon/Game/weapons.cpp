@@ -2,23 +2,31 @@
 #include "Necrodoggiecon\Game\PlayerCharacter.h"
 #include "Necrodoggiecon\Game\PlayerController.h"
 #include <Cerberus\Core\AI\CAIController.h>
-#include "Game/IUsePickup.h"
-Weapon::Weapon()
+
+Weapon::Weapon(std::string weapon)
 {
-	SetWeapon("Crossbow");
+	SetWeapon(weapon);
 }
 
+/**
+ * Sets the private variables using the information stored in a JSON file of weapons.
+ * 
+ * \param weapon Name of the weapon in the JSON
+ */
 void Weapon::SetWeapon(std::string weapon)
 {
-	std::ifstream file("Resources/Weapons.json");
+	std::ifstream file("Resources/Game/Weapons.json");
 	json storedFile;
 	file >> storedFile;
 
+	iconPath = storedFile.at(weapon).at("IconPath");
 	type = storedFile.at(weapon).at("Type");
+	name = storedFile.at(weapon).at("Name");
 	range = storedFile.at(weapon).at("Range");
 	range = range * rangeScale;
 	if (type != "Pickup")
 	{
+		projectileIconPath = storedFile.at(weapon).at("ProjectileIconPath");
 		damage = storedFile.at(weapon).at("Damage");
 		attack_speed = storedFile.at(weapon).at("Attack_Speed");
 		ammo = storedFile.at(weapon).at("Ammo");
@@ -35,11 +43,11 @@ void Weapon::SetWeapon(std::string weapon)
 
 void Weapon::CoolDown(float attack_cooldown)
 {
-	if (!canFire)
+	if (canFire == false)
 	{
 		if (cooldown > 0)
 		{
-			cooldown -= 0.1 * attack_cooldown;
+			cooldown -= 0.1f * attack_cooldown;
 		}
 		if (cooldown <= 0)
 		{
@@ -49,139 +57,15 @@ void Weapon::CoolDown(float attack_cooldown)
 	}
 }
 
-void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir) //actorPos = Players position | attackDir = mouse position
+/**
+ * OnFire function that handles basic firing chekcing if the weapon is a Melee or Ranged weapon to use the basic logic. This will be overridden in the Sub-classes of weapons that have unique logic.
+ * 
+ * \param actorPos Position of the actor that is using the function (Used for virtual overriding)
+ * \param attackDir Direction of the attack (Used for virtual overriding)
+ */
+void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
-	//Vector3 attackDir = attackDir - actorPos;
-	auto normAttackDir = attackDir.Normalize();
-
-	if (canFire)
-	{
-		if (type == "Melee")
-		{
-			canFire = false;
-			cooldown = attack_speed;
-			HandleMelee(actorPos, normAttackDir);
-		}
-		else if (type == "Ranged")
-		{
-			if (ammo > 0)
-			{
-				canFire = false;
-				cooldown = attack_speed;
-				HandleRanged(actorPos, normAttackDir);
-				ammo--;
-			}
-			else
-			{
-				canFire = false;
-				Debug::Log("No ammo");
-			}
-		}
-		else if (type == "Pickup")
-		{
-			HandlePickup();
-		}
-	}
-}
-
-
-void Weapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
-{
-	Vector3 damagePos = actorPos + normAttackDir * range;
-
-	if (userType == USERTYPE::AI)
-	{
-		CEntity* target = GetClosestPlayer(damagePos);
-		if (target != nullptr)
-		{
-			playersController[0]->Unpossess();
-			Engine::DestroyEntity(target);
-		}
-			
-	}
-	else if (userType == USERTYPE::PLAYER)
-	{
-		CEntity* target = GetClosestEnemy(damagePos);
-		if (target != nullptr)
-		{
-			Engine::DestroyEntity(target);
-		}
-	}
-}
-
-
-void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
-{
-	float speed = attack_speed * 5;
-	float life = range;
-	Projectile* Projectile1 = Engine::CreateEntity<Projectile>();
-	Projectile1->StartUp(attackDir, actorPos, speed, life, (int)userType);
-}
-
-void Weapon::HandlePickup()
-{
-	CEntity* player = GetClosestPlayer(GetWorldPosition());
-	IUsePickup* usePickup = dynamic_cast<IUsePickup*>(player);
-	if (usePickup == nullptr) return;
-
-	usePickup->UsePickup(pickupType, 5.0f);
-}
-
-//Gets closest enemy within attack range
-CEntity* Weapon::GetClosestEnemy(Vector3 actorPos)
-{
-	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
-
-	if (enemies.size() == 0) //No enemies
-		return nullptr;
-
-	CAIController* closestEnemy = nullptr;
-
-	//Check each enemy
-	for (CAIController* enemy : enemies)
-	{
-
-		if (actorPos.DistanceTo(enemy->GetPosition()) > range)
-			continue;
-
-		if (closestEnemy == nullptr)
-			closestEnemy = enemy;
-		else
-		{
-			if (actorPos.DistanceTo(enemy->GetPosition()) < actorPos.DistanceTo(closestEnemy->GetPosition()))
-				closestEnemy = enemy;
-		}
-	}
-
-	return closestEnemy;
-}
-
-CEntity* Weapon::GetClosestPlayer(Vector3 actorPos)
-{
-	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
-
-	if (players.size() == 0) //No players
-		return nullptr;
-
-	PlayerCharacter* closestPlayer = nullptr;
-
-	//Check each player
-	for (PlayerCharacter* player : players)
-	{
-
-		if (actorPos.DistanceTo(player->GetPosition()) > range)
-			continue;
-
-		if (closestPlayer == nullptr)
-			closestPlayer = player;
-		else
-		{
-			if (actorPos.DistanceTo(player->GetPosition()) < actorPos.DistanceTo(closestPlayer->GetPosition()))
-				closestPlayer = player;
-		}
-	}
-
-	return closestPlayer;
+	Debug::Log("Base Weapon Class has fired Weapon: %s", name.c_str());
 }
 
 void Weapon::Update(float deltaTime)

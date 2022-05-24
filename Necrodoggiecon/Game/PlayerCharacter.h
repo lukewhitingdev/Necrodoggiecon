@@ -2,18 +2,20 @@
 #include <Necrodoggiecon\Game\CCharacter.h>
 #include <Cerberus\Core\Environment\IInputable.h>
 #include "Cerberus/Core/Components/CAudioEmitterComponent.h"
-#include "weapons.h"
-#include <functional>
-#include "IUsePickup.h"
+#include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 
-class CDroppedItem;
-class CEquippedItem;
-struct PickupItemData;
+#include "weapons.h"
+#include <Necrodoggiecon/Weapons/Melee/Dagger.h>
+#include <Necrodoggiecon/Weapons/Melee/Rapier.h>
+#include <Necrodoggiecon/Weapons/Melee/Longsword.h>
+
+class PlayerController;
 
 class PlayerCharacter : public CCharacter, public IInputable, public IUsePickup
 {
 protected:
-	float speed = 200;
+	float walkSpeed = 300;
+	float walkDrag = 10;
 	float timeElapsed = 0;
 
 	void LookAt(Vector3 pos);
@@ -22,8 +24,10 @@ protected:
 	CAnimationSpriteComponent* spriteComponentLegs = nullptr;
 	CSpriteComponent* spriteComponentShadow = nullptr;
 	CSpriteComponent* spriteComponentShield = nullptr;
+	std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
 
-	XMFLOAT2 movementVec = { 0,0 };
+	Vector2 movementVec = { 0,0 };
+	XMFLOAT2 movementVel = { 0,0 };
 	const float walkAnimationSpeed = 1.3f;
 
 	float pickupTimer;
@@ -36,6 +40,7 @@ protected:
 
 	void ToggleVisibility(bool isVisible);
 	void GiveShield();
+	const float cameraMovementScalar = 100.0f;
 public:
 	PlayerCharacter();
 
@@ -46,8 +51,6 @@ public:
 	void Attack() override;
 	void PressedUse() override;
 
-	virtual void Update(float deltaTime) override;
-
 	Weapon* weapon = nullptr;
 	class CCameraComponent* camera = nullptr;
 	CAudioEmitterComponent* loadNoise;
@@ -55,5 +58,18 @@ public:
 	void UsePickup(const std::string& pickupToUse, float activeTime) override;
 	bool GetVisible() { return visible; }
 
+	virtual void Update(float deltaTime) override;
+	void EquipWeapon(Weapon* weapon);
+	void UpdateWeaponSprite();
+
+	void ApplyDamage(float damage);
+
+	class CCameraComponent* camera = nullptr;
+	CAudioEmitterComponent* loadNoise = nullptr;
+	CSpriteComponent* weaponSprite = nullptr;
+
+private:
+	void ResolveMovement(const float& deltaTime);
+	void AimAtMouse(const Vector3& mousePos);
 };
 

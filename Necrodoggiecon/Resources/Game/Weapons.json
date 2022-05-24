@@ -1,0 +1,102 @@
+{
+  "Dagger": {
+    "IconPath": "Resources/Game/weapons/Dagger.png",
+    "ProjectileIconPath": "N/A",
+    "Type": "Melee",
+    "Damage": 1.0,
+    "Range": 0.5,
+    "Attack_Speed": 0.5,
+    "Ammo": 0.0,
+    "Unique": false,
+    "Name": "Dagger"
+  },
+  "Rapier": {
+    "IconPath": "Resources/Game/weapons/Rapier.png",
+    "ProjectileIconPath": "N/A",
+    "Type": "Melee",
+    "Damage": 1.0,
+    "Range": 2.0,
+    "Attack_Speed": 0.5,
+    "Ammo": 0.0,
+    "Unique": false,
+    "Name": "Rapier"
+  },
+  "Longsword": {
+    "IconPath": "Resources/Game/weapons/Sword.png",
+    "ProjectileIconPath": "N/A",
+    "Type": "Melee",
+    "Damage": 1.0,
+    "Range": 2.0,
+    "Attack_Speed": 1.0,
+    "Ammo": 0.0,
+    "Unique": true,
+    "Name": "Longsword"
+  },
+  "Crossbow": {
+    "IconPath": "Resources/Game/weapons/Crossbow.png",
+    "ProjectileIconPath": "Resources/Game/weapons/Arrow.png",
+    "Type": "Ranged",
+    "Damage": 1.0,
+    "Range": 100.0,
+    "Attack_Speed": 0.8,
+    "Ammo": 8.0,
+    "Unique": false,
+    "Name": "Crossbow"
+  },
+  "Throwing_Knives": {
+    "IconPath": "Resources/Game/weapons/ThrowingKnives.png",
+    "ProjectileIconPath": "Resources/Game/weapons/Dagger.png",
+    "Type": "Ranged",
+    "Damage": 1.0,
+    "Range": 8.0,
+    "Attack_Speed": 0.2,
+    "Ammo": 10.0,
+    "Unique": false,
+    "Name": "Throwing Knives"
+  },
+  "Magic_Missile": {
+    "IconPath": "Resources/Game/weapons/Wand - Magic missile.png",
+    "ProjectileIconPath": "Resources/Game/weapons/Wand - Magic missile Projectile.png",
+    "Type": "Magic",
+    "Damage": 1.0,
+    "Range": 25.0,
+    "Attack_Speed": 0.1,
+    "Ammo": 3.0,
+    "Unique": true,
+    "Name": "Magic Missile"
+  },
+  "IcicleBarrage": {
+    "IconPath": "Resources/Game/weapons/Wand - Icicle barrage.png",
+    "ProjectileIconPath": "Resources/Game/weapons/Wand - Icicle barrage Projectile.png",
+    "Type": "Magic",
+    "Damage": 1.0,
+    "Range": 25.0,
+    "Attack_Speed": 0.1,
+    "Ammo": 12.0,
+    "Unique": true,
+    "Name": "Icicle Barrage"
+
+  },
+  "LightningDash": {
+    "IconPath": "Resources/Game/weapons/Wand - Lightning Dash.png",
+    "ProjectileIconPath": "Resources/Game/weapons/Wand - Magic missile Projectile.png",
+    "Type": "Magic",
+    "Damage": 1.0,
+    "Range": 20.0,
+    "Attack_Speed": 0.01,
+    "Ammo": 1.0,
+    "Unique": true,
+    "Name": "Lightning Dash"
+  },
+  "FireBall": {
+    "IconPath": "Resources/Game/weapons/Wand - Fireball.png",
+    "ProjectileIconPath": "Resources/Game/weapons/Wand - Fireball Projectile.png",
+    "Type": "Magic",
+    "Damage": 1.0,
+    "Range": 25.0,
+    "Attack_Speed": 0.2,
+    "Ammo": 18.0,
+    "Unique": true,
+    "Name": "Fireball"
+  }
+}

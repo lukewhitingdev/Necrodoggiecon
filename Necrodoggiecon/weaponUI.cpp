@@ -8,7 +8,7 @@
 weaponUI::weaponUI()
 {
 	spriteBack = AddComponent<CSpriteComponent>();
-	spriteBack->LoadTextureWIC("Resources/uiBackground.png");
+	spriteBack->LoadTextureWIC("Resources/Game/uiBackground.png");
 	spriteBack->SetRenderRect(XMUINT2(16, 16));
 	spriteBack->SetSpriteSize(XMUINT2(70, 70));
 	spriteBack->SetPosition(-600, -320, 0);
@@ -17,7 +17,7 @@ weaponUI::weaponUI()
 	//spriteBack->SetTint(XMFLOAT4(0, 0, 0, -0.3f));
 
 	ammoBack = AddComponent<CSpriteComponent>();
-	ammoBack->LoadTextureWIC("Resources/uiBackground.png");
+	ammoBack->LoadTextureWIC("Resources/Game/uiBackground.png");
 	ammoBack->SetRenderRect(XMUINT2(16, 16));
 	ammoBack->SetSpriteSize(XMUINT2(70, 70));
 	ammoBack->SetPosition(-463, -320, 1);
@@ -41,7 +41,7 @@ weaponUI::weaponUI()
 	textAmmoDisplay->SetText("69/420");
 	
 	weaponSprite = AddComponent<CSpriteComponent>();
-	weaponSprite->LoadTextureWIC("Resources/weapons/Wand - Magic missile.png");
+	weaponSprite->LoadTextureWIC("Resources/Game/weapons/Wand - Magic missile.png");
 	weaponSprite->SetRenderRect(XMUINT2(64, 64));
 	weaponSprite->SetSpriteSize(XMUINT2(64, 64));
 	weaponSprite->SetPosition(-600, -318, -1);
@@ -58,7 +58,7 @@ weaponUI::weaponUI()
 	for (CComponent* e : GetAllComponents())
 		e->SetIsUI(true);
 
-	updateUI("Dagger", 0, 0, "Resources/weapons/Dagger.png");
+	updateUI("Dagger", 0, 0, "Resources/Game/weapons/Dagger.png");
 }
 
 //updateUI(std::string WeaponName, int currentAmmo, int maxAmmo, std::string spritePath)
