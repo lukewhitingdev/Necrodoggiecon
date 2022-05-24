@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   weapons.h
+ * \brief  Base Weapon class for the weapons in the game, this will be inherited by the custom classes of the weapons
+ * 
+ * \author Ben Brown & Flynn Brooks
+ * \date   May 2022
+ *********************************************************************/
 #pragma once
 #include <string>
 #include <fstream>
@@ -11,7 +18,7 @@
 #include "Cerberus\Dependencies\NlohmannJson\json.hpp"
 class PlayerController;
 
-#define rangeScale 1.0f
+#define rangeScale 64.0f
 
 using json = nlohmann::json;
 
@@ -23,8 +30,8 @@ enum class USERTYPE
 
 class Weapon : public CComponent
 {
-public:
-	Weapon();
+public:	
+	Weapon(std::string weapon = "Dagger");
 
 	void SetWeapon(int ID);
 	virtual void OnFire(Vector3 actorPos, Vector3 attackDir);
@@ -34,24 +41,28 @@ public:
 	void SetUserType(USERTYPE userType) { this->userType = userType; };
 
 	std::string GetType() { return type; };
+	std::string GetProjectileIcon() { return projectileIconPath; };
 	float GetDamage() { return damage; };
 	float GetRange() { return range; };
 	float GetAttack_Speed() { return attack_speed; };
 	float GetAmmo() { return ammo; };
+	void SetAmmo(float amount) { ammo = amount; };
 	bool GetUnique() { return unique; };
+	bool GetCanFire() { return canFire; };
+	void SetCanFire(bool canFire) { this->canFire = canFire; };
 	USERTYPE GetUserType() { return userType; };
+	std::string GetName() { return name; }
+	std::string GetIconPath() { return iconPath; };
+
+	void StartCooldown() { cooldown = attack_speed; };
 
 private:
 	void CoolDown(float attack_cooldown);
 
-
-	void HandleMelee(Vector3 actorPos, Vector3 normAttackDir);
-	void HandleRanged(Vector3 actorPos, Vector3 attackDir);
-
-	CEntity* GetClosestEnemy(Vector3 actorPos);
-	CEntity* GetClosestPlayer(Vector3 actorPos);
-
+	std::string iconPath;
+	std::string projectileIconPath;
 	std::string type;
+	std::string name;
 	float damage;
 	float range;
 	float attack_speed;
@@ -64,6 +75,7 @@ private:
 	std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
 
 protected:
-	
+	std::string pickupType;
+
 };
 

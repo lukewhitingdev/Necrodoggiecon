@@ -51,7 +51,10 @@ CTexture* AssetManager::GetTexture(std::string texturePath)
 		// The texture doesnt exist so make one.
 		CTexture* texture = new CTexture();
 		if (FAILED(hr = texture->LoadTextureDDS(texturePath)))
+		{
 			Debug::LogHResult(hr, "[AssetManager] Failed to load texture from path: %s", texturePath.c_str());
+			return nullptr;
+		}
 
 		
 		textures.emplace(std::make_pair(texturePath, texture));
@@ -73,8 +76,11 @@ CTexture* AssetManager::GetTextureWIC(std::string texturePath)
 	{
 		// The texture doesnt exist so make one.
 		CTexture* texture = new CTexture();
-		if (FAILED(hr = texture->LoadTextureWIC(texturePath))) //chaged LoadTextureDDS to LoadTextureWIC
+		if (FAILED(hr = texture->LoadTextureWIC(texturePath))) 
+		{
 			Debug::LogHResult(hr, "[AssetManager] Failed to load texture from path: %s", texturePath.c_str());
+			return nullptr;
+		}
 
 
 		textures.emplace(std::make_pair(texturePath, texture));

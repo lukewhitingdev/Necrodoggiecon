@@ -18,9 +18,9 @@ class State
 {
 public:
 
-	virtual void Enter(CAIController* controller) {};
-	virtual void Exit(CAIController* controller) {};
-	virtual void Update(CAIController* controller) {};
+	virtual void Enter(CAIController* controller) { UNREFERENCED_PARAMETER(controller); };
+	virtual void Exit(CAIController* controller) { UNREFERENCED_PARAMETER(controller); };
+	virtual void Update(CAIController* controller, float deltaTime) { UNREFERENCED_PARAMETER(controller); UNREFERENCED_PARAMETER(deltaTime); };
 	
 };
 
@@ -31,7 +31,7 @@ class ChaseState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();
@@ -47,7 +47,7 @@ class AttackState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();
@@ -63,20 +63,20 @@ class PatrolState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();
 };
 
 /**
- * State for when the AI is searching for the player.
+ * State for when the AI is searching for the player. The AI will spin on the spot looking for the player.
  */
 class SearchState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();
@@ -86,11 +86,14 @@ private:
 	std::vector<PlayerCharacter*> players;
 };
 
+/**
+ * State for when the AI is investigating. The AI will path to the ivestigation position then enter the search state.
+ */
 class InvestigateState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();

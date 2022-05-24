@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   Projectile.cpp
+ * \brief  All the functions needed for the Projectile.
+ * 
+ * \author Flynn Brooks
+ * \date   May 2022
+ *********************************************************************/
+
 #include "Projectile.h"
 #include <Cerberus\Core\AI\CAIController.h>
 #include <Necrodoggiecon\Game\PlayerCharacter.h>
@@ -5,10 +13,8 @@
 Projectile::Projectile()
 {
 	ProjectileSprite = AddComponent<CSpriteComponent>();
-	ProjectileSprite->LoadTextureWIC("Resources/weapons/Arrow.png");
 	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
-	ProjectileSprite->SetSpriteSize(XMUINT2(96, 96));
-
+	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
 }
 
 Projectile::~Projectile()
@@ -16,9 +22,14 @@ Projectile::~Projectile()
 	//RemoveComponent(colComponent);
 }
 
+/**
+ * Update for constantly moving projectile (Virtually overridden when unique logic is needed).
+ *
+ * \param deltaTime
+ */
 void Projectile::Update(float deltaTime)
 {
-	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime)
+	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime && hasHit == false)
 	{
 		DidItHit();
 		Position += Direction * Speed;
@@ -30,6 +41,12 @@ void Projectile::Update(float deltaTime)
 	}
 }
 
+
+/**
+ * Sees if the projectile is within ranged of hiting the target
+ *
+ * \Damages the target if it hit
+ */
 void Projectile::DidItHit()
 {
 	Vector3 damagePos = Position + Direction * 1;
@@ -38,25 +55,41 @@ void Projectile::DidItHit()
 	{
 		PlayerCharacter* target = GetClosestPlayer(damagePos);
 		if (target != nullptr)
-			target->ApplyDamage(1.0f, GetClosestEnemy(damagePos));
+		{
+			hasHit = true;
+			target->ApplyDamage(Damage);
+			Lifetime = 0;
+			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
+		}
 	}
 	else if (userType == USERTYPE2::PLAYER)
 	{
 		CAIController* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
-			target->ApplyDamage(1.0f, GetClosestPlayer(damagePos));
+		{
+			hasHit = true;
+			target->ApplyDamage(Damage);
+		}
 	}
-
 }
 
-void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type)
+/**
+ * Sets up the projectile based on what weapon is using it, this makes sure that the right spriate is being used
+ *
+ * This also allows for the projectile to be at the right rotation when fireing
+ */
+void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string &projectile_name)
 {
 	Direction = dir;
-	ProjectileSprite->SetPosition(pos);
-	Position = pos;
+	Damage = damage;
+	Projectile_Name = projectile_name;
 	Speed = speed;
 	Lifetime = lifetime;
 	initialPosition = pos;
+	Position = initialPosition;
+
+	ProjectileSprite->LoadTextureWIC(projectile_name);
+
 
 	userType = (USERTYPE2)type;
 
@@ -72,7 +105,11 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, 
 }
 
 
-
+/**
+ * Looks for the closest enemy within the range of the projectile
+ *
+ * \returns the enemy if within range
+ */
 
 CAIController* Projectile::GetClosestEnemy(Vector3 actorPos)
 {
@@ -101,6 +138,36 @@ CAIController* Projectile::GetClosestEnemy(Vector3 actorPos)
 
 	return closestEnemy;
 }
+
+CAIController* Projectile::GetClosestEnemy(Vector3 actorPos, float ranged)
+{
+	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
+
+	if (enemies.size() == 0) //No enemies
+		return nullptr;
+
+	CAIController* closestEnemy = nullptr;
+
+	//Check each enemy
+	for (CAIController* enemy : enemies)
+	{
+
+		if (actorPos.DistanceTo(enemy->GetPosition()) > ranged)
+			continue;
+
+		if (closestEnemy == nullptr)
+			closestEnemy = enemy;
+		else
+		{
+			if (actorPos.DistanceTo(enemy->GetPosition()) < actorPos.DistanceTo(closestEnemy->GetPosition()))
+				closestEnemy = enemy;
+		}
+	}
+
+	return closestEnemy;
+}
+
+
 
 PlayerCharacter* Projectile::GetClosestPlayer(Vector3 actorPos)
 {

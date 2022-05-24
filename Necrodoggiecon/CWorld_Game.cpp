@@ -50,13 +50,12 @@ void CWorld_Game::SetupWorld()
 
 	controller->charOne = character1;
 
-	
 	Vector3 PlayerStart = Vector3(StartPos.x, StartPos.y, 0) * (tileScale * tileScaleMultiplier) + Vector3(0, 0, -1);
 	Debug::Log("Player Start Position: [%f | %f]", PlayerStart.x, PlayerStart.y);
 	character1->SetPosition(PlayerStart);
 	controller->Possess(character1);
-	character1->SetShouldMove(true);
-	character1->colComponent->SetCollider(64.0f, 64.0f);
+
+	//Please stop configuring stuff in here instead of in the class constructor - Lets not spread configuration to many different places in the project!
 
 	LoadEntities(mapSlot);
 
@@ -99,7 +98,6 @@ void CWorld_Game::LoadEntities(int Slot)
 
 	file >> storedFile;
 
-
 	int enemyCount = storedFile["EnemyCount"];
 
 	std::vector<PatrolNode*> patrolNodes;
@@ -123,7 +121,7 @@ void CWorld_Game::LoadEntities(int Slot)
 		}
 		case 1:
 		{
-			enemy = Engine::CreateEntity<MeleeEnemy>();
+			enemy = Engine::CreateEntity<GruntEnemy>();
 			enemy->SetPosition(position);
 			break;
 		}

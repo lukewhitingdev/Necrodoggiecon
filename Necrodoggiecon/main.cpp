@@ -6,18 +6,29 @@
 #include <Necrodoggiecon\Game\TestUI.h>
 #include <Necrodoggiecon\Game\CursorEntity.h>
 #include <Necrodoggiecon\Game\PlayerController.h>
-#include <Necrodoggiecon\Game\PlayerCharacter.h>
-#include <Necrodoggiecon\Game\ItemDatabase.h>
+#include <Necrodoggiecon\Game\PlayerCharacter.h>>
 #include <Cerberus/Core/AI/CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
 #include <Cerberus/Core/Utility/CWorldManager.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
-#include "Necrodoggiecon/Game/AI/MeleeEnemy.h"
+#include "Necrodoggiecon/Game/AI/GruntEnemy.h"
 #include "Necrodoggiecon/Game/AI/DogEnemy.h"
 #include "Necrodoggiecon/Game/AI/AlarmEnemy.h"
 #include <weaponUI.h>
 #include <Necrodoggiecon\Game\CInteractable.h>
+#include <Game/WeaponPickup.h>
+#include <Weapons/Melee/Dagger.h>
+#include <Weapons/Melee/Rapier.h>
+#include <Weapons/Melee/Longsword.h>
+#include <Weapons/Ranged/Crossbow.h>
+#include <Weapons/Ranged/Fireball.h>
+#include <Weapons/Ranged/MagicMissile.h>
+#include "Necrodoggiecon/MainMenu.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
+#include <Necrodoggiecon/Game/DialogueHandler.h>
+#include "Weapons/Pickup/InvisibilityScroll.h"
+#include "Weapons/Pickup/ShieldScroll.h"
 
 /*
 
@@ -79,19 +90,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 int Start() 
 {
 
-	CInteractable* interactable = Engine::CreateEntity<CInteractable>();
+	//CInteractable* interactable = Engine::CreateEntity<CInteractable>();
 
-	interactable->SetPosition(-500, 0, 0);
+	//interactable->SetPosition(-500, 0, 0);
 
 	// Free Camera not locked to player.
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
 	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>();
-	freeCameraComponent->Initialize();
 	freeCameraComponent->SetAttachedToParent(false);
 
-	CameraManager::AddCamera(freeCameraComponent);
-
 	CWorldManager::LoadWorld(new CWorld_Game(0));
+
+	//CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
 
 	
 
@@ -102,14 +112,31 @@ int Start()
 	t = Engine::CreateEntity<CursorEntity>();
 	t->SetPosition(XMFLOAT3(0, 0, -110));
 
-	CDroppedItem* droppedItem = ItemDatabase::CreateDroppedItemFromID(0);
 
 
-	/*Engine::CreateEntity<MeleeEnemy>();
-	Engine::CreateEntity<MeleeEnemy>();
-	Engine::CreateEntity<MeleeEnemy>();
-	Engine::CreateEntity<MeleeEnemy>();
+	/*Engine::CreateEntity<GruntEnemy>();
+	Engine::CreateEntity<GruntEnemy>();
+	Engine::CreateEntity<GruntEnemy>();
+	Engine::CreateEntity<GruntEnemy>();
 	Engine::CreateEntity<AlarmEnemy>();*/
+	//controller->charOne = character1;
+
+//	character1->SetPosition(Vector3(0, 0, 0));
+	//controller->Possess(character1);
+	//character1->shouldMove = true;
+	//character1->colComponent->SetCollider(128.0f, 128.0f);
+
+	std::vector<PlayerCharacter*> test = Engine::GetEntityOfType<PlayerCharacter>();
+
+	
+	Engine::CreateEntity<WeaponPickup<Dagger>>();
+	Engine::CreateEntity<WeaponPickup<Rapier>>()->SetPosition(-100.0f, 0.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Longsword>>()->SetPosition(100.0f, 0.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Crossbow>>()->SetPosition(100.0f, 100.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Fireball>>()->SetPosition(0.0f, 100.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<MagicMissile>>()->SetPosition(-100.0f, 100.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<ShieldScroll>>()->SetPosition(800.0f, 400, 0.0f);
+	Engine::CreateEntity<WeaponPickup<InvisibilityScroll>>()->SetPosition(800.0f, 450, 0.0f);
 
 	return 0;
 }

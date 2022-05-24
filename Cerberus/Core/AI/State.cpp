@@ -35,7 +35,7 @@ void ChaseState::Enter(CAIController* controller)
 	controller->ChaseEnter();
 }
 
-void ChaseState::Update(CAIController* controller)
+void ChaseState::Update(CAIController* controller, float deltaTime)
 {
 	if (controller->CanSee(closestPlayer->GetPosition()) == true)
 	{
@@ -43,12 +43,16 @@ void ChaseState::Update(CAIController* controller)
 	}
 	else
 	{
-		controller->SetCurrentState(SearchState::getInstance());
+		controller->SetPositionToInvestigate(closestPlayer->GetPosition());
+		controller->SetCurrentState(InvestigateState::getInstance());
 	}
+
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 void ChaseState::Exit(CAIController* controller)
 {
+	UNREFERENCED_PARAMETER(controller);
 }
 
 State& ChaseState::getInstance()
@@ -81,15 +85,16 @@ void AttackState::Enter(CAIController* controller)
 	controller->AttackEnter(closestPlayer);
 }
 
-void AttackState::Update(CAIController* controller)
+void AttackState::Update(CAIController* controller, float deltaTime)
 {
 	if (closestPlayer != nullptr)
 	{
-		controller->AttackPlayer(closestPlayer);
-		if (controller->CanSee(closestPlayer->GetPosition()) == false && !controller->isAttacking)
+		controller->AttackPlayer(closestPlayer, deltaTime);
+		if (controller->CanSee(closestPlayer->GetPosition()) == false && controller->GetIsAttacking() == false)
 		{
+			controller->SetPositionToInvestigate(closestPlayer->GetPosition());
 			closestPlayer = nullptr;
-			controller->SetCurrentState(PatrolState::getInstance());
+			controller->SetCurrentState(InvestigateState::getInstance());
 		}
 	}
 	else
@@ -114,13 +119,16 @@ void PatrolState::Enter(CAIController* controller)
 	controller->SetPath();
 }
 
-void PatrolState::Update(CAIController* controller)
+void PatrolState::Update(CAIController* controller, float deltaTime)
 {
 	controller->Patrolling();
+
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 void PatrolState::Exit(CAIController* controller)
 {
+	UNREFERENCED_PARAMETER(controller);
 }
 
 State& PatrolState::getInstance()
@@ -133,9 +141,11 @@ void SearchState::Enter(CAIController* controller)
 {
 	searchTimer = 10.0f;
 	players = Engine::GetEntityOfType<PlayerCharacter>();
+
+	UNREFERENCED_PARAMETER(controller);
 }
 
-void SearchState::Update(CAIController* controller)
+void SearchState::Update(CAIController* controller, float deltaTime)
 {
 	if (searchTimer > 0.0f)
 	{
@@ -155,11 +165,15 @@ void SearchState::Update(CAIController* controller)
 		if (searchTimer < 0.02f)
 			controller->SetCurrentState(PatrolState::getInstance());
 	}
+
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 void SearchState::Exit(CAIController* controller)
 {
 	searchTimer = 10.0f;
+
+	UNREFERENCED_PARAMETER(controller);
 }
 
 State& SearchState::getInstance()
@@ -170,16 +184,19 @@ State& SearchState::getInstance()
 
 void InvestigateState::Enter(CAIController* controller)
 {
-	controller->SetPath(controller->positionToInvestigate);
+	controller->SetPath(controller->GetPositionToInvestigate());
 }
 
-void InvestigateState::Update(CAIController* controller)
+void InvestigateState::Update(CAIController* controller, float deltaTime)
 {
-	controller->Investigating(controller->positionToInvestigate);
+	controller->Investigating(controller->GetPositionToInvestigate());
+
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 void InvestigateState::Exit(CAIController* controller)
 {
+	UNREFERENCED_PARAMETER(controller);
 }
 
 State& InvestigateState::getInstance()
