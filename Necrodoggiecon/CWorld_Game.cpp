@@ -72,7 +72,7 @@ void CWorld_Game::SetupWorld()
 		}
 		case 1:
 		{
-			enemy = Engine::CreateEntity<GruntEnemy>();
+			enemy = Engine::CreateEntity<DogEnemy>();
 			enemy->SetPosition(position);
 			break;
 		}
