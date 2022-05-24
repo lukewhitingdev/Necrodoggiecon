@@ -37,9 +37,10 @@ public:
 	void SetPosition(Vector3 newPosition) { Position = newPosition; };
 	Vector3 GetDirection() { return Direction; };
 	float GetSpeed() { return Speed; };
-
 	class CSpriteComponent* ProjectileSprite = nullptr;
+
 private:
+
 	float Damage;
 
 	float Speed;
@@ -49,6 +50,7 @@ private:
 	Vector3 Position;
 	Vector3 initialPosition;
 	std::string Projectile_Name;
+	bool hasHit = false;
 
 	CAIController* GetClosestEnemy(Vector3 actorPos);
 	PlayerCharacter* GetClosestPlayer(Vector3 actorPos);

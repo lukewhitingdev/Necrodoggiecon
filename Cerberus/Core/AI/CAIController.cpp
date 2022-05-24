@@ -48,7 +48,7 @@ CAIController::CAIController()
 	SetScale(Vector3{ 0.5f, 0.5f, 1.0f });
 	viewFrustrum = AddComponent<CSpriteComponent>();
 	viewFrustrum->LoadTexture("Resources/Game/viewFrustrum.dds");
-	viewFrustrum->SetTint(XMFLOAT4(0.0f, 0.0f, 0.0f, 0));
+	viewFrustrum->SetTint(XMFLOAT4(0.0f, 0.0f, 0.0f, -0.5f));
 	viewFrustrum->SetRenderRect(XMUINT2(128, 128));
 	viewFrustrum->SetSpriteSize(XMUINT2(128, 128));
 	viewFrustrum->SetRotation(-1.5087f);
@@ -56,7 +56,7 @@ CAIController::CAIController()
 	float scaleComparisonY = 128.0f / (64.0f * GetScale().y);
 	viewFrustrum->SetScale(Vector3{ ((aiRange / 128.0f) * scaleComparisonX), ((aiRange / 128.0f) * scaleComparisonY), 1.0f });
 	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y + aiRange *scaleComparisonY * GetScale().y, 1.0f });
-	//viewFrustrum->SetUseTranslucency(true);
+	viewFrustrum->SetUseTranslucency(true);
 
 	colComponent = new CollisionComponent("Enemy", this);
 	colComponent->SetCollider(64.0f, 64.0f);
@@ -69,6 +69,10 @@ CAIController::CAIController()
 
 	std::function<void()> CanHearLambda = [&]()
 	{
+		if (currentState == &AttackState::getInstance() || currentState == &ChaseState::getInstance())
+		{
+			return;
+		}
 		std::vector<CEmitter*> audioEmitters = AudioController::GetAllEmittersWithinRange(aiPosition, true);
 		float closestDistance = 100000000.0f;
 		CEmitter* closestEmitter = nullptr;
@@ -83,15 +87,17 @@ CAIController::CAIController()
 					closestEmitter = emitter;
 				}
 			}
-			positionToInvestigate = closestEmitter->position;
-			SetCurrentState(InvestigateState::getInstance());
+			if (closestEmitter != nullptr)
+			{
+				positionToInvestigate = closestEmitter->position;
+				SetCurrentState(InvestigateState::getInstance());
+			}
 		}
 	};
 
 	EventSystem::AddListener("soundPlayed", CanHearLambda);
 
 	currentState = &PatrolState::getInstance();
-	//SetCurrentState(PatrolState::getInstance());
 }
 
 CAIController::~CAIController()
@@ -399,6 +405,11 @@ void CAIController::Investigating(Vector3 positionOfInterest)
 	}
 }
 
+void CAIController::AttackEnter(PlayerCharacter* player)
+{
+	UNREFERENCED_PARAMETER(player);
+}
+
 /**
  * Enter function for the chase state. Called once when first switching to this state.
  * 
@@ -430,6 +441,8 @@ void CAIController::ChasePlayer(PlayerCharacter* player)
  */
 void CAIController::AttackPlayer(PlayerCharacter* player, float deltaTime)
 {
+	UNREFERENCED_PARAMETER(deltaTime);
+	UNREFERENCED_PARAMETER(player);
 }
 
 /**
@@ -458,8 +471,6 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
  */
 void CAIController::CheckForPlayer()
 {
-	PlayerCharacter* closestPlayer = nullptr;
-
 	if (currentState != &AttackState::getInstance())
 	{
 		if (players.size() > 0)
@@ -485,14 +496,12 @@ void CAIController::CheckForPlayer()
 void CAIController::MoveViewFrustrum()
 {
 	// Temp code for the arrow sprite so I know where the AI is looking. 
+	if (velocity.Magnitude() == 0.0f)
+	{
+		return;
+	}
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
-	float offset = 128.0f * viewFrustrum->GetScale().x;
-	//float offset = 128.0f * viewFrustrum->viewSprite->GetScale().x;
-
-	//viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x * 0.5f))));
-	
-
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
 
 	float dot = up.Dot(view);
@@ -501,8 +510,6 @@ void CAIController::MoveViewFrustrum()
 	float angle = atan2f(det, dot);
 	this->SetRotation(angle);
 	viewFrustrum->SetRotation(-1.5708f*4.0f);
-	//viewFrustrum->SetRotation(angle);
-	//viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 1.0f });
 }
 
 /**
