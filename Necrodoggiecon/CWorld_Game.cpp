@@ -50,6 +50,23 @@ void CWorld_Game::SetupWorld()
 	character1->SetShouldMove(true);
 	character1->colComponent->SetCollider(64.0f, 64.0f);
 
+	
+
+}
+
+void CWorld_Game::UnloadWorld()
+{
+	for (int i = 0; i < EntityList.size(); i++)
+	{
+		if (EntityList[i] != nullptr)
+		{
+			Engine::DestroyEntity(EntityList[i]);
+		}
+	}
+}
+
+void CWorld_Game::LoadEntities(int Slot)
+{
 	std::string fileName = "Resources/Levels/Level_" + std::to_string(mapSlot);
 	fileName += ".json";
 
@@ -58,7 +75,7 @@ void CWorld_Game::SetupWorld()
 	json storedFile;
 
 	file >> storedFile;
-	
+
 
 	int enemyCount = storedFile["EnemyCount"];
 
@@ -91,6 +108,7 @@ void CWorld_Game::SetupWorld()
 			enemy = Engine::CreateEntity<CAIController>();
 			break;
 		}
+		EntityList.push_back(enemy);
 
 		int waypointlist = storedFile["Enemy"][i]["WaypointList"];
 		for (int y = 0; y < waypointlist; y++)
@@ -111,7 +129,7 @@ void CWorld_Game::SetupWorld()
 			}
 			else
 			{
-				patrolNodes[patrolIndex]->nextPatrolNode = patrolNodes[patrolIndex+1];
+				patrolNodes[patrolIndex]->nextPatrolNode = patrolNodes[patrolIndex + 1];
 			}
 		}
 		Vector3 enemyPos = enemy->GetPosition();
@@ -120,5 +138,4 @@ void CWorld_Game::SetupWorld()
 		enemy->SetCurrentState(PatrolState::getInstance());
 		patrolNodes.clear();
 	}
-
 }

@@ -51,6 +51,7 @@ protected:
 
 	
 
+	virtual void LoadEntities(int Slot);
 
 
 
@@ -94,7 +95,7 @@ protected:
 	 //The slot that the current map is tied to.
 	 int mapSlot;
 
-
+	 std::vector<CEntity*> EntityList;
 
 
 	Vector2 StartPos;

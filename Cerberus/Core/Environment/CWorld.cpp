@@ -120,6 +120,10 @@ void CWorld::BuildNavigationGrid()
 
 }
 
+void CWorld::LoadEntities(int Slot)
+{
+}
+
 std::vector<CTile*> CWorld::GetAllWalkableTiles()
 {
 	std::vector<CTile*> walkableTiles;
