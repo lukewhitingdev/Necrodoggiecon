@@ -25,6 +25,5 @@ public:
 
 private:
     std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
-    WeaponInterface* weapon = nullptr;
 };
 
