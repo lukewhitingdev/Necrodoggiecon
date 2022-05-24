@@ -6,6 +6,8 @@
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include "Necrodoggiecon/Weapons/Pickup/ShieldScroll.h"
 #include "Necrodoggiecon/Weapons/Pickup/InvisibilityScroll.h"
+#include <Necrodoggiecon/Weapons/Ranged/MagicMissile.h>
+
 PlayerCharacter::PlayerCharacter()
 {
 	SetShouldMove(true);
