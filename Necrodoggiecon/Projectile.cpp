@@ -13,8 +13,6 @@
 Projectile::Projectile()
 {
 	ProjectileSprite = AddComponent<CSpriteComponent>(NAME_OF(ProjectileSprite));
-	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
-	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
 }
 
 Projectile::~Projectile()
@@ -89,7 +87,8 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, fl
 	Position = initialPosition;
 
 	ProjectileSprite->LoadTextureWIC(projectile_name);
-
+	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
+	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
 
 	userType = (USERTYPE2)type;
 
