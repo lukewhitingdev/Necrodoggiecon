@@ -46,7 +46,6 @@ CAIController::CAIController()
 	patrolPoint3->nextPatrolNode = patrolPoint1;
 
 	SetScale(Vector3{ 0.5f, 0.5f, 1.0f });
-	SetPosition(Vector3{ 0.0f, 0.0f, 0.0f });
 	viewFrustrum = AddComponent<CSpriteComponent>();
 	viewFrustrum->LoadTexture("Resources/Game/viewFrustrum.dds");
 	viewFrustrum->SetTint(XMFLOAT4(0.0f, 0.0f, 0.0f, -0.5f));
