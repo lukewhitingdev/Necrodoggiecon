@@ -22,7 +22,7 @@ const std::string CComponent::GetDebugInfo() const
 	if (GetParent() != nullptr)
 	{
 		output.append(" in ");
-		output.append(GetParent()->GetName());
+		output.append(typeid(*GetParent()).name());
 	}
 
 	return output;
