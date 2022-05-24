@@ -24,6 +24,7 @@
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="weaponUI.cpp" />
     <ClCompile Include="CWorld_Menu.cpp" />
+    <ClCompile Include="Game\LevelTransporter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\AI\AlarmEnemy.h" />
@@ -49,6 +50,7 @@
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="weaponUI.h" />
     <ClInclude Include="CWorld_Menu.h" />
+    <ClInclude Include="Game\LevelTransporter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />

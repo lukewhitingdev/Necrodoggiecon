@@ -107,12 +107,38 @@ void CWorld_Editable::LoadWorld(int Slot)
 			int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
 			int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
 
+			//float enemyHealth = storedFile["Enemy"][i]["Health"];
+			//float enemySpeed = storedFile["Enemy"][i]["Speed"];
+
+			//float enemyMass = storedFile["Enemy"][i]["Mass"];
+			//float enemyRange = storedFile["Enemy"][i]["Range"];
+
+			//float enemyRotationSpeed = storedFile["Enemy"][i]["RotationSpeed"];
+			//float enemyMaxSearchTime = storedFile["Enemy"][i]["MaxSearchTime"];
+
+			
+			
+
+			
+			
+
+			
+			
+			
+
 			
 
 			CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
 			TempRef->InitialiseEntity(EnemyID);
 			TempRef->SetPosition(Vector3(EnemyX, EnemyY, -1));
 			editorEntityList.push_back(TempRef);
+
+			//TempRef->SetHealth(enemyHealth);
+		//	TempRef->SetSpeed(enemySpeed);
+			//TempRef->SetMass(enemyMass);
+			//TempRef->SetRange(enemyRange);
+			//TempRef->SetRotationSpeed(enemyRotationSpeed);
+			//TempRef->SetMaxSearchTime(enemyMaxSearchTime);
 
 			if (EnemyID == 0)
 			{
@@ -245,6 +271,15 @@ void CWorld_Editable::SaveWorld(int Slot)
 					SaveData["Enemy"][i]["Waypoints"][y]["X"] = TempEnemy->Waypoints[y]->gridPos.x;
 					SaveData["Enemy"][i]["Waypoints"][y]["Y"] = TempEnemy->Waypoints[y]->gridPos.y;
 				}
+
+				SaveData["Enemy"][i]["Health"] = TempEnemy->GetHealth();
+				SaveData["Enemy"][i]["Speed"] = TempEnemy->GetSpeed();
+
+				SaveData["Enemy"][i]["Mass"] = TempEnemy->GetMass();
+				SaveData["Enemy"][i]["Range"] = TempEnemy->GetRange();
+
+				SaveData["Enemy"][i]["RotationSpeed"] = TempEnemy->GetRotationSpeed();
+				SaveData["Enemy"][i]["MaxSearchTime"] = TempEnemy->GetMaxSearchTime();
 
 
 				break;
