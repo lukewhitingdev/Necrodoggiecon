@@ -57,6 +57,8 @@ void Projectile::DidItHit()
 		if (target != nullptr)
 		{
 			target->ApplyDamage(Damage);
+			Lifetime = 0;
+			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
 		}
 	}
 	else if (userType == USERTYPE2::PLAYER)
@@ -76,7 +78,7 @@ void Projectile::DidItHit()
  *
  * This also allows for the projectile to be at the right rotation when fireing
  */
-void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type, const std::string &projectile_name)
+void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string &projectile_name)
 {
 	Direction = dir;
 	Damage = damage;
