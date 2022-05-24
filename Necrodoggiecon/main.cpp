@@ -5,8 +5,7 @@
 #include <Necrodoggiecon\Game\TestUI.h>
 #include <Necrodoggiecon\Game\CursorEntity.h>
 #include <Necrodoggiecon\Game\PlayerController.h>
-#include <Necrodoggiecon\Game\PlayerCharacter.h>
-#include <Necrodoggiecon\Game\ItemDatabase.h>
+#include <Necrodoggiecon\Game\PlayerCharacter.h>>
 #include <Cerberus/Core/AI/CAIController.h>
 #include <Cerberus/Core/Structs/CCamera.h>
 #include <Cerberus/Core/Utility/CWorldManager.h>
@@ -27,7 +26,6 @@
 #include "Necrodoggiecon/MainMenu.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include <Necrodoggiecon/Game/DialogueHandler.h>
-#include <Game/CPickupItem.h>
 
 /*
 
@@ -92,9 +90,6 @@ int Start()
 	//CInteractable* interactable = Engine::CreateEntity<CInteractable>();
 
 	//interactable->SetPosition(-500, 0, 0);
-
-	CPickupItem* pickupItem = Engine::CreateEntity<CPickupItem>();
-	pickupItem->SetPosition(-500, 0, 0);
 
 	// Free Camera not locked to player.
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();

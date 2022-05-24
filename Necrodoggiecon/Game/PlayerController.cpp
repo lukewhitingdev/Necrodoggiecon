@@ -1,8 +1,5 @@
 #include "PlayerController.h"
 
-#include "ItemDatabase.h"
-#include "CEquippedItem.h"
-
 #include <Necrodoggiecon\Game\CursorEntity.h>
 
 #include <Game/DialogueHandler.h>

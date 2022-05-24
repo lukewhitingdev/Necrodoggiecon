@@ -1,12 +1,11 @@
 #include "Game/PlayerCharacter.h"
-#include "CDroppedItem.h"
-#include "CEquippedItem.h"
 #include "Cerberus/Core/Utility/Math/Math.h"
 #include "Cerberus\Core\Components\CCameraComponent.h"
 #include "Cerberus/Core/Utility/IO.h"
 #include "Necrodoggiecon/Game/PlayerController.h"
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
-
+#include "Necrodoggiecon/Weapons/Pickup/ShieldScroll.h"
+#include "Necrodoggiecon/Weapons/Pickup/InvisibilityScroll.h"
 PlayerCharacter::PlayerCharacter()
 {
 	SetShouldMove(true);
@@ -52,7 +51,7 @@ PlayerCharacter::PlayerCharacter()
 
 	weaponComponent = AddComponent<WeaponInterface>();
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
-	weaponComponent->SetWeapon(new Dagger());
+	weaponComponent->SetWeapon(new ShieldScroll());
 
 	weaponSprite = AddComponent<CSpriteComponent>();
 	UpdateWeaponSprite();
@@ -95,12 +94,6 @@ void PlayerCharacter::PressedVertical(int dir, float deltaTime)
 void PlayerCharacter::PressedInteract()
 {
 	weaponComponent->SetWeapon(new Longsword());
-
-	if (droppedItem == nullptr) return;
-
-	equippedItem = droppedItem->OnEquip(this);
-	Engine::DestroyEntity(droppedItem);
-	droppedItem = nullptr;
 }
 /**
 * Function inherited from interface
@@ -110,12 +103,6 @@ void PlayerCharacter::PressedInteract()
 void PlayerCharacter::PressedDrop()
 {
 	weaponComponent->SetWeapon(new Rapier());
-
-	if (equippedItem == nullptr) return;
-
-	droppedItem = equippedItem->Drop();
-	Engine::DestroyEntity(equippedItem);
-	equippedItem = nullptr;
 }
 
 void PlayerCharacter::Attack()
@@ -148,6 +135,9 @@ void PlayerCharacter::Update(float deltaTime)
 
 	movementVec = { 0,0 };
 	movementVel = XMFLOAT2(movementVel.x * (1 - deltaTime * walkDrag), movementVel.y * (1 - deltaTime * walkDrag));
+
+	PickupTimer(deltaTime);
+
 }
 
 void PlayerCharacter::ResolveMovement(const float& deltaTime)
@@ -192,8 +182,6 @@ void PlayerCharacter::EquipWeapon(Weapon* weapon)
 	weaponComponent->SetWeapon(weapon);
 	UpdateWeaponSprite();
 	movementVec = {0,0};
-
-	PickupTimer(deltaTime);
 }
 
 void PlayerCharacter::UpdateWeaponSprite()
@@ -221,6 +209,12 @@ void PlayerCharacter::UpdateWeaponSprite()
 
 void PlayerCharacter::ApplyDamage(float damage)
 {
+	if (hasShield)
+	{
+		ToggleShield(false);
+		return;
+	}
+
 	SetHealth(GetHealth() - damage);
 	if (GetHealth() <= 0.0f)
 	{
@@ -246,7 +240,7 @@ void PlayerCharacter::LookAt(Vector3 pos)
 
 	const float degToRad = 0.0174533f;
 
-	SetRotation(atan2f(det, dot) + 90 * degToRad)
+	SetRotation(atan2f(det, dot) + 90 * degToRad);
 }
 
 /**
@@ -266,8 +260,7 @@ void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime
 	} 
 	else if (pickupToUse == "ShieldScroll")
 	{
-		//Give shield
-		GiveShield();
+		ToggleShield(true);
 	}
 }
 
@@ -311,9 +304,9 @@ void PlayerCharacter::ToggleVisibility(bool isVisible)
 	spriteComponentShadow->SetShouldDraw(visible);
 }
 
-void PlayerCharacter::GiveShield()
+void PlayerCharacter::ToggleShield(bool shield)
 {
-	//SetHealth to health + 1
-	spriteComponentShield->SetShouldDraw(true);
+	hasShield = shield;
+	spriteComponentShield->SetShouldDraw(shield);
 }
 

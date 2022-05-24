@@ -22,22 +22,6 @@ CCharacter::~CCharacter()
 		pickup->SetPosition(this->GetPosition());
 	}
 }
-/*
-* Function to add vertical movement to the character
-* dir is the direction on the y axis that the character will move
-* speed is how fast to move the character
-* deltaTime is used to ensure the character will move at a consistent speed that is not dependent on frame rate
-*/
-void CCharacter::AddVerticalMovement(int dir, float speed, float deltaTime){}
-
-
-/**
-* Function to add vertical movement to the character
-* dir is the direction on the y axis that the character will move
-* speed is how fast to move the character
-* deltaTime is used to ensure the character will move at a consistent speed that is not dependent on frame rate
-*/
-void CCharacter::AddHorizontalMovement(int dir, float speed, float deltaTime){}
 
 void CCharacter::SetHealth(float heal)
 {

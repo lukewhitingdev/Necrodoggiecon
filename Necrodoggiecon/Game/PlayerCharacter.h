@@ -3,7 +3,7 @@
 #include <Cerberus\Core\Environment\IInputable.h>
 #include "Cerberus/Core/Components/CAudioEmitterComponent.h"
 #include "Cerberus/Core/Utility/DebugOutput/Debug.h"
-
+#include "IUsePickup.h"
 #include "weapons.h"
 #include <Necrodoggiecon/Weapons/Melee/Dagger.h>
 #include <Necrodoggiecon/Weapons/Melee/Rapier.h>
@@ -39,8 +39,10 @@ protected:
 	void PickupTimer(float deltaTime);
 
 	void ToggleVisibility(bool isVisible);
-	void GiveShield();
+	void ToggleShield(bool shield);
 	const float cameraMovementScalar = 100.0f;
+
+	bool hasShield = false;
 public:
 	PlayerCharacter();
 
@@ -52,8 +54,6 @@ public:
 	void PressedUse() override;
 
 	Weapon* weapon = nullptr;
-	class CCameraComponent* camera = nullptr;
-	CAudioEmitterComponent* loadNoise;
 
 	void UsePickup(const std::string& pickupToUse, float activeTime) override;
 	bool GetVisible() { return visible; }

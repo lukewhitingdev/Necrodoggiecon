@@ -7,7 +7,6 @@ class CCharacter : public CEntity
 {
 private:
 protected:
-	Weapon* weaponComponent = nullptr;
 	/**
 	* Virtual function
 	* Called when the Character takes damage
