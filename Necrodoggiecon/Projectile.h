@@ -28,7 +28,7 @@ public:
 	Projectile();
 	~Projectile();
 
-	void StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string &projectile_name);
+	void StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string &projectile_name, const std::string& hitAudioPath);
 	void DidItHit();
 	virtual void Update(float deltaTime) override;
 
@@ -53,7 +53,7 @@ private:
 	CAIController* GetClosestEnemy(Vector3 actorPos);
 	PlayerCharacter* GetClosestPlayer(Vector3 actorPos);
 	CAIController* GetClosestEnemy(Vector3 actorPos, float ranged);
-
+	CAudioEmitterComponent* audioEmitter;
 	USERTYPE2 userType;
 };
 

@@ -15,12 +15,15 @@ Weapon::Weapon(std::string weapon)
  */
 void Weapon::SetWeapon(std::string weapon)
 {
+	
 	std::ifstream file("Resources/Game/Weapons.json");
 	json storedFile;
 	file >> storedFile;
 
 	iconPath = storedFile.at(weapon).at("IconPath");
 	projectileIconPath = storedFile.at(weapon).at("ProjectileIconPath");
+	hitSoundPath = storedFile.at(weapon).at("HitAudioPath");
+	attackSoundPath = storedFile.at(weapon).at("AttackAudioPath");
 	type = storedFile.at(weapon).at("Type");
 	name = storedFile.at(weapon).at("Name");
 	damage = storedFile.at(weapon).at("Damage");

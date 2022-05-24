@@ -41,6 +41,9 @@ PlayerCharacter::PlayerCharacter()
 
 	loadNoise = AddComponent<CAudioEmitterComponent>();
 	loadNoise->Load("Resources/Game/TestShortAudio.wav");
+	deathAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.ogg");
+
 
 	loadNoise->SetRange(10000.0f);
 

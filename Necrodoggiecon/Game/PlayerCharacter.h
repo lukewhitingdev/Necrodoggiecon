@@ -32,6 +32,10 @@ protected:
 	const float walkAnimationSpeed = 1.3f;
 
 	const float cameraMovementScalar = 100.0f;
+
+	CAudioEmitterComponent* deathAudioEmitter = nullptr;
+
+
 public:
 	PlayerCharacter();
 

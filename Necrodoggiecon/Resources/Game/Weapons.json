@@ -8,7 +8,9 @@
     "Attack_Speed": 0.5,
     "Ammo": 0.0,
     "Unique": false,
-    "Name": "Dagger"
+    "Name": "Dagger",
+    "HitAudioPath": "Resources/Game/Audio/DaggerStab.wav",
+    "AttackAudioPath": "Resources/Game/Audio/DaggerThrust.wav"
   },
   "Rapier": {
     "IconPath": "Resources/Game/weapons/Rapier.png",
@@ -19,7 +21,9 @@
     "Attack_Speed": 0.5,
     "Ammo": 0.0,
     "Unique": false,
-    "Name": "Rapier"
+    "Name": "Rapier",
+    "HitAudioPath": "Resources/Game/Audio/RapierHit.wav",
+    "AttackAudioPath": "Resources/Game/Audio/RapierThrust.wav"
   },
   "Longsword": {
     "IconPath": "Resources/Game/weapons/Sword.png",
@@ -30,7 +34,9 @@
     "Attack_Speed": 1.0,
     "Ammo": 0.0,
     "Unique": true,
-    "Name": "Longsword"
+    "Name": "Longsword",
+    "HitAudioPath": "Resources/Game/Audio/BroadswordHit.wav",
+    "AttackAudioPath": "Resources/Game/Audio/BroadswordSwing.wav"
   },
   "Crossbow": {
     "IconPath": "Resources/Game/weapons/Crossbow.png",
@@ -41,7 +47,9 @@
     "Attack_Speed": 0.8,
     "Ammo": 8.0,
     "Unique": false,
-    "Name": "Crossbow"
+    "Name": "Crossbow",
+    "HitAudioPath": "Resources/Game/Audio/ArrowHit1.wav",
+    "AttackAudioPath": "Resources/Game/Audio/ShootBow.wav"
   },
   "Throwing_Knives": {
     "IconPath": "Resources/Game/weapons/ThrowingKnives.png",
@@ -52,7 +60,9 @@
     "Attack_Speed": 0.2,
     "Ammo": 10.0,
     "Unique": false,
-    "Name": "Throwing Knives"
+    "Name": "Throwing Knives",
+    "HitAudioPath": "Resources/Game/Audio/ArrowHit1.wav",
+    "AttackAudioPath": "Resources/Game/Audio/KnifeThrow.wav"
   },
   "Magic_Missile": {
     "IconPath": "Resources/Game/weapons/Wand - Magic missile.png",
@@ -63,7 +73,9 @@
     "Attack_Speed": 0.1,
     "Ammo": 3.0,
     "Unique": true,
-    "Name": "Magic Missile"
+    "Name": "Magic Missile",
+    "HitAudioPath": "Resources/Game/Audio/",
+    "AttackAudioPath": "Resources/Game/Audio/"
   },
   "IcicleBarrage": {
     "IconPath": "Resources/Game/weapons/Wand - Icicle barrage.png",
@@ -74,8 +86,9 @@
     "Attack_Speed": 0.1,
     "Ammo": 12.0,
     "Unique": true,
-    "Name": "Icicle Barrage"
-
+    "Name": "Icicle Barrage",
+    "HitAudioPath": "Resources/Game/Audio/",
+    "AttackAudioPath": "Resources/Game/Audio/"
   },
   "LightningDash": {
     "IconPath": "Resources/Game/weapons/Wand - Lightning Dash.png",
@@ -86,7 +99,9 @@
     "Attack_Speed": 0.01,
     "Ammo": 1.0,
     "Unique": true,
-    "Name": "Lightning Dash"
+    "Name": "Lightning Dash",
+    "HitAudioPath": "Resources/Game/Audio/",
+    "AttackAudioPath": "Resources/Game/Audio/"
   },
   "FireBall": {
     "IconPath": "Resources/Game/weapons/Wand - Fireball.png",
@@ -97,6 +112,8 @@
     "Attack_Speed": 0.2,
     "Ammo": 18.0,
     "Unique": true,
-    "Name": "Fireball"
+    "Name": "Fireball",
+    "HitAudioPath": "Resources/Game/Audio/FireballHit.wav",
+    "AttackAudioPath": "Resources/Game/Audio/FireballShoot.wav"
   }
 }

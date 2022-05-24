@@ -30,7 +30,7 @@ enum class USERTYPE
 
 class Weapon : public CComponent
 {
-public:	
+public:
 	Weapon(std::string weapon = "Dagger");
 
 	void SetWeapon(std::string weapon);
@@ -53,7 +53,8 @@ public:
 	USERTYPE GetUserType() { return userType; };
 	std::string GetName() { return name; }
 	std::string GetIconPath() { return iconPath; };
-
+	std::string GetHitSoundPath() { return hitSoundPath; }
+	std::string GetAttackSoundPath() { return attackSoundPath; }
 	void StartCooldown() { cooldown = attack_speed; };
 
 private:
@@ -63,6 +64,8 @@ private:
 	std::string projectileIconPath;
 	std::string type;
 	std::string name;
+	std::string hitSoundPath;
+	std::string attackSoundPath;
 	float damage;
 	float range;
 	float attack_speed;
