@@ -66,6 +66,10 @@ CAIController::CAIController()
 
 	std::function<void()> CanHearLambda = [&]()
 	{
+		if (currentState == &AttackState::getInstance() || currentState == &ChaseState::getInstance())
+		{
+			return;
+		}
 		std::vector<CEmitter*> audioEmitters = AudioController::GetAllEmittersWithinRange(aiPosition, true);
 		float closestDistance = 100000000.0f;
 		CEmitter* closestEmitter = nullptr;
@@ -91,7 +95,6 @@ CAIController::CAIController()
 	EventSystem::AddListener("soundPlayed", CanHearLambda);
 
 	currentState = &PatrolState::getInstance();
-	//SetCurrentState(PatrolState::getInstance());
 }
 
 CAIController::~CAIController()
