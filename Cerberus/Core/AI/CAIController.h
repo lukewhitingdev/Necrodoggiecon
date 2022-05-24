@@ -58,6 +58,9 @@ public:
 	void SetIsAttacking(bool isAttack);
 	bool GetIsAttacking();
 
+	void SetSpriteSize(float size);
+	float GetSpriteSize();
+
 	virtual void Update(float deltaTime) override;
 
 	void Patrolling();
@@ -79,8 +82,10 @@ public:
 
 	void ApplyDamage(float damageAmount);
 
-protected:
 	class CSpriteComponent* sprite = nullptr;
+
+protected:
+	
 	class CSpriteComponent* viewFrustrum = nullptr;
 
 	Vector3 positionToInvestigate;
@@ -129,6 +134,8 @@ protected:
 	float searchTimer = 0.0f;
 
 	float sizeOfTiles = 0.0f;
+
+	float spriteSize = 64.0f;
 
 	State* currentState;
 };
