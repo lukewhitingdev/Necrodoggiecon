@@ -218,6 +218,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HomingProjectile.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Weapons\Pickup\InvisibilityScroll.h" />
     <ClInclude Include="Weapons\Pickup\ShieldScroll.h" />
     <ClInclude Include="Weapons\Pickup.h" />
@@ -260,6 +261,9 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="weaponUI.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

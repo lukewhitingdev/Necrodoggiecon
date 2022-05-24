@@ -145,11 +145,15 @@
     <ClInclude Include="Weapons\Ranged\Fireball.h" />
     <ClInclude Include="Weapons\Ranged\MagicMissile.h" />
     <ClInclude Include="HomingProjectile.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Weapons\Pickup.h" />
     <ClInclude Include="Weapons\Pickup\InvisibilityScroll.h" />
     <ClInclude Include="Weapons\Pickup\ShieldScroll.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
 </Project>
