@@ -1,6 +1,14 @@
 #include "CCharacter.h"
 #include "Necrodoggiecon\Game\WeaponPickup.h"
 
+/*****************************************************************//**
+ * \file   CCharacter.cpp
+ * \brief  Base class for Characters
+ *
+ * \author Cathan Bertram
+ * \date   May 2022
+ *********************************************************************/
+
 CCharacter::CCharacter()
 {
 }
