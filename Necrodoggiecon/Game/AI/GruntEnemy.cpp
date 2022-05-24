@@ -7,6 +7,7 @@
  *********************************************************************/
 #include "GruntEnemy.h"
 #include "Cerberus/Core/Utility/IO.h"
+#include <Necrodoggiecon/Weapons/Ranged/Fireball.h>
 
 GruntEnemy::GruntEnemy()
 {

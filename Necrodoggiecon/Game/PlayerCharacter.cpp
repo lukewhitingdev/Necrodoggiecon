@@ -46,7 +46,7 @@ PlayerCharacter::PlayerCharacter()
 
 	weaponComponent = AddComponent<WeaponInterface>();
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
-	weaponComponent->SetWeapon(new Crossbow());
+	weaponComponent->SetWeapon(new Dagger());
 
 	weaponSprite = AddComponent<CSpriteComponent>();
 	UpdateWeaponSprite();
@@ -74,8 +74,6 @@ void PlayerCharacter::PressedVertical(int dir, float deltaTime)
 
 void PlayerCharacter::PressedInteract()
 {
-	weaponComponent->SetWeapon(new Longsword());
-
 	if (droppedItem == nullptr) return;
 
 	equippedItem = droppedItem->OnEquip(this);
@@ -85,8 +83,6 @@ void PlayerCharacter::PressedInteract()
 
 void PlayerCharacter::PressedDrop()
 {
-	weaponComponent->SetWeapon(new Rapier());
-
 	if (equippedItem == nullptr) return;
 
 	droppedItem = equippedItem->Drop();

@@ -28,6 +28,9 @@ enum class USERTYPE
 	AI,
 };
 
+/**
+ * Base Weapon class inherited by all weapons.
+ */
 class Weapon : public CComponent
 {
 public:	
