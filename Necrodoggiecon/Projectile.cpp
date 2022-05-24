@@ -29,16 +29,16 @@ Projectile::~Projectile()
  */
 void Projectile::Update(float deltaTime)
 {
-		if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime)
-		{
-			DidItHit();
-			Position += Direction * Speed;
-			ProjectileSprite->SetPosition(Position);
-		}
-		else
-		{
-			Engine::DestroyEntity(this);
-		}
+	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime && hasHit == false)
+	{
+		DidItHit();
+		Position += Direction * Speed;
+		ProjectileSprite->SetPosition(Position);
+	}
+	else
+	{
+		Engine::DestroyEntity(this);
+	}
 }
 
 
@@ -56,6 +56,7 @@ void Projectile::DidItHit()
 		PlayerCharacter* target = GetClosestPlayer(damagePos);
 		if (target != nullptr)
 		{
+			hasHit = true;
 			target->ApplyDamage(Damage);
 			Lifetime = 0;
 			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
@@ -66,9 +67,8 @@ void Projectile::DidItHit()
 		CAIController* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
 		{
+			hasHit = true;
 			target->ApplyDamage(Damage);
-			Lifetime = 0;
-			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
 		}
 	}
 }
