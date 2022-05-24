@@ -31,7 +31,7 @@ inline WeaponPickup<T>::WeaponPickup()
 	if (baseWeapon != nullptr)
 	{
 		pickup = weapon;
-		UpdateWeaponSprite(baseWeapon);
+		UpdateWeaponSprite(weapon);
 	}
 	else
 	{
@@ -108,12 +108,19 @@ template<typename T>
 inline void WeaponPickup<T>::UpdateWeaponSprite(Weapon* weapon)
 {
 	std::string ext = IO::FindExtension(weapon->GetIconPath());
+	CSpriteComponent* sprite = this->GetSprite();
 	if (ext == "dds")
 	{
-		this->GetSprite()->LoadTexture(weapon->GetIconPath());
+		sprite->LoadTexture(weapon->GetIconPath());
+		sprite->SetTextureOffset(weapon->GetTextureOffset());
+		sprite->SetRenderRect(weapon->GetRenderRect());
+		sprite->SetScale(weapon->GetScale());
 	}
 	else
 	{
-		this->GetSprite()->LoadTextureWIC(weapon->GetIconPath());
+		sprite->LoadTextureWIC(weapon->GetIconPath());
+		sprite->SetTextureOffset(weapon->GetTextureOffset());
+		sprite->SetRenderRect(weapon->GetRenderRect());
+		sprite->SetScale(weapon->GetScale());
 	}
 }
