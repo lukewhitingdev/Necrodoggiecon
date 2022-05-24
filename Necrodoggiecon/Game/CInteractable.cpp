@@ -16,7 +16,7 @@ CInteractable::CInteractable() : interactTextOffset(0), interactRange(1), sprite
 	interactText = AddComponent<CTextRenderComponent>(NAME_OF(interactText));
 	colComponent = new CollisionComponent("Interactable", this);
 
-	sprite->LoadTexture("Resources/arrow.dds");
+	sprite->LoadTexture("Resources/Game/arrow.dds");
 	this->SetInteractRange(sprite->GetSpriteSize().x);
 
 	colComponent->SetCollider(interactRange);
