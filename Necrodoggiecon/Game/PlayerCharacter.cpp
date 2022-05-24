@@ -36,7 +36,7 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentShadow->SetScale(XMFLOAT3(1.45, 1.45, 1.45));
 	spriteComponentShadow->SetUseTranslucency(true);
 
-	spriteComponentShield = AddComponent<CSpriteComponent>();
+	spriteComponentShield = AddComponent<CSpriteComponent>(NAME_OF(spriteComponentShield));
 	spriteComponentShield->LoadTextureWIC("Resources/Game/weapons/Shield.png");
 	spriteComponentShield->SetPosition(XMFLOAT3(0, 0, -1));
 	spriteComponentShield->SetScale(XMFLOAT3(1.45, 1.45, 1.45));
