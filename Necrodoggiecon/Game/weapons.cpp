@@ -121,7 +121,7 @@ void Weapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
 void Weapon::HandlePickup()
 {
 	CEntity* player = GetClosestPlayer(GetWorldPosition());
-	PlayerCharacter* usePickup = dynamic_cast<PlayerCharacter*>(player);
+	IUsePickup* usePickup = dynamic_cast<IUsePickup*>(player);
 	if (usePickup == nullptr) return;
 
 	usePickup->UsePickup(pickupType, 5.0f);

@@ -4,12 +4,13 @@
 #include "Cerberus/Core/Components/CAudioEmitterComponent.h"
 #include "weapons.h"
 #include <functional>
+#include "IUsePickup.h"
 
 class CDroppedItem;
 class CEquippedItem;
 struct PickupItemData;
 
-class PlayerCharacter : public CCharacter, public IInputable
+class PlayerCharacter : public CCharacter, public IInputable, public IUsePickup
 {
 protected:
 	float speed = 200;
@@ -49,7 +50,7 @@ public:
 	class CCameraComponent* camera = nullptr;
 	CAudioEmitterComponent* loadNoise;
 
-	void UsePickup(const std::string& pickupToUse, float activeTime);
+	void UsePickup(const std::string& pickupToUse, float activeTime) override;
 	bool GetVisible() { return visible; }
 
 };
