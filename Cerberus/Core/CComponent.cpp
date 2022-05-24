@@ -14,20 +14,6 @@ void CComponent::SetUseTranslucency(const bool& newTranslucency)
 	EntityManager::AddComponent(this);
 }
 
-const std::string CComponent::GetDebugInfo() const
-{
-	std::string output = "";
-	output.append(GetName());
-
-	if (GetParent() != nullptr)
-	{
-		output.append(" in ");
-		output.append(GetParent()->GetName());
-	}
-
-	return output;
-}
-
 XMFLOAT3 CComponent::GetWorldPosition()
 {
 	//Not ideal, but it works for the current setup.

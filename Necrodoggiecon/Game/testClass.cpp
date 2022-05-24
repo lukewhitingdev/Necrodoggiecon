@@ -9,7 +9,7 @@ TestClass::TestClass()
 	Debug::Log("init test class!\n");
 
 
-	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
+	sprite = AddComponent<CSpriteComponent>();
 	
 	sprite->LoadTexture("Resources/Game/birb.dds");
 

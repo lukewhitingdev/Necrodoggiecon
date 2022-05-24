@@ -22,8 +22,6 @@ class CEntity : public CTransform
 	bool shouldMove = false;
 	bool visible = true;
 
-	std::string name = "UNNAMED ENTITY";
-
 	std::vector<CComponent*> components;
 
 public:
@@ -42,15 +40,9 @@ public:
 	 */
 	void SetVisible(const bool& newVisibility) { visible = newVisibility; }
 
-	/**
-	 * Sets the name of the entity mostly for debugging purposes.
-	 */
-	void SetName(const std::string& newName) { name = newName; }
-
 	const bool& GetShouldUpdate() const { return shouldUpdate; }
 	const bool& GetShouldMove() const { return shouldMove; }
 	const bool& GetVisible() const { return visible; }
-	const std::string& GetName() const { return name; };
 	const std::vector<CComponent*>& GetAllComponents() const { return components; }
 
 	/**
@@ -60,11 +52,10 @@ public:
 	virtual ~CEntity();
 
 	template <class T>
-	T* AddComponent(const std::string& componentName)
+	T* AddComponent()
 	{
 		CComponent* tmp = new T();
 		tmp->SetParent(this);
-		tmp->SetName(componentName);
 		components.push_back(tmp);
 		EntityManager::AddComponent(tmp);
 		return dynamic_cast<T*>(tmp);

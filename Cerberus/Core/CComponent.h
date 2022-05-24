@@ -29,8 +29,6 @@ class CComponent : public CTransform
 	bool shouldUpdate = true;
 	bool shouldDraw = false;
 
-	std::string name = "UNNAMED COMPONENT";
-
 public:
 	/**
 	 * Sets the region of the screen a UI element will be "anchored" to.
@@ -73,11 +71,6 @@ public:
 	 */
 	void SetParent(class CEntity* newParent);
 
-	/**
-	 * Sets the name of the component mostly for debugging purposes.
-	 */
-	void SetName(const std::string& newName) { name = newName.c_str(); }
-
 	const bool& GetShouldUpdate() const { return shouldUpdate; }
 	const bool& GetShouldDraw() const { return shouldDraw; }
 	const bool& GetIsUI() const { return ui; }
@@ -85,8 +78,6 @@ public:
 	const bool& GetUseTranslucency() const { return translucency; };
 	const XMFLOAT2& GetAnchor() const { return anchor; }
 	class CEntity* GetParent() const { return parent; };
-	const std::string& GetName() const { return name; };
-	const std::string GetDebugInfo() const;
 
 	/**
 	 * Get the position of the component in world space rather than in entity space.

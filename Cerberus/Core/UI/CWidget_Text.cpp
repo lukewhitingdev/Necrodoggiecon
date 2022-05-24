@@ -3,7 +3,7 @@
 
 CWidget_Text::CWidget_Text()
 {
-	textRenderer = AddComponent<CTextRenderComponent>(NAME_OF(textRenderer));
+	textRenderer = AddComponent<CTextRenderComponent>();
 	textRenderer->SetIsUI(true);
 }
 

@@ -8,11 +8,11 @@ using namespace std;
 
 CWidget_Button::CWidget_Button()
 {
-	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
+	sprite = AddComponent<CSpriteComponent>();
 	sprite->SetIsUI(true);
 
 
-	textRenderer = AddComponent<CTextRenderComponent>(NAME_OF(textRenderer));
+	textRenderer = AddComponent<CTextRenderComponent>();
 	textRenderer->SetIsUI(true);
 	
 	
