@@ -21,18 +21,23 @@ void Weapon::SetWeapon(std::string weapon)
 	file >> storedFile;
 
 	iconPath = storedFile.at(weapon).at("IconPath");
-	projectileIconPath = storedFile.at(weapon).at("ProjectileIconPath");
-	hitSoundPath = storedFile.at(weapon).at("HitAudioPath");
-	attackSoundPath = storedFile.at(weapon).at("AttackAudioPath");
 	type = storedFile.at(weapon).at("Type");
 	name = storedFile.at(weapon).at("Name");
-	damage = storedFile.at(weapon).at("Damage");
 	range = storedFile.at(weapon).at("Range");
 	range = range * rangeScale;
-	attack_speed = storedFile.at(weapon).at("Attack_Speed");
-	ammo = storedFile.at(weapon).at("Ammo");
-	unique = storedFile.at(weapon).at("Unique");
-	cooldown = attack_speed;
+	if (type != "Pickup")
+	{
+		projectileIconPath = storedFile.at(weapon).at("ProjectileIconPath");
+		damage = storedFile.at(weapon).at("Damage");
+		attack_speed = storedFile.at(weapon).at("Attack_Speed");
+		ammo = storedFile.at(weapon).at("Ammo");
+		unique = storedFile.at(weapon).at("Unique");
+		cooldown = attack_speed;
+	}
+	else
+	{
+		pickupType = storedFile.at(weapon).at("PickupType");
+	}
 
 	Debug::Log("Range %f", range);
 }

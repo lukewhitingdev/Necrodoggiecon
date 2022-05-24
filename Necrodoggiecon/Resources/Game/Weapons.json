@@ -115,5 +115,23 @@
     "Name": "Fireball",
     "HitAudioPath": "Resources/Game/Audio/FireballHit.wav",
     "AttackAudioPath": "Resources/Game/Audio/FireballShoot.wav"
+  },
+  "InvisibilityScroll": {
+    "IconPath": "Resources/Game/weapons/Scroll - Invisibility.png",
+    "Type": "Pickup",
+    "Range": 25.0,
+    "PickupType": "InvisibilityScroll",
+    "Name": "Invisibility Scroll",
+    "HitAudioPath": "Resources/Game/Audio/",
+    "AttackAudioPath": "Resources/Game/Audio/ScrollActivate.wav"
+  },
+  "ShieldScroll": {
+    "IconPath": "Resources/Game/weapons/Scroll - Shield.png",
+    "Type": "Pickup",
+    "Range": 25.0,
+    "PickupType": "ShieldScroll",
+    "Name":  "Shield Scroll",
+    "HitAudioPath": "Resources/Game/Audio/",
+    "AttackAudioPath": "Resources/Game/Audio/ScrollActivate.wav"
   }
 }

@@ -8,4 +8,5 @@ public:
 	virtual void PressedInteract() = 0;
 	virtual void PressedDrop() = 0;
 	virtual void Attack() = 0;
+	virtual void PressedUse() = 0;
 };

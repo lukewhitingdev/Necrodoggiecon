@@ -39,9 +39,10 @@ public:
 	void SetPosition(Vector3 newPosition) { Position = newPosition; };
 	Vector3 GetDirection() { return Direction; };
 	float GetSpeed() { return Speed; };
-
 	class CSpriteComponent* ProjectileSprite = nullptr;
+
 private:
+
 	float Damage;
 
 	float Speed;
