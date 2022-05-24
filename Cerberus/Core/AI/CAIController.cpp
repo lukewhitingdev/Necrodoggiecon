@@ -47,6 +47,7 @@ CAIController::CAIController()
 
 	SetScale(Vector3{ 0.5f, 0.5f, 1.0f });
 	viewFrustrum = AddComponent<CSpriteComponent>();
+	viewFrustrum->LoadTexture("Resources/Game/viewFrustrum.dds");
 	viewFrustrum->SetTint(XMFLOAT4(0.0f, 0.0f, 0.0f, 0));
 	viewFrustrum->SetRenderRect(XMUINT2(128, 128));
 	viewFrustrum->SetSpriteSize(XMUINT2(128, 128));
