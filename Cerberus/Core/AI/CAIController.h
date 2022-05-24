@@ -80,6 +80,8 @@ public:
 	void ApplyDamage(float damageAmount);
 
 protected:
+	virtual void OnDeath() {};
+
 	class CSpriteComponent* sprite = nullptr;
 	class CSpriteComponent* viewFrustrum = nullptr;
 

@@ -20,6 +20,9 @@ public:
     virtual void Update(float deltaTime) override;
     virtual void ChasePlayer(PlayerCharacter* player) override;
 
+protected:
+    void OnDeath() override;
+
 private:
     float alarmTimer = 10.0f;
     bool onCooldown = false;

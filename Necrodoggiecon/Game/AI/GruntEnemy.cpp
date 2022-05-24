@@ -59,3 +59,7 @@ void GruntEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 
 	SetCurrentState(ChaseState::getInstance());
 }
+void GruntEnemy::OnDeath()
+{
+	deathAudioEmitter->Play();
+}

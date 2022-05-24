@@ -541,7 +541,10 @@ void CAIController::ApplyDamage(float damageAmount)
 {
 	SetHealth(GetHealth() - damageAmount);
 	if (GetHealth() <= 0.0f)
+	{
+		OnDeath();
 		Engine::DestroyEntity(this);
+	}
 }
 
 /**

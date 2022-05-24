@@ -18,6 +18,10 @@ DogEnemy::DogEnemy()
 	attackAudioEmitter = AddComponent<CAudioEmitterComponent>();
 	attackAudioEmitter->Load("Resources/Game/Audio/DogBark.wav");
 	attackAudioEmitter->SetRange(0.0f);
+
+	deathAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.wav");
+	deathAudioEmitter->SetRange(0.0f);
 }
 
 void DogEnemy::Update(float deltaTime)
@@ -87,11 +91,11 @@ void DogEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 		onCooldown = false;
 		isAttacking = true;
 
-		attackAudioEmitter->Play();
-
 		if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 		{
 			player->ApplyDamage(1.0f);
+			attackAudioEmitter->Play();
+
 			onCooldown = true;
 			attackTimer = 1.0f;
 			attackCooldown = 20.0f;
@@ -114,4 +118,8 @@ void DogEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 		heading = Seek(player->GetPosition());
 	}
 
+}
+void DogEnemy::OnDeath()
+{
+	deathAudioEmitter->Play();
 }

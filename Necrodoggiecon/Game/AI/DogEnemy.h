@@ -21,6 +21,8 @@ public:
     virtual void ChasePlayer(PlayerCharacter* player) override;
     virtual void AttackEnter(PlayerCharacter* player) override;
     virtual void AttackPlayer(PlayerCharacter* player, float deltaTime) override;
+protected:
+    void OnDeath() override;
 
 private:
     bool onCooldown = false;
@@ -30,6 +32,7 @@ private:
     Vector3 targetPosition;
 
     CAudioEmitterComponent* attackAudioEmitter;
+    CAudioEmitterComponent* deathAudioEmitter;
 
 };
 

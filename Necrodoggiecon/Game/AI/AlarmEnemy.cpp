@@ -54,9 +54,14 @@ void AlarmEnemy::ChasePlayer(PlayerCharacter* player)
 {
 	if (!onCooldown)
 	{
-		loadNoise->Play();
+		alarmAudioEmitter->Play();
 		alarmTimer = 10.0f;
 		onCooldown = true;
 	}
+}
+
+void AlarmEnemy::OnDeath()
+{
+	deathAudioEmitter->Play();
 }
 

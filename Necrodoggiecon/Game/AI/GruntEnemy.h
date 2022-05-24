@@ -22,6 +22,8 @@ public:
 
     virtual void ChasePlayer(PlayerCharacter* player) override;
     virtual void AttackPlayer(PlayerCharacter* player, float deltaTime) override;
+protected:
+    void OnDeath() override;
 
 private:
     std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
