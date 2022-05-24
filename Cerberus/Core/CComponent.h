@@ -86,6 +86,7 @@ public:
 	const XMFLOAT2& GetAnchor() const { return anchor; }
 	class CEntity* GetParent() const { return parent; };
 	const std::string& GetName() const { return name; };
+	const std::string GetDebugInfo() const;
 
 	/**
 	 * Get the position of the component in world space rather than in entity space.

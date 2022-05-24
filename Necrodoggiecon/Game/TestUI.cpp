@@ -10,7 +10,7 @@ TestUI::TestUI()
 {
 	SetPosition(0, 0, -100);
 
-	birb = AddComponent<CAnimationSpriteComponent>();
+	birb = AddComponent<CAnimationSpriteComponent>(NAME_OF(birb));
 	birb->LoadTextureWIC("Resources/Game/birb.png");
 	birb->SetRenderRect(XMUINT2(128, 128));
 	birb->SetSpriteSize(XMUINT2(128, 128));
@@ -18,24 +18,24 @@ TestUI::TestUI()
 	birb->SetAnchor(XMFLOAT2(1, 1));
 	birb->SetAnimationRectSize(XMUINT2(5, 2));
 
-	text1 = AddComponent<CTextRenderComponent>();
+	text1 = AddComponent<CTextRenderComponent>(NAME_OF(text1));
 	text1->SetJustification(TextJustification::Right);
 	text1->SetPosition(-625, -146, 0);
 	text1->SetAnchor(XMFLOAT2(0, 1));
 
-	text2 = AddComponent<CTextRenderComponent>();
+	text2 = AddComponent<CTextRenderComponent>(NAME_OF(text2));
 	text2->SetJustification(TextJustification::Right);
 	text2->SetPosition(-625, -126, 0);
 	text2->SetAnchor(XMFLOAT2(0, 1));
 
-	text3 = AddComponent<CTextRenderComponent>();
+	text3 = AddComponent<CTextRenderComponent>(NAME_OF(text3));
 	text3->SetJustification(TextJustification::Center);
 	text3->SetReserveCount(24);
 	text3->SetPosition(560, -255, 0);
 	text3->SetText("");
 	text3->SetAnchor(XMFLOAT2(1, 1));
 
-	textFPS = AddComponent<CTextRenderComponent>();
+	textFPS = AddComponent<CTextRenderComponent>(NAME_OF(textFPS));
 	textFPS->SetJustification(TextJustification::Left);
 	textFPS->SetReserveCount(12);
 	textFPS->SetPosition(640, 346, 0);

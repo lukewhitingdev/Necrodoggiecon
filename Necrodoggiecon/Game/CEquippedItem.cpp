@@ -23,7 +23,7 @@ void CEquippedItem::Initialise(int id, CEntity* newOwner)
 
 	itemData = ItemDatabase::GetItemFromID(id);
 
-	spriteComponent = AddComponent<CSpriteComponent>();
+	spriteComponent = AddComponent<CSpriteComponent>(NAME_OF(spriteComponent));
 	GetSpriteComponent()->LoadTexture(GetItemData()->texturePath);
 	GetSpriteComponent()->SetRenderRect(XMUINT2(128, 128));
 	GetSpriteComponent()->SetSpriteSize(XMUINT2(128, 128));

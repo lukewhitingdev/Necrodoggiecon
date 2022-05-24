@@ -4,7 +4,7 @@
 
 CTile::CTile()
 {
-	sprite = AddComponent<CSpriteComponent>();
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 	isWalkable = false;
 	navId = -1;
 	tileId = -1;
@@ -18,7 +18,7 @@ CTile::CTile(int ID, Vector3 Position)
 	tileStatus = TileType::Floor;
 	SetPosition(Position);
 
-	sprite = AddComponent<CSpriteComponent>();
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 	
 	
 }
@@ -150,7 +150,7 @@ void CTile::SetDebugMode(bool newState)
 	
 	if (debugSprite == nullptr)
 	{
-		debugSprite = AddComponent<CSpriteComponent>();
+		debugSprite = AddComponent<CSpriteComponent>(NAME_OF(debugSprite));
 	}
 
 	debugMode = newState;

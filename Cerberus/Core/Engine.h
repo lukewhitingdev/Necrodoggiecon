@@ -77,6 +77,7 @@ struct Engine
 	{
 		CEntity* temp = new T();
 		EntityManager::AddEntity(temp);
+		temp->SetName(typeid(T).name());
 		return (T*)temp;
 	};
 

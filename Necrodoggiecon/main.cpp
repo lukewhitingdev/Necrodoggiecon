@@ -94,7 +94,7 @@ int Start()
 
 	// Free Camera not locked to player.
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
-	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>();
+	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>(NAME_OF(freeCameraComponent));
 	freeCameraComponent->SetAttachedToParent(false);
 
 	CWorldManager::LoadWorld(new CWorld_Game(0));

@@ -45,7 +45,7 @@ public:
 	/**
 	 * Sets the name of the entity mostly for debugging purposes.
 	 */
-	void SetName(const std::string& newName) { name = newName.c_str(); }
+	void SetName(const std::string& newName) { name = newName; }
 
 	const bool& GetShouldUpdate() const { return shouldUpdate; }
 	const bool& GetShouldMove() const { return shouldMove; }
@@ -60,10 +60,11 @@ public:
 	virtual ~CEntity();
 
 	template <class T>
-	T* AddComponent()
+	T* AddComponent(const std::string& componentName)
 	{
 		CComponent* tmp = new T();
 		tmp->SetParent(this);
+		tmp->SetName(componentName);
 		components.push_back(tmp);
 		EntityManager::AddComponent(tmp);
 		return dynamic_cast<T*>(tmp);
