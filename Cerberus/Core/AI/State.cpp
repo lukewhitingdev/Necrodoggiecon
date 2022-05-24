@@ -16,7 +16,7 @@ void ChaseState::Enter(CAIController* controller)
 	for (PlayerCharacter* player : players)
 	{
 		// Find if the player is the closest in view.
-		if (controller->CanSee(player->GetPosition()) == true)
+		if (controller->CanSee(player) == true)
 		{
 			if (closestPlayer != nullptr)
 			{
@@ -38,7 +38,7 @@ void ChaseState::Enter(CAIController* controller)
 
 void ChaseState::Update(CAIController* controller, float deltaTime)
 {
-	if (controller->CanSee(closestPlayer->GetPosition()) == true)
+	if (controller->CanSee(closestPlayer) == true)
 	{
 		controller->ChasePlayer(closestPlayer);
 	}
@@ -91,7 +91,7 @@ void AttackState::Update(CAIController* controller, float deltaTime)
 	if (closestPlayer != nullptr)
 	{
 		controller->AttackPlayer(closestPlayer, deltaTime);
-		if (controller->CanSee(closestPlayer->GetPosition()) == false && controller->GetIsAttacking() == false)
+		if (controller->CanSee(closestPlayer) == false && controller->GetIsAttacking() == false)
 		{
 			controller->SetPositionToInvestigate(closestPlayer->GetPosition());
 			closestPlayer = nullptr;
@@ -156,7 +156,7 @@ void SearchState::Update(CAIController* controller, float deltaTime)
 
 		for (PlayerCharacter* player : players)
 		{
-			if (controller->CanSee(player->GetPosition()) == true)
+			if (controller->CanSee(player) == true)
 			{
 				controller->SetCurrentState(ChaseState::getInstance());
 			}

@@ -220,8 +220,13 @@ Vector3 CAIController::CollisionAvoidance()
  * \param posOfObject Vector3 representing the position of the object to see.
  * \return Returns a boolen determining whether the objct is in view.
  */
-bool CAIController::CanSee(Vector3 posOfObject)
+bool CAIController::CanSee(PlayerCharacter* player)
 {
+	if (player->GetVisible() == false)
+	{
+		return false;
+	}
+	Vector3 posOfObject = player->GetPosition();
 	// Calculate the direction the AI is looking.
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
@@ -480,7 +485,7 @@ void CAIController::CheckForPlayer()
 			for (PlayerCharacter* player : players)
 			{
 				// Check if the AI can see the player.
-				if (CanSee(player->GetPosition()) == true)
+				if (CanSee(player) == true)
 				{
 					// If the AI can see the player then chase it.
 					SetCurrentState(ChaseState::getInstance());
