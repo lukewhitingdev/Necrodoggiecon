@@ -104,8 +104,8 @@ public:
 	{
 		if (!collidedObject->GetTrigger())
 		{
-			/*colComponent->Resolve(collidedObject);
-			this->SetPosition(colComponent->GetPosition());*/
+			colComponent->Resolve(collidedObject);
+			this->SetPosition(colComponent->GetPosition());
 		}
 	};
 };
