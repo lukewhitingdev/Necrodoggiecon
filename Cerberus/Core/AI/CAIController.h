@@ -64,7 +64,7 @@ public:
 	void SearchForPlayer();
 	void Investigating(Vector3 positionOfInterest);
 	
-	virtual void AttackEnter(PlayerCharacter* player) {};
+	virtual void AttackEnter(PlayerCharacter* player);
 	virtual void ChaseEnter();
 	virtual void ChasePlayer(PlayerCharacter* player);
 	virtual void AttackPlayer(PlayerCharacter* player, float deltaTime);

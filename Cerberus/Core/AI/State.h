@@ -18,9 +18,9 @@ class State
 {
 public:
 
-	virtual void Enter(CAIController* controller) {};
-	virtual void Exit(CAIController* controller) {};
-	virtual void Update(CAIController* controller, float deltaTime) {};
+	virtual void Enter(CAIController* controller) { UNREFERENCED_PARAMETER(controller); };
+	virtual void Exit(CAIController* controller) { UNREFERENCED_PARAMETER(controller); };
+	virtual void Update(CAIController* controller, float deltaTime) { UNREFERENCED_PARAMETER(controller); UNREFERENCED_PARAMETER(deltaTime); };
 	
 };
 
