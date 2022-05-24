@@ -6,6 +6,7 @@
  * \date   May 2022
  *********************************************************************/
 #include "GruntEnemy.h"
+#include "Cerberus/Core/Utility/IO.h"
 
 GruntEnemy::GruntEnemy()
 {
@@ -18,6 +19,14 @@ GruntEnemy::GruntEnemy()
 	weaponComponent = AddComponent<WeaponInterface>();
 	weaponComponent->SetWeapon(new Crossbow());
 	weaponComponent->SetUserType(USERTYPE::AI);
+
+	weaponSprite = AddComponent<CSpriteComponent>();
+	UpdateWeaponSprite();
+	weaponSprite->SetPosition(Vector3(sprite->GetSpriteSize().y / 2, int(sprite->GetSpriteSize().x - 20), 0));
+	weaponSprite->SetRotation(0); // 90 Degrees in radians.
+	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
+	weaponSprite->SetRenderRect(weaponComponent->GetCurrentWeapon()->GetRenderRect());
+	weaponSprite->SetScale(weaponComponent->GetCurrentWeapon()->GetScale());
 }
 
 /**
@@ -47,5 +56,29 @@ void GruntEnemy::ChasePlayer(PlayerCharacter* player)
 void GruntEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 {
 	weaponComponent->OnFire(aiPosition, velocity);
+	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
 	SetCurrentState(ChaseState::getInstance());
+}
+
+void GruntEnemy::UpdateWeaponSprite()
+{
+	HRESULT hr;
+	if (IO::FindExtension(weaponComponent->GetCurrentWeapon()->GetIconPath()) == "dds")
+	{
+		hr = weaponSprite->LoadTexture(weaponComponent->GetCurrentWeapon()->GetIconPath());
+		if (FAILED(hr))
+		{
+			Debug::LogHResult(hr, "Weapon Tried to load texture using path: %s but the loader returned failure.", weaponComponent->GetCurrentWeapon()->GetIconPath().c_str());
+			return;
+		}
+	}
+	else
+	{
+		hr = weaponSprite->LoadTextureWIC(weaponComponent->GetCurrentWeapon()->GetIconPath());
+		if (FAILED(hr))
+		{
+			Debug::LogHResult(hr, "Weapon Tried to load texture using path: %s but the loader returned failure.", weaponComponent->GetCurrentWeapon()->GetIconPath().c_str());
+			return;
+		}
+	}
 }

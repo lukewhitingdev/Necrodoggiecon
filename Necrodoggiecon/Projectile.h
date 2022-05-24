@@ -40,9 +40,6 @@ public:
 
 	class CSpriteComponent* ProjectileSprite = nullptr;
 private:
-	
-
-	class CSpriteComponent* ProjectileSprite = nullptr;
 	float Damage;
 
 	float Speed;

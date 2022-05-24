@@ -23,7 +23,10 @@ public:
     virtual void ChasePlayer(PlayerCharacter* player) override;
     virtual void AttackPlayer(PlayerCharacter* player, float deltaTime) override;
 
+    void UpdateWeaponSprite();
+
 private:
     std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
+    CSpriteComponent* weaponSprite = nullptr;
 };
 
