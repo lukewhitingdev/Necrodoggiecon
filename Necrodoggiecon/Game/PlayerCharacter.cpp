@@ -164,6 +164,7 @@ void PlayerCharacter::EquipWeapon(Weapon* weapon)
 {
 	weaponComponent->SetWeapon(weapon);
 	UpdateWeaponSprite();
+	weaponSprite->SetRenderRect(weaponComponent->GetCurrentWeapon()->GetRenderRect());
 	movementVec = {0,0};
 }
 
