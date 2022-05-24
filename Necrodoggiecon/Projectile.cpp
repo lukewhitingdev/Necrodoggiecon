@@ -56,7 +56,7 @@ void Projectile::DidItHit()
 		PlayerCharacter* target = GetClosestPlayer(damagePos);
 		if (target != nullptr)
 		{
-			target->ApplyDamage(1.0f);
+			target->ApplyDamage(Damage);
 		}
 	}
 	else if (userType == USERTYPE2::PLAYER)
@@ -64,7 +64,7 @@ void Projectile::DidItHit()
 		CAIController* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
 		{
-			target->ApplyDamage(1.0f);
+			target->ApplyDamage(Damage);
 			Lifetime = 0;
 			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
 		}
@@ -76,10 +76,10 @@ void Projectile::DidItHit()
  *
  * This also allows for the projectile to be at the right rotation when fireing
  */
-void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type, std::string projectile_name)
+void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string &projectile_name)
 {
 	Direction = dir;
-	ProjectileSprite->SetPosition(pos);
+	Damage = damage;
 	Projectile_Name = projectile_name;
 	Speed = speed;
 	Lifetime = lifetime;
@@ -87,6 +87,7 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, 
 	Position = initialPosition;
 
 	ProjectileSprite->LoadTextureWIC(projectile_name);
+
 
 	userType = (USERTYPE2)type;
 
