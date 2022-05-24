@@ -49,6 +49,7 @@ private:
 	Vector3 Position;
 	Vector3 initialPosition;
 	std::string Projectile_Name;
+	bool hasHit = false;
 
 	CAIController* GetClosestEnemy(Vector3 actorPos);
 	PlayerCharacter* GetClosestPlayer(Vector3 actorPos);

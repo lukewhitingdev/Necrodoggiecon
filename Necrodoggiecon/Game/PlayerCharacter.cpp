@@ -49,7 +49,7 @@ PlayerCharacter::PlayerCharacter()
 
 	weaponComponent = AddComponent<WeaponInterface>();
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
-	weaponComponent->SetWeapon(new Dagger());
+	weaponComponent->SetWeapon(new Crossbow());
 
 	weaponSprite = AddComponent<CSpriteComponent>();
 	UpdateWeaponSprite();
