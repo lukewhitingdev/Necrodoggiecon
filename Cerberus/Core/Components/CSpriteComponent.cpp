@@ -8,6 +8,12 @@ void CSpriteComponent::SetRenderRect(const XMUINT2& newSize)
 {
 	renderRect = newSize;
 
+	if (texture == nullptr || material == nullptr)
+	{
+		Debug::LogError("Texture or material == nullptr, cannot set render rect - Check execution order.");
+		return;
+	}
+
 	if (material->loaded && texture->loaded)
 	{
 		material->material.Material.textureRect = renderRect;
@@ -19,6 +25,12 @@ void CSpriteComponent::SetTextureOffset(const XMFLOAT2& newOffset)
 {
 	textureOffset = newOffset;
 
+	if (texture == nullptr || material == nullptr)
+	{
+		Debug::LogError("Texture or material == nullptr, cannot set texture offset - Check execution order.");
+		return;
+	}
+
 	if (material->loaded && texture->loaded)
 	{
 		material->material.Material.textureOffset = textureOffset;
@@ -29,6 +41,12 @@ void CSpriteComponent::SetTextureOffset(const XMFLOAT2& newOffset)
 void CSpriteComponent::SetTint(const XMFLOAT4& newTint)
 {
 	tint = newTint;
+
+	if (material == nullptr)
+	{
+		Debug::LogError("Material == nullptr, cannot set tint - Check execution order.");
+		return;
+	}
 
 	if (material->loaded)
 	{
