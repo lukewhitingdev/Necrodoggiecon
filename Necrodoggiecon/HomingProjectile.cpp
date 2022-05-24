@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   HomingProjectile.cpp
+ * \brief  All the functions needed for Homing Projectile.
+ *
+ * \author Flynn Brooks
+ * \date   May 2022
+ *********************************************************************/
+
 #include "HomingProjectile.h"
 #include <Cerberus\Core\AI\CAIController.h>
 
@@ -9,6 +17,12 @@ HomingProjectile::~HomingProjectile()
 {
 }
 
+
+/**
+ * Will make a projectile that will home into a enemy
+ *
+ * \Homes and then Damages the target if it hit
+ */
 void HomingProjectile::Update(float deltaTime)
 {
 	if (Projectile::GetLifetime() > 0)
