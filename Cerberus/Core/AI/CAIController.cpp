@@ -58,6 +58,9 @@ CAIController::CAIController()
 	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y + aiRange *scaleComparisonY * GetScale().y, 1.0f });
 	//viewFrustrum->SetUseTranslucency(true);
 
+	colComponent = new CollisionComponent("Enemy", this);
+	colComponent->SetCollider(64.0f, 64.0f);
+
 	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
 
 	pathing = new Pathfinding(tiles);
@@ -115,8 +118,8 @@ void CAIController::Update(float deltaTime)
 	MoveViewFrustrum();
 
 	// If the AI is not pathfinding or searching then check for collisions with obstacles.
-	if (currentState != &PatrolState::getInstance() && currentState != &SearchState::getInstance())
-		heading += CollisionAvoidance();
+	/*if (currentState != &PatrolState::getInstance() && currentState != &SearchState::getInstance())
+		heading += CollisionAvoidance();*/
 	
 	// Move the AI if it is not lost
 	if (currentState != &SearchState::getInstance())
@@ -124,6 +127,8 @@ void CAIController::Update(float deltaTime)
 
 	// Make sure the AI is on a 2D vector.
 	aiPosition.z = 0.0f;
+
+	colComponent->SetPosition(aiPosition);
 
 	// Set the position of the entity to the local variable for the AI position.
 	SetPosition(aiPosition);
