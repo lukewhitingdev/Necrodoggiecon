@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   Crossbow.cpp
+ * \brief  All the functions needed for Crossbow.
+ *
+ * \author Flynn Brooks
+ * \date   May 2022
+ *********************************************************************/
+
 #include "Crossbow.h"
 
 Crossbow::Crossbow()
