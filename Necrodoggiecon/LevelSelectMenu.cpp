@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   LevelSelectMenu.cpp
+ * \brief  The cpp for the level select menu
+ * 
+ * \author jack_
+ * \date   May 2022
+ *********************************************************************/
 #include "LevelSelectMenu.h"
 #include "Cerberus/Core/UI/CWidget_Button.h"
 #include "Cerberus/Core/UI/CWidget_Image.h"
@@ -12,6 +19,10 @@ LevelSelectMenu::LevelSelectMenu()
 	InitialiseCanvas();
 }
 
+/**
+ * creates all the buttons for later use.
+ * 
+ */
 void LevelSelectMenu::InitialiseCanvas()
 {
 	CWidget_Image* Background = CreateImage(Vector2(0, 0), Vector2(.5, .5), -160);
@@ -90,6 +101,10 @@ void LevelSelectMenu::InitialiseCanvas()
 	SetVisibility(false);
 }
 
+/**
+ * closes menu and reveals main menu.
+ * 
+ */
 void LevelSelectMenu::CloseMenu()
 {
 	SetVisibility(false);
@@ -97,54 +112,82 @@ void LevelSelectMenu::CloseMenu()
 	Debug::Log("closing settings");
 }
 
+/**
+ * moves selected level to center.
+ * 
+ */
 void LevelSelectMenu::OpenLevelTutorial()
 {
 	SelectedLevel = 0;
 	UpdateButtonPositions();
 }
-
+/**
+ * moves selected level to center.
+ *
+ */
 void LevelSelectMenu::OpenLevel1()
 {
 	SelectedLevel = 1;
 	UpdateButtonPositions();
 }
-
+/**
+ * moves selected level to center.
+ *
+ */
 void LevelSelectMenu::OpenLevel2()
 {
 	SelectedLevel = 2;
 	UpdateButtonPositions();
 }
-
+/**
+ * moves selected level to center.
+ *
+ */
 void LevelSelectMenu::OpenLevel3()
 {
 	SelectedLevel = 3;
 	UpdateButtonPositions();
 }
-
+/**
+ * moves selected level to center.
+ *
+ */
 void LevelSelectMenu::OpenLevel4()
 {
 	SelectedLevel = 4;
 	UpdateButtonPositions();
 }
-
+/**
+ * moves selected level to center.
+ *
+ */
 void LevelSelectMenu::OpenLevel5()
 {
 	SelectedLevel = 5;
 	UpdateButtonPositions();
 }
-
+/**
+ * moves selected level to center.
+ *
+ */
 void LevelSelectMenu::OpenLevel6()
 {
 	SelectedLevel = 6;
 	UpdateButtonPositions();
 }
-
+/**
+ * moves selected level to center.
+ *
+ */
 void LevelSelectMenu::OpenLevel7()
 {
 	SelectedLevel = 7;
 	UpdateButtonPositions();
 }
-
+/**
+ * offsets all level buttons to show which is selected.
+ *
+ */
 void LevelSelectMenu::UpdateButtonPositions()
 {
 	LVL0->SetWidgetTransform(Vector2((0*300)-(300*SelectedLevel), 50), Vector2(.5, .5),-165);
@@ -156,7 +199,10 @@ void LevelSelectMenu::UpdateButtonPositions()
 	LVL6->SetWidgetTransform(Vector2((6*300)-(300*SelectedLevel), 50), Vector2(.5, .5),-165);
 	LVL7->SetWidgetTransform(Vector2((7*300)-(300*SelectedLevel), 50), Vector2(.5, .5),-165);
 }
-
+/**
+ * Loads the currently selected level.
+ * 
+ */
 void LevelSelectMenu::PlayLevel()
 {
 	CWorldManager::LoadWorld(new CWorld_Game(SelectedLevel));

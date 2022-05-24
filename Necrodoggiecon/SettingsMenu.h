@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   SettingsMenu.h
+ * \brief  Header for the settings menu
+ * 
+ * \author jack_
+ * \date   May 2022
+ *********************************************************************/
 #pragma once
 #include "Cerberus/Core/UI/CWidget_Canvas.h"
 

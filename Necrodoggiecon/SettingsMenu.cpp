@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   SettingsMenu.cpp
+ * \brief  The cpp for the settings menu
+ * 
+ * \author jack_
+ * \date   May 2022
+ *********************************************************************/
 #include "SettingsMenu.h"
 #include "Cerberus/Core/UI/CWidget_Button.h"
 #include "Cerberus/Core/UI/CWidget_Image.h"
@@ -10,6 +17,10 @@ SettingsMenu::SettingsMenu()
 	InitialiseCanvas();
 }
 
+/**
+ * creates buttons and other.
+ * 
+ */
 void SettingsMenu::InitialiseCanvas()
 {
 	CWidget_Image* Background = CreateImage(Vector2(0, 0), Vector2(.5, .5), -160);
@@ -34,6 +45,10 @@ void SettingsMenu::InitialiseCanvas()
 	SetVisibility(false);
 }
 
+/**
+ * closes settings and re-opens either main menu or pause menu depending on which is applicable.
+ * 
+ */
 void SettingsMenu::CloseSettings()
 {
 	if (CUIManager::GetCanvas("MainMenu") != nullptr)

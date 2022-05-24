@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   MainMenu.cpp
+ * \brief  The cpp for the main menu
+ * 
+ * \author jack_
+ * \date   May 2022
+ *********************************************************************/
 #include "MainMenu.h"
 #include "Cerberus/Core/UI/CWidget_Button.h"
 #include "Cerberus/Core/UI/CWidget_Image.h"
@@ -12,7 +19,10 @@ MainMenu::MainMenu()
 {
 	InitialiseCanvas();
 }
-
+/**
+ * ititialises buttons and the settings + level select canvases.
+ * 
+ */
 void MainMenu::InitialiseCanvas()
 {
 	Debug::Log("Canvas Initialised");
@@ -52,19 +62,29 @@ void MainMenu::InitialiseCanvas()
 	CUIManager::AddCanvas(Engine::CreateEntity<LevelSelectMenu>(), "LevelSelectMenu");
 }
 
+/**
+ * closes game.
+ * 
+ */
 void MainMenu::QuitToDesktop()
 {
 	Debug::Log("quit to desktop");
 	PostQuitMessage(1);
 }
-
+/**
+ * opens level select menu.
+ * 
+ */
 void MainMenu::OpenLevelSelect()
 {
 	Debug::Log("open level select");
 	CUIManager::GetCanvas("LevelSelectMenu")->SetVisibility(true);
 	SetVisibility(false);
 }
-
+/**
+ * opens settings menu.
+ * 
+ */
 void MainMenu::OpenSettingsMenu()
 {
 	Debug::Log("open settings");

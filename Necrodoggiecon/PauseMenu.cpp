@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   PauseMenu.cpp
+ * \brief  The cpp for the pause menu 
+ * 
+ * \author jack_
+ * \date   May 2022
+ *********************************************************************/
 #include "PauseMenu.h"
 #include "Cerberus/Core/UI/CWidget_Button.h"
 #include "Cerberus/Core/UI/CWidget_Image.h"
@@ -12,7 +19,10 @@ PauseMenu::PauseMenu()
 {
 	InitialiseCanvas();
 }
-
+/**
+ * Initialise buttons and the settings menu.
+ * 
+ */
 void PauseMenu::InitialiseCanvas()
 {
 	Debug::Log("Pause Canvas Initialised");
@@ -58,33 +68,49 @@ void PauseMenu::InitialiseCanvas()
 	CUIManager::AddCanvas(Engine::CreateEntity<SettingsMenu>(), "SettingsMenu");
 	SetVisibility(false);
 }
-
+/**
+ * pauses game.
+ * 
+ */
 void PauseMenu::PauseGame()
 {
 	SetVisibility(true);
 	Debug::Log("pause");
 	isPaused = true;
 }
-
+/**
+ * resumes game.
+ * 
+ */
 void PauseMenu::ResumeGame()
 {
 	SetVisibility(false);
 	Debug::Log("resume");
 	isPaused = false;
 }
-
+/**
+ * returns to main menu.
+ * 
+ */
 void PauseMenu::QuitToMenu()
 {
 	Debug::Log("quit to menu");
 	CWorldManager::LoadWorld(new CWorld_Game(0));
 }
-
+/**
+ * closes game.
+ * 
+ */
 void PauseMenu::QuitToDesktop()
 {
 	Debug::Log("quit to desktop");
 	PostQuitMessage(1);
 }
-
+/**
+ * listens for input to open/close pause menu through button.
+ * 
+ * \param deltaTime
+ */
 void PauseMenu::Update(float deltaTime)
 {
 	CWidget_Canvas::Update(deltaTime);
@@ -100,7 +126,10 @@ void PauseMenu::Update(float deltaTime)
 		}
 	}
 }
-
+/**
+ * opens settings.
+ * 
+ */
 void PauseMenu::OpenSettingsMenu()
 {
 	Debug::Log("open settings");

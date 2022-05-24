@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   LevelSelectMenu.h
+ * \brief  Header for the level select menu
+ * 
+ * \author jack_
+ * \date   May 2022
+ *********************************************************************/
 #pragma once
 #include "Cerberus/Core/UI/CWidget_Canvas.h"
 
