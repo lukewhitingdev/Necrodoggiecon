@@ -7,7 +7,7 @@
 
 PlayerCharacter::PlayerCharacter()
 {
-	spriteComponentBody = AddComponent<CAnimationSpriteComponent>();
+		spriteComponentBody = AddComponent<CAnimationSpriteComponent>();
 	spriteComponentBody->LoadTextureWIC("Resources/Characters/JonathanWicke-sheet.png");
 	spriteComponentBody->SetSpriteSize(XMUINT2(64, 64));
 	spriteComponentBody->SetRenderRect(XMUINT2(44, 44));
@@ -31,6 +31,13 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentShadow->SetScale(XMFLOAT3(1.45, 1.45, 1.45));
 	spriteComponentShadow->SetUseTranslucency(true);
 
+	spriteComponentShield = AddComponent<CSpriteComponent>();
+	spriteComponentShield->LoadTextureWIC("Resources/Shield.png");
+	spriteComponentShield->SetPosition(XMFLOAT3(0, 0, -1));
+	spriteComponentShield->SetScale(XMFLOAT3(1.45, 1.45, 1.45));
+	spriteComponentShield->SetUseTranslucency(true);
+	spriteComponentShield->SetShouldDraw(false);
+
 	colComponent = new CollisionComponent("Character 1", this);
 
 	loadNoise = AddComponent<CAudioEmitterComponent>();
@@ -39,7 +46,7 @@ PlayerCharacter::PlayerCharacter()
 	loadNoise->SetRange(10000.0f);
 
 	weaponComponent = AddComponent<Weapon>();
-	weaponComponent->SetWeapon("InvisScroll");
+	weaponComponent->SetWeapon("ShieldScroll");
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 }
 
@@ -162,6 +169,7 @@ void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime
 	else if (pickupToUse == "ShieldScroll")
 	{
 		//Give shield
+		GiveShield();
 	}
 }
 
@@ -203,4 +211,10 @@ void PlayerCharacter::ToggleVisibility(bool isVisible)
 	spriteComponentBody->SetShouldDraw(visible);
 	spriteComponentLegs->SetShouldDraw(visible);
 	spriteComponentShadow->SetShouldDraw(visible);
+}
+
+void PlayerCharacter::GiveShield()
+{
+	//SetHealth to health + 1
+	spriteComponentShield->SetShouldDraw(true);
 }

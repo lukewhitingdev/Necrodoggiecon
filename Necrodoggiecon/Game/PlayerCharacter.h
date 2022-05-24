@@ -21,6 +21,7 @@ protected:
 	CAnimationSpriteComponent* spriteComponentBody = nullptr;
 	CAnimationSpriteComponent* spriteComponentLegs = nullptr;
 	CSpriteComponent* spriteComponentShadow = nullptr;
+	CSpriteComponent* spriteComponentShield = nullptr;
 
 	XMFLOAT2 movementVec = { 0,0 };
 	const float walkAnimationSpeed = 1.3f;
@@ -34,6 +35,7 @@ protected:
 	void PickupTimer(float deltaTime);
 
 	void ToggleVisibility(bool isVisible);
+	void GiveShield();
 public:
 	PlayerCharacter();
 
