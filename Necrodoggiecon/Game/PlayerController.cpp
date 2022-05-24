@@ -40,7 +40,7 @@ void PlayerController::HandleInput(float deltaTime)
 		inputable->PressedVertical(1, deltaTime);
 	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::S))
 		inputable->PressedVertical(-1, deltaTime);
-	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::E))
+	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::F))
 		inputable->PressedInteract();
 	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::G))
 		inputable->PressedDrop();
