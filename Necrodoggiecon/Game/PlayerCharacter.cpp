@@ -63,6 +63,8 @@ PlayerCharacter::PlayerCharacter()
 	camera = AddComponent<CCameraComponent>();
 	camera->SetAttachedToParent(false);
 	CameraManager::SetRenderingCamera(camera);
+
+	SetVisible(true);
 }
 
 /**
@@ -117,9 +119,8 @@ void PlayerCharacter::Attack()
 
 	weaponComponent->OnFire(GetPosition(), attackDir);
 
-	if (!GetVisible()) return;
-
-	pickupTimerCallback();
+	if (GetVisible() == false) 
+		return;
 }
 
 void PlayerCharacter::Update(float deltaTime)
