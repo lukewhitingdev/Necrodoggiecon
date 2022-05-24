@@ -28,7 +28,7 @@ public:
 	Projectile();
 	~Projectile();
 
-	void StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, std::string projectile_name);
+	void StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string projectile_name);
 	void DidItHit();
 	virtual void Update(float deltaTime) override;
 

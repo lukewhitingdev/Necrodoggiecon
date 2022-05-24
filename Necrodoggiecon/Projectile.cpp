@@ -108,17 +108,17 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, fl
 	Lifetime = lifetime;
 	initialPosition = pos;
 
-	if (projectile_name == "Arrow")
+	if (Projectile_Name == "Arrow")
 	{
 		Speed = speed;
 		ProjectileSprite->LoadTextureWIC("Resources/Game/weapons/Arrow.png");
 	}
-	else if (projectile_name == "Fire")
+	else if (Projectile_Name == "Fire")
 	{
 		Speed = speed * 2;
 		ProjectileSprite->LoadTextureWIC("Resources/Game/weapons/Wand - Fireball Projectile.png");
 	}
-	else if (projectile_name == "Missle")
+	else if (Projectile_Name == "Missle")
 	{
 		Speed = speed;
 		ProjectileSprite->LoadTextureWIC("Resources/Game/weapons/Wand - Magic missile Projectile.png");
