@@ -99,7 +99,7 @@ void Projectile::DidItHit()
  *
  * This also allows for the projectile to be at the right rotation when fireing
  */
-void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string projectile_name)
+void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string &projectile_name)
 {
 	Direction = dir;
 	Damage = damage;

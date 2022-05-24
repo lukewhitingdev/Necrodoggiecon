@@ -29,7 +29,7 @@
   "Crossbow": {
     "Projectile_Name": "Arrow",
     "Type": "Ranged",
-    "Damage": 2.0,
+    "Damage": 1.0,
     "Range": 100.0,
     "Attack_Speed": 0.8,
     "Ammo": 8.0,
