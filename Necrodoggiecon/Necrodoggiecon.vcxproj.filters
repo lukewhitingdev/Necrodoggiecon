@@ -29,6 +29,8 @@
     <ClCompile Include="Game\DialogueHandler.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
+    <ClCompile Include="SettingsMenu.cpp" />
+    <ClCompile Include="LevelSelectMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Dialogue.h" />
@@ -65,6 +67,8 @@
     <ClInclude Include="Game\DialogueHandler.h" />
     <ClInclude Include="Game\Dialogue.h" />
     <ClInclude Include="PauseMenu.h" />
+    <ClInclude Include="SettingsMenu.h" />
+    <ClInclude Include="LevelSelectMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />

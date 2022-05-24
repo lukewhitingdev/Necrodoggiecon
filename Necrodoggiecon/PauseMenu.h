@@ -14,6 +14,7 @@ public:
     void ResumeGame();
     void QuitToMenu();
     void QuitToDesktop();
+    void OpenSettingsMenu();
 
     virtual void Update(float deltaTime) override;
 

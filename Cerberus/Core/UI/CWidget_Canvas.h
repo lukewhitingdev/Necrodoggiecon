@@ -67,6 +67,8 @@ protected:
      */
     std::vector<class CWidget_Button*> buttonList;
     
+    bool mouseReleased;
+    bool mousePressed;
     
 };
 

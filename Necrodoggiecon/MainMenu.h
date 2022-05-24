@@ -12,8 +12,9 @@ public:
     MainMenu();
 
     void QuitToDesktop();
-    void LoadLevel1();
-    void LoadLevel2();
+
+    void OpenLevelSelect();
+    void OpenSettingsMenu();
 
 };
 

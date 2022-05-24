@@ -4,6 +4,9 @@
 #include "Cerberus/Core/UI/CWidget_Text.h"
 #include "Cerberus/Core/Utility/CWorldManager.h"
 #include "CWorld_Game.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
+#include "SettingsMenu.h"
+#include "LevelSelectMenu.h"
 
 MainMenu::MainMenu()
 {
@@ -14,7 +17,7 @@ void MainMenu::InitialiseCanvas()
 {
 	Debug::Log("Canvas Initialised");
 	
-	CWidget_Image* Background = CreateImage(Vector2(0, 0), Vector2(.5, .5), -150);
+	CWidget_Image* Background = CreateImage(Vector2(0, 0), Vector2(.5, .5), -140);
 	Background->GetSprite()->LoadTextureWIC("Resources/Game/uiBackground.png");
 	Background->GetSprite()->SetRenderRect(XMUINT2(16, 16));
 	Background->GetSprite()->SetSpriteSize(XMUINT2(1500, 1000));
@@ -28,24 +31,25 @@ void MainMenu::InitialiseCanvas()
 	Title->GetText()->SetScale(2,2,1);
 
 	std::string FullQuitButtonName = "Quit";
-	CWidget_Button* ExitFull = CreateButton(Vector2(0, -188), Vector2(1, 1), FullQuitButtonName, -155);
+	CWidget_Button* ExitFull = CreateButton(Vector2(0, -188), Vector2(1, 1), FullQuitButtonName, -145);
 	ExitFull->Bind_OnButtonPressed(std::bind(&MainMenu::QuitToDesktop, this));
 	ExitFull->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	ExitFull->SetButtonSize(Vector2(256, 110));
 	
-	std::string Level1Name = "Level 1";
-	CWidget_Button* Lvl1 = CreateButton(Vector2(0, 68), Vector2(1, 1), Level1Name, -155);
-	Lvl1->Bind_OnButtonPressed(std::bind(&MainMenu::LoadLevel1, this));
+	std::string Level1Name = "Level Select";
+	CWidget_Button* Lvl1 = CreateButton(Vector2(0, 68), Vector2(1, 1), Level1Name, -145);
+	Lvl1->Bind_OnButtonPressed(std::bind(&MainMenu::OpenLevelSelect, this));
 	Lvl1->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	Lvl1->SetButtonSize(Vector2(256, 110));
 
-	std::string Lvl2Name = "Level 2";
-	CWidget_Button* Lvl2 = CreateButton(Vector2(0, -60), Vector2(1, 1), Lvl2Name, -155);
-	Lvl2->Bind_OnButtonPressed(std::bind(&MainMenu::LoadLevel2, this));
+	std::string Lvl2Name = "Settings";
+	CWidget_Button* Lvl2 = CreateButton(Vector2(0, -60), Vector2(1, 1), Lvl2Name, -145);
+	Lvl2->Bind_OnButtonPressed(std::bind(&MainMenu::OpenSettingsMenu, this));
 	Lvl2->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	Lvl2->SetButtonSize(Vector2(256, 110));
 
-
+	CUIManager::AddCanvas(Engine::CreateEntity<SettingsMenu>(), "SettingsMenu");
+	CUIManager::AddCanvas(Engine::CreateEntity<LevelSelectMenu>(), "LevelSelectMenu");
 }
 
 void MainMenu::QuitToDesktop()
@@ -54,13 +58,16 @@ void MainMenu::QuitToDesktop()
 	PostQuitMessage(1);
 }
 
-void MainMenu::LoadLevel1()
+void MainMenu::OpenLevelSelect()
 {
-	Debug::Log("load level 1");
-	CWorldManager::LoadWorld(new CWorld_Game(0));
+	Debug::Log("open level select");
+	CUIManager::GetCanvas("LevelSelectMenu")->SetVisibility(true);
+	SetVisibility(false);
 }
-void MainMenu::LoadLevel2()
+
+void MainMenu::OpenSettingsMenu()
 {
-	Debug::Log("load level 2");
-	CWorldManager::LoadWorld(new CWorld_Game(1));
+	Debug::Log("open settings");
+	CUIManager::GetCanvas("SettingsMenu")->SetVisibility(true);
+	SetVisibility(false);
 }

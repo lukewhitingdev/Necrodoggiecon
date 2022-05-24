@@ -144,8 +144,10 @@ void CWidget_Button::IsButtonFocused(Vector2 mPos)
 
 void CWidget_Button::ButtonPressed(bool buttonPressed)
 {
+
 	if (hasFocus)
 	{
+
 		if (buttonPressed) OnButtonPressed();
 		else OnButtonReleased();
 	}

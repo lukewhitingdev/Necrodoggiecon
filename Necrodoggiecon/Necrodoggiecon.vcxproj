@@ -206,11 +206,13 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\testItemData.cpp" />
     <ClCompile Include="Game\TestUI.cpp" />
     <ClCompile Include="Game\weapons.cpp" />
+    <ClCompile Include="LevelSelectMenu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game\AI\GruntEnemy.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="SettingsMenu.cpp" />
     <ClCompile Include="weaponUI.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -240,9 +242,11 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />
+    <ClInclude Include="LevelSelectMenu.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="SettingsMenu.h" />
     <ClInclude Include="weaponUI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
