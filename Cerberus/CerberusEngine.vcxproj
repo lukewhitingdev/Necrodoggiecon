@@ -439,7 +439,6 @@
     <ClInclude Include="Core\Structs\structures.h" />
     <ClInclude Include="Core\Utility\DebugOutput\DebugOutput.h" />
     <ClInclude Include="Core\Utility\DebugOutput\Debug.h" />
-    <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\UI\CWidget_Button.cpp" />
@@ -497,11 +496,17 @@
     <ClCompile Include="Dependencies\Microsoft\WICTextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\Necrodoggiecon.ico" />
+    <Image Include="directx.ico" />
+    <Image Include="Necrodoggiecon.ico" />
     <Image Include="Resources\Unwalkable.dds" />
     <Image Include="Resources\Walkable.dds" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

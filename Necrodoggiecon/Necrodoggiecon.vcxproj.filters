@@ -32,7 +32,6 @@
     <ClCompile Include="Weapons\MeleeWeapon.cpp" />
     <ClCompile Include="Weapons\RangeWeapon.cpp" />
     <ClCompile Include="Weapons\Ranged\Crossbow.cpp" />
-    <ClCompile Include="Game\AI\MeleeEnemy.cpp" />
     <ClCompile Include="Weapons\Ranged\Fireball.cpp" />
     <ClCompile Include="Weapons\Ranged\MagicMissile.cpp" />
     <ClCompile Include="HomingProjectile.cpp" />
@@ -154,8 +153,12 @@
     <ClInclude Include="Weapons\Ranged\Fireball.h" />
     <ClInclude Include="Weapons\Ranged\MagicMissile.h" />
     <ClInclude Include="HomingProjectile.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
 </Project>

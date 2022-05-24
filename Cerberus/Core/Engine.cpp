@@ -14,7 +14,7 @@
 //--------------------------------------------------------------------------------------
 #define _XM_NO_INTRINSICS_
 
-
+#include "resource.h"
 #include "Cerberus\Core\Engine.h"
 #include "Cerberus\Core\Environment/CTile.h"
 #include "Cerberus\Core\Environment/CWorld_Edit.h"
@@ -104,12 +104,14 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow, WNDPROC wndProc )
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
-	wcex.hIcon = LoadIcon( hInstance, ( LPCTSTR )IDI_TUTORIAL1 );
+	wcex.hIcon = LoadIconW(hInstance, (LPCTSTR)IDI_ICON1);
+	DWORD error = GetLastError();
+
 	wcex.hCursor = LoadCursor( nullptr, IDC_ARROW );
 	wcex.hbrBackground = ( HBRUSH )( COLOR_WINDOW + 1 );
 	wcex.lpszMenuName = nullptr;
 	wcex.lpszClassName = L"Necrodoggiecon";
-	wcex.hIconSm = LoadIcon( wcex.hInstance, ( LPCTSTR )IDI_TUTORIAL1 );
+	wcex.hIconSm = LoadIcon( wcex.hInstance, ( LPCTSTR )IDI_ICON1);
 	if( !RegisterClassEx( &wcex ) )
 		return E_FAIL;
 

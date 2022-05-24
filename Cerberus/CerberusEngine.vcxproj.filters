@@ -162,11 +162,11 @@
     <ClInclude Include="Core\UI\CWidget_Text.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Tutorial01.rc" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="Resources\Unwalkable.dds" />
     <Image Include="Resources\Walkable.dds" />
+    <Image Include="directx.ico" />
+    <Image Include="..\Necrodoggiecon.ico" />
+    <Image Include="Necrodoggiecon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="World">
@@ -193,5 +193,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
 </Project>
