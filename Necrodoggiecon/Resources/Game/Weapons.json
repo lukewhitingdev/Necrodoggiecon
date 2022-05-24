@@ -100,7 +100,7 @@
     "Name": "Fireball"
   },
   "InvisibilityScroll": {
-    "IconPath": "Resources/Game/weapons/Scroll - Shield.png",
+    "IconPath": "Resources/Game/weapons/Scroll - Invisibility.png",
     "Type": "Pickup",
     "Range": 25.0,
     "PickupType": "InvisibilityScroll",

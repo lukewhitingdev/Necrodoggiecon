@@ -53,7 +53,7 @@ PlayerCharacter::PlayerCharacter()
 
 	weaponComponent = AddComponent<WeaponInterface>();
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
-	weaponComponent->SetWeapon(new ShieldScroll());
+	weaponComponent->SetWeapon(new Dagger());
 
 	weaponSprite = AddComponent<CSpriteComponent>();
 	UpdateWeaponSprite();
@@ -211,6 +211,7 @@ void PlayerCharacter::UpdateWeaponSprite()
 
 void PlayerCharacter::ApplyDamage(float damage)
 {
+	Debug::Log("Hit");
 	if (hasShield)
 	{
 		ToggleShield(false);
@@ -304,6 +305,7 @@ void PlayerCharacter::ToggleVisibility(bool isVisible)
 	spriteComponentBody->SetShouldDraw(visible);
 	spriteComponentLegs->SetShouldDraw(visible);
 	spriteComponentShadow->SetShouldDraw(visible);
+	weaponSprite->SetShouldDraw(visible);
 }
 
 void PlayerCharacter::ToggleShield(bool shield)
