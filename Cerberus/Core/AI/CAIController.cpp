@@ -48,7 +48,7 @@ CAIController::CAIController()
 	SetScale(Vector3{ 0.5f, 0.5f, 1.0f });
 	viewFrustrum = AddComponent<CSpriteComponent>();
 	viewFrustrum->LoadTexture("Resources/Game/viewFrustrum.dds");
-	viewFrustrum->SetTint(XMFLOAT4(0.0f, 0.0f, 0.0f, 0));
+	viewFrustrum->SetTint(XMFLOAT4(0.0f, 0.0f, 0.0f, -0.5f));
 	viewFrustrum->SetRenderRect(XMUINT2(128, 128));
 	viewFrustrum->SetSpriteSize(XMUINT2(128, 128));
 	viewFrustrum->SetRotation(-1.5087f);
@@ -56,7 +56,7 @@ CAIController::CAIController()
 	float scaleComparisonY = 128.0f / (64.0f * GetScale().y);
 	viewFrustrum->SetScale(Vector3{ ((aiRange / 128.0f) * scaleComparisonX), ((aiRange / 128.0f) * scaleComparisonY), 1.0f });
 	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y + aiRange *scaleComparisonY * GetScale().y, 1.0f });
-	//viewFrustrum->SetUseTranslucency(true);
+	viewFrustrum->SetUseTranslucency(true);
 
 	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
 
@@ -490,6 +490,11 @@ void CAIController::CheckForPlayer()
  */
 void CAIController::MoveViewFrustrum()
 {
+	// Temp code for the arrow sprite so I know where the AI is looking. 
+	if (velocity.Magnitude() == 0.0f)
+	{
+		return;
+	}
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
