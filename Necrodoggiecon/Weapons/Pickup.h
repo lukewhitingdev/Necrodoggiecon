@@ -7,7 +7,7 @@ public:
 	Pickup();
 	~Pickup();
 
-	virtual void OnFire(Vector3 actorPos, Vector3 attackDir);
+	virtual bool OnFire(Vector3 actorPos, Vector3 attackDir);
 private:
 	CEntity* GetClosestEnemy(Vector3 actorPos, Vector3 damagePos);
 	CEntity* GetClosestPlayer(Vector3 actorPos, Vector3 damagePos);

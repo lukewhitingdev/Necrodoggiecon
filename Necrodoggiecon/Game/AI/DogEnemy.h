@@ -28,5 +28,8 @@ private:
     float attackTimer = 1.0f;
     float attackRange = 300.0f;
     Vector3 targetPosition;
+
+    CAudioEmitterComponent* attackAudioEmitter;
+
 };
 

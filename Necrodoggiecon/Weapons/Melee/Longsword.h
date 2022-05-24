@@ -15,7 +15,7 @@ public:
 	Longsword();
 	~Longsword();
 
-	virtual void OnFire(Vector3 actorPos, Vector3 attackDir);
+	virtual bool OnFire(Vector3 actorPos, Vector3 attackDir);
 private:
 	std::vector<CEntity*> GetPlayersInReach(Vector3 actorPos, Vector3 damagePos);
 };

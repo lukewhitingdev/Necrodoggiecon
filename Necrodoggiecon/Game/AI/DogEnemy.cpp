@@ -14,6 +14,10 @@ DogEnemy::DogEnemy()
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
+
+	attackAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	attackAudioEmitter->Load("Resources/Game/Audio/DogBark.wav");
+	attackAudioEmitter->SetRange(0.0f);
 }
 
 void DogEnemy::Update(float deltaTime)
@@ -82,6 +86,8 @@ void DogEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 			SetSpeed(500.0f);
 		onCooldown = false;
 		isAttacking = true;
+
+		attackAudioEmitter->Play();
 
 		if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 		{

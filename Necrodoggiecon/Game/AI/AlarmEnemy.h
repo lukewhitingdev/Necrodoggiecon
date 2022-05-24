@@ -25,5 +25,7 @@ private:
     bool onCooldown = false;
 
     CAudioEmitterComponent* loadNoise;
+    CAudioEmitterComponent* alarmAudioEmitter;
+    CAudioEmitterComponent* deathAudioEmitter;
 };
 

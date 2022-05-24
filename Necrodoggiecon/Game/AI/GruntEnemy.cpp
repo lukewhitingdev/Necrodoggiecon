@@ -18,6 +18,14 @@ GruntEnemy::GruntEnemy()
 	weaponComponent = AddComponent<WeaponInterface>();
 	weaponComponent->SetWeapon(new Crossbow());
 	weaponComponent->SetUserType(USERTYPE::AI);
+
+	attackAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	attackAudioEmitter->Load(weaponComponent->GetCurrentWeapon()->GetAttackSoundPath());
+	attackAudioEmitter->SetRange(0.0f);
+
+	deathAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.wav");
+	deathAudioEmitter->SetRange(0.0f);
 }
 
 /**
@@ -46,6 +54,8 @@ void GruntEnemy::ChasePlayer(PlayerCharacter* player)
  */
 void GruntEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 {
-	weaponComponent->OnFire(aiPosition, velocity);
+	if (weaponComponent->OnFire(aiPosition, velocity))
+		attackAudioEmitter->Play();
+
 	SetCurrentState(ChaseState::getInstance());
 }

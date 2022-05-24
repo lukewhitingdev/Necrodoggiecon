@@ -68,9 +68,10 @@ void Weapon::CoolDown(float attack_cooldown)
  * \param actorPos Position of the actor that is using the function (Used for virtual overriding)
  * \param attackDir Direction of the attack (Used for virtual overriding)
  */
-void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
+bool Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	Debug::Log("Base Weapon Class has fired Weapon: %s", name.c_str());
+	return true;
 }
 
 void Weapon::Update(float deltaTime)

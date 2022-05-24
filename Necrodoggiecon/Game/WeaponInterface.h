@@ -18,7 +18,7 @@ public:
 	WeaponInterface();
 	~WeaponInterface();
 
-	virtual void OnFire(Vector3 actorPos, Vector3 attackDir);
+	virtual bool OnFire(Vector3 actorPos, Vector3 attackDir);
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) override;
 

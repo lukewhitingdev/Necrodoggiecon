@@ -11,7 +11,7 @@ Longsword::~Longsword()
 {
 }
 
-void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
+bool Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	auto normAttackDir = attackDir.Normalize();
 
@@ -24,7 +24,7 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 		StartCooldown();
 		SetCanFire(false);
 		if (enemies.size() == 0) //No enemies
-			return;
+			return true;
 		
 		std::vector<CAIController*> enemiesCanHit;
 		//Check each enemy
@@ -42,5 +42,7 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 			Engine::DestroyEntity(enemy);
 			
 		}
+		return true;
 	}
+	return false;
 }

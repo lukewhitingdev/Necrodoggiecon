@@ -50,6 +50,7 @@ protected:
 	CAudioEmitterComponent* shieldHitAudioEmitter = nullptr;
 	CAudioEmitterComponent* invisibilityDeactivateAudioEmitter = nullptr;
 	CAudioEmitterComponent* scrollActivateAudioEmitter = nullptr;
+	CAudioEmitterComponent* weaponAttackAudioEmitter = nullptr;
 
 
 	bool hasShield = false;

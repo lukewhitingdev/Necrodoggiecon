@@ -10,7 +10,7 @@ MeleeWeapon::~MeleeWeapon()
 {
 }
 
-void MeleeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
+bool MeleeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	if (Weapon::GetCanFire())
 	{
@@ -18,8 +18,9 @@ void MeleeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 		Weapon::SetCanFire(false);
 		Weapon::StartCooldown();
 		HandleMelee(actorPos, normAttackDir);
+		return true;
 	}
-
+	return false;
 }
 
 /**

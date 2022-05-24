@@ -49,7 +49,7 @@ PlayerCharacter::PlayerCharacter()
 	loadNoise = AddComponent<CAudioEmitterComponent>();
 	loadNoise->Load("Resources/Game/TestShortAudio.wav");
 	deathAudioEmitter = AddComponent<CAudioEmitterComponent>();
-	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.ogg");
+	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.wav");
 	footstepAudioEmitter = AddComponent<CAudioEmitterComponent>();
 	footstepAudioEmitter->Load("Resources/Game/Audio/Footstep.wav");
 	shieldHitAudioEmitter = AddComponent<CAudioEmitterComponent>();
@@ -58,6 +58,8 @@ PlayerCharacter::PlayerCharacter()
 	invisibilityDeactivateAudioEmitter->Load("Resources/Game/Audio/DeactivateInvis.wav");
 	scrollActivateAudioEmitter = AddComponent<CAudioEmitterComponent>();
 	scrollActivateAudioEmitter->Load("Resources/Game/Audio/ScrollActivate.wav");
+	weaponAttackAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	weaponAttackAudioEmitter->Load("Resources/Game/Audio/ShootBow.wav");
 
 	loadNoise->SetRange(10000.0f);
 	deathAudioEmitter->SetRange(0.0f);
@@ -65,6 +67,7 @@ PlayerCharacter::PlayerCharacter()
 	shieldHitAudioEmitter->SetRange(0.0f);
 	invisibilityDeactivateAudioEmitter->SetRange(0.0f);
 	scrollActivateAudioEmitter->SetRange(0.0f);
+	weaponAttackAudioEmitter->SetRange(50.0f);
 
 	weaponComponent = AddComponent<WeaponInterface>();
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
@@ -130,8 +133,8 @@ void PlayerCharacter::Attack()
 
 	Vector3 attackDir = (Vector3(screenVec.x, screenVec.y, screenVec.z)) - GetPosition();
 
-	weaponComponent->OnFire(GetPosition(), attackDir);
-
+	if(weaponComponent->OnFire(GetPosition(), attackDir))
+		weaponAttackAudioEmitter->Play();
 	if (!GetVisible()) return;
 
 	pickupTimerCallback();
@@ -213,6 +216,7 @@ void PlayerCharacter::EquipWeapon(Weapon* weapon)
 	weaponComponent->SetWeapon(weapon);
 	UpdateWeaponSprite();
 	movementVec = {0,0};
+	weaponAttackAudioEmitter->Load(weapon->GetAttackSoundPath());
 }
 
 void PlayerCharacter::UpdateWeaponSprite()

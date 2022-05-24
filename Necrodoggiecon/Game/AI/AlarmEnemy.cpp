@@ -19,6 +19,14 @@ AlarmEnemy::AlarmEnemy()
 	loadNoise->Load("Resources/Game/TestShortAudio.wav");
 
 	loadNoise->SetRange(10000.0f);
+
+	alarmAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	alarmAudioEmitter->Load("Resources/Game/Audio/Bell.wav");
+	alarmAudioEmitter->SetRange(0.0f);
+
+	deathAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.wav");
+	deathAudioEmitter->SetRange(0.0f);
 }
 
 void AlarmEnemy::Update(float deltaTime)
