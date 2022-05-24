@@ -43,9 +43,21 @@ PlayerCharacter::PlayerCharacter()
 	loadNoise->Load("Resources/Game/TestShortAudio.wav");
 	deathAudioEmitter = AddComponent<CAudioEmitterComponent>();
 	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.ogg");
-
+	footstepAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	footstepAudioEmitter->Load("Resources/Game/Audio/Footstep.wav");
+	shieldHitAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	shieldHitAudioEmitter->Load("Resources/Game/Audio/ShieldHit.wav");
+	invisibilityDeactivateAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	invisibilityDeactivateAudioEmitter->Load("Resources/Game/Audio/DeactivateInvis.wav");
+	scrollActivateAudioEmitter = AddComponent<CAudioEmitterComponent>();
+	scrollActivateAudioEmitter->Load("Resources/Game/Audio/ScrollActivate.wav");
 
 	loadNoise->SetRange(10000.0f);
+	deathAudioEmitter->SetRange(0.0f);
+	footstepAudioEmitter->SetRange(100.0f);
+	shieldHitAudioEmitter->SetRange(0.0f);
+	invisibilityDeactivateAudioEmitter->SetRange(0.0f);
+	scrollActivateAudioEmitter->SetRange(0.0f);
 
 	weaponComponent = AddComponent<WeaponInterface>();
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
@@ -117,8 +129,11 @@ void PlayerCharacter::Update(float deltaTime)
 	colComponent->SetPosition(GetPosition());
 	weaponComponent->Update(deltaTime);
 
+	FootstepTimer(deltaTime);
+
 	movementVec = { 0,0 };
 	movementVel = XMFLOAT2(movementVel.x * (1 - deltaTime * walkDrag), movementVel.y * (1 - deltaTime * walkDrag));
+
 }
 
 void PlayerCharacter::ResolveMovement(const float& deltaTime)
@@ -156,6 +171,18 @@ void PlayerCharacter::AimAtMouse(const Vector3& mousePos)
 	LookAt(Vector3(screenVec.x, screenVec.y, screenVec.z));
 
 	
+}
+
+void PlayerCharacter::FootstepTimer(float deltaTime)
+{
+	if (movementVec.Magnitude() < 0.01f) return;
+	
+	stepTimer += deltaTime;
+	if (stepTimer >= timeBetweenSteps)
+	{
+		footstepAudioEmitter->Play();
+		stepTimer = 0;
+	}
 }
 
 void PlayerCharacter::EquipWeapon(Weapon* weapon)

@@ -9,6 +9,8 @@
 #pragma once
 #include <Cerberus\Core\Components\CAnimationSpriteComponent.h>
 #include <Cerberus\Core\CEntity.h>
+
+class CAudioEmitterComponent;
 class CAIController;
 class PlayerCharacter;
 

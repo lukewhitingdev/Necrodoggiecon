@@ -9,6 +9,7 @@
 #include "Projectile.h"
 #include <Cerberus\Core\AI\CAIController.h>
 #include <Necrodoggiecon\Game\PlayerCharacter.h>
+#include <Cerberus/Core/Components/CAudioEmitterComponent.h>
 
 Projectile::Projectile()
 {
@@ -60,6 +61,7 @@ void Projectile::DidItHit()
 		{
 			hasHit = true;
 			target->ApplyDamage(Damage);
+			audioEmitter->Play();
 		}
 	}
 	else if (userType == USERTYPE2::PLAYER)
@@ -69,6 +71,9 @@ void Projectile::DidItHit()
 		{
 			hasHit = true;
 			target->ApplyDamage(Damage);
+			Lifetime = 0;
+			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
+			audioEmitter->Play();
 		}
 	}
 }

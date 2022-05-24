@@ -20,6 +20,8 @@ protected:
 	float walkSpeed = 300;
 	float walkDrag = 10;
 	float timeElapsed = 0;
+	float timeBetweenSteps = 0.35f;
+	float stepTimer;
 
 	void LookAt(Vector3 pos);
 
@@ -35,6 +37,10 @@ protected:
 	const float cameraMovementScalar = 100.0f;
 
 	CAudioEmitterComponent* deathAudioEmitter = nullptr;
+	CAudioEmitterComponent* footstepAudioEmitter = nullptr;
+	CAudioEmitterComponent* shieldHitAudioEmitter = nullptr;
+	CAudioEmitterComponent* invisibilityDeactivateAudioEmitter = nullptr;
+	CAudioEmitterComponent* scrollActivateAudioEmitter = nullptr;
 
 
 public:
@@ -60,5 +66,6 @@ public:
 private:
 	void ResolveMovement(const float& deltaTime);
 	void AimAtMouse(const Vector3& mousePos);
+	void FootstepTimer(float deltaTime);
 };
 
