@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   Fireball.cpp
+ * \brief  All the functions needed for fireball.
+ *
+ * \author Flynn Brooks
+ * \date   May 2022
+ *********************************************************************/
+
 #include "Fireball.h"
 
 Fireball::Fireball()
