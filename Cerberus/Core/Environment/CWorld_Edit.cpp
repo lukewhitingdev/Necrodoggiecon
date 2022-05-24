@@ -33,59 +33,68 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 		file >> storedFile;
 
-		std::vector<std::string> convertedFile = storedFile["TileData"];
-
-
-		std::string Test = convertedFile[0];
-		std::cout << "" << std::endl;
-
-
-		for (int i = 0; i < (mapScale * mapScale); i++)
+		if (storedFile["MapScale"] != mapScale)
 		{
-			Vector3 temp = Vector3((float)(i % mapScale), (float)(i / mapScale), 0);
-			Vector2 gridPos = Vector2(temp.x, temp.y);
+			NewWorld(Slot);
+		}
+		else
+		{
+			std::vector<std::string> convertedFile = storedFile["TileData"];
 
-			int ID = atoi(convertedFile[i].c_str());
-			Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
 
-			//tempPos += Vector3(0, 64 * tileScale, 0.0f);
+			std::string Test = convertedFile[0];
+			std::cout << "" << std::endl;
 
-			tempPos.z = 10;
 
-			CTile* Tile = nullptr;
-			if (tileContainer[i] != nullptr)
+			for (int i = 0; i < (mapScale * mapScale); i++)
 			{
-				Tile = tileContainer[i];
+				Vector3 temp = Vector3((float)(i % mapScale), (float)(i / mapScale), 0);
+				Vector2 gridPos = Vector2(temp.x, temp.y);
+
+				int ID = atoi(convertedFile[i].c_str());
+				Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
+
+				//tempPos += Vector3(0, 64 * tileScale, 0.0f);
+
+				tempPos.z = 10;
+
+				CTile* Tile = nullptr;
+				if (tileContainer[i] != nullptr)
+				{
+					Tile = tileContainer[i];
+				}
+				else
+				{
+					Tile = Engine::CreateEntity<CTile>();
+				}
+
+
+				Tile->SetPosition(tempPos);
+				Tile->SetScale(tileScaleMultiplier);
+				Tile->ChangeTileID(ID);
+
+				tileContainer[i] = Tile;
+
+
+
+				if (Tile->GetTileID() != 1)
+				{
+					tileData[i].id = 0;
+				}
+				else tileData[i].id = 1;
+
+
+				//tileData[i].id = Tile->GetTileID();
+				tileData[i].type = CellType::Empty;
+
+
+
+
 			}
-			else
-			{
-				Tile = Engine::CreateEntity<CTile>();
-			}
-
-
-			Tile->SetPosition(tempPos);
-			Tile->SetScale(tileScaleMultiplier);
-			Tile->ChangeTileID(ID);
-
-			tileContainer[i] = Tile;
-
-
-
-			if (Tile->GetTileID() != 1)
-			{
-				tileData[i].id = 0;
-			}
-			else tileData[i].id = 1;
-
-
-			//tileData[i].id = Tile->GetTileID();
-			tileData[i].type = CellType::Empty;
-
-
-
 
 		}
 
+		
 
 
 
@@ -107,14 +116,14 @@ void CWorld_Editable::LoadWorld(int Slot)
 			int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
 			int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
 
-			//float enemyHealth = storedFile["Enemy"][i]["Health"];
-			//float enemySpeed = storedFile["Enemy"][i]["Speed"];
+			float enemyHealth = storedFile["Enemy"][i]["Health"];
+			float enemySpeed = storedFile["Enemy"][i]["Speed"];
 
-			//float enemyMass = storedFile["Enemy"][i]["Mass"];
-			//float enemyRange = storedFile["Enemy"][i]["Range"];
+			float enemyMass = storedFile["Enemy"][i]["Mass"];
+			float enemyRange = storedFile["Enemy"][i]["Range"];
 
-			//float enemyRotationSpeed = storedFile["Enemy"][i]["RotationSpeed"];
-			//float enemyMaxSearchTime = storedFile["Enemy"][i]["MaxSearchTime"];
+			float enemyRotationSpeed = storedFile["Enemy"][i]["RotationSpeed"];
+			float enemyMaxSearchTime = storedFile["Enemy"][i]["MaxSearchTime"];
 
 			
 			
@@ -222,7 +231,7 @@ void CWorld_Editable::SaveWorld(int Slot)
 		MapData.push_back(std::to_string(tileContainer[i]->GetTileID()));
 	}
 
-
+	SaveData["MapScale"] = mapScale;
 	SaveData["TileData"] = MapData;
 	SaveData["EnemyCount"] = totalEnemyEntities;
 

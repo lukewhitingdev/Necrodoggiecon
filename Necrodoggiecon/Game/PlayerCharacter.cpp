@@ -37,9 +37,9 @@ PlayerCharacter::PlayerCharacter()
 
 	loadNoise->SetRange(10000.0f);
 
-	weaponComponent = AddComponent<Weapon>();
-	weaponComponent->SetWeapon(3);
-	weaponComponent->SetUserType(USERTYPE::PLAYER);
+	//weaponComponent = AddComponent<Weapon>();
+	//weaponComponent->SetWeapon(3);
+	//weaponComponent->SetUserType(USERTYPE::PLAYER);
 }
 
 void PlayerCharacter::PressedHorizontal(int dir, float deltaTime)

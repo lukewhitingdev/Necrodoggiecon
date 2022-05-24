@@ -29,7 +29,7 @@ void CT_EditorGrid::SetupGrid(CCameraComponent* cam)
 	gridSprite->SetSpriteSize(XMUINT2(tileScale * mapScale, tileScale * mapScale));
 	gridSprite->SetTextureOffset(XMFLOAT2(0, 0));
 
-	Vector3 tempPos = Vector3(31 * tileScale, 31 * tileScale, 0);
+	Vector3 tempPos = Vector3((mapScale - 1) * tileScale, (mapScale - 1) * tileScale, -1);
 	
 
 	//tempPos += Vector3(0, 32 * tileScale, 0);

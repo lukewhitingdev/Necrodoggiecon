@@ -91,7 +91,7 @@ int Start()
 
 	CameraManager::AddCamera(freeCameraComponent);
 
-	CWorldManager::LoadWorld(new CWorld_Menu());
+	CWorldManager::LoadWorld(new CWorld_Game(0));
 
 	
 

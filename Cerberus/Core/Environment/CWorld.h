@@ -68,7 +68,8 @@ protected:
 
 	
 
-	int mapSize = mapScale * mapScale;
+	int mapSize = 
+		mapScale * mapScale;
 
 
 	

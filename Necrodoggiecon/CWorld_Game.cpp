@@ -22,6 +22,7 @@
  */
 CWorld_Game::CWorld_Game(int Slot)
 {
+	mapSlot = Slot;
 	LoadWorld(Slot);
 }
 
@@ -56,6 +57,8 @@ void CWorld_Game::SetupWorld()
 	controller->Possess(character1);
 	character1->SetShouldMove(true);
 	character1->colComponent->SetCollider(64.0f, 64.0f);
+
+	LoadEntities(mapSlot);
 
 	
 
@@ -135,7 +138,7 @@ void CWorld_Game::LoadEntities(int Slot)
 		{
 			int waypointx = storedFile["Enemy"][i]["Waypoints"][y]["X"];
 			int waypointy = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
-			Vector3 patrolPosition = Vector3{ (float)waypointx * mapScale * tileScaleMultiplier, (float)waypointy * mapScale * tileScaleMultiplier, 0.0f };
+			Vector3 patrolPosition = Vector3{ (float)waypointx * (tileScale * tileScaleMultiplier), (float)waypointy * (tileScale * tileScaleMultiplier), 0.0f };
 			PatrolNode* patrol = new PatrolNode(patrolPosition);
 			patrolNodes.push_back(patrol);
 		}
