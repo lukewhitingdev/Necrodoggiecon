@@ -164,9 +164,6 @@
   <ItemGroup>
     <Image Include="Resources\Unwalkable.dds" />
     <Image Include="Resources\Walkable.dds" />
-    <Image Include="directx.ico" />
-    <Image Include="..\Necrodoggiecon.ico" />
-    <Image Include="Necrodoggiecon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="World">

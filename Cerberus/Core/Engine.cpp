@@ -14,7 +14,7 @@
 //--------------------------------------------------------------------------------------
 #define _XM_NO_INTRINSICS_
 
-#include "resource.h"
+#include "Cerberus/resource.h"
 #include "Cerberus\Core\Engine.h"
 #include "Cerberus\Core\Environment/CTile.h"
 #include "Cerberus\Core\Environment/CWorld_Edit.h"
@@ -44,7 +44,7 @@ void		CleanupDevice();
 void		Render();
 void		Update(float deltaTime);
 void		Load();
-double CalculateDeltaTime(const unsigned short fpsCap = 60);
+double CalculateDeltaTime(const unsigned short fpsCap = 0);
 
 // Defines.
 // Window and Instance.
@@ -58,7 +58,7 @@ bool minimised = false;
 double globalDeltaTime = 0.0;
 
 //set to 0 for uncapped frames
-const unsigned short maxFPS = 144;
+const unsigned short maxFPS = 0;
 
 std::chrono::high_resolution_clock::time_point tpOld;
 std::chrono::high_resolution_clock::time_point tpNew;
@@ -104,14 +104,12 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow, WNDPROC wndProc )
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
-	wcex.hIcon = LoadIconW(hInstance, (LPCTSTR)IDI_ICON1);
-	DWORD error = GetLastError();
-
+	wcex.hIcon = LoadIconW(hInstance, (LPCTSTR)IDI_ICON2);
 	wcex.hCursor = LoadCursor( nullptr, IDC_ARROW );
 	wcex.hbrBackground = ( HBRUSH )( COLOR_WINDOW + 1 );
 	wcex.lpszMenuName = nullptr;
 	wcex.lpszClassName = L"Necrodoggiecon";
-	wcex.hIconSm = LoadIcon( wcex.hInstance, ( LPCTSTR )IDI_ICON1);
+	wcex.hIconSm = LoadIcon( wcex.hInstance, ( LPCTSTR )IDI_ICON2);
 	if( !RegisterClassEx( &wcex ) )
 		return E_FAIL;
 
