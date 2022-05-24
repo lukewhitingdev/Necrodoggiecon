@@ -5,7 +5,7 @@
 
 Weapon::Weapon(std::string weapon)
 {
-	SetWeapon(weapon);
+	SetWeapon(NameToID(weapon));
 }
 
 /**
@@ -13,42 +13,59 @@ Weapon::Weapon(std::string weapon)
  * 
  * \param weapon Name of the weapon in the JSON
  */
-void Weapon::SetWeapon(std::string weapon)
+void Weapon::SetWeapon(int ID)
 {
+	if (ID == -1)
+	{
+		Debug::Log("Invalid weapon ID");
+		return;
+	}
 	std::ifstream file("Resources/Game/Weapons.json");
-	json storedFile;
-	file >> storedFile;
-
-/*
-	type = storedFile["Weapons"][ID]["Type"];
-	damage = storedFile["Weapons"][ID]["Damage"];
-	range = storedFile["Weapons"][ID]["Range"];
-	range = range * rangeScale;
-	attack_speed = storedFile["Weapons"][ID]["Attack_Speed"];
-	ammo = storedFile["Weapons"][ID]["Ammo"];
-	unique = storedFile["Weapons"][ID]["Unique"];
-	cooldown = attack_speed;
-	*/
-	iconPath = storedFile.at(weapon).at("IconPath");
-	type = storedFile.at(weapon).at("Type");
-	name = storedFile.at(weapon).at("Name");
-	range = storedFile.at(weapon).at("Range");
-	range = range * rangeScale;
-	if (type != "Pickup")
+	if (file.is_open())
 	{
-		projectileIconPath = storedFile.at(weapon).at("ProjectileIconPath");
-		damage = storedFile.at(weapon).at("Damage");
-		attack_speed = storedFile.at(weapon).at("Attack_Speed");
-		ammo = storedFile.at(weapon).at("Ammo");
-		unique = storedFile.at(weapon).at("Unique");
-		cooldown = attack_speed;
-	}
-	else
-	{
-		pickupType = storedFile.at(weapon).at("PickupType");
-	}
+		json storedFile;
+		file >> storedFile;
 
-	Debug::Log("Range %f", range);
+
+
+
+
+
+
+
+
+
+		//iconPath = storedFile.at(weapon).at("IconPath");
+		
+
+		type = storedFile["Weapons"][ID]["Type"];
+		name = storedFile["Weapons"][ID]["Name"];
+		range = storedFile["Weapons"][ID]["Range"];
+		iconPath = storedFile["Weapons"][ID]["IconPath"];
+
+		range = range * rangeScale;
+		if (type != "Pickup")
+		{
+
+			projectileIconPath = storedFile["Weapons"][ID]["ProjectileIconPath"];
+			damage = storedFile["Weapons"][ID]["Damage"];
+			attack_speed = storedFile["Weapons"][ID]["Attack_Speed"];
+			ammo = storedFile["Weapons"][ID]["Ammo"];
+			unique = storedFile["Weapons"][ID]["Unique"];
+			cooldown = attack_speed;
+		}
+		else
+		{
+			pickupType = storedFile["Weapons"][ID]["PickupType"];
+		}
+
+		Debug::Log("Range %f", range);
+	}
+}
+
+void Weapon::SetWeapon(std::string ID)
+{
+	SetWeapon(NameToID(ID));
 }
 
 void Weapon::CoolDown(float attack_cooldown)
@@ -65,6 +82,36 @@ void Weapon::CoolDown(float attack_cooldown)
 			canFire = true;
 		}
 	}
+}
+
+std::string Weapon::IDToName(int ID)
+{
+	std::ifstream file("Resources/Weapons.json");
+	json storedFile;
+	file >> storedFile;
+	
+
+	std::string returnValue = storedFile["Weapons"][ID]["Name"];
+	file.close();
+	return returnValue;
+}
+
+int Weapon::NameToID(std::string Name)
+{
+	std::ifstream file("Resources/Weapons.json");
+	json storedFile;
+	file >> storedFile;
+	std::string List[9];
+
+	int Index = -1;
+	for (int i = 0; i < storedFile["TotalWeapons"]; i++)
+	{
+		if (storedFile["Weapons"][i]["Name"] == Name)
+			Index = i;
+			break;
+	}
+	file.close();
+	return Index;
 }
 
 /**

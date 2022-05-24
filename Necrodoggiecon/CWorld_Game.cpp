@@ -12,6 +12,8 @@
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <Cerberus/Core/Structs/CCamera.h>
 #include "Cerberus/WorldConstants.h"
+#include "Necrodoggiecon/Weapons/Ranged/MagicMissile.h"
+#include "Necrodoggiecon/Weapons/Ranged/Fireball.h"
 
 
 /**
@@ -36,7 +38,6 @@ void CWorld_Game::SetupWorld()
 
 	// Locked Camera follows player.
 	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>();
-	lockedCameraComponent->Initialize();
 	lockedCameraComponent->SetAttachedToParent(true);
 
 
@@ -57,7 +58,7 @@ void CWorld_Game::SetupWorld()
 
 	//Please stop configuring stuff in here instead of in the class constructor - Lets not spread configuration to many different places in the project!
 
-	LoadEntities(mapSlot);
+	LoadEnemyUnits(mapSlot);
 
 	
 
@@ -84,10 +85,10 @@ void CWorld_Game::ReloadWorld()
 		}
 	}
 	SetupWorld();
-	LoadEntities(mapSlot);
+	LoadEnemyUnits(mapSlot);
 }
 
-void CWorld_Game::LoadEntities(int Slot)
+void CWorld_Game::LoadEnemyUnits(int Slot)
 {
 	std::string fileName = "Resources/Levels/Level_" + std::to_string(mapSlot);
 	fileName += ".json";
@@ -108,7 +109,7 @@ void CWorld_Game::LoadEntities(int Slot)
 		int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
 		int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
 		Vector3 position = Vector3{ (float)EnemyX, (float)EnemyY, 0.0f };
-
+		int WeaponID = storedFile["Enemy"][i]["WeaponIndex"];
 		CAIController* enemy = nullptr;
 
 		switch (EnemyID)
@@ -123,6 +124,30 @@ void CWorld_Game::LoadEntities(int Slot)
 		{
 			enemy = Engine::CreateEntity<GruntEnemy>();
 			enemy->SetPosition(position);
+			
+			switch (WeaponID)
+			{
+			case 0:
+				//enemy->EquipWeapon(new Dagger());
+				break;
+			case 1:
+				//enemy->EquipWeapon(new Rapier());
+				break;
+			case 2:
+				//enemy->EquipWeapon(new Longsword());
+				break;
+			case 3:
+				//enemy->EquipWeapon(new Crossbow());
+				break;
+			case 4:
+				//enemy->EquipWeapon(new MagicMissile());
+				break;
+			case 5: 
+				//enemy->EquipWeapon(new Fireball());
+				break;
+
+			}
+			
 			break;
 		}
 		default:
@@ -159,4 +184,9 @@ void CWorld_Game::LoadEntities(int Slot)
 		enemy->SetCurrentState(PatrolState::getInstance());
 		patrolNodes.clear();
 	}
+}
+
+void CWorld_Game::LoadEntities(int Slot)
+{
+
 }

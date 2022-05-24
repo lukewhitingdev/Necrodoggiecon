@@ -23,6 +23,36 @@ CCharacter::~CCharacter()
 	}
 }
 
+
+void CCharacter::EquipWeapon(Weapon* weapon)
+{
+	weaponComponent->SetWeapon(weapon);
+	UpdateWeaponSprite();
+}
+
+void CCharacter::UpdateWeaponSprite()
+{
+	HRESULT hr;
+	if (IO::FindExtension(weaponComponent->GetCurrentWeapon()->GetIconPath()) == "dds")
+	{
+		hr = weaponSprite->LoadTexture(weaponComponent->GetCurrentWeapon()->GetIconPath());
+		if (FAILED(hr))
+		{
+			Debug::LogHResult(hr, "Weapon Tried to load texture using path: %s but the loader returned failure.", weaponComponent->GetCurrentWeapon()->GetIconPath().c_str());
+			return;
+		}
+	}
+	else
+	{
+		hr = weaponSprite->LoadTextureWIC(weaponComponent->GetCurrentWeapon()->GetIconPath());
+		if (FAILED(hr))
+		{
+			Debug::LogHResult(hr, "Weapon Tried to load texture using path: %s but the loader returned failure.", weaponComponent->GetCurrentWeapon()->GetIconPath().c_str());
+			return;
+		}
+	}
+}
+
 void CCharacter::SetHealth(float heal)
 {
 	health = heal;

@@ -54,8 +54,6 @@ public:
 	void Attack() override;
 	void PressedUse() override;
 
-	Weapon* weapon = nullptr;
-
 	void UsePickup(const std::string& pickupToUse, float activeTime) override;
 	bool GetVisible() { return visible; }
 
@@ -67,7 +65,6 @@ public:
 
 	class CCameraComponent* camera = nullptr;
 	CAudioEmitterComponent* loadNoise = nullptr;
-	CSpriteComponent* weaponSprite = nullptr;
 
 private:
 	void ResolveMovement(const float& deltaTime);

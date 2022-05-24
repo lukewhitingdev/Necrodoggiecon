@@ -142,12 +142,12 @@ void CWorld_Editable::LoadWorld(int Slot)
 			TempRef->SetPosition(Vector3(EnemyX, EnemyY, -1));
 			editorEntityList.push_back(TempRef);
 
-			//TempRef->SetHealth(enemyHealth);
-		//	TempRef->SetSpeed(enemySpeed);
-			//TempRef->SetMass(enemyMass);
-			//TempRef->SetRange(enemyRange);
-			//TempRef->SetRotationSpeed(enemyRotationSpeed);
-			//TempRef->SetMaxSearchTime(enemyMaxSearchTime);
+			TempRef->SetHealth(enemyHealth);
+			TempRef->SetSpeed(enemySpeed);
+			TempRef->SetMass(enemyMass);
+			TempRef->SetRange(enemyRange);
+			TempRef->SetRotationSpeed(enemyRotationSpeed);
+			TempRef->SetMaxSearchTime(enemyMaxSearchTime);
 
 			if (EnemyID == 0)
 			{

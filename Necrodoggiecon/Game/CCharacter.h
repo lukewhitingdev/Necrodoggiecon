@@ -18,6 +18,7 @@ protected:
 	};
 	float health = 2.0f;
 	WeaponInterface* weaponComponent = nullptr;
+	CSpriteComponent* weaponSprite = nullptr;
 
 	void AddMovement(XMFLOAT2 vel, float deltaTime);
 public:
@@ -30,6 +31,10 @@ public:
 
 	CCharacter();
 	virtual ~CCharacter();
+
+	void EquipWeapon(Weapon* weapon);
+
+	void UpdateWeaponSprite();
 
 	void SetHealth(float heal);
 	float GetHealth();
