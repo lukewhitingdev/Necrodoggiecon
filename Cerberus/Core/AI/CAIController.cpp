@@ -79,8 +79,11 @@ CAIController::CAIController()
 					closestEmitter = emitter;
 				}
 			}
-			positionToInvestigate = closestEmitter->position;
-			SetCurrentState(InvestigateState::getInstance());
+			if (closestEmitter != nullptr)
+			{
+				positionToInvestigate = closestEmitter->position;
+				SetCurrentState(InvestigateState::getInstance());
+			}
 		}
 	};
 
@@ -393,6 +396,11 @@ void CAIController::Investigating(Vector3 positionOfInterest)
 	}
 }
 
+void CAIController::AttackEnter(PlayerCharacter* player)
+{
+	UNREFERENCED_PARAMETER(player);
+}
+
 /**
  * Enter function for the chase state. Called once when first switching to this state.
  * 
@@ -424,6 +432,8 @@ void CAIController::ChasePlayer(PlayerCharacter* player)
  */
 void CAIController::AttackPlayer(PlayerCharacter* player, float deltaTime)
 {
+	UNREFERENCED_PARAMETER(deltaTime);
+	UNREFERENCED_PARAMETER(player);
 }
 
 /**
@@ -452,8 +462,6 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
  */
 void CAIController::CheckForPlayer()
 {
-	PlayerCharacter* closestPlayer = nullptr;
-
 	if (currentState != &AttackState::getInstance())
 	{
 		if (players.size() > 0)
@@ -478,15 +486,8 @@ void CAIController::CheckForPlayer()
  */
 void CAIController::MoveViewFrustrum()
 {
-	// Temp code for the arrow sprite so I know where the AI is looking. 
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
-	float offset = 128.0f * viewFrustrum->GetScale().x;
-	//float offset = 128.0f * viewFrustrum->viewSprite->GetScale().x;
-
-	//viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x * 0.5f))));
-	
-
 	Vector3 up = { 0.0f, 1.0f, 0.0f };
 
 	float dot = up.Dot(view);
@@ -495,8 +496,6 @@ void CAIController::MoveViewFrustrum()
 	float angle = atan2f(det, dot);
 	this->SetRotation(angle);
 	viewFrustrum->SetRotation(-1.5708f*4.0f);
-	//viewFrustrum->SetRotation(angle);
-	//viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 1.0f });
 }
 
 /**
