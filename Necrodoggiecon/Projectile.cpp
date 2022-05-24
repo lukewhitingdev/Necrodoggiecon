@@ -79,7 +79,7 @@ void Projectile::DidItHit()
 		PlayerCharacter* target = GetClosestPlayer(damagePos);
 		if (target != nullptr)
 		{
-			target->ApplyDamage(1.0f);
+			target->ApplyDamage(Damage);
 		}
 	}
 	else if (userType == USERTYPE2::PLAYER)
@@ -87,7 +87,7 @@ void Projectile::DidItHit()
 		CAIController* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
 		{
-			target->ApplyDamage(1.0f);
+			target->ApplyDamage(Damage);
 			Lifetime = 0;
 			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
 		}
@@ -99,29 +99,31 @@ void Projectile::DidItHit()
  *
  * This also allows for the projectile to be at the right rotation when fireing
  */
-void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type, std::string projectile_name)
+void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string &projectile_name)
 {
 	Direction = dir;
-	ProjectileSprite->SetPosition(pos);
+	Damage = damage;
 	Projectile_Name = projectile_name;
 	Speed = speed;
 	Lifetime = lifetime;
 	initialPosition = pos;
+	ProjectileSprite->SetPosition(initialPosition);
+	Position = pos;
 
-	if (projectile_name == "Arrow")
+	if (Projectile_Name == "Arrow")
 	{
 		Speed = speed;
-		ProjectileSprite->LoadTextureWIC("Resources/weapons/Arrow.png");
+		ProjectileSprite->LoadTextureWIC("Resources/Game/weapons/Arrow.png");
 	}
-	else if (projectile_name == "Fire")
+	else if (Projectile_Name == "Fire")
 	{
 		Speed = speed * 2;
-		ProjectileSprite->LoadTextureWIC("Resources/weapons/Wand - Fireball Projectile.png");
+		ProjectileSprite->LoadTextureWIC("Resources/Game/weapons/Wand - Fireball Projectile.png");
 	}
-	else if (projectile_name == "Missle")
+	else if (Projectile_Name == "Missle")
 	{
 		Speed = speed;
-		ProjectileSprite->LoadTextureWIC("Resources/weapons/Wand - Magic missile Projectile.png");
+		ProjectileSprite->LoadTextureWIC("Resources/Game/weapons/Wand - Magic missile Projectile.png");
 	}
 
 	userType = (USERTYPE2)type;
