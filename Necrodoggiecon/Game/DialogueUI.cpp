@@ -14,11 +14,11 @@
 */
 DialogueUI::DialogueUI()
 {
-	textBackground = AddComponent<CSpriteComponent>();
+	textBackground = AddComponent<CSpriteComponent>(NAME_OF(textBackground));
 	textBackground->LoadTextureWIC("Resources/Game/darkBackground.png");
-	nameBackground = AddComponent<CSpriteComponent>();
+	nameBackground = AddComponent<CSpriteComponent>(NAME_OF(nameBackground));
 	nameBackground->LoadTextureWIC("Resources/Game/darkBackground.png");
-	nameTextRenderComponent = AddComponent<CTextRenderComponent>();
+	nameTextRenderComponent = AddComponent<CTextRenderComponent>(NAME_OF(nameTextRenderComponent));
 
 	//Setup Background Sprite
 	auto width = Engine::windowWidth;
@@ -30,7 +30,7 @@ DialogueUI::DialogueUI()
 	textBackground->SetPosition(0, UIHeight, 1);
 
 	//Setup TextRenderComponents
-	auto trc = AddComponent<CTextRenderComponent>();
+	auto trc = AddComponent<CTextRenderComponent>(NAME_OF(trc));
 	textRenderComponents.push_back(trc);
 
 	maxCharactersInRow = width / (textRenderComponents[0]->GetCharacterSize().x * 2);
@@ -44,7 +44,7 @@ DialogueUI::DialogueUI()
 	textRenderComponents.clear();
 	for (int i = 0; i < maxRowCount; i++)
 	{
-		auto trc = AddComponent<CTextRenderComponent>();
+		auto trc = AddComponent<CTextRenderComponent>(NAME_OF(trc));
 		trc->SetReserveCount(maxCharactersInRow);
 		textRenderComponents.push_back(trc);
 	}

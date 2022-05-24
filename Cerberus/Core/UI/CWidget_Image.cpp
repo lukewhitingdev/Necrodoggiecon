@@ -5,9 +5,9 @@
 
 CWidget_Image::CWidget_Image()
 {
-	sprite = AddComponent<CSpriteComponent>();
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 	sprite->SetIsUI(true);
-	textRenderer = AddComponent<CTextRenderComponent>();
+	textRenderer = AddComponent<CTextRenderComponent>(NAME_OF(textRenderer));
 	textRenderer->SetIsUI(true);
 }
 
