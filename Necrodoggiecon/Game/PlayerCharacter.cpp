@@ -38,7 +38,7 @@ PlayerCharacter::PlayerCharacter()
 	loadNoise->SetRange(10000.0f);
 
 	weaponComponent = AddComponent<Weapon>();
-	weaponComponent->SetWeapon("Crossbow");
+	weaponComponent->SetWeapon(3);
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 }
 
