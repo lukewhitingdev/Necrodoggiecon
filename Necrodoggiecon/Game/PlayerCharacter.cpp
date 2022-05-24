@@ -6,6 +6,7 @@
 #include "Cerberus/Core/Utility/IO.h"
 #include "Necrodoggiecon/Game/PlayerController.h"
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
+#include <Necrodoggiecon/Weapons/Ranged/MagicMissile.h>
 
 PlayerCharacter::PlayerCharacter()
 {
