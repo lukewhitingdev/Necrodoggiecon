@@ -12,15 +12,18 @@
 
 CInteractable::CInteractable() : interactTextOffset(0), interactRange(1), sprite(nullptr), lastCollidedObject(nullptr)
 {
-	sprite = AddComponent<CSpriteComponent>();
-	interactText = AddComponent<CTextRenderComponent>();
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
+	interactText = AddComponent<CTextRenderComponent>(NAME_OF(interactText));
 	colComponent = new CollisionComponent("Interactable", this);
+
+	sprite->LoadTexture("Resources/Game/arrow.dds");
+	this->SetInteractRange(sprite->GetSpriteSize().x);
 
 	colComponent->SetCollider(interactRange);
 	colComponent->SetTrigger(true);
-	sprite->LoadTexture("Resources/Game/arrow.dds");
 
 	interactText->SetScale(2, 2, 2);
+
 }
 
 CInteractable::~CInteractable()
@@ -56,6 +59,7 @@ void CInteractable::Update(float deltaTime)
  */
 void CInteractable::OnInteract()
 {
+	
 	Debug::Log("Interact");
 	Engine::DestroyEntity(this);
 }
@@ -93,20 +97,40 @@ void CInteractable::HasCollided(CollisionComponent* collidedObject)
 	}
 }
 
+/**
+ * Sets the texture for the interactable.
+ * 
+ * \param path
+ */
 void CInteractable::SetTexture(std::string path)
 {
 	if (!sprite)
-		sprite = AddComponent<CSpriteComponent>();
+		sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 
 	sprite->LoadTexture(path);
 }
 
+/**
+ * Sets the texture for the interactable.
+ * 
+ * \param path
+ */
 void CInteractable::SetTextureWIC(std::string path)
 {
 	if (!sprite)
-		sprite = AddComponent<CSpriteComponent>();
+		sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 
 	sprite->LoadTextureWIC(path);
+}
+
+/**
+ * Sets the interact range for the interactable.
+ * 
+ * \param value
+ */
+void CInteractable::SetInteractRange(const float value)
+{
+	interactRange = value;
 }
 
 /**
@@ -117,4 +141,19 @@ void CInteractable::DrawUI()
 {
 	interactText->SetPosition(Vector3(0, interactTextOffset, -3));
 	interactText->SetText("F");
+}
+
+/**
+ * Returns the last collided object of the interactable.
+ * 
+ * \return 
+ */
+CollisionComponent* CInteractable::GetLastCollidedObject()
+{
+	return lastCollidedObject;
+}
+
+CSpriteComponent* CInteractable::GetSprite()
+{
+	return sprite;
 }

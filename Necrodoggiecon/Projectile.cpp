@@ -12,9 +12,7 @@
 
 Projectile::Projectile()
 {
-	ProjectileSprite = AddComponent<CSpriteComponent>();
-	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
-	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
+	ProjectileSprite = AddComponent<CSpriteComponent>(NAME_OF(ProjectileSprite));
 }
 
 Projectile::~Projectile()
@@ -23,44 +21,21 @@ Projectile::~Projectile()
 }
 
 /**
- * .
+ * Update for constantly moving projectile (Virtually overridden when unique logic is needed).
  *
  * \param deltaTime
  */
 void Projectile::Update(float deltaTime)
 {
-	if (Projectile_Name != "Missle")
+	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime && hasHit == false)
 	{
-		if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime)
-		{
-			DidItHit();
-			Position += Direction * Speed;
-			ProjectileSprite->SetPosition(Position);
-		}
-		else
-		{
-			Engine::DestroyEntity(this);
-		}
+		DidItHit();
+		Position += Direction * Speed;
+		ProjectileSprite->SetPosition(Position);
 	}
-	else if (Projectile_Name == "Missle")
+	else
 	{
-		if (Lifetime > 0)
-		{
-			DidItHit();
-			CAIController* target = GetClosestEnemy(Position, 50000);
-			if (target != nullptr)
-			{
-				Vector3 attack = target->GetPosition() - Position;
-				Position += attack * (Speed * deltaTime);
-				ProjectileSprite->SetPosition(Position);
-				Lifetime - 2;
-			}
-			else
-			{
-				Position += Direction * Speed;
-				ProjectileSprite->SetPosition(Position);
-			}
-		}
+		Engine::DestroyEntity(this);
 	}
 }
 
@@ -79,7 +54,10 @@ void Projectile::DidItHit()
 		PlayerCharacter* target = GetClosestPlayer(damagePos);
 		if (target != nullptr)
 		{
-			target->ApplyDamage(1.0f);
+			hasHit = true;
+			target->ApplyDamage(Damage);
+			Lifetime = 0;
+			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
 		}
 	}
 	else if (userType == USERTYPE2::PLAYER)
@@ -87,9 +65,8 @@ void Projectile::DidItHit()
 		CAIController* target = GetClosestEnemy(damagePos);
 		if (target != nullptr)
 		{
-			target->ApplyDamage(1.0f);
-			Lifetime = 0;
-			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
+			hasHit = true;
+			target->ApplyDamage(Damage);
 		}
 	}
 }
@@ -99,30 +76,19 @@ void Projectile::DidItHit()
  *
  * This also allows for the projectile to be at the right rotation when fireing
  */
-void Projectile::StartUp(Vector3 dir, Vector3 pos, float speed, float lifetime, int type, std::string projectile_name)
+void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string &projectile_name)
 {
 	Direction = dir;
-	ProjectileSprite->SetPosition(pos);
+	Damage = damage;
 	Projectile_Name = projectile_name;
 	Speed = speed;
 	Lifetime = lifetime;
 	initialPosition = pos;
+	Position = initialPosition;
 
-	if (projectile_name == "Arrow")
-	{
-		Speed = speed;
-		ProjectileSprite->LoadTextureWIC("Resources/weapons/Arrow.png");
-	}
-	else if (projectile_name == "Fire")
-	{
-		Speed = speed * 2;
-		ProjectileSprite->LoadTextureWIC("Resources/weapons/Wand - Fireball Projectile.png");
-	}
-	else if (projectile_name == "Missle")
-	{
-		Speed = speed;
-		ProjectileSprite->LoadTextureWIC("Resources/weapons/Wand - Magic missile Projectile.png");
-	}
+	ProjectileSprite->LoadTextureWIC(projectile_name);
+	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
+	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
 
 	userType = (USERTYPE2)type;
 

@@ -8,6 +8,8 @@
  *********************************************************************/
 
 #include "Cerberus/Core/AI/CAIController.h"
+#include <Necrodoggiecon/Game/WeaponInterface.h>
+#include <Necrodoggiecon/Weapons/Ranged/Crossbow.h>
 
 /**
  * Class for the Grunt enemy. This enemy will use the weapon it is holding when it gets in range of the player.
