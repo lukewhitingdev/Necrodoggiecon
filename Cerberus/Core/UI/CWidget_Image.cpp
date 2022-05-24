@@ -5,10 +5,11 @@
 
 CWidget_Image::CWidget_Image()
 {
-	sprite = AddComponent<CSpriteComponent>();
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 	sprite->SetIsUI(true);
-	textRenderer = AddComponent<CTextRenderComponent>();
-	textRenderer->SetFont("Resources/Engine/fontBlack.png");
+
+	textRenderer = AddComponent<CTextRenderComponent>(NAME_OF(textRenderer));
+  textRenderer->SetFont("Resources/Engine/fontBlack.png");
 	textRenderer->SetIsUI(true);
 }
 

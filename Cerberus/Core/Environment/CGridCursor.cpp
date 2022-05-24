@@ -13,7 +13,7 @@ CGridCursor::CGridCursor()
 {
 	Offset = Vector3(0, 0, 0);
 
-	activeCellSprite = AddComponent<CSpriteComponent>();
+	activeCellSprite = AddComponent<CSpriteComponent>(NAME_OF(activeCellSprite));
 	activeCellSprite->LoadTexture("Resources/Game/Tiles/ActiveCell.dds");
 
 	activeCellSprite->SetRenderRect(XMUINT2(tileScale, tileScale));
