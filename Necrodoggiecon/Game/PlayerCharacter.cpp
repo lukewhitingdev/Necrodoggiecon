@@ -244,6 +244,7 @@ void PlayerCharacter::ApplyDamage(float damage)
 	if (hasShield)
 	{
 		ToggleShield(false);
+		shieldHitAudioEmitter->Play();
 		return;
 	}
 
@@ -252,6 +253,7 @@ void PlayerCharacter::ApplyDamage(float damage)
 	{
 		playersController[0]->Unpossess();
 		Engine::DestroyEntity(this);
+		deathAudioEmitter->Play();
 	}
 		
 }
@@ -281,6 +283,7 @@ void PlayerCharacter::LookAt(Vector3 pos)
 */
 void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime)
 {
+	scrollActivateAudioEmitter->Play();
 	if (pickupToUse == "InvisibilityScroll")
 	{
 		pickupActive = true;
@@ -305,6 +308,7 @@ void PlayerCharacter::PressedUse()
 */
 void PlayerCharacter::InvisibilityCallback()
 {
+	invisibilityDeactivateAudioEmitter->Play();
 	ToggleVisibility(true);
 }
 

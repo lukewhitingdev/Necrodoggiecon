@@ -12,6 +12,9 @@ Pickup::~Pickup()
 
 void Pickup::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
+	if (Weapon::GetAmmo() == 0.0f) return;
+
+	Weapon::SetAmmo(Weapon::GetAmmo() - 1.0f);
 	HandlePickup();
 }
 

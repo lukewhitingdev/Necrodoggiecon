@@ -25,12 +25,16 @@ void Weapon::SetWeapon(std::string weapon)
 	name = storedFile.at(weapon).at("Name");
 	range = storedFile.at(weapon).at("Range");
 	range = range * rangeScale;
+
+	hitSoundPath = storedFile.at(weapon).at("HitAudioPath");
+	attackSoundPath = storedFile.at(weapon).at("AttackAudioPath");
+	ammo = storedFile.at(weapon).at("Ammo");
+
 	if (type != "Pickup")
 	{
 		projectileIconPath = storedFile.at(weapon).at("ProjectileIconPath");
 		damage = storedFile.at(weapon).at("Damage");
 		attack_speed = storedFile.at(weapon).at("Attack_Speed");
-		ammo = storedFile.at(weapon).at("Ammo");
 		unique = storedFile.at(weapon).at("Unique");
 		cooldown = attack_speed;
 	}

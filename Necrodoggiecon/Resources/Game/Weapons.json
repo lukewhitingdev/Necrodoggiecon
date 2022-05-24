@@ -123,7 +123,8 @@
     "PickupType": "InvisibilityScroll",
     "Name": "Invisibility Scroll",
     "HitAudioPath": "Resources/Game/Audio/",
-    "AttackAudioPath": "Resources/Game/Audio/ScrollActivate.wav"
+    "AttackAudioPath": "Resources/Game/Audio/ScrollActivate.wav",
+    "Ammo": 1.0
   },
   "ShieldScroll": {
     "IconPath": "Resources/Game/weapons/Scroll - Shield.png",
@@ -132,6 +133,7 @@
     "PickupType": "ShieldScroll",
     "Name":  "Shield Scroll",
     "HitAudioPath": "Resources/Game/Audio/",
-    "AttackAudioPath": "Resources/Game/Audio/ScrollActivate.wav"
+    "AttackAudioPath": "Resources/Game/Audio/ScrollActivate.wav",
+    "Ammo": 1.0
   }
 }

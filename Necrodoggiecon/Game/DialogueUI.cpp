@@ -1,4 +1,5 @@
 #include "DialogueUI.h"
+#include "Cerberus/Core/Components/CAudioEmitterComponent.h"
 
 /*****************************************************************//**
  * \file   DialogueUI.cpp
@@ -35,6 +36,10 @@ DialogueUI::DialogueUI()
 	maxCharactersInRow = width / (textRenderComponents[0]->GetCharacterSize().x * 2);
 	rowHeight = textRenderComponents[0]->GetCharacterSize().y + rowPadding;
 	maxRowCount = (height / rowHeight) * 0.5f;
+
+	audioEmitterComponent = AddComponent<CAudioEmitterComponent>();
+	audioEmitterComponent->Load("Resources/Game/Audio/TextAppear.wav");
+	audioEmitterComponent->SetRange(0.0f);
 
 	textRenderComponents.clear();
 	for (int i = 0; i < maxRowCount; i++)
@@ -82,7 +87,7 @@ void DialogueUI::Update(float deltaTime)
 	if (!isUpdating) return;
 
 	timer += deltaTime;
-	if (timer >= 1 / charactersPerSecond)
+	if (timer >= (1.0f / charactersPerSecond))
 	{
 		displayingText.append(reserveText.substr(0,1));
 		reserveText.erase(0, 1);
@@ -90,6 +95,8 @@ void DialogueUI::Update(float deltaTime)
 		UpdateText();
 		if (reserveText.length() == 0)
 			isUpdating = false;
+		if (displayingText.size() % 4 == 0)
+			audioEmitterComponent->Play();
 	}
 }
 
