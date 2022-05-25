@@ -33,7 +33,7 @@ void CCameraComponent::Update(float deltaTime)
 /**
  * Sets the zoom level of the camera (FOV).
  * 
- * \param level
+ * \param level the zoom level you wish for the camera to be.
  */
 void CCameraComponent::SetZoomLevel(const float level)
 {
@@ -54,7 +54,7 @@ float CCameraComponent::GetZoomLevel()
 /**
  * Sets whether the camera is attached to the parent or if it can move on its own.
  * 
- * \param value
+ * \param value whether you would like for the camera to be attached to the parent or not.
  */
 void CCameraComponent::SetAttachedToParent(const bool value)
 {
@@ -64,7 +64,7 @@ void CCameraComponent::SetAttachedToParent(const bool value)
 /**
  * Returns whether the camera is attached to the parent of if it can move on its own.
  * 
- * \return 
+ * \return whether you are attached to your parent or not.
  */
 bool CCameraComponent::getAttachedToParent()
 {

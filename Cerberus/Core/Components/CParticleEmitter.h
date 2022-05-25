@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   CParticleEmitter.h
+ * \brief  Allows a entity to emit particles.
+ *
+ * \author Luke Whiting
+ * \date   May 2022
+ *********************************************************************/
 #pragma once
 #include "Cerberus/Core/CComponent.h"
 #include "Cerberus/Core/CEntity.h"
@@ -19,7 +26,7 @@ public:
 	void UseRandomLifetime(bool toggle, const float min, const float max);
 
 	void SetDirection(const Vector3 dir);
-	Vector3 GetDirection(const Vector3 dir);
+	Vector3 GetDirection();
 
 	void SetVelocity(const float velo);
 	float GetVelocity();

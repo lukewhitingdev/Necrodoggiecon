@@ -11,9 +11,16 @@
 
 PlayerCharacter::PlayerCharacter()
 {
+	isPlayer = true;
+
+	if(!AudioController::AddListener(static_cast<CTransform*>(this)))
+	{
+		Debug::LogError("An error occured whilst trying to add the player as a listener for the audio controller. See error above.");
+	}
+
 	SetShouldMove(true);
 
-	spriteComponentBody = AddComponent<CAnimationSpriteComponent>();
+	spriteComponentBody = AddComponent<CAnimationSpriteComponent>(NAME_OF(spriteComponentBody));
 	spriteComponentBody->LoadTextureWIC("Resources/Game/Characters/JonathanWicke-sheet.png");
 	spriteComponentBody->SetSpriteSize(XMUINT2(64, 64));
 	spriteComponentBody->SetRenderRect(XMUINT2(44, 44));
@@ -21,7 +28,7 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentBody->SetAnimationSpeed(2 * walkAnimationSpeed);
 	spriteComponentBody->SetPlaying(false, false);
 
-	spriteComponentLegs = AddComponent<CAnimationSpriteComponent>();
+	spriteComponentLegs = AddComponent<CAnimationSpriteComponent>(NAME_OF(spriteComponentLegs));
 	spriteComponentLegs->LoadTextureWIC("Resources/Game/Characters/legsSpriteSheet.png");
 	spriteComponentLegs->SetPosition(XMFLOAT3(0, 0, 1));
 	spriteComponentLegs->SetScale(XMFLOAT3(2, 1.5, 1.5));
@@ -31,13 +38,13 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentLegs->SetAnimationSpeed(10 * walkAnimationSpeed);
 	spriteComponentLegs->SetPlaying(false, false);
 
-	spriteComponentShadow = AddComponent<CSpriteComponent>();
+	spriteComponentShadow = AddComponent<CSpriteComponent>(NAME_OF(spriteComponentShadow));
 	spriteComponentShadow->LoadTextureWIC("Resources/Game/Characters/JonathanWicke-shadow.png");
 	spriteComponentShadow->SetPosition(XMFLOAT3(0, 0, 2));
 	spriteComponentShadow->SetScale(XMFLOAT3(1.45, 1.45, 1.45));
 	spriteComponentShadow->SetUseTranslucency(true);
 
-	spriteComponentShield = AddComponent<CSpriteComponent>();
+	spriteComponentShield = AddComponent<CSpriteComponent>(NAME_OF(spriteComponentShield));
 	spriteComponentShield->LoadTextureWIC("Resources/Game/weapons/Shield.png");
 	spriteComponentShield->SetPosition(XMFLOAT3(0, 0, -1));
 	spriteComponentShield->SetScale(XMFLOAT3(1.45, 1.45, 1.45));
@@ -47,16 +54,16 @@ PlayerCharacter::PlayerCharacter()
 	colComponent = new CollisionComponent("Character 1", this);
 	colComponent->SetCollider(64.0f, 64.0f);
 
-	loadNoise = AddComponent<CAudioEmitterComponent>();
+	loadNoise = AddComponent<CAudioEmitterComponent>(NAME_OF(loadNoise));
 	loadNoise->Load("Resources/Game/TestShortAudio.wav");
 
 	loadNoise->SetRange(10000.0f);
 
-	weaponComponent = AddComponent<WeaponInterface>();
+	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 	weaponComponent->SetWeapon(new Crossbow());
 
-	weaponSprite = AddComponent<CSpriteComponent>();
+	weaponSprite = AddComponent<CSpriteComponent>(NAME_OF(weaponSprite));
 	UpdateWeaponSprite();
 	weaponSprite->SetPosition(Vector3(spriteComponentBody->GetSpriteSize().y / 2, -int(spriteComponentBody->GetSpriteSize().x - 40), 0));
 	weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
@@ -65,9 +72,11 @@ PlayerCharacter::PlayerCharacter()
 	weaponSprite->SetScale(weaponComponent->GetCurrentWeapon()->GetScale());
 
 
-	camera = AddComponent<CCameraComponent>();
+	camera = AddComponent<CCameraComponent>(NAME_OF(camera));
 	camera->SetAttachedToParent(false);
 	CameraManager::SetRenderingCamera(camera);
+
+	SetVisible(true);
 }
 
 /**
@@ -115,16 +124,15 @@ void PlayerCharacter::PressedDrop()
 void PlayerCharacter::Attack()
 {
 	
-	XMFLOAT3 screenVec = XMFLOAT3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, Inputs::InputManager::mousePos.z);
+	XMFLOAT3 screenVec = XMFLOAT3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, InputManager::mousePos.z);
 	screenVec = Math::FromScreenToWorld(screenVec);
 
 	Vector3 attackDir = (Vector3(screenVec.x, screenVec.y, screenVec.z)) - GetPosition();
 
 	weaponComponent->OnFire(GetPosition(), attackDir);
 
-	if (!GetVisible()) return;
-
-	pickupTimerCallback();
+	if (GetVisible() == false) 
+		return;
 }
 
 void PlayerCharacter::Update(float deltaTime)
@@ -133,7 +141,7 @@ void PlayerCharacter::Update(float deltaTime)
 
 	ResolveMovement(deltaTime);
 
-	Vector3 mousePos = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, 1);
+	Vector3 mousePos = Vector3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, 1);
 	
 	AimAtMouse(mousePos);
 

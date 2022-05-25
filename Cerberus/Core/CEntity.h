@@ -52,10 +52,11 @@ public:
 	virtual ~CEntity();
 
 	template <class T>
-	T* AddComponent()
+	T* AddComponent(const std::string& componentName)
 	{
 		CComponent* tmp = new T();
 		tmp->SetParent(this);
+		tmp->SetName(componentName);
 		components.push_back(tmp);
 		EntityManager::AddComponent(tmp);
 		return dynamic_cast<T*>(tmp);
@@ -104,8 +105,11 @@ public:
 	{
 		if (!collidedObject->GetTrigger())
 		{
+			if (collidedObject->GetName() != "Enemy")
+			{
 			colComponent->Resolve(collidedObject);
 			this->SetPosition(colComponent->GetPosition());
+			}
 		}
 	};
 };

@@ -10,7 +10,7 @@ void CSpriteComponent::SetRenderRect(const XMUINT2& newSize)
 
 	if (texture == nullptr || material == nullptr)
 	{
-		Debug::LogError("Texture or material == nullptr, cannot set render rect - Check execution order.");
+		Debug::LogError("Texture or material == nullptr, cannot set render rect - Check execution order. (%s)", GetDebugInfo().c_str());
 		return;
 	}
 
@@ -27,7 +27,7 @@ void CSpriteComponent::SetTextureOffset(const XMFLOAT2& newOffset)
 
 	if (texture == nullptr || material == nullptr)
 	{
-		Debug::LogError("Texture or material == nullptr, cannot set texture offset - Check execution order.");
+		Debug::LogError("Texture or material == nullptr, cannot set texture offset - Check execution order. (%s)", GetDebugInfo().c_str());
 		return;
 	}
 
@@ -44,7 +44,7 @@ void CSpriteComponent::SetTint(const XMFLOAT4& newTint)
 
 	if (material == nullptr)
 	{
-		Debug::LogError("Material == nullptr, cannot set tint - Check execution order.");
+		Debug::LogError("Material == nullptr, cannot set tint - Check execution order. (%s)", GetDebugInfo().c_str());
 		return;
 	}
 
@@ -71,7 +71,10 @@ HRESULT CSpriteComponent::LoadTexture(const std::string& filePath)
 	texture = AssetManager::GetTexture(filePath);
 
 	if (texture == nullptr)
+	{
+		Debug::LogError("Texture load failed! (%s)", GetDebugInfo().c_str());
 		return E_FAIL;
+	}
 
 	renderRect = texture->textureSize;
 	spriteSize = texture->textureSize;
@@ -86,7 +89,10 @@ HRESULT CSpriteComponent::LoadTextureWIC(const std::string& filePath)
 	texture = AssetManager::GetTextureWIC(filePath);
 
 	if (texture == nullptr)
+	{
+		Debug::LogError("Texture load failed! (%s)", GetDebugInfo().c_str());
 		return E_FAIL;
+	}
 
 	renderRect = texture->textureSize;
 	spriteSize = texture->textureSize;
@@ -100,7 +106,13 @@ void CSpriteComponent::SetUseTranslucency(const bool& newTranslucency)
 {
 	CComponent::SetUseTranslucency(newTranslucency);
 
-	if (material->loaded && texture->loaded)
+	if (material == nullptr)
+	{
+		Debug::LogError("Material == nullptr, cannot set use translucency - Check execution order. (%s)", GetDebugInfo().c_str());
+		return;
+	}
+
+	if (material->loaded)
 	{
 		material->material.Material.translucent = true;
 		material->UpdateMaterial();	//Could be done once per update if a change has happened instead of here
@@ -116,7 +128,7 @@ void CSpriteComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& pare
 {
 	if (texture == nullptr || !texture->loaded)	//change to texture valid check
 	{
-		//Debug::LogError("Texture not loaded for CSpriteComponent.");
+		//Debug::LogError("Texture not loaded for CSpriteComponent. (%s)", GetDebugInfo().c_str());
 		return;
 	}
 

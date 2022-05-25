@@ -34,7 +34,7 @@ void CTextRenderComponent::SetText(std::string newText)
 			sprites.push_back(new CSpriteComponent());
 			CSpriteComponent* t = sprites.back();
 			t->LoadTextureWIC(font);
-			Debug::Log("Add more sprites! size: %i", sprites.size());
+			Debug::Log("Added more sprites to text render! size: %i - Please reserve more sprites! (%s)", sprites.size(), GetDebugInfo().c_str());
 		}
 	}
 	else
@@ -47,7 +47,7 @@ void CTextRenderComponent::SetText(std::string newText)
 				CSpriteComponent* t = sprites.back();
 				delete t;
 				sprites.pop_back();
-				Debug::Log("Remove some sprites! size: %i", sprites.size());
+				Debug::Log("Removed some sprites from text render! size: %i - Please reserve more sprites! (%s)", sprites.size(), GetDebugInfo().c_str());
 			}
 		}
 	}
@@ -96,8 +96,6 @@ void CTextRenderComponent::SetReserveCount(unsigned short newReserveCount)
 
 	if (reserveSpriteCount < usedSpriteCount)
 		usedSpriteCount = reserveSpriteCount;
-
-	Debug::Log("Resized TextRenderComp to %i sprites", sprites.size());
 }
 
 void CTextRenderComponent::SetJustification(TextJustification newJustification)

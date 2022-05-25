@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   CameraManager.h
+ * \brief  Manages the cameras in the engine.
+ *
+ * \author Luke Whiting
+ * \date   May 2022
+ *********************************************************************/
+
 #pragma once
 #include <map>
 #include <vector>
