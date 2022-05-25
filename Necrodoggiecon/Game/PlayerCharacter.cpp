@@ -63,7 +63,7 @@ PlayerCharacter::PlayerCharacter()
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 	weaponComponent->SetWeapon(new Crossbow());
 
-	weaponSprite = AddComponent<CAnimationSpriteComponent>(NAME_OF(weaponSprite));
+	weaponSprite = AddComponent<CSpriteComponent>(NAME_OF(weaponSprite));
 	UpdateWeaponSprite();
 	weaponSprite->SetPosition(Vector3(spriteComponentBody->GetSpriteSize().y / 2, -int(spriteComponentBody->GetSpriteSize().x - 40), 0));
 	weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
