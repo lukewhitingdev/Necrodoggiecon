@@ -2,7 +2,7 @@
  * \file   LevelSelectMenu.h
  * \brief  Header for the level select menu
  * 
- * \author jack_
+ * \author Jack B
  * \date   May 2022
  *********************************************************************/
 #pragma once

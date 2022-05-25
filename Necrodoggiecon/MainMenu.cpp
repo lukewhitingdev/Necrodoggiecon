@@ -2,7 +2,7 @@
  * \file   MainMenu.cpp
  * \brief  The cpp for the main menu
  * 
- * \author jack_
+ * \author Jack B
  * \date   May 2022
  *********************************************************************/
 #include "MainMenu.h"

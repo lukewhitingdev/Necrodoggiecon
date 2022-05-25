@@ -2,7 +2,7 @@
  * \file   LevelSelectMenu.cpp
  * \brief  The cpp for the level select menu
  * 
- * \author jack_
+ * \author Jack B
  * \date   May 2022
  *********************************************************************/
 #include "LevelSelectMenu.h"

@@ -2,7 +2,7 @@
  * \file   MainMenu.h
  * \brief  Header for the main menu
  * 
- * \author jack_
+ * \author Jack B
  * \date   May 2022
  *********************************************************************/
 #pragma once

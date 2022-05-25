@@ -2,7 +2,7 @@
  * \file   PauseMenu.cpp
  * \brief  The cpp for the pause menu 
  * 
- * \author jack_
+ * \author Jack B
  * \date   May 2022
  *********************************************************************/
 #include "PauseMenu.h"

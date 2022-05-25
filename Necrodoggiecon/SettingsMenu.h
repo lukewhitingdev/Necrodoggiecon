@@ -2,7 +2,7 @@
  * \file   SettingsMenu.h
  * \brief  Header for the settings menu
  * 
- * \author jack_
+ * \author Jack B
  * \date   May 2022
  *********************************************************************/
 #pragma once
