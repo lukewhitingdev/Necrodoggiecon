@@ -781,7 +781,7 @@ LRESULT Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		}
 		if (wParam == VK_ESCAPE)
 		{
-			//PostQuitMessage(1);
+			PostQuitMessage(1);
 			break;
 		}
 		break;
