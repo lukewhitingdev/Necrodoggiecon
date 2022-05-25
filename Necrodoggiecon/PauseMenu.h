@@ -13,7 +13,10 @@ class PauseMenu : public CWidget_Canvas
     virtual void InitialiseCanvas() override;
 
     bool isPaused = false;
+<<<<<<< HEAD
     bool gameEnded = false;
+=======
+>>>>>>> parent of e0b123e (Merge pull request #129 from lukewhitingdev/revert-111-UI)
 
 public:
     PauseMenu();
