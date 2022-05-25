@@ -54,12 +54,12 @@ private:
 	Vector3 Position;
 	Vector3 initialPosition;
 	std::string Projectile_Name;
+	std::string onHitAudioPath;
 	bool hasHit = false;
 
 	CAIController* GetClosestEnemy(Vector3 actorPos);
 	PlayerCharacter* GetClosestPlayer(Vector3 actorPos);
 	CAIController* GetClosestEnemy(Vector3 actorPos, float ranged);
-	CAudioEmitterComponent* audioEmitter;
 	USERTYPE2 userType;
 };
 

@@ -21,14 +21,13 @@ public:
     virtual void ChasePlayer(CCharacter* player) override;
 
 protected:
-    void OnDeath() override;
+    virtual void OnDeath() override;
+    virtual void OnHit(const std::string& hitSound) override;
 
 private:
     float alarmTimer = 10.0f;
     bool onCooldown = false;
 
     CAudioEmitterComponent* loadNoise;
-    CAudioEmitterComponent* alarmAudioEmitter;
-    CAudioEmitterComponent* deathAudioEmitter;
 };
 

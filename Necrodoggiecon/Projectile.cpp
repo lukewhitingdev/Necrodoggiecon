@@ -14,7 +14,6 @@
 Projectile::Projectile()
 {
 	ProjectileSprite = AddComponent<CSpriteComponent>(NAME_OF(ProjectileSprite));
-	audioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(audioEmitter));
 }
 
 Projectile::~Projectile()
@@ -57,8 +56,7 @@ void Projectile::DidItHit()
 		if (target != nullptr)
 		{
 			hasHit = true;
-			target->ApplyDamage(Damage, );
-			audioEmitter->Play();
+			target->ApplyDamage(Damage, onHitAudioPath);
 			Lifetime = 0;
 			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
 		}
@@ -69,10 +67,9 @@ void Projectile::DidItHit()
 		if (target != nullptr)
 		{
 			hasHit = true;
-			target->ApplyDamage(Damage);
+			target->ApplyDamage(Damage, onHitAudioPath);
 			Lifetime = 0;
 			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
-			audioEmitter->Play();
 		}
 	}
 }
@@ -92,9 +89,8 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, fl
 	Lifetime = lifetime;
 	initialPosition = pos;
 	Position = initialPosition;
-	
+	onHitAudioPath = hitAudioPath;
 	ProjectileSprite->LoadTextureWIC(projectile_name);
-	audioEmitter->Load(hitAudioPath);
 	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
 	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
 

@@ -5,6 +5,7 @@
 #include "Necrodoggiecon/Game/PlayerCharacter.h"
 #include "Cerberus/Core/Utility/IO.h"
 #include "Cerberus/Core/Components/CAudioEmitterComponent.h"
+#include "Game/SoundManager.h"
 template<typename T>
 class WeaponPickup : public CInteractable
 {
@@ -21,7 +22,6 @@ private:
 	void UpdateWeaponSprite(Weapon* weapon);
 
 	T* pickup;
-	CAudioEmitterComponent* pickupAudioEmitter;
 };
 
 template<typename T>
@@ -40,8 +40,6 @@ inline WeaponPickup<T>::WeaponPickup()
 		delete weapon;
 		return;
 	}
-	pickupAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(pickupAudioEmitter));
-	pickupAudioEmitter->Load("Resources/Game/Audio/ItemPickup.wav");
 };
 
 template<typename T>
@@ -65,7 +63,7 @@ inline void WeaponPickup<T>::OnInteract()
 		if (this->pickup != nullptr)
 		{
 			player->EquipWeapon(reinterpret_cast<Weapon*>(this->pickup));
-			pickupAudioEmitter->Play();
+			SoundManager::PlaySound("ItemPickup", GetPosition());
 			this->pickup = nullptr;
 			Engine::DestroyEntity(this);
 		}

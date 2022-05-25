@@ -45,14 +45,6 @@ protected:
 	void ToggleShield(bool shield);
 	const float cameraMovementScalar = 100.0f;
 
-	CAudioEmitterComponent* deathAudioEmitter = nullptr;
-	CAudioEmitterComponent* footstepAudioEmitter = nullptr;
-	CAudioEmitterComponent* shieldHitAudioEmitter = nullptr;
-	CAudioEmitterComponent* invisibilityDeactivateAudioEmitter = nullptr;
-	CAudioEmitterComponent* weaponAttackAudioEmitter = nullptr;
-	CAudioEmitterComponent* onHitAudioEmitter = nullptr;
-
-
 	bool hasShield = false;
 public:
 	PlayerCharacter();

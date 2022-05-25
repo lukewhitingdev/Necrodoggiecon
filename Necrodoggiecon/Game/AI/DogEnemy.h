@@ -22,7 +22,8 @@ public:
     virtual void AttackEnter(CCharacter* player) override;
     virtual void AttackPlayer(CCharacter* player, float deltaTime) override;
 protected:
-    void OnDeath() override;
+    virtual void OnDeath() override;
+    virtual void OnHit(const std::string& hitSound) override;
 
 
 
@@ -33,9 +34,5 @@ private:
     float attackRange = 300.0f;
     const float walkAnimationSpeed = 1.3f;
     Vector3 targetPosition;
-
-    CAudioEmitterComponent* attackAudioEmitter;
-    CAudioEmitterComponent* deathAudioEmitter;
-
 };
 

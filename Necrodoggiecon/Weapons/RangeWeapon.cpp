@@ -52,5 +52,5 @@ bool RangeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 void RangeWeapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
 {
 	Projectile* Projectile1 = Engine::CreateEntity<Projectile>();
-	Projectile1->StartUp(attackDir, actorPos, Weapon::GetDamage(), projectileSpeed, Weapon::GetRange(), (int)Weapon::GetUserType(), Weapon::GetProjectileIcon(), Weapon::GetHitSoundPath());
+	Projectile1->StartUp(attackDir, actorPos, Weapon::GetDamage(), projectileSpeed, Weapon::GetRange(), (int)Weapon::GetUserType(), Weapon::GetProjectileIcon(), Weapon::GetHitSound());
 }

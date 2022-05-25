@@ -24,8 +24,8 @@ void Weapon::SetWeapon(std::string weapon)
 	range = storedFile.at(weapon).at("Range");
 	range = range * rangeScale;
 
-	hitSoundPath = storedFile.at(weapon).at("HitAudioPath");
-	attackSoundPath = storedFile.at(weapon).at("AttackAudioPath");
+	hitSound = storedFile.at(weapon).at("HitAudio");
+	attackSound = storedFile.at(weapon).at("AttackAudio");
 	ammo = storedFile.at(weapon).at("Ammo");
 
 	if (type != "Pickup")

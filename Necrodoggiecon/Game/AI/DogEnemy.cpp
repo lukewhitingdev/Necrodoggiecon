@@ -6,6 +6,7 @@
  * \date   May 2022
  *********************************************************************/
 #include "DogEnemy.h"
+#include "Game/SoundManager.h"
 
 DogEnemy::DogEnemy()
 {
@@ -14,17 +15,6 @@ DogEnemy::DogEnemy()
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
-
-	attackAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(attackAudioEmitter));
-	attackAudioEmitter->Load("Resources/Game/Audio/DogBark.wav");
-	attackAudioEmitter->SetRange(0.0f);
-
-	deathAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(deathAudioEmitter));
-	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.wav");
-	deathAudioEmitter->SetRange(0.0f);
-	sprite->SetAnimationRectSize(XMUINT2(1, 10));
-	sprite->SetAnimationSpeed(10 * walkAnimationSpeed);
-	sprite->SetPlaying(false, false);
 }
 
 void DogEnemy::Update(float deltaTime)
@@ -100,7 +90,7 @@ void DogEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 		if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 		{
 			player->ApplyDamage(1.0f);
-			attackAudioEmitter->Play();
+			SoundManager::PlaySound("DogBark", GetPosition());
 
 			onCooldown = true;
 			attackTimer = 1.0f;
@@ -127,5 +117,10 @@ void DogEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 }
 void DogEnemy::OnDeath()
 {
-	deathAudioEmitter->Play();
+	SoundManager::PlaySound("DeathSound", GetPosition());
+}
+
+void DogEnemy::OnHit(const std::string& hitSound)
+{
+	SoundManager::PlaySound(hitSound, GetPosition());
 }

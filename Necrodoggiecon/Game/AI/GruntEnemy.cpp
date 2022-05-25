@@ -6,6 +6,7 @@
  * \date   May 2022
  *********************************************************************/
 #include "GruntEnemy.h"
+#include "Game/SoundManager.h"
 
 GruntEnemy::GruntEnemy()
 {
@@ -18,14 +19,6 @@ GruntEnemy::GruntEnemy()
 	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	weaponComponent->SetWeapon(new Crossbow());
 	weaponComponent->SetUserType(USERTYPE::AI);
-
-	attackAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(attackAudioEmitter));
-	attackAudioEmitter->Load(weaponComponent->GetCurrentWeapon()->GetAttackSoundPath());
-	attackAudioEmitter->SetRange(0.0f);
-
-	deathAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(deathAudioEmitter));
-	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.wav");
-	deathAudioEmitter->SetRange(0.0f);
 }
 
 /**
@@ -56,11 +49,15 @@ void GruntEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 {
 	heading = Seek(player->GetPosition());
 	if(weaponComponent->OnFire(aiPosition, velocity))
-		attackAudioEmitter->Play();
+		SoundManager::PlaySound(weaponComponent->GetCurrentWeapon()->GetAttackSound(), GetPosition());
 
 	SetCurrentState(ChaseState::getInstance());
 }
 void GruntEnemy::OnDeath()
 {
-	deathAudioEmitter->Play();
+	//wSoundManager::PlaySound("DeathSound", GetPosition());
+}
+void GruntEnemy::OnHit(const std::string& hitSound)
+{
+	SoundManager::PlaySound(hitSound, GetPosition());
 }

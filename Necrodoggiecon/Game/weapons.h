@@ -52,8 +52,8 @@ public:
 	USERTYPE GetUserType() { return userType; };
 	std::string GetName() { return name; }
 	std::string GetIconPath() { return iconPath; };
-	std::string GetHitSoundPath() { return hitSoundPath; }
-	std::string GetAttackSoundPath() { return attackSoundPath; }
+	std::string GetHitSound() { return hitSound; }
+	std::string GetAttackSound() { return attackSound; }
 	void StartCooldown() { cooldown = attack_speed; };
 
 private:
@@ -63,8 +63,8 @@ private:
 	std::string projectileIconPath;
 	std::string type;
 	std::string name;
-	std::string hitSoundPath;
-	std::string attackSoundPath;
+	std::string hitSound;
+	std::string attackSound;
 	float damage;
 	float range;
 	float attack_speed;

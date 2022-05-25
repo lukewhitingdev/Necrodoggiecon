@@ -571,6 +571,12 @@ void CAIController::ApplyDamage(float damageAmount)
 	}
 }
 
+void CAIController::ApplyDamage(float damageAmount, const std::string& hitAudioPath)
+{
+	OnHit(hitAudioPath);
+	ApplyDamage(damageAmount);
+}
+
 /**
  * Exits one state and enters the state passed in.
  * 

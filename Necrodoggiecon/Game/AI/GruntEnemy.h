@@ -23,13 +23,8 @@ public:
     virtual void ChasePlayer(CCharacter* player) override;
     virtual void AttackPlayer(CCharacter* player, float deltaTime) override;
 protected:
-    void OnDeath() override;
-
-private:
-    std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
-
-    CAudioEmitterComponent* attackAudioEmitter;
-    CAudioEmitterComponent* deathAudioEmitter;
+    virtual void OnDeath() override;
+    virtual void OnHit(const std::string& hitSound) override;
 
 };
 

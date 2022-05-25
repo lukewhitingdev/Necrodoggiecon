@@ -9,8 +9,8 @@
     "Ammo": 0.0,
     "Unique": false,
     "Name": "Dagger",
-    "HitAudioPath": "Resources/Game/Audio/DaggerStab.wav",
-    "AttackAudioPath": "Resources/Game/Audio/DaggerThrust.wav"
+    "HitAudio": "DaggerStab",
+    "AttackAudio": "DaggerThrust"
   },
   "Rapier": {
     "IconPath": "Resources/Game/weapons/Rapier.png",
@@ -22,8 +22,8 @@
     "Ammo": 0.0,
     "Unique": false,
     "Name": "Rapier",
-    "HitAudioPath": "Resources/Game/Audio/RapierHit.wav",
-    "AttackAudioPath": "Resources/Game/Audio/RapierThrust.wav"
+    "HitAudio": "RapierHit",
+    "AttackAudio": "RapierThrust"
   },
   "Longsword": {
     "IconPath": "Resources/Game/weapons/Sword.png",
@@ -35,8 +35,8 @@
     "Ammo": 0.0,
     "Unique": true,
     "Name": "Longsword",
-    "HitAudioPath": "Resources/Game/Audio/BroadswordHit.wav",
-    "AttackAudioPath": "Resources/Game/Audio/BroadswordSwing.wav"
+    "HitAudio": "BroadswordHit",
+    "AttackAudio": "BroadswordSwing"
   },
   "Crossbow": {
     "IconPath": "Resources/Game/weapons/Crossbow.png",
@@ -48,8 +48,8 @@
     "Ammo": 8.0,
     "Unique": false,
     "Name": "Crossbow",
-    "HitAudioPath": "Resources/Game/Audio/ArrowHit1.wav",
-    "AttackAudioPath": "Resources/Game/Audio/ShootBow.wav"
+    "HitAudio": "ArrowHit",
+    "AttackAudio": "ShootBow"
   },
   "Throwing_Knives": {
     "IconPath": "Resources/Game/weapons/ThrowingKnives.png",
@@ -61,8 +61,8 @@
     "Ammo": 10.0,
     "Unique": false,
     "Name": "Throwing Knives",
-    "HitAudioPath": "Resources/Game/Audio/ArrowHit1.wav",
-    "AttackAudioPath": "Resources/Game/Audio/KnifeThrow.wav"
+    "HitAudio": "ArrowHit",
+    "AttackAudio": "KnifeThrow"
   },
   "Magic_Missile": {
     "IconPath": "Resources/Game/weapons/Wand - Magic missile.png",
@@ -74,8 +74,8 @@
     "Ammo": 3.0,
     "Unique": true,
     "Name": "Magic Missile",
-    "HitAudioPath": "Resources/Game/Audio/",
-    "AttackAudioPath": "Resources/Game/Audio/"
+    "HitAudio": "",
+    "AttackAudio": ""
   },
   "IcicleBarrage": {
     "IconPath": "Resources/Game/weapons/Wand - Icicle barrage.png",
@@ -87,8 +87,8 @@
     "Ammo": 12.0,
     "Unique": true,
     "Name": "Icicle Barrage",
-    "HitAudioPath": "Resources/Game/Audio/",
-    "AttackAudioPath": "Resources/Game/Audio/"
+    "HitAudio": "",
+    "AttackAudio": ""
   },
   "LightningDash": {
     "IconPath": "Resources/Game/weapons/Wand - Lightning Dash.png",
@@ -100,8 +100,8 @@
     "Ammo": 1.0,
     "Unique": true,
     "Name": "Lightning Dash",
-    "HitAudioPath": "Resources/Game/Audio/",
-    "AttackAudioPath": "Resources/Game/Audio/"
+    "HitAudio": "",
+    "AttackAudio": ""
   },
   "FireBall": {
     "IconPath": "Resources/Game/weapons/Wand - Fireball.png",
@@ -113,8 +113,8 @@
     "Ammo": 18.0,
     "Unique": true,
     "Name": "Fireball",
-    "HitAudioPath": "Resources/Game/Audio/FireballHit.wav",
-    "AttackAudioPath": "Resources/Game/Audio/FireballShoot.wav"
+    "HitAudio": "FireballHit",
+    "AttackAudio": "FireballShoot"
   },
   "InvisibilityScroll": {
     "IconPath": "Resources/Game/weapons/Scroll - Invisibility.png",
@@ -122,8 +122,8 @@
     "Range": 25.0,
     "PickupType": "InvisibilityScroll",
     "Name": "Invisibility Scroll",
-    "HitAudioPath": "Resources/Game/Audio/",
-    "AttackAudioPath": "Resources/Game/Audio/ScrollActivate.wav",
+    "HitAudio": "",
+    "AttackAudio": "ScrollActivate",
     "Ammo": 1.0
   },
   "ShieldScroll": {
@@ -132,8 +132,8 @@
     "Range": 25.0,
     "PickupType": "ShieldScroll",
     "Name":  "Shield Scroll",
-    "HitAudioPath": "Resources/Game/Audio/",
-    "AttackAudioPath": "Resources/Game/Audio/ScrollActivate.wav",
+    "HitAudio": "",
+    "AttackAudio": "ScrollActivate",
     "Ammo": 1.0
   }
 }

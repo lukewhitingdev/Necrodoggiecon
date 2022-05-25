@@ -7,6 +7,7 @@
 #include "Necrodoggiecon/Weapons/Pickup/ShieldScroll.h"
 #include "Necrodoggiecon/Weapons/Pickup/InvisibilityScroll.h"
 #include <Necrodoggiecon/Weapons/Ranged/MagicMissile.h>
+#include <Game/SoundManager.h>
 
 PlayerCharacter::PlayerCharacter()
 {
@@ -55,24 +56,9 @@ PlayerCharacter::PlayerCharacter()
 
 	loadNoise = AddComponent<CAudioEmitterComponent>(NAME_OF(loadNoise));
 	loadNoise->Load("Resources/Game/TestShortAudio.wav");
-	deathAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(deathAudioEmitter));
-	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.wav");
-	footstepAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(footstepAudioEmitter));
-	footstepAudioEmitter->Load("Resources/Game/Audio/Footstep.wav");
-	shieldHitAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(shieldHitAudioEmitter));
-	shieldHitAudioEmitter->Load("Resources/Game/Audio/ShieldHit.wav");
-	invisibilityDeactivateAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(invisibilityDeactivateAudioEmitter));
-	invisibilityDeactivateAudioEmitter->Load("Resources/Game/Audio/DeactivateInvis.wav");
-	weaponAttackAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(weaponAttackAudioEmitter));
-	weaponAttackAudioEmitter->Load("Resources/Game/Audio/ShootBow.wav");
-	onHitAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(onHitAudioEmitter));
 
 	loadNoise->SetRange(10000.0f);
-	deathAudioEmitter->SetRange(0.0f);
-	footstepAudioEmitter->SetRange(100.0f);
-	shieldHitAudioEmitter->SetRange(0.0f);
-	invisibilityDeactivateAudioEmitter->SetRange(0.0f);
-	weaponAttackAudioEmitter->SetRange(50.0f);
+
 	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 	weaponComponent->SetWeapon(new Crossbow());
@@ -139,9 +125,10 @@ void PlayerCharacter::Attack()
 
 	Vector3 attackDir = (Vector3(screenVec.x, screenVec.y, screenVec.z)) - GetPosition();
 
-	if(weaponComponent->OnFire(GetPosition(), attackDir))
-		weaponAttackAudioEmitter->Play();
-	if (!GetVisible() && pickupTimerCallback != nullptr) return;
+	if (weaponComponent->OnFire(GetPosition(), attackDir))
+		SoundManager::PlaySound(weaponComponent->GetCurrentWeapon()->GetAttackSound(), GetPosition());
+
+	if (!GetVisible() || !pickupTimerCallback) return;
 
 	pickupTimerCallback();
 }
@@ -212,7 +199,8 @@ void PlayerCharacter::FootstepTimer(float deltaTime)
 	stepTimer += deltaTime;
 	if (stepTimer >= timeBetweenSteps)
 	{
-		footstepAudioEmitter->Play();
+		//footstepAudioEmitter->Play();
+		SoundManager::PlaySound("StepSound", GetPosition());
 		stepTimer = 0;
 	}
 }
@@ -222,7 +210,6 @@ void PlayerCharacter::EquipWeapon(Weapon* weapon)
 	weaponComponent->SetWeapon(weapon);
 	UpdateWeaponSprite();
 	movementVec = {0,0};
-	weaponAttackAudioEmitter->Load(weapon->GetAttackSoundPath());
 }
 
 void PlayerCharacter::UpdateWeaponSprite()
@@ -254,7 +241,7 @@ void PlayerCharacter::ApplyDamage(float damage)
 	if (hasShield)
 	{
 		ToggleShield(false);
-		shieldHitAudioEmitter->Play();
+		SoundManager::PlaySound("ShieldHit", GetPosition());
 		return;
 	}
 
@@ -262,17 +249,15 @@ void PlayerCharacter::ApplyDamage(float damage)
 	if (GetHealth() <= 0.0f)
 	{
 		playersController[0]->Unpossess();
+		SoundManager::PlaySound("DeathSound", GetPosition());
 		Engine::DestroyEntity(this);
-		deathAudioEmitter->Play();
 	}
 		
 }
 
 void PlayerCharacter::ApplyDamage(float damage, const std::string& onHitSound)
 {
-	onHitAudioEmitter->Load(onHitSound);
-	onHitAudioEmitter->SetRange(0.0f);
-	onHitAudioEmitter->Play();
+	SoundManager::PlaySound(onHitSound, GetPosition());
 	ApplyDamage(damage);
 }
 
@@ -326,8 +311,9 @@ void PlayerCharacter::PressedUse()
 void PlayerCharacter::InvisibilityCallback()
 {
 	pickupActive = false;
-	invisibilityDeactivateAudioEmitter->Play();
+	SoundManager::PlaySound("DeactivateInvis", GetPosition());
 	ToggleVisibility(true);
+	pickupTimerCallback = nullptr;
 }
 
 /**

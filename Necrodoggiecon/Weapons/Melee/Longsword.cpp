@@ -39,7 +39,7 @@ bool Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 
 			Debug::Log("Longsword enemy stuff");
 
-			enemy->ApplyDamage(GetDamage());
+			enemy->ApplyDamage(GetDamage(), GetHitSound());
 		}
 		return true;
 	}
