@@ -19,6 +19,7 @@ CAudioEmitterComponent::CAudioEmitterComponent()
 
 CAudioEmitterComponent::~CAudioEmitterComponent()
 {
+	this->Stop();
 	AudioController::RemoveEmitter(emitter);
 }
 
