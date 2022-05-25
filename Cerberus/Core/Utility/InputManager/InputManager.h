@@ -4,7 +4,6 @@
 class InputManager
 {
 public:
-
 	enum Keys
 	{
 		A = 0,
@@ -116,21 +115,17 @@ public:
 
 	static Vector3 mousePos;
 
-	
+	static bool IsKeyPressed(Keys key);
+	static bool IsKeyPressedDown(Keys key);
+	static bool IsKeyReleased(Keys key);
+	static bool IsMouseButtonPressed(Mouse mouse);
+	static bool IsMouseButtonPressedDown(Mouse mouse);
+	static bool IsMouseButtonReleased(Mouse mouse);
 
+private:
 	static int GetKeyCode(Keys key);
-
 	static int GetMouseCode(Mouse mouse);
 
-	static bool IsKeyPressed(Keys key);
-
-	static bool IsKeyPressedDown(Keys key);
-
-	static bool IsKeyReleased(Keys key);
-
-	static bool IsMouseButtonPressed(Mouse mouse);
-
-	static bool IsMouseButtonPressedDown(Mouse mouse);
-
-	static bool IsMouseButtonReleased(Mouse mouse);
+	static bool keyboardKeyStates[InputManager::Keys::COUNT];
+	static bool mouseKeyStates[InputManager::Mouse::MCOUNT];
 };

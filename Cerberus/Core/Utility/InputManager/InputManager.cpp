@@ -3,8 +3,8 @@
 
 Vector3 InputManager::mousePos = { 0,0,0 };
 
-bool keyboardKeyStates[InputManager::Keys::COUNT] = { 0 };
-bool mouseKeyStates[InputManager::Mouse::MCOUNT] = { 0 };
+bool InputManager::keyboardKeyStates[InputManager::Keys::COUNT] = { 0 };
+bool InputManager::mouseKeyStates[InputManager::Mouse::MCOUNT] = { 0 };
 
 int InputManager::GetKeyCode(Keys key)
 {
@@ -306,7 +306,6 @@ int InputManager::GetKeyCode(Keys key)
 	return Async;
 }
 
-
 int InputManager::GetMouseCode(Mouse mouse)
 {
 	int Async = 0;
@@ -325,106 +324,40 @@ int InputManager::GetMouseCode(Mouse mouse)
 	return Async;
 }
 
-
 bool InputManager::IsKeyPressed(Keys key)
 {
-	if (GetAsyncKeyState(GetKeyCode(key)) & 0x8000)
-		keyboardKeyStates[key] = true;
-	else
-		keyboardKeyStates[key] = false;
+	keyboardKeyStates[key] = (GetAsyncKeyState(GetKeyCode(key)) & 0x8000);
 
 	return keyboardKeyStates[key];
 }
 
-
 bool InputManager::IsKeyPressedDown(Keys key)
 {
-	if (GetAsyncKeyState(GetKeyCode(key)) < 0)
-	{
-		if (keyboardKeyStates[key] == false)
-		{
-			keyboardKeyStates[key] = true;
-			return keyboardKeyStates[key];
-		}
-		else
-			return false;
-	}
-	else
-	{
-		keyboardKeyStates[key] = false;
-		return false;
-	}
-}
+	keyboardKeyStates[key] = (GetAsyncKeyState(GetKeyCode(key)) < 0);
 
+	return keyboardKeyStates[key];
+}
 
 bool InputManager::IsKeyReleased(Keys key)
 {
-	if (GetAsyncKeyState(GetKeyCode(key)) < 0)
-	{
-		keyboardKeyStates[key] = true;
-		return false;
-	}
-	else
-	{
-		if (keyboardKeyStates[key] == true)
-		{
-			keyboardKeyStates[key] = false;
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+	return !IsKeyPressedDown(key);
 }
-
 
 bool InputManager::IsMouseButtonPressed(Mouse mouse)
 {
-	if (GetAsyncKeyState(GetMouseCode(mouse)) & 0x8000)
-		mouseKeyStates[mouse] = true;
-	else
-		mouseKeyStates[mouse] = false;
+	mouseKeyStates[mouse] = (GetAsyncKeyState(GetMouseCode(mouse)) & 0x8000);
+
 	return mouseKeyStates[mouse];
 }
 
 bool InputManager::IsMouseButtonPressedDown(Mouse mouse)
 {
-	if (GetAsyncKeyState(GetMouseCode(mouse)) < 0)
-	{
-		if (mouseKeyStates[mouse] == false)
-		{
-			mouseKeyStates[mouse] = true;
-			return mouseKeyStates[mouse];
-		}
-		else
-			return false;
-	}
-	else
-	{
-		mouseKeyStates[mouse] = false;
-		return false;
-	}
-}
+	mouseKeyStates[mouse] = (GetAsyncKeyState(GetMouseCode(mouse)) < 0);
 
+	return mouseKeyStates[mouse];
+}
 
 bool InputManager::IsMouseButtonReleased(Mouse mouse)
 {
-	if (GetAsyncKeyState(GetMouseCode(mouse)) < 0)
-	{
-		mouseKeyStates[mouse] = true;
-		return false;
-	}
-	else
-	{
-		if (mouseKeyStates[mouse] == true)
-		{
-			mouseKeyStates[mouse] = false;
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+	return !IsMouseButtonPressedDown(mouse);
 }
