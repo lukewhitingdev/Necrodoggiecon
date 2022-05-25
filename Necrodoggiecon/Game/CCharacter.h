@@ -8,7 +8,7 @@ class CCharacter : public CEntity
 private:
 protected:
 	bool isPlayer = false;
-	float health = 2.0f;
+	float health = 1.0f;
 	WeaponInterface* weaponComponent = nullptr;
 
 	void AddMovement(XMFLOAT2 vel, float deltaTime);
