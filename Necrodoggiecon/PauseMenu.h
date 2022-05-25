@@ -15,6 +15,10 @@ class PauseMenu : public CWidget_Canvas
     bool isPaused = false;
     bool gameEnded = false;
 
+private:
+
+    bool pausePressedDown = false;
+
 public:
     PauseMenu();
 

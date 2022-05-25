@@ -43,26 +43,26 @@ void PauseMenu::InitialiseCanvas()
 
 	std::string ResumeButtonName = "Resume";
 	CWidget_Button* Resume = CreateButton(Vector2(0, 188), Vector2(1, 1), ResumeButtonName, -155);
-	Resume->Bind_OnButtonPressed(std::bind(&PauseMenu::ResumeGame , this));
+	Resume->Bind_OnButtonReleased(std::bind(&PauseMenu::ResumeGame , this));
 	Resume->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	Resume->SetButtonSize(Vector2(256, 110));
 
 	std::string SettingsButtonName = "Settings";
 	CWidget_Button* Settings = CreateButton(Vector2(0, 68), Vector2(1, 1), SettingsButtonName, -155);
-	Settings->Bind_OnButtonPressed(std::bind(&PauseMenu::OpenSettingsMenu, this));
+	Settings->Bind_OnButtonReleased(std::bind(&PauseMenu::OpenSettingsMenu, this));
 	Settings->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	Settings->SetButtonSize(Vector2(256, 110));
 
 	std::string QuitButtonName = "Quit to Menu";
 	CWidget_Button* Exit = CreateButton(Vector2(0, -60), Vector2(1, 1), QuitButtonName, -155);
-	Exit->Bind_OnButtonPressed(std::bind(&PauseMenu::QuitToMenu , this));
+	Exit->Bind_OnButtonReleased(std::bind(&PauseMenu::QuitToMenu , this));
 	Exit->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	Exit->SetButtonSize(Vector2(256, 110));
 	Exit->GetText()->SetScale(1, 1, 1);
 	
 	std::string FullQuitButtonName = "Quit to Desktop";
 	CWidget_Button* ExitFull = CreateButton(Vector2(0, -188), Vector2(1, 1), FullQuitButtonName, -155);
-	ExitFull->Bind_OnButtonPressed(std::bind(&PauseMenu::QuitToDesktop , this));
+	ExitFull->Bind_OnButtonReleased(std::bind(&PauseMenu::QuitToDesktop , this));
 	ExitFull->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	ExitFull->SetButtonSize(Vector2(256, 110));
 
@@ -117,7 +117,11 @@ void PauseMenu::QuitToDesktop()
 void PauseMenu::Update(float deltaTime)
 {
 	CWidget_Canvas::Update(deltaTime);
-	if (InputManager::IsKeyReleased(InputManager::Escape) && !gameEnded)
+	if (InputManager::IsKeyPressed(InputManager::Escape) && !gameEnded)
+	{
+		pausePressedDown = true;
+	}
+	if (InputManager::IsKeyReleased(InputManager::Escape) && !gameEnded && pausePressedDown)
 	{
 		if (isPaused)
 		{
@@ -127,8 +131,11 @@ void PauseMenu::Update(float deltaTime)
 		{
 			PauseGame();
 		}
+		pausePressedDown = false;
 	}
-	if (InputManager::IsKeyReleased(InputManager::Tab))
+
+
+	if (InputManager::IsKeyPressed(InputManager::Tab))
 	{
 		CUIManager::GetCanvas("LevelCompleteMenu")->SetVisibility(true);
 		gameEnded = true;

@@ -65,12 +65,18 @@ void CWidget_Button::OnButtonPressed()
 {
 	sprite->SetTextureOffset(DirectX::XMFLOAT2(0, spriteSize.y * 1));
 	if (ButtonPressedBind != nullptr) 	ButtonPressedBind();
+	ButtonHeld = true;
 }
 
 void CWidget_Button::OnButtonReleased()
 {
-	sprite->SetTextureOffset(DirectX::XMFLOAT2(0, spriteSize.y * 2));
-	if (ButtonReleasedBind != nullptr) ButtonReleasedBind();
+	if (ButtonHeld)
+	{
+		sprite->SetTextureOffset(DirectX::XMFLOAT2(0, spriteSize.y * 2));
+		if (ButtonReleasedBind != nullptr) ButtonReleasedBind();
+		ButtonHeld = false;
+	}
+
 }
 
 void CWidget_Button::OnButtonHoverStart()

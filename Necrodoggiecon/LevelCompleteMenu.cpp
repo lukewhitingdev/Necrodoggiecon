@@ -41,14 +41,14 @@ void LevelCompleteMenu::InitialiseCanvas()
 
 	std::string QuitButtonName = "Quit to Menu";
 	CWidget_Button* Exit = CreateButton(Vector2(0, -60), Vector2(1, 1), QuitButtonName, -155);
-	Exit->Bind_OnButtonPressed(std::bind(&LevelCompleteMenu::QuitToMenu, this));
+	Exit->Bind_OnButtonReleased(std::bind(&LevelCompleteMenu::QuitToMenu, this));
 	Exit->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	Exit->SetButtonSize(Vector2(256, 110));
 	Exit->GetText()->SetScale(1, 1, 1);
 
 	std::string FullQuitButtonName = "Quit to Desktop";
 	CWidget_Button* ExitFull = CreateButton(Vector2(0, -188), Vector2(1, 1), FullQuitButtonName, -155);
-	ExitFull->Bind_OnButtonPressed(std::bind(&LevelCompleteMenu::QuitToDesktop, this));
+	ExitFull->Bind_OnButtonReleased(std::bind(&LevelCompleteMenu::QuitToDesktop, this));
 	ExitFull->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	ExitFull->SetButtonSize(Vector2(256, 110));
 

@@ -38,7 +38,7 @@ void SettingsMenu::InitialiseCanvas()
 
 	std::string CloseButtonName = "Close";
 	CWidget_Button* CloseButton = CreateButton(Vector2(0, -188), Vector2(1, 1), CloseButtonName, -165);
-	CloseButton->Bind_OnButtonPressed(std::bind(&SettingsMenu::CloseSettings, this));
+	CloseButton->Bind_OnButtonReleased(std::bind(&SettingsMenu::CloseSettings, this));
 	CloseButton->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	CloseButton->SetButtonSize(Vector2(256, 110));
 
