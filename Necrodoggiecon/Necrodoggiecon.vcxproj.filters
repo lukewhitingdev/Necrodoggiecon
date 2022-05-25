@@ -32,6 +32,8 @@
     <ClCompile Include="Weapons\Pickup.cpp" />
     <ClCompile Include="Weapons\Pickup\InvisibilityScroll.cpp" />
     <ClCompile Include="Weapons\Pickup\ShieldScroll.cpp" />
+    <ClCompile Include="Game\AI\State.cpp" />
+    <ClCompile Include="Game\AI\CAIController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Projectile.cpp" />
@@ -50,12 +52,6 @@
     <ClCompile Include="Game\CCharacter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\CDroppedItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\CEquippedItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game\CPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -65,22 +61,10 @@
     <ClCompile Include="Game\CursorEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\ItemDatabase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game\PlayerCharacter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\testClass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game\PlayerController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\testEquippedItem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\testItemData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\TestUI.cpp">
@@ -156,6 +140,8 @@
     <ClInclude Include="Weapons\Pickup.h" />
     <ClInclude Include="Weapons\Pickup\InvisibilityScroll.h" />
     <ClInclude Include="Weapons\Pickup\ShieldScroll.h" />
+    <ClInclude Include="Game\AI\State.h" />
+    <ClInclude Include="Game\AI\CAIController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />

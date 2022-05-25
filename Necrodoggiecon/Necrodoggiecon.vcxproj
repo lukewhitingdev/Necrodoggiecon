@@ -186,6 +186,8 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\AI\CAIController.cpp" />
+    <ClCompile Include="Game\AI\State.cpp" />
     <ClCompile Include="HomingProjectile.cpp" />
     <ClCompile Include="Weapons\Pickup\InvisibilityScroll.cpp" />
     <ClCompile Include="Weapons\Pickup\ShieldScroll.cpp" />
@@ -218,6 +220,8 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\WeaponPickup.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\AI\CAIController.h" />
+    <ClInclude Include="Game\AI\State.h" />
     <ClInclude Include="HomingProjectile.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Weapons\Pickup\InvisibilityScroll.h" />
