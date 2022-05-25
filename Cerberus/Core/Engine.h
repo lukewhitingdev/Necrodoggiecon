@@ -86,6 +86,8 @@ struct Engine
 	static unsigned int windowWidth;
 	static unsigned int windowHeight;
 
+	static bool paused;
+
 	// Direct3D.
 	static D3D_DRIVER_TYPE driverType;
 	static D3D_FEATURE_LEVEL featureLevel;

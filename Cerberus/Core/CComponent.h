@@ -51,7 +51,7 @@ public:
 	/**
 	 * Sets if this component will be drawn in world space or screen space.
 	 */
-	void SetIsUI(const bool& newIsUI) { ui = newIsUI; }
+	void SetIsUI(const bool& newIsUI);
 
 	/**
 	 * Sets if this component will be automatically updated via the Update().

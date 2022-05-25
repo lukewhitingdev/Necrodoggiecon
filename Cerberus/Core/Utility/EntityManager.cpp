@@ -4,6 +4,8 @@
 #include <algorithm>
 
 std::vector<CEntity*> EntityManager::entities = std::vector<CEntity*>();
+std::vector<CComponent*> EntityManager::uiComps = std::vector<CComponent*>();
+std::vector<CComponent*> EntityManager::worldComps = std::vector<CComponent*>();
 std::vector<CComponent*> EntityManager::opaqueComps = std::vector<CComponent*>();
 std::vector<CComponent*> EntityManager::translucentComps = std::vector<CComponent*>();
 
@@ -28,6 +30,11 @@ void EntityManager::AddComponent(CComponent* compToAdd)
 		translucentComps.push_back(compToAdd);
 	else
 		opaqueComps.push_back(compToAdd);
+
+	if(compToAdd->GetIsUI())
+		uiComps.push_back(compToAdd);
+	else
+		worldComps.push_back(compToAdd);
 }
 
 void EntityManager::RemoveComponent(const CComponent* compToRemove)
@@ -49,6 +56,25 @@ void EntityManager::RemoveComponent(const CComponent* compToRemove)
 			opaqueComps.erase(iterator);
 		else
 			Debug::LogError("Tried to remove an opaque component that doesnt exist.");
+	}
+
+	if (compToRemove->GetIsUI())
+	{
+		auto iterator = std::find(uiComps.begin(), uiComps.end(), compToRemove);
+
+		if (iterator != uiComps.end())
+			uiComps.erase(iterator);
+		else
+			Debug::LogError("Tried to remove a ui component that doesnt exist.");
+	}
+	else
+	{
+		auto iterator = std::find(worldComps.begin(), worldComps.end(), compToRemove);
+
+		if (iterator != worldComps.end())
+			worldComps.erase(iterator);
+		else
+			Debug::LogError("Tried to remove a world component that doesnt exist.");
 	}
 }
 
