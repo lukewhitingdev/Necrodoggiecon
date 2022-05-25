@@ -10,6 +10,8 @@
 
 PlayerCharacter::PlayerCharacter()
 {
+	isPlayer = true;
+
 	SetShouldMove(true);
 
 	spriteComponentBody = AddComponent<CAnimationSpriteComponent>(NAME_OF(spriteComponentBody));
