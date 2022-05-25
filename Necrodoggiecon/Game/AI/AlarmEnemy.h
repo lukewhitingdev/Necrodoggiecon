@@ -6,7 +6,7 @@
  * \date   May 2022
  *********************************************************************/
 #pragma once
-#include "Cerberus\Core\AI\CAIController.h"
+#include "Necrodoggiecon\Game\AI\CAIController.h"
 
 /**
  * Class for the alarm enemy. It will ring a bell once it sees the player.
@@ -18,7 +18,7 @@ public:
     AlarmEnemy();
 
     virtual void Update(float deltaTime) override;
-    virtual void ChasePlayer(PlayerCharacter* player) override;
+    virtual void ChasePlayer(CCharacter* player) override;
 
 private:
     float alarmTimer = 10.0f;

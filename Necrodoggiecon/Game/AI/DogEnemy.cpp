@@ -41,7 +41,7 @@ void DogEnemy::Update(float deltaTime)
  * 
  * \param player Player to seek towards.
  */
-void DogEnemy::ChasePlayer(PlayerCharacter* player)
+void DogEnemy::ChasePlayer(CCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < attackRange)
 	{
@@ -59,7 +59,7 @@ void DogEnemy::ChasePlayer(PlayerCharacter* player)
  * 
  * \param player Player to target for an attack.
  */
-void DogEnemy::AttackEnter(PlayerCharacter* player)
+void DogEnemy::AttackEnter(CCharacter* player)
 {
 	targetPosition = player->GetPosition();
 }
@@ -69,7 +69,7 @@ void DogEnemy::AttackEnter(PlayerCharacter* player)
  * 
  * \param player Player to attack.
  */
-void DogEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
+void DogEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 {
 		
 	heading = Seek(targetPosition);

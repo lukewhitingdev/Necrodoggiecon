@@ -25,7 +25,7 @@ GruntEnemy::GruntEnemy()
  * 
  * \param player
  */
-void GruntEnemy::ChasePlayer(PlayerCharacter* player)
+void GruntEnemy::ChasePlayer(CCharacter* player)
 {
 	
 	if (aiPosition.DistanceTo(player->GetPosition()) < weaponComponent->GetCurrentWeapon()->GetRange())
@@ -44,7 +44,7 @@ void GruntEnemy::ChasePlayer(PlayerCharacter* player)
  * 
  * \param player Player to attack.
  */
-void GruntEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
+void GruntEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 {
 	weaponComponent->OnFire(aiPosition, velocity);
 	SetCurrentState(ChaseState::getInstance());

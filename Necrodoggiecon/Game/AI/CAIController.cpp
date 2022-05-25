@@ -64,6 +64,14 @@ CAIController::CAIController()
 	pathing->SetPatrolNodes(patrolPoints);
 	pathing->currentPatrolNode = pathing->FindClosestPatrolNode(aiPosition);
 
+	for (CCharacter* character : characters)
+	{
+		if (character->GetIsPlayer() == true)
+		{
+			players.push_back(character);
+		}
+	}
+
 	std::function<void()> CanHearLambda = [&]()
 	{
 		if (currentState == &AttackState::getInstance() || currentState == &ChaseState::getInstance())
@@ -400,7 +408,7 @@ void CAIController::Investigating(Vector3 positionOfInterest)
 	}
 }
 
-void CAIController::AttackEnter(PlayerCharacter* player)
+void CAIController::AttackEnter(CCharacter* player)
 {
 	UNREFERENCED_PARAMETER(player);
 }
@@ -416,7 +424,7 @@ void CAIController::ChaseEnter()
 /**
  * Seek towards the player and if it gets close then switch to the attacking state.
  */
-void CAIController::ChasePlayer(PlayerCharacter* player)
+void CAIController::ChasePlayer(CCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 	{
@@ -434,7 +442,7 @@ void CAIController::ChasePlayer(PlayerCharacter* player)
  * 
  * \param player Player to attack.
  */
-void CAIController::AttackPlayer(PlayerCharacter* player, float deltaTime)
+void CAIController::AttackPlayer(CCharacter* player, float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);
 	UNREFERENCED_PARAMETER(player);
@@ -471,7 +479,7 @@ void CAIController::CheckForPlayer()
 		if (players.size() > 0)
 		{
 			// Check each player.
-			for (PlayerCharacter* player : players)
+			for (CCharacter* player : players)
 			{
 				// Check if the AI can see the player.
 				if (CanSee(player->GetPosition()) == true)

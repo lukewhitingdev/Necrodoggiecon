@@ -42,7 +42,7 @@ void AlarmEnemy::Update(float deltaTime)
  * 
  * \param player Player that it can see.
  */
-void AlarmEnemy::ChasePlayer(PlayerCharacter* player)
+void AlarmEnemy::ChasePlayer(CCharacter* player)
 {
 	if (!onCooldown)
 	{
