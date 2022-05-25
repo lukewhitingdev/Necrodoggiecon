@@ -48,6 +48,8 @@ private:
 	float Speed;
 	float Lifetime;
 	float damage;
+	Vector3 velocity = { 0.0f, 0.0f, 0.0f };
+	Vector3 acceleration = { 0.0f, 0.0f, 0.0f };
 	Vector3 Direction;
 	Vector3 Position;
 	Vector3 initialPosition;

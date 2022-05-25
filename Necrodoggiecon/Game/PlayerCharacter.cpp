@@ -10,6 +10,13 @@
 
 PlayerCharacter::PlayerCharacter()
 {
+	isPlayer = true;
+
+	if(!AudioController::AddListener(static_cast<CTransform*>(this)))
+	{
+		Debug::LogError("An error occured whilst trying to add the player as a listener for the audio controller. See error above.");
+	}
+
 	SetShouldMove(true);
 
 	spriteComponentBody = AddComponent<CAnimationSpriteComponent>(NAME_OF(spriteComponentBody));
@@ -78,6 +85,8 @@ PlayerCharacter::PlayerCharacter()
 	camera = AddComponent<CCameraComponent>(NAME_OF(camera));
 	camera->SetAttachedToParent(false);
 	CameraManager::SetRenderingCamera(camera);
+
+	SetVisible(true);
 }
 
 /**
@@ -124,15 +133,15 @@ void PlayerCharacter::PressedDrop()
 
 void PlayerCharacter::Attack()
 {
-	Debug::Log("attack");
-	XMFLOAT3 screenVec = XMFLOAT3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, Inputs::InputManager::mousePos.z);
+	
+	XMFLOAT3 screenVec = XMFLOAT3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, InputManager::mousePos.z);
 	screenVec = Math::FromScreenToWorld(screenVec);
 
 	Vector3 attackDir = (Vector3(screenVec.x, screenVec.y, screenVec.z)) - GetPosition();
 
 	if(weaponComponent->OnFire(GetPosition(), attackDir))
 		weaponAttackAudioEmitter->Play();
-	if (!GetVisible()) return;
+	if (!GetVisible() && pickupTimerCallback != nullptr) return;
 
 	pickupTimerCallback();
 }
@@ -143,7 +152,7 @@ void PlayerCharacter::Update(float deltaTime)
 
 	ResolveMovement(deltaTime);
 
-	Vector3 mousePos = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, 1);
+	Vector3 mousePos = Vector3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, 1);
 	
 	AimAtMouse(mousePos);
 

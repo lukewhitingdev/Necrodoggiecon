@@ -1,6 +1,6 @@
 #include "MeleeWeapon.h"
 #include "Necrodoggiecon\Game\PlayerCharacter.h"
-#include <Cerberus/Core/AI/CAIController.h>
+#include "Necrodoggiecon\Game\AI\CAIController.h"
 
 MeleeWeapon::MeleeWeapon()
 {
@@ -36,16 +36,16 @@ void MeleeWeapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir) // BB
 	if (Weapon::GetUserType() == USERTYPE::AI)
 	{
 		Debug::Log("UserType is AI");
-		CEntity* target = GetClosestPlayer(actorPos, damagePos);
+		CCharacter* target = GetClosestPlayer(actorPos, damagePos);
 		if (target != nullptr)
-			Engine::DestroyEntity(target);
+			target->ApplyDamage(GetDamage());
 	}
 	else if (Weapon::GetUserType() == USERTYPE::PLAYER)
 	{
 		Debug::Log("UserType is PLAYER");
-		CEntity* target = GetClosestEnemy(actorPos, damagePos);
+		CCharacter* target = GetClosestEnemy(actorPos, damagePos);
 		if (target != nullptr)
-			Engine::DestroyEntity(target);
+			target->ApplyDamage(GetDamage());
 	}
 }
 
@@ -57,7 +57,7 @@ void MeleeWeapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir) // BB
  *
  * \return closestEnemy CAIController Entity which is closest to the actorPos parameter position
  */
-CEntity* MeleeWeapon::GetClosestEnemy(Vector3 actorPos, Vector3 damagePos)
+CCharacter* MeleeWeapon::GetClosestEnemy(Vector3 actorPos, Vector3 damagePos)
 {
 	std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
 
@@ -98,7 +98,7 @@ CEntity* MeleeWeapon::GetClosestEnemy(Vector3 actorPos, Vector3 damagePos)
  *
  * \return closestPlayer PlayerCharacter entity that is closest to the actorPos parameter position
  */
-CEntity* MeleeWeapon::GetClosestPlayer(Vector3 actorPos, Vector3 damagePos) // BB
+CCharacter* MeleeWeapon::GetClosestPlayer(Vector3 actorPos, Vector3 damagePos) // BB
 {
 	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
 

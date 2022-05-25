@@ -36,7 +36,7 @@ protected:
 	float pickupTimer;
 	bool pickupActive;
 	float pickupActiveTime;
-	bool visible;
+	
 	std::function<void()> pickupTimerCallback;
 	void InvisibilityCallback();
 	void PickupTimer(float deltaTime);

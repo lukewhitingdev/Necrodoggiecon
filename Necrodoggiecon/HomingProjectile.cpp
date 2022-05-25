@@ -7,7 +7,7 @@
  *********************************************************************/
 
 #include "HomingProjectile.h"
-#include <Cerberus\Core\AI\CAIController.h>
+#include "Necrodoggiecon\Game\AI\CAIController.h"
 
 HomingProjectile::HomingProjectile()
 {

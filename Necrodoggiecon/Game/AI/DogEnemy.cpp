@@ -9,7 +9,7 @@
 
 DogEnemy::DogEnemy()
 {
-	sprite->LoadTexture("Resources/Game/Characters/MeleeEnemy.dds");
+	sprite->LoadTextureWIC("Resources/Game/Characters/RedEnemySprite2.png");
 	sprite->SetRotation(1.5708f);
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
@@ -22,6 +22,9 @@ DogEnemy::DogEnemy()
 	deathAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(deathAudioEmitter));
 	deathAudioEmitter->Load("Resources/Game/Audio/DeathSound.wav");
 	deathAudioEmitter->SetRange(0.0f);
+	sprite->SetAnimationRectSize(XMUINT2(1, 10));
+	sprite->SetAnimationSpeed(10 * walkAnimationSpeed);
+	sprite->SetPlaying(false, false);
 }
 
 void DogEnemy::Update(float deltaTime)
@@ -39,7 +42,10 @@ void DogEnemy::Update(float deltaTime)
 		}
 
 	}
-
+	if (sprite->GetPlaying() == false && velocity.Magnitude() != 0.0f)
+	{
+		sprite->SetPlaying(true, false);
+	}
 
 	CAIController::Update(deltaTime);
 }
@@ -49,7 +55,7 @@ void DogEnemy::Update(float deltaTime)
  * 
  * \param player Player to seek towards.
  */
-void DogEnemy::ChasePlayer(PlayerCharacter* player)
+void DogEnemy::ChasePlayer(CCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < attackRange)
 	{
@@ -67,7 +73,7 @@ void DogEnemy::ChasePlayer(PlayerCharacter* player)
  * 
  * \param player Player to target for an attack.
  */
-void DogEnemy::AttackEnter(PlayerCharacter* player)
+void DogEnemy::AttackEnter(CCharacter* player)
 {
 	targetPosition = player->GetPosition();
 }
@@ -77,7 +83,7 @@ void DogEnemy::AttackEnter(PlayerCharacter* player)
  * 
  * \param player Player to attack.
  */
-void DogEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
+void DogEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 {
 		
 	heading = Seek(targetPosition);
