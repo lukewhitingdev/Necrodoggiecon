@@ -5,7 +5,6 @@ CWidget_Text::CWidget_Text()
 {
 	textRenderer = AddComponent<CTextRenderComponent>(NAME_OF(textRenderer));
 	textRenderer->SetIsUI(true);
-	textRenderer->SetFont("Resources/Engine/fontBlack.png");
 }
 
 void CWidget_Text::Update(float deltaTime)
@@ -22,7 +21,7 @@ void CWidget_Text::SetWidgetTransform(Vector2 Position, Vector2 Anchor, int ZOrd
 void CWidget_Text::SetVisibility(bool IsVisible)
 {
 
-	WidgetIsVisible = IsVisible;
+	
 	textRenderer->SetShouldDraw(IsVisible);
 	for (int i = 0; i < GetChildren().size(); i++)
 	{

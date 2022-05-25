@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   Debug.cpp
+ * \brief  Allows for debug logging to a in-game console using IMGUI.
+ *
+ * \author Luke Whiting
+ * \date   Jan 2022
+ *********************************************************************/
+
 #pragma once
 #include "Cerberus/Core/Utility/DebugOutput/DebugOutput.h"
 #include <string>
@@ -46,8 +54,14 @@ public:
 	#pragma warning(push)
 	#pragma warning( disable : 4840 )
 
+	
+	/**
+	 * Logs a formatted string to the output console.
+	 * 
+	 * \param fmt the string you wish to print with formatting.
+	 * \param args the extra formatted arguments you wish to put inside the string.
+	 */
 	template<typename ... Args>
-	// Logs a message to console. Supports arguments like printf.
 	static void Log(const char* fmt, Args ... args)IM_FMTARGS(2)
 	{
 		if (output == nullptr)
@@ -62,6 +76,12 @@ public:
 		output->AddLog(stringInput.c_str(), args ...);
 	};
 
+	/**
+	 * Logs a formatted string to the output console in red to indicate a error.
+	 *
+	 * \param fmt the string you wish to print with formatting.
+	 * \param args the extra formatted arguments you wish to put inside the string.
+	 */
 	template<typename ... Args>
 	static void LogError(const char* fmt, Args ... args)IM_FMTARGS(2)
 	{
@@ -77,6 +97,13 @@ public:
 		output->AddLog(stringInput.c_str(), args ...);
 	};
 
+	/**
+	 * Logs a formatted string to the output console with support for HRESULT checking.
+	 *
+	 * \param hr the HRESULT you wish to check before outputting error or success.
+	 * \param fmt the string you wish to print with formatting.
+	 * \param args the extra formatted arguments you wish to put inside the string.
+	 */
 	template<typename ... Args>
 	static void LogHResult(HRESULT hr, const char* fmt,Args ... args)IM_FMTARGS(2)
 	{
@@ -115,6 +142,11 @@ public:
 
 	#pragma warning(pop)
 
+	/**
+	 * Returns the output console if it exists.
+	 * 
+	 * \return a pointer to the output console.
+	 */
 	static DebugOutput* getOutput() 
 	{
 		if (!output)
