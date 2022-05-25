@@ -110,7 +110,7 @@ void PlayerCharacter::PressedDrop()
 void PlayerCharacter::Attack()
 {
 	
-	XMFLOAT3 screenVec = XMFLOAT3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, Inputs::InputManager::mousePos.z);
+	XMFLOAT3 screenVec = XMFLOAT3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, InputManager::mousePos.z);
 	screenVec = Math::FromScreenToWorld(screenVec);
 
 	Vector3 attackDir = (Vector3(screenVec.x, screenVec.y, screenVec.z)) - GetPosition();
@@ -128,7 +128,7 @@ void PlayerCharacter::Update(float deltaTime)
 
 	ResolveMovement(deltaTime);
 
-	Vector3 mousePos = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, 1);
+	Vector3 mousePos = Vector3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, 1);
 	
 	AimAtMouse(mousePos);
 
