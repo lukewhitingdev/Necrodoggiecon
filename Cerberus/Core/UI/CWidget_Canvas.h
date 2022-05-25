@@ -8,6 +8,8 @@
 #pragma once
 #include "Cerberus/Core/UI/CWidget.h"
 #include <functional>
+#include "Cerberus/Core/Components/CSpriteComponent.h"
+#include "Cerberus/Core/Components//CTextRenderComponent.h"
 class CWidget_Canvas :
     public CWidget
 {
@@ -65,6 +67,8 @@ protected:
      */
     std::vector<class CWidget_Button*> buttonList;
     
+    bool mouseReleased;
+    bool mousePressed;
     
 };
 

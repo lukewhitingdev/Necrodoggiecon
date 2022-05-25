@@ -213,6 +213,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\PlayerController.cpp" />
     <ClCompile Include="Game\TestUI.cpp" />
     <ClCompile Include="Game\weapons.cpp" />
+    <ClCompile Include="LevelSelectMenu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game\WeaponInterface.cpp" />
     <ClCompile Include="Game\WeaponPickup.cpp" />
@@ -234,7 +235,9 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClInclude Include="Weapons\Melee\Dagger.h" />
     <ClCompile Include="Game\AI\GruntEnemy.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="SettingsMenu.cpp" />
     <ClCompile Include="weaponUI.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -258,10 +261,13 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />
+    <ClInclude Include="LevelSelectMenu.h" />
     <ClInclude Include="Game\WeaponInterface.h" />
     <ClInclude Include="Game\WeaponPickup.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="SettingsMenu.h" />
     <ClInclude Include="weaponUI.h" />
   </ItemGroup>
   <ItemGroup>

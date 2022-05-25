@@ -20,6 +20,7 @@ CWidget_Button::CWidget_Button()
 	ButtonReleasedBind = nullptr;
 	HoverEndBind = nullptr;
 	HoverStartBind = nullptr;
+	textRenderer->SetFont("Resources/Engine/fontBlack.png");
 }
 
 
@@ -33,7 +34,7 @@ void CWidget_Button::SetText(std::string TextBody)
 void CWidget_Button::SetButtonSize(Vector2 Size)
 {
 	sprite->SetSpriteSize(DirectX::XMUINT2(Size.x, Size.y));
-	sprite->SetRenderRect(DirectX::XMUINT2(Size.x, Size.y));
+	sprite->SetRenderRect(DirectX::XMUINT2(64, 32));
 	sprite->SetTextureOffset(DirectX::XMFLOAT2(0,0));
 
 	
@@ -51,7 +52,7 @@ void CWidget_Button::SetWidgetTransform(Vector2 Position, Vector2 Anchor, int ZO
 	sprite->SetScale(1, 1, 1);
 	sprite->SetAnchor(XMFLOAT2(Anchor.x, Anchor.y));
 
-	textRenderer->SetPosition(Position.x, Position.y, ZOrder + 1);
+	textRenderer->SetPosition(Position.x, Position.y, ZOrder - 1);
 	textRenderer->SetScale(1, 1, 0);
 	textRenderer->SetAnchor(XMFLOAT2(Anchor.x, Anchor.y));
 }
@@ -89,6 +90,7 @@ void CWidget_Button::SetVisibility(bool IsVisible)
 {
 	sprite->SetShouldDraw(IsVisible);
 	textRenderer->SetShouldDraw(IsVisible);
+	WidgetIsVisible = IsVisible;
 	for (int i = 0; i < GetChildren().size(); i++)
 	{
 		GetChildren()[i]->SetVisibility(IsVisible);
@@ -100,6 +102,7 @@ void CWidget_Button::IsButtonFocused(Vector2 mPos)
 
 	Vector2 Scale = Vector2(sprite->GetSpriteSize().x, sprite->GetSpriteSize().y);
 	Vector2 Pos = Vector2(sprite->GetPosition().x, sprite->GetPosition().y);
+	Pos -= Scale / 2;
 	if (!hasFocus)
 	{
 		if (mPos.x > Pos.x && mPos.x < Scale.x + Pos.x &&
@@ -141,8 +144,10 @@ void CWidget_Button::IsButtonFocused(Vector2 mPos)
 
 void CWidget_Button::ButtonPressed(bool buttonPressed)
 {
+
 	if (hasFocus)
 	{
+
 		if (buttonPressed) OnButtonPressed();
 		else OnButtonReleased();
 	}

@@ -25,5 +25,8 @@ private:
 
     std::vector<CWidget*> childWidgets;
 
+protected:
+    bool WidgetIsVisible = true;
+
 };
 

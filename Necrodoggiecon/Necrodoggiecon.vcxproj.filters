@@ -39,6 +39,10 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Game\DialogueUI.cpp" />
     <ClCompile Include="Game\DialogueHandler.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
+    <ClCompile Include="SettingsMenu.cpp" />
+    <ClCompile Include="LevelSelectMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -125,6 +129,9 @@
     <ClInclude Include="Game\DialogueUI.h" />
     <ClInclude Include="Game\DialogueHandler.h" />
     <ClInclude Include="Game\Dialogue.h" />
+    <ClInclude Include="PauseMenu.h" />
+    <ClInclude Include="SettingsMenu.h" />
+    <ClInclude Include="LevelSelectMenu.h" />
     <ClInclude Include="Weapons\Ranged\Fireball.h" />
     <ClInclude Include="Weapons\Ranged\MagicMissile.h" />
     <ClInclude Include="HomingProjectile.h" />
