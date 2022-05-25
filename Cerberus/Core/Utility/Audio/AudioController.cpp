@@ -10,6 +10,7 @@
 FMOD::System* AudioController::FMODSystem;
 std::vector<CEmitter*> AudioController::emitters;
 std::vector<CEmitter*> AudioController::ambientEmitters;
+CTransform* AudioController::listenerTransform = nullptr;
 
 /**
  * Initializes the audio system and FMOD.
@@ -264,9 +265,18 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
  * \param emitter
  * \return bool on success or failure
  */
-void AudioController::AddEmitter(CEmitter* emitter)
+bool AudioController::AddEmitter(CEmitter* emitter)
 {
-	emitters.emplace_back(emitter);
+	if (emitter != nullptr)
+	{
+		emitters.emplace_back(emitter);
+		return true;
+	}
+	else
+	{
+		Debug::LogError("Tried to add emitter to audio controller that is nullptr!.");
+		return false;
+	}
 }
 
 /**
@@ -276,7 +286,7 @@ void AudioController::AddEmitter(CEmitter* emitter)
  * \param ambient
  * \return bool on success or failure
  */
-void AudioController::AddEmitter(CEmitter* emitter, bool ambient)
+bool AudioController::AddEmitter(CEmitter* emitter, bool ambient)
 {
 	if (emitter != nullptr)
 	{
