@@ -1,26 +1,21 @@
-/*****************************************************************//**
- * \file   CInteractable.cpp
- * \brief  Entity that can be interacted with. Acts as a base class for any entities that wish to be interacted with in specfic ways.
- * 
- * \author Luke Whiting
- * \date   May 2022
- *********************************************************************/
-
 #include "CInteractable.h"
 #include "Cerberus\Core\Utility\DebugOutput\Debug.h"
 #include "Cerberus\Core\Utility\InputManager\InputManager.h"
 
 CInteractable::CInteractable() : interactTextOffset(0), interactRange(1), sprite(nullptr), lastCollidedObject(nullptr)
 {
-	sprite = AddComponent<CSpriteComponent>();
-	interactText = AddComponent<CTextRenderComponent>();
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
+	interactText = AddComponent<CTextRenderComponent>(NAME_OF(interactText));
 	colComponent = new CollisionComponent("Interactable", this);
+
+	sprite->LoadTexture("Resources/Game/arrow.dds");
+	this->SetInteractRange(sprite->GetSpriteSize().x);
 
 	colComponent->SetCollider(interactRange);
 	colComponent->SetTrigger(true);
-	sprite->LoadTexture("Resources/Game/arrow.dds");
 
 	interactText->SetScale(2, 2, 2);
+
 }
 
 CInteractable::~CInteractable()
@@ -81,32 +76,59 @@ void CInteractable::OnLeaveOverlap()
 /**
  * Called when a player is colliding with the trigger for the interactable.
  * 
- * \param collidedObject
+ * \param collidedObject the other object we are colliding with.
  */
 void CInteractable::HasCollided(CollisionComponent* collidedObject)
 {
+	static bool keyPressed;
+
 	lastCollidedObject = collidedObject;
 	OnEnterOverlap();
-	if(Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::F))
+	if(InputManager::IsKeyPressedDown(InputManager::F) && !keyPressed)
 	{
 		OnInteract();
+		keyPressed = true;
 	}
+
+	if(InputManager::IsKeyReleased(InputManager::F))
+		keyPressed = false;
+
 }
 
+/**
+ * Sets the texture for the interactable.
+ * 
+ * \param path the path to the texture used for the interactable.
+ */
 void CInteractable::SetTexture(std::string path)
 {
 	if (!sprite)
-		sprite = AddComponent<CSpriteComponent>();
+		sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 
 	sprite->LoadTexture(path);
 }
 
+/**
+ * Sets the texture for the interactable.
+ * 
+ * \param path the path to the texture used for the interactable.
+ */
 void CInteractable::SetTextureWIC(std::string path)
 {
 	if (!sprite)
-		sprite = AddComponent<CSpriteComponent>();
+		sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 
 	sprite->LoadTextureWIC(path);
+}
+
+/**
+ * Sets the interact range for the interactable.
+ * 
+ * \param value the interact range for the interactable.
+ */
+void CInteractable::SetInteractRange(const float value)
+{
+	interactRange = value;
 }
 
 /**
@@ -117,4 +139,24 @@ void CInteractable::DrawUI()
 {
 	interactText->SetPosition(Vector3(0, interactTextOffset, -3));
 	interactText->SetText("F");
+}
+
+/**
+ * Returns the last collided object of the interactable.
+ * 
+ * \return the collision component pointer of the last collided object.
+ */
+CollisionComponent* CInteractable::GetLastCollidedObject()
+{
+	return lastCollidedObject;
+}
+
+/**
+ * Returns the sprite of the interactable.
+ * 
+ * \return the sprite of the interactable.
+ */
+CSpriteComponent* CInteractable::GetSprite()
+{
+	return sprite;
 }

@@ -1,11 +1,3 @@
-/*****************************************************************//**
- * \file   CParticleEmitter.cpp
- * \brief  Allows a entity to emit particles.
- * 
- * \author Luke Whiting
- * \date   May 2022
- *********************************************************************/
-
 #include "CParticleEmitter.h"
 
 CParticleEmitter::CParticleEmitter() : emit(false), overallDirection(), overallVelocity(), overallLifetime(), 
@@ -25,7 +17,7 @@ CParticleEmitter::~CParticleEmitter()
 /**
  * Sets the texture for the particles emitted.
  * 
- * \param path
+ * \param path the path to the texture for the particles.
  */
 void CParticleEmitter::SetTexture(const std::string& path)
 {
@@ -35,7 +27,7 @@ void CParticleEmitter::SetTexture(const std::string& path)
 /**
  * Sets the ammount of particles in the emitter.
  * 
- * \param size
+ * \param size the ammount of particles used in the emitter.
  */
 void CParticleEmitter::SetSize(const int size)
 {
@@ -90,7 +82,7 @@ void CParticleEmitter::UseRandomLifetime(bool toggle, const float min, const flo
 /**
  * Sets the overall particle direction.
  * 
- * \param dir
+ * \param dir the direction of all particles.
  */
 void CParticleEmitter::SetDirection(const Vector3 dir)
 {
@@ -100,10 +92,9 @@ void CParticleEmitter::SetDirection(const Vector3 dir)
 /**
  * Returns the overall particle direction.
  * 
- * \param dir
- * \return 
+ * \return the direction of all particles.
  */
-Vector3 CParticleEmitter::GetDirection(const Vector3 dir)
+Vector3 CParticleEmitter::GetDirection()
 {
 	return overallDirection;
 }
@@ -111,7 +102,7 @@ Vector3 CParticleEmitter::GetDirection(const Vector3 dir)
 /**
  * Sets the overall particle velocity.
  * 
- * \param velo
+ * \param velo the velocity of all particles.
  */
 void CParticleEmitter::SetVelocity(const float velo)
 {
@@ -131,7 +122,7 @@ float CParticleEmitter::GetVelocity()
 /**
  * Sets the overall particles lifetime.
  * 
- * \param life
+ * \param life the lifetime of all particles.
  */
 void CParticleEmitter::SetLifetime(const float life)
 {

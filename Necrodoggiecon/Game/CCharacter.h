@@ -1,17 +1,25 @@
 #pragma once
 #include <Cerberus\Core\Components\CAnimationSpriteComponent.h>
 #include <Cerberus\Core\CEntity.h>
-#include "weapons.h"
+#include "WeaponInterface.h"
 
 class CCharacter : public CEntity
 {
 private:
 protected:
-	Weapon* weaponComponent = nullptr;
-	float health = 2.0f;
+	bool isPlayer = false;
+	bool visible = true;
+	float health = 1.0f;
+	WeaponInterface* weaponComponent = nullptr;
 
 	void AddMovement(XMFLOAT2 vel, float deltaTime);
+
+	
 public:
+	/**
+	* Public function used to apply damage to the character
+	*/
+	virtual void ApplyDamage(float damageAmount) {};
 
 	virtual void Update(float deltaTime) {};
 
@@ -20,5 +28,10 @@ public:
 
 	void SetHealth(float heal);
 	float GetHealth();
+	
+	void SetIsPlayer(bool player);
+	bool GetIsPlayer();
+
+	bool GetVisible() { return visible; }
 };
 
