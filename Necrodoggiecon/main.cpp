@@ -106,7 +106,7 @@ int Start()
 	CWorldManager::LoadWorld(new CWorld_Menu());
 
 
-	CUIManager::AddCanvas(Engine::CreateEntity<PauseMenu>(), "PauseMenu");
+	
 
 	
 

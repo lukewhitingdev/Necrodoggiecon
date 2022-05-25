@@ -14,6 +14,8 @@
 #include "Cerberus/WorldConstants.h"
 #include "Necrodoggiecon/Weapons/Ranged/MagicMissile.h"
 #include "Necrodoggiecon/Weapons/Ranged/Fireball.h"
+#include "Necrodoggiecon/PauseMenu.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
 
 
 
@@ -48,7 +50,7 @@ void CWorld_Game::SetupWorld()
 	CameraManager::SetRenderingCamera(lockedCameraComponent);
 
 
-	
+	CUIManager::AddCanvas(Engine::CreateEntity<PauseMenu>(), "PauseMenu");
 
 	controller->charOne = character1;
 

@@ -32,8 +32,11 @@ void CUIManager::ClearAllCanvases()
 {
 	for (int i = 0; i < idList.size(); i++)
 	{
-		activeCanvases[idList[i]]->RemoveAllChildren();
-		Engine::DestroyEntity(activeCanvases[idList[i]]);
+		if (activeCanvases[idList[i]] != nullptr)
+		{
+			activeCanvases[idList[i]]->RemoveAllChildren();
+			Engine::DestroyEntity(activeCanvases[idList[i]]);
+		}
 	}
 	idList.clear();
 	activeCanvases.clear();

@@ -15,6 +15,7 @@
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include "SettingsMenu.h"
 #include "LevelCompleteMenu.h"
+#include "Necrodoggiecon/CWorld_Menu.h"
 
 PauseMenu::PauseMenu()
 {
@@ -98,7 +99,7 @@ void PauseMenu::ResumeGame()
 void PauseMenu::QuitToMenu()
 {
 	Debug::Log("quit to menu");
-	CWorldManager::LoadWorld(new CWorld_Game(0));
+	CWorldManager::LoadWorld(new CWorld_Menu());
 }
 /**
  * closes game.
