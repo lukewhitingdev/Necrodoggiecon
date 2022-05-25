@@ -14,12 +14,11 @@
 #include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
 #include "Cerberus/Core/Engine.h"
 #include "Cerberus/Core/Utility/Audio/AudioController.h"
+#include "Cerberus/Core/Components/CAudioEmitterComponent.h"
 
 #include "Necrodoggiecon/Game/AI/State.h"
 #include "Cerberus/Core/AI/Pathfinding.h"
 #include "Necrodoggiecon\Game\CCharacter.h"
-#include "Necrodoggiecon\Game\PlayerCharacter.h"
-#include "Necrodoggiecon/Game/PlayerController.h"
 
 /**
  * Controller class for the AI.
@@ -64,10 +63,10 @@ public:
 	void SearchForPlayer();
 	void Investigating(Vector3 positionOfInterest);
 	
-	virtual void AttackEnter(PlayerCharacter* player);
+	virtual void AttackEnter(CCharacter* player);
 	virtual void ChaseEnter();
-	virtual void ChasePlayer(PlayerCharacter* player);
-	virtual void AttackPlayer(PlayerCharacter* player, float deltaTime);
+	virtual void ChasePlayer(CCharacter* player);
+	virtual void AttackPlayer(CCharacter* player, float deltaTime);
 
 	void SetCurrentState(State& state);
 	bool CanSee(Vector3 posOfObject);
@@ -112,7 +111,9 @@ protected:
 	CCharacter* playerToKill = nullptr;
 	CCharacter* playerToChase = nullptr;
 	
-	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
+
+	std::vector<CCharacter*> characters = Engine::GetEntityOfType<CCharacter>();
+	std::vector<CCharacter*> players;
 
 	float aiSpeed = 100.0f;
 	float initialSpeed = aiSpeed;
