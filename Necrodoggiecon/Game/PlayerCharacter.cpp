@@ -67,9 +67,6 @@ PlayerCharacter::PlayerCharacter()
 	weaponSprite->SetPosition(Vector3(spriteComponentBody->GetSpriteSize().y / 2, -int(spriteComponentBody->GetSpriteSize().x - 40), 0));
 	weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
 	weaponSprite->SetRenderRect(DirectX::XMUINT2(64, 64));
-	weaponSprite->SetAnimationRectSize(DirectX::XMUINT2(64, 64), false);
-	weaponSprite->SetAnimationRectPosition(DirectX::XMUINT2(0, 0), false);
-	weaponSprite->SetPlaying(false, true);
 
 	camera = AddComponent<CCameraComponent>(NAME_OF(camera));
 	camera->SetAttachedToParent(false);
@@ -120,6 +117,7 @@ void PlayerCharacter::PressedDrop()
 
 }
 
+static bool animating = false;
 void PlayerCharacter::Attack()
 {
 	XMFLOAT3 screenVec = XMFLOAT3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, InputManager::mousePos.z);
@@ -130,11 +128,16 @@ void PlayerCharacter::Attack()
 	if(weaponComponent->GetCurrentWeapon()->GetName() == "Crossbow")
 	{
 		if(weaponComponent->GetCurrentWeapon()->GetCanFire())
-			weaponSprite->SetPlaying(true, true);
-
-		if(weaponComponent->GetCurrentWeapon()->GetAmmo() <= 0)
 		{
-			weaponSprite->SetAnimationRectPosition(DirectX::XMUINT2(64, 0));
+			weaponSprite->SetTextureOffset(DirectX::XMFLOAT2(0, 0));
+		}
+
+	}else if(weaponComponent->GetCurrentWeapon()->GetName() == "Dagger" && !animating)
+	{
+		if (weaponComponent->GetCurrentWeapon()->GetCanFire())
+		{
+			weaponSprite->SetPosition(weaponSprite->GetPosition().x + 10, weaponSprite->GetPosition().y, weaponSprite->GetPosition().z);
+			animating = true;
 		}
 	}
 
@@ -148,10 +151,18 @@ void PlayerCharacter::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
 
-	// Only show the crossbow animation for a frame.
-	if (weaponSprite->GetCurrentFrame().x > 1)
+	if(weaponComponent->GetCurrentWeapon()->GetName() == "Crossbow")
 	{
-		weaponSprite->SetPlaying(false, true);
+		if(!weaponComponent->GetCurrentWeapon()->GetCanFire() || weaponComponent->GetCurrentWeapon()->GetAmmo() <= 0)
+		{
+			weaponSprite->SetTextureOffset(DirectX::XMFLOAT2(64, 0));
+		}
+	}
+
+	if(animating && weaponComponent->GetCurrentWeapon()->GetCanFire())
+	{
+		weaponSprite->SetPosition(weaponSprite->GetPosition().x - 10, weaponSprite->GetPosition().y, weaponSprite->GetPosition().z);
+		animating = false;
 	}
 
 	ResolveMovement(deltaTime);
