@@ -57,6 +57,9 @@ public:
 	void SetIsAttacking(bool isAttack);
 	bool GetIsAttacking();
 
+	void SetSpriteSize(float size);
+	float GetSpriteSize();
+
 	virtual void Update(float deltaTime) override;
 
 	void Patrolling();
@@ -69,7 +72,7 @@ public:
 	virtual void AttackPlayer(CCharacter* player, float deltaTime);
 
 	void SetCurrentState(State& state);
-	bool CanSee(Vector3 posOfObject);
+	bool CanSee(CCharacter* player);
 
 	void SetPathNodes(std::vector<WaypointNode*> nodes);
 	Pathfinding* pathing;
@@ -78,8 +81,10 @@ public:
 
 	void ApplyDamage(float damageAmount);
 
+	class CAnimationSpriteComponent* sprite = nullptr;
+
 protected:
-	class CSpriteComponent* sprite = nullptr;
+	
 	class CSpriteComponent* viewFrustrum = nullptr;
 
 	Vector3 positionToInvestigate;
@@ -131,6 +136,17 @@ protected:
 
 	float sizeOfTiles = 0.0f;
 
+	float spriteSize = 64.0f;
+
 	State* currentState;
+
+	virtual void HasCollided(CollisionComponent* collidedObject)
+	{
+		if (collidedObject->GetName() == "Wall")
+		{
+			colComponent->Resolve(collidedObject);
+			this->SetPosition(colComponent->GetPosition());
+		}
+	}
 };
 

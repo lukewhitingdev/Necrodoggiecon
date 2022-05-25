@@ -12,7 +12,7 @@ void ChaseState::Enter(CAIController* controller)
 {
 	Vector3 aiPosition = controller->GetPosition();
 	std::vector<CCharacter*> characters = Engine::GetEntityOfType<CCharacter>();
-	std::vector<CCharacter*> players = Engine::GetEntityOfType<CCharacter>();
+	std::vector<CCharacter*> players = {};
 
 	for (CCharacter* character : characters)
 	{
@@ -25,7 +25,7 @@ void ChaseState::Enter(CAIController* controller)
 	for (CCharacter* player : players)
 	{
 		// Find if the player is the closest in view.
-		if (controller->CanSee(player->GetPosition()) == true)
+		if (controller->CanSee(player) == true)
 		{
 			if (closestPlayer != nullptr)
 			{
@@ -41,12 +41,13 @@ void ChaseState::Enter(CAIController* controller)
 		}
 	}
 
+	controller->sprite->SetTextureOffset(XMFLOAT2(controller->GetSpriteSize(), 0));
 	controller->ChaseEnter();
 }
 
 void ChaseState::Update(CAIController* controller, float deltaTime)
 {
-	if (controller->CanSee(closestPlayer->GetPosition()) == true)
+	if (controller->CanSee(closestPlayer) == true)
 	{
 		controller->ChasePlayer(closestPlayer);
 	}
@@ -74,7 +75,7 @@ void AttackState::Enter(CAIController* controller)
 {
 	Vector3 aiPosition = controller->GetPosition();
 	std::vector<CCharacter*> characters = Engine::GetEntityOfType<CCharacter>();
-	std::vector<CCharacter*> players = Engine::GetEntityOfType<CCharacter>();
+	std::vector<CCharacter*> players = {};
 
 	for (CCharacter* character : characters)
 	{
@@ -99,7 +100,7 @@ void AttackState::Enter(CAIController* controller)
 			closestPlayer = player;
 		}
 	}
-
+	controller->sprite->SetTextureOffset(XMFLOAT2(controller->GetSpriteSize(), 0));
 	controller->AttackEnter(closestPlayer);
 }
 
@@ -108,7 +109,7 @@ void AttackState::Update(CAIController* controller, float deltaTime)
 	if (closestPlayer != nullptr)
 	{
 		controller->AttackPlayer(closestPlayer, deltaTime);
-		if (controller->CanSee(closestPlayer->GetPosition()) == false && controller->GetIsAttacking() == false)
+		if (controller->CanSee(closestPlayer) == false && controller->GetIsAttacking() == false)
 		{
 			controller->SetPositionToInvestigate(closestPlayer->GetPosition());
 			closestPlayer = nullptr;
@@ -134,6 +135,7 @@ State& AttackState::getInstance()
 
 void PatrolState::Enter(CAIController* controller)
 {
+	controller->sprite->SetTextureOffset(XMFLOAT2(0, 0));
 	controller->SetPath();
 }
 
@@ -157,6 +159,7 @@ State& PatrolState::getInstance()
 
 void SearchState::Enter(CAIController* controller)
 {
+	controller->sprite->SetTextureOffset(XMFLOAT2(0, 0));
 	searchTimer = 10.0f;
 	characters = Engine::GetEntityOfType<CCharacter>();
 	for (CCharacter *character : characters)
@@ -178,7 +181,7 @@ void SearchState::Update(CAIController* controller, float deltaTime)
 
 		for (CCharacter* player : players)
 		{
-			if (controller->CanSee(player->GetPosition()) == true)
+			if (controller->CanSee(player) == true)
 			{
 				controller->SetCurrentState(ChaseState::getInstance());
 			}
@@ -209,6 +212,7 @@ State& SearchState::getInstance()
 
 void InvestigateState::Enter(CAIController* controller)
 {
+	controller->sprite->SetTextureOffset(XMFLOAT2(0, 0));
 	controller->SetPath(controller->GetPositionToInvestigate());
 }
 

@@ -27,6 +27,7 @@ private:
     float attackCooldown = 0.0f;
     float attackTimer = 1.0f;
     float attackRange = 300.0f;
+    const float walkAnimationSpeed = 1.3f;
     Vector3 targetPosition;
 };
 

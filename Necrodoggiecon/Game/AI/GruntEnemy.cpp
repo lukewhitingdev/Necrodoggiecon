@@ -9,7 +9,7 @@
 
 GruntEnemy::GruntEnemy()
 {
-	sprite->LoadTexture("Resources/Game/Characters/MeleeEnemy.dds");
+	sprite->LoadTextureWIC("Resources/Game/Characters/PurpleEnemySprite.png");
 	sprite->SetRotation(1.5708f);
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
@@ -46,6 +46,8 @@ void GruntEnemy::ChasePlayer(CCharacter* player)
  */
 void GruntEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 {
+	heading = Seek(player->GetPosition());
+
 	weaponComponent->OnFire(aiPosition, velocity);
 	SetCurrentState(ChaseState::getInstance());
 }

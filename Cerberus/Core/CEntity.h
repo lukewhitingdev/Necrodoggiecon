@@ -105,8 +105,11 @@ public:
 	{
 		if (!collidedObject->GetTrigger())
 		{
+			if (collidedObject->GetName() != "Enemy")
+			{
 			colComponent->Resolve(collidedObject);
 			this->SetPosition(colComponent->GetPosition());
+			}
 		}
 	};
 };
