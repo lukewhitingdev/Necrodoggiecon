@@ -14,6 +14,9 @@ DogEnemy::DogEnemy()
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
+	sprite->SetAnimationRectSize(XMUINT2(1, 10));
+	sprite->SetAnimationSpeed(10 * walkAnimationSpeed);
+	sprite->SetPlaying(false, false);
 }
 
 void DogEnemy::Update(float deltaTime)
@@ -31,7 +34,10 @@ void DogEnemy::Update(float deltaTime)
 		}
 
 	}
-
+	if (sprite->GetPlaying() == false && velocity.Magnitude() != 0.0f)
+	{
+		sprite->SetPlaying(true, false);
+	}
 
 	CAIController::Update(deltaTime);
 }

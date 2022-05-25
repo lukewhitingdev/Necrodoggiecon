@@ -14,7 +14,7 @@ CAIController::CAIController()
 	isPlayer = false;
 	Debug::Log("init AI class!\n");
 
-	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
+	sprite = AddComponent<CAnimationSpriteComponent>(NAME_OF(sprite));
 	sprite->LoadTexture("Resources/Game/birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
@@ -513,6 +513,10 @@ void CAIController::MoveViewFrustrum()
 	// Temp code for the arrow sprite so I know where the AI is looking. 
 	if (velocity.Magnitude() == 0.0f)
 	{
+		if (sprite->GetPlaying() == true)
+		{
+			sprite->SetPlaying(false, true);
+		}
 		return;
 	}
 	Vector3 velocityCopy = velocity;

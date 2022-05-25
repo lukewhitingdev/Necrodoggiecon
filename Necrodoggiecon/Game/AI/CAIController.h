@@ -81,7 +81,7 @@ public:
 
 	void ApplyDamage(float damageAmount);
 
-	class CSpriteComponent* sprite = nullptr;
+	class CAnimationSpriteComponent* sprite = nullptr;
 
 protected:
 	
