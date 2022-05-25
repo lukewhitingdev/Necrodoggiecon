@@ -11,6 +11,7 @@
 
 CAIController::CAIController()
 {
+	isPlayer = false;
 	Debug::Log("init AI class!\n");
 
 	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
@@ -228,7 +229,7 @@ Vector3 CAIController::CollisionAvoidance()
  * \param posOfObject Vector3 representing the position of the object to see.
  * \return Returns a boolen determining whether the objct is in view.
  */
-bool CAIController::CanSee(PlayerCharacter* player)
+bool CAIController::CanSee(CCharacter* player)
 {
 	if (player->GetVisible() == false)
 	{

@@ -8,6 +8,7 @@ class CCharacter : public CEntity
 private:
 protected:
 	bool isPlayer = false;
+	bool visible = true;
 	float health = 2.0f;
 	WeaponInterface* weaponComponent = nullptr;
 
@@ -30,5 +31,7 @@ public:
 	
 	void SetIsPlayer(bool player);
 	bool GetIsPlayer();
+
+	bool GetVisible() { return visible; }
 };
 

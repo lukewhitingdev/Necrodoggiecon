@@ -72,7 +72,7 @@ public:
 	virtual void AttackPlayer(CCharacter* player, float deltaTime);
 
 	void SetCurrentState(State& state);
-	bool CanSee(PlayerCharacter* player);
+	bool CanSee(CCharacter* player);
 
 	void SetPathNodes(std::vector<WaypointNode*> nodes);
 	Pathfinding* pathing;

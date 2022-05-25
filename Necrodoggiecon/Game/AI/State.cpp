@@ -12,7 +12,7 @@ void ChaseState::Enter(CAIController* controller)
 {
 	Vector3 aiPosition = controller->GetPosition();
 	std::vector<CCharacter*> characters = Engine::GetEntityOfType<CCharacter>();
-	std::vector<CCharacter*> players = Engine::GetEntityOfType<CCharacter>();
+	std::vector<CCharacter*> players = {};
 
 	for (CCharacter* character : characters)
 	{
@@ -75,7 +75,7 @@ void AttackState::Enter(CAIController* controller)
 {
 	Vector3 aiPosition = controller->GetPosition();
 	std::vector<CCharacter*> characters = Engine::GetEntityOfType<CCharacter>();
-	std::vector<CCharacter*> players = Engine::GetEntityOfType<CCharacter>();
+	std::vector<CCharacter*> players = {};
 
 	for (CCharacter* character : characters)
 	{
