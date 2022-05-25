@@ -8,6 +8,8 @@ When the SetPath function is called, the start and end waypoint node is passed i
 
 ## Decision Making using a Finite State Machine
 
+The AI uses a Finite State Machine detailed in the State Class.
+The FSM is implemented using a base state class and 
 This is the AI State Machine Diagram.
 
 ![The Diagram](/Doxygen/Images/AIStateMachineDiagram.png)
