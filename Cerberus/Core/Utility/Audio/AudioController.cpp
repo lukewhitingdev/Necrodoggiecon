@@ -1,10 +1,3 @@
-/*****************************************************************//**
- * \file   AudioController.cpp
- * \brief  Internal Audio Controller for the engine.
- * 
- * \author Luke Whiting
- * \date   Jan 2022
- *********************************************************************/
 #include "AudioController.h"
 #include "Cerberus\Core\Utility\EventSystem\EventSystem.h"
 FMOD::System* AudioController::FMODSystem;

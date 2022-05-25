@@ -1,5 +1,5 @@
 /*****************************************************************//**
- * \file   EventSystem.cpp
+ * \file   EventSystem.h
  * \brief  A generic event system to allow for code to exectute across the engine without direct references.
  *
  * \author Luke Whiting
