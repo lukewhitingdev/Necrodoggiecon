@@ -1,11 +1,3 @@
-/*****************************************************************//**
- * \file   CameraManager.cpp
- * \brief  Manages the cameras in the engine.
- * 
- * \author Luke Whiting
- * \date   May 2022
- *********************************************************************/
-
 #include "CameraManager.h"
 #include "Cerberus\Core\Utility\DebugOutput\Debug.h"
 
@@ -15,7 +7,7 @@ CCameraComponent* CameraManager::renderingCamera;
 /**
  * Adds a camera to the manager.
  * 
- * \param camera
+ * \param camera camera you wish to add.
  */
 void CameraManager::AddCamera(CCameraComponent* camera)
 {
@@ -25,7 +17,7 @@ void CameraManager::AddCamera(CCameraComponent* camera)
 /**
  * Removes a camera from the manager. Further, if a rendering camera is delete it will move the rendering camera to the next camera in the manager.
  * 
- * \param camera
+ * \param camera camera you wish to remove.
  */
 void CameraManager::RemoveCamera(CCameraComponent* camera)
 {
@@ -56,7 +48,7 @@ void CameraManager::RemoveCamera(CCameraComponent* camera)
 /**
  * Returns the rendering camera.
  * 
- * \return 
+ * \return the current rendering camera.
  */
 CCameraComponent* CameraManager::GetRenderingCamera()
 {
@@ -71,7 +63,7 @@ CCameraComponent* CameraManager::GetRenderingCamera()
 /**
  * Sets the rendering camera.
  * 
- * \param camera
+ * \param camera the camera you wish to set as the rendering camera.
  */
 void CameraManager::SetRenderingCamera(CCameraComponent* camera)
 {
@@ -89,7 +81,7 @@ void CameraManager::SetRenderingCamera(CCameraComponent* camera)
 /**
  * Returns a vector of all cameras inside the manager.
  * 
- * \return 
+ * \return a vector of all cameras stored within the camera manager.
  */
 std::vector<CCameraComponent*> CameraManager::GetAllCameras()
 {

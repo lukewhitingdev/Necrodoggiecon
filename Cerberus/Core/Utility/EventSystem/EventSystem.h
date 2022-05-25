@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   EventSystem.cpp
+ * \brief  A generic event system to allow for code to exectute across the engine without direct references.
+ *
+ * \author Luke Whiting
+ * \date   Jan 2022
+ *********************************************************************/
+
 #pragma once
 #include <map>
 #include <vector>
