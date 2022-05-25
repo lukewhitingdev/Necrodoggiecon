@@ -72,15 +72,17 @@ void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 
 void CWorldManager::LoadWorld(CWorld* World)
 {
+	//Works the same as above, only for the game world instead.
 	if (editorWorld != nullptr)
 	{
-		editorWorld->UnloadWorld();
+		editorWorld->DestroyWorld();
 		delete(editorWorld);
-
 	}
-	else if (gameWorld != nullptr)
+	if (gameWorld != nullptr)
 	{
-		gameWorld->UnloadWorld();
+		gameWorld->DestroyWorld();
+		delete(gameWorld);
+
 	}
 	gameWorld = World;
 	gameWorld->SetupWorld();

@@ -99,10 +99,13 @@ int Start()
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
 	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>(NAME_OF(freeCameraComponent));
 	freeCameraComponent->SetAttachedToParent(false);
+	CameraManager::AddCamera(freeCameraComponent);
 
-	CWorldManager::LoadWorld(new CWorld_Game(0));
+	CameraManager::SetRenderingCamera(freeCameraComponent);
 
-	//CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
+	CWorldManager::LoadWorld(new CWorld_Menu());
+
+
 	CUIManager::AddCanvas(Engine::CreateEntity<PauseMenu>(), "PauseMenu");
 
 	
