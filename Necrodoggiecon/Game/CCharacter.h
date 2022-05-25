@@ -20,6 +20,8 @@ protected:
 	WeaponInterface* weaponComponent = nullptr;
 	CSpriteComponent* weaponSprite = nullptr;
 
+	void UpdateWeaponSpritePosition(CSpriteComponent* wSprite);
+
 	void AddMovement(XMFLOAT2 vel, float deltaTime);
 public:
 	/**

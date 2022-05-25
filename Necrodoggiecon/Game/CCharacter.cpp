@@ -11,11 +11,12 @@
 
 CCharacter::CCharacter()
 {
+	
 }
 
 CCharacter::~CCharacter()
 {
-	if(weaponComponent != nullptr)
+	if (weaponComponent != nullptr)
 	{
 		WeaponPickup<Weapon>* pickup = Engine::CreateEntity<WeaponPickup<Weapon>>();
 		pickup->SetWeapon(weaponComponent->GetCurrentWeapon());
@@ -51,6 +52,9 @@ void CCharacter::UpdateWeaponSprite()
 			return;
 		}
 	}
+
+
+	
 }
 
 void CCharacter::SetHealth(float heal)
@@ -61,6 +65,12 @@ void CCharacter::SetHealth(float heal)
 float CCharacter::GetHealth()
 {
 	return health;
+}
+
+void CCharacter::UpdateWeaponSpritePosition(CSpriteComponent* wSprite)
+{
+	weaponSprite->SetPosition(Vector3(wSprite->GetSpriteSize().y / 2, -int(wSprite->GetSpriteSize().x - 40), 0));
+	weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
 }
 
 void CCharacter::AddMovement(XMFLOAT2 vel, float deltaTime)

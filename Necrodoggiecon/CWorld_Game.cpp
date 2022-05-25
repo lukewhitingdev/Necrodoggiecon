@@ -128,22 +128,22 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 			switch (WeaponID)
 			{
 			case 0:
-				//enemy->EquipWeapon(new Dagger());
+				enemy->EquipWeapon(new Dagger());
 				break;
 			case 1:
-				//enemy->EquipWeapon(new Rapier());
+				enemy->EquipWeapon(new Rapier());
 				break;
 			case 2:
-				//enemy->EquipWeapon(new Longsword());
+				enemy->EquipWeapon(new Longsword());
 				break;
 			case 3:
-				//enemy->EquipWeapon(new Crossbow());
+				enemy->EquipWeapon(new Crossbow());
 				break;
 			case 4:
-				//enemy->EquipWeapon(new MagicMissile());
+				enemy->EquipWeapon(new MagicMissile());
 				break;
 			case 5: 
-				//enemy->EquipWeapon(new Fireball());
+				enemy->EquipWeapon(new Fireball());
 				break;
 
 			}

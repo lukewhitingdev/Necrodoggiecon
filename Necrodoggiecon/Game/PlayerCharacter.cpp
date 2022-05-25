@@ -57,8 +57,9 @@ PlayerCharacter::PlayerCharacter()
 
 	weaponSprite = AddComponent<CSpriteComponent>();
 	UpdateWeaponSprite();
-	weaponSprite->SetPosition(Vector3(spriteComponentBody->GetSpriteSize().y / 2, -int(spriteComponentBody->GetSpriteSize().x - 40), 0));
-	weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
+	//weaponSprite->SetPosition(Vector3(spriteComponentBody->GetSpriteSize().y / 2, -int(spriteComponentBody->GetSpriteSize().x - 40), 0));
+	//weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
+	UpdateWeaponSpritePosition(spriteComponentBody);
 
 	camera = AddComponent<CCameraComponent>();
 	camera->SetAttachedToParent(false);
