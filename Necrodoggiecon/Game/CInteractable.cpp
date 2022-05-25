@@ -91,7 +91,7 @@ void CInteractable::HasCollided(CollisionComponent* collidedObject)
 {
 	lastCollidedObject = collidedObject;
 	OnEnterOverlap();
-	if(Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::F))
+	if(InputManager::IsKeyPressedDown(InputManager::F))
 	{
 		OnInteract();
 	}
