@@ -24,6 +24,7 @@
 #include <Weapons/Ranged/Fireball.h>
 #include <Weapons/Ranged/MagicMissile.h>
 #include "Necrodoggiecon/MainMenu.h"
+#include "Necrodoggiecon/PauseMenu.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include <Necrodoggiecon/Game/DialogueHandler.h>
 #include "Weapons/Pickup/InvisibilityScroll.h"
@@ -101,6 +102,7 @@ int Start()
 	CWorldManager::LoadWorld(new CWorld_Game(0));
 
 	//CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
+	CUIManager::AddCanvas(Engine::CreateEntity<PauseMenu>(), "PauseMenu");
 
 	
 
