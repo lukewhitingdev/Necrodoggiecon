@@ -117,7 +117,7 @@ void PauseMenu::QuitToDesktop()
 void PauseMenu::Update(float deltaTime)
 {
 	CWidget_Canvas::Update(deltaTime);
-	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::Escape) && !gameEnded)
+	if (InputManager::IsKeyReleased(InputManager::Escape) && !gameEnded)
 	{
 		if (isPaused)
 		{
@@ -128,7 +128,7 @@ void PauseMenu::Update(float deltaTime)
 			PauseGame();
 		}
 	}
-	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::Tab))
+	if (InputManager::IsKeyReleased(InputManager::Tab))
 	{
 		CUIManager::GetCanvas("LevelCompleteMenu")->SetVisibility(true);
 		gameEnded = true;

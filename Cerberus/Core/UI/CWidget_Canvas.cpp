@@ -22,8 +22,6 @@ void CWidget_Canvas::InitialiseCanvas()
 
 void CWidget_Canvas::Update(float deltaTime)
 {
-	
-
 	if (WidgetIsVisible)
 	{
 		for (int i = 0; i < buttonList.size(); i++)
@@ -34,13 +32,13 @@ void CWidget_Canvas::Update(float deltaTime)
 			{
 				buttonList[i]->IsButtonFocused(GetMousePosition());
 
-				if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::Mouse::LButton))
+				if (InputManager::IsMouseButtonPressed(InputManager::Mouse::LButton))
 				{
 					buttonList[i]->ButtonPressed(true);
 					mousePressed = true;
 				}
-				
-				if (Inputs::InputManager::IsMouseButtonReleased(Inputs::InputManager::Mouse::LButton))
+
+				if (InputManager::IsMouseButtonReleased(InputManager::Mouse::LButton))
 				{
 
 					//buttonList[i]->ButtonPressed(false);
@@ -52,14 +50,9 @@ void CWidget_Canvas::Update(float deltaTime)
 				buttonList[i]->ButtonPressed(false);
 			}
 		}
-
-		}
 	}
-	
-
-
-
 }
+	
 
 Vector2 CWidget_Canvas::GetMousePosition()
 {

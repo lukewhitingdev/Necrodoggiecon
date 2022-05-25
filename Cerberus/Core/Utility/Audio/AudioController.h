@@ -39,7 +39,6 @@ public:
 	static bool AddEmitter(CEmitter* emitter);
 	static bool AddEmitter(CEmitter* emitter, bool ambient);
 	static bool RemoveEmitter(CEmitter* emitter);
-	bool AddListener(CTransform* listenerPos);
 
 	static bool AddListener(CTransform* listenerPos);
 
