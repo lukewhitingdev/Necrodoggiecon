@@ -183,6 +183,10 @@ void CWorld_Editable::LoadWorld(int Slot)
 		
 
 	}
+	else
+	{
+		NewWorld(Slot);
+	}
 
 
 	
@@ -213,8 +217,10 @@ void CWorld_Editable::UnloadWorld()
 void CWorld_Editable::SaveWorld(int Slot)
 {
 	UNREFERENCED_PARAMETER(Slot);
-	std::string fileName = "Resources/Levels/Level_" + std::to_string(Slot);
+	std::string fileName = "Resources/Levels/Level_" + std::to_string(mapSlot);
 	fileName += ".json";
+
+	
 
 	std::ifstream file(fileName);
 
@@ -237,6 +243,7 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 	std::vector<CT_EditorEntity_Enemy*> EnemyList;
 	std::vector<CT_EditorEntity_Waypoint*> WaypointList;
+	std::vector<CT_EditorEntity_WeaponHolder*> HolderList;
 	
 
 	for (int i = 0; i < editorEntityList.size(); i++)
@@ -250,6 +257,9 @@ void CWorld_Editable::SaveWorld(int Slot)
 		case EditorEntityType::Waypoint:
 
 			WaypointList.push_back(static_cast<CT_EditorEntity_Waypoint*>(editorEntityList[i]));
+			break;
+		case EditorEntityType::WeaponHolder:
+			HolderList.push_back(static_cast<CT_EditorEntity_WeaponHolder*>(editorEntityList[i]));
 			break;
 		}
 	}
@@ -297,10 +307,27 @@ void CWorld_Editable::SaveWorld(int Slot)
 		
 	}
 
-	int StartX = playerStartEntity->GetPosition().x / (tileScale * tileScaleMultiplier);
-	int StartY = playerStartEntity->GetPosition().y / (tileScale * tileScaleMultiplier);
-	SaveData["PlayerStart"]["X"] = StartX;
-	SaveData["PlayerStart"]["Y"] = StartY;
+
+	SaveData["TotalWeaponHolders"] = HolderList.size();
+	for (int i = 0; i < HolderList.size(); i++)
+	{
+		SaveData["WeaponHolder"][i]["WeaponIndex"] = HolderList[i]->GetAssignedWeapon();
+	}
+
+	if (playerStartEntity != nullptr)
+	{
+		int StartX = playerStartEntity->GetPosition().x / (tileScale * tileScaleMultiplier);
+		int StartY = playerStartEntity->GetPosition().y / (tileScale * tileScaleMultiplier);
+		SaveData["PlayerStart"]["X"] = StartX;
+		SaveData["PlayerStart"]["Y"] = StartY;
+	}
+	else
+	{
+		SaveData["PlayerStart"]["X"] = 0;
+		SaveData["PlayerStart"]["Y"] = 0;
+	}
+	
+
 	
 
 	std::ofstream o(fileName);

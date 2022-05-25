@@ -36,6 +36,8 @@ public:
 
 	virtual void ReloadWorld();
 
+	virtual void DestroyWorld();
+
 	
 
 	
@@ -52,6 +54,8 @@ public:
 	 std::vector<CTile*> GetAllObstacleTiles();
 
 	 void BuildNavigationGrid();
+
+	 void AddEntityToList(class CEntity* NewEntity) { EntityList.push_back(NewEntity); }
 
 protected:
 

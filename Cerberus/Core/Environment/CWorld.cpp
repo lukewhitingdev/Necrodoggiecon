@@ -105,6 +105,15 @@ void CWorld::ReloadWorld()
 {
 }
 
+void CWorld::DestroyWorld()
+{
+	UnloadWorld();
+	for (int i = 0; i < mapScale * mapScale; i++)
+	{
+		Engine::DestroyEntity(tileContainer[i]);
+	}
+}
+
 void CWorld::BuildNavigationGrid()
 {
 

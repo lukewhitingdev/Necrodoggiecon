@@ -28,7 +28,7 @@ public:
 
     virtual void InitialiseEntity(int SlotID);
 
-    virtual void SaveEntity(int Index, int MapSlot);
+   // virtual void SaveEntity(int Index, int MapSlot);
 
     EditorEntityType GetType() { return inspectType; }
 
@@ -158,7 +158,7 @@ public:
 
     virtual void InitialiseEntity(int SlotID);
 
-    virtual void SaveEntity(int Index, int MapSlot);
+   
 
     void ToggleWaypoints(bool Display);
 

@@ -25,9 +25,6 @@ void CT_EditorEntity::InitialiseEntity(int SlotID)
 	
 }
 
-void CT_EditorEntity::SaveEntity(int Index, int MapSlot)
-{
-}
 
 void CT_EditorEntity_Enemy::AssignWeapon(char* WeaponID, int Index)
 {
@@ -69,16 +66,6 @@ void CT_EditorEntity_Enemy::InitialiseEntity(int SlotID)
 	}
 }
 
-void CT_EditorEntity_Enemy::SaveEntity(int Index, int MapSlot)
-{
-	
-	
-	
-	
-	
-
-
-}
 
 void CT_EditorEntity_Enemy::ToggleWaypoints(bool Display)
 {
@@ -165,7 +152,7 @@ void CT_EditorEntity_PlayerStart::Update(float deltaTime)
 
 CT_EditorEntity_WeaponHolder::CT_EditorEntity_WeaponHolder()
 {
-	sprite = AddComponent<CSpriteComponent>();
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(spriteComponentLegs));
 
 	sprite->LoadTexture("Resources\\EditorEntities\\WaypointIcon.dds");
 	sprite->SetRenderRect(XMUINT2(32, 32));

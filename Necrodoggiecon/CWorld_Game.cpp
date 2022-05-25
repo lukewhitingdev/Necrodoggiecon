@@ -37,7 +37,7 @@ void CWorld_Game::SetupWorld()
 	EntityList.push_back(character1);
 
 	// Locked Camera follows player.
-	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>();
+	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>(NAME_OF(spriteComponentLegs));
 	lockedCameraComponent->SetAttachedToParent(true);
 
 

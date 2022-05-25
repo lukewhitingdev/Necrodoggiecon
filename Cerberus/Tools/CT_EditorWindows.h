@@ -42,9 +42,11 @@ public:
         AutoScroll = true;
         ScrollToBottom = false;
         open = new bool(true);
-        levelToLoad = new int(0);
+        //levelToLoad = new int(0);
         toggleWaypoints = false;
         LoadWeapons();
+        InitialiseMapSlot();
+
     }
     ~CT_EditorWindows()
     {
@@ -86,6 +88,7 @@ public:
     }
 
     void LoadWeapons();
+    void InitialiseMapSlot();
 
    
 

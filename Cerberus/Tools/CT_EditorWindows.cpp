@@ -30,6 +30,12 @@ void CT_EditorWindows::LoadWeapons()
 
 }
 
+void CT_EditorWindows::InitialiseMapSlot()
+{
+    levelToLoad = new int(CWorldManager::GetEditorWorld()->GetMapSlot());
+
+}
+
 void CT_EditorWindows::render()
 {
 
@@ -117,10 +123,11 @@ void CT_EditorWindows::render()
             if (ImGui::TreeNode("Levels"))
             {
                 ImGui::InputInt("Slot", levelToLoad, 1, 1);
+               
                 if (ImGui::Button("Load"))
                 {
-                    int LevelID = *levelToLoad;
-                    CWorldManager::LoadWorld(LevelID, true);
+                   
+                    CWorldManager::LoadWorld(*levelToLoad, true);
                    
                 }
 
@@ -137,6 +144,8 @@ void CT_EditorWindows::render()
 
             //AdditionalRenderLogic(*open);
 
+            /*
+
             ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetStyle().ItemSpacing.y), false, ImGuiWindowFlags_HorizontalScrollbar);
             if (ImGui::BeginPopupContextWindow())
             {
@@ -147,7 +156,7 @@ void CT_EditorWindows::render()
             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
             for (int i = 0; i < Items.Size; i++)
             {
-                const char* item = Items[i];
+                 const char* item = Items[i];
                 if (!Filter.PassFilter(item))
                     continue;
 
@@ -176,7 +185,7 @@ void CT_EditorWindows::render()
 
             ImGui::End();
 
-
+            */
 
 
             ImGui::SetNextWindowSize(ImVec2(WindowScale.x, WindowScale.y), ImGuiCond_FirstUseEver);

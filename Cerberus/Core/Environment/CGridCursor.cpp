@@ -52,10 +52,10 @@ void CGridCursor::Update(float deltaTime)
 	Vector3 Result = MousePos2 + camPos;
 	
 
-	int X = (int)(Result.x / (tileScale * tileScaleMultiplier));
-	int Y = (int)(Result.y / (tileScale * tileScaleMultiplier));
+	int X = (int)((Result.x + ((tileScale * tileScaleMultiplier) / 2)) / (tileScale * tileScaleMultiplier));
+	int Y = (int)((Result.y + ((tileScale * tileScaleMultiplier) / 2)) / (tileScale * tileScaleMultiplier));
 	
-
+	
 
 	if (X <= 0) X = 0;
 	if (Y <= 0) Y = 0;
@@ -65,14 +65,14 @@ void CGridCursor::Update(float deltaTime)
 	if (Y >= mapScale) Y = mapScale - 1;
 
 
-	Vector3 Pos = Vector3((float)(X * (64)), (float)(Y * (64)), -5);
+	Vector3 Pos = Vector3((float)(X * ((tileScale * tileScaleMultiplier))), (float)(Y * ((tileScale * tileScaleMultiplier))), -5);
 	Vector3 PreScale = Vector3((float)X, (float)Y, (float)-5);
 	Vector3 UpScale = (PreScale - selectedCell_1);
 
 	Vector2 RenderScale;
 
 
-	SetPosition(Pos);
+	SetPosition(Pos );
 
 	//activeCellSprite->SetSpriteSize(XMUINT2(tileScale * mapScale, tileScale * mapScale));
 	if (cellSelected)
@@ -116,15 +116,15 @@ void CGridCursor::Update(float deltaTime)
 		}
 	}
 
-	if (InputManager::IsKeyReleased(InputManager::C))
+	if (InputManager::IsKeyPressed(InputManager::C))
 	{
 		CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::None);
 	}
-	if (InputManager::IsKeyReleased(InputManager::W))
+	if (InputManager::IsKeyPressed(InputManager::W))
 	{
 		CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Move_Entity);
 	}
-	if (InputManager::IsKeyReleased(InputManager::Delete))
+	if (InputManager::IsKeyPressed(InputManager::Delete))
 	{
 		CWorldManager::GetEditorWorld()->RemoveSelectedEntity();
 	}

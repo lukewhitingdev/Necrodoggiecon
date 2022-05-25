@@ -18,7 +18,7 @@ GruntEnemy::GruntEnemy()
 	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	//weaponComponent->SetWeapon(new Crossbow());
 	weaponComponent->SetUserType(USERTYPE::AI);
-	weaponSprite = AddComponent<CSpriteComponent>();
+	weaponSprite = AddComponent<CSpriteComponent>(NAME_OF(spriteComponentLegs));
 	//weaponComponent->SetWeapon(new Crossbow());
 	UpdateWeaponSpritePosition(weaponSprite);
 

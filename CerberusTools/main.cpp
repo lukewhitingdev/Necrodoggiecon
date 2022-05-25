@@ -5,6 +5,7 @@
 #include <Cerberus/Core/Utility/CWorldManager.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include "Cerberus/Core/Structs/CCamera.h"
+#include "Cerberus/Tools/CT_EditorMain.h"
 
 
 /*
@@ -73,6 +74,8 @@ int Start()
 	CameraManager::SetRenderingCamera(freeCameraComponent);
 
 	CWorldManager::LoadWorld(0, true);
+
+	
 	Engine::CreateEntity<CursorEntity>();
 
 	return 0;
