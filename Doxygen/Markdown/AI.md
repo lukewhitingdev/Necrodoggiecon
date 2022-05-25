@@ -9,10 +9,22 @@ When the SetPath function is called, the start and end waypoint node is passed i
 ## Decision Making using a Finite State Machine
 
 The AI uses a Finite State Machine detailed in the State Class.
-The FSM is implemented using a base state class and 
+The FSM is implemented using a base state class and the different states are inheritted.
+The different states are:
+-   PatrolState
+-   ChaseState
+-   AttackState
+-   InvestigateState
+-   SearchState
+
+These are setup so that the state machine can be built for any enemy but can also call the specific functions for each state.
 This is the AI State Machine Diagram.
 
 ![The Diagram](/Doxygen/Images/AIStateMachineDiagram.png)
+
+## Enemies
+
+
 
 ## Relating Classes:
 
