@@ -33,6 +33,16 @@ float CCharacter::GetHealth()
 	return health;
 }
 
+void CCharacter::SetIsPlayer(bool player)
+{
+	isPlayer = player;
+}
+
+bool CCharacter::GetIsPlayer()
+{
+	return isPlayer;
+}
+
 void CCharacter::AddMovement(XMFLOAT2 vel, float deltaTime)
 {
 	Vector3 pos = GetPosition();

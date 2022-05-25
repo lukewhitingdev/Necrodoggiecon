@@ -33,6 +33,8 @@
     <ClCompile Include="Weapons\Pickup\InvisibilityScroll.cpp" />
     <ClCompile Include="Weapons\Pickup\ShieldScroll.cpp" />
     <ClCompile Include="LevelCompleteMenu.cpp" />
+    <ClCompile Include="Game\AI\State.cpp" />
+    <ClCompile Include="Game\AI\CAIController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Projectile.cpp" />
@@ -140,6 +142,8 @@
     <ClInclude Include="Weapons\Pickup\InvisibilityScroll.h" />
     <ClInclude Include="Weapons\Pickup\ShieldScroll.h" />
     <ClInclude Include="LevelCompleteMenu.h" />
+    <ClInclude Include="Game\AI\State.h" />
+    <ClInclude Include="Game\AI\CAIController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />

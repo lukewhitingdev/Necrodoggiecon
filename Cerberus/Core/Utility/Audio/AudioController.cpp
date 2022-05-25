@@ -1,6 +1,6 @@
 #include "AudioController.h"
 #include "Cerberus\Core\Utility\EventSystem\EventSystem.h"
-FMOD::System* AudioController::FMODSystem;
+FMOD::System* AudioController::FMODSystem = nullptr;
 std::vector<CEmitter*> AudioController::emitters;
 std::vector<CEmitter*> AudioController::ambientEmitters;
 CTransform* AudioController::listenerTransform = nullptr;
@@ -149,12 +149,17 @@ bool AudioController::DestroyAudio(const std::string& path)
 }
 
 /** Updates the overall audio volume to simulate 3D audio. */
-void AudioController::Update(Vector3 listenerPos, float deltaTime)
+void AudioController::Update(float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);
 
+	Vector3 listenerPos = Vector3(0, 0, 0);
+
 	if (FMODSystem == nullptr)
 		AudioController::Initialize();
+
+	if (listenerTransform != nullptr)
+		listenerPos = listenerTransform->GetPosition();
 
 	FMOD_RESULT result;
 
@@ -167,7 +172,10 @@ void AudioController::Update(Vector3 listenerPos, float deltaTime)
 
 		// Check we are in range of the emitter.
 		if (distToEmitter > emitter->range)
+		{
+			emitter->audio->channel->setVolume(0);
 			continue;
+		}
 
 		float attentuation = 1 - (distToEmitter / maxRange);
 
@@ -190,7 +198,10 @@ void AudioController::Update(Vector3 listenerPos, float deltaTime)
 
 		// Check we are in range of the emitter.
 		if (distToEmitter > emitter->range)
+		{
+			emitter->audio->channel->setVolume(0);
 			continue;
+		}
 
 		float attentuation = 1 - (distToEmitter / maxRange);
 
@@ -203,7 +214,6 @@ void AudioController::Update(Vector3 listenerPos, float deltaTime)
 		// Attenuate.
 		emitter->audio->channel->setVolume(attentuation);
 	}
-
 
 	if ((result = FMODSystem->update()) != FMOD_OK)
 	{
@@ -230,7 +240,15 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
 			{
 				bool isPlaying = false;
 				FMOD_RESULT result;
+
 				if (emiter->audio->channel != nullptr)
+				{
+					if ((result = emiter->audio->channel->isPlaying(&isPlaying)) != FMOD_OK)
+					{
+						Debug::LogError("An Error Occured when trying to get emitter that in range that is playing. Path: %s, FMOD Error: ", emiter->audio->path.c_str(), FMOD_ErrorString(result));
+					}
+
+				if(emiter->audio->channel != nullptr)
 				{
 					if ((result = emiter->audio->channel->isPlaying(&isPlaying)) != FMOD_OK)
 					{
@@ -260,7 +278,7 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
  */
 bool AudioController::AddEmitter(CEmitter* emitter)
 {
-	if (emitter != nullptr)
+	if(emitter != nullptr)
 	{
 		emitters.emplace_back(emitter);
 		return true;
