@@ -20,6 +20,7 @@
 #include "Cerberus/Core/Utility/AssetManager/AssetManager.h"
 #include "Cerberus/Core/Utility/Audio/CEmitter.h"
 #include "Cerberus\Core\Utility\Vector3.h"
+#include "Cerberus\Core\Utility\CTransform.h"
 
 class AudioController
 {
