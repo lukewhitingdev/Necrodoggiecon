@@ -14,9 +14,6 @@
 Projectile::Projectile()
 {
 	ProjectileSprite = AddComponent<CSpriteComponent>(NAME_OF(ProjectileSprite));
-	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
-	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
-
 	audioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(audioEmitter));
 }
 
@@ -97,6 +94,8 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, fl
 	
 	ProjectileSprite->LoadTextureWIC(projectile_name);
 	audioEmitter->Load(hitAudioPath);
+	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
+	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
 
 	userType = (USERTYPE2)type;
 
