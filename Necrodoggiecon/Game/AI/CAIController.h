@@ -86,8 +86,6 @@ public:
 protected:
 	virtual void OnDeath() {};
 
-	class CSpriteComponent* sprite = nullptr;
-	
 	class CSpriteComponent* viewFrustrum = nullptr;
 
 	Vector3 positionToInvestigate;

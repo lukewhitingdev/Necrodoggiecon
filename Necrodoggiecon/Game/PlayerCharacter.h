@@ -50,6 +50,7 @@ protected:
 	CAudioEmitterComponent* shieldHitAudioEmitter = nullptr;
 	CAudioEmitterComponent* invisibilityDeactivateAudioEmitter = nullptr;
 	CAudioEmitterComponent* weaponAttackAudioEmitter = nullptr;
+	CAudioEmitterComponent* onHitAudioEmitter = nullptr;
 
 
 	bool hasShield = false;
@@ -73,6 +74,7 @@ public:
 	void UpdateWeaponSprite();
 
 	void ApplyDamage(float damage);
+	void ApplyDamage(float damage, const std::string& onHitSound);
 
 	class CCameraComponent* camera = nullptr;
 	CAudioEmitterComponent* loadNoise = nullptr;

@@ -20,6 +20,7 @@ public:
 	* Public function used to apply damage to the character
 	*/
 	virtual void ApplyDamage(float damageAmount) {};
+	virtual void ApplyDamage(float damageAmount, const std::string& onHitSound) {};
 
 	virtual void Update(float deltaTime) {};
 

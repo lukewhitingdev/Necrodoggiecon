@@ -57,7 +57,7 @@ void Projectile::DidItHit()
 		if (target != nullptr)
 		{
 			hasHit = true;
-			target->ApplyDamage(Damage);
+			target->ApplyDamage(Damage, );
 			audioEmitter->Play();
 			Lifetime = 0;
 			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));

@@ -65,6 +65,7 @@ PlayerCharacter::PlayerCharacter()
 	invisibilityDeactivateAudioEmitter->Load("Resources/Game/Audio/DeactivateInvis.wav");
 	weaponAttackAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(weaponAttackAudioEmitter));
 	weaponAttackAudioEmitter->Load("Resources/Game/Audio/ShootBow.wav");
+	onHitAudioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(onHitAudioEmitter));
 
 	loadNoise->SetRange(10000.0f);
 	deathAudioEmitter->SetRange(0.0f);
@@ -72,7 +73,6 @@ PlayerCharacter::PlayerCharacter()
 	shieldHitAudioEmitter->SetRange(0.0f);
 	invisibilityDeactivateAudioEmitter->SetRange(0.0f);
 	weaponAttackAudioEmitter->SetRange(50.0f);
-
 	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 	weaponComponent->SetWeapon(new Crossbow());
@@ -266,6 +266,14 @@ void PlayerCharacter::ApplyDamage(float damage)
 		deathAudioEmitter->Play();
 	}
 		
+}
+
+void PlayerCharacter::ApplyDamage(float damage, const std::string& onHitSound)
+{
+	onHitAudioEmitter->Load(onHitSound);
+	onHitAudioEmitter->SetRange(0.0f);
+	onHitAudioEmitter->Play();
+	ApplyDamage(damage);
 }
 
 void PlayerCharacter::LookAt(Vector3 pos)
