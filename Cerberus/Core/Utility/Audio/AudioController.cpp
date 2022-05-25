@@ -41,7 +41,7 @@ void AudioController::Shutdown()
  * Loads a audio into FMOD and the audio system
  * 
  * \param path
- * \return 
+ * \return CAudio pointer to the created audio.
  */
 CAudio* AudioController::LoadAudio(const std::string& path)
 {
@@ -67,7 +67,7 @@ CAudio* AudioController::LoadAudio(const std::string& path)
  * Plays a audio using FMOD.
  * 
  * \param path
- * \return 
+ * \return bool on success or failure.
  */
 bool AudioController::PlayAudio(const std::string& path)
 {
@@ -99,7 +99,7 @@ bool AudioController::PlayAudio(const std::string& path)
  * Stops a audio from playing.
  * 
  * \param path
- * \return 
+ * \return bool on success or failure
  */
 bool AudioController::StopAudio(const std::string& path)
 {
@@ -130,7 +130,7 @@ bool AudioController::StopAudio(const std::string& path)
  * Deletes a audio from FMOD and the audio system.
  * 
  * \param path
- * \return 
+ * \return bool on success or failure
  */
 bool AudioController::DestroyAudio(const std::string& path)
 {
@@ -233,7 +233,7 @@ void AudioController::Update(float deltaTime)
  * Returns all emitters within range of a position.
  * 
  * \param position
- * \return 
+ * \return a vector of emitters that where in range and satisfied the argument conditions.
  */
 std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 position, bool checkIfPlaying)
 {
@@ -243,12 +243,12 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
 		// Check if we are inrange of the circular range emitters have.
 		if (emiter->range > position.DistanceTo(emiter->position))
 		{
-			if(checkIfPlaying)
+			if (checkIfPlaying)
 			{
 				bool isPlaying = false;
 				FMOD_RESULT result;
 
-				if(emiter->audio->channel != nullptr)
+				if (emiter->audio->channel != nullptr)
 				{
 					if ((result = emiter->audio->channel->isPlaying(&isPlaying)) != FMOD_OK)
 					{
@@ -261,6 +261,10 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
 					}
 				}
 			}
+			else
+			{
+				output.emplace_back(emiter);
+			}
 		}
 	}
 	return output;
@@ -270,6 +274,7 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
  * Adds a emitter to the audio system.
  * 
  * \param emitter
+ * \return bool on success or failure
  */
 bool AudioController::AddEmitter(CEmitter* emitter)
 {
@@ -290,6 +295,7 @@ bool AudioController::AddEmitter(CEmitter* emitter)
  * 
  * \param emitter
  * \param ambient
+ * \return bool on success or failure
  */
 bool AudioController::AddEmitter(CEmitter* emitter, bool ambient)
 {
@@ -309,6 +315,7 @@ bool AudioController::AddEmitter(CEmitter* emitter, bool ambient)
  * Removes a emitter from the audio system.
  * 
  * \param emitter
+ * \return bool on success or failure
  */
 bool AudioController::RemoveEmitter(CEmitter* emitter)
 {
@@ -359,7 +366,12 @@ bool AudioController::RemoveEmitter(CEmitter* emitter)
 
 
 }
-
+/**
+ * Adds a listener to the audio controller, used for attenuation.
+ * 
+ * \param listenerPositon
+ * \return bool on success or failure
+ */
 bool AudioController::AddListener(CTransform* listenerPos)
 {
 	if(listenerPos != nullptr)

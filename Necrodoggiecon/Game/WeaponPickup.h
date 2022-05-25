@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   WeaponPickup.h
+ * \brief  A class that inherits from CInteractable which allows for weapons to be spawned within the world and picked up by the player.
+ * 
+ * \author Luke Whiting
+ * \date   May 2022
+ *********************************************************************/
+
 #pragma once
 #include "Necrodoggiecon/Game/CInteractable.h"
 #include "Necrodoggiecon/Game/weapons.h"
