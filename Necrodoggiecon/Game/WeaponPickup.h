@@ -20,7 +20,7 @@ private:
 
 	void UpdateWeaponSprite(Weapon* weapon);
 
-	T* pickup;
+	T* pickup = nullptr;
 };
 
 template<typename T>

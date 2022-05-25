@@ -296,6 +296,7 @@ bool AudioController::AddEmitter(CEmitter* emitter, bool ambient)
 	if (emitter != nullptr)
 	{
 		(ambient) ? emitters.emplace_back(emitter) : ambientEmitters.emplace_back(emitter);
+		return true;
 	}
 	else
 	{
