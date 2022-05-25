@@ -15,7 +15,7 @@
 #include "Cerberus/Core/Engine.h"
 #include "Cerberus/Core/Utility/Audio/AudioController.h"
 
-#include "Cerberus/Core/AI/State.h"
+#include "Necrodoggiecon/Game/AI/State.h"
 #include "Cerberus/Core/AI/Pathfinding.h"
 #include "Necrodoggiecon\Game\CCharacter.h"
 #include "Necrodoggiecon\Game\PlayerCharacter.h"

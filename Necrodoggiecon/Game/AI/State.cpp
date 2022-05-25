@@ -6,7 +6,7 @@
  * \date   May 2022
  *********************************************************************/
 #include "State.h"
-#include "CAIController.h"
+#include "Cerberus/Core/AI/CAIController.h"
 
 void ChaseState::Enter(CAIController* controller)
 {
