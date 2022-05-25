@@ -14,6 +14,7 @@
 #include "Cerberus/Core/UI/CWidget_Text.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include "SettingsMenu.h"
+#include "LevelCompleteMenu.h"
 
 PauseMenu::PauseMenu()
 {
@@ -66,6 +67,8 @@ void PauseMenu::InitialiseCanvas()
 	ExitFull->SetButtonSize(Vector2(256, 110));
 
 	CUIManager::AddCanvas(Engine::CreateEntity<SettingsMenu>(), "SettingsMenu");
+	CUIManager::AddCanvas(Engine::CreateEntity<LevelCompleteMenu>(), "LevelCompleteMenu");
+
 	SetVisibility(false);
 }
 /**
@@ -114,7 +117,7 @@ void PauseMenu::QuitToDesktop()
 void PauseMenu::Update(float deltaTime)
 {
 	CWidget_Canvas::Update(deltaTime);
-	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::Escape))
+	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::Escape) && !gameEnded)
 	{
 		if (isPaused)
 		{
@@ -125,6 +128,12 @@ void PauseMenu::Update(float deltaTime)
 			PauseGame();
 		}
 	}
+	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::Tab))
+	{
+		CUIManager::GetCanvas("LevelCompleteMenu")->SetVisibility(true);
+		gameEnded = true;
+	}
+
 }
 /**
  * opens settings.

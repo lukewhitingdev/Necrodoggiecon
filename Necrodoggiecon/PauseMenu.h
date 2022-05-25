@@ -13,6 +13,7 @@ class PauseMenu : public CWidget_Canvas
     virtual void InitialiseCanvas() override;
 
     bool isPaused = false;
+    bool gameEnded = false;
 
 public:
     PauseMenu();
