@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Cerberus/Core/CEntity.h"
+
 
 class CursorEntity : public CEntity
 {

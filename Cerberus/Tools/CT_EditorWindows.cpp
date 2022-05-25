@@ -13,7 +13,7 @@ void CT_EditorWindows::LoadWeapons()
     std::ifstream file("Resources/Weapons.json");
     json storedFile;
     file >> storedFile;
-    std::string List[9];
+    
   
 
     for (int i = 0; i < storedFile["TotalWeapons"]; i++)

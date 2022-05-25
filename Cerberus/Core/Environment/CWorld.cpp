@@ -9,8 +9,6 @@
 #include "Dependencies/NlohmannJson/json.hpp"
 #include <iostream>
 #include <fstream>
-#include <Necrodoggiecon\Game\PlayerController.h>
-#include <Necrodoggiecon\Game\PlayerCharacter.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <Cerberus/Core/Structs/CCamera.h>

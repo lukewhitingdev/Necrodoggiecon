@@ -63,7 +63,8 @@
       "Range": 25.0,
       "Attack_Speed": 0.2,
       "Ammo": 3.0,
-      "Unique": true
+      "Unique": true,
+      "Name" :  "Fireball"
     },
     {
       "IconPath": "Resources/Game/weapons/Wand - Lightning Dash.png",
