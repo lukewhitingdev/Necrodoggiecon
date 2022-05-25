@@ -125,16 +125,19 @@ void PlayerCharacter::Attack()
 
 	Vector3 attackDir = (Vector3(screenVec.x, screenVec.y, screenVec.z)) - GetPosition();
 
-	if(weaponComponent->GetCurrentWeapon()->GetName() == "Crossbow")
+	// Impomptu Animation Code for weapons.
+	Weapon* weapon = weaponComponent->GetCurrentWeapon();
+	if(weapon->GetName() == "Crossbow")	// Crossbow exclusive animations, can be extended to include any animations that are 2 cycle.
 	{
-		if(weaponComponent->GetCurrentWeapon()->GetCanFire())
+		if(weapon->GetCanFire())
 		{
 			weaponSprite->SetTextureOffset(DirectX::XMFLOAT2(0, 0));
 		}
 
-	}else if(weaponComponent->GetCurrentWeapon()->GetName() == "Dagger" && !animating)
+	}
+	else if(weapon->GetName() == "Dagger" || weapon->GetName() == "Rapier" || weapon->GetName() == "Longsword" && !animating)	// Positional based animations for melee.
 	{
-		if (weaponComponent->GetCurrentWeapon()->GetCanFire())
+		if (weapon->GetCanFire())
 		{
 			weaponSprite->SetPosition(weaponSprite->GetPosition().x + 10, weaponSprite->GetPosition().y, weaponSprite->GetPosition().z);
 			animating = true;
@@ -151,15 +154,19 @@ void PlayerCharacter::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
 
-	if(weaponComponent->GetCurrentWeapon()->GetName() == "Crossbow")
+	Weapon* weapon = weaponComponent->GetCurrentWeapon();
+
+	// Set crossbow animation to empty bow when we cant fire or out of ammo.
+	if(weapon->GetName() == "Crossbow")
 	{
-		if(!weaponComponent->GetCurrentWeapon()->GetCanFire() || weaponComponent->GetCurrentWeapon()->GetAmmo() <= 0)
+		if(!weapon->GetCanFire() || weapon->GetAmmo() <= 0)
 		{
 			weaponSprite->SetTextureOffset(DirectX::XMFLOAT2(64, 0));
 		}
 	}
 
-	if(animating && weaponComponent->GetCurrentWeapon()->GetCanFire())
+	// Reset melee animation if it has been triggered and we can fire again.
+	if(weapon->GetCanFire() && animating)
 	{
 		weaponSprite->SetPosition(weaponSprite->GetPosition().x - 10, weaponSprite->GetPosition().y, weaponSprite->GetPosition().z);
 		animating = false;
