@@ -37,4 +37,7 @@ ANGRYENUMS
 ## AI State Machine Diagram
 This is a diagram showing the state machine for the AI Enemies.
 
-![The Diagram](/Doxygen/Images/AIStateMachineDiagram.png)
+## Links to the aspects of the Engine/Game
+
+-   [AI](Doxygen/Markdown/AI.md)
+-   [Utility](Doxygen/Markdown/Utility.md)
