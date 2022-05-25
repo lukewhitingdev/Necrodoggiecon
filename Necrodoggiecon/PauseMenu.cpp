@@ -14,10 +14,7 @@
 #include "Cerberus/Core/UI/CWidget_Text.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include "SettingsMenu.h"
-<<<<<<< HEAD
 #include "LevelCompleteMenu.h"
-=======
->>>>>>> parent of e0b123e (Merge pull request #129 from lukewhitingdev/revert-111-UI)
 
 PauseMenu::PauseMenu()
 {
@@ -70,11 +67,8 @@ void PauseMenu::InitialiseCanvas()
 	ExitFull->SetButtonSize(Vector2(256, 110));
 
 	CUIManager::AddCanvas(Engine::CreateEntity<SettingsMenu>(), "SettingsMenu");
-<<<<<<< HEAD
 	CUIManager::AddCanvas(Engine::CreateEntity<LevelCompleteMenu>(), "LevelCompleteMenu");
 
-=======
->>>>>>> parent of e0b123e (Merge pull request #129 from lukewhitingdev/revert-111-UI)
 	SetVisibility(false);
 }
 /**
@@ -123,11 +117,7 @@ void PauseMenu::QuitToDesktop()
 void PauseMenu::Update(float deltaTime)
 {
 	CWidget_Canvas::Update(deltaTime);
-<<<<<<< HEAD
 	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::Escape) && !gameEnded)
-=======
-	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::Escape))
->>>>>>> parent of e0b123e (Merge pull request #129 from lukewhitingdev/revert-111-UI)
 	{
 		if (isPaused)
 		{
@@ -138,15 +128,12 @@ void PauseMenu::Update(float deltaTime)
 			PauseGame();
 		}
 	}
-<<<<<<< HEAD
 	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::Tab))
 	{
 		CUIManager::GetCanvas("LevelCompleteMenu")->SetVisibility(true);
 		gameEnded = true;
 	}
 
-=======
->>>>>>> parent of e0b123e (Merge pull request #129 from lukewhitingdev/revert-111-UI)
 }
 /**
  * opens settings.
