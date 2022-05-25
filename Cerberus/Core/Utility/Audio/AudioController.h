@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   AudioController.h
+ * \brief  Internal Audio Controller for the engine.
+ *
+ * \author Luke Whiting
+ * \date   Jan 2022
+ *********************************************************************/
 #pragma once
 
 #pragma warning(push)
