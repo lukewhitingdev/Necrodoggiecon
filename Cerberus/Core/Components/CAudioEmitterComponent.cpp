@@ -19,6 +19,7 @@ CAudioEmitterComponent::CAudioEmitterComponent()
 
 CAudioEmitterComponent::~CAudioEmitterComponent()
 {
+	this->Stop();
 	if(!AudioController::RemoveEmitter(emitter))
 	{
 		Debug::LogError("An error has occured whilst destructing the audio emitter component. See error above. (%s)", GetDebugInfo().c_str());
