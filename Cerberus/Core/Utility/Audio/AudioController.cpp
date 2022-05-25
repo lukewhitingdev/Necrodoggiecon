@@ -7,9 +7,10 @@
  *********************************************************************/
 #include "AudioController.h"
 #include "Cerberus\Core\Utility\EventSystem\EventSystem.h"
-FMOD::System* AudioController::FMODSystem;
+FMOD::System* AudioController::FMODSystem = nullptr;
 std::vector<CEmitter*> AudioController::emitters;
 std::vector<CEmitter*> AudioController::ambientEmitters;
+CTransform* AudioController::listenerTransform = nullptr;
 
 /**
  * Initializes the audio system and FMOD.
@@ -155,12 +156,17 @@ bool AudioController::DestroyAudio(const std::string& path)
 }
 
 /** Updates the overall audio volume to simulate 3D audio. */
-void AudioController::Update(Vector3 listenerPos, float deltaTime)
+void AudioController::Update(float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);
 
+	Vector3 listenerPos = Vector3(0, 0, 0);
+
 	if (FMODSystem == nullptr)
 		AudioController::Initialize();
+
+	if (listenerTransform != nullptr)
+		listenerPos = listenerTransform->GetPosition();
 
 	FMOD_RESULT result;
 
@@ -304,4 +310,18 @@ void AudioController::RemoveEmitter(CEmitter* emitter)
 	}
 
 	delete emitter;
+}
+
+bool AudioController::AddListener(CTransform* listenerPos)
+{
+	if(listenerPos != nullptr)
+	{
+		AudioController::listenerTransform = listenerPos;
+		return true;
+	}
+	else
+	{
+		Debug::LogError("Tried to set the audio controller listener position to a nullptr, this is not allowed.");
+		return false;
+	}
 }
