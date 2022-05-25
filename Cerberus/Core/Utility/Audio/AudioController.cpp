@@ -179,7 +179,10 @@ void AudioController::Update(float deltaTime)
 
 		// Check we are in range of the emitter.
 		if (distToEmitter > emitter->range)
+		{
+			emitter->audio->channel->setVolume(0);
 			continue;
+		}
 
 		float attentuation = 1 - (distToEmitter / maxRange);
 
@@ -202,7 +205,10 @@ void AudioController::Update(float deltaTime)
 
 		// Check we are in range of the emitter.
 		if (distToEmitter > emitter->range)
+		{
+			emitter->audio->channel->setVolume(0);
 			continue;
+		}
 
 		float attentuation = 1 - (distToEmitter / maxRange);
 
@@ -215,7 +221,6 @@ void AudioController::Update(float deltaTime)
 		// Attenuate.
 		emitter->audio->channel->setVolume(attentuation);
 	}
-
 
 	if ((result = FMODSystem->update()) != FMOD_OK)
 	{
@@ -242,13 +247,19 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
 			{
 				bool isPlaying = false;
 				FMOD_RESULT result;
-				if ((result = emiter->audio->channel->isPlaying(&isPlaying)) != FMOD_OK)
-				{
-					Debug::LogError("An Error Occured when trying to get emitter that in range that is playing. Path: %s, FMOD Error: ", emiter->audio->path.c_str(),FMOD_ErrorString(result));
-				}
 
-				if(isPlaying)
-					output.emplace_back(emiter);
+				if(emiter->audio->channel != nullptr)
+				{
+					if ((result = emiter->audio->channel->isPlaying(&isPlaying)) != FMOD_OK)
+					{
+						Debug::LogError("An Error Occured when trying to get emitter that in range that is playing. Path: %s, FMOD Error: ", emiter->audio->path.c_str(), FMOD_ErrorString(result));
+					}
+
+					if (isPlaying)
+					{
+						output.emplace_back(emiter);
+					}
+				}
 			}
 		}
 	}
@@ -260,9 +271,18 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
  * 
  * \param emitter
  */
-void AudioController::AddEmitter(CEmitter* emitter)
+bool AudioController::AddEmitter(CEmitter* emitter)
 {
-	emitters.emplace_back(emitter);
+	if(emitter != nullptr)
+	{
+		emitters.emplace_back(emitter);
+		return true;
+	}
+	else
+	{
+		Debug::LogError("Tried to add emitter to audio controller that is nullptr!.");
+		return false;
+	}
 }
 
 /**
@@ -271,9 +291,17 @@ void AudioController::AddEmitter(CEmitter* emitter)
  * \param emitter
  * \param ambient
  */
-void AudioController::AddEmitter(CEmitter* emitter, bool ambient)
+bool AudioController::AddEmitter(CEmitter* emitter, bool ambient)
 {
-	(ambient) ? emitters.emplace_back(emitter) : ambientEmitters.emplace_back(emitter);
+	if (emitter != nullptr)
+	{
+		(ambient) ? emitters.emplace_back(emitter) : ambientEmitters.emplace_back(emitter);
+	}
+	else
+	{
+		Debug::LogError("Tried to add emitter to audio controller that is nullptr!.");
+		return false;
+	}
 }
 
 /**
@@ -281,35 +309,54 @@ void AudioController::AddEmitter(CEmitter* emitter, bool ambient)
  * 
  * \param emitter
  */
-void AudioController::RemoveEmitter(CEmitter* emitter)
+bool AudioController::RemoveEmitter(CEmitter* emitter)
 {
-	bool found = false;
-	for (size_t i = 0; i < emitters.size(); i++)
+	if(emitter != nullptr)
 	{
-		CEmitter* emiter = emitters[i];
-		if(emiter == emitter)
-		{
-			emitters.erase(emitters.begin() + i);
-			found = true;
-			break;
-		}
-	}
-
-	if(!found)
-	{
-		for (size_t i = 0; i < ambientEmitters.size(); i++)
+		bool found = false;
+		for (size_t i = 0; i < emitters.size(); i++)
 		{
 			CEmitter* emiter = emitters[i];
 			if (emiter == emitter)
 			{
-				ambientEmitters.erase(ambientEmitters.begin() + i);
+				emitters.erase(emitters.begin() + i);
 				found = true;
 				break;
 			}
 		}
+
+		if (!found)
+		{
+			for (size_t i = 0; i < ambientEmitters.size(); i++)
+			{
+				CEmitter* emiter = emitters[i];
+				if (emiter == emitter)
+				{
+					ambientEmitters.erase(ambientEmitters.begin() + i);
+					found = true;
+					break;
+				}
+			}
+		}
+
+		if(!found)
+		{
+			Debug::LogError("Could not find emitter to remove!");
+			return false;
+		}
+
+		delete emitter;
+		return true;
+	}
+	else
+	{
+		Debug::LogError("Tried to remove emitter to audio controller that is nullptr!.");
+		return false;
 	}
 
-	delete emitter;
+
+
+
 }
 
 bool AudioController::AddListener(CTransform* listenerPos)
