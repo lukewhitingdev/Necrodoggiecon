@@ -56,7 +56,7 @@ void Weapon::CoolDown(float attack_cooldown)
 }
 
 /**
- * OnFire function that handles basic firing chekcing if the weapon is a Melee or Ranged weapon to use the basic logic. This will be overridden in the Sub-classes of weapons that have unique logic.
+ * OnFire function of base Weapon class, this is overridden in the MeleeWeapon and RangeWeapon sub-classes.
  * 
  * \param actorPos Position of the actor that is using the function (Used for virtual overriding)
  * \param attackDir Direction of the attack (Used for virtual overriding)
@@ -66,6 +66,11 @@ void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 	Debug::Log("Base Weapon Class has fired Weapon: %s", name.c_str());
 }
 
+/**
+ * Update function for Cooldown of weapons.
+ * 
+ * \param deltaTime
+ */
 void Weapon::Update(float deltaTime)
 {
 	CoolDown(deltaTime);
