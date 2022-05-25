@@ -1,5 +1,5 @@
 /*****************************************************************//**
- * \file   Debug.cpp
+ * \file   Debug.h
  * \brief  Allows for debug logging to a in-game console using IMGUI.
  *
  * \author Luke Whiting
