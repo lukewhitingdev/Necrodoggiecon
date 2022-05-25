@@ -21,7 +21,7 @@ GruntEnemy::GruntEnemy()
 	weaponComponent->SetWeapon(new Crossbow());
 	weaponComponent->SetUserType(USERTYPE::AI);
 
-	weaponSprite = AddComponent<CSpriteComponent>();
+	weaponSprite = AddComponent<CSpriteComponent>(NAME_OF(weaponSprite));
 	UpdateWeaponSprite();
 	weaponSprite->SetPosition(Vector3(sprite->GetSpriteSize().y / 2, int(sprite->GetSpriteSize().x - 20), 0));
 	weaponSprite->SetRotation(0); // 90 Degrees in radians.
