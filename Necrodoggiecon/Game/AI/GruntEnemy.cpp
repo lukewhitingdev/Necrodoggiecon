@@ -9,17 +9,18 @@
 
 GruntEnemy::GruntEnemy()
 {
-	sprite->LoadTexture("Resources/Game/Characters/MeleeEnemy.dds");
+	sprite->LoadTextureWIC("Resources/Game/Characters/PurpleEnemySprite.png");
 	sprite->SetRotation(1.5708f);
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
 
-	weaponComponent = AddComponent<WeaponInterface>();
+	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
+	//weaponComponent->SetWeapon(new Crossbow());
+	weaponComponent->SetUserType(USERTYPE::AI);
 	weaponSprite = AddComponent<CSpriteComponent>();
 	//weaponComponent->SetWeapon(new Crossbow());
 	UpdateWeaponSpritePosition(weaponSprite);
-	weaponComponent->SetUserType(USERTYPE::AI);
 
 	
 }
@@ -29,7 +30,7 @@ GruntEnemy::GruntEnemy()
  * 
  * \param player
  */
-void GruntEnemy::ChasePlayer(PlayerCharacter* player)
+void GruntEnemy::ChasePlayer(CCharacter* player)
 {
 	
 	if (aiPosition.DistanceTo(player->GetPosition()) < weaponComponent->GetCurrentWeapon()->GetRange())
@@ -48,8 +49,10 @@ void GruntEnemy::ChasePlayer(PlayerCharacter* player)
  * 
  * \param player Player to attack.
  */
-void GruntEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
+void GruntEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 {
+	heading = Seek(player->GetPosition());
+
 	weaponComponent->OnFire(aiPosition, velocity);
 	SetCurrentState(ChaseState::getInstance());
 }

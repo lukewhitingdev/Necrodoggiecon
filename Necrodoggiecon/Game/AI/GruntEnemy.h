@@ -7,7 +7,7 @@
  * \date   May 2022
  *********************************************************************/
 
-#include "Cerberus/Core/AI/CAIController.h"
+#include "Necrodoggiecon\Game\AI\CAIController.h"
 #include <Necrodoggiecon/Game/WeaponInterface.h>
 #include <Necrodoggiecon/Weapons/Ranged/Crossbow.h>
 
@@ -20,10 +20,9 @@ class GruntEnemy :
 public:
     GruntEnemy();
 
-    virtual void ChasePlayer(PlayerCharacter* player) override;
-    virtual void AttackPlayer(PlayerCharacter* player, float deltaTime) override;
+    virtual void ChasePlayer(CCharacter* player) override;
+    virtual void AttackPlayer(CCharacter* player, float deltaTime) override;
 
 private:
-    std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
 };
 

@@ -5,7 +5,7 @@
 
 CT_EditorGrid::CT_EditorGrid()
 {
-	gridSprite = AddComponent<CSpriteComponent>();
+	gridSprite = AddComponent<CSpriteComponent>(NAME_OF(gridSprite));
 	cursorEntity = nullptr;
 	
 }

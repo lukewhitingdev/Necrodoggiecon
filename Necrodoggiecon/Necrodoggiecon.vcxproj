@@ -187,6 +187,8 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CWorld_Menu.cpp" />
+    <ClCompile Include="Game\AI\CAIController.cpp" />
+    <ClCompile Include="Game\AI\State.cpp" />
     <ClCompile Include="HomingProjectile.cpp" />
     <ClCompile Include="Weapons\Pickup\InvisibilityScroll.cpp" />
     <ClCompile Include="Weapons\Pickup\ShieldScroll.cpp" />
@@ -219,7 +221,10 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\WeaponPickup.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\AI\CAIController.h" />
+    <ClInclude Include="Game\AI\State.h" />
     <ClInclude Include="HomingProjectile.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Weapons\Pickup\InvisibilityScroll.h" />
     <ClInclude Include="Weapons\Pickup\ShieldScroll.h" />
     <ClInclude Include="Weapons\Pickup.h" />
@@ -264,6 +269,9 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="weaponUI.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

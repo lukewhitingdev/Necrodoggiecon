@@ -7,14 +7,12 @@
  *********************************************************************/
 
 #include "Projectile.h"
-#include <Cerberus\Core\AI\CAIController.h>
+#include "Necrodoggiecon\Game\AI\CAIController.h"
 #include <Necrodoggiecon\Game\PlayerCharacter.h>
 
 Projectile::Projectile()
 {
-	ProjectileSprite = AddComponent<CSpriteComponent>();
-	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
-	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
+	ProjectileSprite = AddComponent<CSpriteComponent>(NAME_OF(ProjectileSprite));
 }
 
 Projectile::~Projectile()
@@ -32,7 +30,7 @@ void Projectile::Update(float deltaTime)
 	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime && hasHit == false)
 	{
 		DidItHit();
-		Position += Direction * Speed;
+		Position += velocity * deltaTime;
 		ProjectileSprite->SetPosition(Position);
 	}
 	else
@@ -83,13 +81,15 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, fl
 	Direction = dir;
 	Damage = damage;
 	Projectile_Name = projectile_name;
-	Speed = speed;
+	Speed = speed * 50.0f;
+	velocity = Direction * Speed;
 	Lifetime = lifetime;
 	initialPosition = pos;
 	Position = initialPosition;
 
 	ProjectileSprite->LoadTextureWIC(projectile_name);
-
+	ProjectileSprite->SetRenderRect(XMUINT2(64, 64));
+	ProjectileSprite->SetSpriteSize(XMUINT2(64, 64));
 
 	userType = (USERTYPE2)type;
 

@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   AssetManager.h
+ * \brief  A asset manager that holds assets to be retreived. This avoids the overhead of making duplicate assets across the program.
+ * 
+ * \author Luke Whiting.
+ * \date   May 2022
+ *********************************************************************/
+
 #pragma once
 #include "Cerberus\Core\Structs\CMesh.h"
 #include "Cerberus\Core\Structs\CTexture.h"
@@ -5,8 +13,6 @@
 #include <string>
 #include <sstream>
 #include <map>
-
-// TODO: Implement this
 
 class AssetManager
 {
@@ -21,8 +27,6 @@ public:
 	static void RemoveAudio(std::string audioPath);
 
 	static void Destroy();
-
-	static void RenderDebugMenu();
 
 private:
 	static std::map<std::string, CMesh*> meshes;

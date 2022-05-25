@@ -72,6 +72,15 @@ void CCharacter::UpdateWeaponSpritePosition(CSpriteComponent* wSprite)
 	weaponSprite->SetPosition(Vector3(wSprite->GetSpriteSize().y / 2, -int(wSprite->GetSpriteSize().x - 40), 0));
 	weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
 }
+void CCharacter::SetIsPlayer(bool player)
+{
+	isPlayer = player;
+}
+
+bool CCharacter::GetIsPlayer()
+{
+	return isPlayer;
+}
 
 void CCharacter::AddMovement(XMFLOAT2 vel, float deltaTime)
 {

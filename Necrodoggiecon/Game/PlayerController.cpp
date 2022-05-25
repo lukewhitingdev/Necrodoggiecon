@@ -32,24 +32,24 @@ void PlayerController::HandleInput(float deltaTime)
 	
 	if (inputable == nullptr) return;
 
-	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::D))
+	if (InputManager::IsKeyPressed(InputManager::D))
 		inputable->PressedHorizontal(1, deltaTime);
-	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::A))
+	if (InputManager::IsKeyPressed(InputManager::A))
 		inputable->PressedHorizontal(-1, deltaTime);
-	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::W))
+	if (InputManager::IsKeyPressed(InputManager::W))
 		inputable->PressedVertical(1, deltaTime);
-	if (Inputs::InputManager::IsKeyPressed(Inputs::InputManager::S))
+	if (InputManager::IsKeyPressed(InputManager::S))
 		inputable->PressedVertical(-1, deltaTime);
-	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::E))
+	if (InputManager::IsKeyPressedDown(InputManager::F))
 		inputable->PressedInteract();
-	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::G))
+	if (InputManager::IsKeyPressedDown(InputManager::G))
 		inputable->PressedDrop();
-	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::L))
+	if (InputManager::IsKeyPressedDown(InputManager::L))
 		charOne->loadNoise->Play();
-	if (Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::Q))
+	if (InputManager::IsKeyPressedDown(InputManager::Q))
 		inputable->PressedUse();
 
-	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::Mouse::LButton))
+	if (InputManager::IsMouseButtonPressed(InputManager::Mouse::LButton))
 		inputable->Attack();
 
 }

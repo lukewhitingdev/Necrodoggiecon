@@ -7,7 +7,7 @@
 #include <Necrodoggiecon\Game\CursorEntity.h>
 #include <Necrodoggiecon\Game\PlayerController.h>
 #include <Necrodoggiecon\Game\PlayerCharacter.h>>
-#include <Cerberus/Core/AI/CAIController.h>
+#include "Necrodoggiecon\Game\AI\CAIController.h"
 #include <Cerberus/Core/Structs/CCamera.h>
 #include <Cerberus/Core/Utility/CWorldManager.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
@@ -96,7 +96,7 @@ int Start()
 
 	// Free Camera not locked to player.
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
-	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>();
+	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>(NAME_OF(freeCameraComponent));
 	freeCameraComponent->SetAttachedToParent(false);
 
 	CWorldManager::LoadWorld(new CWorld_Game(0));
