@@ -1,5 +1,5 @@
 /*****************************************************************//**
- * \file   CInteractable.cpp
+ * \file   CInteractable.h
  * \brief  Entity that can be interacted with. Acts as a base class for any entities that wish to be interacted with in specfic ways.
  *
  * \author Luke Whiting

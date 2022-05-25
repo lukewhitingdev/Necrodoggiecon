@@ -11,7 +11,9 @@
 
 #include "Cerberus\Core\Engine.h"
 
-
+/**
+ * Weapon Inferface class used to switch weapons being used through the Strategy Design Pattern.
+ */
 class WeaponInterface : public CComponent
 {
 public:

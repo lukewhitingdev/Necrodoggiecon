@@ -1,10 +1,3 @@
-/*****************************************************************//**
- * \file   CAudioEmitterComponent.cpp
- * \brief  Allows a entity to emit audio.
- * 
- * \author Luke Whiting
- * \date   Jan 2021
- *********************************************************************/
 #include "CAudioEmitterComponent.h"
 #include "Cerberus\Core\CEntity.h"
 
