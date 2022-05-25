@@ -27,6 +27,9 @@ enum class USERTYPE
 	AI,
 };
 
+/**
+ * Base Weapon class inherited by all weapons.
+ */
 class Weapon : public CComponent
 {
 public:	
@@ -54,6 +57,12 @@ public:
 	bool GetUnique() { return unique; };
 	bool GetCanFire() { return canFire; };
 	void SetCanFire(bool canFire) { this->canFire = canFire; };
+	void SetTextureOffset(XMFLOAT2 offset) { textureOffset = offset; };
+	XMFLOAT2 GetTextureOffset() { return textureOffset; };
+	void SetRenderRect(XMUINT2 rect) { renderRect = rect; };
+	XMUINT2 GetRenderRect() { return renderRect; };
+	void SetScale(XMFLOAT3 setScale) { scale = setScale; };
+	XMFLOAT3 GetScale() { return scale; };
 	USERTYPE GetUserType() { return userType; };
 	std::string GetName() { return name; }
 	std::string GetIconPath() { return iconPath; };
@@ -74,6 +83,10 @@ private:
 	bool unique;
 	bool canFire = true;
 	float cooldown;
+
+	XMFLOAT2 textureOffset = XMFLOAT2(0.0, 0.0);
+	XMUINT2 renderRect = XMUINT2(64, 64);
+	XMFLOAT3 scale = XMFLOAT3(1.0, 1.0, 1.0);
 
 	USERTYPE userType;
 

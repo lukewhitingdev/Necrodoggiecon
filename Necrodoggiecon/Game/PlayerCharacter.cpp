@@ -4,6 +4,7 @@
 #include "Cerberus/Core/Utility/IO.h"
 #include "Necrodoggiecon/Game/PlayerController.h"
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
+#include<Necrodoggiecon/Weapons/Ranged/Crossbow.h>
 #include "Necrodoggiecon/Weapons/Pickup/ShieldScroll.h"
 #include "Necrodoggiecon/Weapons/Pickup/InvisibilityScroll.h"
 #include <Necrodoggiecon/Weapons/Ranged/MagicMissile.h>
@@ -64,9 +65,12 @@ PlayerCharacter::PlayerCharacter()
 
 	weaponSprite = AddComponent<CSpriteComponent>(NAME_OF(weaponSprite));
 	UpdateWeaponSprite();
-	//weaponSprite->SetPosition(Vector3(spriteComponentBody->GetSpriteSize().y / 2, -int(spriteComponentBody->GetSpriteSize().x - 40), 0));
-	//weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
-	UpdateWeaponSpritePosition(spriteComponentBody);
+	weaponSprite->SetPosition(Vector3(spriteComponentBody->GetSpriteSize().y / 2, -int(spriteComponentBody->GetSpriteSize().x - 40), 0));
+	weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
+	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
+	weaponSprite->SetRenderRect(weaponComponent->GetCurrentWeapon()->GetRenderRect());
+	weaponSprite->SetScale(weaponComponent->GetCurrentWeapon()->GetScale());
+
 
 	camera = AddComponent<CCameraComponent>(NAME_OF(camera));
 	camera->SetAttachedToParent(false);
@@ -105,7 +109,7 @@ void PlayerCharacter::PressedVertical(int dir, float deltaTime)
  */
 void PlayerCharacter::PressedInteract()
 {
-
+	
 }
 /**
 * Function inherited from interface
@@ -143,6 +147,7 @@ void PlayerCharacter::Update(float deltaTime)
 
 	colComponent->SetPosition(GetPosition());
 	weaponComponent->Update(deltaTime);
+	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
 
 	movementVec = { 0,0 };
 	movementVel = XMFLOAT2(movementVel.x * (1 - deltaTime * walkDrag), movementVel.y * (1 - deltaTime * walkDrag));
@@ -192,6 +197,7 @@ void PlayerCharacter::EquipWeapon(Weapon* weapon)
 {
 	weaponComponent->SetWeapon(weapon);
 	UpdateWeaponSprite();
+	weaponSprite->SetRenderRect(weaponComponent->GetCurrentWeapon()->GetRenderRect());
 	movementVec = {0,0};
 }
 

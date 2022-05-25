@@ -16,6 +16,7 @@
 #include "Necrodoggiecon/Weapons/Ranged/Fireball.h"
 
 
+
 /**
  * Constructor, automatically loads world based on provided slot.
  * 
@@ -183,6 +184,8 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 		enemy->pathing->currentPatrolNode = enemy->pathing->FindClosestPatrolNode(enemy->GetPosition());
 		enemy->SetCurrentState(PatrolState::getInstance());
 		patrolNodes.clear();
+
+
 	}
 }
 
