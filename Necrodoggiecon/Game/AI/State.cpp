@@ -6,14 +6,23 @@
  * \date   May 2022
  *********************************************************************/
 #include "State.h"
-#include "CAIController.h"
+#include "Necrodoggiecon\Game\AI\CAIController.h"
 
 void ChaseState::Enter(CAIController* controller)
 {
 	Vector3 aiPosition = controller->GetPosition();
-	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
+	std::vector<CCharacter*> characters = Engine::GetEntityOfType<CCharacter>();
+	std::vector<CCharacter*> players = Engine::GetEntityOfType<CCharacter>();
 
-	for (PlayerCharacter* player : players)
+	for (CCharacter* character : characters)
+	{
+		if (character->GetIsPlayer() == true)
+		{
+			players.push_back(character);
+		}
+	}
+
+	for (CCharacter* player : players)
 	{
 		// Find if the player is the closest in view.
 		if (controller->CanSee(player) == true)
@@ -65,9 +74,18 @@ State& ChaseState::getInstance()
 void AttackState::Enter(CAIController* controller)
 {
 	Vector3 aiPosition = controller->GetPosition();
-	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
+	std::vector<CCharacter*> characters = Engine::GetEntityOfType<CCharacter>();
+	std::vector<CCharacter*> players = Engine::GetEntityOfType<CCharacter>();
 
-	for (PlayerCharacter* player : players)
+	for (CCharacter* character : characters)
+	{
+		if (character->GetIsPlayer() == true)
+		{
+			players.push_back(character);
+		}
+	}
+
+	for (CCharacter* player : players)
 	{
 		// Find if the player is the closest in view.
 		if (closestPlayer != nullptr)
@@ -143,7 +161,14 @@ void SearchState::Enter(CAIController* controller)
 {
 	controller->sprite->SetTextureOffset(XMFLOAT2(0, 0));
 	searchTimer = 10.0f;
-	players = Engine::GetEntityOfType<PlayerCharacter>();
+	characters = Engine::GetEntityOfType<CCharacter>();
+	for (CCharacter *character : characters)
+	{
+		if (character->GetIsPlayer() == true)
+		{
+			players.push_back(character);
+		}
+	}
 
 	UNREFERENCED_PARAMETER(controller);
 }
@@ -154,7 +179,7 @@ void SearchState::Update(CAIController* controller, float deltaTime)
 	{
 		searchTimer -= 0.016f;
 
-		for (PlayerCharacter* player : players)
+		for (CCharacter* player : players)
 		{
 			if (controller->CanSee(player) == true)
 			{
@@ -175,7 +200,7 @@ void SearchState::Update(CAIController* controller, float deltaTime)
 void SearchState::Exit(CAIController* controller)
 {
 	searchTimer = 10.0f;
-
+	players.clear();
 	UNREFERENCED_PARAMETER(controller);
 }
 

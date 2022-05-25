@@ -12,11 +12,11 @@
 
 CInteractable::CInteractable() : interactTextOffset(0), interactRange(1), sprite(nullptr), lastCollidedObject(nullptr)
 {
-	sprite = AddComponent<CSpriteComponent>();
-	interactText = AddComponent<CTextRenderComponent>();
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
+	interactText = AddComponent<CTextRenderComponent>(NAME_OF(interactText));
 	colComponent = new CollisionComponent("Interactable", this);
 
-	sprite->LoadTexture("Resources/arrow.dds");
+	sprite->LoadTexture("Resources/Game/arrow.dds");
 	this->SetInteractRange(sprite->GetSpriteSize().x);
 
 	colComponent->SetCollider(interactRange);
@@ -91,7 +91,7 @@ void CInteractable::HasCollided(CollisionComponent* collidedObject)
 {
 	lastCollidedObject = collidedObject;
 	OnEnterOverlap();
-	if(Inputs::InputManager::IsKeyPressedDown(Inputs::InputManager::F))
+	if(InputManager::IsKeyPressedDown(InputManager::F))
 	{
 		OnInteract();
 	}
@@ -105,7 +105,7 @@ void CInteractable::HasCollided(CollisionComponent* collidedObject)
 void CInteractable::SetTexture(std::string path)
 {
 	if (!sprite)
-		sprite = AddComponent<CSpriteComponent>();
+		sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 
 	sprite->LoadTexture(path);
 }
@@ -118,7 +118,7 @@ void CInteractable::SetTexture(std::string path)
 void CInteractable::SetTextureWIC(std::string path)
 {
 	if (!sprite)
-		sprite = AddComponent<CSpriteComponent>();
+		sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 
 	sprite->LoadTextureWIC(path);
 }

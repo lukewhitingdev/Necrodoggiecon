@@ -1,6 +1,6 @@
 #include "MeleeWeapon.h"
 #include "Necrodoggiecon\Game\PlayerCharacter.h"
-#include <Cerberus/Core/AI/CAIController.h>
+#include "Necrodoggiecon\Game\AI\CAIController.h"
 
 MeleeWeapon::MeleeWeapon()
 {

@@ -34,6 +34,8 @@
 #define DEG2RAD PI / 180
 #define RAD2DEG 180 / PI
 
+#define NAME_OF( v ) #v
+
 class CEntity;
 class CCameraComponent;
 
