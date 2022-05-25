@@ -12,6 +12,11 @@ PlayerCharacter::PlayerCharacter()
 {
 	isPlayer = true;
 
+	if(!AudioController::AddListener(static_cast<CTransform*>(this)))
+	{
+		Debug::LogError("An error occured whilst trying to add the player as a listener for the audio controller. See error above.");
+	}
+
 	SetShouldMove(true);
 
 	spriteComponentBody = AddComponent<CAnimationSpriteComponent>(NAME_OF(spriteComponentBody));

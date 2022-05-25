@@ -39,8 +39,7 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 
 			Debug::Log("Longsword enemy stuff");
 
-			Engine::DestroyEntity(enemy);
-			
+			enemy->ApplyDamage(GetDamage());
 		}
 	}
 }

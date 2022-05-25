@@ -9,7 +9,7 @@ private:
 protected:
 	bool isPlayer = false;
 	bool visible = true;
-	float health = 2.0f;
+	float health = 1.0f;
 	WeaponInterface* weaponComponent = nullptr;
 
 	void AddMovement(XMFLOAT2 vel, float deltaTime);
