@@ -1,5 +1,5 @@
 #include "Longsword.h"
-#include <Necrodoggiecon/Game/AI/CAIController.h>
+#include <Cerberus/Core/AI/CAIController.h>
 
 Longsword::Longsword()
 {
@@ -39,7 +39,8 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 
 			Debug::Log("Longsword enemy stuff");
 
-			enemy->ApplyDamage(GetDamage());
+			Engine::DestroyEntity(enemy);
+			
 		}
 	}
 }

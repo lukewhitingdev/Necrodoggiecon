@@ -44,7 +44,7 @@ void CGridCursor::Update(float deltaTime)
 
 	Vector3 camPos = Vector3(CameraManager::GetRenderingCamera()->GetPosition().x, CameraManager::GetRenderingCamera()->GetPosition().y, -10);
 
-	Vector3 MousePos2 = Vector3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100);
+	Vector3 MousePos2 = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100);
 
 	MousePos2 /= CameraManager::GetRenderingCamera()->GetZoomLevel();
 
@@ -83,7 +83,7 @@ void CGridCursor::Update(float deltaTime)
 	
 
 
-	if (InputManager::IsMouseButtonPressed(InputManager::LButton) && wasMouseReleased)
+	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::LButton) && wasMouseReleased)
 	{
 		if (CWorldManager::GetEditorWorld()->GetOperationMode() != EditOperationMode::Move_Entity)
 		{
@@ -98,12 +98,12 @@ void CGridCursor::Update(float deltaTime)
 
 
 	}
-	else if (!wasMouseReleased && !InputManager::IsMouseButtonPressed(InputManager::LButton))
+	else if (!wasMouseReleased && !Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::LButton))
 	{
 		wasMouseReleased = true;
 	}
 
-	if (InputManager::IsMouseButtonPressed(InputManager::RButton))
+	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::RButton))
 	{
 		CWorldManager::GetEditorWorld()->ShouldInspectEntity(Vector2(PreScale.x, PreScale.y));
 		if (cellSelected)
@@ -116,15 +116,15 @@ void CGridCursor::Update(float deltaTime)
 		}
 	}
 
-	if (InputManager::IsKeyReleased(InputManager::C))
+	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::C))
 	{
 		CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::None);
 	}
-	if (InputManager::IsKeyReleased(InputManager::W))
+	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::W))
 	{
 		CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Move_Entity);
 	}
-	if (InputManager::IsKeyReleased(InputManager::Delete))
+	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::Delete))
 	{
 		CWorldManager::GetEditorWorld()->RemoveSelectedEntity();
 	}

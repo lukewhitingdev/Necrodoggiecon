@@ -7,19 +7,24 @@ class CCharacter : public CEntity
 {
 private:
 protected:
-	bool isPlayer = false;
-	bool visible = true;
-	float health = 1.0f;
+	/**
+	* Virtual function
+	* Called when the Character takes damage
+	* Used for custom functionality on inherited classes
+	*/
+	virtual void OnTakeDamage(float damageAmount, CEntity* damageCauser) {
+		UNREFERENCED_PARAMETER(damageCauser);
+		UNREFERENCED_PARAMETER(damageAmount);
+	};
+	float health = 2.0f;
 	WeaponInterface* weaponComponent = nullptr;
 
 	void AddMovement(XMFLOAT2 vel, float deltaTime);
-
-	
 public:
 	/**
 	* Public function used to apply damage to the character
 	*/
-	virtual void ApplyDamage(float damageAmount) {};
+	void ApplyDamage(float damageAmount, CEntity* damageCauser) { OnTakeDamage(damageAmount, damageCauser); }
 
 	virtual void Update(float deltaTime) {};
 
@@ -28,10 +33,5 @@ public:
 
 	void SetHealth(float heal);
 	float GetHealth();
-	
-	void SetIsPlayer(bool player);
-	bool GetIsPlayer();
-
-	bool GetVisible() { return visible; }
 };
 

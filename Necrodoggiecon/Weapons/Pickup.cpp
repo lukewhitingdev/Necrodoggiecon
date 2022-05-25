@@ -1,6 +1,6 @@
 #include "Pickup.h"
 #include "Necrodoggiecon\Game\PlayerCharacter.h"
-#include "Necrodoggiecon\Game\AI\CAIController.h"
+#include <Cerberus/Core/AI/CAIController.h>
 
 Pickup::Pickup()
 {

@@ -16,6 +16,7 @@
 #include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 #include "Cerberus\Core\Utility\Vector3.h"
 #include "Cerberus\Dependencies\NlohmannJson\json.hpp"
+class PlayerController;
 
 #define rangeScale 64.0f
 
@@ -71,6 +72,7 @@ private:
 	float cooldown;
 
 	USERTYPE userType;
+	std::vector<PlayerController*> playersController = Engine::GetEntityOfType<PlayerController>();
 
 protected:
 	std::string pickupType;

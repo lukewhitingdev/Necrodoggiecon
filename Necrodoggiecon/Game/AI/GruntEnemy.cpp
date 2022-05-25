@@ -9,7 +9,7 @@
 
 GruntEnemy::GruntEnemy()
 {
-	sprite->LoadTextureWIC("Resources/Game/Characters/PurpleEnemySprite.png");
+	sprite->LoadTexture("Resources/Game/Characters/MeleeEnemy.dds");
 	sprite->SetRotation(1.5708f);
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
@@ -25,7 +25,7 @@ GruntEnemy::GruntEnemy()
  * 
  * \param player
  */
-void GruntEnemy::ChasePlayer(CCharacter* player)
+void GruntEnemy::ChasePlayer(PlayerCharacter* player)
 {
 	
 	if (aiPosition.DistanceTo(player->GetPosition()) < weaponComponent->GetCurrentWeapon()->GetRange())
@@ -44,10 +44,8 @@ void GruntEnemy::ChasePlayer(CCharacter* player)
  * 
  * \param player Player to attack.
  */
-void GruntEnemy::AttackPlayer(CCharacter* player, float deltaTime)
+void GruntEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 {
-	heading = Seek(player->GetPosition());
-
 	weaponComponent->OnFire(aiPosition, velocity);
 	SetCurrentState(ChaseState::getInstance());
 }

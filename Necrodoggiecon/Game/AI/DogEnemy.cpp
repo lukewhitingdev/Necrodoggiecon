@@ -9,14 +9,11 @@
 
 DogEnemy::DogEnemy()
 {
-	sprite->LoadTextureWIC("Resources/Game/Characters/RedEnemySprite2.png");
+	sprite->LoadTexture("Resources/Game/Characters/MeleeEnemy.dds");
 	sprite->SetRotation(1.5708f);
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
-	sprite->SetAnimationRectSize(XMUINT2(1, 10));
-	sprite->SetAnimationSpeed(10 * walkAnimationSpeed);
-	sprite->SetPlaying(false, false);
 }
 
 void DogEnemy::Update(float deltaTime)
@@ -34,10 +31,7 @@ void DogEnemy::Update(float deltaTime)
 		}
 
 	}
-	if (sprite->GetPlaying() == false && velocity.Magnitude() != 0.0f)
-	{
-		sprite->SetPlaying(true, false);
-	}
+
 
 	CAIController::Update(deltaTime);
 }
@@ -47,7 +41,7 @@ void DogEnemy::Update(float deltaTime)
  * 
  * \param player Player to seek towards.
  */
-void DogEnemy::ChasePlayer(CCharacter* player)
+void DogEnemy::ChasePlayer(PlayerCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < attackRange)
 	{
@@ -65,7 +59,7 @@ void DogEnemy::ChasePlayer(CCharacter* player)
  * 
  * \param player Player to target for an attack.
  */
-void DogEnemy::AttackEnter(CCharacter* player)
+void DogEnemy::AttackEnter(PlayerCharacter* player)
 {
 	targetPosition = player->GetPosition();
 }
@@ -75,7 +69,7 @@ void DogEnemy::AttackEnter(CCharacter* player)
  * 
  * \param player Player to attack.
  */
-void DogEnemy::AttackPlayer(CCharacter* player, float deltaTime)
+void DogEnemy::AttackPlayer(PlayerCharacter* player, float deltaTime)
 {
 		
 	heading = Seek(targetPosition);

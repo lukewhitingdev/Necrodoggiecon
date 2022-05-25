@@ -1,5 +1,7 @@
 #include "weapons.h"
-#include "Necrodoggiecon\Game\AI\CAIController.h"
+#include "Necrodoggiecon\Game\PlayerCharacter.h"
+#include "Necrodoggiecon\Game\PlayerController.h"
+#include <Cerberus\Core\AI\CAIController.h>
 
 Weapon::Weapon(std::string weapon)
 {

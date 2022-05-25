@@ -28,6 +28,7 @@
 #include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
 #include "Cerberus\Core\Utility\CWorldManager.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
+using namespace Inputs;
 #include <chrono>
 
 XMMATRIX Engine::projMatrixUI = XMMatrixIdentity();
@@ -57,7 +58,7 @@ bool minimised = false;
 double globalDeltaTime = 0.0;
 
 //set to 0 for uncapped frames
-const unsigned short maxFPS = 144;
+const unsigned short maxFPS = 0;
 
 std::chrono::high_resolution_clock::time_point tpOld;
 std::chrono::high_resolution_clock::time_point tpNew;
@@ -763,8 +764,8 @@ LRESULT Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 	{
 	case WM_MOUSEMOVE:
 	{
-		InputManager::mousePos.x = float(GET_X_LPARAM(lParam));
-		InputManager::mousePos.y = float(GET_Y_LPARAM(lParam));
+		Inputs::InputManager::mousePos.x = float(GET_X_LPARAM(lParam));
+		Inputs::InputManager::mousePos.y = float(GET_Y_LPARAM(lParam));
 		break;
 	}
 
@@ -870,7 +871,9 @@ void Update(float deltaTime)
 		}
 	}
 
-	AudioController::Update(deltaTime);
+	AudioController::Update(Vector3(0, 0, 0), deltaTime);
+	
+	
 }
 
 //--------------------------------------------------------------------------------------

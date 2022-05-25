@@ -7,7 +7,7 @@
  *********************************************************************/
 
 #include "Projectile.h"
-#include "Necrodoggiecon\Game\AI\CAIController.h"
+#include <Cerberus\Core\AI\CAIController.h>
 #include <Necrodoggiecon\Game\PlayerCharacter.h>
 
 Projectile::Projectile()
@@ -30,7 +30,7 @@ void Projectile::Update(float deltaTime)
 	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime && hasHit == false)
 	{
 		DidItHit();
-		Position += velocity * deltaTime;
+		Position += Direction * Speed;
 		ProjectileSprite->SetPosition(Position);
 	}
 	else
@@ -81,8 +81,7 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, fl
 	Direction = dir;
 	Damage = damage;
 	Projectile_Name = projectile_name;
-	Speed = speed * 50.0f;
-	velocity = Direction * Speed;
+	Speed = speed;
 	Lifetime = lifetime;
 	initialPosition = pos;
 	Position = initialPosition;

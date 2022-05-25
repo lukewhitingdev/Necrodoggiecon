@@ -14,11 +14,12 @@
 #include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
 #include "Cerberus/Core/Engine.h"
 #include "Cerberus/Core/Utility/Audio/AudioController.h"
-#include "Cerberus/Core/Components/CAudioEmitterComponent.h"
 
-#include "Necrodoggiecon/Game/AI/State.h"
+#include "Cerberus/Core/AI/State.h"
 #include "Cerberus/Core/AI/Pathfinding.h"
 #include "Necrodoggiecon\Game\CCharacter.h"
+#include "Necrodoggiecon\Game\PlayerCharacter.h"
+#include "Necrodoggiecon/Game/PlayerController.h"
 
 /**
  * Controller class for the AI.
@@ -57,22 +58,19 @@ public:
 	void SetIsAttacking(bool isAttack);
 	bool GetIsAttacking();
 
-	void SetSpriteSize(float size);
-	float GetSpriteSize();
-
 	virtual void Update(float deltaTime) override;
 
 	void Patrolling();
 	void SearchForPlayer();
 	void Investigating(Vector3 positionOfInterest);
 	
-	virtual void AttackEnter(CCharacter* player);
+	virtual void AttackEnter(PlayerCharacter* player);
 	virtual void ChaseEnter();
-	virtual void ChasePlayer(CCharacter* player);
-	virtual void AttackPlayer(CCharacter* player, float deltaTime);
+	virtual void ChasePlayer(PlayerCharacter* player);
+	virtual void AttackPlayer(PlayerCharacter* player, float deltaTime);
 
 	void SetCurrentState(State& state);
-	bool CanSee(CCharacter* player);
+	bool CanSee(Vector3 posOfObject);
 
 	void SetPathNodes(std::vector<WaypointNode*> nodes);
 	Pathfinding* pathing;
@@ -81,10 +79,8 @@ public:
 
 	void ApplyDamage(float damageAmount);
 
-	class CAnimationSpriteComponent* sprite = nullptr;
-
 protected:
-	
+	class CSpriteComponent* sprite = nullptr;
 	class CSpriteComponent* viewFrustrum = nullptr;
 
 	Vector3 positionToInvestigate;
@@ -116,9 +112,7 @@ protected:
 	CCharacter* playerToKill = nullptr;
 	CCharacter* playerToChase = nullptr;
 	
-
-	std::vector<CCharacter*> characters = Engine::GetEntityOfType<CCharacter>();
-	std::vector<CCharacter*> players;
+	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
 
 	float aiSpeed = 100.0f;
 	float initialSpeed = aiSpeed;
@@ -136,17 +130,6 @@ protected:
 
 	float sizeOfTiles = 0.0f;
 
-	float spriteSize = 64.0f;
-
 	State* currentState;
-
-	virtual void HasCollided(CollisionComponent* collidedObject)
-	{
-		if (collidedObject->GetName() == "Wall")
-		{
-			colComponent->Resolve(collidedObject);
-			this->SetPosition(colComponent->GetPosition());
-		}
-	}
 };
 
