@@ -59,7 +59,6 @@ void CInteractable::Update(float deltaTime)
  */
 void CInteractable::OnInteract()
 {
-	
 	Debug::Log("Interact");
 	Engine::DestroyEntity(this);
 }
@@ -89,12 +88,19 @@ void CInteractable::OnLeaveOverlap()
  */
 void CInteractable::HasCollided(CollisionComponent* collidedObject)
 {
+	static bool keyPressed;
+
 	lastCollidedObject = collidedObject;
 	OnEnterOverlap();
-	if(InputManager::IsKeyPressedDown(InputManager::F))
+	if(InputManager::IsKeyPressedDown(InputManager::F) && !keyPressed)
 	{
 		OnInteract();
+		keyPressed = true;
 	}
+
+	if(InputManager::IsKeyReleased(InputManager::F))
+		keyPressed = false;
+
 }
 
 /**
