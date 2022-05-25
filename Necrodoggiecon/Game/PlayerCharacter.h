@@ -67,7 +67,7 @@ public:
 
 	class CCameraComponent* camera = nullptr;
 	CAudioEmitterComponent* loadNoise = nullptr;
-	CSpriteComponent* weaponSprite = nullptr;
+	CAnimationSpriteComponent* weaponSprite = nullptr;
 
 private:
 	void ResolveMovement(const float& deltaTime);

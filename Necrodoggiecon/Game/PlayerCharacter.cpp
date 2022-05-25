@@ -62,10 +62,14 @@ PlayerCharacter::PlayerCharacter()
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 	weaponComponent->SetWeapon(new Crossbow());
 
-	weaponSprite = AddComponent<CSpriteComponent>(NAME_OF(weaponSprite));
+	weaponSprite = AddComponent<CAnimationSpriteComponent>(NAME_OF(weaponSprite));
 	UpdateWeaponSprite();
 	weaponSprite->SetPosition(Vector3(spriteComponentBody->GetSpriteSize().y / 2, -int(spriteComponentBody->GetSpriteSize().x - 40), 0));
 	weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
+	weaponSprite->SetRenderRect(DirectX::XMUINT2(64, 64));
+	weaponSprite->SetAnimationRectSize(DirectX::XMUINT2(64, 64), false);
+	weaponSprite->SetAnimationRectPosition(DirectX::XMUINT2(0, 0), false);
+	weaponSprite->SetPlaying(false, true);
 
 	camera = AddComponent<CCameraComponent>(NAME_OF(camera));
 	camera->SetAttachedToParent(false);
@@ -118,11 +122,21 @@ void PlayerCharacter::PressedDrop()
 
 void PlayerCharacter::Attack()
 {
-	
 	XMFLOAT3 screenVec = XMFLOAT3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, InputManager::mousePos.z);
 	screenVec = Math::FromScreenToWorld(screenVec);
 
 	Vector3 attackDir = (Vector3(screenVec.x, screenVec.y, screenVec.z)) - GetPosition();
+
+	if(weaponComponent->GetCurrentWeapon()->GetName() == "Crossbow")
+	{
+		if(weaponComponent->GetCurrentWeapon()->GetCanFire())
+			weaponSprite->SetPlaying(true, true);
+
+		if(weaponComponent->GetCurrentWeapon()->GetAmmo() <= 0)
+		{
+			weaponSprite->SetAnimationRectPosition(DirectX::XMUINT2(64, 0));
+		}
+	}
 
 	weaponComponent->OnFire(GetPosition(), attackDir);
 
@@ -133,6 +147,12 @@ void PlayerCharacter::Attack()
 void PlayerCharacter::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
+
+	// Only show the crossbow animation for a frame.
+	if (weaponSprite->GetCurrentFrame().x > 1)
+	{
+		weaponSprite->SetPlaying(false, true);
+	}
 
 	ResolveMovement(deltaTime);
 
