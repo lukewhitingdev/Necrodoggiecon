@@ -22,7 +22,7 @@ CWidget_Canvas* CUIManager::GetCanvas(std::string ID)
 		if (idList[i] == ID)
 		{
 
-			return activeCanvases[ID];
+			return activeCanvases["ID"];
 		}
 	}
 	return nullptr;

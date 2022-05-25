@@ -1,10 +1,3 @@
-/*****************************************************************//**
- * \file   weaponUI.h
- * \brief  Header file for the weapon UI
- * 
- * \author Jack B
- * \date   May 2022
- *********************************************************************/
 #pragma once
 #include "Cerberus\Core\CEntity.h"
 
