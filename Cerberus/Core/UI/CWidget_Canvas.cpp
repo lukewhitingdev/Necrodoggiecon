@@ -22,17 +22,30 @@ void CWidget_Canvas::InitialiseCanvas()
 
 void CWidget_Canvas::Update(float deltaTime)
 {
-
 	
-	for (int i = 0; i < buttonList.size(); i++)
+
+	if (WidgetIsVisible)
 	{
-		if (buttonList[i] != nullptr)
+		for (int i = 0; i < buttonList.size(); i++)
 		{
 			buttonList[i]->IsButtonFocused(GetMousePosition());
 
 			if (InputManager::IsMouseButtonPressed(InputManager::Mouse::LButton))
 			{
-				buttonList[i]->ButtonPressed(true);
+				buttonList[i]->IsButtonFocused(GetMousePosition());
+
+				if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::Mouse::LButton))
+				{
+					buttonList[i]->ButtonPressed(true);
+					mousePressed = true;
+				}
+				
+				if (Inputs::InputManager::IsMouseButtonReleased(Inputs::InputManager::Mouse::LButton))
+				{
+
+					//buttonList[i]->ButtonPressed(false);
+					mousePressed = false;
+				}
 			}
 			else if (InputManager::IsMouseButtonReleased(InputManager::Mouse::LButton))
 			{
@@ -40,6 +53,7 @@ void CWidget_Canvas::Update(float deltaTime)
 			}
 		}
 
+		}
 	}
 	
 
@@ -80,11 +94,13 @@ CWidget_Text* CWidget_Canvas::CreateText(Vector2 Position, Vector2 Anchor, int Z
 	CWidget_Text* Widget = Engine::CreateEntity<CWidget_Text>();
 	Widget->SetWidgetTransform(Position, Anchor, ZOrder);
 	Widget->GetText()->SetText(Text);
+	AddChild(Widget);
 	return Widget;
 }
 
 void CWidget_Canvas::SetVisibility(bool IsVisible)
 {
+	WidgetIsVisible = IsVisible;
 	for (int i = 0; i < GetChildren().size(); i++)
 	{
 		GetChildren()[i]->SetVisibility(IsVisible);
