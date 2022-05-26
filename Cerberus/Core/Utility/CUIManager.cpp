@@ -10,8 +10,29 @@ std::vector<std::string> CUIManager::idList;
 
 CWidget_Canvas* CUIManager::AddCanvas(CWidget_Canvas* Canvas, std::string ID)
 {
-	idList.push_back(ID);
-	activeCanvases.insert(std::pair<std::string, CWidget_Canvas*>(ID, Canvas));
+	bool isNewCanvas = true;
+	for (int i = 0; i < idList.size(); i++)
+	{
+		if (idList[i] == ID)
+		{
+			if (activeCanvases[idList[i]] != nullptr)
+			{
+				// Delete Canvas, might crash?
+				Engine::DestroyEntity(activeCanvases[idList[i]]);
+				activeCanvases[idList[i]] = Canvas;
+				isNewCanvas = false;
+				
+			}
+		}
+		
+		
+	}
+	if (isNewCanvas)
+	{
+		idList.push_back(ID);
+		activeCanvases.insert(std::pair<std::string, CWidget_Canvas*>(ID, Canvas));
+	}
+	
 	return Canvas;
 }
 
