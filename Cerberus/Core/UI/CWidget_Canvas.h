@@ -57,7 +57,7 @@ public:
      */
     virtual void SetVisibility(bool IsVisible);
 
-
+   
 
 
 protected: 

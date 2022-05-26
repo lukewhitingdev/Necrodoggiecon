@@ -9,11 +9,11 @@ using namespace std;
 CWidget_Button::CWidget_Button()
 {
 	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
-	sprite->SetIsUI(true);
+	//sprite->SetIsUI(true);
 
 
 	textRenderer = AddComponent<CTextRenderComponent>(NAME_OF(textRenderer));
-	textRenderer->SetIsUI(true);
+//	textRenderer->SetIsUI(true);
 	
 	
 	ButtonPressedBind = nullptr;
@@ -36,6 +36,7 @@ void CWidget_Button::SetButtonSize(Vector2 Size)
 	sprite->SetSpriteSize(DirectX::XMUINT2(Size.x, Size.y));
 	sprite->SetRenderRect(DirectX::XMUINT2(64, 32));
 	sprite->SetTextureOffset(DirectX::XMFLOAT2(0,0));
+	spriteSize = Vector2(64, 32);
 
 	
 	
@@ -63,7 +64,7 @@ void CWidget_Button::Update(float deltaTime)
 
 void CWidget_Button::OnButtonPressed()
 {
-	sprite->SetTextureOffset(DirectX::XMFLOAT2(0, spriteSize.y * 1));
+	sprite->SetTextureOffset(DirectX::XMFLOAT2(0, (float)spriteSize.y * 1));
 	if (ButtonPressedBind != nullptr) 	ButtonPressedBind();
 	ButtonHeld = true;
 }
@@ -72,7 +73,7 @@ void CWidget_Button::OnButtonReleased()
 {
 	if (ButtonHeld)
 	{
-		sprite->SetTextureOffset(DirectX::XMFLOAT2(0, spriteSize.y * 2));
+		sprite->SetTextureOffset(DirectX::XMFLOAT2((float)0, (float)spriteSize.y * 2));
 		if (ButtonReleasedBind != nullptr) ButtonReleasedBind();
 		ButtonHeld = false;
 	}
@@ -81,7 +82,7 @@ void CWidget_Button::OnButtonReleased()
 
 void CWidget_Button::OnButtonHoverStart()
 {
-	sprite->SetTextureOffset(DirectX::XMFLOAT2(0, spriteSize.y * 2));
+	sprite->SetTextureOffset(DirectX::XMFLOAT2((float)0, (float)spriteSize.y * 2));
 	if (HoverStartBind != nullptr) HoverStartBind();
 	
 }
@@ -114,11 +115,12 @@ void CWidget_Button::IsButtonFocused(Vector2 mPos)
 		if (mPos.x > Pos.x && mPos.x < Scale.x + Pos.x &&
 			mPos.y > Pos.y && mPos.y < Scale.y + Pos.y)
 		{
+			
 			if (!hasFocus)
 			{
 				OnButtonHoverStart();
-
 			}
+			
 			hasFocus = true;
 			
 			
@@ -136,7 +138,6 @@ void CWidget_Button::IsButtonFocused(Vector2 mPos)
 			if (hasFocus)
 			{
 				OnButtonHoverEnd();
-
 			}
 			hasFocus = false;
 

@@ -15,6 +15,9 @@ GruntEnemy::GruntEnemy()
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
+	sprite->SetAnimationRectSize(XMUINT2(1, 1));
+	sprite->SetAnimationRectPosition(XMUINT2(0, 0));
+	sprite->SetPlaying(true, false);
 
 	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	//weaponComponent->SetWeapon(new Crossbow());
@@ -84,7 +87,6 @@ void GruntEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 
 void GruntEnemy::Update(float deltaTime)
 {
-
 	Weapon* weapon = weaponComponent->GetCurrentWeapon();
 
 	// Set crossbow animation to empty bow when we cant fire or out of ammo.

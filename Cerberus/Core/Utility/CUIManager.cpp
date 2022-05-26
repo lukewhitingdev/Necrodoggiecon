@@ -3,6 +3,7 @@
 
 
 
+
 std::map<std::string, class CWidget_Canvas*> CUIManager::activeCanvases;
 std::vector<std::string> CUIManager::idList;
 
@@ -73,5 +74,17 @@ void CUIManager::ClearAllCanvases()
 	}
 	idList.clear();
 	activeCanvases.clear();
+}
+
+void CUIManager::UpdateUIOrigin(Vector3 Pos)
+{
+	for (int i = 0; i < idList.size(); i++)
+	{
+		if (activeCanvases[idList[i]] != nullptr)
+		{
+			activeCanvases[idList[i]]->UpdateWidgetOrigin(Pos);
+			
+		}
+	}
 }
 
