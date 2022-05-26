@@ -583,7 +583,6 @@ void CAIController::ApplyDamage(float damageAmount, const std::string& hitAudioP
 		NecrodoggieconPage* page = Engine::CreateEntity<NecrodoggieconPage>();
 		page->SetPosition(GetPosition());
 	}
-	Engine::DestroyEntity(this);
 }
 
 /**

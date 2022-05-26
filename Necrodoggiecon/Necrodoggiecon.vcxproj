@@ -190,6 +190,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="CWorld_Menu.cpp" />
     <ClCompile Include="Game\AI\CAIController.cpp" />
     <ClCompile Include="Game\AI\State.cpp" />
+    <ClCompile Include="Game\NecrodoggieconPage.cpp" />
     <ClCompile Include="HomingProjectile.cpp" />
     <ClCompile Include="Game\SoundManager.cpp" />
     <ClCompile Include="LevelCompleteMenu.cpp" />
@@ -228,6 +229,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClInclude Include="Game\AudioEmitterEntity.h" />
     <ClInclude Include="Game\AI\CAIController.h" />
     <ClInclude Include="Game\AI\State.h" />
+    <ClInclude Include="Game\NecrodoggieconPage.h" />
     <ClInclude Include="HomingProjectile.h" />
     <ClInclude Include="LevelCompleteMenu.h" />
     <ClInclude Include="resource.h" />
