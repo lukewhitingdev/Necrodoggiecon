@@ -173,6 +173,8 @@ private:
 	//Only only returns the first result
 	 Vector2 FindFloorAdjacentDiagonal(Vector2 Position);
 
+	 bool IsTileOccupied(Vector2 Pos);
+
 	
 
 private:
