@@ -1,5 +1,5 @@
 /*****************************************************************//**
- * \file   CameraManager.cpp
+ * \file   CameraManager.h
  * \brief  Manages the cameras in the engine.
  *
  * \author Luke Whiting

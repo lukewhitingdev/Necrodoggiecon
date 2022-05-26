@@ -14,5 +14,7 @@ class Crossbow : public RangeWeapon
 public:
 	Crossbow();
 	~Crossbow(); 
+
+	virtual void Update(float deltaTime);
 };
 

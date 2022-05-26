@@ -1,5 +1,5 @@
 /*****************************************************************//**
- * \file   CParticleEmitter.cpp
+ * \file   CParticleEmitter.h
  * \brief  Allows a entity to emit particles.
  *
  * \author Luke Whiting

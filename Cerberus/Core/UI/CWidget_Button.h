@@ -108,6 +108,8 @@ private:
    
     int buttonSlot;
     bool hasFocus;
+
+    bool ButtonHeld = false;
    
     class CWidget_Canvas* owningCanvas;
 

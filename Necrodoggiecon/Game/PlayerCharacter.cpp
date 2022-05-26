@@ -4,6 +4,7 @@
 #include "Cerberus/Core/Utility/IO.h"
 #include "Necrodoggiecon/Game/PlayerController.h"
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
+#include<Necrodoggiecon/Weapons/Ranged/Crossbow.h>
 #include "Necrodoggiecon/Weapons/Pickup/ShieldScroll.h"
 #include "Necrodoggiecon/Weapons/Pickup/InvisibilityScroll.h"
 #include <Necrodoggiecon/Weapons/Ranged/MagicMissile.h>
@@ -66,6 +67,10 @@ PlayerCharacter::PlayerCharacter()
 	UpdateWeaponSprite();
 	weaponSprite->SetPosition(Vector3(spriteComponentBody->GetSpriteSize().y / 2, -int(spriteComponentBody->GetSpriteSize().x - 40), 0));
 	weaponSprite->SetRotation(-1.5708); // 90 Degrees in radians.
+	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
+	weaponSprite->SetRenderRect(weaponComponent->GetCurrentWeapon()->GetRenderRect());
+	weaponSprite->SetScale(weaponComponent->GetCurrentWeapon()->GetScale());
+
 
 	camera = AddComponent<CCameraComponent>(NAME_OF(camera));
 	camera->SetAttachedToParent(false);
@@ -104,7 +109,7 @@ void PlayerCharacter::PressedVertical(int dir, float deltaTime)
  */
 void PlayerCharacter::PressedInteract()
 {
-
+	
 }
 /**
 * Function inherited from interface
@@ -116,13 +121,32 @@ void PlayerCharacter::PressedDrop()
 
 }
 
+static bool animating = false;
 void PlayerCharacter::Attack()
 {
-	
 	XMFLOAT3 screenVec = XMFLOAT3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, InputManager::mousePos.z);
 	screenVec = Math::FromScreenToWorld(screenVec);
 
 	Vector3 attackDir = (Vector3(screenVec.x, screenVec.y, screenVec.z)) - GetPosition();
+
+	// Impomptu Animation Code for weapons.
+	Weapon* weapon = weaponComponent->GetCurrentWeapon();
+	if(weapon->GetName() == "Crossbow")	// Crossbow exclusive animations, can be extended to include any animations that are 2 cycle.
+	{
+		if(weapon->GetCanFire())
+		{
+			weaponSprite->SetTextureOffset(DirectX::XMFLOAT2(0, 0));
+		}
+
+	}
+	else if(weapon->GetName() == "Dagger" || weapon->GetName() == "Rapier" || weapon->GetName() == "Longsword" && !animating)	// Positional based animations for melee.
+	{
+		if (weapon->GetCanFire())
+		{
+			weaponSprite->SetPosition(weaponSprite->GetPosition().x + 10, weaponSprite->GetPosition().y, weaponSprite->GetPosition().z);
+			animating = true;
+		}
+	}
 
 	weaponComponent->OnFire(GetPosition(), attackDir);
 
@@ -134,6 +158,24 @@ void PlayerCharacter::Update(float deltaTime)
 {
 	timeElapsed += deltaTime;
 
+	Weapon* weapon = weaponComponent->GetCurrentWeapon();
+
+	// Set crossbow animation to empty bow when we cant fire or out of ammo.
+	if(weapon->GetName() == "Crossbow")
+	{
+		if(!weapon->GetCanFire() || weapon->GetAmmo() <= 0)
+		{
+			weaponSprite->SetTextureOffset(DirectX::XMFLOAT2(64, 0));
+		}
+	}
+
+	// Reset melee animation if it has been triggered and we can fire again.
+	if(weapon->GetCanFire() && animating)
+	{
+		weaponSprite->SetPosition(weaponSprite->GetPosition().x - 10, weaponSprite->GetPosition().y, weaponSprite->GetPosition().z);
+		animating = false;
+	}
+
 	ResolveMovement(deltaTime);
 
 	Vector3 mousePos = Vector3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, 1);
@@ -142,6 +184,7 @@ void PlayerCharacter::Update(float deltaTime)
 
 	colComponent->SetPosition(GetPosition());
 	weaponComponent->Update(deltaTime);
+	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
 
 	movementVec = { 0,0 };
 	movementVel = XMFLOAT2(movementVel.x * (1 - deltaTime * walkDrag), movementVel.y * (1 - deltaTime * walkDrag));
@@ -191,6 +234,7 @@ void PlayerCharacter::EquipWeapon(Weapon* weapon)
 {
 	weaponComponent->SetWeapon(weapon);
 	UpdateWeaponSprite();
+	weaponSprite->SetRenderRect(weaponComponent->GetCurrentWeapon()->GetRenderRect());
 	movementVec = {0,0};
 }
 

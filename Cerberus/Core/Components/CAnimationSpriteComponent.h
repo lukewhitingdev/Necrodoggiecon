@@ -25,7 +25,7 @@ class CAnimationSpriteComponent : public CSpriteComponent
 	XMUINT2 currentFrame = { 0,0 };	//relative to the animation rect.
 
 public:
-	void ResetAnimation() { timeElapsed = 0.0f; };
+	void ResetAnimation();
 
 	/**
 	 * Sets the size of the rectangle in sprites to which the animation is played within.

@@ -9,8 +9,6 @@
 #include "Dependencies/NlohmannJson/json.hpp"
 #include <iostream>
 #include <fstream>
-#include <Necrodoggiecon\Game\PlayerController.h>
-#include <Necrodoggiecon\Game\PlayerCharacter.h>
 #include <Cerberus\Core\Components\CCameraComponent.h>
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <Cerberus/Core/Structs/CCamera.h>
@@ -103,6 +101,19 @@ void CWorld::UnloadWorld()
 {
 }
 
+void CWorld::ReloadWorld()
+{
+}
+
+void CWorld::DestroyWorld()
+{
+	UnloadWorld();
+	for (int i = 0; i < mapScale * mapScale; i++)
+	{
+		Engine::DestroyEntity(tileContainer[i]);
+	}
+}
+
 void CWorld::BuildNavigationGrid()
 {
 
@@ -118,6 +129,10 @@ void CWorld::BuildNavigationGrid()
 	}
 
 
+}
+
+void CWorld::LoadEntities(int Slot)
+{
 }
 
 std::vector<CTile*> CWorld::GetAllWalkableTiles()

@@ -1,10 +1,3 @@
-/*****************************************************************//**
- * \file   AudioController.cpp
- * \brief  Internal Audio Controller for the engine.
- * 
- * \author Luke Whiting
- * \date   Jan 2022
- *********************************************************************/
 #include "AudioController.h"
 #include "Cerberus\Core\Utility\EventSystem\EventSystem.h"
 FMOD::System* AudioController::FMODSystem = nullptr;
@@ -40,7 +33,7 @@ void AudioController::Shutdown()
 /**
  * Loads a audio into FMOD and the audio system
  * 
- * \param path
+ * \param path to audio you wish to load.
  * \return CAudio pointer to the created audio.
  */
 CAudio* AudioController::LoadAudio(const std::string& path)
@@ -66,7 +59,7 @@ CAudio* AudioController::LoadAudio(const std::string& path)
 /**
  * Plays a audio using FMOD.
  * 
- * \param path
+ * \param path to audio you wish to play.
  * \return bool on success or failure.
  */
 bool AudioController::PlayAudio(const std::string& path)
@@ -83,6 +76,18 @@ bool AudioController::PlayAudio(const std::string& path)
 		return false;
 	}
 
+	if ((result = audio->sound->setLoopCount(0)) != FMOD_OK)
+	{
+		Debug::LogError("[Play Audio][%s] FMOD Error when setting loop count back to zero [%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
+		return false;
+	}
+
+	if ((result = audio->sound->setMode(FMOD_LOOP_OFF)) != FMOD_OK)
+	{
+		Debug::LogError("[Play Audio][%s] FMOD Error when setting loop mode [%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
+		return false;
+	}
+
 	// Play Audio.
 	if ((result = FMODSystem->playSound(audio->sound, nullptr, false, &audio->channel)) != FMOD_OK)
 	{
@@ -94,11 +99,73 @@ bool AudioController::PlayAudio(const std::string& path)
 
 	return true;
 }
+/**
+ * Plays a audio using FMOD with the ability to loop.
+ *
+ * \param path to audio you wish to play
+ * \param loop whether you would like the audio to loop.
+ * \return bool on success or failure.
+ */
+bool AudioController::PlayAudio(const std::string& path, bool loop)
+{
+	if (FMODSystem == nullptr)
+		Initialize();
+
+	CAudio* audio = AssetManager::GetAudio(path);
+	FMOD_RESULT result;
+
+	if (audio == nullptr)
+	{
+		Debug::Log("[Play Audio][%s] Tried to play audio that isnt loaded!", path.c_str());
+		return false;
+	}
+
+	if(loop)
+	{
+		if ((result = audio->sound->setLoopCount(-1)) != FMOD_OK)
+		{
+			Debug::LogError("[Play Audio][%s] FMOD Error when setting loop count [%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
+			return false;
+		}
+
+		if ((result = audio->sound->setMode(FMOD_LOOP_NORMAL)) != FMOD_OK)
+		{
+			Debug::LogError("[Play Audio][%s] FMOD Error when setting loop mode [%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
+			return false;
+		}
+	}
+	else
+	{
+		if ((result = audio->sound->setLoopCount(0)) != FMOD_OK)
+		{
+			Debug::LogError("[Play Audio][%s] FMOD Error when setting loop count back to zero [%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
+			return false;
+		}
+
+		if ((result = audio->sound->setMode(FMOD_LOOP_OFF)) != FMOD_OK)
+		{
+			Debug::LogError("[Play Audio][%s] FMOD Error when setting loop mode [%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
+			return false;
+		}
+	}
+
+
+	// Play Audio.
+	if ((result = FMODSystem->playSound(audio->sound, nullptr, false, &audio->channel)) != FMOD_OK)
+	{
+		Debug::LogError("[Play Audio][%s] FMOD Error when playing audio [%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
+		return false;
+	}
+
+	EventSystem::TriggerEvent("soundPlayed");
+
+	return true;
+}
 
 /**
  * Stops a audio from playing.
  * 
- * \param path
+ * \param path to audio you wish to stop playing.
  * \return bool on success or failure
  */
 bool AudioController::StopAudio(const std::string& path)
@@ -129,7 +196,7 @@ bool AudioController::StopAudio(const std::string& path)
 /**
  * Deletes a audio from FMOD and the audio system.
  * 
- * \param path
+ * \param path to audio that you wish to destroy
  * \return bool on success or failure
  */
 bool AudioController::DestroyAudio(const std::string& path)
@@ -232,13 +299,13 @@ void AudioController::Update(float deltaTime)
 /**
  * Returns all emitters within range of a position.
  * 
- * \param position
+ * \param position sampling position, should be at the center of the search area.
  * \return a vector of emitters that where in range and satisfied the argument conditions.
  */
 std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 position, bool checkIfPlaying)
 {
 	std::vector<CEmitter*> output;
-	for(CEmitter* emiter : emitters)
+	for (CEmitter* emiter : emitters)
 	{
 		// Check if we are inrange of the circular range emitters have.
 		if (emiter->range > position.DistanceTo(emiter->position))
@@ -255,25 +322,33 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
 						Debug::LogError("An Error Occured when trying to get emitter that in range that is playing. Path: %s, FMOD Error: ", emiter->audio->path.c_str(), FMOD_ErrorString(result));
 					}
 
-					if (isPlaying)
+					if (emiter->audio->channel != nullptr)
 					{
-						output.emplace_back(emiter);
+						if ((result = emiter->audio->channel->isPlaying(&isPlaying)) != FMOD_OK)
+						{
+							Debug::LogError("An Error Occured when trying to get emitter that in range that is playing. Path: %s, FMOD Error: ", emiter->audio->path.c_str(), FMOD_ErrorString(result));
+						}
+
+						if (isPlaying)
+						{
+							output.emplace_back(emiter);
+						}
 					}
 				}
-			}
-			else
-			{
-				output.emplace_back(emiter);
+				else
+				{
+					output.emplace_back(emiter);
+				}
 			}
 		}
+		return output;
 	}
-	return output;
 }
 
 /**
  * Adds a emitter to the audio system.
  * 
- * \param emitter
+ * \param emitter emitter you wish to add to the audio system.
  * \return bool on success or failure
  */
 bool AudioController::AddEmitter(CEmitter* emitter)
@@ -293,8 +368,8 @@ bool AudioController::AddEmitter(CEmitter* emitter)
 /**
  * Adds a emitter to the audio system.
  * 
- * \param emitter
- * \param ambient
+ * \param emitter emitter you wish to add to the audio system.
+ * \param ambient whether the emitter is used for ambience or not. Emitters not used for ambience will alert enemies.
  * \return bool on success or failure
  */
 bool AudioController::AddEmitter(CEmitter* emitter, bool ambient)
@@ -314,7 +389,7 @@ bool AudioController::AddEmitter(CEmitter* emitter, bool ambient)
 /**
  * Removes a emitter from the audio system.
  * 
- * \param emitter
+ * \param emitter emitter you wish to add to the audio system.
  * \return bool on success or failure
  */
 bool AudioController::RemoveEmitter(CEmitter* emitter)
@@ -369,7 +444,7 @@ bool AudioController::RemoveEmitter(CEmitter* emitter)
 /**
  * Adds a listener to the audio controller, used for attenuation.
  * 
- * \param listenerPositon
+ * \param listenerPositon the position of the listener that controls the attenuation of the audio system.
  * \return bool on success or failure
  */
 bool AudioController::AddListener(CTransform* listenerPos)

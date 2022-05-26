@@ -1,5 +1,5 @@
 /*****************************************************************//**
- * \file   CInteractable.cpp
+ * \file   CInteractable.h
  * \brief  Entity that can be interacted with. Acts as a base class for any entities that wish to be interacted with in specfic ways.
  *
  * \author Luke Whiting
@@ -15,7 +15,7 @@ public:
 	CInteractable();
 	virtual ~CInteractable();
 
-	void Update(float deltaTime);
+	virtual void Update(float deltaTime) override;
 
 	virtual void OnInteract();
 	virtual void OnEnterOverlap();

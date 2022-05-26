@@ -10,6 +10,16 @@ public:
 
     CWorld_Game(int Slot);
 
+
+
     virtual void SetupWorld();
+
+    virtual void UnloadWorld();
+
+    virtual void ReloadWorld();
+
+    virtual void LoadEnemyUnits(int Slot);
+    virtual void LoadEntities(int Slot);
+
 };
 

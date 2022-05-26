@@ -15,6 +15,18 @@ CWidget_Canvas* CUIManager::AddCanvas(CWidget_Canvas* Canvas, std::string ID)
 	return Canvas;
 }
 
+void CUIManager::HideAllCanvases()
+{
+	for (int i = 0; i < idList.size(); i++)
+	{
+		if (activeCanvases[idList[i]] != nullptr)
+		{
+			activeCanvases[idList[i]]->SetVisibility(false);
+			
+		}
+	}
+}
+
 CWidget_Canvas* CUIManager::GetCanvas(std::string ID)
 {
 	for (int i = 0; i < idList.size(); i++)
@@ -22,7 +34,7 @@ CWidget_Canvas* CUIManager::GetCanvas(std::string ID)
 		if (idList[i] == ID)
 		{
 
-			return activeCanvases["ID"];
+			return activeCanvases[ID];
 		}
 	}
 	return nullptr;
@@ -32,8 +44,11 @@ void CUIManager::ClearAllCanvases()
 {
 	for (int i = 0; i < idList.size(); i++)
 	{
-		activeCanvases[idList[i]]->RemoveAllChildren();
-		Engine::DestroyEntity(activeCanvases[idList[i]]);
+		if (activeCanvases[idList[i]] != nullptr)
+		{
+			activeCanvases[idList[i]]->RemoveAllChildren();
+			Engine::DestroyEntity(activeCanvases[idList[i]]);
+		}
 	}
 	idList.clear();
 	activeCanvases.clear();
