@@ -26,6 +26,15 @@ This is the AI State Machine Diagram.
 
 ## Enemies
 
+All the enemies inherit from the CAIController class which acts as the base class for the AI behaviour.
+This class handles the movement of the enemies and the view semi circle. 
+It also handles the interaction with the pathfinding class the holds virtual functions to be overriden in the inheritted classes.
+There are 3 types of enemies that inherited from CAIController:
+-   AlarmEnemy
+-   DogEnemy
+-   GruntEnemy
+
+
 
 
 ## Relating Classes:
