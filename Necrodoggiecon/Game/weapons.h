@@ -65,7 +65,7 @@ public:
 	XMFLOAT3 GetScale() { return scale; };
 	USERTYPE GetUserType() { return userType; };
 	std::string GetName() { return name; }
-	std::string GetIconPath() { return iconPath; };
+ 	std::string GetIconPath() { return iconPath; };
 
 	void StartCooldown() { cooldown = attack_speed; };
 
