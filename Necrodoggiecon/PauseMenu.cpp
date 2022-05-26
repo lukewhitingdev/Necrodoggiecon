@@ -102,7 +102,7 @@ void PauseMenu::QuitToMenu()
 {
 	Debug::Log("quit to menu");
 	CWorldManager::LoadWorld(new CWorld_Menu());
-	
+	Engine::paused = false;
 }
 /**
  * closes game.

@@ -78,12 +78,12 @@ void CWorld_Game::SetupWorld()
 
 void CWorld_Game::UnloadWorld()
 {
-	EntityManager::Purge();
+	
 }
 
 void CWorld_Game::ReloadWorld()
 {
-	EntityManager::Purge();
+	
 	SetupWorld();
 	LoadEnemyUnits(mapSlot);
 }

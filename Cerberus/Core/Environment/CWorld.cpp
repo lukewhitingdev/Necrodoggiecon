@@ -15,6 +15,7 @@
 
 CWorld::CWorld()
 {
+	EntityManager::Purge();
 	for (int i = 0; i < (mapScale * mapScale); i++)
 	{
 		tileContainer[i] = nullptr;

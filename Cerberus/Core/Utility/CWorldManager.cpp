@@ -83,9 +83,7 @@ void CWorldManager::LoadWorld(CWorld* World)
 	}
 	if (gameWorld != nullptr)
 	{
-		CUIManager::ClearAllCanvases();
 		gameWorld->DestroyWorld();
-		
 		delete(gameWorld);
 
 	}
