@@ -33,59 +33,68 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 		file >> storedFile;
 
-		std::vector<std::string> convertedFile = storedFile["TileData"];
-
-
-		std::string Test = convertedFile[0];
-		std::cout << "" << std::endl;
-
-
-		for (int i = 0; i < (mapScale * mapScale); i++)
+		if (storedFile["MapScale"] != mapScale)
 		{
-			Vector3 temp = Vector3((float)(i % mapScale), (float)(i / mapScale), 0);
-			Vector2 gridPos = Vector2(temp.x, temp.y);
+			NewWorld(Slot);
+		}
+		else
+		{
+			std::vector<std::string> convertedFile = storedFile["TileData"];
 
-			int ID = atoi(convertedFile[i].c_str());
-			Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
 
-			//tempPos += Vector3(0, 64 * tileScale, 0.0f);
+			std::string Test = convertedFile[0];
+			std::cout << "" << std::endl;
 
-			tempPos.z = 10;
 
-			CTile* Tile = nullptr;
-			if (tileContainer[i] != nullptr)
+			for (int i = 0; i < (mapScale * mapScale); i++)
 			{
-				Tile = tileContainer[i];
+				Vector3 temp = Vector3((float)(i % mapScale), (float)(i / mapScale), 0);
+				Vector2 gridPos = Vector2(temp.x, temp.y);
+
+				int ID = atoi(convertedFile[i].c_str());
+				Vector3 tempPos = (Vector3(temp.x, temp.y, 0) * (tileScale * 2));
+
+				//tempPos += Vector3(0, 64 * tileScale, 0.0f);
+
+				tempPos.z = 10;
+
+				CTile* Tile = nullptr;
+				if (tileContainer[i] != nullptr)
+				{
+					Tile = tileContainer[i];
+				}
+				else
+				{
+					Tile = Engine::CreateEntity<CTile>();
+				}
+
+
+				Tile->SetPosition(tempPos);
+				Tile->SetScale(tileScaleMultiplier);
+				Tile->ChangeTileID(ID);
+
+				tileContainer[i] = Tile;
+
+
+
+				if (Tile->GetTileID() != 1)
+				{
+					tileData[i].id = 0;
+				}
+				else tileData[i].id = 1;
+
+
+				//tileData[i].id = Tile->GetTileID();
+				tileData[i].type = CellType::Empty;
+
+
+
+
 			}
-			else
-			{
-				Tile = Engine::CreateEntity<CTile>();
-			}
-
-
-			Tile->SetPosition(tempPos);
-			Tile->SetScale(tileScaleMultiplier);
-			Tile->ChangeTileID(ID);
-
-			tileContainer[i] = Tile;
-
-
-
-			if (Tile->GetTileID() != 1)
-			{
-				tileData[i].id = 0;
-			}
-			else tileData[i].id = 1;
-
-
-			//tileData[i].id = Tile->GetTileID();
-			tileData[i].type = CellType::Empty;
-
-
-
 
 		}
 
+		
 
 
 
@@ -107,11 +116,46 @@ void CWorld_Editable::LoadWorld(int Slot)
 			int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
 			int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
 
+			float enemyHealth = storedFile["Enemy"][i]["Health"];
+			float enemySpeed = storedFile["Enemy"][i]["Speed"];
+
+			float enemyMass = storedFile["Enemy"][i]["Mass"];
+			float enemyRange = storedFile["Enemy"][i]["Range"];
+
+			float enemyRotationSpeed = storedFile["Enemy"][i]["RotationSpeed"];
+			float enemyMaxSearchTime = storedFile["Enemy"][i]["MaxSearchTime"];
+
+			
+			
+
+			
+			
+
+			
+			
+			
+
+			
+
 			CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
 			TempRef->InitialiseEntity(EnemyID);
 			TempRef->SetPosition(Vector3(EnemyX, EnemyY, -1));
 			editorEntityList.push_back(TempRef);
 
+			TempRef->SetHealth(enemyHealth);
+			TempRef->SetSpeed(enemySpeed);
+			TempRef->SetMass(enemyMass);
+			TempRef->SetRange(enemyRange);
+			TempRef->SetRotationSpeed(enemyRotationSpeed);
+			TempRef->SetMaxSearchTime(enemyMaxSearchTime);
+
+			if (EnemyID == 0)
+			{
+				int weaponIndex = storedFile["Enemy"][i]["WeaponIndex"];
+				//std::string weaponName = storedFile["Enemy"][i]["WeaponType"].get<std::string>();
+				//Debug::Log("WeaponName: %s", weaponName);
+				TempRef->AssignWeapon((char*)"", weaponIndex);
+			}
 
 
 			int WaypointList = storedFile["Enemy"][i]["WaypointList"];
@@ -129,6 +173,8 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 		}
 
+
+
 		playerStartEntity = Engine::CreateEntity<CT_EditorEntity_PlayerStart>();
 		editorEntityList.push_back(playerStartEntity);
 		int StartX = storedFile["PlayerStart"]["X"];
@@ -136,6 +182,10 @@ void CWorld_Editable::LoadWorld(int Slot)
 		playerStartEntity->SetPosition((Vector3(StartX, StartY, 0) * (tileScale * tileScaleMultiplier)) + Vector3(0,0,-1));
 		
 
+	}
+	else
+	{
+		NewWorld(Slot);
 	}
 
 
@@ -167,8 +217,10 @@ void CWorld_Editable::UnloadWorld()
 void CWorld_Editable::SaveWorld(int Slot)
 {
 	UNREFERENCED_PARAMETER(Slot);
-	std::string fileName = "Resources/Levels/Level_" + std::to_string(Slot);
+	std::string fileName = "Resources/Levels/Level_" + std::to_string(mapSlot);
 	fileName += ".json";
+
+	
 
 	std::ifstream file(fileName);
 
@@ -185,12 +237,13 @@ void CWorld_Editable::SaveWorld(int Slot)
 		MapData.push_back(std::to_string(tileContainer[i]->GetTileID()));
 	}
 
-
+	SaveData["MapScale"] = mapScale;
 	SaveData["TileData"] = MapData;
 	SaveData["EnemyCount"] = totalEnemyEntities;
 
 	std::vector<CT_EditorEntity_Enemy*> EnemyList;
 	std::vector<CT_EditorEntity_Waypoint*> WaypointList;
+	std::vector<CT_EditorEntity_WeaponHolder*> HolderList;
 	
 
 	for (int i = 0; i < editorEntityList.size(); i++)
@@ -204,6 +257,9 @@ void CWorld_Editable::SaveWorld(int Slot)
 		case EditorEntityType::Waypoint:
 
 			WaypointList.push_back(static_cast<CT_EditorEntity_Waypoint*>(editorEntityList[i]));
+			break;
+		case EditorEntityType::WeaponHolder:
+			HolderList.push_back(static_cast<CT_EditorEntity_WeaponHolder*>(editorEntityList[i]));
 			break;
 		}
 	}
@@ -220,7 +276,12 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 				SaveData["Enemy"][i]["Position"]["X"] = TempEnemy->GetPosition().x;
 				SaveData["Enemy"][i]["Position"]["Y"] = TempEnemy->GetPosition().y;
-				
+				if (TempEnemy->GetSlot() == 0)
+				{
+					std::string weaponName = TempEnemy->GetWeaponName();
+					SaveData["Enemy"][i]["WeaponType"] = weaponName;
+					SaveData["Enemy"][i]["WeaponIndex"] = TempEnemy->GetAssignedWeapon();
+				}
 				
 			
 				SaveData["Enemy"][i]["WaypointList"] = TempEnemy->Waypoints.size();
@@ -230,6 +291,15 @@ void CWorld_Editable::SaveWorld(int Slot)
 					SaveData["Enemy"][i]["Waypoints"][y]["Y"] = TempEnemy->Waypoints[y]->gridPos.y;
 				}
 
+				SaveData["Enemy"][i]["Health"] = TempEnemy->GetHealth();
+				SaveData["Enemy"][i]["Speed"] = TempEnemy->GetSpeed();
+
+				SaveData["Enemy"][i]["Mass"] = TempEnemy->GetMass();
+				SaveData["Enemy"][i]["Range"] = TempEnemy->GetRange();
+
+				SaveData["Enemy"][i]["RotationSpeed"] = TempEnemy->GetRotationSpeed();
+				SaveData["Enemy"][i]["MaxSearchTime"] = TempEnemy->GetMaxSearchTime();
+
 
 				break;
 			}
@@ -237,10 +307,27 @@ void CWorld_Editable::SaveWorld(int Slot)
 		
 	}
 
-	int StartX = playerStartEntity->GetPosition().x / (tileScale * tileScaleMultiplier);
-	int StartY = playerStartEntity->GetPosition().y / (tileScale * tileScaleMultiplier);
-	SaveData["PlayerStart"]["X"] = StartX;
-	SaveData["PlayerStart"]["Y"] = StartY;
+
+	SaveData["TotalWeaponHolders"] = HolderList.size();
+	for (int i = 0; i < HolderList.size(); i++)
+	{
+		SaveData["WeaponHolder"][i]["WeaponIndex"] = HolderList[i]->GetAssignedWeapon();
+	}
+
+	if (playerStartEntity != nullptr)
+	{
+		int StartX = playerStartEntity->GetPosition().x / (tileScale * tileScaleMultiplier);
+		int StartY = playerStartEntity->GetPosition().y / (tileScale * tileScaleMultiplier);
+		SaveData["PlayerStart"]["X"] = StartX;
+		SaveData["PlayerStart"]["Y"] = StartY;
+	}
+	else
+	{
+		SaveData["PlayerStart"]["X"] = 0;
+		SaveData["PlayerStart"]["Y"] = 0;
+	}
+	
+
 	
 
 	std::ofstream o(fileName);
@@ -303,18 +390,23 @@ void CWorld_Editable::SetOperationMode(EditOperationMode mode)
 		Debug::Log("OperationMode: None");
 		break;
 	case EditOperationMode::EnemyEntity:
+		Debug::Log("OperationMode: Enemy Placement");
+		break;
+	case EditOperationMode::WeaponHolder:
+		Debug::Log("OperationMode: Weapon Placement");
 		break;
 	}
 }
 
 void CWorld_Editable::QueueCell(Vector2 Cell)
 {
-	if (operationType == EditOperationMode::Additive_Single || operationType == EditOperationMode::Subtractive_Single || operationType == EditOperationMode::EnemyEntity || operationType == EditOperationMode::Waypoints)
+	//operationType == EditOperationMode::Additive_Single || operationType == EditOperationMode::Subtractive_Single || operationType == EditOperationMode::EnemyEntity || operationType == EditOperationMode::Waypoints ||
+	if (operationType != EditOperationMode::Additive && operationType != EditOperationMode::Subtractive)
 	{
 		editOrigin = Cell;
 		PerformOperation(editOrigin, Cell);
 	}
-	else
+	else if (operationType != EditOperationMode::None)
 	{
 		if (!isQueueLocked)
 		{
@@ -368,6 +460,9 @@ void CWorld_Editable::PerformOperation(Vector2 A, Vector2 B)
 		break;
 	case EditOperationMode::Waypoints:
 		AddEditorEntity_Waypoint(A);
+		break;
+	case EditOperationMode::WeaponHolder:
+		AddEditorEntity_WeaponHolder(A);
 		break;
 	case EditOperationMode::None:
 		break;
@@ -950,5 +1045,20 @@ void CWorld_Editable::AddEditorEntity_Waypoint(Vector2 Position)
 	if (tileContainer[GridToIndex(Position)]->IsWalkable())
 	{
 		editorEntityList.push_back(GetInspectedItem_Enemy()->AddWaypoint(Position));
+	}
+}
+
+void CWorld_Editable::AddEditorEntity_WeaponHolder(Vector2 Position)
+{
+	Vector3 NewPos = Vector3(Position.x, Position.y, 0) * (tileScale * tileScaleMultiplier);
+	NewPos.z = -1;
+	if (tileContainer[GridToIndex(Position)]->IsWalkable())
+	{
+		CT_EditorEntity_WeaponHolder* TempRef = Engine::CreateEntity<CT_EditorEntity_WeaponHolder>();
+		TempRef->SetPosition(NewPos);
+		
+		editorEntityList.push_back(TempRef);
+		
+
 	}
 }

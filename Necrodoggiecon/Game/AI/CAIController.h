@@ -59,6 +59,9 @@ public:
 
 	void SetSpriteSize(float size);
 	float GetSpriteSize();
+	
+	void SetIsBoss(bool boss);
+	bool GetIsBoss();
 
 	virtual void Update(float deltaTime) override;
 
@@ -112,6 +115,7 @@ protected:
 
 	int currentCount;
 	bool isAttacking = false;
+	bool isBoss = false;
 
 	CCharacter* playerToKill = nullptr;
 	CCharacter* playerToChase = nullptr;

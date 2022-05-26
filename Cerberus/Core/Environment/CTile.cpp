@@ -39,6 +39,7 @@ void CTile::ChangeTileID(CellID TileID)
 	//sprite->LoadTexture("Resources\\Tiles\\Unwalkable.dds");
 	isWalkable = false;
 	
+	
 	switch (TileID)
 	{
 	case CellID::N:

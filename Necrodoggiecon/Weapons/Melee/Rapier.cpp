@@ -3,7 +3,7 @@
 Rapier::Rapier()
 {
 	Debug::Log("Rapier");
-	Weapon::SetWeapon("Rapier");
+	Weapon::SetWeapon(1);
 }
 
 Rapier::~Rapier()

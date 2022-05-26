@@ -7,6 +7,7 @@
 #include <corecrt_malloc.h>
 #include <iostream>
 #include "Cerberus\Core\Utility\Vector3.h"
+#include <vector>
 
 class CT_EditorWindows
 {
@@ -22,6 +23,8 @@ class CT_EditorWindows
     bool* open;
     int* levelToLoad;
     bool toggleWaypoints;
+    const char* weaponNames[9] = {};
+    std::vector<std::string> WepList;
 
 protected: 
 
@@ -39,8 +42,11 @@ public:
         AutoScroll = true;
         ScrollToBottom = false;
         open = new bool(true);
-        levelToLoad = new int(0);
+        //levelToLoad = new int(0);
         toggleWaypoints = false;
+        LoadWeapons();
+        InitialiseMapSlot();
+
     }
     ~CT_EditorWindows()
     {
@@ -81,6 +87,8 @@ public:
         Items.push_back(Strdup(buf));
     }
 
+    void LoadWeapons();
+    void InitialiseMapSlot();
 
    
 

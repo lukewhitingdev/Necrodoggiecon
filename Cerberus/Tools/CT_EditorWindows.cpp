@@ -1,8 +1,40 @@
 #include "CT_EditorWindows.h"
 #include "Cerberus/Core/Utility/CWorldManager.h"
 #include "Cerberus\Core\Environment\CWorld_Edit.h"
+#include "Cerberus\Dependencies\NlohmannJson\json.hpp"
+
+using json = nlohmann::json;
 
 
+
+void CT_EditorWindows::LoadWeapons()
+{
+
+    std::ifstream file("Resources/Weapons.json");
+    json storedFile;
+    file >> storedFile;
+    
+  
+
+    for (int i = 0; i < storedFile["TotalWeapons"]; i++)
+    {
+       
+        WepList.push_back(storedFile["Weapons"][i]["Name"]);
+      
+        
+
+
+        //weaponNames[i] = InName.c_str();
+    }
+  
+
+}
+
+void CT_EditorWindows::InitialiseMapSlot()
+{
+    levelToLoad = new int(CWorldManager::GetEditorWorld()->GetMapSlot());
+
+}
 
 void CT_EditorWindows::render()
 {
@@ -91,10 +123,11 @@ void CT_EditorWindows::render()
             if (ImGui::TreeNode("Levels"))
             {
                 ImGui::InputInt("Slot", levelToLoad, 1, 1);
+               
                 if (ImGui::Button("Load"))
                 {
-                    int LevelID = *levelToLoad;
-                    CWorldManager::LoadWorld(LevelID, true);
+                   
+                    CWorldManager::LoadWorld(*levelToLoad, true);
                    
                 }
 
@@ -111,6 +144,8 @@ void CT_EditorWindows::render()
 
             //AdditionalRenderLogic(*open);
 
+            
+
             ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetStyle().ItemSpacing.y), false, ImGuiWindowFlags_HorizontalScrollbar);
             if (ImGui::BeginPopupContextWindow())
             {
@@ -121,7 +156,7 @@ void CT_EditorWindows::render()
             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
             for (int i = 0; i < Items.Size; i++)
             {
-                const char* item = Items[i];
+                 const char* item = Items[i];
                 if (!Filter.PassFilter(item))
                     continue;
 
@@ -150,7 +185,7 @@ void CT_EditorWindows::render()
 
             ImGui::End();
 
-
+            
 
 
             ImGui::SetNextWindowSize(ImVec2(WindowScale.x, WindowScale.y), ImGuiCond_FirstUseEver);
@@ -175,6 +210,7 @@ void CT_EditorWindows::render()
                 }
 
 
+
                 ImGui::TreePop();
             }
 
@@ -185,9 +221,9 @@ void CT_EditorWindows::render()
 
                 }
                
-                if (ImGui::Button("Item Holder"))
+                if (ImGui::Button("Weapon Holder"))
                 {
-
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::WeaponHolder);
                 }
 
                 if (ImGui::Button("Goal"))
@@ -198,15 +234,22 @@ void CT_EditorWindows::render()
             }
             if (ImGui::TreeNode("Enemy Units"))
             {
-                if (ImGui::Button("Mage Enemy"))
+
+
+                if (ImGui::Button("Grunt Enemy"))
                 {
                     CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::EnemyEntity);
                     CWorldManager::GetEditorWorld()->SetEntityID(0);
                 }
-                if (ImGui::Button("Melee Enemy"))
+                if (ImGui::Button("Dog Enemy"))
                 {
                     CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::EnemyEntity);
                     CWorldManager::GetEditorWorld()->SetEntityID(1);
+                }
+                if (ImGui::Button("Alarm Enemy"))
+                {
+                    CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::EnemyEntity);
+                    CWorldManager::GetEditorWorld()->SetEntityID(2);
                 }
 
 
@@ -227,19 +270,56 @@ void CT_EditorWindows::render()
             }
             if (CWorldManager::GetEditorWorld()->GetInspectedItemType() != EditorEntityType::None)
             {
+
+              
+                static const char* current_item = NULL;
+                std::string Name = "Waypoint: ";
+
                 switch (CWorldManager::GetEditorWorld()->GetInspectedItemType())
                 {
                 case EditorEntityType::Enemy:
                    
+
+                    current_item = WepList[CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetAssignedWeapon()].c_str();
+
                     switch (CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetSlot())
                     {
                     case 0:
-                        ImGui::Text("Mage Enemy");
+                        ImGui::Text("Grunt Enemy");
+                      
+                        if (ImGui::BeginCombo("Weapon", current_item))
+                        {
+                            for (int n = 0; n < WepList.size(); n++)
+                            {
+                                bool is_selected = (CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetAssignedWeapon() == n); // You can store your selection however you want, outside or inside your objects
+                                if (ImGui::Selectable(WepList[n].c_str(), is_selected))
+                                {
+                                  
+                                    current_item = WepList[n].c_str();
+                                    CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->AssignWeapon((char*)WepList[n].c_str(), n);
+                                    if (is_selected)
+                                        ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+                                }
+                                  
+                                  
+                            }
+                            ImGui::EndCombo();
+                        }
+
+
                         break;
                     case 1: 
-                        ImGui::Text("Melee Enemy");
+                        ImGui::Text("Dog Enemy");
+                        break;
+                    case 2:
+                        ImGui::Text("Alarm Enemy");
                         break;
                     }
+
+                   
+
+
+
                     if (ImGui::Button("Add Waypoint"))
                     {
                         CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Waypoints);
@@ -249,12 +329,70 @@ void CT_EditorWindows::render()
                         CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->ToggleWaypoints(toggleWaypoints = !toggleWaypoints);
                     }
 
+                    if (ImGui::TreeNode("Status"))
+                    {
+                        float* Health = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetHealth());
+                        float* Mass = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetMass());
+                        float* Speed = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetSpeed());
+                        float* Range = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetRange());
+                        float* ViewAngle = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetViewAngle());
+
+                        float* RotationSpeed = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetRotationSpeed());
+                        float* MaxSearchTime = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetMaxSearchTime());
+
+                        ImGui::SliderFloat("Health", Health, 0.0f, 100.0f);
+                        ImGui::SliderFloat("Mass", Mass, 0.0f, 100.0f);
+                        ImGui::SliderFloat("Speed", Speed, 0.0f, 500.0f);
+                        ImGui::SliderFloat("Range", Range, 0.0f, 1000.0f);
+                        ImGui::SliderFloat("ViewAngle", ViewAngle, 0.0f, 360.0f);
+                        ImGui::SliderFloat("RotationSpeed", RotationSpeed, 0.0f, 100.0f);
+                        ImGui::SliderFloat("MaxSearchTime", MaxSearchTime, 0.0f, 100.0f);
+
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetHealth(*Health);
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetMass(*Mass);
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetSpeed(*Speed);
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetRange(*Range);
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetViewAngle(*ViewAngle);
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetRotationSpeed(*RotationSpeed);
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetMaxSearchTime(*MaxSearchTime);
+
+
+                        ImGui::TreePop();
+                    }
+
+
+
                     break;
                 case EditorEntityType::Waypoint:
                   
-                    std::string Name = "Waypoint: ";
+                 
                     Name += std::to_string(CWorldManager::GetEditorWorld()->GetInspectedItem_Waypoint()->waypointOrder).c_str();
                     ImGui::Text(Name.c_str());
+                    break;
+                case EditorEntityType::WeaponHolder:
+                    ImGui::Text("Weapon Holder");
+                  
+                    current_item = WepList[CWorldManager::GetEditorWorld()->GetInspectedItem_WeaponHolder()->GetAssignedWeapon()].c_str();
+                     if (ImGui::BeginCombo("Items", current_item))
+                    {
+                        for (int n = 0; n < WepList.size(); n++)
+                        {
+                            bool is_selected = (CWorldManager::GetEditorWorld()->GetInspectedItem_WeaponHolder()->GetAssignedWeapon() == n); // You can store your selection however you want, outside or inside your objects
+                            if (ImGui::Selectable(WepList[n].c_str(), is_selected))
+                            {
+
+                                current_item = WepList[n].c_str();
+                                CWorldManager::GetEditorWorld()->GetInspectedItem_WeaponHolder()->AssignWeapon((char*)WepList[n].c_str(), n);
+                                if (is_selected)
+                                    ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+                            }
+
+
+                        }
+                        ImGui::EndCombo();
+                    }
+                  
+                    break;
                   
                 }
             }
