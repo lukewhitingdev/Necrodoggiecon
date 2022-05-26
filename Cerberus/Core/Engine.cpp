@@ -774,16 +774,6 @@ LRESULT Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			fillState = !fillState;
 			break;
 		}
-		if (wParam == VK_ESCAPE)
-		{
-			//PostQuitMessage(1);
-			break;
-		}
-		if (wParam == VK_F3)
-		{
-			Engine::paused = !Engine::paused;
-			break;
-		}
 		break;
 	case WM_KEYUP:
 
