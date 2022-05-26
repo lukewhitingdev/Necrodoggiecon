@@ -12,10 +12,16 @@
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <Cerberus/Core/Structs/CCamera.h>
 #include "Cerberus/WorldConstants.h"
-#include "Necrodoggiecon/Weapons/Ranged/MagicMissile.h"
-#include "Necrodoggiecon/Weapons/Ranged/Fireball.h"
 #include "Necrodoggiecon/PauseMenu.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
+#include <Necrodoggiecon\Game\CInteractable.h>
+#include <Game/WeaponPickup.h>
+#include <Weapons/Melee/Dagger.h>
+#include <Weapons/Melee/Rapier.h>
+#include <Weapons/Melee/Longsword.h>
+#include <Weapons/Ranged/Crossbow.h>
+#include <Weapons/Ranged/Fireball.h>
+#include <Weapons/Ranged/MagicMissile.h>
 
 
 
@@ -63,6 +69,7 @@ void CWorld_Game::SetupWorld()
 	//Please stop configuring stuff in here instead of in the class constructor - Lets not spread configuration to many different places in the project!
 
 	LoadEnemyUnits(mapSlot);
+	LoadEntities(mapSlot);
 
 	
 
@@ -90,6 +97,7 @@ void CWorld_Game::ReloadWorld()
 	}
 	SetupWorld();
 	LoadEnemyUnits(mapSlot);
+	LoadEntities(mapSlot);
 }
 
 void CWorld_Game::LoadEnemyUnits(int Slot)
@@ -195,4 +203,55 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 void CWorld_Game::LoadEntities(int Slot)
 {
 
+	std::string fileName = "Resources/Levels/Level_" + std::to_string(mapSlot);
+	fileName += ".json";
+
+	std::ifstream file(fileName);
+
+	json storedFile;
+
+	file >> storedFile;
+
+	int TotalWeaponHolders = storedFile["TotalWeaponHolders"];
+	for (int i = 0; i < TotalWeaponHolders; i++)
+	{
+		
+		int HolderX = storedFile["WeaponHolder"][i]["X"];
+		int HolderY = storedFile["WeaponHolder"][i]["Y"];
+		int WepID = storedFile["WeaponHolder"][i]["WeaponIndex"];
+		
+		switch (WepID)
+		{
+		case 0:
+			Engine::CreateEntity<WeaponPickup<Dagger>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)));
+			break;
+		case 1:
+			Engine::CreateEntity<WeaponPickup<Rapier>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)) );
+			break;
+		case 2:
+			Engine::CreateEntity<WeaponPickup<Longsword>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)) );
+			break;
+		case 3:
+			Engine::CreateEntity<WeaponPickup<Crossbow>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)) );
+			break;
+		case 4:
+			Engine::CreateEntity<WeaponPickup<Fireball>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)) );
+			break;
+		case 5:
+			Engine::CreateEntity<WeaponPickup<MagicMissile>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)) );
+			break;
+
+		}
+
+
+
+		
+		
+		
+		
+		
+		
+		//Engine::CreateEntity<WeaponPickup<ShieldScroll>>()->SetPosition(800.0f, 400, 0.0f);
+		//Engine::CreateEntity<WeaponPickup<InvisibilityScroll>>()->SetPosition(800.0f, 450, 0.0f);
+	}
 }

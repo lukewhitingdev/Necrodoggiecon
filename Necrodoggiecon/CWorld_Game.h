@@ -19,7 +19,7 @@ public:
     virtual void ReloadWorld();
 
     virtual void LoadEnemyUnits(int Slot);
-    virtual void LoadEntities(int Slot);
+    virtual void LoadEntities(int Slot) override;
 
 };
 
