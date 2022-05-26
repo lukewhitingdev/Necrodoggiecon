@@ -2,7 +2,6 @@
 #include "Cerberus\Core\Utility\EventSystem\EventSystem.h"
 FMOD::System* AudioController::FMODSystem = nullptr;
 std::vector<CEmitter*> AudioController::emitters;
-std::vector<CEmitter*> AudioController::ambientEmitters;
 CTransform* AudioController::listenerTransform = nullptr;
 
 /**
@@ -253,34 +252,13 @@ void AudioController::Update(float deltaTime)
 
 		float attentuation = 1 - (distToEmitter / maxRange);
 
+		if(attentuation > (emitter->audio->maxVolume / 100))
+		{
+			attentuation = (emitter->audio->maxVolume / 100);
+		}
+
 		// Clamp because im bad at math.
 		if(attentuation < 0)
-		{
-			attentuation = 0;
-		}
-
-		// Attenuate.
-		emitter->audio->channel->setVolume(attentuation);
-	}
-
-	// Attenuate.
-	maxRange = 1000;
-	for (CEmitter* emitter : ambientEmitters)
-	{
-
-		float distToEmitter = listenerPos.DistanceTo(emitter->position);
-
-		// Check we are in range of the emitter.
-		if (distToEmitter > emitter->range)
-		{
-			emitter->audio->channel->setVolume(0);
-			continue;
-		}
-
-		float attentuation = 1 - (distToEmitter / maxRange);
-
-		// Clamp because im bad at math.
-		if (attentuation < 0)
 		{
 			attentuation = 0;
 		}
@@ -307,20 +285,15 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
 	std::vector<CEmitter*> output;
 	for (CEmitter* emiter : emitters)
 	{
-		// Check if we are inrange of the circular range emitters have.
-		if (emiter->range > position.DistanceTo(emiter->position))
+		if(emiter->type != EMITTERTYPE::AMBIENT)
 		{
-			if (checkIfPlaying)
+			// Check if we are inrange of the circular range emitters have.
+			if (emiter->range > position.DistanceTo(emiter->position))
 			{
-				bool isPlaying = false;
-				FMOD_RESULT result;
-
-				if (emiter->audio->channel != nullptr)
+				if (checkIfPlaying)
 				{
-					if ((result = emiter->audio->channel->isPlaying(&isPlaying)) != FMOD_OK)
-					{
-						Debug::LogError("An Error Occured when trying to get emitter that in range that is playing. Path: %s, FMOD Error: ", emiter->audio->path.c_str(), FMOD_ErrorString(result));
-					}
+					bool isPlaying = false;
+					FMOD_RESULT result;
 
 					if (emiter->audio->channel != nullptr)
 					{
@@ -334,15 +307,15 @@ std::vector<CEmitter*> AudioController::GetAllEmittersWithinRange(Vector3 positi
 							output.emplace_back(emiter);
 						}
 					}
-				}
-				else
-				{
-					output.emplace_back(emiter);
+					else
+					{
+						output.emplace_back(emiter);
+					}
 				}
 			}
 		}
-		return output;
 	}
+	return output;
 }
 
 /**
@@ -356,27 +329,6 @@ bool AudioController::AddEmitter(CEmitter* emitter)
 	if(emitter != nullptr)
 	{
 		emitters.emplace_back(emitter);
-		return true;
-	}
-	else
-	{
-		Debug::LogError("Tried to add emitter to audio controller that is nullptr!.");
-		return false;
-	}
-}
-
-/**
- * Adds a emitter to the audio system.
- * 
- * \param emitter emitter you wish to add to the audio system.
- * \param ambient whether the emitter is used for ambience or not. Emitters not used for ambience will alert enemies.
- * \return bool on success or failure
- */
-bool AudioController::AddEmitter(CEmitter* emitter, bool ambient)
-{
-	if (emitter != nullptr)
-	{
-		(ambient) ? emitters.emplace_back(emitter) : ambientEmitters.emplace_back(emitter);
 		return true;
 	}
 	else
@@ -408,20 +360,6 @@ bool AudioController::RemoveEmitter(CEmitter* emitter)
 			}
 		}
 
-		if (!found)
-		{
-			for (size_t i = 0; i < ambientEmitters.size(); i++)
-			{
-				CEmitter* emiter = emitters[i];
-				if (emiter == emitter)
-				{
-					ambientEmitters.erase(ambientEmitters.begin() + i);
-					found = true;
-					break;
-				}
-			}
-		}
-
 		if(!found)
 		{
 			Debug::LogError("Could not find emitter to remove!");
@@ -436,11 +374,19 @@ bool AudioController::RemoveEmitter(CEmitter* emitter)
 		Debug::LogError("Tried to remove emitter to audio controller that is nullptr!.");
 		return false;
 	}
-
-
-
-
 }
+
+void AudioController::SetMaxVolumeForEmitterType(const float volume,EMITTERTYPE type)
+{
+	for(auto& emiter : emitters)
+	{
+		if(emiter->type == type || type == EMITTERTYPE::ALL)
+		{
+			emiter->audio->maxVolume = volume;
+		}
+	}
+}
+
 /**
  * Adds a listener to the audio controller, used for attenuation.
  * 
