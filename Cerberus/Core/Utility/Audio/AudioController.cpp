@@ -27,6 +27,7 @@ void AudioController::Initialize()
 void AudioController::Shutdown()
 {
 	FMODSystem->release();
+	emitters.clear();
 }
 
 /**
