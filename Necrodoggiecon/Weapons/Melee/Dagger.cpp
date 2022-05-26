@@ -3,7 +3,7 @@
 Dagger::Dagger()
 {
 	Debug::Log("Dagger");
-	Weapon::SetWeapon(4);
+	Weapon::SetWeapon(0);
 }
 
 Dagger::~Dagger()
