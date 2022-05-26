@@ -81,6 +81,7 @@ void PauseMenu::PauseGame()
 	SetVisibility(true);
 	Debug::Log("pause");
 	isPaused = true;
+	Engine::paused = true;
 }
 /**
  * resumes game.
@@ -91,6 +92,7 @@ void PauseMenu::ResumeGame()
 	SetVisibility(false);
 	Debug::Log("resume");
 	isPaused = false;
+	Engine::paused = false;
 }
 /**
  * returns to main menu.

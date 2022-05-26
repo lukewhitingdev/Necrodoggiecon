@@ -8,6 +8,7 @@
 
 TestUI::TestUI()
 {
+	SetIsUI(true);
 	SetPosition(0, 0, -100);
 
 	birb = AddComponent<CAnimationSpriteComponent>(NAME_OF(birb));
