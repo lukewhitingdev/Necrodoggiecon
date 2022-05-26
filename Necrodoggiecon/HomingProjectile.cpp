@@ -35,7 +35,9 @@ void HomingProjectile::Update(float deltaTime)
 			if (target != nullptr)
 			{
 				Vector3 attack = target->GetPosition() - Projectile::GetPosition();
-				Projectile::SetPosition(Projectile::GetPosition() + (attack * Projectile::GetSpeed()) * deltaTime);
+				Vector3 velocity = attack * Projectile::GetSpeed();
+				velocity.Truncate(Projectile::GetSpeed());
+				Projectile::SetPosition(Projectile::GetPosition() + velocity * deltaTime);
 				ProjectileSprite->SetPosition(Projectile::GetPosition());
 				Projectile::SetLifetime( Projectile::GetLifetime() - deltaTime);
 			}
