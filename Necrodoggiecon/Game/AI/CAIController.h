@@ -120,6 +120,7 @@ protected:
 	CCharacter* playerToKill = nullptr;
 	CCharacter* playerToChase = nullptr;
 	
+	Vector3 originalViewFrustrumPosition;
 
 	std::vector<CCharacter*> characters = Engine::GetEntityOfType<CCharacter>();
 	std::vector<CCharacter*> players;
