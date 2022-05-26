@@ -37,7 +37,7 @@ void HomingProjectile::Update(float deltaTime)
 				Vector3 attack = target->GetPosition() - Projectile::GetPosition();
 				Projectile::SetPosition(Projectile::GetPosition() + (attack * Projectile::GetSpeed()) * deltaTime);
 				ProjectileSprite->SetPosition(Projectile::GetPosition());
-				Projectile::GetLifetime() - 2;
+				Projectile::SetLifetime( Projectile::GetLifetime() - deltaTime);
 			}
 			else
 			{
@@ -54,7 +54,7 @@ void HomingProjectile::Update(float deltaTime)
 				Vector3 attack = target->GetPosition() - Projectile::GetPosition();
 				Projectile::SetPosition(Projectile::GetPosition() + (attack * Projectile::GetSpeed()) * deltaTime);
 				ProjectileSprite->SetPosition(Projectile::GetPosition());
-				Projectile::GetLifetime() - 2;
+				Projectile::SetLifetime(Projectile::GetLifetime() - deltaTime);
 			}
 			else
 			{
