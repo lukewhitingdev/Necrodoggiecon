@@ -100,6 +100,7 @@ void PauseMenu::QuitToMenu()
 {
 	Debug::Log("quit to menu");
 	CWorldManager::LoadWorld(new CWorld_Menu());
+	SetVisibility(false);
 }
 /**
  * closes game.

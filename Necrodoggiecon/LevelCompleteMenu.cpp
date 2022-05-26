@@ -13,6 +13,7 @@
 #include "CWorld_Game.h"
 #include "Cerberus/Core/UI/CWidget_Text.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
+#include "Necrodoggiecon/CWorld_Menu.h"
 
 LevelCompleteMenu::LevelCompleteMenu()
 {
@@ -70,7 +71,7 @@ void LevelCompleteMenu::InitialiseCanvas()
 void LevelCompleteMenu::QuitToMenu()
 {
 	Debug::Log("quit to menu");
-	CWorldManager::LoadWorld(new CWorld_Game(0));
+	CWorldManager::LoadWorld(new CWorld_Menu());
 }
 /**
  * quits game entirely.
@@ -88,5 +89,5 @@ void LevelCompleteMenu::QuitToDesktop()
 void LevelCompleteMenu::NextLevel()
 {
 	Debug::Log("load next level");
-	//CWorldManager::LoadWorld(new CWorld_Game(CWorldManager::GetWorld()+1));
+	CWorldManager::LoadWorld(new CWorld_Game(CWorldManager::GetWorld()->GetMapSlot()+1));
 }
