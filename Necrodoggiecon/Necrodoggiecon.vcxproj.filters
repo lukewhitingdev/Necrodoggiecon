@@ -37,6 +37,9 @@
     <ClCompile Include="Game\AI\CAIController.cpp" />
     <ClCompile Include="Game\SoundManager.cpp" />
     <ClCompile Include="Game\AudioEmitterEntity.cpp" />
+    <ClCompile Include="CWorld_Menu.cpp" />
+    <ClCompile Include="Game\LevelTransporter.cpp" />
+    <ClCompile Include="Game\NecrodoggieconPage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Projectile.cpp" />
@@ -148,6 +151,9 @@
     <ClInclude Include="Game\AI\CAIController.h" />
     <ClInclude Include="Game\SoundManager.h" />
     <ClInclude Include="Game\AudioEmitterEntity.h" />
+    <ClInclude Include="CWorld_Menu.h" />
+    <ClInclude Include="Game\LevelTransporter.h" />
+    <ClInclude Include="Game\NecrodoggieconPage.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />

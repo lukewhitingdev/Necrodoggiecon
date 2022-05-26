@@ -12,6 +12,10 @@ NecrodoggieconPage::NecrodoggieconPage()
 	SetTextureWIC("Resources/Game/The Necrodoggiecon/The Necrodoggiecon page 1.png");
 }
 
+NecrodoggieconPage::~NecrodoggieconPage()
+{
+}
+
 void NecrodoggieconPage::OnInteract()
 {
 	SoundManager::PlaySound("LevelClear", GetPosition());
