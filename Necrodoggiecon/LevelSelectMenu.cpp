@@ -205,5 +205,8 @@ void LevelSelectMenu::UpdateButtonPositions()
  */
 void LevelSelectMenu::PlayLevel()
 {
+	SetVisibility(false);
 	CWorldManager::LoadWorld(new CWorld_Game(SelectedLevel));
+
+
 }

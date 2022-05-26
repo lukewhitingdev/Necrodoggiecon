@@ -6,7 +6,9 @@
  * \date   May 2022
  *********************************************************************/
 #include "Cerberus/Core/Utility/CWorldManager.h"
-#include "Core/Environment/CWorld_Edit.h"
+#include "Cerberus/Core/Environment/CWorld_Edit.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
+
 
 CWorld* CWorldManager::gameWorld = nullptr;
 CWorld_Editable* CWorldManager::editorWorld = nullptr;
@@ -26,40 +28,39 @@ void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 		//If a game level already exists, unload it first, if switching from game to editor, unload the game.
 		if (gameWorld != nullptr)
 		{
-			gameWorld->UnloadWorld();
+			gameWorld->DestroyWorld();
+			delete(gameWorld);
 		}
 		if (editorWorld != nullptr)
 		{
-			editorWorld->UnloadWorld();
-			editorWorld->LoadWorld(Slot);
-			editorWorld->SetupWorld();
+			editorWorld->DestroyWorld();
+			delete(editorWorld);
+			
 		}
-		else
-		{
-			//Create a new editor world, load and call setup
-			editorWorld = new CWorld_Editable();
-			editorWorld->LoadWorld(Slot);
-			editorWorld->SetupWorld();
-
-		}
+		//Create a new editor world, load and call setup
+		editorWorld = new CWorld_Editable();
+		editorWorld->LoadWorld(Slot);
+		editorWorld->SetupWorld();
 	}
 	else
 	{
 		//Works the same as above, only for the game world instead.
 		if (editorWorld != nullptr)
 		{
-			editorWorld->UnloadWorld();
+			editorWorld->DestroyWorld();
+			delete(editorWorld);
 		}
-		if (gameWorld == nullptr)
+		if (gameWorld != nullptr)
 		{
-			gameWorld = new CWorld();
-			gameWorld->LoadWorld(Slot);
-			gameWorld->SetupWorld();
+			gameWorld->DestroyWorld();
+		
+			
+			delete(gameWorld);
+			
 		}
-		else
-		{
-			gameWorld->UnloadWorld();
-		}
+		gameWorld = new CWorld();
+		gameWorld->LoadWorld(Slot);
+		gameWorld->SetupWorld();
 
 	}
 
@@ -74,19 +75,22 @@ void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 
 void CWorldManager::LoadWorld(CWorld* World)
 {
+	//Works the same as above, only for the game world instead.
 	if (editorWorld != nullptr)
 	{
-		editorWorld->UnloadWorld();
+		editorWorld->DestroyWorld();
+		delete(editorWorld);
 	}
-	else if (gameWorld != nullptr)
+	if (gameWorld != nullptr)
 	{
-		gameWorld->UnloadWorld();
+		CUIManager::HideAllCanvases();
+		gameWorld->DestroyWorld();
+		
+		delete(gameWorld);
+
 	}
-	else
-	{
-		gameWorld = World;
-		gameWorld->SetupWorld();
-	}
+	gameWorld = World;
+	gameWorld->SetupWorld();
 }
 
 /**
@@ -110,5 +114,10 @@ void CWorldManager::LoadWorld(CWorld_Editable* World)
 		editorWorld = World;
 		editorWorld->SetupWorld();
 	}
+}
+
+void CWorldManager::ReloadWorld()
+{
+	gameWorld->ReloadWorld();
 }
 
