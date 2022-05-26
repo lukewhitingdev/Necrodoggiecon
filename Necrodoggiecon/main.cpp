@@ -63,6 +63,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 // Called once at the start of the application run.
 int Start() 
 {
+	#ifdef _DEBUG
+		Debug::SetLogging(true);
+		Debug::SetVisibility(true);
+	#endif
+
+	#ifndef _DEBUG
+			Debug::SetLogging(false);
+			Debug::SetVisibility(false);
+	#endif
+
 	CWorldManager::LoadWorld(new CWorld_Menu());
 	return 0;
 }

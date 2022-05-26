@@ -26,8 +26,5 @@ public:
     virtual void Update(float deltaTime) override;
 
     void UpdateWeaponSprite();
-
-private:
-    CSpriteComponent* weaponSprite = nullptr;
 };
 

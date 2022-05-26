@@ -27,6 +27,7 @@ Projectile::~Projectile()
  */
 void Projectile::Update(float deltaTime)
 {
+	ProjectileSprite->SetPosition(GetPosition());
 	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime && hasHit == false)
 	{
 		DidItHit();
@@ -57,7 +58,6 @@ void Projectile::DidItHit()
 			hasHit = true;
 			target->ApplyDamage(Damage);
 			Lifetime = 0;
-			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
 		}
 	}
 	else if (userType == USERTYPE2::PLAYER)
