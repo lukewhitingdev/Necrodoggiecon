@@ -69,7 +69,6 @@ public:
 	void ApplyDamage(float damage, const std::string& onHitSound);
 
 	class CCameraComponent* camera = nullptr;
-	CAudioEmitterComponent* loadNoise = nullptr;
 
 private:
 	void ResolveMovement(const float& deltaTime);
