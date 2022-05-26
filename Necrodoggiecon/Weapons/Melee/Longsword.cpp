@@ -31,7 +31,7 @@ bool Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 			StartCooldown();
 			SetCanFire(false);
 			if (enemies.size() == 0) //No enemies
-				return;
+				return true;
 
 			//Check each enemy
 			for (CAIController* enemy : enemies)
@@ -52,7 +52,7 @@ bool Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 			StartCooldown();
 			SetCanFire(false);
 			if (players.size() == 0) //No enemies
-				return;
+				return true;
 
 			//Check each enemy
 			for (PlayerCharacter* player : players)
