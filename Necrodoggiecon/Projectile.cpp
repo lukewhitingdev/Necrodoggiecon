@@ -31,7 +31,6 @@ void Projectile::Update(float deltaTime)
 	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime && hasHit == false)
 	{
 		DidItHit();
-		Debug::Log("Projectile Speed %f", deltaTime);
 		Position += velocity * deltaTime;
 		ProjectileSprite->SetPosition(Position);
 	}

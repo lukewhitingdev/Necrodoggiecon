@@ -4,7 +4,6 @@
 
 Longsword::Longsword()
 {
-	Debug::Log("Longsword");
 	Weapon::SetWeapon(2);
 }
 

@@ -10,7 +10,6 @@
 
 Fireball::Fireball()
 {
-	Debug::Log("FireBall");
 	Weapon::SetWeapon(5);
 	RangeWeapon::SetProjectileSpeed(8.0f);
 }

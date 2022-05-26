@@ -10,7 +10,6 @@
 
 MagicMissile::MagicMissile()
 {
-	Debug::Log("Magic Missile");
 	Weapon::SetWeapon(4);
 	RangeWeapon::SetProjectileSpeed(0.03f);
 }
@@ -40,7 +39,6 @@ void MagicMissile::OnFire(Vector3 actorPos, Vector3 attackDir)
 		else
 		{
 			Weapon::SetCanFire(false);
-			Debug::Log("No Ammo!!!");
 		}
 	}
 }

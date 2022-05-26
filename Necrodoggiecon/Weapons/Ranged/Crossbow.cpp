@@ -10,7 +10,6 @@
 
 Crossbow::Crossbow()
 {
-	Debug::Log("Crossbow");
 	Weapon::SetWeapon(3);
 	RangeWeapon::SetProjectileSpeed(8.0f);
 
