@@ -13,7 +13,13 @@ Pickup::~Pickup()
 void Pickup::Update(float deltaTime)
 {
 }
-
+/**
+ * Function used to try to activate the pickup.
+ * 
+ * \param actorPos - not used
+ * \param attackDir - not used
+ * \return - True if it can activate, otherwise false
+ */
 bool Pickup::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	if (Weapon::GetAmmo() == 0.0f) return false;
@@ -99,6 +105,10 @@ CEntity* Pickup::GetClosestPlayer(Vector3 actorPos, Vector3 damagePos) // BB
 
 	return closestPlayer;
 }
+/**
+ * Function used to activate the pickup on the player character.
+ * 
+ */
 void Pickup::HandlePickup()
 {
 	

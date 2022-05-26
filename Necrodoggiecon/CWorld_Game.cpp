@@ -12,6 +12,7 @@
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <Cerberus/Core/Structs/CCamera.h>
 #include "Cerberus/WorldConstants.h"
+#include "Game/SoundManager.h"
 
 
 /**
@@ -109,4 +110,10 @@ void CWorld_Game::SetupWorld()
 		enemy->SetCurrentState(PatrolState::getInstance());
 		patrolNodes.clear();
 	}
+
+	if (GetMapSlot() == 0)
+	{
+		SoundManager::PlayMusic("Resources/Game/Audio/BGM.wav", character1);
+	}
+	
 }

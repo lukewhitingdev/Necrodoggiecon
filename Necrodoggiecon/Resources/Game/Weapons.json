@@ -74,8 +74,8 @@
     "Ammo": 3.0,
     "Unique": true,
     "Name": "Magic Missile",
-    "HitAudio": "",
-    "AttackAudio": ""
+    "HitAudio": "FireballHit",
+    "AttackAudio": "MagicMissileShoot"
   },
   "IcicleBarrage": {
     "IconPath": "Resources/Game/weapons/Wand - Icicle barrage.png",

@@ -20,7 +20,7 @@ public:
 	CWorld();
 	CWorld(int Slot);
 
-	
+	int GetMapSlot() { return mapSlot; }
 
 	virtual void LoadWorld(int Slot);
 	 
