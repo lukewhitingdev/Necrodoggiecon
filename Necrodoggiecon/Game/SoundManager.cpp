@@ -19,7 +19,7 @@ void SoundManager::Initialise()
 	musicAudioEmitter = Engine::CreateEntity<AudioEmitterEntity>();
 
 	AddSound("Resources/Game/Audio/DeathSound.wav", "DeathSound", 1000.0f);
-	AddSound("Resources/Game/Audio/Footstep.wav", "StepSound", 100);
+	AddSound("Resources/Game/Audio/Footstep.wav", "StepSound", 100, true);
 	AddSound("Resources/Game/Audio/ShieldHit.wav", "ShieldHit", 1000.0f);
 	AddSound("Resources/Game/Audio/DeactivateInvis.wav", "DeactivateInvis", 1000.0f);
 	AddSound("Resources/Game/Audio/Bell.wav", "Bell", 1000.0f);
