@@ -22,6 +22,8 @@
 #include <Weapons/Ranged/Crossbow.h>
 #include <Weapons/Ranged/Fireball.h>
 #include <Weapons/Ranged/MagicMissile.h>
+#include "Weapons/Pickup/InvisibilityScroll.h"
+#include "Weapons/Pickup/ShieldScroll.h"
 
 
 
@@ -240,6 +242,12 @@ void CWorld_Game::LoadEntities(int Slot)
 		case 5:
 			Engine::CreateEntity<WeaponPickup<MagicMissile>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)) );
 			break;
+		case 6: 
+			Engine::CreateEntity<WeaponPickup<ShieldScroll>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)));
+			break;
+		case 7: 
+			Engine::CreateEntity<WeaponPickup<InvisibilityScroll>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)));
+			break;
 
 		}
 
@@ -251,7 +259,7 @@ void CWorld_Game::LoadEntities(int Slot)
 		
 		
 		
-		//Engine::CreateEntity<WeaponPickup<ShieldScroll>>()->SetPosition(800.0f, 400, 0.0f);
-		//Engine::CreateEntity<WeaponPickup<InvisibilityScroll>>()->SetPosition(800.0f, 450, 0.0f);
+		
+	
 	}
 }
