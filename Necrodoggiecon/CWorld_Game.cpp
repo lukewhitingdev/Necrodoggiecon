@@ -283,15 +283,5 @@ void CWorld_Game::LoadEntities(int Slot)
 
 		}
 
-
-
-		
-		
-		
-		
-		
-		
-		
-	
 	}
 }
