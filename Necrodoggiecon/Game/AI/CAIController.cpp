@@ -459,7 +459,8 @@ void CAIController::ChasePlayer(CCharacter* player)
 void CAIController::AttackPlayer(CCharacter* player, float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);
-	UNREFERENCED_PARAMETER(player);
+
+	heading = Seek(player->GetPosition());
 }
 
 /**

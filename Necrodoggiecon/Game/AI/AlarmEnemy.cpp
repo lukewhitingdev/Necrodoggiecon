@@ -48,6 +48,7 @@ void AlarmEnemy::Update(float deltaTime)
  */
 void AlarmEnemy::ChasePlayer(CCharacter* player)
 {
+	heading = Seek(player->GetPosition());
 	if (!onCooldown)
 	{
 		SoundManager::PlaySound("Bell", GetPosition());
