@@ -64,41 +64,7 @@
       "Attack_Speed": 0.2,
       "Ammo": 3.0,
       "Unique": true,
-      "Name" :  "Fireball"
-    },
-    {
-      "IconPath": "Resources/Game/weapons/Wand - Lightning Dash.png",
-      "ProjectileIconPath": "Resources/Game/weapons/Wand - Magic missile Projectile.png",
-      "Type": "Magic",
-      "Damage": 1.0,
-      "Range": 20.0,
-      "Attack_Speed": 0.01,
-      "Ammo": 1.0,
-      "Unique": true,
-      "Name": "Lightning Dash"
-    },
-    {
-      "IconPath": "Resources/Game/weapons/Wand - Icicle barrage.png",
-      "ProjectileIconPath": "Resources/Game/weapons/Wand - Icicle barrage Projectile.png",
-      "Type": "Magic",
-      "Damage": 1.0,
-      "Range": 25.0,
-      "Attack_Speed": 0.1,
-      "Ammo": 12.0,
-      "Unique": true,
-      "Name": "Icicle Barrage"
-
-    },
-    {
-      "IconPath": "Resources/Game/weapons/ThrowingKnives.png",
-      "ProjectileIconPath": "Resources/Game/weapons/Dagger.png",
-      "Type": "Ranged",
-      "Damage": 1.0,
-      "Range": 8.0,
-      "Attack_Speed": 0.2,
-      "Ammo": 10.0,
-      "Unique": false,
-      "Name": "Throwing Knives"
+      "Name": "Fireball"
     },
     {
       "IconPath": "Resources/Game/weapons/Scroll - Shield.png",
@@ -123,7 +89,7 @@
       "Name": "InvisibilityScroll"
     }
   ],
-  "TotalWeapons": 6
+  "TotalWeapons": 8
 
 }
 
