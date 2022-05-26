@@ -624,7 +624,10 @@ HRESULT ResizeSwapChain(XMUINT2 newSize)
 //--------------------------------------------------------------------------------------
 void CleanupDevice()
 {
-	EntityManager::Purge();
+	for (int i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
+	{
+		delete EntityManager::GetEntitiesVector()->at(i);
+	}
 
 	// Remove any bound render target or depth/stencil buffer
 	ID3D11RenderTargetView* nullViews[] = { nullptr };

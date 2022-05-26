@@ -12,8 +12,6 @@ void CWorld_Menu::SetupWorld()
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
 	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>(NAME_OF(freeCameraComponent));
 	freeCameraComponent->SetAttachedToParent(false);
-	CameraManager::AddCamera(freeCameraComponent);
-
 	CameraManager::SetRenderingCamera(freeCameraComponent);
 
 	CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
