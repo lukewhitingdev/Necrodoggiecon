@@ -85,7 +85,7 @@ weaponUI::weaponUI()
 void weaponUI::updateUI(std::string weaponName, int currentAmmo, int maxAmmo, std::string spritePath)
 {
 	textWeaponName->SetText(weaponName);
-	textAmmoDisplay->SetText(std::to_string(currentAmmo) + "/" + std::to_string(maxAmmo));
+	textAmmoDisplay->SetText(std::to_string(currentAmmo) + "I" + std::to_string(maxAmmo));
 	weaponSprite->LoadTextureWIC(spritePath);
 }
 

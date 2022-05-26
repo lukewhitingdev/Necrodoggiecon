@@ -163,7 +163,7 @@ void PlayerCharacter::Update(float deltaTime)
 	// Set crossbow animation to empty bow when we cant fire or out of ammo.
 	if(weapon->GetName() == "Crossbow")
 	{
-		if(!weapon->GetCanFire() || weapon->GetAmmo() <= 0)
+		if(!weapon->GetCanFire() || weapon->GetMaxAmmo() <= 0)
 		{
 			weaponSprite->SetTextureOffset(DirectX::XMFLOAT2(64, 0));
 		}
