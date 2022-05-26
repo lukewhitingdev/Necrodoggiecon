@@ -65,8 +65,11 @@ void CWorld_Game::SetupWorld()
 
 	LoadEnemyUnits(mapSlot);
 
-	
-
+	Debug::Log(std::to_string(GetMapSlot()).c_str());
+	if (GetMapSlot() != 0)
+	{
+		SoundManager::PlayMusic("Resources/Game/Audio/BGM.wav", character1);
+	}
 }
 
 void CWorld_Game::UnloadWorld()
@@ -192,11 +195,6 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 
 	}
 
-	if (GetMapSlot() == 0)
-	{
-		SoundManager::PlayMusic("Resources/Game/Audio/BGM.wav", character1);
-	}
-	
 }
 
 void CWorld_Game::LoadEntities(int Slot)

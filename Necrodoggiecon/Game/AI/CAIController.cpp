@@ -575,13 +575,11 @@ void CAIController::ApplyDamage(float damageAmount, const std::string& hitAudioP
 {
 	OnHit(hitAudioPath);
 	ApplyDamage(damageAmount);
-		if (isBoss == true)
-		{
-			// DROP SCROLL HERE
-		}
-		Engine::DestroyEntity(this);
+	if (isBoss == true)
+	{
+		// DROP SCROLL HERE
 	}
-		
+	Engine::DestroyEntity(this);
 }
 
 /**
