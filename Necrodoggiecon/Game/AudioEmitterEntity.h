@@ -17,10 +17,13 @@ public:
     void Load(const std::string& audioPath, bool ambient);
     void SetRange(float range);
     void SetAttachedEntity(CEntity* entity) { isAttached = true;  attachedEntity = entity; }
+    void SetName(const std::string& name) { audioName = name; };
 protected:
     CAudioEmitterComponent* audioEmitter;
     CEntity* attachedEntity;
     bool isAttached;
+    std::string audioName;
+
     // Inherited via CEntity
     virtual void Update(float deltaTime) override;
 };
