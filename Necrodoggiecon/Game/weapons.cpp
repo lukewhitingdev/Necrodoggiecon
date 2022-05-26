@@ -69,7 +69,7 @@ void Weapon::SetWeapon(std::string ID)
 
 void Weapon::CoolDown(float attack_cooldown)
 {
-	if (canFire == false)
+	if (canFire == false && ammo > 0)
 	{
 		if (cooldown > 0)
 		{

@@ -28,7 +28,7 @@ void MagicMissile::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	if (Weapon::GetCanFire())
 	{
-		if (Weapon::GetMaxAmmo() > 0)
+		if (Weapon::GetAmmo() > 0)
 		{
 			auto normAttackDir = attackDir.Normalize();
 			Weapon::SetCanFire(false);
