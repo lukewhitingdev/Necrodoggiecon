@@ -9,11 +9,11 @@ using namespace std;
 CWidget_Button::CWidget_Button()
 {
 	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
-	sprite->SetIsUI(true);
+	//sprite->SetIsUI(true);
 
 
 	textRenderer = AddComponent<CTextRenderComponent>(NAME_OF(textRenderer));
-	textRenderer->SetIsUI(true);
+//	textRenderer->SetIsUI(true);
 	
 	
 	ButtonPressedBind = nullptr;
