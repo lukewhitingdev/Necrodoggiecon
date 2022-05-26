@@ -17,7 +17,20 @@
 #include "Necrodoggiecon/PauseMenu.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 
-
+#include <weaponUI.h>
+#include <Necrodoggiecon\Game\CInteractable.h>
+#include <Game/WeaponPickup.h>
+#include <Weapons/Melee/Dagger.h>
+#include <Weapons/Melee/Rapier.h>
+#include <Weapons/Melee/Longsword.h>
+#include <Weapons/Ranged/Crossbow.h>
+#include <Weapons/Ranged/Fireball.h>
+#include <Weapons/Ranged/MagicMissile.h>
+#include "Necrodoggiecon/MainMenu.h"
+#include "Necrodoggiecon/PauseMenu.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
+#include "Weapons/Pickup/InvisibilityScroll.h"
+#include "Weapons/Pickup/ShieldScroll.h"
 
 /**
  * Constructor, automatically loads world based on provided slot.
@@ -37,18 +50,7 @@ void CWorld_Game::SetupWorld()
 	PlayerController* controller = Engine::CreateEntity<PlayerController>();
 
 	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
-	//EntityList.push_back(character1);
 	EntityList.push_back(controller);
-
-	// Locked Camera follows player.
-	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>(NAME_OF(spriteComponentLegs));
-	lockedCameraComponent->SetAttachedToParent(true);
-
-
-
-	CameraManager::AddCamera(lockedCameraComponent);
-
-	CameraManager::SetRenderingCamera(lockedCameraComponent);
 
 
 	CUIManager::AddCanvas(Engine::CreateEntity<PauseMenu>(), "PauseMenu");
@@ -60,12 +62,18 @@ void CWorld_Game::SetupWorld()
 	character1->SetPosition(PlayerStart);
 	controller->Possess(character1);
 
+	Engine::CreateEntity<WeaponPickup<Dagger>>();
+	Engine::CreateEntity<WeaponPickup<Rapier>>()->SetPosition(-100.0f, 0.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Longsword>>()->SetPosition(100.0f, 0.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Crossbow>>()->SetPosition(100.0f, 100.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<Fireball>>()->SetPosition(0.0f, 100.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<MagicMissile>>()->SetPosition(-100.0f, 100.0f, 0.0f);
+	Engine::CreateEntity<WeaponPickup<ShieldScroll>>()->SetPosition(800.0f, 400, 0.0f);
+	Engine::CreateEntity<WeaponPickup<InvisibilityScroll>>()->SetPosition(800.0f, 450, 0.0f);
+
 	//Please stop configuring stuff in here instead of in the class constructor - Lets not spread configuration to many different places in the project!
 
 	LoadEnemyUnits(mapSlot);
-
-	
-
 }
 
 void CWorld_Game::UnloadWorld()

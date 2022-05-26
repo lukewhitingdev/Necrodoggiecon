@@ -8,6 +8,8 @@
 #include "Necrodoggiecon/Weapons/Pickup/ShieldScroll.h"
 #include "Necrodoggiecon/Weapons/Pickup/InvisibilityScroll.h"
 #include <Necrodoggiecon/Weapons/Ranged/MagicMissile.h>
+#include "weaponUI.h"
+#include "CursorEntity.h"
 
 PlayerCharacter::PlayerCharacter()
 {
@@ -71,6 +73,10 @@ PlayerCharacter::PlayerCharacter()
 	weaponSprite->SetRenderRect(weaponComponent->GetCurrentWeapon()->GetRenderRect());
 	weaponSprite->SetScale(weaponComponent->GetCurrentWeapon()->GetScale());
 
+	CEntity* t = Engine::CreateEntity<weaponUI>();
+	t->SetPosition(XMFLOAT3(0, 0, -90));
+	t = Engine::CreateEntity<CursorEntity>();
+	t->SetPosition(XMFLOAT3(0, 0, -110));
 
 	camera = AddComponent<CCameraComponent>(NAME_OF(camera));
 	camera->SetAttachedToParent(false);
