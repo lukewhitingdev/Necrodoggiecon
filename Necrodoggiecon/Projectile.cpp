@@ -57,7 +57,6 @@ void Projectile::DidItHit()
 			hasHit = true;
 			target->ApplyDamage(Damage);
 			Lifetime = 0;
-			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
 		}
 	}
 	else if (userType == USERTYPE2::PLAYER)
