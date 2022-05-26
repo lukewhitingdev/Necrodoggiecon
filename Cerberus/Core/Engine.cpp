@@ -968,7 +968,10 @@ void Render()
 	ImGui::NewFrame();
 
 	// Do UI.
-	Debug::getOutput()->render();
+	if(Debug::GetVisibility())
+	{
+		Debug::getOutput()->render();
+	}
 	if (CWorldManager::GetEditorWorld() != nullptr)CWorldManager::GetEditorWorld()->UpdateEditorViewport();
 
 	ImGui::Render();
