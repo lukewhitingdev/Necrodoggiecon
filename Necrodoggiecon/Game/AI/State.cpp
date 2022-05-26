@@ -42,6 +42,7 @@ void ChaseState::Enter(CAIController* controller)
 	}
 
 	controller->sprite->SetAnimationRectPosition(XMUINT2(1, 1));
+	controller->sprite->SetPlaying(true, true);
 	controller->ChaseEnter();
 }
 
@@ -101,6 +102,7 @@ void AttackState::Enter(CAIController* controller)
 		}
 	}
 	controller->sprite->SetAnimationRectPosition(XMUINT2(1, 1));
+	controller->sprite->SetPlaying(true, true);
 	controller->AttackEnter(closestPlayer);
 }
 
@@ -135,7 +137,8 @@ State& AttackState::getInstance()
 
 void PatrolState::Enter(CAIController* controller)
 {
-	controller->sprite->SetAnimationRectPosition(XMUINT2(0, 0));;
+	controller->sprite->SetAnimationRectPosition(XMUINT2(0, 0));
+	controller->sprite->SetPlaying(true, true);
 	controller->SetPath();
 }
 
@@ -213,6 +216,7 @@ State& SearchState::getInstance()
 void InvestigateState::Enter(CAIController* controller)
 {
 	controller->sprite->SetAnimationRectPosition(XMUINT2(0, 0));
+	controller->sprite->SetPlaying(true, true);
 	controller->SetPath(controller->GetPositionToInvestigate());
 }
 
