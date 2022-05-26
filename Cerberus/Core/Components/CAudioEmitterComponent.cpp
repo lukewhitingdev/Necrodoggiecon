@@ -131,6 +131,28 @@ void CAudioEmitterComponent::Play()
 }
 
 /**
+ * Plays the audio emitter with a option of looping the audio.
+ * 
+ * \param loop
+ */
+void CAudioEmitterComponent::Play(bool loop)
+{
+	if (emitter->audio != nullptr)
+	{
+		if (!AudioController::PlayAudio(emitter->audio->path, loop))
+		{
+			Debug::LogError("An error occured whils trying to play audio on a emitter, see error above.");
+			return;
+		}
+	}
+	else
+	{
+		Debug::LogError("Tried to play audio on a emitter without having a loaded audio. This is not allowed.");
+		return;
+	}
+}
+
+/**
  * Stops the audio emitter.
  * 
  */
