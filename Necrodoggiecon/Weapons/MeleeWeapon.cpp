@@ -18,13 +18,14 @@ MeleeWeapon::~MeleeWeapon()
 {
 }
 
+
 /**
  * Virtual OnFire function, overridden if the weapon has any unique firing logic.
  * 
  * \param actorPos Position of the actor using OnFire.
  * \param attackDir Direction vector of the attack.
  */
-void MeleeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
+bool MeleeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	if (Weapon::GetCanFire())
 	{
@@ -32,7 +33,9 @@ void MeleeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 		Weapon::SetCanFire(false);
 		Weapon::StartCooldown();
 		HandleMelee(actorPos, normAttackDir);
+		return true;
 	}
+	return false;
 }
 
 /**
@@ -49,13 +52,13 @@ void MeleeWeapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 	{
 		CCharacter* target = GetClosestPlayer(actorPos, damagePos);
 		if (target != nullptr)
-			target->ApplyDamage(GetDamage());
+			target->ApplyDamage(GetDamage(), GetHitSound());
 	}
 	else if (Weapon::GetUserType() == USERTYPE::PLAYER)
 	{
 		CCharacter* target = GetClosestEnemy(actorPos, damagePos);
 		if (target != nullptr)
-			target->ApplyDamage(GetDamage());
+			target->ApplyDamage(GetDamage(), GetHitSound());
 	}
 }
 

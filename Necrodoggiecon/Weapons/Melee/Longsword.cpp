@@ -17,7 +17,7 @@ Longsword::~Longsword()
  * \param actorPos
  * \param attackDir
  */
-void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
+bool Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	auto normAttackDir = attackDir.Normalize();
 
@@ -31,7 +31,7 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 			StartCooldown();
 			SetCanFire(false);
 			if (enemies.size() == 0) //No enemies
-				return;
+				return true;
 
 			//Check each enemy
 			for (CAIController* enemy : enemies)
@@ -52,7 +52,7 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 			StartCooldown();
 			SetCanFire(false);
 			if (players.size() == 0) //No enemies
-				return;
+				return true;
 
 			//Check each enemy
 			for (PlayerCharacter* player : players)
@@ -67,5 +67,7 @@ void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 				player->ApplyDamage(GetDamage());
 			}
 		}
+		return true;
 	}
+	return false;
 }

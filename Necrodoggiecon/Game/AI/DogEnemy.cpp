@@ -6,6 +6,7 @@
  * \date   May 2022
  *********************************************************************/
 #include "DogEnemy.h"
+#include "Game/SoundManager.h"
 
 DogEnemy::DogEnemy()
 {
@@ -92,6 +93,8 @@ void DogEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 		if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 		{
 			player->ApplyDamage(1.0f);
+			SoundManager::PlaySound("DogBark", GetPosition());
+
 			onCooldown = true;
 			attackTimer = 1.0f;
 			attackCooldown = 20.0f;
@@ -114,4 +117,13 @@ void DogEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 		heading = Seek(player->GetPosition());
 	}
 
+}
+void DogEnemy::OnDeath()
+{
+	SoundManager::PlaySound("DeathSound", GetPosition());
+}
+
+void DogEnemy::OnHit(const std::string& hitSound)
+{
+	SoundManager::PlaySound(hitSound, GetPosition());
 }

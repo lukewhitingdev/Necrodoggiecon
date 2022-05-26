@@ -32,16 +32,17 @@ enum class USERTYPE
  */
 class Weapon : public CComponent
 {
-public:	
+public:
 	Weapon(std::string weapon = "Dagger");
 
+
+	virtual bool OnFire(Vector3 actorPos, Vector3 attackDir);
 	void SetWeapon(int ID);
 	void SetWeapon(std::string ID);
 
 	std::string IDToName(int ID);
 	int NameToID(std::string Name);
 
-	virtual void OnFire(Vector3 actorPos, Vector3 attackDir);
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) override;
 
@@ -67,7 +68,10 @@ public:
 	XMFLOAT3 GetScale() { return scale; };
 	USERTYPE GetUserType() { return userType; };
 	std::string GetName() { return name; }
- 	std::string GetIconPath() { return iconPath; };
+	std::string GetIconPath() { return iconPath; };
+	std::string GetHitSound() { return hitSound; }
+	std::string GetAttackSound() { return attackSound; }
+
 
 	void StartCooldown() { cooldown = attack_speed; };
 
@@ -78,6 +82,8 @@ private:
 	std::string projectileIconPath;
 	std::string type;
 	std::string name;
+	std::string hitSound;
+	std::string attackSound;
 	float damage;
 	float range;
 	float attack_speed;
