@@ -15,5 +15,18 @@ class SettingsMenu : public CWidget_Canvas
 public:
     SettingsMenu();
     void CloseSettings();
+
+private:
+
+    void CreateVolumeUI(Vector2 pos, std::string& title, std::function<void()> volumeUp, std::function<void()> volumeDown);
+
+    void MasterVolumeUp();
+    void MasterVolumeDown();
+
+    void AmbientVolumeUp();
+    void AmbientVolumeDown();
+
+    void SFXVolumeUp();
+    void SFXVolumeDown();
 };
 
