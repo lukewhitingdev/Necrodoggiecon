@@ -7,7 +7,6 @@
  *********************************************************************/
 #include "GruntEnemy.h"
 #include "Cerberus/Core/Utility/IO.h"
-#include <Necrodoggiecon/Weapons/Ranged/Fireball.h>
 
 GruntEnemy::GruntEnemy()
 {
@@ -49,6 +48,7 @@ void GruntEnemy::ChasePlayer(CCharacter* player)
 	}
 }
 
+static bool animating;
 /**
  * Fire the weapon that it is holding.
  * 
@@ -58,9 +58,50 @@ void GruntEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 {
 	heading = Seek(player->GetPosition());
 
+	// Impomptu Animation Code for weapons.
+	Weapon* weapon = weaponComponent->GetCurrentWeapon();
+
+	if (weapon->GetName() == "Dagger" || weapon->GetName() == "Rapier" || weapon->GetName() == "Longsword" && !animating)	// Positional based animations for melee.
+	{
+		if (weapon->GetCanFire())
+		{
+			weaponSprite->SetPosition(weaponSprite->GetPosition().x, weaponSprite->GetPosition().y + 10, weaponSprite->GetPosition().z);
+			animating = true;
+		}
+	}
+
 	weaponComponent->OnFire(aiPosition, velocity);
 	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
 	SetCurrentState(ChaseState::getInstance());
+}
+
+void GruntEnemy::Update(float deltaTime)
+{
+
+	Weapon* weapon = weaponComponent->GetCurrentWeapon();
+
+	// Set crossbow animation to empty bow when we cant fire or out of ammo.
+	if (weapon->GetName() == "Crossbow")
+	{
+		if (!weapon->GetCanFire() || weapon->GetAmmo() <= 0)
+		{
+			weaponSprite->SetTextureOffset(DirectX::XMFLOAT2(0, 0));
+		}
+		else
+		{
+			weaponSprite->SetTextureOffset(DirectX::XMFLOAT2(64, 0));
+		}
+	}
+
+	// Reset melee animation if it has been triggered and we can fire again.
+	if (weapon->GetCanFire() && animating)
+	{
+		weaponSprite->SetPosition(weaponSprite->GetPosition().x, weaponSprite->GetPosition().y - 10, weaponSprite->GetPosition().z);
+		animating = false;
+	}
+
+
+	CAIController::Update(deltaTime);
 }
 
 void GruntEnemy::UpdateWeaponSprite()
