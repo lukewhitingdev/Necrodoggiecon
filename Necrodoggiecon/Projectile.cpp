@@ -27,6 +27,7 @@ Projectile::~Projectile()
  */
 void Projectile::Update(float deltaTime)
 {
+	ProjectileSprite->SetPosition(GetPosition());
 	if (initialPosition.DistanceTo(ProjectileSprite->GetPosition()) < Lifetime && hasHit == false)
 	{
 		DidItHit();
