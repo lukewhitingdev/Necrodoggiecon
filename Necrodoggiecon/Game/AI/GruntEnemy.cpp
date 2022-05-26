@@ -6,6 +6,7 @@
  * \date   May 2022
  *********************************************************************/
 #include "GruntEnemy.h"
+#include "Game/SoundManager.h"
 #include "Cerberus/Core/Utility/IO.h"
 
 GruntEnemy::GruntEnemy()
@@ -60,6 +61,7 @@ static bool animating;
 void GruntEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 {
 	heading = Seek(player->GetPosition());
+	
 
 	Weapon* weapon = weaponComponent->GetCurrentWeapon();
 	if (weapon->GetName() == "Crossbow")	// Crossbow exclusive animations, can be extended to include any animations that are 2 cycle.
@@ -78,13 +80,23 @@ void GruntEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 			animating = true;
 		}
 	}
+
 	if (weapon->GetCanFire())
 	{
-		weaponComponent->OnFire(GetPosition(), velocity.Normalize());
+		if(weaponComponent->OnFire(GetPosition(), velocity.Normalize()))
+			SoundManager::PlaySound(weaponComponent->GetCurrentWeapon()->GetAttackSound(), GetPosition());
 	}
 	SetCurrentState(ChaseState::getInstance());
 }
 
+void GruntEnemy::OnDeath()
+{
+	SoundManager::PlaySound("DeathSound", GetPosition());
+}
+void GruntEnemy::OnHit(const std::string& hitSound)
+{
+	SoundManager::PlaySound(hitSound, GetPosition());
+}
 void GruntEnemy::Update(float deltaTime)
 {
 	Weapon* weapon = weaponComponent->GetCurrentWeapon();

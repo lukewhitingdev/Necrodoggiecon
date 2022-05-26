@@ -35,6 +35,8 @@
     <ClCompile Include="LevelCompleteMenu.cpp" />
     <ClCompile Include="Game\AI\State.cpp" />
     <ClCompile Include="Game\AI\CAIController.cpp" />
+    <ClCompile Include="Game\SoundManager.cpp" />
+    <ClCompile Include="Game\AudioEmitterEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Projectile.cpp" />
@@ -144,6 +146,8 @@
     <ClInclude Include="LevelCompleteMenu.h" />
     <ClInclude Include="Game\AI\State.h" />
     <ClInclude Include="Game\AI\CAIController.h" />
+    <ClInclude Include="Game\SoundManager.h" />
+    <ClInclude Include="Game\AudioEmitterEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />

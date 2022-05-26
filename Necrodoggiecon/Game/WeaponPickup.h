@@ -12,7 +12,8 @@
 #include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 #include "Necrodoggiecon/Game/PlayerCharacter.h"
 #include "Cerberus/Core/Utility/IO.h"
-
+#include "Cerberus/Core/Components/CAudioEmitterComponent.h"
+#include "Game/SoundManager.h"
 template<typename T>
 class WeaponPickup : public CInteractable
 {
@@ -74,7 +75,7 @@ inline void WeaponPickup<T>::OnInteract()
 
 			player->EquipWeapon(pickupDupe);
 			this->pickup = playerDupe;
-
+			SoundManager::PlaySound("ItemPickup", GetPosition());
 			UpdateWeaponSprite(this->pickup);
 		}
 		else

@@ -8,7 +8,7 @@ public:
 	MeleeWeapon();
 	~MeleeWeapon();
 
-	virtual void OnFire(Vector3 actorPos, Vector3 attackDir);
+	virtual bool OnFire(Vector3 actorPos, Vector3 attackDir);
 private:
 	CCharacter* GetClosestEnemy(Vector3 actorPos, Vector3 damagePos);
 	CCharacter* GetClosestPlayer(Vector3 actorPos, Vector3 damagePos);

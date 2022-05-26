@@ -12,6 +12,12 @@
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <Cerberus/Core/Structs/CCamera.h>
 #include "Cerberus/WorldConstants.h"
+#include "Game/SoundManager.h"
+#include "Necrodoggiecon/Weapons/Ranged/MagicMissile.h"
+#include "Necrodoggiecon/Weapons/Ranged/Fireball.h"
+#include "Necrodoggiecon/PauseMenu.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
+#include "Game/DialogueHandler.h"
 #include "Necrodoggiecon/PauseMenu.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include <Necrodoggiecon\Game\CInteractable.h>
@@ -73,8 +79,13 @@ void CWorld_Game::SetupWorld()
 	LoadEnemyUnits(mapSlot);
 	LoadEntities(mapSlot);
 
-	
+	Debug::Log(std::to_string(GetMapSlot()).c_str());
+	if (GetMapSlot() != 0)
+	{
+		SoundManager::PlayMusic("Resources/Game/Audio/BGM.wav", character1);
+	}
 
+	DialogueHandler::LoadDialogue("Resources/Game/Dialogue.json", std::to_string(GetMapSlot()) + "Start");
 }
 
 void CWorld_Game::UnloadWorld()
@@ -232,6 +243,7 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 
 
 	}
+
 }
 
 void CWorld_Game::LoadEntities(int Slot)

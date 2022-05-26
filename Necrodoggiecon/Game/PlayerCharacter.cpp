@@ -8,6 +8,7 @@
 #include "Necrodoggiecon/Weapons/Pickup/ShieldScroll.h"
 #include "Necrodoggiecon/Weapons/Pickup/InvisibilityScroll.h"
 #include <Necrodoggiecon/Weapons/Ranged/MagicMissile.h>
+#include <Game/SoundManager.h>
 #include "Cerberus/Core/Utility/CUIManager.h"
 
 PlayerCharacter::PlayerCharacter()
@@ -134,6 +135,7 @@ void PlayerCharacter::Attack()
 
 	Vector3 attackDir = (Vector3(screenVec.x, screenVec.y, screenVec.z)) - GetPosition();
 
+	
 	// Impomptu Animation Code for weapons.
 	Weapon* weapon = weaponComponent->GetCurrentWeapon();
 	if(weapon->GetName() == "Crossbow")	// Crossbow exclusive animations, can be extended to include any animations that are 2 cycle.
@@ -153,10 +155,12 @@ void PlayerCharacter::Attack()
 		}
 	}
 
-	weaponComponent->OnFire(GetPosition(), attackDir);
+	if (weaponComponent->OnFire(GetPosition(), attackDir))
+		SoundManager::PlaySound(weaponComponent->GetCurrentWeapon()->GetAttackSound(), GetPosition());
 
-	if (GetVisible() == false) 
-		return;
+	if (!GetVisible() || !pickupTimerCallback) return;
+
+	pickupTimerCallback();
 }
 
 void PlayerCharacter::Update(float deltaTime)
@@ -191,6 +195,8 @@ void PlayerCharacter::Update(float deltaTime)
 	colComponent->SetPosition(GetPosition());
 	weaponComponent->Update(deltaTime);
 	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
+
+	FootstepTimer(deltaTime);
 
 	movementVec = { 0,0 };
 	movementVel = XMFLOAT2(movementVel.x * (1 - deltaTime * walkDrag), movementVel.y * (1 - deltaTime * walkDrag));
@@ -236,6 +242,19 @@ void PlayerCharacter::AimAtMouse(const Vector3& mousePos)
 	
 }
 
+void PlayerCharacter::FootstepTimer(float deltaTime)
+{
+	if (movementVec.Magnitude() < 0.01f) return;
+	
+	stepTimer += deltaTime;
+	if (stepTimer >= timeBetweenSteps)
+	{
+		//footstepAudioEmitter->Play();
+		SoundManager::PlaySound("StepSound", GetPosition());
+		stepTimer = 0;
+	}
+}
+
 void PlayerCharacter::EquipWeapon(Weapon* weapon)
 {
 	weaponComponent->SetWeapon(weapon);
@@ -273,6 +292,7 @@ void PlayerCharacter::ApplyDamage(float damage)
 	if (hasShield)
 	{
 		ToggleShield(false);
+		SoundManager::PlaySound("ShieldHit", GetPosition());
 		return;
 	}
 
@@ -280,9 +300,16 @@ void PlayerCharacter::ApplyDamage(float damage)
 	if (GetHealth() <= 0.0f)
 	{
 		playersController[0]->Unpossess();
+		SoundManager::PlaySound("DeathSound", GetPosition());
 		Engine::DestroyEntity(this);
 	}
 		
+}
+
+void PlayerCharacter::ApplyDamage(float damage, const std::string& onHitSound)
+{
+	SoundManager::PlaySound(onHitSound, GetPosition());
+	ApplyDamage(damage);
 }
 
 void PlayerCharacter::LookAt(Vector3 pos)
@@ -336,6 +363,9 @@ void PlayerCharacter::PressedUse()
 */
 void PlayerCharacter::InvisibilityCallback()
 {
+	pickupActive = false;
+	SoundManager::PlaySound("DeactivateInvis", GetPosition());
+	pickupTimerCallback = nullptr;
 	spriteComponentBody->SetTint(originalSpriteTint);
 	spriteComponentLegs->SetTint(originalLegTint);
 	

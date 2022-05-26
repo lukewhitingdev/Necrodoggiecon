@@ -23,7 +23,7 @@ MagicMissile::~MagicMissile()
  *
  * \Uses the onfire to make a homing projectile insaid of the other projectile
  */
-void MagicMissile::OnFire(Vector3 actorPos, Vector3 attackDir)
+bool MagicMissile::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	if (Weapon::GetCanFire())
 	{
@@ -33,12 +33,14 @@ void MagicMissile::OnFire(Vector3 actorPos, Vector3 attackDir)
 			Weapon::SetCanFire(false);
 			Weapon::StartCooldown();
 			HomingProjectile* Projectile1 = Engine::CreateEntity<HomingProjectile>();
-			Projectile1->StartUp(attackDir, actorPos, Weapon::GetDamage(), RangeWeapon::GetProjectileSpeed(), Weapon::GetRange(), (int)Weapon::GetUserType(), Weapon::GetProjectileIcon());
+			Projectile1->StartUp(attackDir, actorPos, Weapon::GetDamage(), RangeWeapon::GetProjectileSpeed(), Weapon::GetRange(), (int)Weapon::GetUserType(), Weapon::GetProjectileIcon(), Weapon::GetHitSound());
 			Weapon::SetAmmo(Weapon::GetAmmo() - 1);
+			return true;
 		}
 		else
 		{
 			Weapon::SetCanFire(false);
 		}
+		return false;
 	}
 }
