@@ -52,6 +52,7 @@ void SoundManager::AddSound(const std::string& audioPath, const std::string& aud
 {
 	AudioEmitterEntity* emitterEntity = Engine::CreateEntity<AudioEmitterEntity>();
 	emitterEntity->SetAudio(audioPath, audioRange);
+	emitterEntity->SetName(audioName);
 	audioEmitterMap.emplace(audioName, emitterEntity);
 }
 /**
@@ -66,7 +67,16 @@ void SoundManager::AddSound(const std::string& audioPath, const std::string& aud
 {
 	AudioEmitterEntity* emitterEntity = Engine::CreateEntity<AudioEmitterEntity>();
 	emitterEntity->SetAudio(audioPath, audioRange);
+	emitterEntity->SetName(audioName);
 	audioEmitterMap.emplace(audioName, emitterEntity);
+}
+
+void SoundManager::RemoveSound(const std::string& audioName)
+{
+	if (audioEmitterMap.find(audioName) != audioEmitterMap.end()) 
+	{
+		audioEmitterMap.erase(audioName);
+	}
 }
 /**
  * Function to play audio from one of the audio emitters stored in the SoundManager.
@@ -93,10 +103,12 @@ void SoundManager::PlayMusic(const std::string& musicPath, CEntity* attachedEnti
 {
 	if (musicAudioEmitter == nullptr)
 		musicAudioEmitter = Engine::CreateEntity<AudioEmitterEntity>();
+
 	if(attachedEntity != nullptr)
 		musicAudioEmitter->SetAttachedEntity(attachedEntity);
+
 	musicAudioEmitter->Stop();
-	musicAudioEmitter->Load(musicPath, false);
+	musicAudioEmitter->Load(musicPath, true);
 	musicAudioEmitter->SetRange(FLT_MAX);
 	musicAudioEmitter->PlayAudio(true);
 }
