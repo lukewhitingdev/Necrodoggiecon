@@ -101,14 +101,26 @@
       "Name": "Throwing Knives"
     },
     {
+      "IconPath": "Resources/Game/weapons/Scroll - Shield.png",
       "Type": "Pickup",
-      "PickupType": "InvisibilityScroll",
-      "Range": 32.0
+      "Damage": -1.0,
+      "Range": 32.0,
+      "Attack_Speed": 1.0,
+      "Ammo": 1.0,
+      "Unique": false,
+      "PickupType": "ShieldScroll",
+      "Name": "ShieldScroll"
     },
     {
+      "IconPath": "Resources/Game/weapons/Scroll - Invisibility.png",
       "Type": "Pickup",
-      "PickupType": "ShieldScroll",
-      "Range": 32.0
+      "Damage": -1.0,
+      "Range": 32.0,
+      "Attack_Speed": 1.0,
+      "Ammo": 1.0,
+      "Unique": false,
+      "PickupType": "InvisibilityScroll",
+      "Name": "InvisibilityScroll"
     }
   ],
   "TotalWeapons": 6

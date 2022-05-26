@@ -15,6 +15,9 @@ GruntEnemy::GruntEnemy()
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
+	sprite->SetAnimationRectSize(XMUINT2(1, 1));
+	sprite->SetAnimationRectPosition(XMUINT2(0, 0));
+	sprite->SetPlaying(true, false);
 
 	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	//weaponComponent->SetWeapon(new Crossbow());
@@ -58,26 +61,32 @@ void GruntEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 {
 	heading = Seek(player->GetPosition());
 
-	// Impomptu Animation Code for weapons.
 	Weapon* weapon = weaponComponent->GetCurrentWeapon();
-
-	if (weapon->GetName() == "Dagger" || weapon->GetName() == "Rapier" || weapon->GetName() == "Longsword" && !animating)	// Positional based animations for melee.
+	if (weapon->GetName() == "Crossbow")	// Crossbow exclusive animations, can be extended to include any animations that are 2 cycle.
 	{
 		if (weapon->GetCanFire())
 		{
-			weaponSprite->SetPosition(weaponSprite->GetPosition().x, weaponSprite->GetPosition().y + 10, weaponSprite->GetPosition().z);
+			weaponSprite->SetTextureOffset(DirectX::XMFLOAT2(0, 0));
+		}
+
+	}
+	else if (weapon->GetName() == "Dagger" || weapon->GetName() == "Rapier" || weapon->GetName() == "Longsword" && !animating)	// Positional based animations for melee.
+	{
+		if (weapon->GetCanFire())
+		{
+			weaponSprite->SetPosition(weaponSprite->GetPosition().x + 10, weaponSprite->GetPosition().y, weaponSprite->GetPosition().z);
 			animating = true;
 		}
 	}
-
-	weaponComponent->OnFire(aiPosition, velocity);
-	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
+	if (weapon->GetCanFire())
+	{
+		weaponComponent->OnFire(GetPosition(), velocity.Normalize());
+	}
 	SetCurrentState(ChaseState::getInstance());
 }
 
 void GruntEnemy::Update(float deltaTime)
 {
-
 	Weapon* weapon = weaponComponent->GetCurrentWeapon();
 
 	// Set crossbow animation to empty bow when we cant fire or out of ammo.
@@ -85,20 +94,17 @@ void GruntEnemy::Update(float deltaTime)
 	{
 		if (!weapon->GetCanFire() || weapon->GetAmmo() <= 0)
 		{
-			weaponSprite->SetTextureOffset(DirectX::XMFLOAT2(0, 0));
-		}
-		else
-		{
 			weaponSprite->SetTextureOffset(DirectX::XMFLOAT2(64, 0));
 		}
 	}
-
 	// Reset melee animation if it has been triggered and we can fire again.
 	if (weapon->GetCanFire() && animating)
 	{
 		weaponSprite->SetPosition(weaponSprite->GetPosition().x, weaponSprite->GetPosition().y - 10, weaponSprite->GetPosition().z);
 		animating = false;
 	}
+	weaponComponent->Update(deltaTime);
+	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
 
 
 	CAIController::Update(deltaTime);

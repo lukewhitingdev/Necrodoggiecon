@@ -28,6 +28,8 @@ CCharacter::~CCharacter()
 void CCharacter::EquipWeapon(Weapon* weapon)
 {
 	weaponComponent->SetWeapon(weapon);
+	if (weaponSprite == nullptr)
+		weaponSprite = AddComponent<CSpriteComponent>(NAME_OF(weaponSprite));
 	UpdateWeaponSprite();
 }
 
