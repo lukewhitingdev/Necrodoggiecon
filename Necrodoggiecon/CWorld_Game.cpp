@@ -61,6 +61,10 @@ CWorld_Game::CWorld_Game(int Slot)
 /**  */
 void CWorld_Game::SetupWorld()
 {
+
+	SoundManager::Shutdown();
+	SoundManager::Initialise();
+
 	PlayerController* controller = Engine::CreateEntity<PlayerController>();
 
 	PauseMenu* pauseMenu = Engine::CreateEntity<PauseMenu>();

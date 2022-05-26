@@ -41,6 +41,12 @@ void SoundManager::Initialise()
 	AddSound("Resources/Game/Audio/Click.wav", "UIClick", FLT_MAX, true);
 	AddSound("Resources/Game/Audio/ClearLevel.wav", "LevelClear", 1000.0f, true);
 }
+void SoundManager::Shutdown()
+{
+	audioEmitterMap.clear();
+	Engine::DestroyEntity(musicAudioEmitter);
+	musicAudioEmitter = nullptr;
+}
 /**
  * Function to add a new audio emitter to the SoundManager.
  * 

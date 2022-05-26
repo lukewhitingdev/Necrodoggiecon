@@ -6,6 +6,7 @@ class SoundManager :  public CEntity
 {
 public:
 	static void Initialise();
+	static void Shutdown();
 	static void AddSound(const std::string& audioPath, const std::string& audioName, float audioRange);
 	static void AddSound(const std::string& audioPath, const std::string& audioName, float audioRange, bool ambient);
 	static void RemoveSound(const std::string& audioName);
