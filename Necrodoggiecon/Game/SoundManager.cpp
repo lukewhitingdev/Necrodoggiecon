@@ -39,7 +39,7 @@ void SoundManager::Initialise()
 	AddSound("Resources/Game/Audio/ScrollActivate.wav", "ScrollActivate", 1000.0f);
 	AddSound("Resources/Game/Audio/MagicMissileShoot.wav", "MagicMissileShoot", 1000.0f);
 	AddSound("Resources/Game/Audio/Click.wav", "UIClick", FLT_MAX, true);
-	AddSound("Resources/Game/Audio/LevelClear.wav", "LevelClear", 1000.0f, true);
+	AddSound("Resources/Game/Audio/ClearLevel.wav", "LevelClear", 1000.0f, true);
 }
 /**
  * Function to add a new audio emitter to the SoundManager.
