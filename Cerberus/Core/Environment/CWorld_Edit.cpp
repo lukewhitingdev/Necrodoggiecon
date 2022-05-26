@@ -1024,21 +1024,25 @@ void CWorld_Editable::RemoveSelectedEntity()
 	if (inspectedEntity != nullptr && inspectedEntity->GetType() != EditorEntityType::Flag)
 	{
 		int Index = 0;
+		bool bFoundUnit = false;
 		for (int i = 0; i < editorEntityList.size(); i++)
 		{
 			if (editorEntityList[i] == inspectedEntity)
 			{
 				Index = i;
-				
+				bFoundUnit = true;
 				break;
 			}
 		}
 
-		editorEntityList.erase(editorEntityList.begin() + Index);
+		if (bFoundUnit)
+		{
+			editorEntityList.erase(editorEntityList.begin() + Index);
 
-		Engine::DestroyEntity(inspectedEntity);
+			Engine::DestroyEntity(inspectedEntity);
 
-		totalEnemyEntities--;
+			totalEnemyEntities--;
+		}
 
 	}
 	
