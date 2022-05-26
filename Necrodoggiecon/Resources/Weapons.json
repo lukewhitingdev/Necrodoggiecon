@@ -39,7 +39,7 @@
       "Type": "Ranged",
       "Damage": 1.0,
       "Range": 100.0,
-      "Attack_Speed": 0.8,
+      "Attack_Speed": 1.5,
       "Ammo": 8.0,
       "Unique": false,
       "Name": "Crossbow"

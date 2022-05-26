@@ -12,7 +12,7 @@ Crossbow::Crossbow()
 {
 	Debug::Log("Crossbow");
 	Weapon::SetWeapon(3);
-	RangeWeapon::SetProjectileSpeed(4.0f);
+	RangeWeapon::SetProjectileSpeed(8.0f);
 
 	Weapon::SetScale(XMFLOAT3(0.5, 1.0, 1.0));
 	Weapon::SetTextureOffset(XMFLOAT2(64.0, 0.0));
