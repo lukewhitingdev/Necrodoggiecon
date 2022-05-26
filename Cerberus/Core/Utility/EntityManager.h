@@ -29,7 +29,7 @@ public:
 	 * Removes the input entity to the internal vector.
 	 * Note: does NOT delete the entity.
 	 */
-	static void RemoveEntity(const class CEntity* entityToRemove);
+	static bool RemoveEntity(const class CEntity* entityToRemove);
 
 	/**
 	 * Adds the input component to the internal containers based on translucency boolean in CComponent.
@@ -47,6 +47,11 @@ public:
 	 * This is done automatically in the engine's draw function so DON'T call this.
 	 */
 	static void SortTranslucentComponents();
+
+	/**
+	 * Remove and delete all items from the entity manager.
+	 */
+	static void Purge();
 
 	static const std::vector<class CEntity*>* GetEntitiesVector() { return &entities; };
 	static const std::vector<class CComponent*>* GetOpaqueCompsVector() { return &opaqueComps; };

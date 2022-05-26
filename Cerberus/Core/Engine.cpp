@@ -623,12 +623,7 @@ HRESULT ResizeSwapChain(XMUINT2 newSize)
 //--------------------------------------------------------------------------------------
 void CleanupDevice()
 {
-	while (EntityManager::GetEntitiesVector()->size() > 0)
-	{
-		CEntity* e = EntityManager::GetEntitiesVector()->at(0);
-		EntityManager::RemoveEntity(e);
-		delete e;
-	}
+	EntityManager::Purge();
 
 	// Remove any bound render target or depth/stencil buffer
 	ID3D11RenderTargetView* nullViews[] = { nullptr };
@@ -694,9 +689,8 @@ double CalculateDeltaTime(const unsigned short fpsCap)
 
 void Engine::DestroyEntity(CEntity* targetEntity)
 {
-	EntityManager::RemoveEntity(targetEntity);
-
-	delete targetEntity;
+	if(EntityManager::RemoveEntity(targetEntity))
+		delete targetEntity;
 }
 
 // Starts the engine.

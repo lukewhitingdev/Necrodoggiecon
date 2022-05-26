@@ -12,14 +12,17 @@ void EntityManager::AddEntity(CEntity* entityToAdd)
 	entities.push_back(entityToAdd);
 }
 
-void EntityManager::RemoveEntity(const CEntity* entityToRemove)
+bool EntityManager::RemoveEntity(const CEntity* entityToRemove)
 {
 	auto iterator = std::find(entities.begin(), entities.end(), entityToRemove);
 
-	if (iterator != entities.end())
+	bool succeeded = iterator != entities.end();
+	if (succeeded)
 		entities.erase(iterator);
 	else
 		Debug::LogError("Tried to remove an entity that doesnt exist.");
+
+	return succeeded;
 }
 
 void EntityManager::AddComponent(CComponent* compToAdd)
@@ -63,4 +66,15 @@ void EntityManager::SortTranslucentComponents()
 		{
 			return a->GetWorldPosition().z > b->GetWorldPosition().z;
 		});
+}
+
+void EntityManager::Purge()
+{
+	while (EntityManager::GetEntitiesVector()->size() > 0)
+	{
+		CEntity* e = EntityManager::GetEntitiesVector()->at(0);
+
+		if(EntityManager::RemoveEntity(e))
+			delete e;
+	}
 }

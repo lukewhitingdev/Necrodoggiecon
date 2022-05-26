@@ -70,24 +70,12 @@ void CWorld_Game::SetupWorld()
 
 void CWorld_Game::UnloadWorld()
 {
-	for (int i = 0; i < EntityList.size(); i++)
-	{
-		if (EntityList[i] != nullptr)
-		{
-			Engine::DestroyEntity(EntityList[i]);
-		}
-	}
+	EntityManager::Purge();
 }
 
 void CWorld_Game::ReloadWorld()
 {
-	for (int i = 0; i < EntityList.size(); i++)
-	{
-		if (EntityList[i] != nullptr)
-		{
-			Engine::DestroyEntity(EntityList[i]);
-		}
-	}
+	EntityManager::Purge();
 	SetupWorld();
 	LoadEnemyUnits(mapSlot);
 }
