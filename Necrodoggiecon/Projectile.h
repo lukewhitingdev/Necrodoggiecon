@@ -32,6 +32,7 @@ public:
 	void DidItHit();
 	virtual void Update(float deltaTime) override;
 
+	void SetLifetime(float lifetime) { Lifetime = lifetime; };
 	float GetLifetime() { return Lifetime; };
 	Vector3 GetPosition() { return Position; };
 	void SetPosition(Vector3 newPosition) { Position = newPosition; };

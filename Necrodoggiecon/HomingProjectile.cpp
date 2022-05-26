@@ -37,13 +37,13 @@ void HomingProjectile::Update(float deltaTime)
 				Vector3 attack = target->GetPosition() - Projectile::GetPosition();
 				Projectile::SetPosition(Projectile::GetPosition() + (attack * Projectile::GetSpeed()) * deltaTime);
 				ProjectileSprite->SetPosition(Projectile::GetPosition());
-				Projectile::GetLifetime() - 2;
 			}
 			else
 			{
 				Projectile::SetPosition(Projectile::GetPosition() + Projectile::GetDirection() * Projectile::GetSpeed());
 				ProjectileSprite->SetPosition(Projectile::GetPosition());
 			}
+			Projectile::SetLifetime(Projectile::GetLifetime() - 750 * deltaTime);
 		}
 		else if (Projectile::GetUserType() == USERTYPE2::AI)
 		{
@@ -54,13 +54,14 @@ void HomingProjectile::Update(float deltaTime)
 				Vector3 attack = target->GetPosition() - Projectile::GetPosition();
 				Projectile::SetPosition(Projectile::GetPosition() + (attack * Projectile::GetSpeed()) * deltaTime);
 				ProjectileSprite->SetPosition(Projectile::GetPosition());
-				Projectile::GetLifetime() - 2;
+				//Projectile::GetLifetime() - 2;
 			}
 			else
 			{
 				Projectile::SetPosition(Projectile::GetPosition() + Projectile::GetDirection() * Projectile::GetSpeed());
 				ProjectileSprite->SetPosition(Projectile::GetPosition());
 			}
+			Projectile::SetLifetime(Projectile::GetLifetime() - 750 * deltaTime);
 		}
 	}
 	else
