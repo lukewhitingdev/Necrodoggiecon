@@ -56,7 +56,8 @@ CAIController::CAIController()
 	float scaleComparisonX = 128.0f / (64.0f * GetScale().x);
 	float scaleComparisonY = 128.0f / (64.0f * GetScale().y);
 	viewFrustrum->SetScale(Vector3{ ((aiRange / 128.0f) * scaleComparisonX), ((aiRange / 128.0f) * scaleComparisonY), 1.0f });
-	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y + aiRange *scaleComparisonY * GetScale().y, 1.0f });
+	originalViewFrustrumPosition = viewFrustrum->GetPosition();
+	viewFrustrum->SetPosition(Vector3{ originalViewFrustrumPosition.x, originalViewFrustrumPosition.y + aiRange *scaleComparisonY * GetScale().y, 1.0f });
 	viewFrustrum->SetUseTranslucency(true);
 
 	colComponent = new CollisionComponent("Enemy", this);
@@ -654,6 +655,11 @@ float CAIController::GetMass()
 void CAIController::SetRange(float range)
 {
 	aiRange = range;
+
+	float scaleComparisonX = 128.0f / (64.0f * GetScale().x);
+	float scaleComparisonY = 128.0f / (64.0f * GetScale().y);
+	viewFrustrum->SetScale(Vector3{ ((aiRange / 128.0f) * scaleComparisonX), ((aiRange / 128.0f) * scaleComparisonY), 1.0f });
+	viewFrustrum->SetPosition(Vector3{ originalViewFrustrumPosition.x, originalViewFrustrumPosition.y + aiRange * scaleComparisonY * GetScale().y, 1.0f });
 }
 
 float CAIController::GetRange()

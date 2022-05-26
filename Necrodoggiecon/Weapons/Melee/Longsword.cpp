@@ -1,9 +1,9 @@
 #include "Longsword.h"
 #include <Necrodoggiecon/Game/AI/CAIController.h>
+#include <Necrodoggiecon/Game/PlayerCharacter.h>
 
 Longsword::Longsword()
 {
-	Debug::Log("Longsword");
 	Weapon::SetWeapon(2);
 }
 
@@ -25,27 +25,47 @@ bool Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 
 	if (GetCanFire())
 	{
-		Debug::Log("Longsword damage pos %f %f", actorPos.x, actorPos.y);
-		std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
-		StartCooldown();
-		SetCanFire(false);
-		if (enemies.size() == 0) //No enemies
-			return true;
-		
-		std::vector<CAIController*> enemiesCanHit;
-		//Check each enemy
-		for (CAIController* enemy : enemies)
+		if (Weapon::GetUserType() == USERTYPE::PLAYER)
 		{
-		
-			if (actorPos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
-				continue;
+			std::vector<CAIController*> enemies = Engine::GetEntityOfType<CAIController>();
+			StartCooldown();
+			SetCanFire(false);
+			if (enemies.size() == 0) //No enemies
+				return;
 
-			if (damagePos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
-				continue;
+			//Check each enemy
+			for (CAIController* enemy : enemies)
+			{
 
-			Debug::Log("Longsword enemy stuff");
+				if (actorPos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
+					continue;
 
-			enemy->ApplyDamage(GetDamage(), GetHitSound());
+				if (damagePos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
+					continue;
+
+				enemy->ApplyDamage(GetDamage());
+			}
+		}
+		else if (Weapon::GetUserType() == USERTYPE::AI)
+		{
+			std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
+			StartCooldown();
+			SetCanFire(false);
+			if (players.size() == 0) //No enemies
+				return;
+
+			//Check each enemy
+			for (PlayerCharacter* player : players)
+			{
+
+				if (actorPos.DistanceTo(player->GetPosition()) > Weapon::GetRange())
+					continue;
+
+				if (damagePos.DistanceTo(player->GetPosition()) > Weapon::GetRange())
+					continue;
+
+				player->ApplyDamage(GetDamage());
+			}
 		}
 		return true;
 	}

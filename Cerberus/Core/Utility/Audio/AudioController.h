@@ -38,15 +38,15 @@ public:
 
 	static std::vector<CEmitter*> GetAllEmittersWithinRange(Vector3 position, bool checkIfPlaying);
 	static bool AddEmitter(CEmitter* emitter);
-	static bool AddEmitter(CEmitter* emitter, bool ambient);
 	static bool RemoveEmitter(CEmitter* emitter);
+
+	static void SetMaxVolumeForEmitterType(const float volume,EMITTERTYPE type);
 
 	static bool AddListener(CTransform* listenerPos);
 
 private:
 	static FMOD::System* FMODSystem;
 	static std::vector<CEmitter*> emitters;
-	static std::vector<CEmitter*> ambientEmitters;
 	static CTransform* listenerTransform;
 };
 

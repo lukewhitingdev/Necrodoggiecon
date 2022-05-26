@@ -53,6 +53,8 @@ public:
 	float GetDamage() { return damage; };
 	float GetRange() { return range; };
 	float GetAttack_Speed() { return attack_speed; };
+	float GetMaxAmmo() { return maxAmmo; };
+	void SetMaxAmmo(float amount) { maxAmmo = amount; };
 	float GetAmmo() { return ammo; };
 	void SetAmmo(float amount) { ammo = amount; };
 	bool GetUnique() { return unique; };
@@ -86,6 +88,7 @@ private:
 	float range;
 	float attack_speed;
 	float ammo;
+	float maxAmmo;
 	bool unique;
 	bool canFire = true;
 	float cooldown;

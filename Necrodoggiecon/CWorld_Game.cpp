@@ -18,6 +18,18 @@
 #include "Necrodoggiecon/PauseMenu.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include "Game/DialogueHandler.h"
+#include "Necrodoggiecon/PauseMenu.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
+#include <Necrodoggiecon\Game\CInteractable.h>
+#include <Game/WeaponPickup.h>
+#include <Weapons/Melee/Dagger.h>
+#include <Weapons/Melee/Rapier.h>
+#include <Weapons/Melee/Longsword.h>
+#include <Weapons/Ranged/Crossbow.h>
+#include <Weapons/Ranged/Fireball.h>
+#include <Weapons/Ranged/MagicMissile.h>
+#include "Weapons/Pickup/InvisibilityScroll.h"
+#include "Weapons/Pickup/ShieldScroll.h"
 
 
 
@@ -65,6 +77,7 @@ void CWorld_Game::SetupWorld()
 	//Please stop configuring stuff in here instead of in the class constructor - Lets not spread configuration to many different places in the project!
 
 	LoadEnemyUnits(mapSlot);
+	LoadEntities(mapSlot);
 
 	Debug::Log(std::to_string(GetMapSlot()).c_str());
 	if (GetMapSlot() != 0)
@@ -97,6 +110,7 @@ void CWorld_Game::ReloadWorld()
 	}
 	SetupWorld();
 	LoadEnemyUnits(mapSlot);
+	LoadEntities(mapSlot);
 }
 
 void CWorld_Game::LoadEnemyUnits(int Slot)
@@ -119,6 +133,12 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 		int EnemyID = storedFile["Enemy"][i]["Type"];
 		int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
 		int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
+
+		
+
+
+		
+
 		Vector3 position = Vector3{ (float)EnemyX, (float)EnemyY, 0.0f };
 		CAIController* enemy = nullptr;
 		int WeaponID = -1;
@@ -170,6 +190,27 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 			enemy = Engine::CreateEntity<CAIController>();
 			break;
 		}
+
+
+		float enemyHealth = storedFile["Enemy"][i]["Health"];
+		float enemySpeed = storedFile["Enemy"][i]["Speed"];
+
+		float enemyMass = storedFile["Enemy"][i]["Mass"];
+		float enemyRange = storedFile["Enemy"][i]["Range"];
+
+		float enemyRotationSpeed = storedFile["Enemy"][i]["RotationSpeed"];
+		float enemyMaxSearchTime = storedFile["Enemy"][i]["MaxSearchTime"];
+		bool enemyIsBoss = false; //storedFile["Enemy"][i]["IsBoss"];
+		//Add this back once levels are complete
+
+
+		enemy->SetHealth(enemyHealth);
+		enemy->SetInitialSpeed(enemySpeed);
+		enemy->SetMass(enemyMass);
+		enemy->SetRange(enemyRange);
+		enemy->SetRotationSpeed(enemyRotationSpeed);
+		enemy->SetSearchTime(enemyMaxSearchTime);
+		enemy->SetIsBoss(enemyIsBoss); 
 		EntityList.push_back(enemy);
 
 		int waypointlist = storedFile["Enemy"][i]["WaypointList"];
@@ -208,4 +249,51 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 void CWorld_Game::LoadEntities(int Slot)
 {
 
+	std::string fileName = "Resources/Levels/Level_" + std::to_string(mapSlot);
+	fileName += ".json";
+
+	std::ifstream file(fileName);
+
+	json storedFile;
+
+	file >> storedFile;
+
+	int TotalWeaponHolders = storedFile["TotalWeaponHolders"];
+	for (int i = 0; i < TotalWeaponHolders; i++)
+	{
+		
+		int HolderX = storedFile["WeaponHolder"][i]["X"];
+		int HolderY = storedFile["WeaponHolder"][i]["Y"];
+		int WepID = storedFile["WeaponHolder"][i]["WeaponIndex"];
+		
+		switch (WepID)
+		{
+		case 0:
+			Engine::CreateEntity<WeaponPickup<Dagger>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)));
+			break;
+		case 1:
+			Engine::CreateEntity<WeaponPickup<Rapier>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)) );
+			break;
+		case 2:
+			Engine::CreateEntity<WeaponPickup<Longsword>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)) );
+			break;
+		case 3:
+			Engine::CreateEntity<WeaponPickup<Crossbow>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)) );
+			break;
+		case 4:
+			Engine::CreateEntity<WeaponPickup<MagicMissile>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)));
+			break;
+		case 5:
+			Engine::CreateEntity<WeaponPickup<Fireball>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)));
+			break;
+		case 6: 
+			Engine::CreateEntity<WeaponPickup<ShieldScroll>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)));
+			break;
+		case 7: 
+			Engine::CreateEntity<WeaponPickup<InvisibilityScroll>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)));
+			break;
+
+		}
+
+	}
 }

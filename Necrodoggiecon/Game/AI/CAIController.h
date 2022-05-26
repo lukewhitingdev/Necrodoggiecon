@@ -123,6 +123,7 @@ protected:
 	CCharacter* playerToKill = nullptr;
 	CCharacter* playerToChase = nullptr;
 	
+	Vector3 originalViewFrustrumPosition;
 
 	std::vector<CCharacter*> characters = Engine::GetEntityOfType<CCharacter>();
 	std::vector<CCharacter*> players;
@@ -130,7 +131,7 @@ protected:
 	float aiSpeed = 100.0f;
 	float initialSpeed = aiSpeed;
 	float aiMass = 10.0f;
-	float aiRange = 200.0f;
+	float aiRange = 400.0f;
 	float aiViewAngle = 90.0f;
 
 	float width = 64.0f;

@@ -69,7 +69,6 @@ void Projectile::DidItHit()
 			hasHit = true;
 			target->ApplyDamage(Damage, onHitAudioPath);
 			Lifetime = 0;
-			ProjectileSprite->SetSpriteSize(XMUINT2(0, 0));
 		}
 	}
 }

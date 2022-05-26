@@ -124,6 +124,9 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 			float enemyRotationSpeed = storedFile["Enemy"][i]["RotationSpeed"];
 			float enemyMaxSearchTime = storedFile["Enemy"][i]["MaxSearchTime"];
+			bool enemyIsBoss = false; //storedFile["Enemy"][i]["IsBoss"];
+			//Put this back once levels are complete
+			
 
 			
 			
@@ -148,7 +151,7 @@ void CWorld_Editable::LoadWorld(int Slot)
 			TempRef->SetRange(enemyRange);
 			TempRef->SetRotationSpeed(enemyRotationSpeed);
 			TempRef->SetMaxSearchTime(enemyMaxSearchTime);
-
+			//TempRef->SetIsBoss(enemyIsBoss);
 			if (EnemyID == 0)
 			{
 				int weaponIndex = storedFile["Enemy"][i]["WeaponIndex"];
@@ -171,6 +174,18 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 
 
+		}
+
+		int TotalWeaponHolders = storedFile["TotalWeaponHolders"];
+		for (int i = 0; i < TotalWeaponHolders; i++)
+		{
+			CT_EditorEntity_WeaponHolder* TempHolder = Engine::CreateEntity<CT_EditorEntity_WeaponHolder>();
+			editorEntityList.push_back(TempHolder);
+			int HolderX = storedFile["WeaponHolder"][i]["X"];
+			int HolderY = storedFile["WeaponHolder"][i]["Y"];
+			int WepID = storedFile["WeaponHolder"][i]["WeaponIndex"];
+			TempHolder->SetPosition((Vector3(HolderX, HolderY, 0)* (tileScale* tileScaleMultiplier)) + Vector3(0, 0, -1));
+			TempHolder->AssignWeapon((char*)"", WepID);
 		}
 
 
@@ -299,7 +314,7 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 				SaveData["Enemy"][i]["RotationSpeed"] = TempEnemy->GetRotationSpeed();
 				SaveData["Enemy"][i]["MaxSearchTime"] = TempEnemy->GetMaxSearchTime();
-
+				SaveData["Enemy"][i]["IsBoss"] = TempEnemy->GetIsBoss();
 
 				break;
 			}
@@ -312,6 +327,8 @@ void CWorld_Editable::SaveWorld(int Slot)
 	for (int i = 0; i < HolderList.size(); i++)
 	{
 		SaveData["WeaponHolder"][i]["WeaponIndex"] = HolderList[i]->GetAssignedWeapon();
+		SaveData["WeaponHolder"][i]["X"] = HolderList[i]->GetPosition().x / (tileScale * tileScaleMultiplier);
+		SaveData["WeaponHolder"][i]["Y"] = HolderList[i]->GetPosition().y / (tileScale * tileScaleMultiplier);
 	}
 
 	if (playerStartEntity != nullptr)
@@ -856,6 +873,18 @@ Vector2 CWorld_Editable::FindFloorAdjacentDiagonal(Vector2 Position)
 	else return Vector2(0, 0);
 }
 
+bool CWorld_Editable::IsTileOccupied(Vector2 Pos)
+{
+	
+	for (int i = 0; i < editorEntityList.size(); i++)
+	{
+		Vector2 TestPos = Vector2(editorEntityList[i]->GetPosition().x, editorEntityList[i]->GetPosition().y) / (tileScale * tileScaleMultiplier);
+		if (TestPos == Pos)
+			return true;
+	}
+	return false;
+}
+
 bool CWorld_Editable::SetCorner(Vector2 Position)
 {
 	if (GetTotalAdjacentsOfType(Position, CellType::Edge) <= 2)
@@ -994,18 +1023,27 @@ void CWorld_Editable::RemoveSelectedEntity()
 {
 	if (inspectedEntity != nullptr && inspectedEntity->GetType() != EditorEntityType::Flag)
 	{
+		int Index = 0;
+		bool bFoundUnit = false;
 		for (int i = 0; i < editorEntityList.size(); i++)
 		{
 			if (editorEntityList[i] == inspectedEntity)
 			{
-				editorEntityList.erase(editorEntityList.begin() + i);
-
-				Engine::DestroyEntity(inspectedEntity);
-
-				totalEnemyEntities--;
+				Index = i;
+				bFoundUnit = true;
 				break;
 			}
 		}
+
+		if (bFoundUnit)
+		{
+			editorEntityList.erase(editorEntityList.begin() + Index);
+
+			Engine::DestroyEntity(inspectedEntity);
+
+			totalEnemyEntities--;
+		}
+
 	}
 	
 
@@ -1021,16 +1059,19 @@ void CWorld_Editable::RemoveSelectedEntity()
 
 void CWorld_Editable::AddEditorEntity_EnemyCharacter(Vector2 Position, int Slot)
 {
-	Vector3 NewPos = Vector3(Position.x, Position.y, 0) * (tileScale * tileScaleMultiplier);
-	NewPos.z = -1;
-	if (tileContainer[GridToIndex(Position)]->IsWalkable())
+	if (!IsTileOccupied(Position))
 	{
-		CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
-		TempRef->InitialiseEntity(Slot);
-		TempRef->SetPosition(NewPos);
-		editorEntityList.push_back(TempRef);
-		totalEnemyEntities++;
-	
+		Vector3 NewPos = Vector3(Position.x, Position.y, 0) * (tileScale * tileScaleMultiplier);
+		NewPos.z = -1;
+		if (tileContainer[GridToIndex(Position)]->IsWalkable())
+		{
+			CT_EditorEntity_Enemy* TempRef = Engine::CreateEntity<CT_EditorEntity_Enemy>();
+			TempRef->InitialiseEntity(Slot);
+			TempRef->SetPosition(NewPos);
+			editorEntityList.push_back(TempRef);
+			totalEnemyEntities++;
+
+		}
 	}
 	
 }
@@ -1042,23 +1083,31 @@ void CWorld_Editable::AddEditorEntity_Decoration(Vector2 Position, int Slot)
 
 void CWorld_Editable::AddEditorEntity_Waypoint(Vector2 Position)
 {
-	if (tileContainer[GridToIndex(Position)]->IsWalkable())
+	if (!IsTileOccupied(Position))
 	{
-		editorEntityList.push_back(GetInspectedItem_Enemy()->AddWaypoint(Position));
+		if (tileContainer[GridToIndex(Position)]->IsWalkable())
+		{
+			editorEntityList.push_back(GetInspectedItem_Enemy()->AddWaypoint(Position));
+		}
 	}
+	
 }
 
 void CWorld_Editable::AddEditorEntity_WeaponHolder(Vector2 Position)
 {
-	Vector3 NewPos = Vector3(Position.x, Position.y, 0) * (tileScale * tileScaleMultiplier);
-	NewPos.z = -1;
-	if (tileContainer[GridToIndex(Position)]->IsWalkable())
+	if (!IsTileOccupied(Position))
 	{
-		CT_EditorEntity_WeaponHolder* TempRef = Engine::CreateEntity<CT_EditorEntity_WeaponHolder>();
-		TempRef->SetPosition(NewPos);
-		
-		editorEntityList.push_back(TempRef);
-		
+		Vector3 NewPos = Vector3(Position.x, Position.y, 0) * (tileScale * tileScaleMultiplier);
+		NewPos.z = -1;
+		if (tileContainer[GridToIndex(Position)]->IsWalkable())
+		{
+			CT_EditorEntity_WeaponHolder* TempRef = Engine::CreateEntity<CT_EditorEntity_WeaponHolder>();
+			TempRef->SetPosition(NewPos);
 
+			editorEntityList.push_back(TempRef);
+
+
+		}
 	}
+	
 }

@@ -15,6 +15,9 @@ AlarmEnemy::AlarmEnemy()
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
+	sprite->SetAnimationRectSize(XMUINT2(1, 1));
+	sprite->SetAnimationRectPosition(XMUINT2(0, 0));
+	sprite->SetPlaying(true, false);
 
 	loadNoise = AddComponent<CAudioEmitterComponent>(NAME_OF(loadNoise));
 	loadNoise->Load("Resources/Game/TestShortAudio.wav");

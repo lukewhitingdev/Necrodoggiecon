@@ -62,6 +62,10 @@ void CT_EditorEntity_Enemy::InitialiseEntity(int SlotID)
 		sprite->LoadTexture("Resources\\EditorEntities\\EnemyCharacters\\MeleeEnemy.dds");
 		sprite->SetRenderRect(XMUINT2(64, 64));
 		sprite->SetSpriteSize(XMUINT2(64, 64));
+	case 2: 
+		sprite->LoadTexture("Resources\\EditorEntities\\EnemyCharacters\\MeleeEnemy.dds");
+		sprite->SetRenderRect(XMUINT2(64, 64));
+		sprite->SetSpriteSize(XMUINT2(64, 64));
 		break;
 	}
 }

@@ -31,6 +31,8 @@ protected:
 
 	Vector2 movementVec = { 0,0 };
 	XMFLOAT2 movementVel = { 0,0 };
+	XMFLOAT4 originalSpriteTint;
+	XMFLOAT4 originalLegTint;
 	const float walkAnimationSpeed = 1.3f;
 
 	float pickupTimer;

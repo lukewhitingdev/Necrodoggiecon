@@ -38,6 +38,9 @@ void CT_EditorWindows::InitialiseMapSlot()
 
 void CT_EditorWindows::render()
 {
+    
+
+
 
     {
         if (*open)
@@ -66,6 +69,11 @@ void CT_EditorWindows::render()
                 CWorldManager::GetEditorWorld()->ToggleCellQueueLock(false);
             }
 
+
+            ImGui::Text("W: Move Entities");
+            ImGui::Text("C: Clear Operation");
+            
+           
 
             if (ImGui::TreeNode("Grid Manipulation"))
             {
@@ -339,14 +347,16 @@ void CT_EditorWindows::render()
 
                         float* RotationSpeed = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetRotationSpeed());
                         float* MaxSearchTime = new float(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetMaxSearchTime());
+                        bool* isBoss = new bool(CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->GetIsBoss());
 
-                        ImGui::SliderFloat("Health", Health, 0.0f, 100.0f);
-                        ImGui::SliderFloat("Mass", Mass, 0.0f, 100.0f);
-                        ImGui::SliderFloat("Speed", Speed, 0.0f, 500.0f);
-                        ImGui::SliderFloat("Range", Range, 0.0f, 1000.0f);
-                        ImGui::SliderFloat("ViewAngle", ViewAngle, 0.0f, 360.0f);
-                        ImGui::SliderFloat("RotationSpeed", RotationSpeed, 0.0f, 100.0f);
-                        ImGui::SliderFloat("MaxSearchTime", MaxSearchTime, 0.0f, 100.0f);
+                        ImGui::InputFloat("Health", Health, 0.0f, 100.0f);
+                        ImGui::InputFloat("Mass", Mass, 0.0f, 100.0f);
+                        ImGui::InputFloat("Speed", Speed, 0.0f, 500.0f);
+                        ImGui::InputFloat("Range", Range, 0.0f, 1000.0f);
+                        ImGui::InputFloat("ViewAngle", ViewAngle, 0.0f, 360.0f);
+                        ImGui::InputFloat("RotationSpeed", RotationSpeed, 0.0f, 100.0f);
+                        ImGui::InputFloat("MaxSearchTime", MaxSearchTime, 0.0f, 100.0f);
+                        ImGui::Checkbox("IsBoss", isBoss);
 
                         CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetHealth(*Health);
                         CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetMass(*Mass);
@@ -355,6 +365,7 @@ void CT_EditorWindows::render()
                         CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetViewAngle(*ViewAngle);
                         CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetRotationSpeed(*RotationSpeed);
                         CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetMaxSearchTime(*MaxSearchTime);
+                        CWorldManager::GetEditorWorld()->GetInspectedItem_Enemy()->SetIsBoss(*isBoss);
 
 
                         ImGui::TreePop();

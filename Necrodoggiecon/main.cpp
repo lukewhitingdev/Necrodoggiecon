@@ -144,14 +144,14 @@ int Start()
 	std::vector<PlayerCharacter*> test = Engine::GetEntityOfType<PlayerCharacter>();
 
 	
-	Engine::CreateEntity<WeaponPickup<Dagger>>();
-	Engine::CreateEntity<WeaponPickup<Rapier>>()->SetPosition(800.0f, 400, 0.0f);
-	Engine::CreateEntity<WeaponPickup<Longsword>>()->SetPosition(800.0f, 400, 0.0f);
-	Engine::CreateEntity<WeaponPickup<Crossbow>>()->SetPosition(800.0f, 400, 0.0f);
-	Engine::CreateEntity<WeaponPickup<Fireball>>()->SetPosition(800.0f, 400, 0.0f);
-	Engine::CreateEntity<WeaponPickup<MagicMissile>>()->SetPosition(800.0f, 400, 0.0f);
+	//Engine::CreateEntity<WeaponPickup<Dagger>>();
+	//Engine::CreateEntity<WeaponPickup<Rapier>>()->SetPosition(-100.0f, 0.0f, 0.0f);
+	//Engine::CreateEntity<WeaponPickup<Longsword>>()->SetPosition(100.0f, 0.0f, 0.0f);
+	//Engine::CreateEntity<WeaponPickup<Crossbow>>()->SetPosition(100.0f, 100.0f, 0.0f);
+	//Engine::CreateEntity<WeaponPickup<Fireball>>()->SetPosition(0.0f, 100.0f, 0.0f);
+	//Engine::CreateEntity<WeaponPickup<MagicMissile>>()->SetPosition(-100.0f, 100.0f, 0.0f);
 	Engine::CreateEntity<WeaponPickup<ShieldScroll>>()->SetPosition(800.0f, 400, 0.0f);
-	Engine::CreateEntity<WeaponPickup<InvisibilityScroll>>()->SetPosition(800.0f, 400, 0.0f);
+Engine::CreateEntity<WeaponPickup<InvisibilityScroll>>()->SetPosition(800.0f, 450, 0.0f);
 
 	SoundManager::Initialise();
 	return 0;

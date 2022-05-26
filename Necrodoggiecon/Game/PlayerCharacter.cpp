@@ -9,6 +9,7 @@
 #include "Necrodoggiecon/Weapons/Pickup/InvisibilityScroll.h"
 #include <Necrodoggiecon/Weapons/Ranged/MagicMissile.h>
 #include <Game/SoundManager.h>
+#include "Cerberus/Core/Utility/CUIManager.h"
 
 PlayerCharacter::PlayerCharacter()
 {
@@ -28,6 +29,8 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentBody->SetAnimationRectSize(XMUINT2(2, 1));
 	spriteComponentBody->SetAnimationSpeed(2 * walkAnimationSpeed);
 	spriteComponentBody->SetPlaying(false, false);
+	spriteComponentBody->SetUseTranslucency(true);
+	originalSpriteTint = spriteComponentBody->GetTint();
 
 	spriteComponentLegs = AddComponent<CAnimationSpriteComponent>(NAME_OF(spriteComponentLegs));
 	spriteComponentLegs->LoadTextureWIC("Resources/Game/Characters/legsSpriteSheet.png");
@@ -38,6 +41,8 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentLegs->SetAnimationRectSize(XMUINT2(10, 1));
 	spriteComponentLegs->SetAnimationSpeed(10 * walkAnimationSpeed);
 	spriteComponentLegs->SetPlaying(false, false);
+	spriteComponentBody->SetUseTranslucency(true);
+	originalLegTint = spriteComponentLegs->GetTint();
 
 	spriteComponentShadow = AddComponent<CSpriteComponent>(NAME_OF(spriteComponentShadow));
 	spriteComponentShadow->LoadTextureWIC("Resources/Game/Characters/JonathanWicke-shadow.png");
@@ -62,7 +67,7 @@ PlayerCharacter::PlayerCharacter()
 
 	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
-	weaponComponent->SetWeapon(new Crossbow());
+	weaponComponent->SetWeapon(new MagicMissile());
 
 	weaponSprite = AddComponent<CSpriteComponent>(NAME_OF(weaponSprite));
 	UpdateWeaponSprite();
@@ -163,6 +168,7 @@ void PlayerCharacter::Update(float deltaTime)
 	timeElapsed += deltaTime;
 
 	Weapon* weapon = weaponComponent->GetCurrentWeapon();
+	CUIManager::UpdateUIOrigin(GetPosition());
 
 	// Set crossbow animation to empty bow when we cant fire or out of ammo.
 	if(weapon->GetName() == "Crossbow")
@@ -338,7 +344,9 @@ void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime
 		pickupActiveTime = activeTime;
 
 		pickupTimerCallback = std::bind(&PlayerCharacter::InvisibilityCallback, this);
-		ToggleVisibility(false);
+		spriteComponentBody->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
+		spriteComponentLegs->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
+		
 	} 
 	else if (pickupToUse == "ShieldScroll")
 	{
@@ -357,8 +365,10 @@ void PlayerCharacter::InvisibilityCallback()
 {
 	pickupActive = false;
 	SoundManager::PlaySound("DeactivateInvis", GetPosition());
-	ToggleVisibility(true);
 	pickupTimerCallback = nullptr;
+	spriteComponentBody->SetTint(originalSpriteTint);
+	spriteComponentLegs->SetTint(originalLegTint);
+	
 }
 
 /**

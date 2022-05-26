@@ -10,11 +10,14 @@
 
 DogEnemy::DogEnemy()
 {
-	sprite->LoadTextureWIC("Resources/Game/Characters/RedEnemySprite2.png");
+	sprite->LoadTextureWIC("Resources/Game/Characters/DogEnemySprite.png");
 	sprite->SetRotation(1.5708f);
 	sprite->SetRenderRect(XMUINT2(64, 64));
 	sprite->SetSpriteSize(XMUINT2(64, 64));
 	sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
+	sprite->SetAnimationRectSize(XMUINT2(1, 5));
+	sprite->SetAnimationSpeed(walkAnimationSpeed);
+	sprite->SetPlaying(false, false);
 }
 
 void DogEnemy::Update(float deltaTime)

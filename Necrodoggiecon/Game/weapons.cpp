@@ -38,7 +38,8 @@ void Weapon::SetWeapon(int ID)
 			projectileIconPath = storedFile["Weapons"][ID]["ProjectileIconPath"];
 			damage = storedFile["Weapons"][ID]["Damage"];
 			attack_speed = storedFile["Weapons"][ID]["Attack_Speed"];
-			ammo = storedFile["Weapons"][ID]["Ammo"];
+			maxAmmo = storedFile["Weapons"][ID]["Ammo"];
+			ammo = maxAmmo;
 			unique = storedFile["Weapons"][ID]["Unique"];
 			cooldown = attack_speed;
 		}
@@ -58,7 +59,7 @@ void Weapon::SetWeapon(std::string ID)
 
 void Weapon::CoolDown(float attack_cooldown)
 {
-	if (canFire == false)
+	if (canFire == false && ammo > 0)
 	{
 		if (cooldown > 0)
 		{
@@ -110,7 +111,6 @@ int Weapon::NameToID(std::string Name)
  */
 bool Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
-	Debug::Log("Base Weapon Class has fired Weapon: %s", name.c_str());
 	return true;
 }
 
@@ -121,7 +121,8 @@ bool Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
  */
 void Weapon::Update(float deltaTime)
 {
-	CoolDown(deltaTime);
+	if (ammo > 0.0f || type == "Melee")
+		CoolDown(deltaTime);
 }
 
 void Weapon::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer)
