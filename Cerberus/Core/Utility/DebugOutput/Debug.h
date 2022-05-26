@@ -20,6 +20,8 @@ class Debug
 private:
 	static DebugOutput* output;
 	static int logSize;
+	static bool showDebug;
+	static bool allowLogging;
 	static void initOutput()
 	{
 		output = new DebugOutput();
@@ -54,7 +56,46 @@ public:
 	#pragma warning(push)
 	#pragma warning( disable : 4840 )
 
-	
+	/**
+	 * Sets the visibility of the debug output console.
+	 * 
+	 * \param value show/hide the debug console.
+	 */
+	static void SetVisibility(bool value)
+	{
+		showDebug = value;
+	}
+
+	/**
+	 * Returns the visibility of the debug output console.
+	 * 
+	 * \return the visiblity of the debug output console.
+	 */
+	static bool GetVisibility()
+	{
+		return showDebug;
+	}
+
+	/**
+	 * Sets the ability to log to the debug output console.
+	 * 
+	 * \param value allow/disallow logging to the debug console.
+	 */
+	static void SetLogging(bool value)
+	{
+		allowLogging = value;
+	}
+
+	/**
+	 * Returns whether you can log to the debug output console.
+	 * 
+	 * \return whether logging is disabled / enabled.
+	 */
+	static bool GetLogging()
+	{
+		return allowLogging;
+	}
+
 	/**
 	 * Logs a formatted string to the output console.
 	 * 
@@ -64,6 +105,12 @@ public:
 	template<typename ... Args>
 	static void Log(const char* fmt, Args ... args)IM_FMTARGS(2)
 	{
+
+		if(!GetLogging())
+		{
+			return;
+		}
+
 		if (output == nullptr)
 			initOutput();
 
@@ -85,6 +132,11 @@ public:
 	template<typename ... Args>
 	static void LogError(const char* fmt, Args ... args)IM_FMTARGS(2)
 	{
+		if (!GetLogging())
+		{
+			return;
+		}
+
 		if (output == nullptr)
 			initOutput();
 
@@ -107,6 +159,11 @@ public:
 	template<typename ... Args>
 	static void LogHResult(HRESULT hr, const char* fmt,Args ... args)IM_FMTARGS(2)
 	{
+		if (!GetLogging())
+		{
+			return;
+		}
+
 		if (output == nullptr)
 			initOutput();
 
