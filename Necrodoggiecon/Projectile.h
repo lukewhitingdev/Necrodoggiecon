@@ -32,11 +32,14 @@ public:
 	void DidItHit();
 	virtual void Update(float deltaTime) override;
 
+	void SetLifetime(float life) { Lifetime = life; }
 	float GetLifetime() { return Lifetime; };
 	Vector3 GetPosition() { return Position; };
 	void SetPosition(Vector3 newPosition) { Position = newPosition; };
 	Vector3 GetDirection() { return Direction; };
 	float GetSpeed() { return Speed; };
+
+	USERTYPE2 GetUserType() { return userType; };
 	class CSpriteComponent* ProjectileSprite = nullptr;
 
 private:

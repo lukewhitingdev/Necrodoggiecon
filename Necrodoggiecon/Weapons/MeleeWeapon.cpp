@@ -47,14 +47,12 @@ void MeleeWeapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 
 	if (Weapon::GetUserType() == USERTYPE::AI)
 	{
-		Debug::Log("UserType is AI");
 		CCharacter* target = GetClosestPlayer(actorPos, damagePos);
 		if (target != nullptr)
 			target->ApplyDamage(GetDamage());
 	}
 	else if (Weapon::GetUserType() == USERTYPE::PLAYER)
 	{
-		Debug::Log("UserType is PLAYER");
 		CCharacter* target = GetClosestEnemy(actorPos, damagePos);
 		if (target != nullptr)
 			target->ApplyDamage(GetDamage());
@@ -87,8 +85,6 @@ CCharacter* MeleeWeapon::GetClosestEnemy(Vector3 actorPos, Vector3 damagePos)
 
 		if (damagePos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
 			continue;
-
-		Debug::Log("Enemy is in range");
 
 		if (closestEnemy == nullptr)
 			closestEnemy = enemy;
