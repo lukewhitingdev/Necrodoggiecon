@@ -39,6 +39,8 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentLegs->SetAnimationRectSize(XMUINT2(10, 1));
 	spriteComponentLegs->SetAnimationSpeed(10 * walkAnimationSpeed);
 	spriteComponentLegs->SetPlaying(false, false);
+	spriteComponentBody->SetUseTranslucency(true);
+	originalLegTint = spriteComponentLegs->GetTint();
 
 	spriteComponentShadow = AddComponent<CSpriteComponent>(NAME_OF(spriteComponentShadow));
 	spriteComponentShadow->LoadTextureWIC("Resources/Game/Characters/JonathanWicke-shadow.png");
@@ -314,6 +316,7 @@ void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime
 
 		pickupTimerCallback = std::bind(&PlayerCharacter::InvisibilityCallback, this);
 		spriteComponentBody->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
+		spriteComponentLegs->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
 		
 	} 
 	else if (pickupToUse == "ShieldScroll")
@@ -332,6 +335,7 @@ void PlayerCharacter::PressedUse()
 void PlayerCharacter::InvisibilityCallback()
 {
 	spriteComponentBody->SetTint(originalSpriteTint);
+	spriteComponentLegs->SetTint(originalLegTint);
 	
 }
 
