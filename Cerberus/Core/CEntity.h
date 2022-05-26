@@ -21,6 +21,7 @@ class CEntity : public CTransform
 	bool shouldUpdate = true;
 	bool shouldMove = false;
 	bool visible = true;
+	bool ui = false;
 
 	std::vector<CComponent*> components;
 
@@ -39,10 +40,12 @@ public:
 	 * Sets if this entity and all it's components will be rendered.
 	 */
 	void SetVisible(const bool& newVisibility) { visible = newVisibility; }
+	void SetIsUI(const bool& newUI) { ui = newUI; }
 
 	const bool& GetShouldUpdate() const { return shouldUpdate; }
 	const bool& GetShouldMove() const { return shouldMove; }
 	const bool& GetVisible() const { return visible; }
+	const bool& GetIsUI() const { return ui; }
 	const std::vector<CComponent*>& GetAllComponents() const { return components; }
 
 	/**

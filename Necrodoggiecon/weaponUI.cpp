@@ -7,6 +7,8 @@
 
 weaponUI::weaponUI()
 {
+	SetIsUI(true);
+
 	spriteBack = AddComponent<CSpriteComponent>(NAME_OF(spriteBack));
 	spriteBack->LoadTextureWIC("Resources/Game/uiBackground.png");
 	spriteBack->SetRenderRect(XMUINT2(16, 16));

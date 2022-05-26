@@ -7,6 +7,7 @@
 
 MainMenu::MainMenu()
 {
+	SetIsUI(true);
 	InitialiseCanvas();
 }
 
