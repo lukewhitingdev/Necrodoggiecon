@@ -11,6 +11,7 @@
 #include "Cerberus/Core/Components/CTextRenderComponent.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include "Cerberus/Core/UI/CWidget_Text.h"
+#include "Cerberus\Core\Utility\Audio\AudioController.h"
 
 SettingsMenu::SettingsMenu()
 {
@@ -37,13 +38,7 @@ void SettingsMenu::InitialiseCanvas()
 	Title->GetText()->SetScale(2, 2, 1);
 	
 	std::string MasterVolumeTitle = "Master Volume";
-	this->CreateVolumeUI(Vector2(0, 150), MasterVolumeTitle, std::bind(&SettingsMenu::MasterVolumeUp, this), std::bind(&SettingsMenu::MasterVolumeDown, this));
-
-	std::string AmbientVolumeTitle = "Ambient Volume";
-	this->CreateVolumeUI(Vector2(0, 90), AmbientVolumeTitle, std::bind(&SettingsMenu::AmbientVolumeUp, this), std::bind(&SettingsMenu::AmbientVolumeDown, this));
-
-	std::string SFXVolumeTitle = "SFX Volume";
-	this->CreateVolumeUI(Vector2(0, 30), SFXVolumeTitle, std::bind(&SettingsMenu::SFXVolumeUp, this), std::bind(&SettingsMenu::SFXVolumeDown, this));
+	masterVolumeText = this->CreateVolumeUI(Vector2(0, 150), MasterVolumeTitle, masterVolume ,std::bind(&SettingsMenu::MasterVolumeUp, this), std::bind(&SettingsMenu::MasterVolumeDown, this));
 
 	std::string CloseButtonName = "Close";
 	CWidget_Button* CloseButton = CreateButton(Vector2(0, -188), Vector2(.5, .5), CloseButtonName, -165);
@@ -74,59 +69,47 @@ void SettingsMenu::CloseSettings()
 	}
 }
 
-void SettingsMenu::CreateVolumeUI(Vector2 pos, std::string& title, std::function<void()> volumeUp, std::function<void()> volumeDown)
+void SettingsMenu::Update(float deltaTime)
+{
+	masterVolumeText->GetText()->SetText(std::to_string(masterVolume));
+	CWidget_Canvas::Update(deltaTime);
+}
+
+CWidget_Text* SettingsMenu::CreateVolumeUI(Vector2 pos, const std::string& title, const int& volume, std::function<void()> volumeUp, std::function<void()> volumeDown)
 {
 	std::string null = "";
 	int offset = pos.y;
-	CWidget_Text* MasterVolumeTitle = CreateText(Vector2(0, offset), Vector2(.5, .5), -165, null);
-	MasterVolumeTitle->GetText()->SetFont("Resources/Engine/font.png");
-	MasterVolumeTitle->GetText()->SetText(title);
-	MasterVolumeTitle->GetText()->SetScale(1, 1, 1);
+	CWidget_Text* VolumeTitle = CreateText(Vector2(0, offset), Vector2(.5, .5), -165, null);
+	VolumeTitle->GetText()->SetFont("Resources/Engine/font.png");
+	VolumeTitle->GetText()->SetText(title);
+	VolumeTitle->GetText()->SetScale(1, 1, 1);
 
-	CWidget_Text* MasterVolume = CreateText(Vector2(0, offset - 30), Vector2(.5, .5), -165, null);
-	MasterVolume->GetText()->SetFont("Resources/Engine/font.png");
-	MasterVolume->GetText()->SetText("100");
-	MasterVolume->GetText()->SetScale(1, 1, 1);
+	CWidget_Text* Volume = CreateText(Vector2(0, offset - 30), Vector2(.5, .5), -165, null);
+	Volume->GetText()->SetFont("Resources/Engine/font.png");
+	Volume->GetText()->SetText(std::to_string(volume));
+	Volume->GetText()->SetScale(1, 1, 1);
 
-	CWidget_Button* MasterVolumeUp = CreateButton(Vector2(40, offset - 30), Vector2(.5, .5), null, -165);
-	MasterVolumeUp->Bind_OnButtonReleased(volumeUp);
-	MasterVolumeUp->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
-	MasterVolumeUp->GetSprite()->SetTint(DirectX::XMFLOAT4(0.0f, 140.0f, 0.0f, 1.0f));
-	MasterVolumeUp->SetButtonSize(Vector2(25, 25));
+	CWidget_Button* VolumeUp = CreateButton(Vector2(40, offset - 30), Vector2(.5, .5), null, -165);
+	VolumeUp->Bind_OnButtonReleased(volumeUp);
+	VolumeUp->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
+	VolumeUp->GetSprite()->SetTint(DirectX::XMFLOAT4(0.0f, 140.0f, 0.0f, 1.0f));
+	VolumeUp->SetButtonSize(Vector2(25, 25));
 
-	CWidget_Button* MasterVolumeDown = CreateButton(Vector2(-40, offset - 30), Vector2(.5, .5), null, -165);
-	MasterVolumeDown->Bind_OnButtonReleased(volumeDown);
-	MasterVolumeDown->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
-	MasterVolumeDown->GetSprite()->SetTint(DirectX::XMFLOAT4(140.0f, 0.0f, 0.0f, 1.0f));
-	MasterVolumeDown->SetButtonSize(Vector2(25, 25));
+	CWidget_Button* VolumeDown = CreateButton(Vector2(-40, offset - 30), Vector2(.5, .5), null, -165);
+	VolumeDown->Bind_OnButtonReleased(volumeDown);
+	VolumeDown->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
+	VolumeDown->GetSprite()->SetTint(DirectX::XMFLOAT4(140.0f, 0.0f, 0.0f, 1.0f));
+	VolumeDown->SetButtonSize(Vector2(25, 25));
+
+	return Volume;
 };
 
 void SettingsMenu::MasterVolumeUp()
 {
-	Debug::Log("Master Volume Up");
+	AudioController::SetMaxVolumeForEmitterType((masterVolume >= 100) ? 100 : masterVolume++, EMITTERTYPE::ALL);
 }
 
 void SettingsMenu::MasterVolumeDown()
 {
-	Debug::Log("Master Volume Down");
-}
-
-void SettingsMenu::AmbientVolumeUp()
-{
-	Debug::Log("Ambient Volume Up");
-}
-
-void SettingsMenu::AmbientVolumeDown()
-{
-	Debug::Log("Ambient Volume Down");
-}
-
-void SettingsMenu::SFXVolumeUp()
-{
-	Debug::Log("SFX Volume Up");
-}
-
-void SettingsMenu::SFXVolumeDown()
-{
-	Debug::Log("SFX Volume Down");
+	AudioController::SetMaxVolumeForEmitterType((masterVolume <= 0) ? 0 : masterVolume--, EMITTERTYPE::ALL);
 }

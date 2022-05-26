@@ -16,17 +16,17 @@ public:
     SettingsMenu();
     void CloseSettings();
 
+    virtual void Update(float deltaTime) override;
+
 private:
 
-    void CreateVolumeUI(Vector2 pos, std::string& title, std::function<void()> volumeUp, std::function<void()> volumeDown);
+    CWidget_Text* CreateVolumeUI(Vector2 pos, const std::string& title, const int& volume, std::function<void()> volumeUp, std::function<void()> volumeDown);
 
     void MasterVolumeUp();
     void MasterVolumeDown();
 
-    void AmbientVolumeUp();
-    void AmbientVolumeDown();
+    CWidget_Text* masterVolumeText;
 
-    void SFXVolumeUp();
-    void SFXVolumeDown();
+    int masterVolume = 100;
 };
 
