@@ -124,6 +124,9 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 			float enemyRotationSpeed = storedFile["Enemy"][i]["RotationSpeed"];
 			float enemyMaxSearchTime = storedFile["Enemy"][i]["MaxSearchTime"];
+			bool enemyIsBoss = false; //storedFile["Enemy"][i]["IsBoss"];
+			//Put this back once levels are complete
+			
 
 			
 			
@@ -148,7 +151,7 @@ void CWorld_Editable::LoadWorld(int Slot)
 			TempRef->SetRange(enemyRange);
 			TempRef->SetRotationSpeed(enemyRotationSpeed);
 			TempRef->SetMaxSearchTime(enemyMaxSearchTime);
-
+			//TempRef->SetIsBoss(enemyIsBoss);
 			if (EnemyID == 0)
 			{
 				int weaponIndex = storedFile["Enemy"][i]["WeaponIndex"];
@@ -311,7 +314,7 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 				SaveData["Enemy"][i]["RotationSpeed"] = TempEnemy->GetRotationSpeed();
 				SaveData["Enemy"][i]["MaxSearchTime"] = TempEnemy->GetMaxSearchTime();
-
+				SaveData["Enemy"][i]["IsBoss"] = TempEnemy->GetIsBoss();
 
 				break;
 			}

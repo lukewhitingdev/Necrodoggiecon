@@ -122,6 +122,12 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 		int EnemyID = storedFile["Enemy"][i]["Type"];
 		int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
 		int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
+
+		
+
+
+		
+
 		Vector3 position = Vector3{ (float)EnemyX, (float)EnemyY, 0.0f };
 		CAIController* enemy = nullptr;
 		int WeaponID = -1;
@@ -173,6 +179,27 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 			enemy = Engine::CreateEntity<CAIController>();
 			break;
 		}
+
+
+		float enemyHealth = storedFile["Enemy"][i]["Health"];
+		float enemySpeed = storedFile["Enemy"][i]["Speed"];
+
+		float enemyMass = storedFile["Enemy"][i]["Mass"];
+		float enemyRange = storedFile["Enemy"][i]["Range"];
+
+		float enemyRotationSpeed = storedFile["Enemy"][i]["RotationSpeed"];
+		float enemyMaxSearchTime = storedFile["Enemy"][i]["MaxSearchTime"];
+		bool enemyIsBoss = false; //storedFile["Enemy"][i]["IsBoss"];
+		//Add this back once levels are complete
+
+
+		enemy->SetHealth(enemyHealth);
+		enemy->SetInitialSpeed(enemySpeed);
+		enemy->SetMass(enemyMass);
+		enemy->SetRange(enemyRange);
+		enemy->SetRotationSpeed(enemyRotationSpeed);
+		enemy->SetSearchTime(enemyMaxSearchTime);
+		enemy->SetIsBoss(enemyIsBoss); 
 		EntityList.push_back(enemy);
 
 		int waypointlist = storedFile["Enemy"][i]["WaypointList"];
