@@ -9,10 +9,18 @@
 #include "Cerberus\Core\Utility\Vector3.h"
 #include "Cerberus/Core/Utility/Audio/CAudio.h"
 
+enum class EMITTERTYPE
+{
+	SFX = 0,
+	AMBIENT,
+	ALL
+};
+
 class CEmitter
 {
 public:
 	Vector3 position;
 	float range = 1000;
 	CAudio* audio;
+	EMITTERTYPE type;
 };
