@@ -15,7 +15,6 @@ public:
     void PlayAudio(const std::string& audioPath);
     void PlayAudio(bool shouldLoop);
     void Load(const std::string& audioPath, bool ambient);
-    void SetLooping(bool looping);
     void SetRange(float range);
     void SetAttachedEntity(CEntity* entity) { isAttached = true;  attachedEntity = entity; }
 protected:

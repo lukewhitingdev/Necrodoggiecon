@@ -1,6 +1,14 @@
 #include "Pickup.h"
 #include "Necrodoggiecon\Game\PlayerCharacter.h"
 #include "Necrodoggiecon\Game\AI\CAIController.h"
+/*****************************************************************//**
+ * \file   Pickup.cpp
+ * \brief  Class to handle scroll pickups
+ *
+ * \author Cathan Bertram
+ * \date   May 2022
+ *********************************************************************/
+
 
 Pickup::Pickup()
 {
