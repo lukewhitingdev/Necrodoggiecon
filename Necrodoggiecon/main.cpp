@@ -74,7 +74,7 @@ int Start()
 	#endif
 
 	SoundManager::Initialise();
-	CWorldManager::LoadWorld(new CWorld_Menu());
 
+	CWorldManager::LoadWorld(new CWorld_Menu());
 	return 0;
 }
