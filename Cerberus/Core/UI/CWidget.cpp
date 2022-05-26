@@ -3,7 +3,7 @@
  * \file   CWidget.cpp
  * \brief  Base class for all UI widgets. Handles parenting operations
  * 
- * \author J019857i
+ * \author Samuel Elliot Jackson
  * \date   May 2022
  *********************************************************************/
 CWidget::CWidget()
@@ -39,6 +39,7 @@ void CWidget::SetVisibility(bool IsVisible)
 	for (int i = 0; i < GetChildren().size(); i++)
 	{
 		GetChildren()[i]->SetVisibility(IsVisible);
+		
 	}
 	
 }
@@ -69,3 +70,16 @@ void CWidget::RemoveAllChildren()
 	}
 	Engine::DestroyEntity(this);
 }
+
+void CWidget::UpdateWidgetOrigin(Vector3 Pos)
+{
+	SetPosition(Pos.x, Pos.y, GetPosition().z);
+	for (int i = 0; i < GetChildren().size(); i++)
+	{
+		if (GetChildren()[i] != nullptr)
+		{
+			GetChildren()[i]->UpdateWidgetOrigin(Pos);
+		}
+	}
+}
+

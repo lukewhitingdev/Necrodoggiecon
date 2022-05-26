@@ -124,6 +124,9 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 			float enemyRotationSpeed = storedFile["Enemy"][i]["RotationSpeed"];
 			float enemyMaxSearchTime = storedFile["Enemy"][i]["MaxSearchTime"];
+			bool enemyIsBoss = false; //storedFile["Enemy"][i]["IsBoss"];
+			//Put this back once levels are complete
+			
 
 			
 			
@@ -148,7 +151,7 @@ void CWorld_Editable::LoadWorld(int Slot)
 			TempRef->SetRange(enemyRange);
 			TempRef->SetRotationSpeed(enemyRotationSpeed);
 			TempRef->SetMaxSearchTime(enemyMaxSearchTime);
-
+			//TempRef->SetIsBoss(enemyIsBoss);
 			if (EnemyID == 0)
 			{
 				int weaponIndex = storedFile["Enemy"][i]["WeaponIndex"];
@@ -171,6 +174,18 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 
 
+		}
+
+		int TotalWeaponHolders = storedFile["TotalWeaponHolders"];
+		for (int i = 0; i < TotalWeaponHolders; i++)
+		{
+			CT_EditorEntity_WeaponHolder* TempHolder = Engine::CreateEntity<CT_EditorEntity_WeaponHolder>();
+			editorEntityList.push_back(TempHolder);
+			int HolderX = storedFile["WeaponHolder"][i]["X"];
+			int HolderY = storedFile["WeaponHolder"][i]["Y"];
+			int WepID = storedFile["WeaponHolder"][i]["WeaponIndex"];
+			TempHolder->SetPosition((Vector3(HolderX, HolderY, 0)* (tileScale* tileScaleMultiplier)) + Vector3(0, 0, -1));
+			TempHolder->AssignWeapon((char*)"", WepID);
 		}
 
 
@@ -299,7 +314,7 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 				SaveData["Enemy"][i]["RotationSpeed"] = TempEnemy->GetRotationSpeed();
 				SaveData["Enemy"][i]["MaxSearchTime"] = TempEnemy->GetMaxSearchTime();
-
+				SaveData["Enemy"][i]["IsBoss"] = TempEnemy->GetIsBoss();
 
 				break;
 			}
@@ -312,6 +327,8 @@ void CWorld_Editable::SaveWorld(int Slot)
 	for (int i = 0; i < HolderList.size(); i++)
 	{
 		SaveData["WeaponHolder"][i]["WeaponIndex"] = HolderList[i]->GetAssignedWeapon();
+		SaveData["WeaponHolder"][i]["X"] = HolderList[i]->GetPosition().x / (tileScale * tileScaleMultiplier);
+		SaveData["WeaponHolder"][i]["Y"] = HolderList[i]->GetPosition().y / (tileScale * tileScaleMultiplier);
 	}
 
 	if (playerStartEntity != nullptr)

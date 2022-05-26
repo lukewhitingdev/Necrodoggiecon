@@ -130,7 +130,8 @@ void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
  */
 void Weapon::Update(float deltaTime)
 {
-	CoolDown(deltaTime);
+	if (ammo > 0.0f || type == "Melee")
+		CoolDown(deltaTime);
 }
 
 void Weapon::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer)

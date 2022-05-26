@@ -45,7 +45,6 @@ void WeaponInterface::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& paren
  */
 void WeaponInterface::SetWeapon(Weapon* weapon)
 {
-	delete this->currentWeapon;
 	currentWeapon = weapon;
 	currentWeapon->SetUserType(userType);
 
