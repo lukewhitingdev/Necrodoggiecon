@@ -30,6 +30,7 @@ public:
 
 	static CAudio* LoadAudio(const std::string& path);
 	static bool PlayAudio(const std::string& path);
+	static bool PlayAudio(const std::string& path, bool loop);
 	static bool StopAudio(const std::string& path);
 	static bool DestroyAudio(const std::string& path);
 
