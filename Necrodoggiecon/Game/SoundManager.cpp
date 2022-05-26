@@ -81,7 +81,7 @@ void SoundManager::PlaySound(const std::string& audioName, Vector3 position)
 		Debug::LogError(errorMessage.c_str());
 		return;
 	}
-	audioEmitterMap[audioName]->PlayAudio(position);
+	audioEmitterMap.at(audioName)->PlayAudio(position);
 }
 /**
  * Function used to play music.
