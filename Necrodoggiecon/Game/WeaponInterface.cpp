@@ -16,9 +16,18 @@ WeaponInterface::~WeaponInterface()
  * \param actorPos
  * \param attackDir
  */
-void WeaponInterface::OnFire(Vector3 actorPos, Vector3 attackDir)
+bool WeaponInterface::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
-	currentWeapon->OnFire(actorPos, attackDir);
+	bool ret = currentWeapon->OnFire(actorPos, attackDir);
+
+	std::vector<weaponUI*> wepUIs = Engine::GetEntityOfType<weaponUI>();
+
+	if (wepUIs.size() > 0)
+	{
+		weaponUI* wepUI = Engine::GetEntityOfType<weaponUI>()[0];
+		wepUI->updateUI(currentWeapon->GetName(), currentWeapon->GetAmmo(), currentWeapon->GetMaxAmmo(), currentWeapon->GetIconPath());
+	}
+	return ret;
 }
 
 void WeaponInterface::Update(float deltaTime)
@@ -45,7 +54,7 @@ void WeaponInterface::SetWeapon(Weapon* weapon)
 	if(wepUIs.size() > 0)
 	{
 		weaponUI* wepUI = Engine::GetEntityOfType<weaponUI>()[0];
-		wepUI->updateUI(currentWeapon->GetName(), -1, currentWeapon->GetAmmo(), currentWeapon->GetIconPath());
+		wepUI->updateUI(currentWeapon->GetName(), currentWeapon->GetAmmo(), currentWeapon->GetMaxAmmo(), currentWeapon->GetIconPath());
 	}
 }
 

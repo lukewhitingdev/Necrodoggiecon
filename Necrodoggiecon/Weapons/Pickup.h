@@ -6,8 +6,8 @@ class Pickup : public Weapon
 public:
 	Pickup();
 	~Pickup();
-
-	virtual void OnFire(Vector3 actorPos, Vector3 attackDir);
+	void Update(float deltaTime) override;
+	virtual bool OnFire(Vector3 actorPos, Vector3 attackDir);
 private:
 	CEntity* GetClosestEnemy(Vector3 actorPos, Vector3 damagePos);
 	CEntity* GetClosestPlayer(Vector3 actorPos, Vector3 damagePos);

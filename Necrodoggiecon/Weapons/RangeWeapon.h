@@ -14,7 +14,7 @@ public:
 	RangeWeapon();
 	~RangeWeapon();
 
-	virtual void OnFire(Vector3 actorPos, Vector3 attackDir);
+	virtual bool OnFire(Vector3 actorPos, Vector3 attackDir);
 
 	void SetProjectileSpeed(float speed) { projectileSpeed = speed; };
 	float GetProjectileSpeed() { return projectileSpeed; };

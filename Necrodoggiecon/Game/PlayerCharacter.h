@@ -18,6 +18,8 @@ protected:
 	float walkSpeed = 300;
 	float walkDrag = 10;
 	float timeElapsed = 0;
+	float timeBetweenSteps = 0.35f;
+	float stepTimer;
 
 	void LookAt(Vector3 pos);
 
@@ -29,6 +31,8 @@ protected:
 
 	Vector2 movementVec = { 0,0 };
 	XMFLOAT2 movementVel = { 0,0 };
+	XMFLOAT4 originalSpriteTint;
+	XMFLOAT4 originalLegTint;
 	const float walkAnimationSpeed = 1.3f;
 
 	float pickupTimer;
@@ -62,6 +66,7 @@ public:
 	void UpdateWeaponSprite();
 
 	void ApplyDamage(float damage);
+	void ApplyDamage(float damage, const std::string& onHitSound);
 
 	class CCameraComponent* camera = nullptr;
 	CAudioEmitterComponent* loadNoise = nullptr;
@@ -69,5 +74,6 @@ public:
 private:
 	void ResolveMovement(const float& deltaTime);
 	void AimAtMouse(const Vector3& mousePos);
+	void FootstepTimer(float deltaTime);
 };
 

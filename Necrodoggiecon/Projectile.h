@@ -9,6 +9,8 @@
 #pragma once
 #include <Cerberus\Core\Components\CAnimationSpriteComponent.h>
 #include <Cerberus\Core\CEntity.h>
+
+class CAudioEmitterComponent;
 class CAIController;
 class PlayerCharacter;
 
@@ -28,15 +30,18 @@ public:
 	Projectile();
 	~Projectile();
 
-	void StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string &projectile_name);
+	void StartUp(Vector3 dir, Vector3 pos, float damage, float speed, float lifetime, int type, const std::string &projectile_name, const std::string& hitAudioPath);
 	void DidItHit();
 	virtual void Update(float deltaTime) override;
 
+	void SetLifetime(float life) { Lifetime = life; }
 	float GetLifetime() { return Lifetime; };
 	Vector3 GetPosition() { return Position; };
 	void SetPosition(Vector3 newPosition) { Position = newPosition; };
 	Vector3 GetDirection() { return Direction; };
 	float GetSpeed() { return Speed; };
+
+	USERTYPE2 GetUserType() { return userType; };
 	class CSpriteComponent* ProjectileSprite = nullptr;
 
 private:
@@ -51,12 +56,12 @@ private:
 	Vector3 Position;
 	Vector3 initialPosition;
 	std::string Projectile_Name;
+	std::string onHitAudioPath;
 	bool hasHit = false;
 
 	CAIController* GetClosestEnemy(Vector3 actorPos);
 	PlayerCharacter* GetClosestPlayer(Vector3 actorPos);
 	CAIController* GetClosestEnemy(Vector3 actorPos, float ranged);
-
 	USERTYPE2 userType;
 };
 

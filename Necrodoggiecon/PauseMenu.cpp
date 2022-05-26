@@ -15,6 +15,7 @@
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include "SettingsMenu.h"
 #include "LevelCompleteMenu.h"
+#include "Game/SoundManager.h"
 #include "Necrodoggiecon/CWorld_Menu.h"
 #include "Necrodoggiecon/TransitionHelper.h"
 
@@ -79,6 +80,7 @@ void PauseMenu::InitialiseCanvas()
  */
 void PauseMenu::PauseGame()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	SetVisibility(true);
 	Debug::Log("pause");
 	isPaused = true;
@@ -90,6 +92,7 @@ void PauseMenu::PauseGame()
  */
 void PauseMenu::ResumeGame()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	SetVisibility(false);
 	Debug::Log("resume");
 	isPaused = false;
@@ -101,6 +104,7 @@ void PauseMenu::ResumeGame()
  */
 void PauseMenu::QuitToMenu()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("quit to menu");
 	TransitionHelper::OpenLevel(0, true);
 	Engine::paused = false;
@@ -111,6 +115,7 @@ void PauseMenu::QuitToMenu()
  */
 void PauseMenu::QuitToDesktop()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("quit to desktop");
 	PostQuitMessage(1);
 }
@@ -153,6 +158,7 @@ void PauseMenu::Update(float deltaTime)
  */
 void PauseMenu::OpenSettingsMenu()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("open settings");
 	CUIManager::GetCanvas("SettingsMenu")->SetVisibility(true);
 	SetVisibility(false);

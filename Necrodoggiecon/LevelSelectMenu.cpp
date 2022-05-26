@@ -14,6 +14,7 @@
 #include "Cerberus/Core/Utility/CWorldManager.h"
 #include "CWorld_Game.h"
 #include "Necrodoggiecon/TransitionHelper.h"
+#include "Game/SoundManager.h"
 
 LevelSelectMenu::LevelSelectMenu()
 {
@@ -108,6 +109,7 @@ void LevelSelectMenu::InitialiseCanvas()
  */
 void LevelSelectMenu::CloseMenu()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	SetVisibility(false);
 	CUIManager::GetCanvas("MainMenu")->SetVisibility(true);
 	Debug::Log("closing settings");
@@ -119,6 +121,7 @@ void LevelSelectMenu::CloseMenu()
  */
 void LevelSelectMenu::OpenLevelTutorial()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	SelectedLevel = 0;
 	UpdateButtonPositions();
 }
@@ -128,6 +131,7 @@ void LevelSelectMenu::OpenLevelTutorial()
  */
 void LevelSelectMenu::OpenLevel1()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	SelectedLevel = 1;
 	UpdateButtonPositions();
 }
@@ -137,6 +141,7 @@ void LevelSelectMenu::OpenLevel1()
  */
 void LevelSelectMenu::OpenLevel2()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	SelectedLevel = 2;
 	UpdateButtonPositions();
 }
@@ -146,8 +151,10 @@ void LevelSelectMenu::OpenLevel2()
  */
 void LevelSelectMenu::OpenLevel3()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	SelectedLevel = 3;
 	UpdateButtonPositions();
+
 }
 /**
  * moves selected level to center.
@@ -155,8 +162,10 @@ void LevelSelectMenu::OpenLevel3()
  */
 void LevelSelectMenu::OpenLevel4()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	SelectedLevel = 4;
 	UpdateButtonPositions();
+
 }
 /**
  * moves selected level to center.
@@ -164,8 +173,10 @@ void LevelSelectMenu::OpenLevel4()
  */
 void LevelSelectMenu::OpenLevel5()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	SelectedLevel = 5;
 	UpdateButtonPositions();
+
 }
 /**
  * moves selected level to center.
@@ -173,8 +184,10 @@ void LevelSelectMenu::OpenLevel5()
  */
 void LevelSelectMenu::OpenLevel6()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	SelectedLevel = 6;
 	UpdateButtonPositions();
+
 }
 /**
  * moves selected level to center.
@@ -182,8 +195,10 @@ void LevelSelectMenu::OpenLevel6()
  */
 void LevelSelectMenu::OpenLevel7()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	SelectedLevel = 7;
 	UpdateButtonPositions();
+
 }
 /**
  * offsets all level buttons to show which is selected.

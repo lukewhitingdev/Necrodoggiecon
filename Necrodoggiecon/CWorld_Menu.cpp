@@ -4,6 +4,7 @@
 #include "Cerberus/Core/Components/CCameraComponent.h"
 #include "Cerberus/Core/Structs/CCamera.h"
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
+#include "Game/SoundManager.h"
 
 
 void CWorld_Menu::SetupWorld()
@@ -15,4 +16,5 @@ void CWorld_Menu::SetupWorld()
 	CameraManager::SetRenderingCamera(freeCameraComponent);
 
 	CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
+	SoundManager::PlayMusic("Resources/Game/Audio/MenuBGM.wav", nullptr);
 }

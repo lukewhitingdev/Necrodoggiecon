@@ -3,7 +3,7 @@
 #include "Necrodoggiecon/CWorld_Menu.h"
 #include "Necrodoggiecon/CWorld_Game.h"
 #include "Cerberus/Core/Utility/CWorldManager.h"
-
+#include "Game/SoundManager.h"
 /*
 
 TODO:
@@ -74,5 +74,7 @@ int Start()
 	#endif
 
 	CWorldManager::LoadWorld(new CWorld_Menu());
+
+	SoundManager::Initialise();
 	return 0;
 }

@@ -35,8 +35,11 @@
     <ClCompile Include="LevelCompleteMenu.cpp" />
     <ClCompile Include="Game\AI\State.cpp" />
     <ClCompile Include="Game\AI\CAIController.cpp" />
+    <ClCompile Include="Game\SoundManager.cpp" />
+    <ClCompile Include="Game\AudioEmitterEntity.cpp" />
     <ClCompile Include="CWorld_Menu.cpp" />
     <ClCompile Include="Game\LevelTransporter.cpp" />
+    <ClCompile Include="Game\NecrodoggieconPage.cpp" />
     <ClCompile Include="TransitionHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -147,8 +150,11 @@
     <ClInclude Include="LevelCompleteMenu.h" />
     <ClInclude Include="Game\AI\State.h" />
     <ClInclude Include="Game\AI\CAIController.h" />
+    <ClInclude Include="Game\SoundManager.h" />
+    <ClInclude Include="Game\AudioEmitterEntity.h" />
     <ClInclude Include="CWorld_Menu.h" />
     <ClInclude Include="Game\LevelTransporter.h" />
+    <ClInclude Include="Game\NecrodoggieconPage.h" />
     <ClInclude Include="TransitionHelper.h" />
   </ItemGroup>
   <ItemGroup>

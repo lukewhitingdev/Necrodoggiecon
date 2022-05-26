@@ -11,6 +11,7 @@
 #include "Cerberus/Core/Components/CTextRenderComponent.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include "Cerberus/Core/UI/CWidget_Text.h"
+#include "Game/SoundManager.h"
 #include "Cerberus\Core\Utility\Audio\AudioController.h"
 
 SettingsMenu::SettingsMenu()
@@ -55,6 +56,7 @@ void SettingsMenu::InitialiseCanvas()
  */
 void SettingsMenu::CloseSettings()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	if (CUIManager::GetCanvas("MainMenu") != nullptr)
 	{
 		SetVisibility(false);
