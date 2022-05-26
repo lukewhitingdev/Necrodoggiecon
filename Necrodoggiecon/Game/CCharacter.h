@@ -40,5 +40,7 @@ public:
 	bool GetIsPlayer();
 
 	bool GetVisible() { return visible; }
+
+	Weapon* GetWeapon() { return weaponComponent->GetCurrentWeapon(); };
 };
 
