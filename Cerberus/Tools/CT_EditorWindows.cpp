@@ -144,7 +144,7 @@ void CT_EditorWindows::render()
 
             //AdditionalRenderLogic(*open);
 
-            /*
+            
 
             ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetStyle().ItemSpacing.y), false, ImGuiWindowFlags_HorizontalScrollbar);
             if (ImGui::BeginPopupContextWindow())
@@ -185,7 +185,7 @@ void CT_EditorWindows::render()
 
             ImGui::End();
 
-            */
+            
 
 
             ImGui::SetNextWindowSize(ImVec2(WindowScale.x, WindowScale.y), ImGuiCond_FirstUseEver);

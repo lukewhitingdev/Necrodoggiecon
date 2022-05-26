@@ -15,6 +15,18 @@ CWidget_Canvas* CUIManager::AddCanvas(CWidget_Canvas* Canvas, std::string ID)
 	return Canvas;
 }
 
+void CUIManager::HideAllCanvases()
+{
+	for (int i = 0; i < idList.size(); i++)
+	{
+		if (activeCanvases[idList[i]] != nullptr)
+		{
+			activeCanvases[idList[i]]->SetVisibility(false);
+			
+		}
+	}
+}
+
 CWidget_Canvas* CUIManager::GetCanvas(std::string ID)
 {
 	for (int i = 0; i < idList.size(); i++)

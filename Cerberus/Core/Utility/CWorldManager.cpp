@@ -7,6 +7,7 @@
  *********************************************************************/
 #include "Cerberus/Core/Utility/CWorldManager.h"
 #include "Cerberus/Core/Environment/CWorld_Edit.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
 
 
 CWorld* CWorldManager::gameWorld = nullptr;
@@ -52,6 +53,8 @@ void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 		if (gameWorld != nullptr)
 		{
 			gameWorld->DestroyWorld();
+		
+			
 			delete(gameWorld);
 			
 		}
@@ -80,7 +83,9 @@ void CWorldManager::LoadWorld(CWorld* World)
 	}
 	if (gameWorld != nullptr)
 	{
+		CUIManager::HideAllCanvases();
 		gameWorld->DestroyWorld();
+		
 		delete(gameWorld);
 
 	}

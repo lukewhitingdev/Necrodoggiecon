@@ -35,9 +35,10 @@ CWorld_Game::CWorld_Game(int Slot)
 void CWorld_Game::SetupWorld()
 {
 	PlayerController* controller = Engine::CreateEntity<PlayerController>();
-	EntityList.push_back(controller);
+
 	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
-	EntityList.push_back(character1);
+	//EntityList.push_back(character1);
+	EntityList.push_back(controller);
 
 	// Locked Camera follows player.
 	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>(NAME_OF(spriteComponentLegs));

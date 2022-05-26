@@ -12,6 +12,8 @@ public:
 
 	static class CWidget_Canvas* AddCanvas(class CWidget_Canvas* Canvas, std::string ID);
 
+	static void HideAllCanvases();
+
 	static class CWidget_Canvas* GetCanvas(std::string ID);
 
 	static void ClearAllCanvases();
