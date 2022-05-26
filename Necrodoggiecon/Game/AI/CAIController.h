@@ -127,7 +127,7 @@ protected:
 	float aiSpeed = 100.0f;
 	float initialSpeed = aiSpeed;
 	float aiMass = 10.0f;
-	float aiRange = 200.0f;
+	float aiRange = 400.0f;
 	float aiViewAngle = 90.0f;
 
 	float width = 64.0f;

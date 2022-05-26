@@ -13,6 +13,7 @@
 */
 DialogueUI::DialogueUI()
 {
+	SetIsUI(true);
 	textBackground = AddComponent<CSpriteComponent>(NAME_OF(textBackground));
 	textBackground->LoadTextureWIC("Resources/Game/darkBackground.png");
 	nameBackground = AddComponent<CSpriteComponent>(NAME_OF(nameBackground));

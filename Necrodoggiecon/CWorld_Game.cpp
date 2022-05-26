@@ -113,22 +113,15 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 		int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
 		int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
 		Vector3 position = Vector3{ (float)EnemyX, (float)EnemyY, 0.0f };
-		int WeaponID = storedFile["Enemy"][i]["WeaponIndex"];
 		CAIController* enemy = nullptr;
-
+		int WeaponID = -1;
 		switch (EnemyID)
 		{
 		case 0:
 		{
-			enemy = Engine::CreateEntity<DogEnemy>();
-			enemy->SetPosition(position);
-			break;
-		}
-		case 1:
-		{
 			enemy = Engine::CreateEntity<GruntEnemy>();
 			enemy->SetPosition(position);
-			
+			WeaponID = storedFile["Enemy"][i]["WeaponIndex"];
 			switch (WeaponID)
 			{
 			case 0:
@@ -146,12 +139,24 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 			case 4:
 				enemy->EquipWeapon(new MagicMissile());
 				break;
-			case 5: 
+			case 5:
 				enemy->EquipWeapon(new Fireball());
 				break;
 
 			}
-			
+
+			break;
+		}
+		case 1:
+		{
+			enemy = Engine::CreateEntity<DogEnemy>();
+			enemy->SetPosition(position);
+			break;
+		}
+		case 2:
+		{
+			enemy = Engine::CreateEntity<AlarmEnemy>();
+			enemy->SetPosition(position);
 			break;
 		}
 		default:
