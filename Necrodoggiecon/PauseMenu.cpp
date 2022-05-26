@@ -101,6 +101,7 @@ void PauseMenu::ResumeGame()
 void PauseMenu::QuitToMenu()
 {
 	Debug::Log("quit to menu");
+	ResumeGame();
 	CWorldManager::LoadWorld(new CWorld_Menu());
 	SetVisibility(false);
 }

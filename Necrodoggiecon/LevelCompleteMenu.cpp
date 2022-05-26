@@ -71,6 +71,7 @@ void LevelCompleteMenu::InitialiseCanvas()
 void LevelCompleteMenu::QuitToMenu()
 {
 	Debug::Log("quit to menu");
+	Engine::paused = false;
 	CWorldManager::LoadWorld(new CWorld_Menu());
 }
 /**
@@ -89,5 +90,6 @@ void LevelCompleteMenu::QuitToDesktop()
 void LevelCompleteMenu::NextLevel()
 {
 	Debug::Log("load next level");
+	Engine::paused = false;
 	CWorldManager::LoadWorld(new CWorld_Game(CWorldManager::GetWorld()->GetMapSlot()+1));
 }
