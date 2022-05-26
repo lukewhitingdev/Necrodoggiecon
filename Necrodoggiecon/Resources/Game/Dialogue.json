@@ -194,5 +194,61 @@
         "Dialogue": "I hope the next piece isnt as annoying to get."
       }
     ]
+  },
+  "5Start": {
+    "ListOfDialogue": [
+      {
+        "Name": "Johnathan Wicke",
+        "Dialogue": "The second half of the page should be here."
+      },
+      {
+        "Name": "Johnathan Wicke",
+        "Dialogue": "Looks like getting it will be just as hard as last time."
+      }
+    ]
+  },
+  "5End": {
+    "ListOfDialogue": [
+      {
+        "Name": "Johnathan Wicke",
+        "Dialogue": "That was a lot of work. Time to go find the final page"
+      }
+    ]
+  },
+  "6Start": {
+    "ListOfDialogue": [
+      {
+        "Name": "Johnathan Wicke",
+        "Dialogue": "I cant believe theyre hiding in this bunker with the final page."
+      }
+    ]
+  },
+  "6End": {
+    "ListOfDialogue": [
+      {
+        "Name": "Johnathan Wicke",
+        "Dialogue": "Now I just need to find the boss in this bunker"
+      }
+    ]
+  },
+  "7Start": {
+    "ListOfDialogue": [
+      {
+        "Name": "Johnathan Wicke",
+        "Dialogue": "The Syndicate boss shouldnt be too far away from here"
+      },
+      {
+        "Name": "Johnathan Wicke",
+        "Dialogue": "Ill show them what they get for killing my dog"
+      }
+    ]
+  },
+  "7End": {
+    "ListOfDialogue": [
+      {
+        "Name": "Johnathan Wicke",
+        "Dialogue": "Finally! I got the final page. Now I can bring my dog back"
+      }
+    ]
   }
 }
