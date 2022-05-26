@@ -83,6 +83,7 @@ void Projectile::StartUp(Vector3 dir, Vector3 pos, float damage, float speed, fl
 	Projectile_Name = projectile_name;
 	Speed = speed * 100.0f;
 	velocity = Direction * Speed;
+	velocity.Truncate(Speed);
 	Lifetime = lifetime;
 	initialPosition = pos;
 	Position = initialPosition;
