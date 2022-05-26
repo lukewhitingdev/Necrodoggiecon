@@ -75,8 +75,10 @@ void GruntEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 			animating = true;
 		}
 	}
-
-	weaponComponent->OnFire(GetPosition(), velocity);
+	if (weapon->GetCanFire())
+	{
+		weaponComponent->OnFire(GetPosition(), velocity.Normalize());
+	}
 	SetCurrentState(ChaseState::getInstance());
 }
 
