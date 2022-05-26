@@ -25,12 +25,12 @@ LevelSelectMenu::LevelSelectMenu()
  */
 void LevelSelectMenu::InitialiseCanvas()
 {
-	CWidget_Image* Background = CreateImage(Vector2(0, 0), Vector2(.5, .5), -160);
+	CWidget_Image* Background = CreateImage(Vector2(0, 0), Vector2(.5, .5), -140);
 	Background->GetSprite()->LoadTextureWIC("Resources/Game/uiBackground.png");
 	Background->GetSprite()->SetRenderRect(XMUINT2(16, 16));
-	Background->GetSprite()->SetSpriteSize(XMUINT2(1500, 1000));
+	Background->GetSprite()->SetSpriteSize(XMUINT2(2500, 2500));
 	Background->GetSprite()->SetUseTranslucency(true);
-	Background->GetSprite()->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
+	Background->GetSprite()->SetTint(XMFLOAT4(-255, -255, -255, 0));
 
 	std::string TitleText = "Level Select";
 	CWidget_Text* Title = CreateText(Vector2(0, 240), Vector2(1, 1), -165, TitleText);

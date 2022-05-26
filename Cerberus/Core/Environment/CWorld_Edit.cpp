@@ -173,6 +173,18 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 		}
 
+		int TotalWeaponHolders = storedFile["TotalWeaponHolders"];
+		for (int i = 0; i < TotalWeaponHolders; i++)
+		{
+			CT_EditorEntity_WeaponHolder* TempHolder = Engine::CreateEntity<CT_EditorEntity_WeaponHolder>();
+			editorEntityList.push_back(TempHolder);
+			int HolderX = storedFile["WeaponHolder"][i]["X"];
+			int HolderY = storedFile["WeaponHolder"][i]["Y"];
+			int WepID = storedFile["WeaponHolder"][i]["WeaponIndex"];
+			TempHolder->SetPosition((Vector3(HolderX, HolderY, 0)* (tileScale* tileScaleMultiplier)) + Vector3(0, 0, -1));
+			TempHolder->AssignWeapon((char*)"", WepID);
+		}
+
 
 
 		playerStartEntity = Engine::CreateEntity<CT_EditorEntity_PlayerStart>();
@@ -312,6 +324,8 @@ void CWorld_Editable::SaveWorld(int Slot)
 	for (int i = 0; i < HolderList.size(); i++)
 	{
 		SaveData["WeaponHolder"][i]["WeaponIndex"] = HolderList[i]->GetAssignedWeapon();
+		SaveData["WeaponHolder"][i]["X"] = HolderList[i]->GetPosition().x / (tileScale * tileScaleMultiplier);
+		SaveData["WeaponHolder"][i]["Y"] = HolderList[i]->GetPosition().y / (tileScale * tileScaleMultiplier);
 	}
 
 	if (playerStartEntity != nullptr)

@@ -32,7 +32,7 @@ void PauseMenu::InitialiseCanvas()
 	CWidget_Image* Background = CreateImage(Vector2(0, 0), Vector2(.5, .5), -150);
 	Background->GetSprite()->LoadTextureWIC("Resources/Game/uiBackground.png");
 	Background->GetSprite()->SetRenderRect(XMUINT2(16, 16));
-	Background->GetSprite()->SetSpriteSize(XMUINT2(1500, 1000));
+	Background->GetSprite()->SetSpriteSize(XMUINT2(2500, 2500));
 	Background->GetSprite()->SetUseTranslucency(true);
 	Background->GetSprite()->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
 
