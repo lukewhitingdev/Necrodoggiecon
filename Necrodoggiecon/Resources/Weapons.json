@@ -39,7 +39,7 @@
       "Type": "Ranged",
       "Damage": 1.0,
       "Range": 100.0,
-      "Attack_Speed": 1.5,
+      "Attack_Speed": 0.8,
       "Ammo": 8.0,
       "Unique": false,
       "Name": "Crossbow"
@@ -63,17 +63,30 @@
       "Range": 25.0,
       "Attack_Speed": 0.2,
       "Ammo": 3.0,
-      "Unique": true
+      "Unique": true,
+      "Name": "Fireball"
     },
     {
+      "IconPath": "Resources/Game/weapons/Scroll - Shield.png",
       "Type": "Pickup",
-      "PickupType": "InvisibilityScroll",
-      "Range": 32.0
-    },
-    {
-      "Type": "Pickup",
+      "Damage": -1.0,
+      "Range": 32.0,
+      "Attack_Speed": 1.0,
+      "Ammo": 1.0,
+      "Unique": false,
       "PickupType": "ShieldScroll",
-      "Range": 32.0
+      "Name": "ShieldScroll"
+    },
+    {
+      "IconPath": "Resources/Game/weapons/Scroll - Invisibility.png",
+      "Type": "Pickup",
+      "Damage": -1.0,
+      "Range": 32.0,
+      "Attack_Speed": 1.0,
+      "Ammo": 1.0,
+      "Unique": false,
+      "PickupType": "InvisibilityScroll",
+      "Name": "InvisibilityScroll"
     }
   ],
   "TotalWeapons": 8
