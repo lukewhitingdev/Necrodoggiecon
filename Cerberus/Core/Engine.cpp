@@ -31,6 +31,7 @@
 #include <chrono>
 
 XMMATRIX Engine::projMatrixUI = XMMatrixIdentity();
+bool Engine::paused = false;
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -781,7 +782,12 @@ LRESULT Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		}
 		if (wParam == VK_ESCAPE)
 		{
-			PostQuitMessage(1);
+			//PostQuitMessage(1);
+			break;
+		}
+		if (wParam == VK_F3)
+		{
+			Engine::paused = !Engine::paused;
 			break;
 		}
 		break;
@@ -834,7 +840,7 @@ void Update(float deltaTime)
 	for (size_t i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
 	{
 		CEntity* e = EntityManager::GetEntitiesVector()->at(i);
-		if (!e->GetShouldUpdate())
+		if (!e->GetShouldUpdate() || (!e->GetIsUI() && Engine::paused))
 			continue;
 		
 		for (auto& f : e->GetAllComponents())
@@ -853,9 +859,15 @@ void Update(float deltaTime)
 		CEntity* e = EntityManager::GetEntitiesVector()->at(i);
 		if (e->GetShouldMove())
 		{
+			if (!e->GetIsUI() && Engine::paused)
+				continue;
+
 			for (size_t j = 0; j < EntityManager::GetEntitiesVector()->size(); j++)
 			{
 				CEntity* currentEntity = EntityManager::GetEntitiesVector()->at(j);
+
+				if (!currentEntity->GetIsUI() && Engine::paused)
+					continue;
 
 				if (e != currentEntity && currentEntity->colComponent != nullptr)
 				{
@@ -968,7 +980,10 @@ void Render()
 	ImGui::NewFrame();
 
 	// Do UI.
-	Debug::getOutput()->render();
+	if(Debug::GetVisibility())
+	{
+		Debug::getOutput()->render();
+	}
 	if (CWorldManager::GetEditorWorld() != nullptr)CWorldManager::GetEditorWorld()->UpdateEditorViewport();
 
 	ImGui::Render();

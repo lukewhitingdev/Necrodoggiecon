@@ -20,6 +20,7 @@ public:
 	void Load(const std::string& path);
 	void Load(const std::string& path, bool ambient);
 	void Play();
+	void Play(bool loop);
 	void Stop();
 	void SetRange(float range);
 

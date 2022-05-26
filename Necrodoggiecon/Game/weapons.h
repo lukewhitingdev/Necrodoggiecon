@@ -35,7 +35,12 @@ class Weapon : public CComponent
 public:	
 	Weapon(std::string weapon = "Dagger");
 
-	void SetWeapon(std::string weapon);
+	void SetWeapon(int ID);
+	void SetWeapon(std::string ID);
+
+	std::string IDToName(int ID);
+	int NameToID(std::string Name);
+
 	virtual void OnFire(Vector3 actorPos, Vector3 attackDir);
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) override;
@@ -60,7 +65,7 @@ public:
 	XMFLOAT3 GetScale() { return scale; };
 	USERTYPE GetUserType() { return userType; };
 	std::string GetName() { return name; }
-	std::string GetIconPath() { return iconPath; };
+ 	std::string GetIconPath() { return iconPath; };
 
 	void StartCooldown() { cooldown = attack_speed; };
 

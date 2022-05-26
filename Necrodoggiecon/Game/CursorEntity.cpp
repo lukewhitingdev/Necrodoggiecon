@@ -9,6 +9,7 @@
 
 CursorEntity::CursorEntity()
 {
+	SetIsUI(true);
 	SetPosition(0, 0, -100);
 
 	sprite = AddComponent<CAnimationSpriteComponent>(NAME_OF(sprite));
