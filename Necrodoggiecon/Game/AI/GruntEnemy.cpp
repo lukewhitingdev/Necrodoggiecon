@@ -105,6 +105,8 @@ void GruntEnemy::Update(float deltaTime)
 	}
 	weaponComponent->Update(deltaTime);
 	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
+	weaponSprite->SetRenderRect(weaponComponent->GetCurrentWeapon()->GetRenderRect());
+	weaponSprite->SetScale(weaponComponent->GetCurrentWeapon()->GetScale());
 
 
 	CAIController::Update(deltaTime);
