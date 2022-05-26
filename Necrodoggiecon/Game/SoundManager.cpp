@@ -65,7 +65,7 @@ void SoundManager::AddSound(const std::string& audioPath, const std::string& aud
 void SoundManager::AddSound(const std::string& audioPath, const std::string& audioName, float audioRange, bool ambient)
 {
 	AudioEmitterEntity* emitterEntity = Engine::CreateEntity<AudioEmitterEntity>();
-	emitterEntity->SetAudio(audioPath, audioRange);
+	emitterEntity->SetAudio(audioPath, audioRange, ambient);
 	audioEmitterMap.emplace(audioName, emitterEntity);
 }
 /**
@@ -96,7 +96,7 @@ void SoundManager::PlayMusic(const std::string& musicPath, CEntity* attachedEnti
 	if(attachedEntity != nullptr)
 		musicAudioEmitter->SetAttachedEntity(attachedEntity);
 	musicAudioEmitter->Stop();
-	musicAudioEmitter->Load(musicPath, false);
+	musicAudioEmitter->Load(musicPath, true);
 	musicAudioEmitter->SetRange(FLT_MAX);
 	musicAudioEmitter->PlayAudio(true);
 }
