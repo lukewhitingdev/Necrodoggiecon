@@ -1,17 +1,26 @@
 #include "NecrodoggieconPage.h"
+#include "NecrodoggieconPage.h"
 #include "Game/SoundManager.h"
 #include "Game/DialogueHandler.h"
 #include "Cerberus/Core/Utility/EventSystem/EventSystem.h"
+#include "Cerberus/Core/Utility/CWorldManager.h"
+#include "CWorld_Menu.h"
 
+
+NecrodoggieconPage::NecrodoggieconPage()
+{
+	SetTextureWIC("Resources/Game/The Necrodoggiecon/The Necrodoggiecon page 1.png");
+}
 
 void NecrodoggieconPage::OnInteract()
 {
-	EventSystem::AddListener("DialogueClose", std::bind(&NecrodoggieconPage::OnDialogueClose, this));
 	SoundManager::PlaySound("LevelClear", GetPosition());
-	DialogueHandler::LoadDialogue("Resources/Game/Dialogue.json", std::to_string(GetSlot()) + "End");
+	CWorldManager::LoadWorld(new CWorld_Menu());
+	//EventSystem::AddListener("DialogueClose", std::bind(&NecrodoggieconPage::OnDialogueClose, this));
+	//DialogueHandler::LoadDialogue("Resources/Game/Dialogue.json", std::to_string(GetSlot()) + "End");
 }
 
 void NecrodoggieconPage::OnDialogueClose()
 {
-	LevelTransporter::OnInteract();
+	CWorldManager::LoadWorld(new CWorld_Menu());
 }

@@ -8,6 +8,7 @@
 #include "CAIController.h"
 #include "Cerberus/Core/Utility/CWorldManager.h"
 #include "Cerberus\Core\Environment/CWorld.h"
+#include "Game/NecrodoggieconPage.h"
 
 CAIController::CAIController()
 {
@@ -579,6 +580,8 @@ void CAIController::ApplyDamage(float damageAmount, const std::string& hitAudioP
 	if (isBoss == true)
 	{
 		// DROP SCROLL HERE
+		NecrodoggieconPage* page = Engine::CreateEntity<NecrodoggieconPage>();
+		page->SetPosition(GetPosition());
 	}
 	Engine::DestroyEntity(this);
 }
