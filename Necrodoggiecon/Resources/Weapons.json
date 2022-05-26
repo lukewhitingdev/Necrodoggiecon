@@ -26,9 +26,9 @@
   "Crossbow": {
     "Type": "Ranged",
     "Damage": 5.0,
-    "Range": 25.0,
-    "Attack_Speed": 1.0,
-    "Ammo": 5.0,
+    "Range": 100.0,
+    "Attack_Speed": 0.8,
+    "Ammo": 8.0,
     "Unique": false
   },
   "Throwing_Knives": {
@@ -71,5 +71,15 @@
     "Attack_Speed": 0.2,
     "Ammo": 3.0,
     "Unique": true
+  },
+  "InvisScroll": {
+    "Type": "Pickup",
+    "PickupType": "InvisibilityScroll",
+    "Range":  32.0
+  },
+  "ShieldScroll": {
+    "Type": "Pickup",
+    "PickupType": "ShieldScroll",
+    "Range": 32.0
   }
 }

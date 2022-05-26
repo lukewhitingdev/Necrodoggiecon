@@ -96,7 +96,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">
     <LinkIncremental>true</LinkIncremental>
     <GenerateManifest>true</GenerateManifest>
-    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -105,7 +105,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'">
     <LinkIncremental>false</LinkIncremental>
     <GenerateManifest>true</GenerateManifest>
-    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -114,7 +114,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|X64'">
     <LinkIncremental>false</LinkIncremental>
     <GenerateManifest>true</GenerateManifest>
-    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -192,10 +192,9 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>
-      </Command>
-      <Message>
-      </Message>
+      <Command>echo "Copying Resource Files to Game"
+xcopy "$(SolutionDir)Cerberus/Tutorial01.rc" "$(SolutionDir)Necrodoggiecon/Tutorial01.rc"  /s /f /i /y</Command>
+      <Message>Resource Duplication Build Step</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -279,10 +278,9 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>
-      </Command>
-      <Message>
-      </Message>
+      <Command>echo "Copying Resource Files to Game"
+xcopy "$(SolutionDir)Cerberus/Tutorial01.rc" "$(SolutionDir)Necrodoggiecon/Tutorial01.rc"  /s /f /i /y</Command>
+      <Message>Resource Duplication Build Step</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
@@ -363,20 +361,28 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>
-      </Command>
-      <Message>
-      </Message>
+      <Command>echo "Copying Resource Files to Game"
+xcopy "$(SolutionDir)Cerberus/Tutorial01.rc" "$(SolutionDir)Necrodoggiecon/Tutorial01.rc"  /s /f /i /y</Command>
+      <Message>Resource Duplication Build Step</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core\UI\CWidget_Button.h" />
+    <ClInclude Include="Core\UI\CWidget_Text.h" />
+    <ClInclude Include="Core\AI\CAINode.h" />
+    <ClInclude Include="Core\AI\Pathfinding.h" />
     <ClInclude Include="Core\Utility\CameraManager\CameraManager.h" />
     <ClInclude Include="Core\Components\CCameraComponent.h" />
+    <ClInclude Include="Core\UI\CWidget.h" />
+    <ClInclude Include="Core\UI\CWidget_Canvas.h" />
+    <ClInclude Include="Core\UI\CWidget_Image.h" />
+    <ClInclude Include="Core\Utility\CUIManager.h" />
     <ClInclude Include="Tools\CT_EditorEntity.h" />
     <ClInclude Include="Core\Utility\CWorldManager.h" />
     <ClInclude Include="Core\Components\CAnimationSpriteComponent.h" />
     <ClInclude Include="Core\Components\CParticleEmitter.h" />
     <ClInclude Include="Core\Entities\CParticle.h" />
+    <ClInclude Include="Core\Utility\IO.h" />
     <ClInclude Include="Core\Utility\Math\Math.h" />
     <ClInclude Include="Core\Components\CAudioEmitterComponent.h" />
     <ClInclude Include="Core\Structs\CCamera.h" />
@@ -384,6 +390,7 @@
     <ClInclude Include="Core\Environment\CGridCursor.h" />
     <ClInclude Include="Core\Structs\CMaterial.h" />
     <ClInclude Include="Core\Components\CTextRenderComponent.h" />
+    <ClInclude Include="Core\Utility\EntityManager.h" />
     <ClInclude Include="Core\Components\CRigidBodyComponent.h" />
     <ClInclude Include="Tools\CT_EditorGrid.h" />
     <ClInclude Include="Core\Environment\CWorld_Edit.h" />
@@ -427,11 +434,17 @@
     <ClInclude Include="Core\Structs\structures.h" />
     <ClInclude Include="Core\Utility\DebugOutput\DebugOutput.h" />
     <ClInclude Include="Core\Utility\DebugOutput\Debug.h" />
-    <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\UI\CWidget_Button.cpp" />
+    <ClCompile Include="Core\UI\CWidget_Text.cpp" />
+    <ClCompile Include="Core\AI\Pathfinding.cpp" />
     <ClCompile Include="Core\Utility\CameraManager\CameraManager.cpp" />
     <ClCompile Include="Core\Components\CCameraComponent.cpp" />
+    <ClCompile Include="Core\UI\CWidget.cpp" />
+    <ClCompile Include="Core\UI\CWidget_Canvas.cpp" />
+    <ClCompile Include="Core\UI\CWidget_Image.cpp" />
+    <ClCompile Include="Core\Utility\CUIManager.cpp" />
     <ClCompile Include="Tools\CT_EditorEntity.cpp" />
     <ClCompile Include="Core\Utility\CWorldManager.cpp" />
     <ClCompile Include="Core\Components\CAnimationSpriteComponent.cpp" />
@@ -446,6 +459,7 @@
     <ClCompile Include="Core\Structs\CMaterial.cpp" />
     <ClCompile Include="Core\Components\CTextRenderComponent.cpp" />
     <ClCompile Include="Core\Utility\Math\Math.cpp" />
+    <ClCompile Include="Core\Utility\EntityManager.cpp" />
     <ClCompile Include="Core\Components\CRigidBodyComponent.cpp" />
     <ClCompile Include="Tools\CT_EditorGrid.cpp" />
     <ClCompile Include="Core\Environment\CWorld_Edit.cpp" />
@@ -480,6 +494,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

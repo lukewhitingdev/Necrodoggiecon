@@ -1,6 +1,6 @@
 /*****************************************************************//**
  * \file   CEntity.h
- * \brief  Fundimental class of the engine with a world transform and ability to have components.
+ * \brief  Fundamental class of the engine with a world transform and ability to have components.
  * 
  * \author Arrien Bidmead
  * \date   January 2022
@@ -13,19 +13,38 @@
 #include "Cerberus\Core\Utility\Vector3.h"
 
 /**
- * Fundimental class of the engine with a world transform and ability to have components.
+ * Fundamental class of the engine with a world transform and ability to have components.
  * Use for all gameplay things in the world.
  */
 class CEntity : public CTransform
 {
-
-public:
 	bool shouldUpdate = true;
 	bool shouldMove = false;
 	bool visible = true;
 
 	std::vector<CComponent*> components;
-	
+
+public:
+	/**
+	 * Sets if this entity will be automatically updated via the Update().
+	 */
+	void SetShouldUpdate(const bool& newShouldUpdate) { shouldUpdate = newShouldUpdate; }
+
+	/**
+	 * Sets whether this entity will move for collision detection.
+	 */
+	void SetShouldMove(const bool& newShouldMove) { shouldMove = newShouldMove; }
+
+	/**
+	 * Sets if this entity and all it's components will be rendered.
+	 */
+	void SetVisible(const bool& newVisibility) { visible = newVisibility; }
+
+	const bool& GetShouldUpdate() const { return shouldUpdate; }
+	const bool& GetShouldMove() const { return shouldMove; }
+	const bool& GetVisible() const { return visible; }
+	const std::vector<CComponent*>& GetAllComponents() const { return components; }
+
 	/**
 	 * Updated automatically every single frame.
 	 */
@@ -33,16 +52,18 @@ public:
 	virtual ~CEntity();
 
 	template <class T>
-	T* AddComponent()
+	T* AddComponent(const std::string& componentName)
 	{
 		CComponent* tmp = new T();
 		tmp->SetParent(this);
+		tmp->SetName(componentName);
 		components.push_back(tmp);
+		EntityManager::AddComponent(tmp);
 		return dynamic_cast<T*>(tmp);
 	}
 
 	template<class T>
-	T* GetComponent()
+	T* GetComponentOfType()
 	{
 		T* comp = nullptr;
 		for(auto& component : components)
@@ -58,7 +79,7 @@ public:
 	}
 
 	template<class T>
-	std::vector<T*> GetAllComponents()
+	std::vector<T*> GetAllComponentsOfType()
 	{
 		std::vector<T*> output;
 		T* comp = nullptr;
@@ -74,18 +95,21 @@ public:
 		return output;
 	}
 
-
-
 	/**
 	 * Removes the specified component.
 	 */
 	void RemoveComponent(CComponent* reference);
+
 	CollisionComponent* colComponent = nullptr;
-	virtual void HasCollided(CollisionComponent* collidedObject) {
+	virtual void HasCollided(CollisionComponent* collidedObject) 
+	{
 		if (!collidedObject->GetTrigger())
 		{
+			if (collidedObject->GetName() != "Enemy")
+			{
 			colComponent->Resolve(collidedObject);
 			this->SetPosition(colComponent->GetPosition());
+			}
 		}
 	};
 };

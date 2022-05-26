@@ -24,13 +24,13 @@ protected:
 	XMFLOAT4X4 world = XMFLOAT4X4();
 
 public:
-	void SetPosition(float x, float y, float z) { position = Vector3(x, y, z); updateTransform = true; }
-	void SetScale(float x, float y, float z) { scale = Vector3(x, y, z); updateTransform = true; }
+	void SetPosition(const float& x, const float& y, const float& z) { position = Vector3(x, y, z); updateTransform = true; }
+	void SetScale(const float& x, const float& y, const float& z) { scale = Vector3(x, y, z); updateTransform = true; }
 
-	void SetPosition(Vector3 In) { position = In; updateTransform = true; }
-	void SetScale(Vector3 In) { scale = In; updateTransform = true; }
+	void SetPosition(const Vector3& In) { position = In; updateTransform = true; }
+	void SetScale(const Vector3& In) { scale = In; updateTransform = true; }
 
-	void SetRotation(float Rot) { rotation = Rot; updateTransform = true; }
+	void SetRotation(const float& Rot);
 
 	const Vector3& GetPosition() const { return position; }
 	const Vector3& GetScale() const { return scale; }

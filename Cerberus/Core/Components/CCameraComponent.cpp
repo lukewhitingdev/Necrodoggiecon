@@ -1,7 +1,13 @@
 #include "CCameraComponent.h"
 #include "Cerberus\Core\Utility\CameraManager\CameraManager.h"
 
-CCameraComponent::CCameraComponent() : attachedToParent(false), view(), proj(), zoom(1), prevPos(Vector3(FLT_MAX, FLT_MAX, FLT_MAX)) {}
+CCameraComponent::CCameraComponent() : attachedToParent(false), view(), proj(), zoom(1), prevPos(Vector3(FLT_MAX, FLT_MAX, FLT_MAX)) 
+{
+	CameraManager::AddCamera(this);
+
+	UpdateView();
+	UpdateProj();
+}
 
 CCameraComponent::~CCameraComponent()
 {
@@ -25,19 +31,9 @@ void CCameraComponent::Update(float deltaTime)
 }
 
 /**
- * Required to be called once after the camera component has been added to a entity.
- * 
- */
-void CCameraComponent::Initialize()
-{
-	UpdateView();
-	UpdateProj();
-}
-
-/**
  * Sets the zoom level of the camera (FOV).
  * 
- * \param level
+ * \param level the zoom level you wish for the camera to be.
  */
 void CCameraComponent::SetZoomLevel(const float level)
 {
@@ -58,7 +54,7 @@ float CCameraComponent::GetZoomLevel()
 /**
  * Sets whether the camera is attached to the parent or if it can move on its own.
  * 
- * \param value
+ * \param value whether you would like for the camera to be attached to the parent or not.
  */
 void CCameraComponent::SetAttachedToParent(const bool value)
 {
@@ -68,7 +64,7 @@ void CCameraComponent::SetAttachedToParent(const bool value)
 /**
  * Returns whether the camera is attached to the parent of if it can move on its own.
  * 
- * \return 
+ * \return whether you are attached to your parent or not.
  */
 bool CCameraComponent::getAttachedToParent()
 {
@@ -124,7 +120,7 @@ Vector3 CCameraComponent::GetPosition()
 void CCameraComponent::UpdateView()
 {
 	// Initialize the view matrix
-	XMFLOAT4 pos = DirectX::XMFLOAT4(this->GetPosition().x + 0.001f, this->GetPosition().y + 0.001f, -3, 1);
+	XMFLOAT4 pos = DirectX::XMFLOAT4(this->GetPosition().x + 0.001f, this->GetPosition().y + 0.001f, -1, 1);
 	XMFLOAT4 at = DirectX::XMFLOAT4(this->GetPosition().x + 0.001f, this->GetPosition().y + 0.001f, 0, 0);
 	XMVECTOR Eye = XMLoadFloat4(&pos);
 	XMVECTOR At = XMLoadFloat4(&at);
@@ -139,7 +135,7 @@ void CCameraComponent::UpdateView()
  */
 void CCameraComponent::UpdateProj()
 {
-	XMMATRIX projMatrix = XMMatrixOrthographicLH(Engine::windowWidth / zoom, Engine::windowHeight / zoom, 0.01f, 100.0f);
+	XMMATRIX projMatrix = XMMatrixOrthographicLH(Engine::windowWidth / zoom, Engine::windowHeight / zoom, -1000.0f, 1000.0f);
 	XMStoreFloat4x4(&proj, projMatrix);
 }
 

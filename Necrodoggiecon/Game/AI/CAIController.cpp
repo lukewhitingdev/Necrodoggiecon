@@ -7,20 +7,18 @@
  *********************************************************************/
 #include "CAIController.h"
 #include "Cerberus/Core/Utility/CWorldManager.h"
+#include "Cerberus\Core\Environment/CWorld.h"
 
 CAIController::CAIController()
 {
+	isPlayer = false;
 	Debug::Log("init AI class!\n");
 
-	viewFrustrum->SetScale(Vector3{ (aiRange/128.0f) + 2.0f, (aiRange / 128.0f) + 2.0f, 1.0f });
-	viewFrustrum->SetPosition(GetPosition());
-
-	sprite = AddComponent<CSpriteComponent>();
-	sprite->LoadTexture("Resources/birb.dds");
+	sprite = AddComponent<CAnimationSpriteComponent>(NAME_OF(sprite));
+	sprite->LoadTexture("Resources/Game/birb.dds");
 	sprite->SetRenderRect(XMUINT2(128, 128));
 	sprite->SetSpriteSize(XMUINT2(128, 128));
 	sprite->SetScale(Vector3{ 1.0f, 1.0f, 1.0f });
-
 	sprite->SetTint(XMFLOAT4(rand() % 2 * 0.5f, rand() % 2 * 0.5f, rand() % 2 * 0.5f, 0)); 
 
 	currentCount = 0;
@@ -48,8 +46,22 @@ CAIController::CAIController()
 	patrolPoint2->nextPatrolNode = patrolPoint3;
 	patrolPoint3->nextPatrolNode = patrolPoint1;
 
-	SetScale(Vector3{ 0.6f, 0.6f, 0.6f });
-	viewFrustrum->viewSprite->SetScale(GetScale() * 0.1f);
+	SetScale(Vector3{ 0.5f, 0.5f, 1.0f });
+	viewFrustrum = AddComponent<CSpriteComponent>(NAME_OF(viewFrustrum));
+	viewFrustrum->LoadTexture("Resources/Game/viewFrustrum.dds");
+	viewFrustrum->SetTint(XMFLOAT4(0.0f, 0.0f, 0.0f, -0.5f));
+	viewFrustrum->SetRenderRect(XMUINT2(128, 128));
+	viewFrustrum->SetSpriteSize(XMUINT2(128, 128));
+	viewFrustrum->SetRotation(-1.5087f);
+	float scaleComparisonX = 128.0f / (64.0f * GetScale().x);
+	float scaleComparisonY = 128.0f / (64.0f * GetScale().y);
+	viewFrustrum->SetScale(Vector3{ ((aiRange / 128.0f) * scaleComparisonX), ((aiRange / 128.0f) * scaleComparisonY), 1.0f });
+	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y + aiRange *scaleComparisonY * GetScale().y, 1.0f });
+	viewFrustrum->SetUseTranslucency(true);
+
+	colComponent = new CollisionComponent("Enemy", this);
+	colComponent->SetCollider(64.0f, 64.0f);
+
 
 	std::vector<PatrolNode*> patrolPoints = { patrolPoint1, patrolPoint2, patrolPoint3 };
 
@@ -57,9 +69,21 @@ CAIController::CAIController()
 	pathing->SetPatrolNodes(patrolPoints);
 	pathing->currentPatrolNode = pathing->FindClosestPatrolNode(aiPosition);
 
+	for (CCharacter* character : characters)
+	{
+		if (character->GetIsPlayer() == true)
+		{
+			players.push_back(character);
+		}
+	}
+
 	std::function<void()> CanHearLambda = [&]()
 	{
-		std::vector<CEmitter*> audioEmitters = AudioController::GetAllEmittersWithinRange(aiPosition);
+		if (currentState == &AttackState::getInstance() || currentState == &ChaseState::getInstance())
+		{
+			return;
+		}
+		std::vector<CEmitter*> audioEmitters = AudioController::GetAllEmittersWithinRange(aiPosition, true);
 		float closestDistance = 100000000.0f;
 		CEmitter* closestEmitter = nullptr;
 		if (audioEmitters.size() != 0)
@@ -73,15 +97,23 @@ CAIController::CAIController()
 					closestEmitter = emitter;
 				}
 			}
-			positionToInvestigate = closestEmitter->position;
-			SetCurrentState(InvestigateState::getInstance());
+			if (closestEmitter != nullptr)
+			{
+				positionToInvestigate = closestEmitter->position;
+				SetCurrentState(InvestigateState::getInstance());
+			}
 		}
 	};
 
 	EventSystem::AddListener("soundPlayed", CanHearLambda);
 
 	currentState = &PatrolState::getInstance();
-	SetCurrentState(PatrolState::getInstance());
+}
+
+CAIController::~CAIController()
+{
+	delete(pathing);
+	//Engine::DestroyEntity(viewFrustrum);
 }
 
 /**
@@ -94,59 +126,25 @@ void CAIController::Update(float deltaTime)
 	// Set the local variable for the AI position.
 	aiPosition = GetPosition();
 
-	currentState->Update(this);
 	// Run the finite state machine
-	
-	PlayerCharacter* closestPlayer = nullptr;
+	currentState->Update(this, deltaTime);
 
-	if (currentState != &AttackState::getInstance())
-	{
-		if (players.size() > 0)
-		{
-			// Check each player.
-			for (PlayerCharacter* player : players)
-			{
-				// Check if the AI can see the player.
-				if (CanSee(player->GetPosition()) == true)
-				{
-					// If the AI can see the player then chase it.
-					SetCurrentState(ChaseState::getInstance());
-				}
-			}
-		}
-	}
+	CheckForPlayer();
 
-	currentState->Update(this);
+	MoveViewFrustrum();
 
 	// If the AI is not pathfinding or searching then check for collisions with obstacles.
-	if (currentState != &PatrolState::getInstance() && currentState != &SearchState::getInstance())
-		heading += CollisionAvoidance();
+	/*if (currentState != &PatrolState::getInstance() && currentState != &SearchState::getInstance())
+		heading += CollisionAvoidance();*/
 	
 	// Move the AI if it is not lost
 	if (currentState != &SearchState::getInstance())
 		Movement(deltaTime);
 
-	// Temp code for the arrow sprite so I know where the AI is looking. 
-	{
-		Vector3 velocityCopy = velocity;
-		Vector3 view = velocityCopy.Normalize();
-		float offset = 128.0f * viewFrustrum->viewSprite->GetScale().x;
-
-		viewFrustrum->SetPosition(GetPosition() + (view * (offset + (128.0f * GetScale().x * 0.5f))));
-
-		Vector3 up = { 0.0f, 1.0f, 0.0f };
-
-		float dot = up.Dot(view);
-		float det = up.x * view.y - up.y * view.x;
-
-		float angle = atan2f(det, dot);
-		this->SetRotation(angle);
-		viewFrustrum->SetRotation(angle);
-		viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y, 0.0f });
-	}
-
 	// Make sure the AI is on a 2D vector.
 	aiPosition.z = 0.0f;
+
+	colComponent->SetPosition(aiPosition);
 
 	// Set the position of the entity to the local variable for the AI position.
 	SetPosition(aiPosition);
@@ -231,8 +229,13 @@ Vector3 CAIController::CollisionAvoidance()
  * \param posOfObject Vector3 representing the position of the object to see.
  * \return Returns a boolen determining whether the objct is in view.
  */
-bool CAIController::CanSee(Vector3 posOfObject)
+bool CAIController::CanSee(CCharacter* player)
 {
+	if (player->GetVisible() == false)
+	{
+		return false;
+	}
+	Vector3 posOfObject = player->GetPosition();
 	// Calculate the direction the AI is looking.
 	Vector3 velocityCopy = velocity;
 	Vector3 view = velocityCopy.Normalize();
@@ -289,11 +292,6 @@ bool CAIController::CanSee(Vector3 posOfObject)
 		return true;
 	}
 	return false;
-}
-
-void CAIController::CanHear()
-{
-	AudioController::GetAllEmittersWithinRange(aiPosition);
 }
 
 /**
@@ -385,7 +383,11 @@ void CAIController::SearchForPlayer()
 }
 
 
-
+/**
+ * Moves the AI along the path to the position of interest.
+ * 
+ * \param positionOfInterest Position for the AI to investigate.
+ */
 void CAIController::Investigating(Vector3 positionOfInterest)
 {
 	// If the AI has reached the patrol node.
@@ -418,10 +420,23 @@ void CAIController::Investigating(Vector3 positionOfInterest)
 	}
 }
 
+void CAIController::AttackEnter(CCharacter* player)
+{
+	UNREFERENCED_PARAMETER(player);
+}
+
+/**
+ * Enter function for the chase state. Called once when first switching to this state.
+ * 
+ */
+void CAIController::ChaseEnter()
+{
+}
+
 /**
  * Seek towards the player and if it gets close then switch to the attacking state.
  */
-void CAIController::ChasePlayer(PlayerCharacter* player)
+void CAIController::ChasePlayer(CCharacter* player)
 {
 	if (aiPosition.DistanceTo(player->GetPosition()) < 10.0f)
 	{
@@ -439,11 +454,10 @@ void CAIController::ChasePlayer(PlayerCharacter* player)
  * 
  * \param player Player to attack.
  */
-void CAIController::AttackPlayer(PlayerCharacter* player)
+void CAIController::AttackPlayer(CCharacter* player, float deltaTime)
 {
-	playersController[0]->Unpossess();
-	Engine::DestroyEntity(player);
-	players = Engine::GetEntityOfType<PlayerCharacter>();
+	UNREFERENCED_PARAMETER(deltaTime);
+	UNREFERENCED_PARAMETER(player);
 }
 
 /**
@@ -467,16 +481,73 @@ Vector3 CAIController::Seek(Vector3 TargetPos)
 }
 
 /**
+ * Checks if the player is in view.
+ * 
+ */
+void CAIController::CheckForPlayer()
+{
+	if (currentState != &AttackState::getInstance())
+	{
+		if (players.size() > 0)
+		{
+			// Check each player.
+			for (CCharacter* player : players)
+			{
+				// Check if the AI can see the player.
+				if (CanSee(player) == true)
+				{
+					// If the AI can see the player then chase it.
+					SetCurrentState(ChaseState::getInstance());
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Moves the view frustrum attached to the AI.
+ * 
+ */
+void CAIController::MoveViewFrustrum()
+{
+	// Temp code for the arrow sprite so I know where the AI is looking. 
+	if (velocity.Magnitude() == 0.0f)
+	{
+		if (sprite->GetPlaying() == true)
+		{
+			sprite->SetPlaying(false, true);
+		}
+		return;
+	}
+	Vector3 velocityCopy = velocity;
+	Vector3 view = velocityCopy.Normalize();
+	Vector3 up = { 0.0f, 1.0f, 0.0f };
+
+	float dot = up.Dot(view);
+	float det = up.x * view.y - up.y * view.x;
+
+	float angle = atan2f(det, dot);
+	this->SetRotation(angle);
+	viewFrustrum->SetRotation(-1.5708f*4.0f);
+}
+
+/**
  * Sets the path between the closest waypoint to the character and the closest waypoint to the target patrol node.
  * 
  */
 void CAIController::SetPath()
 {
+	aiPosition = GetPosition();
 	pathing->SetPath(aiPosition, pathing->currentPatrolNode->closestWaypoint);
 	SetPathNodes(pathing->GetPathNodes());
 	currentCount = (int)pathNodes.size() - 1;
 }
 
+/**
+ * Sets the path between the closest waypoint to the AI and the closest waypoint to the end position.
+ * 
+ * \param endPosition Target position for the end of the path.
+ */
 void CAIController::SetPath(Vector3 endPosition)
 {
 	pathing->SetPath(aiPosition, pathing->FindClosestWaypoint(endPosition));
@@ -484,12 +555,35 @@ void CAIController::SetPath(Vector3 endPosition)
 	currentCount = (int)pathNodes.size() - 1;
 }
 
+/**
+ * Apply damage to the enemy.
+ * 
+ * \param damageAmount Amount to damage the enemy.
+ * \param damageCauser Root of the damage.
+ */
+void CAIController::ApplyDamage(float damageAmount)
+{
+	SetHealth(GetHealth() - damageAmount);
+	if (GetHealth() <= 0.0f)
+		Engine::DestroyEntity(this);
+}
+
+/**
+ * Exits one state and enters the state passed in.
+ * 
+ * \param state State to switch to.
+ */
 void CAIController::SetCurrentState(State& state)
 {
 	currentState->Exit(this);  // do stuff before we change state
 	currentState = &state;  // actually change states now
 	currentState->Enter(this); // do stuff after we change state
 }
+
+
+
+
+
 
 void CAIController::SetRotationSpeed(float speed)
 {
@@ -511,14 +605,16 @@ float CAIController::GetSearchTime()
 	return maxSearchTime;
 }
 
-void CAIController::SetHealth(float health)
+
+void CAIController::SetInitialSpeed(float speed)
 {
-	aiHealth = health;
+	initialSpeed = speed;
+	aiSpeed = initialSpeed;
 }
 
-float CAIController::GetHealth()
+float CAIController::GetInititalSpeed()
 {
-	return aiHealth;
+	return initialSpeed;
 }
 
 void CAIController::SetSpeed(float speed)
@@ -579,4 +675,34 @@ void CAIController::SetHeight(float high)
 float CAIController::GetHeight()
 {
 	return height;
+}
+
+void CAIController::SetPositionToInvestigate(Vector3 pos)
+{
+	positionToInvestigate = pos;
+}
+
+Vector3 CAIController::GetPositionToInvestigate()
+{
+	return positionToInvestigate;
+}
+
+void CAIController::SetIsAttacking(bool isAttack)
+{
+	isAttacking = isAttack;
+}
+
+bool CAIController::GetIsAttacking()
+{
+	return isAttacking;
+}
+
+void CAIController::SetSpriteSize(float size)
+{
+	spriteSize = size;
+}
+
+float CAIController::GetSpriteSize()
+{
+	return spriteSize;
 }

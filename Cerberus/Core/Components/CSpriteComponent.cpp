@@ -2,10 +2,17 @@
 #include "Cerberus\Core\Engine.h"
 #include "Cerberus/Core/Utility/AssetManager/AssetManager.h"
 #include "Cerberus\Core\Structs\CCamera.h"
+#include "CSpriteComponent.h"
 
-void CSpriteComponent::SetRenderRect(XMUINT2 newSize)
+void CSpriteComponent::SetRenderRect(const XMUINT2& newSize)
 {
 	renderRect = newSize;
+
+	if (texture == nullptr || material == nullptr)
+	{
+		Debug::LogError("Texture or material == nullptr, cannot set render rect - Check execution order. (%s)", GetDebugInfo().c_str());
+		return;
+	}
 
 	if (material->loaded && texture->loaded)
 	{
@@ -14,9 +21,15 @@ void CSpriteComponent::SetRenderRect(XMUINT2 newSize)
 	}
 }
 
-void CSpriteComponent::SetTextureOffset(XMFLOAT2 newOffset)
+void CSpriteComponent::SetTextureOffset(const XMFLOAT2& newOffset)
 {
 	textureOffset = newOffset;
+
+	if (texture == nullptr || material == nullptr)
+	{
+		Debug::LogError("Texture or material == nullptr, cannot set texture offset - Check execution order. (%s)", GetDebugInfo().c_str());
+		return;
+	}
 
 	if (material->loaded && texture->loaded)
 	{
@@ -25,9 +38,15 @@ void CSpriteComponent::SetTextureOffset(XMFLOAT2 newOffset)
 	}
 }
 
-void CSpriteComponent::SetTint(XMFLOAT4 newTint)
+void CSpriteComponent::SetTint(const XMFLOAT4& newTint)
 {
 	tint = newTint;
+
+	if (material == nullptr)
+	{
+		Debug::LogError("Material == nullptr, cannot set tint - Check execution order. (%s)", GetDebugInfo().c_str());
+		return;
+	}
 
 	if (material->loaded)
 	{
@@ -38,8 +57,8 @@ void CSpriteComponent::SetTint(XMFLOAT4 newTint)
 
 CSpriteComponent::CSpriteComponent()
 {
-	shouldUpdate = false;
-	shouldDraw = true;
+	SetShouldUpdate(false);
+	SetShouldDraw(true);
 
 	mesh = AssetManager::GetDefaultMesh();
 	material = new CMaterial();
@@ -47,12 +66,15 @@ CSpriteComponent::CSpriteComponent()
 	spriteSize = XMUINT2(0, 0);
 }
 
-HRESULT CSpriteComponent::LoadTexture(std::string filePath)
+HRESULT CSpriteComponent::LoadTexture(const std::string& filePath)
 {
 	texture = AssetManager::GetTexture(filePath);
 
 	if (texture == nullptr)
-		return S_FALSE;
+	{
+		Debug::LogError("Texture load failed! (%s)", GetDebugInfo().c_str());
+		return E_FAIL;
+	}
 
 	renderRect = texture->textureSize;
 	spriteSize = texture->textureSize;
@@ -62,12 +84,15 @@ HRESULT CSpriteComponent::LoadTexture(std::string filePath)
 	return S_OK;
 }
 
-HRESULT CSpriteComponent::LoadTextureWIC(std::string filePath)
+HRESULT CSpriteComponent::LoadTextureWIC(const std::string& filePath)
 {
 	texture = AssetManager::GetTextureWIC(filePath);
 
 	if (texture == nullptr)
-		return S_FALSE;
+	{
+		Debug::LogError("Texture load failed! (%s)", GetDebugInfo().c_str());
+		return E_FAIL;
+	}
 
 	renderRect = texture->textureSize;
 	spriteSize = texture->textureSize;
@@ -75,6 +100,23 @@ HRESULT CSpriteComponent::LoadTextureWIC(std::string filePath)
 	material->CreateMaterial(texture->textureSize);
 
 	return S_OK;
+}
+
+void CSpriteComponent::SetUseTranslucency(const bool& newTranslucency)
+{
+	CComponent::SetUseTranslucency(newTranslucency);
+
+	if (material == nullptr)
+	{
+		Debug::LogError("Material == nullptr, cannot set use translucency - Check execution order. (%s)", GetDebugInfo().c_str());
+		return;
+	}
+
+	if (material->loaded)
+	{
+		material->material.Material.translucent = true;
+		material->UpdateMaterial();	//Could be done once per update if a change has happened instead of here
+	}
 }
 
 void CSpriteComponent::Update(float deltaTime)
@@ -86,7 +128,7 @@ void CSpriteComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& pare
 {
 	if (texture == nullptr || !texture->loaded)	//change to texture valid check
 	{
-		Debug::LogError("Texture not loaded for CSpriteComponent.");
+		//Debug::LogError("Texture not loaded for CSpriteComponent. (%s)", GetDebugInfo().c_str());
 		return;
 	}
 
@@ -96,7 +138,7 @@ void CSpriteComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& pare
 	cb.mWorld = XMMatrixTranspose(mGO2);
 	cb.vOutputColor = XMFLOAT4(1, 0, 1, 1);
 
-	if (ui)
+	if (GetIsUI())
 	{
 		cb.mView = XMMatrixIdentity();
 		cb.mProjection = XMMatrixTranspose(Engine::projMatrixUI);
@@ -127,7 +169,7 @@ CSpriteComponent::~CSpriteComponent()
 
 XMFLOAT4X4 CSpriteComponent::GetTransform()
 {
-	if (!ui)
+	if (!GetIsUI())
 	{
 		if (updateTransform)
 		{
@@ -143,12 +185,11 @@ XMFLOAT4X4 CSpriteComponent::GetTransform()
 		return world;
 	}
 
-	if (updateTransform && ui || lastResolution.x != Engine::windowWidth || lastResolution.y != Engine::windowHeight)
+	if (updateTransform && GetIsUI() || GetLastResolution().x != Engine::windowWidth || GetLastResolution().y != Engine::windowHeight)
 	{
-		lastResolution.x = Engine::windowWidth;
-		lastResolution.y = Engine::windowHeight;
+		SetLastResolution(XMUINT2(Engine::windowWidth, Engine::windowHeight));
 
-		XMFLOAT2 anchorNorm = XMFLOAT2(anchor.x * 2 - 1, anchor.y * -2 + 1);
+		XMFLOAT2 anchorNorm = XMFLOAT2(GetAnchor().x * 2 - 1, GetAnchor().y * -2 + 1);
 
 		XMFLOAT2 anchPoint = XMFLOAT2((anchorNorm.x * (float(Engine::windowWidth) - 1280.0f) * 0.5f),
 			(anchorNorm.y * (float(Engine::windowHeight) - 720.0f) * 0.5f));

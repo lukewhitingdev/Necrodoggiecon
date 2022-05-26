@@ -4,8 +4,8 @@
 
 CTextRenderComponent::CTextRenderComponent()
 {
-	shouldUpdate = false;
-	shouldDraw = true;
+	SetShouldUpdate(false);
+	SetShouldDraw(true);
 
 	SetReserveCount(reserveSpriteCount);
 }
@@ -34,7 +34,7 @@ void CTextRenderComponent::SetText(std::string newText)
 			sprites.push_back(new CSpriteComponent());
 			CSpriteComponent* t = sprites.back();
 			t->LoadTextureWIC(font);
-			Debug::Log("Add more sprites! size: %i", sprites.size());
+			Debug::Log("Added more sprites to text render! size: %i - Please reserve more sprites! (%s)", sprites.size(), GetDebugInfo().c_str());
 		}
 	}
 	else
@@ -47,7 +47,7 @@ void CTextRenderComponent::SetText(std::string newText)
 				CSpriteComponent* t = sprites.back();
 				delete t;
 				sprites.pop_back();
-				Debug::Log("Remove some sprites! size: %i", sprites.size());
+				Debug::Log("Removed some sprites from text render! size: %i - Please reserve more sprites! (%s)", sprites.size(), GetDebugInfo().c_str());
 			}
 		}
 	}
@@ -71,6 +71,8 @@ void CTextRenderComponent::SetText(std::string newText)
 			break;
 		}
 	}
+
+	text = newText;
 }
 
 void CTextRenderComponent::SetReserveCount(unsigned short newReserveCount)
@@ -94,8 +96,6 @@ void CTextRenderComponent::SetReserveCount(unsigned short newReserveCount)
 
 	if (reserveSpriteCount < usedSpriteCount)
 		usedSpriteCount = reserveSpriteCount;
-
-	Debug::Log("Resized TextRenderComp to %i sprites", sprites.size());
 }
 
 void CTextRenderComponent::SetJustification(TextJustification newJustification)
@@ -133,7 +133,7 @@ void CTextRenderComponent::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& 
 	XMMATRIX mGO2 = XMLoadFloat4x4(&compWorld) * XMLoadFloat4x4(&parentMat);
 	XMStoreFloat4x4(&compWorld, mGO2);
 
-	if (ui)
+	if (GetIsUI())
 	{
 		cb.mView = XMMatrixIdentity();
 		cb.mProjection = XMMatrixTranspose(Engine::projMatrixUI);

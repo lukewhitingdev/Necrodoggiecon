@@ -1,8 +1,14 @@
 #include "CAnimationSpriteComponent.h"
 
+void CAnimationSpriteComponent::ResetAnimation()
+{
+	timeElapsed = 0.0f;
+	currentFrame = { 0,0 };
+};
+
 CAnimationSpriteComponent::CAnimationSpriteComponent()
 {
-	shouldUpdate = true;
+	SetShouldUpdate(true);
 }
 
 void CAnimationSpriteComponent::Update(float deltaTime)

@@ -6,7 +6,7 @@
  * \author Nasser Ksous
  * \date   May 2022
  *********************************************************************/
-#include "Necrodoggiecon/Game/PlayerCharacter.h"
+#include "Necrodoggiecon/Game/CCharacter.h"
 class CAIController;
 
 //Reference: https://www.aleksandrhovhannisyan.com/blog/finite-state-machine-fsm-tutorial-implementing-an-fsm-in-c/
@@ -18,9 +18,9 @@ class State
 {
 public:
 
-	virtual void Enter(CAIController* controller) {};
-	virtual void Exit(CAIController* controller) {};
-	virtual void Update(CAIController* controller) {};
+	virtual void Enter(CAIController* controller) { UNREFERENCED_PARAMETER(controller); };
+	virtual void Exit(CAIController* controller) { UNREFERENCED_PARAMETER(controller); };
+	virtual void Update(CAIController* controller, float deltaTime) { UNREFERENCED_PARAMETER(controller); UNREFERENCED_PARAMETER(deltaTime); };
 	
 };
 
@@ -31,13 +31,13 @@ class ChaseState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();
 
 private:
-	PlayerCharacter* closestPlayer;
+	CCharacter* closestPlayer;
 };
 
 /**
@@ -47,13 +47,13 @@ class AttackState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();
 
 private:
-	PlayerCharacter* closestPlayer;
+	CCharacter* closestPlayer;
 };
 
 /**
@@ -63,34 +63,38 @@ class PatrolState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();
 };
 
 /**
- * State for when the AI is searching for the player.
+ * State for when the AI is searching for the player. The AI will spin on the spot looking for the player.
  */
 class SearchState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();
 
 private:
 	float searchTimer;
-	std::vector<PlayerCharacter*> players;
+	std::vector<CCharacter*> characters;
+	std::vector<CCharacter*> players;
 };
 
+/**
+ * State for when the AI is investigating. The AI will path to the ivestigation position then enter the search state.
+ */
 class InvestigateState : public State
 {
 public:
 	void Enter(CAIController* controller) override;
-	void Update(CAIController* controller) override;
+	void Update(CAIController* controller, float deltaTime) override;
 	void Exit(CAIController* controller) override;
 
 	static State& getInstance();

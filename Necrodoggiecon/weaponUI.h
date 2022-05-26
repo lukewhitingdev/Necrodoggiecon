@@ -1,8 +1,12 @@
+/*****************************************************************//**
+ * \file   weaponUI.h
+ * \brief  Header file for the weapon UI
+ * 
+ * \author Jack B
+ * \date   May 2022
+ *********************************************************************/
 #pragma once
 #include "Cerberus\Core\CEntity.h"
-#include "Cerberus\Core\Components\CTextRenderComponent.h"
-#include "Cerberus\Core\Components\CSpriteComponent.h"
-#include "Cerberus\Core\Structs\CCamera.h"
 
 class weaponUI : public CEntity
 {

@@ -16,8 +16,6 @@ public:
 	CCameraComponent();
 	virtual ~CCameraComponent();
 
-	void Initialize();
-
 	virtual void Update(float deltaTime) override;
 	virtual void Draw(struct ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer) override {UNREFERENCED_PARAMETER(context); UNREFERENCED_PARAMETER(parentMat); UNREFERENCED_PARAMETER(cb); UNREFERENCED_PARAMETER(constantBuffer);};
 
@@ -32,9 +30,9 @@ public:
 
 	Vector3 GetPosition();
 
-private:
 	void UpdateView();
 	void UpdateProj();
+private:
 
 	bool attachedToParent;
 

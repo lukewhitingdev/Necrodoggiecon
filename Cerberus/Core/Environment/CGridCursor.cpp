@@ -13,8 +13,8 @@ CGridCursor::CGridCursor()
 {
 	Offset = Vector3(0, 0, 0);
 
-	activeCellSprite = AddComponent<CSpriteComponent>();
-	activeCellSprite->LoadTexture("Resources/Tiles/ActiveCell.dds");
+	activeCellSprite = AddComponent<CSpriteComponent>(NAME_OF(activeCellSprite));
+	activeCellSprite->LoadTexture("Resources/Game/Tiles/ActiveCell.dds");
 
 	activeCellSprite->SetRenderRect(XMUINT2(tileScale, tileScale));
 	activeCellSprite->SetSpriteSize(XMUINT2(tileScale, tileScale));
@@ -44,9 +44,9 @@ void CGridCursor::Update(float deltaTime)
 
 	Vector3 camPos = Vector3(CameraManager::GetRenderingCamera()->GetPosition().x, CameraManager::GetRenderingCamera()->GetPosition().y, -10);
 
-	Vector3 MousePos2 = Vector3(Inputs::InputManager::mousePos.x - Engine::windowWidth * 0.5f, -Inputs::InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100);
+	Vector3 MousePos2 = Vector3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, -100);
 
-	MousePos2 *= CameraManager::GetRenderingCamera()->GetZoomLevel();
+	MousePos2 /= CameraManager::GetRenderingCamera()->GetZoomLevel();
 
 
 	Vector3 Result = MousePos2 + camPos;
@@ -83,7 +83,7 @@ void CGridCursor::Update(float deltaTime)
 	
 
 
-	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::LButton) && wasMouseReleased)
+	if (InputManager::IsMouseButtonPressed(InputManager::LButton) && wasMouseReleased)
 	{
 		if (CWorldManager::GetEditorWorld()->GetOperationMode() != EditOperationMode::Move_Entity)
 		{
@@ -98,12 +98,12 @@ void CGridCursor::Update(float deltaTime)
 
 
 	}
-	else if (!wasMouseReleased && !Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::LButton))
+	else if (!wasMouseReleased && !InputManager::IsMouseButtonPressed(InputManager::LButton))
 	{
 		wasMouseReleased = true;
 	}
 
-	if (Inputs::InputManager::IsMouseButtonPressed(Inputs::InputManager::RButton))
+	if (InputManager::IsMouseButtonPressed(InputManager::RButton))
 	{
 		CWorldManager::GetEditorWorld()->ShouldInspectEntity(Vector2(PreScale.x, PreScale.y));
 		if (cellSelected)
@@ -116,15 +116,15 @@ void CGridCursor::Update(float deltaTime)
 		}
 	}
 
-	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::C))
+	if (InputManager::IsKeyReleased(InputManager::C))
 	{
 		CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::None);
 	}
-	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::W))
+	if (InputManager::IsKeyReleased(InputManager::W))
 	{
 		CWorldManager::GetEditorWorld()->SetOperationMode(EditOperationMode::Move_Entity);
 	}
-	if (Inputs::InputManager::IsKeyReleased(Inputs::InputManager::Delete))
+	if (InputManager::IsKeyReleased(InputManager::Delete))
 	{
 		CWorldManager::GetEditorWorld()->RemoveSelectedEntity();
 	}

@@ -18,14 +18,14 @@
 class CAnimationSpriteComponent : public CSpriteComponent
 {
 	float timeElapsed = 0.0f;
-	uint32_t animSpeed = 24;
+	float animSpeed = 24.0f;
 	bool playing = true;
 	XMUINT2 animationRectSize = { 1,1 };
 	XMUINT2 animationRectPosition = { 0,0 };
 	XMUINT2 currentFrame = { 0,0 };	//relative to the animation rect.
 
 public:
-	void ResetAnimation() { timeElapsed = 0.0f; };
+	void ResetAnimation();
 
 	/**
 	 * Sets the size of the rectangle in sprites to which the animation is played within.
@@ -59,8 +59,8 @@ public:
 	/**
 	 * Sets the speed of the animation in frames per second - Default 24.
 	 */
-	void SetAnimationSpeed(const uint32_t& newSpeed) { animSpeed = newSpeed; };
-	const uint32_t& GetAnimationSpeed() { return animSpeed; };
+	void SetAnimationSpeed(const float& newSpeed) { animSpeed = newSpeed; };
+	const float& GetAnimationSpeed() { return animSpeed; };
 
 	CAnimationSpriteComponent();
 	virtual void Update(float deltaTime) override;

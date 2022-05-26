@@ -4,7 +4,7 @@
 
 CTile::CTile()
 {
-	sprite = AddComponent<CSpriteComponent>();
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 	isWalkable = false;
 	navId = -1;
 	tileId = -1;
@@ -18,7 +18,7 @@ CTile::CTile(int ID, Vector3 Position)
 	tileStatus = TileType::Floor;
 	SetPosition(Position);
 
-	sprite = AddComponent<CSpriteComponent>();
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 	
 	
 }
@@ -150,7 +150,7 @@ void CTile::SetDebugMode(bool newState)
 	
 	if (debugSprite == nullptr)
 	{
-		debugSprite = AddComponent<CSpriteComponent>();
+		debugSprite = AddComponent<CSpriteComponent>(NAME_OF(debugSprite));
 	}
 
 	debugMode = newState;
@@ -199,7 +199,7 @@ void CTile::UpdateDebugRender()
 
 void CTile::SetRenderData(int X, int Y)
 {
-	sprite->LoadTexture("Resources/Tiles/TempTileMap.dds");
+	sprite->LoadTexture("Resources/Game/Tiles/TempTileMap.dds");
 	sprite->SetRenderRect(XMUINT2(tileScale, tileScale));
 	sprite->SetSpriteSize(XMUINT2(tileScale, tileScale));
 	sprite->SetTextureOffset(XMFLOAT2(float(X * tileScale), float(Y * tileScale)));

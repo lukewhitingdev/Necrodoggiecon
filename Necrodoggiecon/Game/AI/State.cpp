@@ -6,17 +6,26 @@
  * \date   May 2022
  *********************************************************************/
 #include "State.h"
-#include "CAIController.h"
+#include "Necrodoggiecon\Game\AI\CAIController.h"
 
 void ChaseState::Enter(CAIController* controller)
 {
 	Vector3 aiPosition = controller->GetPosition();
-	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
+	std::vector<CCharacter*> characters = Engine::GetEntityOfType<CCharacter>();
+	std::vector<CCharacter*> players = {};
 
-	for (PlayerCharacter* player : players)
+	for (CCharacter* character : characters)
+	{
+		if (character->GetIsPlayer() == true)
+		{
+			players.push_back(character);
+		}
+	}
+
+	for (CCharacter* player : players)
 	{
 		// Find if the player is the closest in view.
-		if (controller->CanSee(player->GetPosition()) == true)
+		if (controller->CanSee(player) == true)
 		{
 			if (closestPlayer != nullptr)
 			{
@@ -31,22 +40,29 @@ void ChaseState::Enter(CAIController* controller)
 			}
 		}
 	}
+
+	controller->sprite->SetTextureOffset(XMFLOAT2(controller->GetSpriteSize(), 0));
+	controller->ChaseEnter();
 }
 
-void ChaseState::Update(CAIController* controller)
+void ChaseState::Update(CAIController* controller, float deltaTime)
 {
-	if (controller->CanSee(closestPlayer->GetPosition()) == true)
+	if (controller->CanSee(closestPlayer) == true)
 	{
 		controller->ChasePlayer(closestPlayer);
 	}
 	else
 	{
-		controller->SetCurrentState(SearchState::getInstance());
+		controller->SetPositionToInvestigate(closestPlayer->GetPosition());
+		controller->SetCurrentState(InvestigateState::getInstance());
 	}
+
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 void ChaseState::Exit(CAIController* controller)
 {
+	UNREFERENCED_PARAMETER(controller);
 }
 
 State& ChaseState::getInstance()
@@ -58,9 +74,18 @@ State& ChaseState::getInstance()
 void AttackState::Enter(CAIController* controller)
 {
 	Vector3 aiPosition = controller->GetPosition();
-	std::vector<PlayerCharacter*> players = Engine::GetEntityOfType<PlayerCharacter>();
+	std::vector<CCharacter*> characters = Engine::GetEntityOfType<CCharacter>();
+	std::vector<CCharacter*> players = {};
 
-	for (PlayerCharacter* player : players)
+	for (CCharacter* character : characters)
+	{
+		if (character->GetIsPlayer() == true)
+		{
+			players.push_back(character);
+		}
+	}
+
+	for (CCharacter* player : players)
 	{
 		// Find if the player is the closest in view.
 		if (closestPlayer != nullptr)
@@ -75,14 +100,21 @@ void AttackState::Enter(CAIController* controller)
 			closestPlayer = player;
 		}
 	}
+	controller->sprite->SetTextureOffset(XMFLOAT2(controller->GetSpriteSize(), 0));
+	controller->AttackEnter(closestPlayer);
 }
 
-void AttackState::Update(CAIController* controller)
+void AttackState::Update(CAIController* controller, float deltaTime)
 {
 	if (closestPlayer != nullptr)
 	{
-		controller->AttackPlayer(closestPlayer);
-		closestPlayer = nullptr;
+		controller->AttackPlayer(closestPlayer, deltaTime);
+		if (controller->CanSee(closestPlayer) == false && controller->GetIsAttacking() == false)
+		{
+			controller->SetPositionToInvestigate(closestPlayer->GetPosition());
+			closestPlayer = nullptr;
+			controller->SetCurrentState(InvestigateState::getInstance());
+		}
 	}
 	else
 	{
@@ -92,6 +124,7 @@ void AttackState::Update(CAIController* controller)
 
 void AttackState::Exit(CAIController* controller)
 {
+	controller->SetSpeed(controller->GetInititalSpeed());
 }
 
 State& AttackState::getInstance()
@@ -102,16 +135,20 @@ State& AttackState::getInstance()
 
 void PatrolState::Enter(CAIController* controller)
 {
+	controller->sprite->SetTextureOffset(XMFLOAT2(0, 0));
 	controller->SetPath();
 }
 
-void PatrolState::Update(CAIController* controller)
+void PatrolState::Update(CAIController* controller, float deltaTime)
 {
 	controller->Patrolling();
+
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 void PatrolState::Exit(CAIController* controller)
 {
+	UNREFERENCED_PARAMETER(controller);
 }
 
 State& PatrolState::getInstance()
@@ -122,19 +159,29 @@ State& PatrolState::getInstance()
 
 void SearchState::Enter(CAIController* controller)
 {
-	searchTimer = 5.0f;
-	players = Engine::GetEntityOfType<PlayerCharacter>();
+	controller->sprite->SetTextureOffset(XMFLOAT2(0, 0));
+	searchTimer = 10.0f;
+	characters = Engine::GetEntityOfType<CCharacter>();
+	for (CCharacter *character : characters)
+	{
+		if (character->GetIsPlayer() == true)
+		{
+			players.push_back(character);
+		}
+	}
+
+	UNREFERENCED_PARAMETER(controller);
 }
 
-void SearchState::Update(CAIController* controller)
+void SearchState::Update(CAIController* controller, float deltaTime)
 {
 	if (searchTimer > 0.0f)
 	{
 		searchTimer -= 0.016f;
 
-		for (PlayerCharacter* player : players)
+		for (CCharacter* player : players)
 		{
-			if (controller->CanSee(player->GetPosition()) == true)
+			if (controller->CanSee(player) == true)
 			{
 				controller->SetCurrentState(ChaseState::getInstance());
 			}
@@ -146,10 +193,15 @@ void SearchState::Update(CAIController* controller)
 		if (searchTimer < 0.02f)
 			controller->SetCurrentState(PatrolState::getInstance());
 	}
+
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 void SearchState::Exit(CAIController* controller)
 {
+	searchTimer = 10.0f;
+	players.clear();
+	UNREFERENCED_PARAMETER(controller);
 }
 
 State& SearchState::getInstance()
@@ -160,16 +212,20 @@ State& SearchState::getInstance()
 
 void InvestigateState::Enter(CAIController* controller)
 {
-	controller->SetPath(controller->positionToInvestigate);
+	controller->sprite->SetTextureOffset(XMFLOAT2(0, 0));
+	controller->SetPath(controller->GetPositionToInvestigate());
 }
 
-void InvestigateState::Update(CAIController* controller)
+void InvestigateState::Update(CAIController* controller, float deltaTime)
 {
-	controller->Investigating(controller->positionToInvestigate);
+	controller->Investigating(controller->GetPositionToInvestigate());
+
+	UNREFERENCED_PARAMETER(deltaTime);
 }
 
 void InvestigateState::Exit(CAIController* controller)
 {
+	UNREFERENCED_PARAMETER(controller);
 }
 
 State& InvestigateState::getInstance()

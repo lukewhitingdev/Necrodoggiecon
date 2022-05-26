@@ -1,4 +1,13 @@
 #include "CCharacter.h"
+#include "Necrodoggiecon\Game\WeaponPickup.h"
+
+/*****************************************************************//**
+ * \file   CCharacter.cpp
+ * \brief  Base class for Characters
+ *
+ * \author Cathan Bertram
+ * \date   May 2022
+ *********************************************************************/
 
 CCharacter::CCharacter()
 {
@@ -6,18 +15,38 @@ CCharacter::CCharacter()
 
 CCharacter::~CCharacter()
 {
+	if(weaponComponent != nullptr)
+	{
+		WeaponPickup<Weapon>* pickup = Engine::CreateEntity<WeaponPickup<Weapon>>();
+		pickup->SetWeapon(weaponComponent->GetCurrentWeapon());
+		pickup->SetPosition(this->GetPosition());
+	}
 }
 
-void CCharacter::AddVerticalMovement(int dir, float speed, float deltaTime)
+void CCharacter::SetHealth(float heal)
 {
-	Vector3 pos = GetPosition();
-	pos.y += dir * (speed * deltaTime);
-	SetPosition(pos);
+	health = heal;
 }
 
-void CCharacter::AddHorizontalMovement(int dir, float speed, float deltaTime)
+float CCharacter::GetHealth()
+{
+	return health;
+}
+
+void CCharacter::SetIsPlayer(bool player)
+{
+	isPlayer = player;
+}
+
+bool CCharacter::GetIsPlayer()
+{
+	return isPlayer;
+}
+
+void CCharacter::AddMovement(XMFLOAT2 vel, float deltaTime)
 {
 	Vector3 pos = GetPosition();
-	pos.x += dir * (speed * deltaTime);
+	pos.x += vel.x * deltaTime;
+	pos.y += vel.y * deltaTime;
 	SetPosition(pos);
 }
