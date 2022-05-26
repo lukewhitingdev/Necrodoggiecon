@@ -67,6 +67,7 @@ void Projectile::DidItHit()
 		{
 			hasHit = true;
 			target->ApplyDamage(Damage);
+			Lifetime = 0;
 		}
 	}
 }

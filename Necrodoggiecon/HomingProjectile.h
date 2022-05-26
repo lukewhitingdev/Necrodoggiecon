@@ -8,6 +8,8 @@
 
 #pragma once
 #include <Necrodoggiecon/Projectile.h>
+#include <Necrodoggiecon\Game\CCharacter.h>
+
 class HomingProjectile : public Projectile
 {
 public:
@@ -17,5 +19,6 @@ public:
 	virtual void Update(float deltaTime);
 private:
 	CAIController* GetClosestEnemy(Vector3 actorPos, float ranged);
+	CCharacter* GetClosestPlayer(Vector3 actorPos, float ranged);
 };
 

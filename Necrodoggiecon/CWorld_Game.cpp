@@ -269,10 +269,10 @@ void CWorld_Game::LoadEntities(int Slot)
 			Engine::CreateEntity<WeaponPickup<Crossbow>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)) );
 			break;
 		case 4:
-			Engine::CreateEntity<WeaponPickup<Fireball>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)) );
+			Engine::CreateEntity<WeaponPickup<MagicMissile>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)));
 			break;
 		case 5:
-			Engine::CreateEntity<WeaponPickup<MagicMissile>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)) );
+			Engine::CreateEntity<WeaponPickup<Fireball>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)));
 			break;
 		case 6: 
 			Engine::CreateEntity<WeaponPickup<ShieldScroll>>()->SetPosition((Vector3(HolderX, HolderY, 0.0f) * (tileScale * tileScaleMultiplier)));
@@ -283,15 +283,5 @@ void CWorld_Game::LoadEntities(int Slot)
 
 		}
 
-
-
-		
-		
-		
-		
-		
-		
-		
-	
 	}
 }
