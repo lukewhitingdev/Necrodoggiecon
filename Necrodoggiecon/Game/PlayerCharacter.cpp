@@ -167,7 +167,6 @@ void PlayerCharacter::Update(float deltaTime)
 
 	Weapon* weapon = weaponComponent->GetCurrentWeapon();
 	
-	CUIManager::UpdateUIOrigin(GetPosition());
 	// Set crossbow animation to empty bow when we cant fire or out of ammo.
 	if(weapon->GetName() == "Crossbow")
 	{
