@@ -41,7 +41,7 @@ void ChaseState::Enter(CAIController* controller)
 		}
 	}
 
-	controller->sprite->SetTextureOffset(XMFLOAT2(controller->GetSpriteSize(), 0));
+	controller->sprite->SetAnimationRectPosition(XMUINT2(1, 1));
 	controller->ChaseEnter();
 }
 
@@ -100,7 +100,7 @@ void AttackState::Enter(CAIController* controller)
 			closestPlayer = player;
 		}
 	}
-	controller->sprite->SetTextureOffset(XMFLOAT2(controller->GetSpriteSize(), 0));
+	controller->sprite->SetAnimationRectPosition(XMUINT2(1, 1));
 	controller->AttackEnter(closestPlayer);
 }
 
@@ -135,7 +135,7 @@ State& AttackState::getInstance()
 
 void PatrolState::Enter(CAIController* controller)
 {
-	controller->sprite->SetTextureOffset(XMFLOAT2(0, 0));
+	controller->sprite->SetAnimationRectPosition(XMUINT2(0, 0));;
 	controller->SetPath();
 }
 
@@ -159,7 +159,7 @@ State& PatrolState::getInstance()
 
 void SearchState::Enter(CAIController* controller)
 {
-	controller->sprite->SetTextureOffset(XMFLOAT2(0, 0));
+	controller->sprite->SetAnimationRectPosition(XMUINT2(0, 0));
 	searchTimer = 10.0f;
 	characters = Engine::GetEntityOfType<CCharacter>();
 	for (CCharacter *character : characters)
@@ -212,7 +212,7 @@ State& SearchState::getInstance()
 
 void InvestigateState::Enter(CAIController* controller)
 {
-	controller->sprite->SetTextureOffset(XMFLOAT2(0, 0));
+	controller->sprite->SetAnimationRectPosition(XMUINT2(0, 0));
 	controller->SetPath(controller->GetPositionToInvestigate());
 }
 
