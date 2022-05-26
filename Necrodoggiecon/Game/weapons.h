@@ -69,6 +69,8 @@ public:
 	std::string GetIconPath() { return iconPath; };
 	std::string GetHitSound() { return hitSound; }
 	std::string GetAttackSound() { return attackSound; }
+
+
 	void StartCooldown() { cooldown = attack_speed; };
 
 private:

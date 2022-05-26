@@ -27,18 +27,18 @@ void SettingsMenu::InitialiseCanvas()
 	CWidget_Image* Background = CreateImage(Vector2(0, 0), Vector2(.5, .5), -160);
 	Background->GetSprite()->LoadTextureWIC("Resources/Game/uiBackground.png");
 	Background->GetSprite()->SetRenderRect(XMUINT2(16, 16));
-	Background->GetSprite()->SetSpriteSize(XMUINT2(1500, 1000));
+	Background->GetSprite()->SetSpriteSize(XMUINT2(5000, 5000));
 	Background->GetSprite()->SetUseTranslucency(true);
 	Background->GetSprite()->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
 
 	std::string TitleText = "Settings";
-	CWidget_Text* Title = CreateText(Vector2(0, 188), Vector2(1, 1), -165, TitleText);
+	CWidget_Text* Title = CreateText(Vector2(0, 188), Vector2(.5, .5), -165, TitleText);
 	Title->GetText()->SetFont("Resources/Engine/font.png");
 	Title->GetText()->SetText(TitleText);
 	Title->GetText()->SetScale(2, 2, 1);
 
 	std::string CloseButtonName = "Close";
-	CWidget_Button* CloseButton = CreateButton(Vector2(0, -188), Vector2(1, 1), CloseButtonName, -165);
+	CWidget_Button* CloseButton = CreateButton(Vector2(0, -188), Vector2(.5, .5), CloseButtonName, -165);
 	CloseButton->Bind_OnButtonReleased(std::bind(&SettingsMenu::CloseSettings, this));
 	CloseButton->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	CloseButton->SetButtonSize(Vector2(256, 110));
