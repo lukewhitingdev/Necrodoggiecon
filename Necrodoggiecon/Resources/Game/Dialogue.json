@@ -107,7 +107,7 @@
       }
     ]
   },
-  "LevelOneStart": {
+  "1Start": {
     "ListOfDialogue": [
       {
         "Name": "Johnathan Wicke",
@@ -119,7 +119,7 @@
       }
     ]
   },
-  "LevelOneEnd": {
+  "1End": {
     "ListOfDialogue": [
       {
         "Name": "Johnathan Wicke",
@@ -127,7 +127,7 @@
       }
     ]
   },
-  "LevelTwoStart": {
+  "2Start": {
     "ListOfDialogue": [
       {
         "Name": "Johnathan Wicke",
@@ -135,7 +135,7 @@
       }
     ]
   },
-  "LevelTwoEnd": {
+  "2End": {
     "ListOfDialogue": [
       {
         "Name": "Johnathan Wicke",
@@ -143,7 +143,7 @@
       }
     ]
   },
-  "LevelThreeStart": {
+  "3Start": {
     "ListOfDialogue": [
       {
         "Name": "Johnathan Wicke",
@@ -159,7 +159,7 @@
       }
     ]
   },
-  "LevelThreeEnd": {
+  "3End": {
     "ListOfDialogue": [
       {
         "Name": "Johnathan Wicke",
@@ -171,7 +171,7 @@
       }
     ]
   },
-  "LevelFourStart": {
+  "4Start": {
     "ListOfDialogue": [
       {
         "Name": "Johnathan Wicke",
@@ -183,7 +183,7 @@
       }
     ]
   },
-  "LevelFourEnd": {
+  "4End": {
     "ListOfDialogue": [
       {
         "Name": "Johnathan Wicke",

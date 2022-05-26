@@ -17,6 +17,7 @@
 #include "Necrodoggiecon/Weapons/Ranged/Fireball.h"
 #include "Necrodoggiecon/PauseMenu.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
+#include "Game/DialogueHandler.h"
 
 
 
@@ -70,6 +71,8 @@ void CWorld_Game::SetupWorld()
 	{
 		SoundManager::PlayMusic("Resources/Game/Audio/BGM.wav", character1);
 	}
+
+	DialogueHandler::LoadDialogue("Resources/Game/Dialogue.json", std::to_string(GetMapSlot()) + "Start");
 }
 
 void CWorld_Game::UnloadWorld()

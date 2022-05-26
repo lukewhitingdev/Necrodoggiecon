@@ -21,6 +21,9 @@ protected:
 	virtual void OnPossess() override;
 	virtual void OnUnpossess() override;
 
-	
+	bool dialogueOpen = false;
+
+	void OnDialogueOpen() { dialogueOpen = true; }
+	void OnDialogueClose() { dialogueOpen = false; }
 };
 
