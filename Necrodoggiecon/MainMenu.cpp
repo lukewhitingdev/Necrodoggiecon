@@ -35,7 +35,7 @@ void MainMenu::InitialiseCanvas()
 	Background->GetSprite()->SetUseTranslucency(true);
 	Background->GetSprite()->SetTint(XMFLOAT4(-255, -255, -255, 0));
 
-	std::string TitleText = "Necrodogicon";
+	std::string TitleText = "Necrodoggiecon";
 	CWidget_Text* Title = CreateText(Vector2(0, 188), Vector2(.5, .5),-155, TitleText);
 	Title->GetText()->SetFont("Resources/Engine/font.png");
 	Title->GetText()->SetText(TitleText);
