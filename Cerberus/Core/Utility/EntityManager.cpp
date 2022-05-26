@@ -4,6 +4,7 @@
 #include <algorithm>
 
 std::vector<CEntity*> EntityManager::entities = std::vector<CEntity*>();
+std::vector<CEntity*> EntityManager::pendingEntityDeletions = std::vector<CEntity*>();
 std::vector<CComponent*> EntityManager::opaqueComps = std::vector<CComponent*>();
 std::vector<CComponent*> EntityManager::translucentComps = std::vector<CComponent*>();
 
@@ -12,9 +13,26 @@ void EntityManager::AddEntity(CEntity* entityToAdd)
 	entities.push_back(entityToAdd);
 }
 
+void EntityManager::AddDeletedEntity(CEntity* entityToDelete)
+{
+	pendingEntityDeletions.push_back(entityToDelete);
+}
+
+void EntityManager::DestroyAllPendingEntitiesDeletions()
+{
+	while (pendingEntityDeletions.size() > 0)
+	{
+		CEntity* e = pendingEntityDeletions.back();
+
+		if (EntityManager::RemoveEntity(e))
+			delete e;
+
+		pendingEntityDeletions.pop_back();
+	}
+}
+
 bool EntityManager::RemoveEntity(const CEntity* entityToRemove)
 {
-
 	auto iterator = std::find(entities.begin(), entities.end(), entityToRemove);
 
 	bool succeeded = iterator != entities.end();
@@ -71,11 +89,10 @@ void EntityManager::SortTranslucentComponents()
 
 void EntityManager::Purge()
 {
-	while (EntityManager::GetEntitiesVector()->size() > 0)
+	for (int i = 0; i < entities.size(); i++)
 	{
-		CEntity* e = EntityManager::GetEntitiesVector()->at(0);
+		CEntity* e = entities.at(i);
 
-		if(EntityManager::RemoveEntity(e))
-			delete e;
+		EntityManager::AddDeletedEntity(e);
 	}
 }

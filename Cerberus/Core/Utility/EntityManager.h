@@ -15,6 +15,7 @@
 class EntityManager
 {
 	static std::vector<class CEntity*> entities;
+	static std::vector<class CEntity*> pendingEntityDeletions;
 
 	static std::vector<class CComponent*> opaqueComps;
 	static std::vector<class CComponent*> translucentComps;
@@ -24,6 +25,10 @@ public:
 	 * Adds the input entity to the internal vector.
 	 */
 	static void AddEntity(class CEntity* entityToAdd);
+
+	static void AddDeletedEntity(class CEntity* entityToDelete);
+
+	static void DestroyAllPendingEntitiesDeletions();
 
 	/**
 	 * Removes the input entity to the internal vector.

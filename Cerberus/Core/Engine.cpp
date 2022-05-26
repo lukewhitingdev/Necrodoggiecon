@@ -690,8 +690,7 @@ double CalculateDeltaTime(const unsigned short fpsCap)
 
 void Engine::DestroyEntity(CEntity* targetEntity)
 {
-	if(EntityManager::RemoveEntity(targetEntity))
-		delete targetEntity;
+	EntityManager::AddDeletedEntity(targetEntity);
 }
 
 // Starts the engine.
@@ -867,6 +866,8 @@ void Update(float deltaTime)
 	}
 
 	AudioController::Update(deltaTime);
+
+	EntityManager::DestroyAllPendingEntitiesDeletions();
 }
 
 //--------------------------------------------------------------------------------------
