@@ -27,6 +27,8 @@ PlayerCharacter::PlayerCharacter()
 	spriteComponentBody->SetAnimationRectSize(XMUINT2(2, 1));
 	spriteComponentBody->SetAnimationSpeed(2 * walkAnimationSpeed);
 	spriteComponentBody->SetPlaying(false, false);
+	spriteComponentBody->SetUseTranslucency(true);
+	originalSpriteTint = spriteComponentBody->GetTint();
 
 	spriteComponentLegs = AddComponent<CAnimationSpriteComponent>(NAME_OF(spriteComponentLegs));
 	spriteComponentLegs->LoadTextureWIC("Resources/Game/Characters/legsSpriteSheet.png");
@@ -311,7 +313,8 @@ void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime
 		pickupActiveTime = activeTime;
 
 		pickupTimerCallback = std::bind(&PlayerCharacter::InvisibilityCallback, this);
-		ToggleVisibility(false);
+		spriteComponentBody->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
+		
 	} 
 	else if (pickupToUse == "ShieldScroll")
 	{
@@ -328,7 +331,8 @@ void PlayerCharacter::PressedUse()
 */
 void PlayerCharacter::InvisibilityCallback()
 {
-	ToggleVisibility(true);
+	spriteComponentBody->SetTint(originalSpriteTint);
+	
 }
 
 /**
