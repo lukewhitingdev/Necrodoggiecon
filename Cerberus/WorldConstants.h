@@ -64,5 +64,5 @@ struct CT_PropData
 
 
 #define tileScale 32
-#define	mapScale 32
+#define	mapScale 64
 #define tileScaleMultiplier 2

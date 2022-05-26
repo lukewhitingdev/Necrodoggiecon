@@ -10,6 +10,8 @@ public:
 	static void LoadWorld(CWorld* World);
 	static void LoadWorld(CWorld_Editable* World);
 
+	static void ReloadWorld();
+
 
 	static class CWorld* GetWorld() {
 		return gameWorld;
