@@ -40,6 +40,11 @@ public:
 	 * Sets if this entity and all it's components will be rendered.
 	 */
 	void SetVisible(const bool& newVisibility) { visible = newVisibility; }
+
+	/**
+	 * Sets whether the engine will treat this as UI in the update loop.
+	 * I.e. will still be updated when game is paused.
+	 */
 	void SetIsUI(const bool& newUI) { ui = newUI; }
 
 	const bool& GetShouldUpdate() const { return shouldUpdate; }
