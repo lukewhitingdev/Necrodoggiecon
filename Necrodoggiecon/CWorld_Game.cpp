@@ -55,13 +55,15 @@ CWorld_Game::CWorld_Game(int Slot)
 /**  */
 void CWorld_Game::SetupWorld()
 {
+
+	CUIManager::AddCanvas(Engine::CreateEntity<PauseMenu>(), "PauseMenu");
 	PlayerController* controller = Engine::CreateEntity<PlayerController>();
 
 	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
 	EntityList.push_back(controller);
 
 
-	CUIManager::AddCanvas(Engine::CreateEntity<PauseMenu>(), "PauseMenu");
+	
 
 	controller->charOne = character1;
 
@@ -81,7 +83,9 @@ void CWorld_Game::SetupWorld()
 
 	//Please stop configuring stuff in here instead of in the class constructor - Lets not spread configuration to many different places in the project!
 
+	
 	LoadEnemyUnits(mapSlot);
+	LoadEntities(mapSlot);
 }
 
 void CWorld_Game::UnloadWorld()

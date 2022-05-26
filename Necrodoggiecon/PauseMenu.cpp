@@ -16,6 +16,7 @@
 #include "SettingsMenu.h"
 #include "LevelCompleteMenu.h"
 #include "Necrodoggiecon/CWorld_Menu.h"
+#include "Necrodoggiecon/TransitionHelper.h"
 
 PauseMenu::PauseMenu()
 {
@@ -101,7 +102,7 @@ void PauseMenu::ResumeGame()
 void PauseMenu::QuitToMenu()
 {
 	Debug::Log("quit to menu");
-	CWorldManager::LoadWorld(new CWorld_Menu());
+	TransitionHelper::OpenLevel(0, true);
 	Engine::paused = false;
 }
 /**

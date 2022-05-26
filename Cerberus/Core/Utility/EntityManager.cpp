@@ -14,6 +14,7 @@ void EntityManager::AddEntity(CEntity* entityToAdd)
 
 bool EntityManager::RemoveEntity(const CEntity* entityToRemove)
 {
+
 	auto iterator = std::find(entities.begin(), entities.end(), entityToRemove);
 
 	bool succeeded = iterator != entities.end();

@@ -22,32 +22,39 @@ void CWidget_Canvas::InitialiseCanvas()
 
 void CWidget_Canvas::Update(float deltaTime)
 {
+	if (buttonList.size() > 20)
+	{
+		int Temp = buttonList.size();
+	}
 	if (WidgetIsVisible)
 	{
 		for (int i = 0; i < buttonList.size(); i++)
 		{
-			buttonList[i]->IsButtonFocused(GetMousePosition());
-
-			if (InputManager::IsMouseButtonPressed(InputManager::Mouse::LButton))
+			if (buttonList[i] != nullptr)
 			{
 				buttonList[i]->IsButtonFocused(GetMousePosition());
 
 				if (InputManager::IsMouseButtonPressed(InputManager::Mouse::LButton))
 				{
-					buttonList[i]->ButtonPressed(true);
-					mousePressed = true;
-				}
+					buttonList[i]->IsButtonFocused(GetMousePosition());
 
-				if (InputManager::IsMouseButtonReleased(InputManager::Mouse::LButton))
+					if (InputManager::IsMouseButtonPressed(InputManager::Mouse::LButton))
+					{
+						buttonList[i]->ButtonPressed(true);
+						mousePressed = true;
+					}
+
+					if (InputManager::IsMouseButtonReleased(InputManager::Mouse::LButton))
+					{
+
+						//buttonList[i]->ButtonPressed(false);
+						mousePressed = false;
+					}
+				}
+				else if (InputManager::IsMouseButtonReleased(InputManager::Mouse::LButton))
 				{
-
-					//buttonList[i]->ButtonPressed(false);
-					mousePressed = false;
+					buttonList[i]->ButtonPressed(false);
 				}
-			}
-			else if (InputManager::IsMouseButtonReleased(InputManager::Mouse::LButton))
-			{
-				buttonList[i]->ButtonPressed(false);
 			}
 		}
 	}

@@ -68,7 +68,7 @@ void CWidget::RemoveAllChildren()
 			GetChildren()[i]->RemoveAllChildren();
 		}
 	}
-	Engine::DestroyEntity(this);
+	//Engine::DestroyEntity(this);
 }
 
 void CWidget::UpdateWidgetOrigin(Vector3 Pos)

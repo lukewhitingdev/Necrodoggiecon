@@ -191,6 +191,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\AI\State.cpp" />
     <ClCompile Include="HomingProjectile.cpp" />
     <ClCompile Include="LevelCompleteMenu.cpp" />
+    <ClCompile Include="TransitionHelper.cpp" />
     <ClCompile Include="Weapons\Pickup\InvisibilityScroll.cpp" />
     <ClCompile Include="Weapons\Pickup\ShieldScroll.cpp" />
     <ClCompile Include="Weapons\Pickup.cpp" />
@@ -228,6 +229,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClInclude Include="HomingProjectile.h" />
     <ClInclude Include="LevelCompleteMenu.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="TransitionHelper.h" />
     <ClInclude Include="Weapons\Pickup\InvisibilityScroll.h" />
     <ClInclude Include="Weapons\Pickup\ShieldScroll.h" />
     <ClInclude Include="Weapons\Pickup.h" />
