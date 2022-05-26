@@ -73,8 +73,8 @@ int Start()
 			Debug::SetVisibility(false);
 	#endif
 
-	CWorldManager::LoadWorld(new CWorld_Menu());
-
 	SoundManager::Initialise();
+
+	CWorldManager::LoadWorld(new CWorld_Menu());
 	return 0;
 }

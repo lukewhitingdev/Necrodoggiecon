@@ -61,7 +61,6 @@ CWorld_Game::CWorld_Game(int Slot)
 /**  */
 void CWorld_Game::SetupWorld()
 {
-
 	CUIManager::AddCanvas(Engine::CreateEntity<PauseMenu>(), "PauseMenu");
 	PlayerController* controller = Engine::CreateEntity<PlayerController>();
 
