@@ -12,7 +12,7 @@ MagicMissile::MagicMissile()
 {
 	Debug::Log("Magic Missile");
 	Weapon::SetWeapon(4);
-	RangeWeapon::SetProjectileSpeed(8.0f);
+	RangeWeapon::SetProjectileSpeed(0.03f);
 }
 
 MagicMissile::~MagicMissile()
