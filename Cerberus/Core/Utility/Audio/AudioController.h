@@ -47,6 +47,7 @@ public:
 private:
 	static FMOD::System* FMODSystem;
 	static std::vector<CEmitter*> emitters;
+	static std::unordered_map<std::uintptr_t, CEmitter*> emitterSafetyMap;
 	static CTransform* listenerTransform;
 };
 

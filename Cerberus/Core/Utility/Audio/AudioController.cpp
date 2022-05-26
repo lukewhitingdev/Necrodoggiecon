@@ -2,6 +2,7 @@
 #include "Cerberus\Core\Utility\EventSystem\EventSystem.h"
 FMOD::System* AudioController::FMODSystem = nullptr;
 std::vector<CEmitter*> AudioController::emitters;
+std::unordered_map<std::uintptr_t, CEmitter*> AudioController::emitterSafetyMap;
 CTransform* AudioController::listenerTransform = nullptr;
 
 /**
@@ -239,9 +240,9 @@ void AudioController::Update(float deltaTime)
 
 	// Attenuate.
 	float maxRange = 1000;
-	for(CEmitter* emitter : emitters)
+	for(int i = 0; i < emitters.size(); ++i)
 	{
-
+		CEmitter* emitter = emitters[i];
 		float distToEmitter = listenerPos.DistanceTo(emitter->position);
 
 		// Check we are in range of the emitter.
@@ -329,7 +330,14 @@ bool AudioController::AddEmitter(CEmitter* emitter)
 {
 	if(emitter != nullptr)
 	{
+		if(emitterSafetyMap.find((uintptr_t)emitter) != emitterSafetyMap.end())
+		{
+			Debug::LogError("Tried to add a emitter that already exists. This is not allowed.");
+			return false;
+		}
+
 		emitters.emplace_back(emitter);
+		emitterSafetyMap.emplace(std::make_pair((uintptr_t)emitter, emitter));
 		return true;
 	}
 	else
