@@ -32,37 +32,37 @@ void PauseMenu::InitialiseCanvas()
 	CWidget_Image* Background = CreateImage(Vector2(0, 0), Vector2(.5, .5), -150);
 	Background->GetSprite()->LoadTextureWIC("Resources/Game/uiBackground.png");
 	Background->GetSprite()->SetRenderRect(XMUINT2(16, 16));
-	Background->GetSprite()->SetSpriteSize(XMUINT2(1500, 1000));
+	Background->GetSprite()->SetSpriteSize(XMUINT2(5000, 5000));
 	Background->GetSprite()->SetUseTranslucency(true);
 	Background->GetSprite()->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
 
 	std::string TitleText = "Paused";
-	CWidget_Text* Title = CreateText(Vector2(0, 280), Vector2(1, 1), -165, TitleText);
+	CWidget_Text* Title = CreateText(Vector2(0, 280), Vector2(.5, .5), -165, TitleText);
 	Title->GetText()->SetFont("Resources/Engine/font.png");
 	Title->GetText()->SetText(TitleText);
 	Title->GetText()->SetScale(2, 2, 1);
 
 	std::string ResumeButtonName = "Resume";
-	CWidget_Button* Resume = CreateButton(Vector2(0, 188), Vector2(1, 1), ResumeButtonName, -155);
+	CWidget_Button* Resume = CreateButton(Vector2(0, 188), Vector2(.5, .5), ResumeButtonName, -155);
 	Resume->Bind_OnButtonReleased(std::bind(&PauseMenu::ResumeGame , this));
 	Resume->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	Resume->SetButtonSize(Vector2(256, 110));
 
 	std::string SettingsButtonName = "Settings";
-	CWidget_Button* Settings = CreateButton(Vector2(0, 68), Vector2(1, 1), SettingsButtonName, -155);
+	CWidget_Button* Settings = CreateButton(Vector2(0, 68), Vector2(.5, .5), SettingsButtonName, -155);
 	Settings->Bind_OnButtonReleased(std::bind(&PauseMenu::OpenSettingsMenu, this));
 	Settings->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	Settings->SetButtonSize(Vector2(256, 110));
 
 	std::string QuitButtonName = "Quit to Menu";
-	CWidget_Button* Exit = CreateButton(Vector2(0, -60), Vector2(1, 1), QuitButtonName, -155);
+	CWidget_Button* Exit = CreateButton(Vector2(0, -60), Vector2(.5, .5), QuitButtonName, -155);
 	Exit->Bind_OnButtonReleased(std::bind(&PauseMenu::QuitToMenu , this));
 	Exit->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	Exit->SetButtonSize(Vector2(256, 110));
 	Exit->GetText()->SetScale(1, 1, 1);
 	
 	std::string FullQuitButtonName = "Quit to Desktop";
-	CWidget_Button* ExitFull = CreateButton(Vector2(0, -188), Vector2(1, 1), FullQuitButtonName, -155);
+	CWidget_Button* ExitFull = CreateButton(Vector2(0, -188), Vector2(.5, .5), FullQuitButtonName, -155);
 	ExitFull->Bind_OnButtonReleased(std::bind(&PauseMenu::QuitToDesktop , this));
 	ExitFull->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	ExitFull->SetButtonSize(Vector2(256, 110));
@@ -100,6 +100,7 @@ void PauseMenu::QuitToMenu()
 {
 	Debug::Log("quit to menu");
 	CWorldManager::LoadWorld(new CWorld_Menu());
+	SetVisibility(false);
 }
 /**
  * closes game.
