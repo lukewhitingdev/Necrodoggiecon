@@ -23,6 +23,11 @@ public:
     virtual void ChasePlayer(CCharacter* player) override;
     virtual void AttackPlayer(CCharacter* player, float deltaTime) override;
 
+    virtual void Update(float deltaTime) override;
+
+    void UpdateWeaponSprite();
+
 private:
+    CSpriteComponent* weaponSprite = nullptr;
 };
 

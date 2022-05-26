@@ -25,14 +25,21 @@ void CT_EditorEntity::InitialiseEntity(int SlotID)
 	
 }
 
-void CT_EditorEntity::SaveEntity(int Index, int MapSlot)
+
+void CT_EditorEntity_Enemy::AssignWeapon(char* WeaponID, int Index)
 {
+	 current_item = WeaponID; 
+	 itemIndex = Index; 
+
+	 Debug::Log("WeaponAssigned: %c | %d", WeaponID, Index);
 }
 
 CT_EditorEntity_Enemy::CT_EditorEntity_Enemy()
 {
 	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
 	inspectType = EditorEntityType::Enemy;
+	int itemIndex = 0;
+
 
 
 }
@@ -59,16 +66,6 @@ void CT_EditorEntity_Enemy::InitialiseEntity(int SlotID)
 	}
 }
 
-void CT_EditorEntity_Enemy::SaveEntity(int Index, int MapSlot)
-{
-	
-	
-	
-	
-	
-
-
-}
 
 void CT_EditorEntity_Enemy::ToggleWaypoints(bool Display)
 {
@@ -150,5 +147,39 @@ CT_EditorEntity_PlayerStart::CT_EditorEntity_PlayerStart()
 }
 
 void CT_EditorEntity_PlayerStart::Update(float deltaTime)
+{
+}
+
+CT_EditorEntity_WeaponHolder::CT_EditorEntity_WeaponHolder()
+{
+	sprite = AddComponent<CSpriteComponent>(NAME_OF(spriteComponentLegs));
+
+	sprite->LoadTexture("Resources\\EditorEntities\\WaypointIcon.dds");
+	sprite->SetRenderRect(XMUINT2(32, 32));
+	sprite->SetSpriteSize(XMUINT2(64, 64));
+	
+	//weaponSprite = AddComponent<CSpriteComponent>();
+//	weaponSprite->LoadTexture("Resources\\EditorEntities\\Flag.dds");
+//	weaponSprite->SetRenderRect(XMUINT2(32, 32));
+	//weaponSprite->SetSpriteSize(XMUINT2(64, 64));
+	inspectType = EditorEntityType::WeaponHolder;
+	int itemSlot = 0;
+}
+
+void CT_EditorEntity_WeaponHolder::AssignWeapon(char* WeaponID, int Index)
+{
+	current_item = WeaponID;
+	itemSlot = Index;
+
+	Debug::Log("WeaponAssigned: %c | %d", WeaponID, Index);
+
+
+}
+
+void CT_EditorEntity_WeaponHolder::Update(float deltaTime)
+{
+}
+
+void CT_EditorEntity_WeaponHolder::InitialiseEntity(int SlotID)
 {
 }

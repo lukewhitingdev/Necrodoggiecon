@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   weaponUI.cpp
+ * \brief  This is the CPP for the weapon UI and the timer
+ * 
+ * \author Jack B
+ * \date   May 2022
+ *********************************************************************/
 #include "weaponUI.h"
 #include <sstream>
 #include "Cerberus/Core/Utility/Math/Math.h"
@@ -5,6 +12,10 @@
 #include "Cerberus\Core\Components\CSpriteComponent.h"
 #include "Cerberus\Core\Structs\CCamera.h"
 
+/**
+ * Sets up all of the UI elements.
+ * 
+ */
 weaponUI::weaponUI()
 {
 	SetIsUI(true);
@@ -63,7 +74,14 @@ weaponUI::weaponUI()
 	updateUI("Dagger", 0, 0, "Resources/Game/weapons/Dagger.png");
 }
 
-//updateUI(std::string WeaponName, int currentAmmo, int maxAmmo, std::string spritePath)
+/**
+ * Updates Weapon UI elements when called ideally after a change is made.
+ * 
+ * \param weaponName
+ * \param currentAmmo
+ * \param maxAmmo
+ * \param spritePath
+ */
 void weaponUI::updateUI(std::string weaponName, int currentAmmo, int maxAmmo, std::string spritePath)
 {
 	textWeaponName->SetText(weaponName);
@@ -71,6 +89,11 @@ void weaponUI::updateUI(std::string weaponName, int currentAmmo, int maxAmmo, st
 	weaponSprite->LoadTextureWIC(spritePath);
 }
 
+/**
+ * Updates timer each frame.
+ * 
+ * \param deltaTime
+ */
 void weaponUI::Update(float deltaTime)
 {
 	seconds += deltaTime;

@@ -4,13 +4,19 @@
 Longsword::Longsword()
 {
 	Debug::Log("Longsword");
-	Weapon::SetWeapon("Longsword");
+	Weapon::SetWeapon(2);
 }
 
 Longsword::~Longsword()
 {
 }
 
+/**
+ * Virtual override OnFire containing unique sweeping logic.
+ * 
+ * \param actorPos
+ * \param attackDir
+ */
 void Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	auto normAttackDir = attackDir.Normalize();

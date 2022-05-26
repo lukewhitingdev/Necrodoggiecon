@@ -1,5 +1,6 @@
 #include "Cerberus\Core\Engine.h"
 #include <Cerberus\Core\Environment\CWorld.h>
+#include "Necrodoggiecon/CWorld_Menu.h"
 #include "Necrodoggiecon/CWorld_Game.h"
 #include "Necrodoggiecon\Game\CPlayer.h"
 #include <Necrodoggiecon\Game\TestUI.h>
@@ -24,6 +25,7 @@
 #include <Weapons/Ranged/Fireball.h>
 #include <Weapons/Ranged/MagicMissile.h>
 #include "Necrodoggiecon/MainMenu.h"
+#include "Necrodoggiecon/PauseMenu.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include <Necrodoggiecon/Game/DialogueHandler.h>
 #include "Weapons/Pickup/InvisibilityScroll.h"
@@ -97,10 +99,14 @@ int Start()
 	CCamera* freeCamera = Engine::CreateEntity<CCamera>();
 	CCameraComponent* freeCameraComponent = freeCamera->AddComponent<CCameraComponent>(NAME_OF(freeCameraComponent));
 	freeCameraComponent->SetAttachedToParent(false);
+	CameraManager::AddCamera(freeCameraComponent);
 
-	CWorldManager::LoadWorld(new CWorld_Game(0));
+	CameraManager::SetRenderingCamera(freeCameraComponent);
 
-	//CUIManager::AddCanvas(Engine::CreateEntity<MainMenu>(), "MainMenu");
+	CWorldManager::LoadWorld(new CWorld_Menu());
+
+
+	
 
 	
 
