@@ -14,14 +14,6 @@ void CComponent::SetUseTranslucency(const bool& newTranslucency)
 	EntityManager::AddComponent(this);
 }
 
-void CComponent::SetIsUI(const bool& newIsUI)
-{
-	//This looks weird, but basically moves the component from one container to another.
-	EntityManager::RemoveComponent(this);
-	ui = newIsUI;
-	EntityManager::AddComponent(this);
-}
-
 const std::string CComponent::GetDebugInfo() const
 {
 	std::string output = "";

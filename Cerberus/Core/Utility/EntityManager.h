@@ -16,9 +16,6 @@ class EntityManager
 {
 	static std::vector<class CEntity*> entities;
 
-	static std::vector<class CComponent*> worldComps;
-	static std::vector<class CComponent*> uiComps;
-
 	static std::vector<class CComponent*> opaqueComps;
 	static std::vector<class CComponent*> translucentComps;
 
@@ -52,8 +49,6 @@ public:
 	static void SortTranslucentComponents();
 
 	static const std::vector<class CEntity*>* GetEntitiesVector() { return &entities; };
-	static const std::vector<class CComponent*>* GetUICompsVector() { return &uiComps; };
-	static const std::vector<class CComponent*>* GetWorldCompsVector() { return &worldComps; };
 	static const std::vector<class CComponent*>* GetOpaqueCompsVector() { return &opaqueComps; };
 	static const std::vector<class CComponent*>* GetTranslucentCompsVector() { return &translucentComps; };
 };

@@ -31,7 +31,6 @@
 #include <chrono>
 
 XMMATRIX Engine::projMatrixUI = XMMatrixIdentity();
-bool Engine::paused = false;
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -785,11 +784,6 @@ LRESULT Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			PostQuitMessage(1);
 			break;
 		}
-		if (wParam == VK_F2)
-		{
-			paused = !paused;
-			break;
-		}
 		break;
 	case WM_KEYUP:
 
@@ -837,55 +831,39 @@ void Engine::Stop()
 
 void Update(float deltaTime)
 {
-	if (!Engine::paused)
+	for (size_t i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
 	{
-		for (size_t i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
+		CEntity* e = EntityManager::GetEntitiesVector()->at(i);
+		if (!e->GetShouldUpdate())
+			continue;
+		
+		for (auto& f : e->GetAllComponents())
 		{
-			CEntity* e = EntityManager::GetEntitiesVector()->at(i);
-			if (!e->GetShouldUpdate())
-				continue;
-
-			e->Update(deltaTime);
-		}
-
-		for (size_t i = 0; i < EntityManager::GetWorldCompsVector()->size(); i++)
-		{
-			CComponent* f = EntityManager::GetWorldCompsVector()->at(i);
 			if (!f->GetShouldUpdate())
 				continue;
 
 			f->Update(deltaTime);
 		}
+
+		e->Update(deltaTime);
 	}
 
-	for (size_t i = 0; i < EntityManager::GetUICompsVector()->size(); i++)
+	for (size_t i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
 	{
-		CComponent* f = EntityManager::GetUICompsVector()->at(i);
-		if (!f->GetShouldUpdate())
-			continue;
-
-		f->Update(deltaTime);
-	}
-
-	if (!Engine::paused)
-	{
-		for (size_t i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
+		CEntity* e = EntityManager::GetEntitiesVector()->at(i);
+		if (e->GetShouldMove())
 		{
-			CEntity* e = EntityManager::GetEntitiesVector()->at(i);
-			if (e->GetShouldMove())
+			for (size_t j = 0; j < EntityManager::GetEntitiesVector()->size(); j++)
 			{
-				for (size_t j = 0; j < EntityManager::GetEntitiesVector()->size(); j++)
-				{
-					CEntity* currentEntity = EntityManager::GetEntitiesVector()->at(j);
+				CEntity* currentEntity = EntityManager::GetEntitiesVector()->at(j);
 
-					if (e != currentEntity && currentEntity->colComponent != nullptr)
+				if (e != currentEntity && currentEntity->colComponent != nullptr)
+				{
+					//If it can move, check the collisions and it is a different entity, do collision stuff
+					if (e->colComponent->IsColliding(currentEntity->colComponent))
 					{
-						//If it can move, check the collisions and it is a different entity, do collision stuff
-						if (e->colComponent->IsColliding(currentEntity->colComponent))
-						{
-							e->HasCollided(currentEntity->colComponent);
-							currentEntity->HasCollided(e->colComponent);
-						}
+						e->HasCollided(currentEntity->colComponent);
+						currentEntity->HasCollided(e->colComponent);
 					}
 				}
 			}
