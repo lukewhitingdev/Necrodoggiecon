@@ -26,5 +26,9 @@ protected:
     virtual void OnDeath() override;
     virtual void OnHit(const std::string& hitSound) override;
 
+    void UpdateWeaponSprite();
+
+private:
+    CSpriteComponent* weaponSprite = nullptr;
 };
 

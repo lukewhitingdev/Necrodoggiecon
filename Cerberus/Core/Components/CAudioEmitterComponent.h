@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   CAudioEmitterComponent.h
+ * \brief  Allows a entity to emit audio.
+ *
+ * \author Luke Whiting
+ * \date   Jan 2021
+ *********************************************************************/
 #pragma once
 #include "Cerberus\Core\CComponent.h"
 #include "Cerberus/Core/Utility/Audio/AudioController.h"
@@ -13,6 +20,7 @@ public:
 	void Load(const std::string& path);
 	void Load(const std::string& path, bool ambient);
 	void Play();
+	void Play(bool loop);
 	void Stop();
 	void SetRange(float range);
 

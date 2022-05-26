@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   WeaponPickup.h
+ * \brief  A class that inherits from CInteractable which allows for weapons to be spawned within the world and picked up by the player.
+ * 
+ * \author Luke Whiting
+ * \date   May 2022
+ *********************************************************************/
+
 #pragma once
 #include "Necrodoggiecon/Game/CInteractable.h"
 #include "Necrodoggiecon/Game/weapons.h"
@@ -21,7 +29,7 @@ private:
 
 	void UpdateWeaponSprite(Weapon* weapon);
 
-	T* pickup;
+	T* pickup = nullptr;
 };
 
 template<typename T>
@@ -32,7 +40,7 @@ inline WeaponPickup<T>::WeaponPickup()
 	if (baseWeapon != nullptr)
 	{
 		pickup = weapon;
-		UpdateWeaponSprite(baseWeapon);
+		UpdateWeaponSprite(weapon);
 	}
 	else
 	{
@@ -110,12 +118,19 @@ template<typename T>
 inline void WeaponPickup<T>::UpdateWeaponSprite(Weapon* weapon)
 {
 	std::string ext = IO::FindExtension(weapon->GetIconPath());
+	CSpriteComponent* sprite = this->GetSprite();
 	if (ext == "dds")
 	{
-		this->GetSprite()->LoadTexture(weapon->GetIconPath());
+		sprite->LoadTexture(weapon->GetIconPath());
+		sprite->SetTextureOffset(weapon->GetTextureOffset());
+		sprite->SetRenderRect(weapon->GetRenderRect());
+		sprite->SetScale(weapon->GetScale());
 	}
 	else
 	{
-		this->GetSprite()->LoadTextureWIC(weapon->GetIconPath());
+		sprite->LoadTextureWIC(weapon->GetIconPath());
+		sprite->SetTextureOffset(weapon->GetTextureOffset());
+		sprite->SetRenderRect(weapon->GetRenderRect());
+		sprite->SetScale(weapon->GetScale());
 	}
 }

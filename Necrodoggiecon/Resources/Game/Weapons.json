@@ -4,7 +4,7 @@
     "ProjectileIconPath": "N/A",
     "Type": "Melee",
     "Damage": 1.0,
-    "Range": 0.5,
+    "Range": 1.0,
     "Attack_Speed": 0.5,
     "Ammo": 0.0,
     "Unique": false,

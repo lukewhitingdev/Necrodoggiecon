@@ -7,6 +7,8 @@
  *********************************************************************/
 #include "GruntEnemy.h"
 #include "Game/SoundManager.h"
+#include "Cerberus/Core/Utility/IO.h"
+#include <Necrodoggiecon/Weapons/Ranged/Fireball.h>
 
 GruntEnemy::GruntEnemy()
 {
@@ -19,6 +21,14 @@ GruntEnemy::GruntEnemy()
 	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	weaponComponent->SetWeapon(new Crossbow());
 	weaponComponent->SetUserType(USERTYPE::AI);
+
+	weaponSprite = AddComponent<CSpriteComponent>(NAME_OF(weaponSprite));
+	UpdateWeaponSprite();
+	weaponSprite->SetPosition(Vector3(sprite->GetSpriteSize().y / 2, int(sprite->GetSpriteSize().x - 20), 0));
+	weaponSprite->SetRotation(0); // 90 Degrees in radians.
+	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
+	weaponSprite->SetRenderRect(weaponComponent->GetCurrentWeapon()->GetRenderRect());
+	weaponSprite->SetScale(weaponComponent->GetCurrentWeapon()->GetScale());
 }
 
 /**
@@ -50,14 +60,38 @@ void GruntEnemy::AttackPlayer(CCharacter* player, float deltaTime)
 	heading = Seek(player->GetPosition());
 	if(weaponComponent->OnFire(aiPosition, velocity))
 		SoundManager::PlaySound(weaponComponent->GetCurrentWeapon()->GetAttackSound(), GetPosition());
-
+	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
 	SetCurrentState(ChaseState::getInstance());
 }
+
 void GruntEnemy::OnDeath()
 {
-	//wSoundManager::PlaySound("DeathSound", GetPosition());
+	SoundManager::PlaySound("DeathSound", GetPosition());
 }
 void GruntEnemy::OnHit(const std::string& hitSound)
 {
 	SoundManager::PlaySound(hitSound, GetPosition());
+}
+
+void GruntEnemy::UpdateWeaponSprite()
+{
+	HRESULT hr;
+	if (IO::FindExtension(weaponComponent->GetCurrentWeapon()->GetIconPath()) == "dds")
+	{
+		hr = weaponSprite->LoadTexture(weaponComponent->GetCurrentWeapon()->GetIconPath());
+		if (FAILED(hr))
+		{
+			Debug::LogHResult(hr, "Weapon Tried to load texture using path: %s but the loader returned failure.", weaponComponent->GetCurrentWeapon()->GetIconPath().c_str());
+			return;
+		}
+	}
+	else
+	{
+		hr = weaponSprite->LoadTextureWIC(weaponComponent->GetCurrentWeapon()->GetIconPath());
+		if (FAILED(hr))
+		{
+			Debug::LogHResult(hr, "Weapon Tried to load texture using path: %s but the loader returned failure.", weaponComponent->GetCurrentWeapon()->GetIconPath().c_str());
+			return;
+		}
+	}
 }

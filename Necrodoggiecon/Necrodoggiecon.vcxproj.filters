@@ -32,6 +32,7 @@
     <ClCompile Include="Weapons\Pickup.cpp" />
     <ClCompile Include="Weapons\Pickup\InvisibilityScroll.cpp" />
     <ClCompile Include="Weapons\Pickup\ShieldScroll.cpp" />
+    <ClCompile Include="LevelCompleteMenu.cpp" />
     <ClCompile Include="Game\AI\State.cpp" />
     <ClCompile Include="Game\AI\CAIController.cpp" />
     <ClCompile Include="Game\SoundManager.cpp" />
@@ -42,6 +43,10 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Game\DialogueUI.cpp" />
     <ClCompile Include="Game\DialogueHandler.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
+    <ClCompile Include="SettingsMenu.cpp" />
+    <ClCompile Include="LevelSelectMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -128,6 +133,9 @@
     <ClInclude Include="Game\DialogueUI.h" />
     <ClInclude Include="Game\DialogueHandler.h" />
     <ClInclude Include="Game\Dialogue.h" />
+    <ClInclude Include="PauseMenu.h" />
+    <ClInclude Include="SettingsMenu.h" />
+    <ClInclude Include="LevelSelectMenu.h" />
     <ClInclude Include="Weapons\Ranged\Fireball.h" />
     <ClInclude Include="Weapons\Ranged\MagicMissile.h" />
     <ClInclude Include="HomingProjectile.h" />
@@ -135,6 +143,7 @@
     <ClInclude Include="Weapons\Pickup.h" />
     <ClInclude Include="Weapons\Pickup\InvisibilityScroll.h" />
     <ClInclude Include="Weapons\Pickup\ShieldScroll.h" />
+    <ClInclude Include="LevelCompleteMenu.h" />
     <ClInclude Include="Game\AI\State.h" />
     <ClInclude Include="Game\AI\CAIController.h" />
     <ClInclude Include="Game\SoundManager.h" />

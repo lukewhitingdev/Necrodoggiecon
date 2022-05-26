@@ -2,7 +2,7 @@
  * \file   Dagger.h
  * \brief  Sub-Class for the Dagger weapon.
  * 
- * \author b016147i
+ * \author Ben Brown
  * \date   May 2022
  *********************************************************************/
 

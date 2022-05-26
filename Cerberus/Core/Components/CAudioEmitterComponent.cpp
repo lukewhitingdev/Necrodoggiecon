@@ -1,10 +1,3 @@
-/*****************************************************************//**
- * \file   CAudioEmitterComponent.cpp
- * \brief  Allows a entity to emit audio.
- * 
- * \author Luke Whiting
- * \date   Jan 2021
- *********************************************************************/
 #include "CAudioEmitterComponent.h"
 #include "Cerberus\Core\CEntity.h"
 
@@ -125,6 +118,28 @@ void CAudioEmitterComponent::Play()
 	if (emitter->audio != nullptr)
 	{
 		if(!AudioController::PlayAudio(emitter->audio->path))
+		{
+			Debug::LogError("An error occured whils trying to play audio on a emitter, see error above.");
+			return;
+		}
+	}
+	else
+	{
+		Debug::LogError("Tried to play audio on a emitter without having a loaded audio. This is not allowed.");
+		return;
+	}
+}
+
+/**
+ * Plays the audio emitter with a option of looping the audio.
+ * 
+ * \param loop
+ */
+void CAudioEmitterComponent::Play(bool loop)
+{
+	if (emitter->audio != nullptr)
+	{
+		if (!AudioController::PlayAudio(emitter->audio->path, loop))
 		{
 			Debug::LogError("An error occured whils trying to play audio on a emitter, see error above.");
 			return;

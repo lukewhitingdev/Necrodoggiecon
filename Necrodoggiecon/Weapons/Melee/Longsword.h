@@ -20,3 +20,4 @@ private:
 	std::vector<CEntity*> GetPlayersInReach(Vector3 actorPos, Vector3 damagePos);
 };
 
+

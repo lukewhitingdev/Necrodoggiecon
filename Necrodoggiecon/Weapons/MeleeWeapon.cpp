@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   MeleeWeapon.cpp
+ * \brief  Base Melee Weapon class that all Sub-Classes of melee weapons inherit from.
+ * 
+ * \author Ben Brown
+ * \date   May 2022
+ *********************************************************************/
+
 #include "MeleeWeapon.h"
 #include "Necrodoggiecon\Game\PlayerCharacter.h"
 #include "Necrodoggiecon\Game\AI\CAIController.h"
@@ -10,6 +18,13 @@ MeleeWeapon::~MeleeWeapon()
 {
 }
 
+
+/**
+ * Virtual OnFire function, overridden if the weapon has any unique firing logic.
+ * 
+ * \param actorPos Position of the actor using OnFire.
+ * \param attackDir Direction vector of the attack.
+ */
 bool MeleeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	if (Weapon::GetCanFire())
@@ -24,12 +39,12 @@ bool MeleeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 }
 
 /**
- * Basic function to handle Melee.
+ * Basic function to handle Melee using damage position offset based on the range of the weapon.
  *
  * \param actorPos Position of the actor that is using the function
  * \param normAttackDir Normalized direction of attack
  */
-void MeleeWeapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir) // BB
+void MeleeWeapon::HandleMelee(Vector3 actorPos, Vector3 normAttackDir)
 {
 	Vector3 damagePos = actorPos + normAttackDir * Weapon::GetRange();
 

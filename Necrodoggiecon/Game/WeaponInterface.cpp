@@ -10,6 +10,12 @@ WeaponInterface::~WeaponInterface()
 {
 }
 
+/**
+ * OnFire Function calls CurrentWeapon OnFire, this OnFire is overidden through virtual functions in the Sub-Classes.
+ * 
+ * \param actorPos
+ * \param attackDir
+ */
 bool WeaponInterface::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	return currentWeapon->OnFire(actorPos, attackDir);
@@ -17,7 +23,6 @@ bool WeaponInterface::OnFire(Vector3 actorPos, Vector3 attackDir)
 
 void WeaponInterface::Update(float deltaTime)
 {
-	
 	currentWeapon->Update(deltaTime);
 }
 
@@ -25,6 +30,11 @@ void WeaponInterface::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& paren
 {
 }
 
+/**
+ * Function to delete previous weapon from memory and set in use weapon.
+ * 
+ * \param weapon
+ */
 void WeaponInterface::SetWeapon(Weapon* weapon)
 {
 	delete this->currentWeapon;
@@ -40,6 +50,11 @@ void WeaponInterface::SetWeapon(Weapon* weapon)
 	}
 }
 
+/**
+ * Sets type of user using the weapon.
+ * 
+ * \param userType
+ */
 void WeaponInterface::SetUserType(USERTYPE userType)
 {
 	this->userType = userType;

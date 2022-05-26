@@ -11,6 +11,12 @@ Longsword::~Longsword()
 {
 }
 
+/**
+ * Virtual override OnFire containing unique sweeping logic.
+ * 
+ * \param actorPos
+ * \param attackDir
+ */
 bool Longsword::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	auto normAttackDir = attackDir.Normalize();

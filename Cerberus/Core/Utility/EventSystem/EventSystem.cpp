@@ -1,14 +1,13 @@
-/*****************************************************************//**
- * \file   EventSystem.cpp
- * \brief  A generic event system to allow for code to exectute across the engine without direct references.
- * 
- * \author Luke Whiting
- * \date   Jan 2022
- *********************************************************************/
 #include "EventSystem.h"
 
 std::map<std::string, std::vector<std::function<void()>>> EventSystem::events;
 
+/**
+ * Adds a listener to a specific event ID.
+ * 
+ * \param eventID eventID that will trigger this event
+ * \param functionToAdd function that will be triggered when the event is called.
+ */
 void EventSystem::AddListener(std::string eventID, std::function<void()> functionToAdd)
 {
 	// Check if the event doesnt exist.
@@ -21,6 +20,11 @@ void EventSystem::AddListener(std::string eventID, std::function<void()> functio
 	events.at(eventID).push_back(functionToAdd);		// Add the callback function to our list of listeners for the event.
 }
 
+/**
+ * Triggers the event of specified ID.
+ * 
+ * \param eventID eventID of the specific event that is triggered.
+ */
 void EventSystem::TriggerEvent(std::string eventID)
 {
 	// Check if the event exists.
