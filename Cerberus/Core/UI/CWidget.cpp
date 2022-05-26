@@ -8,6 +8,7 @@
  *********************************************************************/
 CWidget::CWidget()
 {
+	SetIsUI(true);
 	SetShouldUpdate(false);
 	parentWidget = nullptr;
 
