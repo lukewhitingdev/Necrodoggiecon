@@ -6,10 +6,11 @@
 
 #include "Cerberus\WorldConstants.h"
 
-#include "Cerberus\Dependencies\NlohmannJson\json.hpp"
+
 #include "Necrodoggiecon/Game/AI/AlarmEnemy.h"
 #include "Necrodoggiecon/Game/AI/GruntEnemy.h"
 #include "Necrodoggiecon/Game/AI/DogEnemy.h"
+#include "Cerberus\Dependencies\NlohmannJson\json.hpp"
 
 using json = nlohmann::json;
 
@@ -22,12 +23,20 @@ public:
 
 	int GetMapSlot() { return mapSlot; }
 
+	
+
 	virtual void LoadWorld(int Slot);
 	 
 	//Extendable function, primarily used to setup unique level specific requirements, one of these things would be the editor peripheral
 	virtual void SetupWorld();
 
 	virtual void UnloadWorld();
+
+	
+
+	virtual void ReloadWorld();
+
+	virtual void DestroyWorld();
 
 	
 
@@ -46,23 +55,27 @@ public:
 
 	 void BuildNavigationGrid();
 
-protected:
-
-	
-
-
-
-
-	
-
-
-
+	 void AddEntityToList(class CEntity* NewEntity) { EntityList.push_back(NewEntity); }
 
 protected:
 
 	
 
-	int mapSize = mapScale * mapScale;
+	virtual void LoadEntities(int Slot);
+
+
+
+	
+
+
+
+
+protected:
+
+	
+
+	int mapSize = 
+		mapScale * mapScale;
 
 
 	
@@ -90,13 +103,17 @@ protected:
 	 Vector3 IndexToGrid(int ID);
 	 int GridToIndex(Vector2 Position);
 
+	 
+
 	 //The slot that the current map is tied to.
 	 int mapSlot;
 
-
+	 std::vector<CEntity*> EntityList;
 
 
 	Vector2 StartPos;
+
+
 
 };
 

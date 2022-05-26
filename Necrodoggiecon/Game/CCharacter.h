@@ -11,6 +11,9 @@ protected:
 	bool visible = true;
 	float health = 1.0f;
 	WeaponInterface* weaponComponent = nullptr;
+	CSpriteComponent* weaponSprite = nullptr;
+
+	void UpdateWeaponSpritePosition(CSpriteComponent* wSprite);
 
 	void AddMovement(XMFLOAT2 vel, float deltaTime);
 
@@ -26,6 +29,10 @@ public:
 
 	CCharacter();
 	virtual ~CCharacter();
+
+	void EquipWeapon(Weapon* weapon);
+
+	void UpdateWeaponSprite();
 
 	void SetHealth(float heal);
 	float GetHealth();

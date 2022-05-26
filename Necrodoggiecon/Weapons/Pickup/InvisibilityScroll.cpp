@@ -2,7 +2,7 @@
 
 InvisibilityScroll::InvisibilityScroll()
 {
-	Weapon::SetWeapon("InvisibilityScroll");
+	Weapon::SetWeapon(9);
 }
 
 InvisibilityScroll::~InvisibilityScroll()

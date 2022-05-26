@@ -187,6 +187,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\AudioEmitterEntity.cpp" />
+    <ClCompile Include="CWorld_Menu.cpp" />
     <ClCompile Include="Game\AI\CAIController.cpp" />
     <ClCompile Include="Game\AI\State.cpp" />
     <ClCompile Include="HomingProjectile.cpp" />
@@ -217,6 +218,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\PlayerController.cpp" />
     <ClCompile Include="Game\TestUI.cpp" />
     <ClCompile Include="Game\weapons.cpp" />
+    <ClCompile Include="Game\LevelTransporter.cpp" />
     <ClCompile Include="LevelSelectMenu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game\WeaponInterface.cpp" />
@@ -249,6 +251,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="weaponUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CWorld_Menu.h" />
     <ClInclude Include="Game\Dialogue.h" />
     <ClInclude Include="Game\DialogueHandler.h" />
     <ClInclude Include="Game\DialogueUI.h" />
@@ -269,6 +272,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Weapons.json" />
+    <ClInclude Include="Game\LevelTransporter.h" />
     <ClInclude Include="LevelSelectMenu.h" />
     <ClInclude Include="Game\WeaponInterface.h" />
     <ClInclude Include="Game\WeaponPickup.h" />

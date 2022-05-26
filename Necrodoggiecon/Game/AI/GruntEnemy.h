@@ -26,6 +26,8 @@ protected:
     virtual void OnDeath() override;
     virtual void OnHit(const std::string& hitSound) override;
 
+    virtual void Update(float deltaTime) override;
+
     void UpdateWeaponSprite();
 
 private:

@@ -575,6 +575,13 @@ void CAIController::ApplyDamage(float damageAmount, const std::string& hitAudioP
 {
 	OnHit(hitAudioPath);
 	ApplyDamage(damageAmount);
+		if (isBoss == true)
+		{
+			// DROP SCROLL HERE
+		}
+		Engine::DestroyEntity(this);
+	}
+		
 }
 
 /**
@@ -714,4 +721,14 @@ void CAIController::SetSpriteSize(float size)
 float CAIController::GetSpriteSize()
 {
 	return spriteSize;
+}
+
+void CAIController::SetIsBoss(bool boss)
+{
+	isBoss = boss;
+}
+
+bool CAIController::GetIsBoss()
+{
+	return isBoss;
 }

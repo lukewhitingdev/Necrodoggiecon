@@ -13,6 +13,10 @@
 #include <Cerberus/Core/Structs/CCamera.h>
 #include "Cerberus/WorldConstants.h"
 #include "Game/SoundManager.h"
+#include "Necrodoggiecon/Weapons/Ranged/MagicMissile.h"
+#include "Necrodoggiecon/Weapons/Ranged/Fireball.h"
+#include "Necrodoggiecon/PauseMenu.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
 
 
 
@@ -24,6 +28,7 @@
  */
 CWorld_Game::CWorld_Game(int Slot)
 {
+	mapSlot = Slot;
 	LoadWorld(Slot);
 }
 
@@ -31,7 +36,23 @@ CWorld_Game::CWorld_Game(int Slot)
 void CWorld_Game::SetupWorld()
 {
 	PlayerController* controller = Engine::CreateEntity<PlayerController>();
+
 	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
+	//EntityList.push_back(character1);
+	EntityList.push_back(controller);
+
+	// Locked Camera follows player.
+	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>(NAME_OF(spriteComponentLegs));
+	lockedCameraComponent->SetAttachedToParent(true);
+
+
+
+	CameraManager::AddCamera(lockedCameraComponent);
+
+	CameraManager::SetRenderingCamera(lockedCameraComponent);
+
+
+	CUIManager::AddCanvas(Engine::CreateEntity<PauseMenu>(), "PauseMenu");
 
 	controller->charOne = character1;
 
@@ -42,6 +63,38 @@ void CWorld_Game::SetupWorld()
 
 	//Please stop configuring stuff in here instead of in the class constructor - Lets not spread configuration to many different places in the project!
 
+	LoadEnemyUnits(mapSlot);
+
+	
+
+}
+
+void CWorld_Game::UnloadWorld()
+{
+	for (int i = 0; i < EntityList.size(); i++)
+	{
+		if (EntityList[i] != nullptr)
+		{
+			Engine::DestroyEntity(EntityList[i]);
+		}
+	}
+}
+
+void CWorld_Game::ReloadWorld()
+{
+	for (int i = 0; i < EntityList.size(); i++)
+	{
+		if (EntityList[i] != nullptr)
+		{
+			Engine::DestroyEntity(EntityList[i]);
+		}
+	}
+	SetupWorld();
+	LoadEnemyUnits(mapSlot);
+}
+
+void CWorld_Game::LoadEnemyUnits(int Slot)
+{
 	std::string fileName = "Resources/Levels/Level_" + std::to_string(mapSlot);
 	fileName += ".json";
 
@@ -61,7 +114,7 @@ void CWorld_Game::SetupWorld()
 		int EnemyX = storedFile["Enemy"][i]["Position"]["X"];
 		int EnemyY = storedFile["Enemy"][i]["Position"]["Y"];
 		Vector3 position = Vector3{ (float)EnemyX, (float)EnemyY, 0.0f };
-
+		int WeaponID = storedFile["Enemy"][i]["WeaponIndex"];
 		CAIController* enemy = nullptr;
 
 		switch (EnemyID)
@@ -76,19 +129,44 @@ void CWorld_Game::SetupWorld()
 		{
 			enemy = Engine::CreateEntity<GruntEnemy>();
 			enemy->SetPosition(position);
+			
+			switch (WeaponID)
+			{
+			case 0:
+				enemy->EquipWeapon(new Dagger());
+				break;
+			case 1:
+				enemy->EquipWeapon(new Rapier());
+				break;
+			case 2:
+				enemy->EquipWeapon(new Longsword());
+				break;
+			case 3:
+				enemy->EquipWeapon(new Crossbow());
+				break;
+			case 4:
+				enemy->EquipWeapon(new MagicMissile());
+				break;
+			case 5: 
+				enemy->EquipWeapon(new Fireball());
+				break;
+
+			}
+			
 			break;
 		}
 		default:
 			enemy = Engine::CreateEntity<CAIController>();
 			break;
 		}
+		EntityList.push_back(enemy);
 
 		int waypointlist = storedFile["Enemy"][i]["WaypointList"];
 		for (int y = 0; y < waypointlist; y++)
 		{
 			int waypointx = storedFile["Enemy"][i]["Waypoints"][y]["X"];
 			int waypointy = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
-			Vector3 patrolPosition = Vector3{ (float)waypointx * mapScale * tileScaleMultiplier, (float)waypointy * mapScale * tileScaleMultiplier, 0.0f };
+			Vector3 patrolPosition = Vector3{ (float)waypointx * (tileScale * tileScaleMultiplier), (float)waypointy * (tileScale * tileScaleMultiplier), 0.0f };
 			PatrolNode* patrol = new PatrolNode(patrolPosition);
 			patrolNodes.push_back(patrol);
 		}
@@ -102,7 +180,7 @@ void CWorld_Game::SetupWorld()
 			}
 			else
 			{
-				patrolNodes[patrolIndex]->nextPatrolNode = patrolNodes[patrolIndex+1];
+				patrolNodes[patrolIndex]->nextPatrolNode = patrolNodes[patrolIndex + 1];
 			}
 		}
 		Vector3 enemyPos = enemy->GetPosition();
@@ -119,4 +197,9 @@ void CWorld_Game::SetupWorld()
 		SoundManager::PlayMusic("Resources/Game/Audio/BGM.wav", character1);
 	}
 	
+}
+
+void CWorld_Game::LoadEntities(int Slot)
+{
+
 }

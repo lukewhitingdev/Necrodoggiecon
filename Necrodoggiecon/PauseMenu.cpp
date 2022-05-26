@@ -16,6 +16,7 @@
 #include "SettingsMenu.h"
 #include "LevelCompleteMenu.h"
 #include "Game/SoundManager.h"
+#include "Necrodoggiecon/CWorld_Menu.h"
 
 PauseMenu::PauseMenu()
 {
@@ -102,7 +103,7 @@ void PauseMenu::QuitToMenu()
 {
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("quit to menu");
-	CWorldManager::LoadWorld(new CWorld_Game(0));
+	CWorldManager::LoadWorld(new CWorld_Menu());
 }
 /**
  * closes game.
