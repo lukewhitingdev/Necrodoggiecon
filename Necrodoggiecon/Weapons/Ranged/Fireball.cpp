@@ -11,7 +11,7 @@
 Fireball::Fireball()
 {
 	Weapon::SetWeapon(5);
-	RangeWeapon::SetProjectileSpeed(8.0f);
+	RangeWeapon::SetProjectileSpeed(4.0f);
 }
 
 Fireball::~Fireball()

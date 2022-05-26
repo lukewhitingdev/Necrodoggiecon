@@ -20,6 +20,9 @@ public:
 
     void RemoveAllChildren();
 
+
+     void UpdateWidgetOrigin(Vector3 Pos);
+
 private: 
     CWidget* parentWidget;
 
