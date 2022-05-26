@@ -80,8 +80,6 @@ void GruntEnemy::Update(float deltaTime)
 
 	Weapon* weapon = weaponComponent->GetCurrentWeapon();
 
-	//Debug::Log("%d", weaponSprite->GetTextureOffset().x);
-
 	// Set crossbow animation to empty bow when we cant fire or out of ammo.
 	if (weapon->GetName() == "Crossbow")
 	{
@@ -101,6 +99,8 @@ void GruntEnemy::Update(float deltaTime)
 		weaponSprite->SetPosition(weaponSprite->GetPosition().x, weaponSprite->GetPosition().y - 10, weaponSprite->GetPosition().z);
 		animating = false;
 	}
+
+
 	CAIController::Update(deltaTime);
 }
 
