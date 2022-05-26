@@ -61,6 +61,8 @@ void MainMenu::InitialiseCanvas()
 
 	CUIManager::AddCanvas(Engine::CreateEntity<SettingsMenu>(), "SettingsMenu");
 	CUIManager::AddCanvas(Engine::CreateEntity<LevelSelectMenu>(), "LevelSelectMenu");
+
+	Engine::paused = false;
 }
 
 /**
