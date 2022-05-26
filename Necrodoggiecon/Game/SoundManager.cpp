@@ -56,8 +56,8 @@ void SoundManager::PlayMusic(const std::string& musicPath, CEntity* attachedEnti
 {
 	if (musicAudioEmitter == nullptr)
 		musicAudioEmitter = Engine::CreateEntity<AudioEmitterEntity>();
-
-	musicAudioEmitter->SetAttachedEntity(attachedEntity);
+	if(attachedEntity != nullptr)
+		musicAudioEmitter->SetAttachedEntity(attachedEntity);
 	musicAudioEmitter->Stop();
 	musicAudioEmitter->Load(musicPath, false);
 	musicAudioEmitter->SetRange(FLT_MAX);
