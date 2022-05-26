@@ -40,7 +40,7 @@ public:
 	 * Removes the input component to the internal containers based on translucency boolean in CComponent.
 	 * Note: does NOT delete the component.
 	 */
-	static void RemoveComponent(const class CComponent* compToRemove);
+	static bool RemoveComponent(const class CComponent* compToRemove);
 
 	/**
 	 * Sorts the translucent components container ready for drawing.

@@ -30,13 +30,15 @@ void EntityManager::AddComponent(CComponent* compToAdd)
 		opaqueComps.push_back(compToAdd);
 }
 
-void EntityManager::RemoveComponent(const CComponent* compToRemove)
+bool EntityManager::RemoveComponent(const CComponent* compToRemove)
 {
+	bool succeeded = false;
 	if (compToRemove->GetUseTranslucency())
 	{
 		auto iterator = std::find(translucentComps.begin(), translucentComps.end(), compToRemove);
 
-		if (iterator != translucentComps.end())
+		succeeded |= iterator != translucentComps.end();
+		if (succeeded)
 			translucentComps.erase(iterator);
 		else
 			Debug::LogError("Tried to remove an translucent component that doesnt exist.");
@@ -45,11 +47,14 @@ void EntityManager::RemoveComponent(const CComponent* compToRemove)
 	{
 		auto iterator = std::find(opaqueComps.begin(), opaqueComps.end(), compToRemove);
 
-		if (iterator != opaqueComps.end())
+		succeeded |= iterator != opaqueComps.end();
+		if (succeeded)
 			opaqueComps.erase(iterator);
 		else
 			Debug::LogError("Tried to remove an opaque component that doesnt exist.");
 	}
+
+	return succeeded;
 }
 
 void EntityManager::SortTranslucentComponents()
