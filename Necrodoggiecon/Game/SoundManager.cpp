@@ -77,7 +77,10 @@ void SoundManager::AddSound(const std::string& audioPath, const std::string& aud
 void SoundManager::PlaySound(const std::string& audioName, Vector3 position)
 {
 	if (audioEmitterMap.find(audioName) == audioEmitterMap.end()) {
-		std::string errorMessage = "Audio with name: " + audioName + " does not exist in audioEmitterMap";
+		std::string name = audioName;
+		std::string errorMessage = "Audio with name: ";
+		errorMessage.append(audioName.c_str());
+		errorMessage.append(" does not exist in audioEmitterMap");
 		Debug::LogError(errorMessage.c_str());
 		return;
 	}
