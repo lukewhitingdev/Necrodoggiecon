@@ -9,12 +9,13 @@ public:
     ~AudioEmitterEntity();
 
     void SetAudio(const std::string& audioPath, float range);
+    void SetAudio(const std::string& audioPath, float range, bool ambient);
     void PlayAudio(Vector3 position);
     void Stop();
     void PlayAudio(const std::string& audioPath);
-    void PlayAudio();
+    void PlayAudio(bool shouldLoop);
     void Load(const std::string& audioPath, bool ambient);
-    bool SetLooping();
+    void SetLooping(bool looping);
     void SetRange(float range);
     void SetAttachedEntity(CEntity* entity) { isAttached = true;  attachedEntity = entity; }
 protected:

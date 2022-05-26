@@ -8,7 +8,7 @@ void SoundManager::Initialise()
 	musicAudioEmitter = Engine::CreateEntity<AudioEmitterEntity>();
 
 	AddSound("Resources/Game/Audio/DeathSound.wav", "DeathSound", 1000.0f);
-	AddSound("Resources/Game/Audio/Footstep.wav", "StepSound", 250.0f);
+	AddSound("Resources/Game/Audio/Footstep.wav", "StepSound", 100);
 	AddSound("Resources/Game/Audio/ShieldHit.wav", "ShieldHit", 1000.0f);
 	AddSound("Resources/Game/Audio/DeactivateInvis.wav", "DeactivateInvis", 1000.0f);
 	AddSound("Resources/Game/Audio/Bell.wav", "Bell", 1000.0f);
@@ -27,10 +27,15 @@ void SoundManager::Initialise()
 	AddSound("Resources/Game/Audio/FireballShoot.wav", "FireballShoot", 1000.0f);
 	AddSound("Resources/Game/Audio/ScrollActivate.wav", "ScrollActivate", 1000.0f);
 	AddSound("Resources/Game/Audio/MagicMissileShoot.wav", "MagicMissileShoot", 1000.0f);
-	AddSound("Resources/Game/Audio/Click.wav", "UIClick", 10000.0f);
+	AddSound("Resources/Game/Audio/Click.wav", "UIClick", FLT_MAX, true);
 }
-
 void SoundManager::AddSound(const std::string& audioPath, const std::string& audioName, float audioRange)
+{
+	AudioEmitterEntity* emitterEntity = Engine::CreateEntity<AudioEmitterEntity>();
+	emitterEntity->SetAudio(audioPath, audioRange);
+	audioEmitterMap.emplace(audioName, emitterEntity);
+}
+void SoundManager::AddSound(const std::string& audioPath, const std::string& audioName, float audioRange, bool ambient)
 {
 	AudioEmitterEntity* emitterEntity = Engine::CreateEntity<AudioEmitterEntity>();
 	emitterEntity->SetAudio(audioPath, audioRange);
@@ -55,6 +60,6 @@ void SoundManager::PlayMusic(const std::string& musicPath, CEntity* attachedEnti
 	musicAudioEmitter->SetAttachedEntity(attachedEntity);
 	musicAudioEmitter->Stop();
 	musicAudioEmitter->Load(musicPath, false);
-	musicAudioEmitter->SetRange(1000000000.0f);
-	musicAudioEmitter->PlayAudio();
+	musicAudioEmitter->SetRange(FLT_MAX);
+	musicAudioEmitter->PlayAudio(true);
 }

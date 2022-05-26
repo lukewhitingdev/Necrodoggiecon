@@ -8,7 +8,11 @@ AudioEmitterEntity::AudioEmitterEntity()
 AudioEmitterEntity::~AudioEmitterEntity()
 {
 }
-
+void AudioEmitterEntity::SetAudio(const std::string& audioPath, float range, bool ambient)
+{
+	audioEmitter->Load(audioPath, ambient);
+	audioEmitter->SetRange(range);
+}
 void AudioEmitterEntity::SetAudio(const std::string& audioPath, float range)
 {
 	audioEmitter->Load(audioPath);
@@ -32,9 +36,9 @@ void AudioEmitterEntity::PlayAudio(const std::string& audioPath)
 	audioEmitter->Play();
 }
 
-void AudioEmitterEntity::PlayAudio()
+void AudioEmitterEntity::PlayAudio(bool shouldLoop)
 {
-	audioEmitter->Play();
+	audioEmitter->Play(shouldLoop);
 }
 
 void AudioEmitterEntity::Load(const std::string& audioPath, bool ambient)
@@ -42,9 +46,8 @@ void AudioEmitterEntity::Load(const std::string& audioPath, bool ambient)
 	audioEmitter->Load(audioPath, ambient);
 }
 
-bool AudioEmitterEntity::SetLooping()
+void AudioEmitterEntity::SetLooping(bool looping)
 {
-	return false;
 }
 
 void AudioEmitterEntity::SetRange(float range)
