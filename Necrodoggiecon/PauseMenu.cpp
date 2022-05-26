@@ -105,6 +105,7 @@ void PauseMenu::QuitToMenu()
 {
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("quit to menu");
+	ResumeGame();
 	CWorldManager::LoadWorld(new CWorld_Menu());
 	SetVisibility(false);
 }

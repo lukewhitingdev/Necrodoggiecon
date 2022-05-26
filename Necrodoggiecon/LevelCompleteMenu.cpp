@@ -73,6 +73,7 @@ void LevelCompleteMenu::QuitToMenu()
 {
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("quit to menu");
+	Engine::paused = false;
 	CWorldManager::LoadWorld(new CWorld_Menu());
 }
 /**
@@ -94,5 +95,6 @@ void LevelCompleteMenu::NextLevel()
 
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("load next level");
+	Engine::paused = false;
 	CWorldManager::LoadWorld(new CWorld_Game(CWorldManager::GetWorld()->GetMapSlot()+1));
 }
