@@ -1,8 +1,19 @@
+/*****************************************************************//**
+ * \file   CT_EditorGrid.cpp
+ * \brief  Editor grid visuals, this class handles rendering for the square grid overlay that goes over the editor tilemap.
+ * 
+ * \author Samuel Elliot Jackson
+ * \date   May 2022
+ *********************************************************************/
 #include "CT_EditorGrid.h"
 #include "Cerberus\Core\Components\CSpriteComponent.h"
 #include "Cerberus\Core\Environment/CGridCursor.h"
 #include "Cerberus/Core/Components/CCameraComponent.h"
 
+/**
+ * Standard constructor for the Editor Grid.
+ * 
+ */
 CT_EditorGrid::CT_EditorGrid()
 {
 	gridSprite = AddComponent<CSpriteComponent>(NAME_OF(gridSprite));
@@ -10,11 +21,21 @@ CT_EditorGrid::CT_EditorGrid()
 	
 }
 
+/**
+ * Standard update function, inherited from CEntity.
+ *
+ * \param deltaTime Time taken betweeen frames.
+ */
 void CT_EditorGrid::Update(float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);
 
 }
+/**
+ * Sets up the grid to the correct scale.
+ * 
+ * \param cam
+ */
 
 void CT_EditorGrid::SetupGrid(CCameraComponent* cam)
 {
@@ -39,7 +60,10 @@ void CT_EditorGrid::SetupGrid(CCameraComponent* cam)
 	
 
 }
-
+/**
+ * Default Destructor, trigers grid cursor destruction.
+ * 
+ */
 CT_EditorGrid::~CT_EditorGrid()
 {
 	Engine::DestroyEntity(cursorEntity);
