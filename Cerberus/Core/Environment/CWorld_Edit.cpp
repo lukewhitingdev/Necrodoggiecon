@@ -223,6 +223,10 @@ void CWorld_Editable::LoadWorld(int Slot)
 	
 }
 
+/**
+ * Vrtual function, Unloads the entities assigned to the world. DEPRECATED
+ * 
+ */
 void CWorld_Editable::UnloadWorld()
 {
 	for (int i = 0; i < editorEntityList.size(); i++)
@@ -232,6 +236,11 @@ void CWorld_Editable::UnloadWorld()
 
 	delete(editorViewport);
 }
+
+/**
+ * Sets up the world, instantiates the Editor Windows.
+ * 
+ */
  void CWorld_Editable::SetupWorld()
 {
 	 editorViewport = new CT_EditorMain();
@@ -240,7 +249,11 @@ void CWorld_Editable::UnloadWorld()
 }
 
 
-
+ /**
+  * Saves all active world data to the coresponding world slot as a JSON.
+  * 
+  * \param Slot
+  */
 void CWorld_Editable::SaveWorld(int Slot)
 {
 	UNREFERENCED_PARAMETER(Slot);
@@ -365,6 +378,13 @@ void CWorld_Editable::SaveWorld(int Slot)
 
 }
 
+/**
+ * Edit the world through code. was deprecated on completing the editor.
+ * 
+ * \param Slot
+ */
+
+
 void CWorld_Editable::EditWorld(int Slot)
 {
 	UNREFERENCED_PARAMETER(Slot);
@@ -373,6 +393,11 @@ void CWorld_Editable::EditWorld(int Slot)
 
 }
 
+/**
+ * Generates a new world from scratch.
+ * 
+ * \param Slot
+ */
 void CWorld_Editable::NewWorld(int Slot)
 {
 	UNREFERENCED_PARAMETER(Slot);
@@ -403,7 +428,11 @@ void CWorld_Editable::NewWorld(int Slot)
 
 }
 
-
+/**
+ * Sets the operation mode and outputs the mode to debug console.
+ * 
+ * \param mode the new edit operation mode.
+ */
 void CWorld_Editable::SetOperationMode(EditOperationMode mode)
 {
 	operationType = mode;
@@ -427,6 +456,11 @@ void CWorld_Editable::SetOperationMode(EditOperationMode mode)
 	}
 }
 
+/**
+ * Queues an edit operation to a cell. Single cell operations skip the queue and are triggered instantly.
+ * 
+ * \param Cell The Position to queue.
+ */
 void CWorld_Editable::QueueCell(Vector2 Cell)
 {
 	//operationType == EditOperationMode::Additive_Single || operationType == EditOperationMode::Subtractive_Single || operationType == EditOperationMode::EnemyEntity || operationType == EditOperationMode::Waypoints ||
@@ -457,6 +491,10 @@ void CWorld_Editable::QueueCell(Vector2 Cell)
 
 }
 
+/**
+ * clears the current Cell queue. called by pressing C in the editor
+ * 
+ */
 void CWorld_Editable::ClearQueue()
 {
 	
@@ -464,6 +502,12 @@ void CWorld_Editable::ClearQueue()
 	selectedCell = false;
 }
 
+/**
+ * Performs the active Edit Operation.
+ * 
+ * \param A Position 1
+ * \param B Position 2
+ */
 void CWorld_Editable::PerformOperation(Vector2 A, Vector2 B)
 {
 
@@ -503,13 +547,21 @@ void CWorld_Editable::PerformOperation(Vector2 A, Vector2 B)
 	GenerateTileMap();
 }
 
+/**
+ * An operation that clears the grid tiles.
+ * 
+ */
 void CWorld_Editable::PerformOperation_ClearSpace()
 {
 	ClearSpace();
 	GenerateTileMap();
 }
 
-
+/**
+ * Toggles the debug viewer that displays the walkable vs unwalkable spaces as white / Black respectively.
+ * 
+ * \param isDebug
+ */
 void CWorld_Editable::ToggleDebugMode(bool isDebug)
 {
 	for (int i = 0; i < mapScale * mapScale; i++)
@@ -518,6 +570,10 @@ void CWorld_Editable::ToggleDebugMode(bool isDebug)
 	}
 }
 
+/**
+ * calls the IMGui editor windows to render.
+ * 
+ */
 void CWorld_Editable::UpdateEditorViewport()
 {
 	if (editorViewport) editorViewport->RenderWindows();
@@ -527,8 +583,10 @@ void CWorld_Editable::UpdateEditorViewport()
 
 
 
-
-
+/**
+ * Clears the entire tile grid and resets all to unwalkable.
+ * 
+ */
 void CWorld_Editable::ClearSpace()
 {
 	for (int i = 0; i < mapScale * mapScale; i++)
@@ -536,13 +594,22 @@ void CWorld_Editable::ClearSpace()
 		tileData[i].id = 0;
 	}
 }
+/**
+ * Adds a unwalkable cell at position.
+ * 
+ * \param A
+ */
 void CWorld_Editable::Additive_Cell(Vector2 A)
 {
 	int Index = (A.x) + (((int)A.y) * mapScale);
 	tileData[Index].id = 0;
 
 }
-
+/**
+ * Adds a walkable cell at position.
+ * 
+ * \param A
+ */
 void CWorld_Editable::Subtractive_Cell(Vector2 A)
 {
 	int Index = (A.x) + (((int)A.y) * mapScale);
@@ -551,28 +618,57 @@ void CWorld_Editable::Subtractive_Cell(Vector2 A)
 }
 
 
-
+/**
+ * Creates a rectangular space of unwalkable tiles. Uses A/B to generate the box.
+ * 
+ * \param A Position start
+ * \param B Position End
+ */
 void CWorld_Editable::AdditiveBox(Vector2 A, Vector2 B)
 {
 	BoxOperation(A, B, 0);
 }
-
+/**
+ * Creates a rectangular space of walkable tiles. Uses A/B to generate the box.
+ *
+ * \param A Position start
+ * \param B Position End
+ */
 void CWorld_Editable::SubtractiveBox(Vector2 A, Vector2 B)
 {
 	BoxOperation(A, B, 1);
 	
 }
 
+/**
+ * Creates a rectangular space of unwalkable tiles. Uses A/B to generate the box.
+ *
+ * \param A Position start
+ * \param B Position End
+ */
 void CWorld_Editable::AdditiveBox_Scale(Vector2 A, Vector2 B)
 {
 	BoxOperation(A, B + A, 0);
 }
 
+/**
+ * Creates a rectangular space of walkable tiles. Uses A/B to generate the box.
+ *
+ * \param A Position start
+ * \param B Position End
+ */
 void CWorld_Editable::SubtractiveBox_Scale(Vector2 A, Vector2 B)
 {
 	BoxOperation(A, A + B, 1);
 }
 
+/**
+ * PErforms the box operation.
+ * 
+ * \param A Start Position.
+ * \param B End Position.
+ * \param TileID TileID to set.
+ */
 void CWorld_Editable::BoxOperation(Vector2 A, Vector2 B, int TileID)
 {
 	Vector2 dimensions = B - A;
@@ -613,7 +709,10 @@ void CWorld_Editable::BoxOperation(Vector2 A, Vector2 B, int TileID)
 
 }
 
-
+/**
+ * Generates the tilemap visuals. Automatically assigns tile IDs based on walkable / Unwalkable spaces.
+ * 
+ */
 void CWorld_Editable::GenerateTileMap()
 {
 	//Initialises the standard tile distribution between floors, Edges and empty
@@ -770,6 +869,12 @@ void CWorld_Editable::GenerateTileMap()
 
 }
 
+/**
+ * Is the provided position in the grid adjacent to a floor cell.
+ * 
+ * \param Position Position within grid.
+ * \return returns true if adjacent to floor.
+ */
 bool CWorld_Editable::IsFloorAdjacent(Vector2 Position)
 {
 	if (Position.x > 1 && Position.y > 1 && Position.x < mapScale - 1 && Position.y < mapScale - 1)
@@ -787,7 +892,13 @@ bool CWorld_Editable::IsFloorAdjacent(Vector2 Position)
 	else return false;
 }
 
-
+/**
+ * Gets the total amount of cells of a specific type that the provided grid position is adjacent to.
+ * 
+ * \param Pos Position in grid.
+ * \param AdjacentType Type to check for.
+ * \return returns total adjacents of type.
+ */
 int CWorld_Editable::GetTotalAdjacentsOfType(Vector2 Pos, CellType AdjacentType)
 {
 	int Total = 0;
@@ -798,6 +909,13 @@ int CWorld_Editable::GetTotalAdjacentsOfType(Vector2 Pos, CellType AdjacentType)
 	return Total;
 }
 
+/**
+ * Finds the direction of adjacent tiles based on matching ID.
+ * 
+ * \param Pos Position in grid
+ * \param ID ID to look for
+ * \return returns a vector direction, 1 is adjacent positive, -1 is adjacent negative and 2 is both sides are adjacent.
+ */
 Vector2 CWorld_Editable::FindAdjacents(Vector2 Pos, CellType ID)
 {
 
@@ -832,6 +950,12 @@ Vector2 CWorld_Editable::FindAdjacents(Vector2 Pos, CellType ID)
 	return Vector2((float)X, (float)Y);
 }
 
+/**
+ * Finds the adjacent walls and returns the adjacent directions.
+ * 
+ * \param Pos Position in grid
+ * \return returns a vector direction, 1 is adjacent positive, -1 is adjacent negative and 2 is both sides are adjacent.
+ */
 Vector2 CWorld_Editable::FindAdjacentEdges(Vector2 Pos)
 {
 
@@ -876,6 +1000,12 @@ Vector2 CWorld_Editable::FindAdjacentEdges(Vector2 Pos)
 	return Vector2((float)X, (float)Y);
 }
 
+/**
+ * Finds floor adjacents but diagonally.
+ * 
+ * \param Position
+ * \return 
+ */
 Vector2 CWorld_Editable::FindFloorAdjacentDiagonal(Vector2 Position)
 {
 	if (IsTile(Position + Vector2(1, 1), CellType::Floor)) return Vector2(1, 1);
@@ -885,6 +1015,12 @@ Vector2 CWorld_Editable::FindFloorAdjacentDiagonal(Vector2 Position)
 	else return Vector2(0, 0);
 }
 
+/**
+ * Checks if an entity already occupies a cell.
+ * 
+ * \param Pos Position in grid
+ * \return returns true if a Entity occupies the tile, false if not.
+ */
 bool CWorld_Editable::IsTileOccupied(Vector2 Pos)
 {
 	
@@ -897,6 +1033,12 @@ bool CWorld_Editable::IsTileOccupied(Vector2 Pos)
 	return false;
 }
 
+/**
+ * Sets corners to the tile map.
+ * 
+ * \param Position
+ * \return 
+ */
 bool CWorld_Editable::SetCorner(Vector2 Position)
 {
 	if (GetTotalAdjacentsOfType(Position, CellType::Edge) <= 2)
@@ -959,6 +1101,11 @@ bool CWorld_Editable::SetCorner(Vector2 Position)
 	return false;
 }
 
+/**
+ * Returns the inspected entity type.
+ * 
+ * \return Entity Type
+ */
 EditorEntityType CWorld_Editable::GetInspectedItemType()
 {
 	if (inspectedEntity != nullptr)
@@ -968,6 +1115,11 @@ EditorEntityType CWorld_Editable::GetInspectedItemType()
 	else return EditorEntityType::None;
 }
 
+/**
+ * Updates the inspected entity as required.
+ * 
+ * \param MousePos
+ */
 void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 {
 
@@ -997,6 +1149,11 @@ void CWorld_Editable::ShouldInspectEntity(Vector2 MousePos)
 
 }
 
+/**
+ * Moves an entity to a new position. Cannot move an entity to unwalkable space.
+ * 
+ * \param Position Position in grid.
+ */
 void CWorld_Editable::MoveSelectedEntity(Vector3 Position)
 {
 
@@ -1031,6 +1188,10 @@ void CWorld_Editable::MoveSelectedEntity(Vector3 Position)
 	
 }
 
+/**
+ * Removes the selected entity from the grid and any parent.
+ * 
+ */
 void CWorld_Editable::RemoveSelectedEntity()
 {
 	if (inspectedEntity != nullptr && inspectedEntity->GetType() != EditorEntityType::Flag)
@@ -1083,6 +1244,12 @@ void CWorld_Editable::RemoveSelectedEntity()
 ///////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 
+/**
+ * Adds an enemy entity to the grid.
+ * 
+ * \param Position Position in grid
+ * \param Slot Enemy type provided by edit operation.
+ */
 void CWorld_Editable::AddEditorEntity_EnemyCharacter(Vector2 Position, int Slot)
 {
 	if (!IsTileOccupied(Position))
@@ -1102,11 +1269,22 @@ void CWorld_Editable::AddEditorEntity_EnemyCharacter(Vector2 Position, int Slot)
 	
 }
 
+/**
+ * Adds decoration by provided slot. Not implemented, no assets supplied.
+ * 
+ * \param Position
+ * \param Slot
+ */
 void CWorld_Editable::AddEditorEntity_Decoration(Vector2 Position, int Slot)
 {
 
 }
 
+/**
+ * Adds an AI waypoint to the selected enemy entity.
+ * 
+ * \param Position
+ */
 void CWorld_Editable::AddEditorEntity_Waypoint(Vector2 Position)
 {
 	if (!IsTileOccupied(Position))
@@ -1121,6 +1299,11 @@ void CWorld_Editable::AddEditorEntity_Waypoint(Vector2 Position)
 	
 }
 
+/**
+ * Adds a weapon holder to the scene.
+ * 
+ * \param Position Position in grid.
+ */
 void CWorld_Editable::AddEditorEntity_WeaponHolder(Vector2 Position)
 {
 	if (!IsTileOccupied(Position))
