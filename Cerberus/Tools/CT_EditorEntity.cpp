@@ -58,6 +58,11 @@ CT_EditorEntity_Enemy::CT_EditorEntity_Enemy()
 
 }
 
+CT_EditorEntity_Enemy::~CT_EditorEntity_Enemy()
+{
+	
+}
+
 /**
  * Assign weapon to the Entity.
  * 
@@ -70,6 +75,19 @@ void CT_EditorEntity_Enemy::AssignWeapon(char* WeaponID, int Index)
 	 itemIndex = Index; 
 
 	 Debug::Log("WeaponAssigned: %c | %d", WeaponID, Index);
+}
+
+std::vector<class CT_EditorEntity_Waypoint*> CT_EditorEntity_Enemy::GetWaypointList()
+{
+	std::vector<CT_EditorEntity_Waypoint*> ReturnList;
+	for (int i = 0; i < Waypoints.size(); i++)
+	{
+		if (Waypoints[i] != nullptr)
+		{
+			ReturnList.push_back(Waypoints[i]);
+		}
+	}
+	return ReturnList;
 }
 
 

@@ -299,11 +299,11 @@ void CWorld_Editable::SaveWorld(int Slot)
 				}
 				
 			
-				SaveData["Enemy"][i]["WaypointList"] = TempEnemy->Waypoints.size();
+				SaveData["Enemy"][i]["WaypointList"] = TempEnemy->GetWaypointList().size();
 				for (int y = 0; y < TempEnemy->Waypoints.size(); y++)
 				{
-					SaveData["Enemy"][i]["Waypoints"][y]["X"] = TempEnemy->Waypoints[y]->gridPos.x;
-					SaveData["Enemy"][i]["Waypoints"][y]["Y"] = TempEnemy->Waypoints[y]->gridPos.y;
+					SaveData["Enemy"][i]["Waypoints"][y]["X"] = TempEnemy->GetWaypointList()[y]->GetPosition().x / (tileScale * tileScaleMultiplier);
+					SaveData["Enemy"][i]["Waypoints"][y]["Y"] = TempEnemy->GetWaypointList()[y]->GetPosition().y / (tileScale * tileScaleMultiplier);
 				}
 
 				SaveData["Enemy"][i]["Health"] = TempEnemy->GetHealth();
@@ -1037,11 +1037,20 @@ void CWorld_Editable::RemoveSelectedEntity()
 
 		if (bFoundUnit)
 		{
-			editorEntityList.erase(editorEntityList.begin() + Index);
+			if (inspectedEntity->GetType() != EditorEntityType::Waypoint)
+			{
+				Engine::DestroyEntity(inspectedEntity);
 
-			Engine::DestroyEntity(inspectedEntity);
+				editorEntityList.erase(editorEntityList.begin() + Index);
 
-			totalEnemyEntities--;
+				totalEnemyEntities--;
+
+				
+			}
+			else if (inspectedEntity->GetType() == EditorEntityType::Waypoint)
+			{
+				
+			}
 		}
 
 	}

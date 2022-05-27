@@ -81,11 +81,13 @@ protected:
     // class CSpriteComponent* sprite = nullptr;
 
 
-
+   class CT_EditorEntity_Enemy* parent;
 
 
 public:
 
+    void SetParent(CT_EditorEntity_Enemy* newParent) { parent = newParent; }
+    CT_EditorEntity_Enemy* GetParent() { return parent; }
     Vector2 GetGridPos();
 
     CT_EditorEntity_Waypoint();
@@ -131,6 +133,11 @@ protected:
     bool isBoss = false;
 
 public:
+
+    CT_EditorEntity_Enemy();
+    ~CT_EditorEntity_Enemy();
+
+
     
     float GetHealth() { return health; }
     float GetSpeed() { return speed; }
@@ -155,8 +162,9 @@ public:
     int GetAssignedWeapon() { return itemIndex; }
     void AssignWeapon(char* WeaponID, int Index);
 
-    CT_EditorEntity_Enemy();
+    std::vector<class CT_EditorEntity_Waypoint*> GetWaypointList();
 
+ 
     virtual void Update(float deltaTime) override;
 
 
