@@ -59,7 +59,7 @@ void LevelCompleteMenu::InitialiseCanvas()
 	{
 		std::string NxtLvlName = "Next Level";
 		CWidget_Button* NxtLvl = CreateButton(Vector2(0, 68), Vector2(.5, .5), NxtLvlName, -155);
-		NxtLvl->Bind_OnButtonPressed(std::bind(&LevelCompleteMenu::NextLevel, this));
+		NxtLvl->Bind_OnButtonReleased(std::bind(&LevelCompleteMenu::NextLevel, this));
 		NxtLvl->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 		NxtLvl->SetButtonSize(Vector2(256, 110));
 	}

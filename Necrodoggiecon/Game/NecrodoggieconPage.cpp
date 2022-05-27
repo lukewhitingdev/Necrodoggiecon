@@ -29,7 +29,9 @@ void NecrodoggieconPage::OnInteract()
 void NecrodoggieconPage::OnDialogueClose()
 {
 	//CWorldManager::LoadWorld(new CWorld_Menu());
-	Engine::DestroyEntity(this);
 	CUIManager::GetCanvas("LevelCompleteMenu")->SetVisibility(true);
 	Engine::paused = true;
+	EventSystem::RemoveListener("DialogueClose");
+	Engine::DestroyEntity(this);
+
 }
