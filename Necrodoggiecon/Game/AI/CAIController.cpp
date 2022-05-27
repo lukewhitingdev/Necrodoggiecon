@@ -570,6 +570,12 @@ void CAIController::ApplyDamage(float damageAmount)
 	if (GetHealth() <= 0.0f)
 	{
 		OnDeath();
+		if (isBoss == true)
+		{
+			// DROP SCROLL HERE
+			NecrodoggieconPage* page = Engine::CreateEntity<NecrodoggieconPage>();
+			page->SetPosition(GetPosition());
+		}
 		Engine::DestroyEntity(this);
 	}
 }
@@ -578,12 +584,6 @@ void CAIController::ApplyDamage(float damageAmount, const std::string& hitAudioP
 {
 	OnHit(hitAudioPath);
 	ApplyDamage(damageAmount);
-	if (isBoss == true)
-	{
-		// DROP SCROLL HERE
-		NecrodoggieconPage* page = Engine::CreateEntity<NecrodoggieconPage>();
-		page->SetPosition(GetPosition());
-	}
 }
 
 /**
