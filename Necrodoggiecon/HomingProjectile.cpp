@@ -43,7 +43,7 @@ void HomingProjectile::Update(float deltaTime)
 			}
 			else
 			{
-				Projectile::SetPosition(Projectile::GetPosition() + Projectile::GetDirection() * Projectile::GetSpeed());
+				Projectile::SetPosition(Projectile::GetPosition() + Projectile::GetDirection() * Projectile::GetSpeed() * deltaTime);
 				ProjectileSprite->SetPosition(Projectile::GetPosition());
 			}
 		}
@@ -60,7 +60,7 @@ void HomingProjectile::Update(float deltaTime)
 			}
 			else
 			{
-				Projectile::SetPosition(Projectile::GetPosition() + Projectile::GetDirection() * Projectile::GetSpeed());
+				Projectile::SetPosition(Projectile::GetPosition() + Projectile::GetDirection() * Projectile::GetSpeed() * deltaTime);
 				ProjectileSprite->SetPosition(Projectile::GetPosition());
 			}
 		}

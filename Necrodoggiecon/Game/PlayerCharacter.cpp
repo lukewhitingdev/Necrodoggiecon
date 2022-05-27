@@ -254,7 +254,9 @@ void PlayerCharacter::EquipWeapon(Weapon* weapon)
 {
 	weaponComponent->SetWeapon(weapon);
 	UpdateWeaponSprite();
+	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
 	weaponSprite->SetRenderRect(weaponComponent->GetCurrentWeapon()->GetRenderRect());
+	weaponSprite->SetScale(weaponComponent->GetCurrentWeapon()->GetScale());
 	movementVec = {0,0};
 }
 
