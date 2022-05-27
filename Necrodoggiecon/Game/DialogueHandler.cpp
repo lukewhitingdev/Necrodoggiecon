@@ -88,6 +88,8 @@ void DialogueHandler::LoadDialogue(const std::string& jsonPath, const std::strin
 		SetDialogue(currentDialogue[0]->name, currentDialogue[0]->dialogue);
 
 	curDialogueIndex = 0;
+
+	if(dialogueUI != nullptr)
 	EventSystem::TriggerEvent("DialogueOpen");
 
 }

@@ -6,11 +6,11 @@
 class DialogueHandler : public CEntity
 {
 private:
-	static DialogueUI* dialogueUI;
 	static std::vector<Dialogue*> currentDialogue;
 	static int curDialogueIndex;
 	static bool instantDisplay;
 public:
+	static DialogueUI* dialogueUI;
 	DialogueHandler();
 	~DialogueHandler();
 	static void SetDialogue(const std::string& name,const std::string& dialogue);
