@@ -25,7 +25,7 @@ private:
     void MasterVolumeUp();
     void MasterVolumeDown();
 
-    CWidget_Text* masterVolumeText;
+    CWidget_Text* masterVolumeText = nullptr;
 
     int masterVolume = 100;
 };

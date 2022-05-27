@@ -73,7 +73,10 @@ void SettingsMenu::CloseSettings()
 
 void SettingsMenu::Update(float deltaTime)
 {
-	masterVolumeText->GetText()->SetText(std::to_string(masterVolume));
+	if(masterVolumeText == nullptr)
+	{
+		masterVolumeText->GetText()->SetText(std::to_string(masterVolume));
+	}
 	CWidget_Canvas::Update(deltaTime);
 }
 
