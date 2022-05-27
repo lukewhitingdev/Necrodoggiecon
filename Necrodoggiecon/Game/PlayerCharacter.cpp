@@ -342,9 +342,8 @@ void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime
 
 		visible = false;
 		pickupTimerCallback = std::bind(&PlayerCharacter::InvisibilityCallback, this);
-		spriteComponentBody->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
-		spriteComponentLegs->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
-		
+		spriteComponentBody->SetTint(XMFLOAT4(-0, -0, -0, -0.75f));
+		spriteComponentLegs->SetTint(XMFLOAT4(-0, -0, -0, -0.75f));
 	} 
 	else if (pickupToUse == "ShieldScroll")
 	{
