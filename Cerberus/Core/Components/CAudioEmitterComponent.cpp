@@ -1,5 +1,6 @@
 #include "CAudioEmitterComponent.h"
 #include "Cerberus\Core\CEntity.h"
+#include <Core/Utility/EventSystem/EventSystem.h>
 
 CAudioEmitterComponent::CAudioEmitterComponent()
 {
@@ -126,6 +127,8 @@ void CAudioEmitterComponent::Play()
 			Debug::LogError("An error occured whils trying to play audio on a emitter, see error above.");
 			return;
 		}
+		if (emitter->type != EMITTERTYPE::AMBIENT)
+			EventSystem::TriggerEvent("soundPlayed");
 	}
 	else
 	{
@@ -148,6 +151,9 @@ void CAudioEmitterComponent::Play(bool loop)
 			Debug::LogError("An error occured whils trying to play audio on a emitter, see error above.");
 			return;
 		}
+
+		if(emitter->type != EMITTERTYPE::AMBIENT)
+			EventSystem::TriggerEvent("soundPlayed");
 	}
 	else
 	{

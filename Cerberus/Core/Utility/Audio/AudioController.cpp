@@ -96,8 +96,6 @@ bool AudioController::PlayAudio(const std::string& path)
 		return false;
 	}
 
-	EventSystem::TriggerEvent("soundPlayed");
-
 	return true;
 }
 /**
@@ -159,8 +157,6 @@ bool AudioController::PlayAudio(const std::string& path, bool loop)
 	}
 
 	Debug::Log("Successfully played sound: %s", path.c_str());
-
-	EventSystem::TriggerEvent("soundPlayed");
 
 	return true;
 }
