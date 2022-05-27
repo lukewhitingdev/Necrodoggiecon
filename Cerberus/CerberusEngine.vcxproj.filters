@@ -185,9 +185,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
 </Project>
