@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   CWorld_Edit.cpp
+ * \brief  
+ * 
+ * \author Samuel Elliot Jackson
+ * \date   May 2022
+ *********************************************************************/
 #include "CWorld_Edit.h"
 #include "Dependencies/NlohmannJson/json.hpp"
 #include "Tools/CT_EditorMain.h"
@@ -14,7 +21,11 @@ bool CWorld_Editable::selectedCell = false;
 bool CWorld_Editable::isQueueLocked = false;
 */
 
-
+/**
+ * Loads the world from the provided slot.
+ * 
+ * \param Slot
+ */
 void CWorld_Editable::LoadWorld(int Slot)
 {
 	totalEnemyEntities = 0;
@@ -103,7 +114,7 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 
 
-		BuildNavigationGrid();
+		//BuildNavigationGrid();
 
 		GenerateTileMap();
 
@@ -124,7 +135,7 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 			float enemyRotationSpeed = storedFile["Enemy"][i]["RotationSpeed"];
 			float enemyMaxSearchTime = storedFile["Enemy"][i]["MaxSearchTime"];
-			bool enemyIsBoss = false; //storedFile["Enemy"][i]["IsBoss"];
+			bool enemyIsBoss = storedFile["Enemy"][i]["IsBoss"];;
 			//Put this back once levels are complete
 			
 
@@ -151,7 +162,7 @@ void CWorld_Editable::LoadWorld(int Slot)
 			TempRef->SetRange(enemyRange);
 			TempRef->SetRotationSpeed(enemyRotationSpeed);
 			TempRef->SetMaxSearchTime(enemyMaxSearchTime);
-			//TempRef->SetIsBoss(enemyIsBoss);
+			TempRef->SetIsBoss(enemyIsBoss);
 			if (EnemyID == 0)
 			{
 				int weaponIndex = storedFile["Enemy"][i]["WeaponIndex"];
@@ -167,6 +178,7 @@ void CWorld_Editable::LoadWorld(int Slot)
 				int WaypointX = storedFile["Enemy"][i]["Waypoints"][y]["X"];
 				int WaypointY = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
 				CT_EditorEntity_Waypoint* TempWaypoint = TempRef->AddWaypoint(Vector2(WaypointX, WaypointY));
+				TempWaypoint->SetParent(TempRef);
 				editorEntityList.push_back(TempWaypoint);
 
 			}
@@ -299,11 +311,11 @@ void CWorld_Editable::SaveWorld(int Slot)
 				}
 				
 			
-				SaveData["Enemy"][i]["WaypointList"] = TempEnemy->Waypoints.size();
+				SaveData["Enemy"][i]["WaypointList"] = TempEnemy->GetWaypointList().size();
 				for (int y = 0; y < TempEnemy->Waypoints.size(); y++)
 				{
-					SaveData["Enemy"][i]["Waypoints"][y]["X"] = TempEnemy->Waypoints[y]->gridPos.x;
-					SaveData["Enemy"][i]["Waypoints"][y]["Y"] = TempEnemy->Waypoints[y]->gridPos.y;
+					SaveData["Enemy"][i]["Waypoints"][y]["X"] = TempEnemy->GetWaypointList()[y]->GetPosition().x / (tileScale * tileScaleMultiplier);
+					SaveData["Enemy"][i]["Waypoints"][y]["Y"] = TempEnemy->GetWaypointList()[y]->GetPosition().y / (tileScale * tileScaleMultiplier);
 				}
 
 				SaveData["Enemy"][i]["Health"] = TempEnemy->GetHealth();
@@ -1037,11 +1049,25 @@ void CWorld_Editable::RemoveSelectedEntity()
 
 		if (bFoundUnit)
 		{
-			editorEntityList.erase(editorEntityList.begin() + Index);
+			if (inspectedEntity->GetType() != EditorEntityType::Waypoint)
+			{
+				Engine::DestroyEntity(inspectedEntity);
 
-			Engine::DestroyEntity(inspectedEntity);
+				editorEntityList.erase(editorEntityList.begin() + Index);
 
-			totalEnemyEntities--;
+				totalEnemyEntities--;
+
+				
+			}
+			else if (inspectedEntity->GetType() == EditorEntityType::Waypoint)
+			{
+				CT_EditorEntity_Waypoint* Temp = GetInspectedItem_Waypoint();
+				Temp->GetParent()->RemoveWaypoint(Temp);
+				
+				Engine::DestroyEntity(inspectedEntity);
+				editorEntityList.erase(editorEntityList.begin() + Index);
+
+			}
 		}
 
 	}
@@ -1087,7 +1113,9 @@ void CWorld_Editable::AddEditorEntity_Waypoint(Vector2 Position)
 	{
 		if (tileContainer[GridToIndex(Position)]->IsWalkable())
 		{
-			editorEntityList.push_back(GetInspectedItem_Enemy()->AddWaypoint(Position));
+			CT_EditorEntity_Waypoint* TempWaypoint = GetInspectedItem_Enemy()->AddWaypoint(Position);
+			editorEntityList.push_back(TempWaypoint);
+			TempWaypoint->SetParent(GetInspectedItem_Enemy());
 		}
 	}
 	

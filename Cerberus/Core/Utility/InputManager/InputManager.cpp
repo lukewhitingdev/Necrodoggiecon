@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   InputManager.cpp
+ * \brief  All the functions needed for the Input Manager.
+ * 
+ * \author Flynn Brooks
+ * \date   May 2022
+ *********************************************************************/
+
 #include "InputManager.h"
 #include <windows.h>
 
@@ -6,6 +14,12 @@ Vector3 InputManager::mousePos = { 0,0,0 };
 bool InputManager::keyboardKeyStates[InputManager::Keys::COUNT] = { 0 };
 bool InputManager::mouseKeyStates[InputManager::Mouse::MCOUNT] = { 0 };
 
+
+
+/**
+ *
+ * \This gets the async key
+ */
 int InputManager::GetKeyCode(Keys key)
 {
 	int Async = 0;
@@ -306,6 +320,10 @@ int InputManager::GetKeyCode(Keys key)
 	return Async;
 }
 
+/**
+ *
+ * \ This gets the mouse async codes
+ */
 int InputManager::GetMouseCode(Mouse mouse)
 {
 	int Async = 0;
@@ -324,6 +342,10 @@ int InputManager::GetMouseCode(Mouse mouse)
 	return Async;
 }
 
+/**
+ *
+ * \ See if the async key called was pressed
+ */
 bool InputManager::IsKeyPressed(Keys key)
 {
 	keyboardKeyStates[key] = (GetAsyncKeyState(GetKeyCode(key)) & 0x8000);
@@ -331,6 +353,10 @@ bool InputManager::IsKeyPressed(Keys key)
 	return keyboardKeyStates[key];
 }
 
+/**
+ *
+ * \ See if the async key called was pressed down
+ */
 bool InputManager::IsKeyPressedDown(Keys key)
 {
 	keyboardKeyStates[key] = (GetAsyncKeyState(GetKeyCode(key)) < 0);
@@ -338,11 +364,19 @@ bool InputManager::IsKeyPressedDown(Keys key)
 	return keyboardKeyStates[key];
 }
 
+/**
+ *
+ * \ See if the async key called was released
+ */
 bool InputManager::IsKeyReleased(Keys key)
 {
 	return !IsKeyPressedDown(key);
 }
 
+/**
+ *
+ * \ See if the mouse async key called was pressed
+ */
 bool InputManager::IsMouseButtonPressed(Mouse mouse)
 {
 	mouseKeyStates[mouse] = (GetAsyncKeyState(GetMouseCode(mouse)) & 0x8000);
@@ -350,6 +384,10 @@ bool InputManager::IsMouseButtonPressed(Mouse mouse)
 	return mouseKeyStates[mouse];
 }
 
+/**
+ *
+ * \ See if the mouse async key called was pressed down
+ */
 bool InputManager::IsMouseButtonPressedDown(Mouse mouse)
 {
 	mouseKeyStates[mouse] = (GetAsyncKeyState(GetMouseCode(mouse)) < 0);
@@ -357,6 +395,10 @@ bool InputManager::IsMouseButtonPressedDown(Mouse mouse)
 	return mouseKeyStates[mouse];
 }
 
+/**
+ *
+ * \ See if the mouse async key called was released
+ */
 bool InputManager::IsMouseButtonReleased(Mouse mouse)
 {
 	return !IsMouseButtonPressedDown(mouse);

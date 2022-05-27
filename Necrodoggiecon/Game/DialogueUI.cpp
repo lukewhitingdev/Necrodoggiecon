@@ -23,6 +23,7 @@ DialogueUI::DialogueUI()
 	nameTextRenderComponent->SetAnchor(XMFLOAT2(0, 1));
 	SetSize();
 
+	
 	audioEmitterComponent = AddComponent<CAudioEmitterComponent>(NAME_OF(audioEmitterComponent));
 	audioEmitterComponent->Load("Resources/Game/Audio/TextAppear.wav");
 	audioEmitterComponent->SetRange(0.0f);
