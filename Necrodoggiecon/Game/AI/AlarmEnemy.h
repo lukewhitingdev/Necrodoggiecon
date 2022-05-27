@@ -27,7 +27,5 @@ protected:
 private:
     float alarmTimer = 10.0f;
     bool onCooldown = false;
-
-    CAudioEmitterComponent* loadNoise;
 };
 

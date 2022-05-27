@@ -65,7 +65,7 @@ void SoundManager::AddSound(const std::string& audioPath, const std::string& aud
 void SoundManager::AddSound(const std::string& audioPath, const std::string& audioName, float audioRange, bool ambient)
 {
 	AudioEmitterEntity* emitterEntity = Engine::CreateEntity<AudioEmitterEntity>();
-	emitterEntity->SetAudio(audioPath, audioRange);
+	emitterEntity->SetAudio(audioPath, audioRange, ambient);
 	audioEmitterMap.emplace(audioName, emitterEntity);
 }
 /**
@@ -77,7 +77,10 @@ void SoundManager::AddSound(const std::string& audioPath, const std::string& aud
 void SoundManager::PlaySound(const std::string& audioName, Vector3 position)
 {
 	if (audioEmitterMap.find(audioName) == audioEmitterMap.end()) {
-		std::string errorMessage = "Audio with name: " + audioName + " does not exist in audioEmitterMap";
+		std::string name = audioName;
+		std::string errorMessage = "Audio with name: ";
+		errorMessage.append(audioName.c_str());
+		errorMessage.append(" does not exist in audioEmitterMap");
 		Debug::LogError(errorMessage.c_str());
 		return;
 	}
@@ -96,7 +99,7 @@ void SoundManager::PlayMusic(const std::string& musicPath, CEntity* attachedEnti
 	if(attachedEntity != nullptr)
 		musicAudioEmitter->SetAttachedEntity(attachedEntity);
 	musicAudioEmitter->Stop();
-	musicAudioEmitter->Load(musicPath, false);
+	musicAudioEmitter->Load(musicPath, true);
 	musicAudioEmitter->SetRange(FLT_MAX);
 	musicAudioEmitter->PlayAudio(true);
 }
