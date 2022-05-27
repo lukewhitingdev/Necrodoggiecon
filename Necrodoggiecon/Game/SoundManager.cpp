@@ -9,15 +9,12 @@
  *********************************************************************/
 
 std::map<std::string, AudioEmitterEntity*> SoundManager::audioEmitterMap;
-AudioEmitterEntity* SoundManager::musicAudioEmitter = nullptr;
 /**
  * Function to initialise the SoundManager by creating audio emitters for each sound that will be used within the game.
  * 
  */
 void SoundManager::Initialise()
 {
-	musicAudioEmitter = Engine::CreateEntity<AudioEmitterEntity>();
-
 	AddSound("Resources/Game/Audio/DeathSound.wav", "DeathSound", 1000.0f, true);
 	AddSound("Resources/Game/Audio/Footstep.wav", "StepSound", 100, true);
 	AddSound("Resources/Game/Audio/ShieldHit.wav", "ShieldHit", 1000.0f, true);
@@ -40,12 +37,6 @@ void SoundManager::Initialise()
 	AddSound("Resources/Game/Audio/MagicMissileShoot.wav", "MagicMissileShoot", 1000.0f);
 	AddSound("Resources/Game/Audio/Click.wav", "UIClick", FLT_MAX, true);
 	AddSound("Resources/Game/Audio/ClearLevel.wav", "LevelClear", 1000.0f, true);
-}
-void SoundManager::Shutdown()
-{
-	audioEmitterMap.clear();
-	Engine::DestroyEntity(musicAudioEmitter);
-	musicAudioEmitter = nullptr;
 }
 /**
  * Function to add a new audio emitter to the SoundManager.
@@ -92,6 +83,11 @@ void SoundManager::RemoveSound(const std::string& audioName)
  */
 void SoundManager::PlaySound(const std::string& audioName, Vector3 position)
 {
+	if (audioEmitterMap.size() <= 1) 
+	{
+		Initialise();
+	}
+
 	if (audioEmitterMap.find(audioName) == audioEmitterMap.end()) {
 		std::string name = audioName;
 		std::string errorMessage = "Audio with name: ";
@@ -110,14 +106,27 @@ void SoundManager::PlaySound(const std::string& audioName, Vector3 position)
  */
 void SoundManager::PlayMusic(const std::string& musicPath, CEntity* attachedEntity)
 {
-	if (musicAudioEmitter == nullptr)
-		musicAudioEmitter = Engine::CreateEntity<AudioEmitterEntity>();
+	if (audioEmitterMap.size() <= 1)
+	{
+		Initialise();
+	}
+
+	if (audioEmitterMap.find(musicPath) == audioEmitterMap.end())
+	{
+		AddSound(musicPath, musicPath, FLT_MAX, true);
+	}
 
 	if(attachedEntity != nullptr)
-		musicAudioEmitter->SetAttachedEntity(attachedEntity);
+	{
+		if(attachedEntity->GetComponentOfType<CAudioEmitterComponent>() != nullptr)
+		{
+			attachedEntity->RemoveComponent(attachedEntity->GetComponentOfType<CAudioEmitterComponent>());
+		}
+	 	CAudioEmitterComponent* emitter = attachedEntity->AddComponent<CAudioEmitterComponent>(NAME_OF(emitter));
+		emitter->Load(musicPath, true);
+		emitter->Play(true);
+		return;
+	}
 
-	musicAudioEmitter->Stop();
-	musicAudioEmitter->Load(musicPath, true);
-	musicAudioEmitter->SetRange(FLT_MAX);
-	musicAudioEmitter->PlayAudio(true);
+	PlaySound(musicPath, Vector3(0, 0, 0));
 }

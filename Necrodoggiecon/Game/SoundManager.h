@@ -6,7 +6,6 @@ class SoundManager :  public CEntity
 {
 public:
 	static void Initialise();
-	static void Shutdown();
 	static void AddSound(const std::string& audioPath, const std::string& audioName, float audioRange);
 	static void AddSound(const std::string& audioPath, const std::string& audioName, float audioRange, bool ambient);
 	static void RemoveSound(const std::string& audioName);
@@ -14,6 +13,5 @@ public:
 	static void PlayMusic(const std::string& musicPath, CEntity* attachedEntity);
 private:
 	static std::map<std::string, AudioEmitterEntity*> audioEmitterMap;
-	static AudioEmitterEntity* musicAudioEmitter;
 };
 
