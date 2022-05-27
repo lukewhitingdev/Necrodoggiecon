@@ -14,55 +14,20 @@ The Details panel will provde the desiger with infomation pertaining to any enti
 
 ## Detail Panels
 ### Enemy Characters
+All Enemy characters share the ability to place Waypoints and to toggle their visibility. 
+Furthermore all Enemy characters can have their stat tweaked induvisually but load the default values when created.
+The section bellow will highlight the unique elements inside a character's properties.
 #### Grunt Enemy
+-Ability to set a weapon.
 
 
-## Weapons
 
-The game has multiple different attack styles, Melee and Range weapons.
-All Melee and Range weapons have base variants which the subclasses inherit from. 
-These base classes have the shared logic through all the weapons of its kind, an example of this is the basic projectile spawning for ranged weapons. 
-This is then overridden through the unique logic in the individual weapon.
 
-### Melee Weapons
-
-There are 3 melee weapons in the game:
--   Dagger
--   Rapier
--   Longsword
-
-The melee weapons in the game use a system of calculating the damage position based on the direction of the attack and the range of the weapon. 
-This damage position is then used to get the enemy that is in range of the player and the damage position, and then discarding the all enemies until the closest enemy in range is returned.
-All the melee weapons use this method, dynamically calculating the damage position based on the different ranges of the weapons.
-
-The Longsword has unique logic that creates an area-of-effect (AOE) attack using the same method that is used for the other melee weapons.
-However, all entities that are within the range of weapons from the player AND within the range of the weapon from the damage position are damaged. 
-This radius style range from 2 points creates a cone shape in the looking direction.
-
-### Range Weapons
-There are 3 range weapons in the game:
--   Crossbow
--   Fireball
--   Magic Missile (Homing)
-
-The range weapons in the game use a Projectile class to spawn a CEntity into the world with a given direction, speed, position and sprite. 
-These parameters are then used to constantly update the entity on a constant velocity.
-The projectile also uses the same method of checking for closest entity in a given range around the projectile, this makes a sort of bounding area and if any entity is returned, then damage logic is applied to said entity.
-
-The Magic Missile has unique logic that creates a Homing Projectile entity into the world.
-This projectile creates a directional vector to the closest entity is finds in a given range, and then travels along that new direction vector towards the target.
 
 ## Relating Classes:
 
--   WeaponInterface
--   Weapon
--   MeleeWeapon
--   RangeWeapon
--   Dagger
--   Rapier
--   Longsword
--   Crossbow
--   MagicMissile
--   Fireball
--   Projectile
--   HomingProjectile
+- CWorld_Edit
+- CT_EditorWindows
+- CT_EditorGrid
+- CT_EditorEntity
+- CT_EditorEntity_Enemy
