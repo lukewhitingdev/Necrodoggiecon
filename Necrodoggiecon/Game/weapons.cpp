@@ -46,6 +46,8 @@ void Weapon::SetWeapon(int ID)
 		else
 		{
 			pickupType = storedFile["Weapons"][ID]["PickupType"];
+			maxAmmo = storedFile["Weapons"][ID]["Ammo"];
+			ammo = maxAmmo;
 		}
 
 		Debug::Log("Range %f", range);
