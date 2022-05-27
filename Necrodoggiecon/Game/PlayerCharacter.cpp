@@ -340,6 +340,7 @@ void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime
 		pickupTimer = 0;
 		pickupActiveTime = activeTime;
 
+		visible = false;
 		pickupTimerCallback = std::bind(&PlayerCharacter::InvisibilityCallback, this);
 		spriteComponentBody->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
 		spriteComponentLegs->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
@@ -365,6 +366,7 @@ void PlayerCharacter::InvisibilityCallback()
 	pickupTimerCallback = nullptr;
 	spriteComponentBody->SetTint(originalSpriteTint);
 	spriteComponentLegs->SetTint(originalLegTint);
+	visible = true;
 	
 }
 
