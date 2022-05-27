@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   CT_EditorWindows.cpp
+ * \brief  ImGui Implementation for the editor windows.
+ * 
+ * \author Samuel Elliot Jackson
+ * \date   May 2022
+ *********************************************************************/
 #include "CT_EditorWindows.h"
 #include "Cerberus/Core/Utility/CWorldManager.h"
 #include "Cerberus\Core\Environment\CWorld_Edit.h"
@@ -6,7 +13,10 @@
 using json = nlohmann::json;
 
 
-
+/**
+ * Loads the weapon list from the json file. This is used by the windows to propogate the required dropdown menus.
+ * 
+ */
 void CT_EditorWindows::LoadWeapons()
 {
 
@@ -30,12 +40,20 @@ void CT_EditorWindows::LoadWeapons()
 
 }
 
+/**
+ * Initialises the mapslot to be the correct slot.
+ * 
+ */
 void CT_EditorWindows::InitialiseMapSlot()
 {
     levelToLoad = new int(CWorldManager::GetEditorWorld()->GetMapSlot());
 
 }
 
+/**
+ * Main render function, all ImGui render logic is contained within.
+ * 
+ */
 void CT_EditorWindows::render()
 {
     

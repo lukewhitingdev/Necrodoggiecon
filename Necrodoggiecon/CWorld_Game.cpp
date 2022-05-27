@@ -39,7 +39,10 @@ CWorld_Game::CWorld_Game(int Slot)
 	LoadWorld(Slot);
 }
 
-/**  */
+/**
+ * Used for game setup, sets up entities required by all levels.
+ * 
+ */
 void CWorld_Game::SetupWorld()
 {
 	PlayerController* controller = Engine::CreateEntity<PlayerController>();
@@ -77,6 +80,10 @@ void CWorld_Game::SetupWorld()
 
 }
 
+/**
+ * Unloads the entities in the current level.
+ * 
+ */
 void CWorld_Game::UnloadWorld()
 {
 	for (int i = 0; i < EntityList.size(); i++)
@@ -88,6 +95,10 @@ void CWorld_Game::UnloadWorld()
 	}
 }
 
+/**
+ * Unloads the entities and then reloads the levels. Does not change loaded tiles.
+ * 
+ */
 void CWorld_Game::ReloadWorld()
 {
 	for (int i = 0; i < EntityList.size(); i++)
@@ -101,6 +112,11 @@ void CWorld_Game::ReloadWorld()
 	LoadEnemyUnits(mapSlot);
 	LoadEntities(mapSlot);
 }
+/**
+ * Loads in all enemy units from file.
+ * 
+ * \param Slot The level slot that's being loaded from.
+ */
 
 void CWorld_Game::LoadEnemyUnits(int Slot)
 {
@@ -233,6 +249,12 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 
 	}
 }
+
+/**
+ * Loads all other entities, primarily the Weapon holders.
+ * 
+ * \param Slot Level slot to load in from.
+ */
 
 void CWorld_Game::LoadEntities(int Slot)
 {

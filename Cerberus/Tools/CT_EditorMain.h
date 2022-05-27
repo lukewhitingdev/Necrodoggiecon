@@ -5,8 +5,6 @@ class CT_EditorMain
 public:
 	CT_EditorMain();
 
-	void Initialise();
-
 	~CT_EditorMain();
 
 	void RenderWindows();
