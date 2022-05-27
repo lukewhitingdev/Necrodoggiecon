@@ -40,10 +40,13 @@ public:
 	void SetPosition(Vector3 newPosition) { Position = newPosition; };
 	Vector3 GetDirection() { return Direction; };
 	float GetSpeed() { return Speed; };
+	void SetSpeed(float speed) { Speed = speed; };
+	void SetVelocity() { velocity = Direction * Speed; };
 
 	USERTYPE2 GetUserType() { return userType; };
 	class CSpriteComponent* ProjectileSprite = nullptr;
 
+	bool hasHit = false;
 private:
 	float Damage;
 
@@ -57,11 +60,19 @@ private:
 	Vector3 initialPosition;
 	std::string Projectile_Name;
 	std::string onHitAudioPath;
-	bool hasHit = false;
+
 
 	CAIController* GetClosestEnemy(Vector3 actorPos);
 	PlayerCharacter* GetClosestPlayer(Vector3 actorPos);
 	CAIController* GetClosestEnemy(Vector3 actorPos, float ranged);
 	USERTYPE2 userType;
+
+	virtual void HasCollided(CollisionComponent* collidedObject)
+	{
+		if (collidedObject->GetName() == "Wall")
+		{
+			hasHit = true;
+		}
+	}
 };
 

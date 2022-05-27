@@ -12,6 +12,10 @@
 
 HomingProjectile::HomingProjectile()
 {
+	SetShouldMove(true);
+
+	colComponent = new CollisionComponent("Projectile", this);
+	colComponent->SetCollider(64.0f);
 }
 
 HomingProjectile::~HomingProjectile()
@@ -26,7 +30,7 @@ HomingProjectile::~HomingProjectile()
  */
 void HomingProjectile::Update(float deltaTime)
 {
-	if (Projectile::GetLifetime() > 0)
+	if (Projectile::GetLifetime() > 0 && hasHit == false)
 	{
 		if (Projectile::GetUserType() == USERTYPE2::PLAYER)
 		{
@@ -39,12 +43,14 @@ void HomingProjectile::Update(float deltaTime)
 				velocity.Truncate(Projectile::GetSpeed());
 				Projectile::SetPosition(Projectile::GetPosition() + velocity * deltaTime);
 				ProjectileSprite->SetPosition(Projectile::GetPosition());
+				colComponent->SetPosition(GetPosition());
 				Projectile::SetLifetime( Projectile::GetLifetime() - deltaTime);
 			}
 			else
 			{
 				Projectile::SetPosition(Projectile::GetPosition() + Projectile::GetDirection() * Projectile::GetSpeed() * deltaTime);
 				ProjectileSprite->SetPosition(Projectile::GetPosition());
+				colComponent->SetPosition(GetPosition());
 			}
 		}
 		else if (Projectile::GetUserType() == USERTYPE2::AI)
@@ -56,16 +62,18 @@ void HomingProjectile::Update(float deltaTime)
 				Vector3 attack = target->GetPosition() - Projectile::GetPosition();
 				Projectile::SetPosition(Projectile::GetPosition() + (attack * Projectile::GetSpeed()) * deltaTime);
 				ProjectileSprite->SetPosition(Projectile::GetPosition());
+				colComponent->SetPosition(GetPosition());
 				Projectile::SetLifetime(Projectile::GetLifetime() - deltaTime);
 			}
 			else
 			{
 				Projectile::SetPosition(Projectile::GetPosition() + Projectile::GetDirection() * Projectile::GetSpeed() * deltaTime);
 				ProjectileSprite->SetPosition(Projectile::GetPosition());
+				colComponent->SetPosition(GetPosition());
 			}
 		}
 	}
-	else
+	else if (hasHit == true)
 		Engine::DestroyEntity(this);
 }
 

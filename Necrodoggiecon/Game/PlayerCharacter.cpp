@@ -62,7 +62,7 @@ PlayerCharacter::PlayerCharacter()
 
 	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
-	weaponComponent->SetWeapon(new MagicMissile());
+	weaponComponent->SetWeapon(new Rapier());
 
 	weaponSprite = AddComponent<CSpriteComponent>(NAME_OF(weaponSprite));
 	UpdateWeaponSprite();

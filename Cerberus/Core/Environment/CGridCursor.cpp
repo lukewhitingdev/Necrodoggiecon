@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   CGridCursor.cpp
+ * \brief  
+ * 
+ * \author Samuel Elliot Jackson
+ * \date   May 2022
+ *********************************************************************/
 #include "Cerberus\Core\Environment\CGridCursor.h"
 #include "Cerberus\Core\Components\CSpriteComponent.h"
 #include "Cerberus\Core\Environment\CWorld_Edit.h"
@@ -9,6 +16,10 @@
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include "Cerberus/Core/Components/CCameraComponent.h"
 
+/**
+ * Standard constructor.
+ * 
+ */
 CGridCursor::CGridCursor()
 {
 	Offset = Vector3(0, 0, 0);
@@ -35,7 +46,11 @@ CGridCursor::CGridCursor()
 	wasMouseReleased = true;
 }
 
-
+/**
+ * Standard update function inherited from CEntity. This is where the majority of this class functions.
+ * 
+ * \param deltaTime Time taken between frames
+ */
 void CGridCursor::Update(float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);

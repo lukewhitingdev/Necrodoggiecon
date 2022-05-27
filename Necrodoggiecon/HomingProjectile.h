@@ -20,5 +20,13 @@ public:
 private:
 	CAIController* GetClosestEnemy(Vector3 actorPos, float ranged);
 	CCharacter* GetClosestPlayer(Vector3 actorPos, float ranged);
+
+	virtual void HasCollided(CollisionComponent* collidedObject)
+	{
+		if (collidedObject->GetName() == "Wall")
+		{
+			hasHit = true;
+		}
+	}
 };
 

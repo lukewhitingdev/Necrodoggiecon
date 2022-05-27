@@ -13,6 +13,10 @@
 #include "Cerberus/Core/Utility/CameraManager/CameraManager.h"
 #include <Cerberus/Core/Structs/CCamera.h>
 
+/**
+ * Standard constructor.
+ * 
+ */
 CWorld::CWorld()
 {
 	for (int i = 0; i < (mapScale * mapScale); i++)
@@ -21,6 +25,7 @@ CWorld::CWorld()
 	}
 }
 
+/** Constructor that takes in the World's slot */
 CWorld::CWorld(int Slot)
 {
 	for (int i = 0; i < (mapScale * mapScale); i++)
@@ -29,6 +34,11 @@ CWorld::CWorld(int Slot)
 	}
 	LoadWorld(Slot);
 }
+/**
+ * Loads in the world from provided file.
+ * 
+ * \param Slot
+ */
 
 void CWorld::LoadWorld(int Slot)
 {
@@ -92,19 +102,35 @@ void CWorld::LoadWorld(int Slot)
 
 }
 
+/**
+ * Used by derivative classes, primary method to setup any assets needed by all levels (PlayerCharacter, PlayerController, Cameras etc).
+ * 
+ */
 void CWorld::SetupWorld()
 {
 	
 }
 
+/**
+ * Used by derivative classes, Primary method for unloading the world
+ * 
+ */
 void CWorld::UnloadWorld()
 {
 }
 
+/**
+ * Used by derivative classes, primary method for reloading levels.
+ * 
+ */
 void CWorld::ReloadWorld()
 {
 }
 
+/**
+ * Destroys the tile's within the world.
+ * 
+ */
 void CWorld::DestroyWorld()
 {
 	UnloadWorld();
@@ -114,6 +140,10 @@ void CWorld::DestroyWorld()
 	}
 }
 
+/**
+ * Generates the grid's navigation grid for the AI system.
+ * 
+ */
 void CWorld::BuildNavigationGrid()
 {
 
@@ -131,10 +161,20 @@ void CWorld::BuildNavigationGrid()
 
 }
 
+/**
+ * Used by derivative classes to load in entities that are unique to the game.
+ * 
+ * \param Slot
+ */
 void CWorld::LoadEntities(int Slot)
 {
 }
 
+/**
+ * Gets all walkable tiles.
+ * 
+ * \return returns an array of walkable tiles
+ */
 std::vector<CTile*> CWorld::GetAllWalkableTiles()
 {
 	std::vector<CTile*> walkableTiles;
@@ -150,7 +190,11 @@ std::vector<CTile*> CWorld::GetAllWalkableTiles()
 
 	return walkableTiles;
 }
-
+/**
+ * Gets a list of all unwalkable tiles.
+ * 
+ * \return List of unwalkable tiles
+ */
 std::vector<CTile*> CWorld::GetAllObstacleTiles()
 {
 	std::vector<CTile*> obstacleTiles;
@@ -165,6 +209,12 @@ std::vector<CTile*> CWorld::GetAllObstacleTiles()
 
 	return obstacleTiles;
 }
+/**
+ * Index to Grid.
+ * 
+ * \param ID Input ID
+ * \return returns a position within the grid that is equivalent to the ID.
+ */
 
 Vector3 CWorld::IndexToGrid(int ID)
 {
@@ -174,6 +224,12 @@ Vector3 CWorld::IndexToGrid(int ID)
 	return Vector3((float)x,(float)y, 0.0f);
 }
 
+/**
+ * Grid to Index.
+ * 
+ * \param Position Vector position inside grid.
+ * \return Equivalent Index that coresponds to the Position
+ */
 int CWorld::GridToIndex(Vector2 Position)
 {
 

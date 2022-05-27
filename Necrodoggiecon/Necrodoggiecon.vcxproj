@@ -186,6 +186,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DeathMenu.cpp" />
     <ClCompile Include="Game\AudioEmitterEntity.cpp" />
     <ClCompile Include="CWorld_Menu.cpp" />
     <ClCompile Include="Game\AI\CAIController.cpp" />
@@ -226,6 +227,7 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\WeaponPickup.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DeathMenu.h" />
     <ClInclude Include="Game\AudioEmitterEntity.h" />
     <ClInclude Include="Game\AI\CAIController.h" />
     <ClInclude Include="Game\AI\State.h" />
