@@ -5,8 +5,8 @@
       "ProjectileIconPath": "N/A",
       "Type": "Melee",
       "Damage": 2.0,
-      "Range": 0.5,
-      "Attack_Speed": 0.5,
+      "Range": 1.0,
+      "Attack_Speed": 0.2,
       "Ammo": 0.0,
       "Unique": false,
       "Name": "Dagger"
@@ -17,7 +17,7 @@
       "Type": "Melee",
       "Damage": 2.0,
       "Range": 2.0,
-      "Attack_Speed": 0.5,
+      "Attack_Speed": 0.3,
       "Ammo": 0.0,
       "Unique": false,
       "Name": "Rapier"
@@ -28,7 +28,7 @@
       "Type": "Melee",
       "Damage": 2.0,
       "Range": 2.0,
-      "Attack_Speed": 1.0,
+      "Attack_Speed": 0.5,
       "Ammo": 0.0,
       "Unique": true,
       "Name": "Longsword"
@@ -59,7 +59,7 @@
       "IconPath": "Resources/Game/weapons/Wand - Fireball.png",
       "ProjectileIconPath": "Resources/Game/weapons/Wand - Fireball Projectile.png",
       "Type": "Magic",
-      "Damage": 4.0,
+      "Damage": 2.0,
       "Range": 25.0,
       "Attack_Speed": 0.2,
       "Ammo": 3.0,
