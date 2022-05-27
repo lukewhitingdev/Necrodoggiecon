@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   CWorld_Edit.cpp
+ * \brief  
+ * 
+ * \author Samuel Elliot Jackson
+ * \date   May 2022
+ *********************************************************************/
 #include "CWorld_Edit.h"
 #include "Dependencies/NlohmannJson/json.hpp"
 #include "Tools/CT_EditorMain.h"
@@ -14,7 +21,11 @@ bool CWorld_Editable::selectedCell = false;
 bool CWorld_Editable::isQueueLocked = false;
 */
 
-
+/**
+ * Loads the world from the provided slot.
+ * 
+ * \param Slot
+ */
 void CWorld_Editable::LoadWorld(int Slot)
 {
 	totalEnemyEntities = 0;
