@@ -1,5 +1,6 @@
 #include "WeaponInterface.h"
 #include <weaponUI.h>
+#include "Necrodoggiecon/Game/PlayerCharacter.h"
 
 WeaponInterface::WeaponInterface()
 {
@@ -49,12 +50,17 @@ void WeaponInterface::SetWeapon(Weapon* weapon)
 	currentWeapon = weapon;
 	currentWeapon->SetUserType(userType);
 
-	std::vector<weaponUI*> wepUIs = Engine::GetEntityOfType<weaponUI>();
-
-	if(wepUIs.size() > 0)
+	CEntity* parent = GetParent();
+	CCharacter* character = dynamic_cast<CCharacter*>(parent);
+	if(character != nullptr && character->GetIsPlayer())
 	{
-		weaponUI* wepUI = Engine::GetEntityOfType<weaponUI>()[0];
-		wepUI->updateUI(currentWeapon->GetName(), currentWeapon->GetAmmo(), currentWeapon->GetMaxAmmo(), currentWeapon->GetIconPath());
+		std::vector<weaponUI*> wepUIs = Engine::GetEntityOfType<weaponUI>();
+
+		if (wepUIs.size() > 0)
+		{
+			weaponUI* wepUI = Engine::GetEntityOfType<weaponUI>()[0];
+			wepUI->updateUI(currentWeapon->GetName(), currentWeapon->GetAmmo(), currentWeapon->GetMaxAmmo(), currentWeapon->GetIconPath());
+		}
 	}
 }
 

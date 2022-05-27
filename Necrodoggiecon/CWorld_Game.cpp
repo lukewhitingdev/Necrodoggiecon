@@ -74,29 +74,14 @@ void CWorld_Game::SetupWorld()
 
 	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
 	EntityList.push_back(controller);
-
-
-	
-
 	controller->charOne = character1;
-
 	Vector3 PlayerStart = Vector3(StartPos.x, StartPos.y, 0) * (tileScale * tileScaleMultiplier) + Vector3(0, 0, -1);
 	Debug::Log("Player Start Position: [%f | %f]", PlayerStart.x, PlayerStart.y);
 	character1->SetPosition(PlayerStart);
 	controller->Possess(character1);
 
-	Engine::CreateEntity<WeaponPickup<Dagger>>();
-	Engine::CreateEntity<WeaponPickup<Rapier>>()->SetPosition(-100.0f, 0.0f, 0.0f);
-	Engine::CreateEntity<WeaponPickup<Longsword>>()->SetPosition(100.0f, 0.0f, 0.0f);
-	Engine::CreateEntity<WeaponPickup<Crossbow>>()->SetPosition(100.0f, 100.0f, 0.0f);
-	Engine::CreateEntity<WeaponPickup<Fireball>>()->SetPosition(0.0f, 100.0f, 0.0f);
-	Engine::CreateEntity<WeaponPickup<MagicMissile>>()->SetPosition(-100.0f, 100.0f, 0.0f);
-	Engine::CreateEntity<WeaponPickup<ShieldScroll>>()->SetPosition(800.0f, 400, 0.0f);
-	Engine::CreateEntity<WeaponPickup<InvisibilityScroll>>()->SetPosition(800.0f, 450, 0.0f);
-
 	//Please stop configuring stuff in here instead of in the class constructor - Lets not spread configuration to many different places in the project!
 
-	
 	LoadEnemyUnits(mapSlot);
 	LoadEntities(mapSlot);
 
