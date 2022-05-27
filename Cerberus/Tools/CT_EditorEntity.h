@@ -64,6 +64,7 @@ public:
     virtual void Update(float deltaTime) override;
 
 
+
     virtual void InitialiseEntity(int SlotID);
 
 
@@ -121,11 +122,13 @@ protected:
     float speed = 100.0f;
   
     float mass = 10.0f;
-    float range = 400.0f;
-    float viewAngle = 45.0f;
+    float range = 200.0f;
+    float viewAngle = 90.0f;
 
     float rotationSpeed = 0.01f;
     float maxSearchTime = 5.0f;
+
+    bool isBoss = false;
 
 public:
     
@@ -136,6 +139,7 @@ public:
     float GetViewAngle() { return viewAngle; }
     float GetRotationSpeed() { return rotationSpeed; }
     float GetMaxSearchTime() { return maxSearchTime; }
+    bool GetIsBoss() { return isBoss; }
 
     void SetHealth(float newHealth) { health = newHealth; }
     void SetSpeed(float newSpeed) {  speed = newSpeed; }
@@ -144,7 +148,7 @@ public:
     void SetViewAngle(float newViewAngle) { viewAngle = newViewAngle; }
     void SetRotationSpeed(float newRotationSpeed) { rotationSpeed = newRotationSpeed; }
     void SetMaxSearchTime(float newMaxSearchTime) { maxSearchTime = newMaxSearchTime; }
-
+    void SetIsBoss(bool newIsBoss) { isBoss = newIsBoss; }
     std::vector<CT_EditorEntity_Waypoint*> Waypoints;
 
     char* GetWeaponName() { return current_item; }

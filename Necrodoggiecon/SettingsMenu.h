@@ -15,5 +15,18 @@ class SettingsMenu : public CWidget_Canvas
 public:
     SettingsMenu();
     void CloseSettings();
+
+    virtual void Update(float deltaTime) override;
+
+private:
+
+    CWidget_Text* CreateVolumeUI(Vector2 pos, const std::string& title, const int& volume, std::function<void()> volumeUp, std::function<void()> volumeDown);
+
+    void MasterVolumeUp();
+    void MasterVolumeDown();
+
+    CWidget_Text* masterVolumeText;
+
+    int masterVolume = 100;
 };
 

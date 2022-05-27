@@ -3,6 +3,7 @@
 #include <Cerberus/Core/Components/CSpriteComponent.h>
 #include <Cerberus/Core/Components/CTextRenderComponent.h>
 
+class CAudioEmitterComponent;
 /**
  * Class that handles displaying text in the dialogue window.
  */
@@ -14,7 +15,7 @@ private:
 
     CSpriteComponent* nameBackground;
     CTextRenderComponent* nameTextRenderComponent;
-
+    CAudioEmitterComponent* audioEmitterComponent;
 
     void UpdateTextComponentPosition(CTextRenderComponent* textComponent, int row);
     float GetUIHeight();
@@ -24,7 +25,7 @@ private:
     int maxRowCount;
     int rowPadding = 4;
     int rowHeight;
-    int charactersPerSecond = 4;
+    int charactersPerSecond = 50;
     float timer = 0;
     bool isUpdating = false;
 

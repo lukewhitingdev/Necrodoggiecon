@@ -29,6 +29,8 @@ void CAudioEmitterComponent::Load(const std::string& path)
 {
 	emitter->audio = AudioController::LoadAudio(path);
 
+	emitter->type = EMITTERTYPE::SFX;
+
 	if(emitter->audio != nullptr)
 	{
 		emitter->audio->path = path;
@@ -55,11 +57,13 @@ void CAudioEmitterComponent::Load(const std::string& path, bool ambient)
 {
 	emitter->audio = AudioController::LoadAudio(path);
 
+	emitter->type = (ambient) ? EMITTERTYPE::AMBIENT : EMITTERTYPE::SFX;
+
 	if (emitter->audio != nullptr)
 	{
 		emitter->audio->path = path;
 
-		if (!AudioController::AddEmitter(emitter, ambient))
+		if (!AudioController::AddEmitter(emitter))
 		{
 			Debug::LogError("An error has occured whilst adding a emitter to the audio controller. See error above. Path: %s (%s)", path.c_str(), GetDebugInfo().c_str());
 			return;

@@ -186,10 +186,13 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\AudioEmitterEntity.cpp" />
     <ClCompile Include="CWorld_Menu.cpp" />
     <ClCompile Include="Game\AI\CAIController.cpp" />
     <ClCompile Include="Game\AI\State.cpp" />
+    <ClCompile Include="Game\NecrodoggieconPage.cpp" />
     <ClCompile Include="HomingProjectile.cpp" />
+    <ClCompile Include="Game\SoundManager.cpp" />
     <ClCompile Include="LevelCompleteMenu.cpp" />
     <ClCompile Include="Weapons\Pickup\InvisibilityScroll.cpp" />
     <ClCompile Include="Weapons\Pickup\ShieldScroll.cpp" />
@@ -223,11 +226,14 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClCompile Include="Game\WeaponPickup.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\AudioEmitterEntity.h" />
     <ClInclude Include="Game\AI\CAIController.h" />
     <ClInclude Include="Game\AI\State.h" />
+    <ClInclude Include="Game\NecrodoggieconPage.h" />
     <ClInclude Include="HomingProjectile.h" />
     <ClInclude Include="LevelCompleteMenu.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Game\SoundManager.h" />
     <ClInclude Include="Weapons\Pickup\InvisibilityScroll.h" />
     <ClInclude Include="Weapons\Pickup\ShieldScroll.h" />
     <ClInclude Include="Weapons\Pickup.h" />

@@ -12,7 +12,8 @@
 #include "Cerberus/Core/Utility/DebugOutput/Debug.h"
 #include "Necrodoggiecon/Game/PlayerCharacter.h"
 #include "Cerberus/Core/Utility/IO.h"
-
+#include "Cerberus/Core/Components/CAudioEmitterComponent.h"
+#include "Game/SoundManager.h"
 template<typename T>
 class WeaponPickup : public CInteractable
 {
@@ -28,7 +29,7 @@ private:
 
 	void UpdateWeaponSprite(Weapon* weapon);
 
-	T* pickup = nullptr;
+	Weapon* pickup = nullptr;
 };
 
 template<typename T>
@@ -38,7 +39,7 @@ inline WeaponPickup<T>::WeaponPickup()
 	Weapon* baseWeapon = dynamic_cast<Weapon*>(weapon);
 	if (baseWeapon != nullptr)
 	{
-		pickup = weapon;
+		pickup = baseWeapon;
 		UpdateWeaponSprite(weapon);
 	}
 	else
@@ -69,9 +70,13 @@ inline void WeaponPickup<T>::OnInteract()
 	{
 		if (this->pickup != nullptr)
 		{
-			player->EquipWeapon(reinterpret_cast<Weapon*>(this->pickup));
-			this->pickup = nullptr;
-			Engine::DestroyEntity(this);
+			Weapon* pickupDupe = this->pickup;
+			Weapon* playerDupe = player->GetWeapon();
+
+			player->EquipWeapon(pickupDupe);
+			this->pickup = playerDupe;
+			SoundManager::PlaySound("ItemPickup", GetPosition());
+			UpdateWeaponSprite(this->pickup);
 		}
 		else
 		{

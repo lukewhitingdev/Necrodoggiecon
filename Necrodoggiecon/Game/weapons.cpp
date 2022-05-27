@@ -23,16 +23,6 @@ void Weapon::SetWeapon(int ID)
 	{
 		json storedFile;
 		file >> storedFile;
-
-
-
-
-
-
-
-
-
-
 		//iconPath = storedFile.at(weapon).at("IconPath");
 		
 
@@ -48,7 +38,8 @@ void Weapon::SetWeapon(int ID)
 			projectileIconPath = storedFile["Weapons"][ID]["ProjectileIconPath"];
 			damage = storedFile["Weapons"][ID]["Damage"];
 			attack_speed = storedFile["Weapons"][ID]["Attack_Speed"];
-			ammo = storedFile["Weapons"][ID]["Ammo"];
+			maxAmmo = storedFile["Weapons"][ID]["Ammo"];
+			ammo = maxAmmo;
 			unique = storedFile["Weapons"][ID]["Unique"];
 			cooldown = attack_speed;
 		}
@@ -118,9 +109,9 @@ int Weapon::NameToID(std::string Name)
  * \param actorPos Position of the actor that is using the function (Used for virtual overriding)
  * \param attackDir Direction of the attack (Used for virtual overriding)
  */
-void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
+bool Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
-	Debug::Log("Base Weapon Class has fired Weapon: %s", name.c_str());
+	return true;
 }
 
 /**
@@ -130,7 +121,8 @@ void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
  */
 void Weapon::Update(float deltaTime)
 {
-	CoolDown(deltaTime);
+	if (ammo > 0.0f || type == "Melee")
+		CoolDown(deltaTime);
 }
 
 void Weapon::Draw(ID3D11DeviceContext* context, const XMFLOAT4X4& parentMat, ConstantBuffer cb, ID3D11Buffer* constantBuffer)

@@ -8,6 +8,7 @@
 #include "CAIController.h"
 #include "Cerberus/Core/Utility/CWorldManager.h"
 #include "Cerberus\Core\Environment/CWorld.h"
+#include "Game/NecrodoggieconPage.h"
 
 CAIController::CAIController()
 {
@@ -56,7 +57,8 @@ CAIController::CAIController()
 	float scaleComparisonX = 128.0f / (64.0f * GetScale().x);
 	float scaleComparisonY = 128.0f / (64.0f * GetScale().y);
 	viewFrustrum->SetScale(Vector3{ ((aiRange / 128.0f) * scaleComparisonX), ((aiRange / 128.0f) * scaleComparisonY), 1.0f });
-	viewFrustrum->SetPosition(Vector3{ viewFrustrum->GetPosition().x, viewFrustrum->GetPosition().y + aiRange *scaleComparisonY * GetScale().y, 1.0f });
+	originalViewFrustrumPosition = viewFrustrum->GetPosition();
+	viewFrustrum->SetPosition(Vector3{ originalViewFrustrumPosition.x, originalViewFrustrumPosition.y + aiRange *scaleComparisonY * GetScale().y, 1.0f });
 	viewFrustrum->SetUseTranslucency(true);
 
 	colComponent = new CollisionComponent("Enemy", this);
@@ -457,7 +459,8 @@ void CAIController::ChasePlayer(CCharacter* player)
 void CAIController::AttackPlayer(CCharacter* player, float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);
-	UNREFERENCED_PARAMETER(player);
+
+	heading = Seek(player->GetPosition());
 }
 
 /**
@@ -566,13 +569,21 @@ void CAIController::ApplyDamage(float damageAmount)
 	SetHealth(GetHealth() - damageAmount);
 	if (GetHealth() <= 0.0f)
 	{
-		if (isBoss == true)
-		{
-			// DROP SCROLL HERE
-		}
+		OnDeath();
 		Engine::DestroyEntity(this);
 	}
-		
+}
+
+void CAIController::ApplyDamage(float damageAmount, const std::string& hitAudioPath)
+{
+	OnHit(hitAudioPath);
+	ApplyDamage(damageAmount);
+	if (isBoss == true)
+	{
+		// DROP SCROLL HERE
+		NecrodoggieconPage* page = Engine::CreateEntity<NecrodoggieconPage>();
+		page->SetPosition(GetPosition());
+	}
 }
 
 /**
@@ -647,6 +658,11 @@ float CAIController::GetMass()
 void CAIController::SetRange(float range)
 {
 	aiRange = range;
+
+	float scaleComparisonX = 128.0f / (64.0f * GetScale().x);
+	float scaleComparisonY = 128.0f / (64.0f * GetScale().y);
+	viewFrustrum->SetScale(Vector3{ ((aiRange / 128.0f) * scaleComparisonX), ((aiRange / 128.0f) * scaleComparisonY), 1.0f });
+	viewFrustrum->SetPosition(Vector3{ originalViewFrustrumPosition.x, originalViewFrustrumPosition.y + aiRange * scaleComparisonY * GetScale().y, 1.0f });
 }
 
 float CAIController::GetRange()

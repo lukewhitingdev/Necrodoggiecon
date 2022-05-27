@@ -13,6 +13,7 @@
 #include "CWorld_Game.h"
 #include "Cerberus/Core/UI/CWidget_Text.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
+#include "Game/SoundManager.h"
 #include "Necrodoggiecon/CWorld_Menu.h"
 
 LevelCompleteMenu::LevelCompleteMenu()
@@ -70,7 +71,9 @@ void LevelCompleteMenu::InitialiseCanvas()
  */
 void LevelCompleteMenu::QuitToMenu()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("quit to menu");
+	Engine::paused = false;
 	CWorldManager::LoadWorld(new CWorld_Menu());
 }
 /**
@@ -79,6 +82,7 @@ void LevelCompleteMenu::QuitToMenu()
  */
 void LevelCompleteMenu::QuitToDesktop()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("quit to desktop");
 	PostQuitMessage(1);
 }
@@ -88,6 +92,9 @@ void LevelCompleteMenu::QuitToDesktop()
  */
 void LevelCompleteMenu::NextLevel()
 {
+
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("load next level");
+	Engine::paused = false;
 	CWorldManager::LoadWorld(new CWorld_Game(CWorldManager::GetWorld()->GetMapSlot()+1));
 }

@@ -83,11 +83,14 @@ public:
 	void SetPath(Vector3 endPosition);
 
 	void ApplyDamage(float damageAmount);
+	void ApplyDamage(float damageAmount, const std::string& hitAudioPath);
 
 	class CAnimationSpriteComponent* sprite = nullptr;
 
 protected:
-	
+	virtual void OnHit(const std::string& hitSound) {};
+	virtual void OnDeath() {};
+
 	class CSpriteComponent* viewFrustrum = nullptr;
 
 	Vector3 positionToInvestigate;
@@ -120,6 +123,7 @@ protected:
 	CCharacter* playerToKill = nullptr;
 	CCharacter* playerToChase = nullptr;
 	
+	Vector3 originalViewFrustrumPosition;
 
 	std::vector<CCharacter*> characters = Engine::GetEntityOfType<CCharacter>();
 	std::vector<CCharacter*> players;

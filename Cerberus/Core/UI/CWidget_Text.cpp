@@ -4,7 +4,7 @@
 CWidget_Text::CWidget_Text()
 {
 	textRenderer = AddComponent<CTextRenderComponent>(NAME_OF(textRenderer));
-	textRenderer->SetIsUI(true);
+	//textRenderer->SetIsUI(true);
 	textRenderer->SetFont("Resources/Engine/fontBlack.png");
 }
 
