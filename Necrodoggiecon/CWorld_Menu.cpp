@@ -9,7 +9,6 @@
 
 void CWorld_Menu::SetupWorld()
 {
-	SoundManager::Shutdown();
 	SoundManager::Initialise();
 
 	// Free Camera not locked to player.
