@@ -2,6 +2,7 @@
 The world classes are responsible for containing all of the level infomation. It also handles the loading and saving (Depending on the World Class)
 ## WorldManager
 The worlds are accessed through the CWorldManager static class. This allows you to access the currently loaded level as well as handles the bulk of loading and unloading the levels.
+This is further assisted by the TransitionHelepr that makes sure that the level is instantiated after the previous level is unloaded.
 
 ## Classes
 
@@ -19,4 +20,14 @@ This class is one of the extended CWorld class used by the game. this handles lo
 
 ### CWorld_Menu
 
-Similar to CWorld_Game, this 
+Similar to CWorld_Game, this class is the other extended CWorld class.
+CWorld_Menu forgoes loading of a tileset and simply instantiates the menu required.
+
+## Relating Classes:
+
+- CWorld
+- CWorld_Edit
+- CWorld_Game
+- CWorld_Menu
+- CWorldManager
+- TransitionHelper
