@@ -83,10 +83,7 @@ CCharacter* MeleeWeapon::GetClosestEnemy(Vector3 actorPos, Vector3 damagePos)
 	for (CAIController* enemy : enemies)
 	{
 
-		if (actorPos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
-			continue;
-
-		if (damagePos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
+		if (actorPos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange() && damagePos.DistanceTo(enemy->GetPosition()) > Weapon::GetRange())
 			continue;
 
 		if (closestEnemy == nullptr)
