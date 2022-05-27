@@ -73,7 +73,7 @@ void SettingsMenu::CloseSettings()
 
 void SettingsMenu::Update(float deltaTime)
 {
-	if(masterVolumeText == nullptr)
+	if(masterVolumeText != nullptr)
 	{
 		masterVolumeText->GetText()->SetText(std::to_string(masterVolume));
 	}
