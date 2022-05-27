@@ -14,19 +14,11 @@
       "RotationSpeed": 0.009999999776482582,
       "Speed": 100.0,
       "Type": 0,
-      "WaypointList": 5,
+      "WaypointList": 3,
       "Waypoints": [
         {
-          "X": 25.0,
-          "Y": 12.0
-        },
-        {
-          "X": -3.1224955555282944e+16,
-          "Y": -3.1224955555282944e+16
-        },
-        {
           "X": 38.0,
-          "Y": 26.0
+          "Y": 12.0
         },
         {
           "X": 23.0,
@@ -41,7 +33,7 @@
       "WeaponType": ""
     }
   ],
-  "EnemyCount": 0,
+  "EnemyCount": 1,
   "MapScale": 64,
   "PlayerStart": {
     "X": 12,

@@ -32,7 +32,19 @@ CT_EditorEntity::CT_EditorEntity()
 void CT_EditorEntity::Update(float deltaTime)
 {
 }
-
+
+std::vector<class CT_EditorEntity_Waypoint*> CT_EditorEntity_Enemy::GetWaypointList()
+{
+	std::vector<CT_EditorEntity_Waypoint*> ReturnList;
+	for (int i = 0; i < Waypoints.size(); i++)
+	{
+		if (Waypoints[i] != nullptr)
+		{
+			ReturnList.push_back(Waypoints[i]);
+		}
+	}
+	return ReturnList;
+}
 /**
  * Virtual function, used to initialise the entity.
  * 
@@ -77,18 +89,7 @@ void CT_EditorEntity_Enemy::AssignWeapon(char* WeaponID, int Index)
 	 Debug::Log("WeaponAssigned: %c | %d", WeaponID, Index);
 }
 
-std::vector<class CT_EditorEntity_Waypoint*> CT_EditorEntity_Enemy::GetWaypointList()
-{
-	std::vector<CT_EditorEntity_Waypoint*> ReturnList;
-	for (int i = 0; i < Waypoints.size(); i++)
-	{
-		if (Waypoints[i] != nullptr)
-		{
-			ReturnList.push_back(Waypoints[i]);
-		}
-	}
-	return ReturnList;
-}
+
 
 
 /**
@@ -189,6 +190,18 @@ void CT_EditorEntity_Enemy::RemoveWaypoint(int Index)
 	}
 	Waypoints.clear();
 	Waypoints = TempList;
+}
+
+void CT_EditorEntity_Enemy::RemoveWaypoint(CT_EditorEntity_Waypoint* WaypointIn)
+{
+	for (int i = 0; i < Waypoints.size(); i++)
+	{
+		if (Waypoints[i] != nullptr && Waypoints[i] == WaypointIn)
+		{
+			Waypoints.erase(Waypoints.begin() + i);
+			
+		}
+	}
 }
 
 /**

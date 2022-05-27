@@ -103,7 +103,7 @@ void CWorld_Editable::LoadWorld(int Slot)
 
 
 
-		BuildNavigationGrid();
+		//BuildNavigationGrid();
 
 		GenerateTileMap();
 
@@ -167,6 +167,7 @@ void CWorld_Editable::LoadWorld(int Slot)
 				int WaypointX = storedFile["Enemy"][i]["Waypoints"][y]["X"];
 				int WaypointY = storedFile["Enemy"][i]["Waypoints"][y]["Y"];
 				CT_EditorEntity_Waypoint* TempWaypoint = TempRef->AddWaypoint(Vector2(WaypointX, WaypointY));
+				TempWaypoint->SetParent(TempRef);
 				editorEntityList.push_back(TempWaypoint);
 
 			}
@@ -1049,7 +1050,12 @@ void CWorld_Editable::RemoveSelectedEntity()
 			}
 			else if (inspectedEntity->GetType() == EditorEntityType::Waypoint)
 			{
+				CT_EditorEntity_Waypoint* Temp = GetInspectedItem_Waypoint();
+				Temp->GetParent()->RemoveWaypoint(Temp);
 				
+				Engine::DestroyEntity(inspectedEntity);
+				editorEntityList.erase(editorEntityList.begin() + Index);
+
 			}
 		}
 
@@ -1096,7 +1102,9 @@ void CWorld_Editable::AddEditorEntity_Waypoint(Vector2 Position)
 	{
 		if (tileContainer[GridToIndex(Position)]->IsWalkable())
 		{
-			editorEntityList.push_back(GetInspectedItem_Enemy()->AddWaypoint(Position));
+			CT_EditorEntity_Waypoint* TempWaypoint = GetInspectedItem_Enemy()->AddWaypoint(Position);
+			editorEntityList.push_back(TempWaypoint);
+			TempWaypoint->SetParent(GetInspectedItem_Enemy());
 		}
 	}
 	

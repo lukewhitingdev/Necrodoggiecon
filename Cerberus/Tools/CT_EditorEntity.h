@@ -177,6 +177,7 @@ public:
     CT_EditorEntity_Waypoint* AddWaypoint(Vector2 Position);
 
     void RemoveWaypoint(int Index);
+    void RemoveWaypoint(CT_EditorEntity_Waypoint* WaypointIn);
     
    
     
