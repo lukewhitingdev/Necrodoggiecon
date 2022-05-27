@@ -1,7 +1,17 @@
+/*****************************************************************//**
+ * \file   CTile.cpp
+ * \brief  Base Tile class. This is the building blocks for the world's map
+ * 
+ * \author Samuel Elliot Jackson
+ * \date   May 2022
+ *********************************************************************/
 #include "CTile.h"
 #include "Cerberus\Core\Components\CSpriteComponent.h"
 
-
+/**
+ * Standard constructor.
+ * 
+ */
 CTile::CTile()
 {
 	sprite = AddComponent<CSpriteComponent>(NAME_OF(sprite));
@@ -12,6 +22,12 @@ CTile::CTile()
 
 }
 
+/**
+ * Constructor that takes in the Tile's ID and Position.
+ * 
+ * \param ID ID for this tile, this determines which sprite to load and the state of the Tile.
+ * \param Position Position in the world.
+ */
 CTile::CTile(int ID, Vector3 Position)
 {
 	tileId = ID;
@@ -23,6 +39,11 @@ CTile::CTile(int ID, Vector3 Position)
 	
 }
 
+/**
+ * Standard update function inherited from CEntity.
+ *
+ * \param deltaTime Time taken between frames
+ */
 void CTile::Update(float deltaTime)
 {
 	UNREFERENCED_PARAMETER(deltaTime);
@@ -32,6 +53,11 @@ CTile::~CTile()
 {
 }
 
+/**
+ * Sets up the state of the Tile based on the provided ID.
+ * 
+ * \param TileID
+ */
 void CTile::ChangeTileID(CellID TileID)
 {
 	tileId = static_cast<int>(TileID);
@@ -145,7 +171,11 @@ void CTile::ChangeTileID(CellID TileID)
 }
 
 
-
+/**
+ * Switches Tile to debug mode.
+ * 
+ * \param newState Sets the debug state
+ */
 void CTile::SetDebugMode(bool newState)
 {
 	
@@ -182,6 +212,10 @@ void CTile::SetDebugMode(bool newState)
 	
 }
 
+/**
+ * Updates the debug renderer.
+ * 
+ */
 void CTile::UpdateDebugRender()
 {
 	if (debugMode)
@@ -198,6 +232,12 @@ void CTile::UpdateDebugRender()
 	}
 }
 
+/**
+ * Initialises the render data.
+ * 
+ * \param X X-Axis
+ * \param Y Y-Axis
+ */
 void CTile::SetRenderData(int X, int Y)
 {
 	sprite->LoadTexture("Resources/Game/Tiles/TempTileMap.dds");
