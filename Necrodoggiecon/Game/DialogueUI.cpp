@@ -20,35 +20,14 @@ DialogueUI::DialogueUI()
 	nameBackground = AddComponent<CSpriteComponent>(NAME_OF(nameBackground));
 	nameBackground->LoadTextureWIC("Resources/Game/darkBackground.png");
 	nameTextRenderComponent = AddComponent<CTextRenderComponent>(NAME_OF(nameTextRenderComponent));
-
-	//Setup Background Sprite
-	auto width = Engine::windowWidth;
-	auto height = Engine::windowHeight * UIHeightPercent;
-	textBackground->SetRenderRect(XMUINT2(width, height));
-	textBackground->SetSpriteSize(XMUINT2(width, height));
-	textBackground->SetAnchor(XMFLOAT2(0, 1));
-	float UIHeight = GetUIHeight();
-	textBackground->SetPosition(0, UIHeight, 1);
-
-	//Setup TextRenderComponents
-	auto trc = AddComponent<CTextRenderComponent>(NAME_OF(trc));
-	textRenderComponents.push_back(trc);
-
-	maxCharactersInRow = width / (textRenderComponents[0]->GetCharacterSize().x * 2);
-	rowHeight = textRenderComponents[0]->GetCharacterSize().y + rowPadding;
-	maxRowCount = (height / rowHeight) * 0.5f;
-
+	nameTextRenderComponent->SetAnchor(XMFLOAT2(0, 1));
+	SetSize();
+	
 	audioEmitterComponent = AddComponent<CAudioEmitterComponent>(NAME_OF(audioEmitterComponent));
 	audioEmitterComponent->Load("Resources/Game/Audio/TextAppear.wav");
 	audioEmitterComponent->SetRange(0.0f);
 
-	textRenderComponents.clear();
-	for (int i = 0; i < maxRowCount; i++)
-	{
-		auto trc = AddComponent<CTextRenderComponent>(NAME_OF(trc));
-		trc->SetReserveCount(maxCharactersInRow);
-		textRenderComponents.push_back(trc);
-	}
+
 
 	for (CComponent* e : GetAllComponents())
 		e->SetIsUI(true);
@@ -85,6 +64,7 @@ DialogueUI::~DialogueUI()
 */
 void DialogueUI::Update(float deltaTime)
 {
+
 	if (!isUpdating) return;
 
 	timer += deltaTime;
@@ -133,6 +113,35 @@ void DialogueUI::UpdateText()
 		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
 		tempString.erase(0, rowText.size());
 
+	}
+}
+void DialogueUI::SetSize()
+{
+	//Setup Background Sprite
+	width = Engine::windowWidth;
+	height = Engine::windowHeight;
+	auto tempHeight = height * UIHeightPercent;
+	textBackground->SetRenderRect(XMUINT2(32, 32));
+	textBackground->SetSpriteSize(XMUINT2(width * 100, tempHeight));
+	textBackground->SetAnchor(XMFLOAT2(0, 1));
+	float UIHeight = GetUIHeight();
+	textBackground->SetPosition(0, UIHeight, 1);
+
+	//Setup TextRenderComponents
+	auto trc = AddComponent<CTextRenderComponent>(NAME_OF(trc));
+	textRenderComponents.push_back(trc);
+
+	maxCharactersInRow = width / (textRenderComponents[0]->GetCharacterSize().x * 2);
+	rowHeight = textRenderComponents[0]->GetCharacterSize().y + rowPadding;
+	maxRowCount = (height / rowHeight) * 0.5f;
+
+	textRenderComponents.clear();
+	for (int i = 0; i < maxRowCount; i++)
+	{
+		auto trc = AddComponent<CTextRenderComponent>(NAME_OF(trc));
+		trc->SetReserveCount(maxCharactersInRow);
+		trc->SetAnchor(XMFLOAT2(0, 1));
+		textRenderComponents.push_back(trc);
 	}
 }
 /**

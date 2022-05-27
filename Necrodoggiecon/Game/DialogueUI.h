@@ -34,6 +34,9 @@ private:
     std::string reserveText;
     std::string nameText;
     void UpdateText();
+    int width = 0;
+    int height = 0;
+    void SetSize();
 
 public:
     DialogueUI();
