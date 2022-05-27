@@ -3,7 +3,7 @@
 #include <Game/DialogueUI.h>
 #include <fstream>
 #include "Cerberus\Dependencies\NlohmannJson\json.hpp"
-
+#include <Cerberus/Core/Utility/EventSystem/EventSystem.h>
 /*****************************************************************//**
  * \file   DialogueHandler.cpp
  * \brief  Static class used to control dialogue, including the loading of dialogue from a json.
@@ -88,6 +88,8 @@ void DialogueHandler::LoadDialogue(const std::string& jsonPath, const std::strin
 		SetDialogue(currentDialogue[0]->name, currentDialogue[0]->dialogue);
 
 	curDialogueIndex = 0;
+	EventSystem::TriggerEvent("DialogueOpen");
+
 }
 /**
 * Function used to move dialogue to the next stage. Will either complete the current page, go to the next page, load the next piece of dialogue or close the dialogue UI
@@ -127,4 +129,5 @@ void DialogueHandler::CloseDialogue()
 	
 	dialogueUI->ClearText();
 	dialogueUI->ToggleDrawing(false);
+	EventSystem::TriggerEvent("DialogueClose");
 }

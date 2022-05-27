@@ -1,6 +1,14 @@
 #include "Pickup.h"
 #include "Necrodoggiecon\Game\PlayerCharacter.h"
 #include "Necrodoggiecon\Game\AI\CAIController.h"
+/*****************************************************************//**
+ * \file   Pickup.cpp
+ * \brief  Class to handle scroll pickups
+ *
+ * \author Cathan Bertram
+ * \date   May 2022
+ *********************************************************************/
+
 
 Pickup::Pickup()
 {
@@ -10,9 +18,23 @@ Pickup::~Pickup()
 {
 }
 
-void Pickup::OnFire(Vector3 actorPos, Vector3 attackDir)
+void Pickup::Update(float deltaTime)
 {
+}
+/**
+ * Function used to try to activate the pickup.
+ * 
+ * \param actorPos - not used
+ * \param attackDir - not used
+ * \return - True if it can activate, otherwise false
+ */
+bool Pickup::OnFire(Vector3 actorPos, Vector3 attackDir)
+{
+	if (Weapon::GetAmmo() == 0.0f) return false;
+
+	Weapon::SetAmmo(Weapon::GetAmmo() - 1.0f);
 	HandlePickup();
+	return true;
 }
 
 /**
@@ -91,6 +113,10 @@ CEntity* Pickup::GetClosestPlayer(Vector3 actorPos, Vector3 damagePos) // BB
 
 	return closestPlayer;
 }
+/**
+ * Function used to activate the pickup on the player character.
+ * 
+ */
 void Pickup::HandlePickup()
 {
 	

@@ -1,5 +1,5 @@
 /*****************************************************************//**
- * \file   DogEnemy.h
+ \file   DogEnemy.h
  * \brief  Header for the dog enemy type.
  * 
  * \author Nasser Ksous
@@ -21,6 +21,11 @@ public:
     virtual void ChasePlayer(CCharacter* player) override;
     virtual void AttackEnter(CCharacter* player) override;
     virtual void AttackPlayer(CCharacter* player, float deltaTime) override;
+protected:
+    virtual void OnDeath() override;
+    virtual void OnHit(const std::string& hitSound) override;
+
+
 
 private:
     bool onCooldown = false;

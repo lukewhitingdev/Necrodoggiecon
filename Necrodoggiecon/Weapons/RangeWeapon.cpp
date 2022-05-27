@@ -21,7 +21,7 @@ RangeWeapon::~RangeWeapon()
  *
  * \Gets the weapon system ready to make the projectile
  */
-void RangeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
+bool RangeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
 	if (Weapon::GetCanFire())
 	{
@@ -32,12 +32,14 @@ void RangeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 			Weapon::StartCooldown();
 			HandleRanged(actorPos, normAttackDir);
 			Weapon::SetAmmo(Weapon::GetAmmo() - 1);
+			return true;
 		}
 		else
 		{
 			Weapon::SetCanFire(false);
 		}
 	}
+	return false;
 }
 
 /**
@@ -48,5 +50,5 @@ void RangeWeapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 void RangeWeapon::HandleRanged(Vector3 actorPos, Vector3 attackDir)
 {
 	Projectile* Projectile1 = Engine::CreateEntity<Projectile>();
-	Projectile1->StartUp(attackDir, actorPos, Weapon::GetDamage(), projectileSpeed, Weapon::GetRange(), (int)Weapon::GetUserType(), Weapon::GetProjectileIcon());
+	Projectile1->StartUp(attackDir, actorPos, Weapon::GetDamage(), projectileSpeed, Weapon::GetRange(), (int)Weapon::GetUserType(), Weapon::GetProjectileIcon(), Weapon::GetHitSound());
 }

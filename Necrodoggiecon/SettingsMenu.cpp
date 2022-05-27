@@ -11,6 +11,7 @@
 #include "Cerberus/Core/Components/CTextRenderComponent.h"
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include "Cerberus/Core/UI/CWidget_Text.h"
+#include "Game/SoundManager.h"
 #include "Cerberus\Core\Utility\Audio\AudioController.h"
 
 SettingsMenu::SettingsMenu()
@@ -55,6 +56,7 @@ void SettingsMenu::InitialiseCanvas()
  */
 void SettingsMenu::CloseSettings()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	if (CUIManager::GetCanvas("MainMenu") != nullptr)
 	{
 		SetVisibility(false);
@@ -106,10 +108,12 @@ CWidget_Text* SettingsMenu::CreateVolumeUI(Vector2 pos, const std::string& title
 
 void SettingsMenu::MasterVolumeUp()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	AudioController::SetMaxVolumeForEmitterType((masterVolume >= 100) ? 100 : masterVolume++, EMITTERTYPE::ALL);
 }
 
 void SettingsMenu::MasterVolumeDown()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	AudioController::SetMaxVolumeForEmitterType((masterVolume <= 0) ? 0 : masterVolume--, EMITTERTYPE::ALL);
 }

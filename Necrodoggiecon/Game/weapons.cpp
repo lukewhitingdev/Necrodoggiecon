@@ -23,16 +23,6 @@ void Weapon::SetWeapon(int ID)
 	{
 		json storedFile;
 		file >> storedFile;
-
-
-
-
-
-
-
-
-
-
 		//iconPath = storedFile.at(weapon).at("IconPath");
 		
 
@@ -69,7 +59,7 @@ void Weapon::SetWeapon(std::string ID)
 
 void Weapon::CoolDown(float attack_cooldown)
 {
-	if (canFire == false && ammo > 0)
+	if (canFire == false)
 	{
 		if (cooldown > 0)
 		{
@@ -119,8 +109,9 @@ int Weapon::NameToID(std::string Name)
  * \param actorPos Position of the actor that is using the function (Used for virtual overriding)
  * \param attackDir Direction of the attack (Used for virtual overriding)
  */
-void Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
+bool Weapon::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
+	return true;
 }
 
 /**

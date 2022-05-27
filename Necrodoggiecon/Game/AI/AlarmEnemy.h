@@ -20,10 +20,12 @@ public:
     virtual void Update(float deltaTime) override;
     virtual void ChasePlayer(CCharacter* player) override;
 
+protected:
+    virtual void OnDeath() override;
+    virtual void OnHit(const std::string& hitSound) override;
+
 private:
     float alarmTimer = 10.0f;
     bool onCooldown = false;
-
-    CAudioEmitterComponent* loadNoise;
 };
 

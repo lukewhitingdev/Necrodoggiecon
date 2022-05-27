@@ -3,10 +3,12 @@
 #include <Necrodoggiecon\Game\CursorEntity.h>
 
 #include <Game/DialogueHandler.h>
-
+#include <Cerberus/Core/Utility/EventSystem/EventSystem.h>
 
 PlayerController::PlayerController()
 {
+	EventSystem::AddListener("DialogueOpen", std::bind(&PlayerController::OnDialogueOpen, this));
+	EventSystem::AddListener("DialogueClose", std::bind(&PlayerController::OnDialogueClose, this));
 }
 
 /**
@@ -28,6 +30,15 @@ void PlayerController::Update(float deltaTime)
  */
 void PlayerController::HandleInput(float deltaTime)
 {
+	if (dialogueOpen)
+	{
+		if (InputManager::IsKeyPressedDown(InputManager::E))
+			DialogueHandler::AdvanceDialogue();
+		if (InputManager::IsMouseButtonPressedDown(InputManager::Mouse::LButton))
+			DialogueHandler::AdvanceDialogue();
+		return;
+	}
+
 	if (!HasCharacter()) return;
 	
 	if (inputable == nullptr) return;
@@ -44,8 +55,6 @@ void PlayerController::HandleInput(float deltaTime)
 		inputable->PressedInteract();
 	if (InputManager::IsKeyPressedDown(InputManager::G))
 		inputable->PressedDrop();
-	if (InputManager::IsKeyPressedDown(InputManager::L))
-		charOne->loadNoise->Play();
 	if (InputManager::IsKeyPressedDown(InputManager::Q))
 		inputable->PressedUse();
 

@@ -14,6 +14,7 @@
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include "SettingsMenu.h"
 #include "LevelSelectMenu.h"
+#include "Game/SoundManager.h"
 
 MainMenu::MainMenu()
 {
@@ -69,6 +70,7 @@ void MainMenu::InitialiseCanvas()
  */
 void MainMenu::QuitToDesktop()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("quit to desktop");
 	PostQuitMessage(1);
 }
@@ -78,6 +80,7 @@ void MainMenu::QuitToDesktop()
  */
 void MainMenu::OpenLevelSelect()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("open level select");
 	CUIManager::GetCanvas("LevelSelectMenu")->SetVisibility(true);
 	SetVisibility(false);
@@ -88,6 +91,7 @@ void MainMenu::OpenLevelSelect()
  */
 void MainMenu::OpenSettingsMenu()
 {
+	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("open settings");
 	CUIManager::GetCanvas("SettingsMenu")->SetVisibility(true);
 	SetVisibility(false);

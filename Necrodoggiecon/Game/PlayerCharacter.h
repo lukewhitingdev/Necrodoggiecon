@@ -18,6 +18,8 @@ protected:
 	float walkSpeed = 300;
 	float walkDrag = 10;
 	float timeElapsed = 0;
+	float timeBetweenSteps = 0.35f;
+	float stepTimer;
 
 	void LookAt(Vector3 pos);
 
@@ -64,12 +66,13 @@ public:
 	void UpdateWeaponSprite();
 
 	void ApplyDamage(float damage);
+	void ApplyDamage(float damage, const std::string& onHitSound);
 
 	class CCameraComponent* camera = nullptr;
-	CAudioEmitterComponent* loadNoise = nullptr;
 
 private:
 	void ResolveMovement(const float& deltaTime);
 	void AimAtMouse(const Vector3& mousePos);
+	void FootstepTimer(float deltaTime);
 };
 

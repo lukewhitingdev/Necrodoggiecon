@@ -6,6 +6,7 @@
  * \date   May 2022
  *********************************************************************/
 #include "AlarmEnemy.h"
+#include "Game/SoundManager.h"
 
 AlarmEnemy::AlarmEnemy()
 {
@@ -17,11 +18,6 @@ AlarmEnemy::AlarmEnemy()
 	sprite->SetAnimationRectSize(XMUINT2(1, 1));
 	sprite->SetAnimationRectPosition(XMUINT2(0, 0));
 	sprite->SetPlaying(true, false);
-
-	loadNoise = AddComponent<CAudioEmitterComponent>(NAME_OF(loadNoise));
-	loadNoise->Load("Resources/Game/TestShortAudio.wav");
-
-	loadNoise->SetRange(10000.0f);
 }
 
 void AlarmEnemy::Update(float deltaTime)
@@ -47,11 +43,20 @@ void AlarmEnemy::Update(float deltaTime)
  */
 void AlarmEnemy::ChasePlayer(CCharacter* player)
 {
+	heading = Seek(player->GetPosition());
 	if (!onCooldown)
 	{
-		loadNoise->Play();
+		SoundManager::PlaySound("Bell", GetPosition());
 		alarmTimer = 10.0f;
 		onCooldown = true;
 	}
 }
 
+void AlarmEnemy::OnDeath()
+{
+	SoundManager::PlaySound("DeathSound", GetPosition());
+}
+void AlarmEnemy::OnHit(const std::string& hitSound)
+{
+	SoundManager::PlaySound(hitSound, GetPosition());
+}
