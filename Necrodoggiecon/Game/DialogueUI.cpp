@@ -9,9 +9,9 @@
  * \date   May 2022
  *********************************************************************/
 
-/**
-* Constructor - Initialises all of the UI elements including text components and backgrounds.
-*/
+ /**
+ * Constructor - Initialises all of the UI elements including text components and backgrounds.
+ */
 DialogueUI::DialogueUI()
 {
 	SetIsUI(true);
@@ -20,42 +20,21 @@ DialogueUI::DialogueUI()
 	nameBackground = AddComponent<CSpriteComponent>(NAME_OF(nameBackground));
 	nameBackground->LoadTextureWIC("Resources/Game/darkBackground.png");
 	nameTextRenderComponent = AddComponent<CTextRenderComponent>(NAME_OF(nameTextRenderComponent));
-
-	//Setup Background Sprite
-	auto width = Engine::windowWidth;
-	auto height = Engine::windowHeight * UIHeightPercent;
-	textBackground->SetRenderRect(XMUINT2(width, height));
-	textBackground->SetSpriteSize(XMUINT2(width, height));
-	textBackground->SetAnchor(XMFLOAT2(0, 1));
-	float UIHeight = GetUIHeight();
-	textBackground->SetPosition(0, UIHeight, 1);
-
-	//Setup TextRenderComponents
-	auto trc = AddComponent<CTextRenderComponent>(NAME_OF(trc));
-	textRenderComponents.push_back(trc);
-
-	maxCharactersInRow = width / (textRenderComponents[0]->GetCharacterSize().x * 2);
-	rowHeight = textRenderComponents[0]->GetCharacterSize().y + rowPadding;
-	maxRowCount = (height / rowHeight) * 0.5f;
+	nameTextRenderComponent->SetAnchor(XMFLOAT2(0, 1));
+	SetSize();
 
 	audioEmitterComponent = AddComponent<CAudioEmitterComponent>(NAME_OF(audioEmitterComponent));
 	audioEmitterComponent->Load("Resources/Game/Audio/TextAppear.wav");
 	audioEmitterComponent->SetRange(0.0f);
 
-	textRenderComponents.clear();
-	for (int i = 0; i < maxRowCount; i++)
-	{
-		auto trc = AddComponent<CTextRenderComponent>(NAME_OF(trc));
-		trc->SetReserveCount(maxCharactersInRow);
-		textRenderComponents.push_back(trc);
-	}
+
 
 	for (CComponent* e : GetAllComponents())
 		e->SetIsUI(true);
 }
 /**
 * Function to set the passed in TextRenderComponent to the correct position using the text that it is displaying
-* 
+*
 * \param textComponent
 * \param row
 */
@@ -68,7 +47,7 @@ void DialogueUI::UpdateTextComponentPosition(CTextRenderComponent* textComponent
 	int yPos = (GetUIHeight() * 0.5f) - charSize.y - (rowHeight * 2 * (row));
 	textComponent->SetPosition(xPos, yPos, 0);
 }
-/** 
+/**
 * Function to calculate the height of the dialogue UI window
 */
 float DialogueUI::GetUIHeight()
@@ -85,12 +64,13 @@ DialogueUI::~DialogueUI()
 */
 void DialogueUI::Update(float deltaTime)
 {
+
 	if (!isUpdating) return;
 
 	timer += deltaTime;
 	if (timer >= (1.0f / charactersPerSecond))
 	{
-		displayingText.append(reserveText.substr(0,1));
+		displayingText.append(reserveText.substr(0, 1));
 		reserveText.erase(0, 1);
 		timer = 0;
 		UpdateText();
@@ -128,16 +108,45 @@ void DialogueUI::UpdateText()
 				rowText.pop_back();
 		}
 
-		
+
 		textRenderComponents[i]->SetText(rowText);
 		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
 		tempString.erase(0, rowText.size());
 
 	}
 }
+void DialogueUI::SetSize()
+{
+	//Setup Background Sprite
+	width = Engine::windowWidth;
+	height = Engine::windowHeight;
+	auto tempHeight = height * UIHeightPercent;
+	textBackground->SetRenderRect(XMUINT2(32, 32));
+	textBackground->SetSpriteSize(XMUINT2(width * 100, tempHeight));
+	textBackground->SetAnchor(XMFLOAT2(0, 1));
+	float UIHeight = GetUIHeight();
+	textBackground->SetPosition(0, UIHeight, 1);
+
+	//Setup TextRenderComponents
+	auto trc = AddComponent<CTextRenderComponent>(NAME_OF(trc));
+	textRenderComponents.push_back(trc);
+
+	maxCharactersInRow = width / (textRenderComponents[0]->GetCharacterSize().x * 2);
+	rowHeight = textRenderComponents[0]->GetCharacterSize().y + rowPadding;
+	maxRowCount = (height / rowHeight) * 0.5f;
+
+	textRenderComponents.clear();
+	for (int i = 0; i < maxRowCount; i++)
+	{
+		auto trc = AddComponent<CTextRenderComponent>(NAME_OF(trc));
+		trc->SetReserveCount(maxCharactersInRow);
+		trc->SetAnchor(XMFLOAT2(0, 1));
+		textRenderComponents.push_back(trc);
+	}
+}
 /**
- * Function used to set the text that will display in the dialogue box. 
- * 
+ * Function used to set the text that will display in the dialogue box.
+ *
  * \param newText - The new text (section of dialogue) that will display.
  * \param instantDisplay - Whether the text should update instantly or overtime
  */
@@ -162,7 +171,7 @@ void DialogueUI::SetText(const std::string& newText, bool instantDisplay)
 			while (!rowText.empty() && rowText.back() != 0x20)
 				rowText.pop_back();
 		}
-		
+
 		textRenderComponents[i]->SetText(rowText);
 		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
 		reserveText.erase(0, rowText.size());;
@@ -173,7 +182,7 @@ void DialogueUI::SetText(const std::string& newText, bool instantDisplay)
 }
 /**
  * Function used to set the name text above the dialogue box.
- * 
+ *
  * \param newName - The new name that should be displayed.
  */
 void DialogueUI::SetName(const std::string& newName)
@@ -189,18 +198,18 @@ void DialogueUI::SetName(const std::string& newName)
 	nameBackground->SetAnchor(XMFLOAT2(0, 1));
 
 	int xPos = -(Engine::windowWidth * 0.5f) + (charSize.x * 0.5f * (nameText.length() + 1));
-	int uiHeight = (GetUIHeight() * 0.5f - height * 0.5f) + 2; 
+	int uiHeight = (GetUIHeight() * 0.5f - height * 0.5f) + 2;
 	nameBackground->SetPosition(xPos, uiHeight, 1);
 
 	nameTextRenderComponent->SetPosition(xPos, uiHeight, 0);
 }
 /**
  * Function used to clear the text being displayed in the dialogue box.
- * 
+ *
  */
 void DialogueUI::ClearText()
 {
-	
+
 	for (CTextRenderComponent* t : textRenderComponents)
 	{
 		t->SetText("");
@@ -215,7 +224,7 @@ void DialogueUI::Complete()
 }
 /**
  * Function used to instantly display as much dialogue from the current section of dialogue on the screen as possible.
- * 
+ *
  */
 void DialogueUI::CompletePage()
 {
@@ -235,7 +244,7 @@ void DialogueUI::CompletePage()
 			while (!rowText.empty() && rowText.back() != 0x20)
 				rowText.pop_back();
 		}
-		
+
 
 		textRenderComponents[i]->SetText(rowText);
 		UpdateTextComponentPosition(textRenderComponents[i], i + 1);
@@ -248,7 +257,7 @@ void DialogueUI::CompletePage()
 }
 /**
  * Function used to check whether the current section of dialogue is complete.
- * 
+ *
  *
  */
 bool DialogueUI::IsComplete()
@@ -259,7 +268,7 @@ bool DialogueUI::IsComplete()
 }
 /**
  * Function used to advance the current section of dialogue. Should only be called once the dialogue box is full.
- * 
+ *
  */
 void DialogueUI::Advance()
 {
@@ -268,7 +277,7 @@ void DialogueUI::Advance()
 }
 /**
  * Function used to enable and disable drawing of the dialogue box.
- * 
+ *
  * \param shouldDraw - Whether the dialogue UI should draw or not.
  */
 void DialogueUI::ToggleDrawing(bool shouldDraw)
