@@ -112,11 +112,11 @@ CWidget_Text* SettingsMenu::CreateVolumeUI(Vector2 pos, const std::string& title
 void SettingsMenu::MasterVolumeUp()
 {
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
-	AudioController::SetMaxVolumeForEmitterType((masterVolume >= 100) ? 100 : masterVolume++, EMITTERTYPE::ALL);
+	AudioController::SetMaxVolumeForEmitterType((masterVolume >= 100) ? 100 : masterVolume += 5, EMITTERTYPE::ALL);
 }
 
 void SettingsMenu::MasterVolumeDown()
 {
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
-	AudioController::SetMaxVolumeForEmitterType((masterVolume <= 0) ? 0 : masterVolume--, EMITTERTYPE::ALL);
+	AudioController::SetMaxVolumeForEmitterType((masterVolume <= 0) ? 0 : masterVolume -= 5, EMITTERTYPE::ALL);
 }

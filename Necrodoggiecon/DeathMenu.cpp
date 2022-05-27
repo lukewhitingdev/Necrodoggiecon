@@ -16,6 +16,7 @@
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include "Game/SoundManager.h"
 #include "Necrodoggiecon/CWorld_Menu.h"
+#include <TransitionHelper.h>
  /**
   * ititialises buttons and text.
   *
@@ -52,7 +53,7 @@ void DeathMenu::InitialiseCanvas()
 
 	std::string NxtLvlName = "Retry Level";
 	CWidget_Button* NxtLvl = CreateButton(Vector2(0, 68), Vector2(.5, .5), NxtLvlName, -155);
-	NxtLvl->Bind_OnButtonPressed(std::bind(&DeathMenu::restartLevel, this));
+	NxtLvl->Bind_OnButtonReleased(std::bind(&DeathMenu::restartLevel, this));
 	NxtLvl->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 	NxtLvl->SetButtonSize(Vector2(256, 110));
 
@@ -75,7 +76,9 @@ void DeathMenu::QuitToMenu()
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("quit to menu");
 	Engine::paused = false;
-	CWorldManager::LoadWorld(new CWorld_Menu());
+	SetVisibility(false);
+	TransitionHelper::OpenLevel(0, true);
+
 }
 /**
  * quits to desktop.
@@ -96,5 +99,6 @@ void DeathMenu::restartLevel()
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("restart level");
 	Engine::paused = false;
-	CWorldManager::LoadWorld(new CWorld_Game(CWorldManager::GetWorld()->GetMapSlot()));
+	SetVisibility(false);
+	TransitionHelper::OpenLevel(CWorldManager::GetWorld()->GetMapSlot(), false);
 }

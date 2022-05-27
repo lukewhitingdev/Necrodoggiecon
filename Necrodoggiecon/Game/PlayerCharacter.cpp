@@ -12,6 +12,7 @@
 #include "CursorEntity.h"
 #include <Game/SoundManager.h>
 #include "Cerberus/Core/Utility/CUIManager.h"
+#include "Necrodoggiecon/DeathMenu.h"
 
 PlayerCharacter::PlayerCharacter()
 {
@@ -303,9 +304,11 @@ void PlayerCharacter::ApplyDamage(float damage)
 	SetHealth(GetHealth() - damage);
 	if (GetHealth() <= 0.0f)
 	{
-		playersController[0]->Unpossess();
+		//playersController[0]->Unpossess();
 		SoundManager::PlaySound("DeathSound", GetPosition());
-		Engine::DestroyEntity(this);
+		CUIManager::GetCanvas("DeathMenu")->SetVisibility(true);
+		Engine::paused = true;
+		//Engine::DestroyEntity(this);
 	}
 		
 }
