@@ -83,7 +83,6 @@ void CWorldManager::LoadWorld(CWorld* World)
 	}
 	if (gameWorld != nullptr)
 	{
-		gameWorld->DestroyWorld();
 		delete(gameWorld);
 
 	}
