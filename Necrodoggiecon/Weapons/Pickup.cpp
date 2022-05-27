@@ -95,6 +95,11 @@ CEntity* Pickup::GetClosestPlayer(Vector3 actorPos, Vector3 damagePos) // BB
 
 	PlayerCharacter* closestPlayer = nullptr;
 
+	if (players.size() == 1)
+	{
+		return players[0];
+	}
+
 	//Check each player
 	for (PlayerCharacter* player : players)
 	{
