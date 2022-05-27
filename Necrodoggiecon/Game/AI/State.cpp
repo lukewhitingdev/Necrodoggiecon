@@ -162,7 +162,7 @@ State& PatrolState::getInstance()
 
 void SearchState::Enter(CAIController* controller)
 {
-	controller->sprite->SetAnimationRectPosition(XMUINT2(0, 0));
+	controller->sprite->SetAnimationRectPosition(XMUINT2(2, 1));
 	searchTimer = 10.0f;
 	characters = Engine::GetEntityOfType<CCharacter>();
 	for (CCharacter *character : characters)
@@ -215,7 +215,7 @@ State& SearchState::getInstance()
 
 void InvestigateState::Enter(CAIController* controller)
 {
-	controller->sprite->SetAnimationRectPosition(XMUINT2(0, 0));
+	controller->sprite->SetAnimationRectPosition(XMUINT2(2, 1));
 	controller->sprite->SetPlaying(true, true);
 	controller->SetPath(controller->GetPositionToInvestigate());
 }
