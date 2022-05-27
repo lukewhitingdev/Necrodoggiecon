@@ -32,7 +32,8 @@ CT_EditorEntity::CT_EditorEntity()
 void CT_EditorEntity::Update(float deltaTime)
 {
 }
-
+
+
 std::vector<class CT_EditorEntity_Waypoint*> CT_EditorEntity_Enemy::GetWaypointList()
 {
 	std::vector<CT_EditorEntity_Waypoint*> ReturnList;
@@ -110,17 +111,18 @@ void CT_EditorEntity_Enemy::InitialiseEntity(int SlotID)
 	entitySlotID = SlotID;
 	switch (SlotID)
 	{
-	case 0:
-		sprite->LoadTexture("Resources\\EditorEntities\\EnemyCharacters\\MageEnemy.dds");
+	case 0: //Grunt
+		sprite->LoadTextureWIC("Resources/Game/Characters/RedEnemySprite.png");
 		sprite->SetRenderRect(XMUINT2(64, 64));
 		sprite->SetSpriteSize(XMUINT2(64, 64));
 		break;
-	case 1:
-		sprite->LoadTexture("Resources\\EditorEntities\\EnemyCharacters\\MeleeEnemy.dds");
+	case 1: //Dog
+		sprite->LoadTextureWIC("Resources/Game/Characters/DogSpriteFinal.png");
 		sprite->SetRenderRect(XMUINT2(64, 64));
 		sprite->SetSpriteSize(XMUINT2(64, 64));
-	case 2: 
-		sprite->LoadTexture("Resources\\EditorEntities\\EnemyCharacters\\MeleeEnemy.dds");
+		break;
+	case 2: //Alarm
+		sprite->LoadTextureWIC("Resources/Game/Characters/BellEnemySprite.png");
 		sprite->SetRenderRect(XMUINT2(64, 64));
 		sprite->SetSpriteSize(XMUINT2(64, 64));
 		break;
