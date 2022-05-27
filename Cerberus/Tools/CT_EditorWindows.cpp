@@ -90,6 +90,7 @@ void CT_EditorWindows::render()
 
             ImGui::Text("W: Move Entities");
             ImGui::Text("C: Clear Operation");
+            ImGui::Text("DELETE: Delete inspected Entity");
             
            
 
