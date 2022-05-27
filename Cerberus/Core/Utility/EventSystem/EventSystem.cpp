@@ -39,6 +39,6 @@ void EventSystem::TriggerEvent(std::string eventID)
 		}
 	}else
 	{
-		Debug::LogError("[EventSystem] Tried to trigger an event that doesnt exist! EventID: %s", eventID);
+		Debug::LogError("[EventSystem] Tried to trigger an event that doesnt exist! EventID: %s", eventID.c_str());
 	}
 }
