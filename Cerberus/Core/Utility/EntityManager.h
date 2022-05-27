@@ -20,7 +20,11 @@ class EntityManager
 	static std::vector<class CComponent*> opaqueComps;
 	static std::vector<class CComponent*> translucentComps;
 
+	static bool purge;
+
 public:
+	static void (*purgeFunc)();
+
 	/**
 	 * Adds the input entity to the internal vector.
 	 */

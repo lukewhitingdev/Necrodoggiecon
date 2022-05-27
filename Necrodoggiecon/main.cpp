@@ -4,6 +4,7 @@
 #include "Necrodoggiecon/CWorld_Game.h"
 #include "Cerberus/Core/Utility/CWorldManager.h"
 #include "Game/SoundManager.h"
+#include "TransitionHelper.h"
 /*
 
 TODO:
@@ -60,9 +61,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return Engine::ReadMessage(hWnd, message, wParam, lParam);
 }
 
+void PurgeFunc()
+{
+	TransitionHelper::OpenQueuedLevel();
+}
+
 // Called once at the start of the application run.
 int Start() 
 {
+	EntityManager::purgeFunc = &PurgeFunc;
+
 	#ifdef _DEBUG
 		Debug::SetLogging(true);
 		Debug::SetVisibility(true);

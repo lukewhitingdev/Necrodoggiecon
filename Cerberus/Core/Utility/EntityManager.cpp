@@ -8,6 +8,9 @@ std::vector<CEntity*> EntityManager::pendingEntityDeletions = std::vector<CEntit
 std::vector<CComponent*> EntityManager::opaqueComps = std::vector<CComponent*>();
 std::vector<CComponent*> EntityManager::translucentComps = std::vector<CComponent*>();
 
+void (*EntityManager::purgeFunc)() = {};
+bool EntityManager::purge = false;
+
 void EntityManager::AddEntity(CEntity* entityToAdd)
 {
 	entities.push_back(entityToAdd);
@@ -28,6 +31,19 @@ void EntityManager::DestroyAllPendingEntitiesDeletions()
 			delete e;
 
 		pendingEntityDeletions.pop_back();
+	}
+
+	if (purge)
+	{
+		while (entities.size() > 0)
+		{
+			CEntity* e = entities.back();
+			delete e;
+			entities.pop_back();
+		}
+
+		purge = false;
+		purgeFunc();
 	}
 }
 
@@ -95,4 +111,6 @@ void EntityManager::Purge()
 
 		EntityManager::AddDeletedEntity(e);
 	}
+
+	purge = true;
 }
