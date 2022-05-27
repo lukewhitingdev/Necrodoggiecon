@@ -41,3 +41,6 @@ ANGRYENUMS
 -   [Audio](Doxygen/Markdown/Audio.md)
 -   [Utility](Doxygen/Markdown/Utility.md)
 -   [Weapons](Doxygen/Markdown/Weapons.md)
+-   [World](Doxygen/Markdown/World.md)
+-   [UI](Doxygen/Markdown/UI.md)
+-   [Editor](Doxygen/Markdown/Editor.md)
