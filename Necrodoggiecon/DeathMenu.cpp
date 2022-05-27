@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   DeathMenu.cpp
+ * \brief  The cpp for the death menu
+ *
+ * \author Jack B
+ * \date   May 2022
+ *********************************************************************/
 #include "DeathMenu.h"
 #include "LevelCompleteMenu.h"
 #include "Cerberus/Core/UI/CWidget_Button.h"
@@ -9,7 +16,10 @@
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include "Game/SoundManager.h"
 #include "Necrodoggiecon/CWorld_Menu.h"
-
+ /**
+  * ititialises buttons and text.
+  *
+  */
 void DeathMenu::InitialiseCanvas()
 {
 	Debug::Log("Pause Canvas Initialised");
@@ -48,12 +58,18 @@ void DeathMenu::InitialiseCanvas()
 
 	SetVisibility(false);
 }
-
+/**
+ * ititialises canvas.
+ *
+ */
 DeathMenu::DeathMenu()
 {
 	InitialiseCanvas();
 }
-
+/**
+ * quits to menu.
+ *
+ */
 void DeathMenu::QuitToMenu()
 {
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
@@ -61,14 +77,20 @@ void DeathMenu::QuitToMenu()
 	Engine::paused = false;
 	CWorldManager::LoadWorld(new CWorld_Menu());
 }
-
+/**
+ * quits to desktop.
+ *
+ */
 void DeathMenu::QuitToDesktop()
 {
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("quit to desktop");
 	PostQuitMessage(1);
 }
-
+/**
+ * restart level.
+ *
+ */
 void DeathMenu::restartLevel()
 {
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));

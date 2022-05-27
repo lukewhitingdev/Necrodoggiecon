@@ -70,7 +70,11 @@ void CWidget::RemoveAllChildren()
 	}
 	Engine::DestroyEntity(this);
 }
-
+/**
+ * Updates the widget origin in world space.
+ * 
+ * \param Pos The position to update to.
+ */
 void CWidget::UpdateWidgetOrigin(Vector3 Pos)
 {
 	SetPosition(Pos.x, Pos.y, GetPosition().z);
