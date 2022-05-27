@@ -11,7 +11,7 @@
 MagicMissile::MagicMissile()
 {
 	Weapon::SetWeapon(4);
-	RangeWeapon::SetProjectileSpeed(0.05f);
+	RangeWeapon::SetProjectileSpeed(8.0f);
 }
 
 MagicMissile::~MagicMissile()

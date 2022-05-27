@@ -254,7 +254,9 @@ void PlayerCharacter::EquipWeapon(Weapon* weapon)
 {
 	weaponComponent->SetWeapon(weapon);
 	UpdateWeaponSprite();
+	weaponSprite->SetTextureOffset(weaponComponent->GetCurrentWeapon()->GetTextureOffset());
 	weaponSprite->SetRenderRect(weaponComponent->GetCurrentWeapon()->GetRenderRect());
+	weaponSprite->SetScale(weaponComponent->GetCurrentWeapon()->GetScale());
 	movementVec = {0,0};
 }
 
@@ -338,10 +340,10 @@ void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime
 		pickupTimer = 0;
 		pickupActiveTime = activeTime;
 
+		visible = false;
 		pickupTimerCallback = std::bind(&PlayerCharacter::InvisibilityCallback, this);
-		spriteComponentBody->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
-		spriteComponentLegs->SetTint(XMFLOAT4(-255, -255, -255, -0.1f));
-		
+		spriteComponentBody->SetTint(XMFLOAT4(-0, -0, -0, -0.75f));
+		spriteComponentLegs->SetTint(XMFLOAT4(-0, -0, -0, -0.75f));
 	} 
 	else if (pickupToUse == "ShieldScroll")
 	{
@@ -363,6 +365,7 @@ void PlayerCharacter::InvisibilityCallback()
 	pickupTimerCallback = nullptr;
 	spriteComponentBody->SetTint(originalSpriteTint);
 	spriteComponentLegs->SetTint(originalLegTint);
+	visible = true;
 	
 }
 
