@@ -17,6 +17,7 @@
 #include "LevelCompleteMenu.h"
 #include "Game/SoundManager.h"
 #include "Necrodoggiecon/CWorld_Menu.h"
+#include "DeathMenu.h"
 
 PauseMenu::PauseMenu()
 {
@@ -70,6 +71,7 @@ void PauseMenu::InitialiseCanvas()
 
 	CUIManager::AddCanvas(Engine::CreateEntity<SettingsMenu>(), "SettingsMenu");
 	CUIManager::AddCanvas(Engine::CreateEntity<LevelCompleteMenu>(), "LevelCompleteMenu");
+	CUIManager::AddCanvas(Engine::CreateEntity<DeathMenu>(), "DeathMenu");
 
 	SetVisibility(false);
 }
@@ -147,8 +149,10 @@ void PauseMenu::Update(float deltaTime)
 
 	if (InputManager::IsKeyPressed(InputManager::Tab))
 	{
-		CUIManager::GetCanvas("LevelCompleteMenu")->SetVisibility(true);
+		//CUIManager::GetCanvas("LevelCompleteMenu")->SetVisibility(true);
+		CUIManager::GetCanvas("DeathMenu")->SetVisibility(true);
 		gameEnded = true;
+
 	}
 
 }
