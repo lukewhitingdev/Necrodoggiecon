@@ -63,7 +63,7 @@ void SoundManager::AddSound(const std::string& audioPath, const std::string& aud
 void SoundManager::AddSound(const std::string& audioPath, const std::string& audioName, float audioRange, bool ambient)
 {
 	AudioEmitterEntity* emitterEntity = Engine::CreateEntity<AudioEmitterEntity>();
-	emitterEntity->SetAudio(audioPath, audioRange);
+	emitterEntity->SetAudio(audioPath, audioRange, ambient);
 	emitterEntity->SetName(audioName);
 	audioEmitterMap.emplace(audioName, emitterEntity);
 }
