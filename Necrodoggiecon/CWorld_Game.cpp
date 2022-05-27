@@ -220,7 +220,6 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 		float enemyRotationSpeed = storedFile["Enemy"][i]["RotationSpeed"];
 		float enemyMaxSearchTime = storedFile["Enemy"][i]["MaxSearchTime"];
 		bool enemyIsBoss = storedFile["Enemy"][i]["IsBoss"];
-		enemyIsBoss = true;
 		//Add this back once levels are complete
 
 
