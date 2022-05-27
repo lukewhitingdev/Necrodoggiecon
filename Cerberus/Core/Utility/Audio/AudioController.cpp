@@ -158,6 +158,8 @@ bool AudioController::PlayAudio(const std::string& path, bool loop)
 		return false;
 	}
 
+	Debug::Log("Successfully played sound: %s", path.c_str());
+
 	EventSystem::TriggerEvent("soundPlayed");
 
 	return true;
@@ -183,11 +185,36 @@ bool AudioController::StopAudio(const std::string& path)
 	// See if it is playing on a channel.
 	if (audio->channel != nullptr && isPlaying)
 	{
+		if ((result = audio->channel->setMode(FMOD_LOOP_OFF)) != FMOD_OK)
+		{
+			Debug::LogError("[Stop Audio][%s] Error when setting the loop count to finite. FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
+			return false;
+		}
+
+		if ((result = audio->channel->setLoopCount(0)) != FMOD_OK)
+		{
+			Debug::LogError("[Stop Audio][%s] Error when setting the loop count to finite. FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
+			return false;
+		}
+
 		// Stop it on that channel.
 		if ((result = audio->channel->stop()) != FMOD_OK)
 		{
 			Debug::LogError("[Stop Audio][%s] FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
 			return false;
+		}
+
+		Debug::Log("Successfully stopped audio: %s", path.c_str());
+	}
+	else
+	{
+		if(!isPlaying)
+		{
+			Debug::LogError("[Stop Audio][%s] Audio is not playing", path.c_str());
+		}
+		if(audio->channel == nullptr)
+		{
+			Debug::LogError("[Stop Audio][%s] Audio channel doesnt exist.", path.c_str());
 		}
 	}
 
