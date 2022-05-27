@@ -32,9 +32,13 @@ void PlayerController::HandleInput(float deltaTime)
 {
 	if (dialogueOpen)
 	{
+		if (InputManager::IsMouseButtonPressedDown(InputManager::Mouse::LButton))
+		{
+			buttonHeld = true;
+		}
 		if (InputManager::IsKeyPressedDown(InputManager::E))
 			DialogueHandler::AdvanceDialogue();
-		if (InputManager::IsMouseButtonPressedDown(InputManager::Mouse::LButton))
+		if (InputManager::IsMouseButtonReleased(InputManager::Mouse::LButton) && buttonHeld)
 			DialogueHandler::AdvanceDialogue();
 		return;
 	}

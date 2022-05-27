@@ -14,6 +14,10 @@
 Projectile::Projectile()
 {
 	ProjectileSprite = AddComponent<CSpriteComponent>(NAME_OF(ProjectileSprite));
+	SetShouldMove(true);
+
+	colComponent = new CollisionComponent("Projectile", this);
+	colComponent->SetCollider(64.0f);
 }
 
 Projectile::~Projectile()
@@ -34,11 +38,13 @@ void Projectile::Update(float deltaTime)
 		DidItHit();
 		Position += velocity * deltaTime;
 		ProjectileSprite->SetPosition(Position);
+		colComponent->SetPosition(GetPosition());
 	}
-	else
+	else if(hasHit == true)
 	{
 		Engine::DestroyEntity(this);
 	}
+	
 }
 
 
