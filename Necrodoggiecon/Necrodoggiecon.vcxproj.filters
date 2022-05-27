@@ -160,9 +160,6 @@
     <ClInclude Include="DeathMenu.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Weapons.json" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />
   </ItemGroup>
 </Project>

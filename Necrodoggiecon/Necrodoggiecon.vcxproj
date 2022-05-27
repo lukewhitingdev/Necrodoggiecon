@@ -277,7 +277,6 @@ xcopy "$(ProjectDir)Resources" "$(OutDir)Resources"  /s /f /i /y</Command>
     <ClInclude Include="Game\weapons.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Weapons.json" />
     <ClInclude Include="Game\LevelTransporter.h" />
     <ClInclude Include="LevelSelectMenu.h" />
     <ClInclude Include="Game\WeaponInterface.h" />

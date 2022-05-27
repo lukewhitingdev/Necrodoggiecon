@@ -89,7 +89,7 @@ std::string Weapon::IDToName(int ID)
 
 int Weapon::NameToID(std::string Name)
 {
-	std::ifstream file("Resources/Weapons.json");
+	std::ifstream file("Resources/Game/Weapons.json");
 	json storedFile;
 	file >> storedFile;
 	std::string List[9];

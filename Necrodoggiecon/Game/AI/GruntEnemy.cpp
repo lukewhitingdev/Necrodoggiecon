@@ -8,7 +8,7 @@
 #include "GruntEnemy.h"
 #include "Game/SoundManager.h"
 #include "Cerberus/Core/Utility/IO.h"
-
+#include "Necrodoggiecon/Weapons/Melee/Dagger.h"
 GruntEnemy::GruntEnemy()
 {
 	sprite->LoadTextureWIC("Resources/Game/Characters/RedEnemySprite.png");
@@ -21,7 +21,7 @@ GruntEnemy::GruntEnemy()
 	sprite->SetPlaying(true, false);
 
 	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
-	//weaponComponent->SetWeapon(new Crossbow());
+	weaponComponent->SetWeapon(new Dagger());
 	weaponComponent->SetUserType(USERTYPE::AI);
 
 	weaponSprite = AddComponent<CSpriteComponent>(NAME_OF(weaponSprite));

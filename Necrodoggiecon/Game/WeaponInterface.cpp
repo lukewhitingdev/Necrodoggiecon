@@ -4,7 +4,6 @@
 
 WeaponInterface::WeaponInterface()
 {
-	currentWeapon = new Weapon("Dagger");
 }
 
 WeaponInterface::~WeaponInterface()

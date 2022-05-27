@@ -174,7 +174,11 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 				enemy->EquipWeapon(new Fireball());
 				break;
 
+			default:
+				enemy->EquipWeapon(new Dagger());
+				break;
 			}
+
 
 			break;
 		}

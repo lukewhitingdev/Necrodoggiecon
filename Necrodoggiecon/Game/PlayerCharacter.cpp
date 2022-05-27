@@ -65,6 +65,7 @@ PlayerCharacter::PlayerCharacter()
 
 	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
+	weaponComponent->SetWeapon(new Dagger());
 
 	weaponSprite = AddComponent<CSpriteComponent>(NAME_OF(weaponSprite));
 	UpdateWeaponSprite();
