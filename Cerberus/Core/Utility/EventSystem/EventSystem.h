@@ -19,6 +19,8 @@ public:
 	// Adds a function to the event list of the specified eventID.
 	static void AddListener(std::string eventID, std::function<void()> functionToAdd);
 
+	static void RemoveListener(std::string eventID);
+
 	// Triggers all functions that are listening on the specified eventID.
 	static void TriggerEvent(std::string eventID);
 	
