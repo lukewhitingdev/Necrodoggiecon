@@ -569,6 +569,12 @@ void CAIController::ApplyDamage(float damageAmount)
 	SetHealth(GetHealth() - damageAmount);
 	if (GetHealth() <= 0.0f)
 	{
+		if (isBoss == true)
+		{
+			// DROP SCROLL HERE
+			NecrodoggieconPage* page = Engine::CreateEntity<NecrodoggieconPage>();
+			page->SetPosition(GetPosition());
+		}
 		OnDeath();
 		Engine::DestroyEntity(this);
 	}
@@ -578,12 +584,6 @@ void CAIController::ApplyDamage(float damageAmount, const std::string& hitAudioP
 {
 	OnHit(hitAudioPath);
 	ApplyDamage(damageAmount);
-	if (isBoss == true)
-	{
-		// DROP SCROLL HERE
-		NecrodoggieconPage* page = Engine::CreateEntity<NecrodoggieconPage>();
-		page->SetPosition(GetPosition());
-	}
 }
 
 /**
@@ -733,6 +733,18 @@ float CAIController::GetSpriteSize()
 void CAIController::SetIsBoss(bool boss)
 {
 	isBoss = boss;
+
+	if (isBoss == true)
+	{
+		sprite->LoadTextureWIC("Resources/Game/Characters/FemaleBossSprite.png");
+		sprite->SetRotation(1.5708f);
+		sprite->SetRenderRect(XMUINT2(64, 64));
+		sprite->SetSpriteSize(XMUINT2(64, 64));
+		sprite->SetScale(Vector3{ 2.0f, 2.0f, 1.0f });
+		sprite->SetAnimationRectSize(XMUINT2(1, 1));
+		sprite->SetAnimationRectPosition(XMUINT2(0, 0));
+		sprite->SetPlaying(true, false);
+	}
 }
 
 bool CAIController::GetIsBoss()
