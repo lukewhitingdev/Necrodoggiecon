@@ -1,3 +1,10 @@
+/*****************************************************************//**
+ * \file   DeathMenu.cpp
+ * \brief  The cpp for the death menu
+ *
+ * \author Jack B
+ * \date   May 2022
+ *********************************************************************/
 #include "DeathMenu.h"
 #include "LevelCompleteMenu.h"
 #include "Cerberus/Core/UI/CWidget_Button.h"
