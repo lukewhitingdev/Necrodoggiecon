@@ -7,6 +7,8 @@ public:
 
     CWidget();
 
+    virtual ~CWidget();
+
     CWidget* GetParent() { return parentWidget; }
    
     const std::vector<CWidget*> GetChildren() { return childWidgets; }
@@ -24,7 +26,7 @@ public:
      void UpdateWidgetOrigin(Vector3 Pos);
 
 private: 
-    CWidget* parentWidget;
+    CWidget* parentWidget = nullptr;
 
     std::vector<CWidget*> childWidgets;
 
