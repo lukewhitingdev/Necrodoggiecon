@@ -7,6 +7,7 @@ class CursorEntity : public CEntity
 
 	Vector3 mouseOffset = { 0,0,0 };
 	bool mouseLHeld = false;
+	float zoomLevel = 0.0f;
 	
 public:
 	CursorEntity();

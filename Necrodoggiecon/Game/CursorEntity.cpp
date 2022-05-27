@@ -25,6 +25,11 @@ void CursorEntity::Update(float deltaTime)
 {
 	CCameraComponent* camera = CameraManager::GetRenderingCamera();
 
+	if(zoomLevel == 0 && camera != nullptr)
+	{
+		zoomLevel = CameraManager::GetRenderingCamera()->GetZoomLevel();
+	}
+
 	SetPosition(Vector3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z));
 
 	XMFLOAT3 screenVec = XMFLOAT3(GetPosition().x, GetPosition().y, GetPosition().z);
@@ -44,6 +49,18 @@ void CursorEntity::Update(float deltaTime)
 		{
 			mouseLHeld = false;
 			sprite->SetAnimationRectPosition(XMUINT2(0, 0));
+		}
+	}
+
+	if(camera != nullptr)
+	{
+		if (InputManager::IsKeyPressedDown(InputManager::LShift))
+		{
+			camera->SetZoomLevel(zoomLevel * 0.5);
+		}
+		else
+		{
+			camera->SetZoomLevel(zoomLevel);
 		}
 	}
 }

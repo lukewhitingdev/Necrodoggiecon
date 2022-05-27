@@ -783,7 +783,6 @@ LRESULT Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 		//TEMP
 	case WM_MOUSEWHEEL:
-		camera->SetZoomLevel(float(camera->GetZoomLevel() + GET_WHEEL_DELTA_WPARAM(wParam) * camera->GetZoomLevel() * 0.001f));
 		break;
 
 	case WM_PAINT:
