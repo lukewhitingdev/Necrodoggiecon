@@ -43,6 +43,7 @@ public:
 	static void SetMaxVolumeForEmitterType(const float volume,EMITTERTYPE type);
 
 	static bool AddListener(CTransform* listenerPos);
+	static void RemoveListener();
 
 private:
 	static FMOD::System* FMODSystem;

@@ -129,6 +129,11 @@ void PlayerCharacter::PressedDrop()
 
 }
 
+PlayerCharacter::~PlayerCharacter()
+{
+	AudioController::RemoveListener();
+}
+
 static bool animating = false;
 void PlayerCharacter::Attack()
 {

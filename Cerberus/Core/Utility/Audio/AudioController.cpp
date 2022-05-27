@@ -438,3 +438,12 @@ bool AudioController::AddListener(CTransform* listenerPos)
 		return false;
 	}
 }
+
+/**
+ * Removes a listener from the audio controller.
+ * 
+ */
+void AudioController::RemoveListener()
+{
+	listenerTransform = nullptr;
+}

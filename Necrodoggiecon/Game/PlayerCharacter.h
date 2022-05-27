@@ -50,6 +50,7 @@ protected:
 	bool hasShield = false;
 public:
 	PlayerCharacter();
+	virtual ~PlayerCharacter();
 
 	void PressedHorizontal(int dir, float deltaTime) override;
 	void PressedVertical(int dir, float deltaTime) override;
