@@ -22,7 +22,7 @@ protected:
 	virtual void OnUnpossess() override;
 
 	bool dialogueOpen = false;
-
+	bool buttonHeld = false;
 	void OnDialogueOpen() { dialogueOpen = true; }
 	void OnDialogueClose() { dialogueOpen = false; }
 };
