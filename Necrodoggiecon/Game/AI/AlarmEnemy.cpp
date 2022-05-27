@@ -18,11 +18,6 @@ AlarmEnemy::AlarmEnemy()
 	sprite->SetAnimationRectSize(XMUINT2(1, 1));
 	sprite->SetAnimationRectPosition(XMUINT2(0, 0));
 	sprite->SetPlaying(true, false);
-
-	loadNoise = AddComponent<CAudioEmitterComponent>(NAME_OF(loadNoise));
-	loadNoise->Load("Resources/Game/TestShortAudio.wav");
-
-	loadNoise->SetRange(10000.0f);
 }
 
 void AlarmEnemy::Update(float deltaTime)

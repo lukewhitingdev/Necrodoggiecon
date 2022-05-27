@@ -62,11 +62,6 @@ PlayerCharacter::PlayerCharacter()
 	colComponent = new CollisionComponent("Character 1", this);
 	colComponent->SetCollider(64.0f, 64.0f);
 
-	loadNoise = AddComponent<CAudioEmitterComponent>(NAME_OF(loadNoise));
-	loadNoise->Load("Resources/Game/TestShortAudio.wav");
-
-	loadNoise->SetRange(10000.0f);
-
 	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
 	weaponComponent->SetWeapon(new MagicMissile());
