@@ -15,6 +15,7 @@
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include "Game/SoundManager.h"
 #include "Necrodoggiecon/CWorld_Menu.h"
+#include "Necrodoggiecon/TransitionHelper.h"
 
 LevelCompleteMenu::LevelCompleteMenu()
 {
@@ -74,7 +75,7 @@ void LevelCompleteMenu::QuitToMenu()
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("quit to menu");
 	Engine::paused = false;
-	CWorldManager::LoadWorld(new CWorld_Menu());
+	TransitionHelper::OpenLevel(0, true);
 }
 /**
  * quits game entirely.
@@ -96,5 +97,5 @@ void LevelCompleteMenu::NextLevel()
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("load next level");
 	Engine::paused = false;
-	CWorldManager::LoadWorld(new CWorld_Game(CWorldManager::GetWorld()->GetMapSlot()+1));
+	TransitionHelper::OpenLevel(CWorldManager::GetWorld()->GetMapSlot() + 1, false);
 }
