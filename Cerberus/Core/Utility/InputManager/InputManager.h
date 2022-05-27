@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   InputManager.h
+ * \brief  Header containing all the functions and variables needed for the Input Manager.
+ * 
+ * \author Flynn Brooks
+ * \date   May 2022
+ *********************************************************************/
+
 #pragma once
 #include "Cerberus\Core\Utility\Vector3.h"
 

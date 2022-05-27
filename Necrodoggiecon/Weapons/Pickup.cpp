@@ -30,7 +30,7 @@ void Pickup::Update(float deltaTime)
  */
 bool Pickup::OnFire(Vector3 actorPos, Vector3 attackDir)
 {
-	if (Weapon::GetAmmo() == 0.0f) return false;
+	if (Weapon::GetAmmo() <= 0.0f) return false;
 
 	Weapon::SetAmmo(Weapon::GetAmmo() - 1.0f);
 	HandlePickup();

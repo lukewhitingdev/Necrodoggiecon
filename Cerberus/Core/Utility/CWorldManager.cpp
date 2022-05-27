@@ -2,7 +2,7 @@
  * \file   CWorldManager.cpp
  * \brief  Handles level loading and unloading as well as makes accessing active level available anywhere in the project.
  * 
- * \author sam-j
+ * \author Samuel Elliot Jackson
  * \date   May 2022
  *********************************************************************/
 #include "Cerberus/Core/Utility/CWorldManager.h"
@@ -17,8 +17,8 @@ CWorld_Editable* CWorldManager::editorWorld = nullptr;
 /**
  * Loads in a level by slot, automatically unloads the previous level. Can determine whether the level loaded is an editor version or standard.
  * 
- * \param Slot
- * \param bEditorMode
+ * \param Slot Level Slot to load
+ * \param bEditorMode Sets whether to load the level as an editor world or game world.
  */
 void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 {
@@ -70,7 +70,7 @@ void CWorldManager::LoadWorld(int Slot, bool bEditorMode)
 /**
  * Loads an override object of world, this is primarily used by the game to instantiate child class variants of the existing level class..
  * 
- * \param World
+ * \param World Custom CWorld Instance
  */
 
 void CWorldManager::LoadWorld(CWorld* World)
@@ -93,7 +93,7 @@ void CWorldManager::LoadWorld(CWorld* World)
 /**
  * Edit world variant of the load world override.
  * 
- * \param World
+ * \param World custom CWorld_Edit Instance
  */
 void CWorldManager::LoadWorld(CWorld_Editable* World)
 {
@@ -113,6 +113,10 @@ void CWorldManager::LoadWorld(CWorld_Editable* World)
 	}
 }
 
+/**
+ * Reloads the active world..
+ * 
+ */
 void CWorldManager::ReloadWorld()
 {
 	gameWorld->ReloadWorld();

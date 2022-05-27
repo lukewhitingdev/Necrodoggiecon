@@ -35,12 +35,19 @@ void MainMenu::InitialiseCanvas()
 	Background->GetSprite()->SetSpriteSize(XMUINT2(5000, 5000));
 	Background->GetSprite()->SetUseTranslucency(true);
 	Background->GetSprite()->SetTint(XMFLOAT4(-255, -255, -255, 0));
+	
+	CWidget_Image* ImageBackground = CreateImage(Vector2(0, 0), Vector2(.5, .5), -143);
+	ImageBackground->GetSprite()->LoadTextureWIC("Resources/Game/background.png");
+	ImageBackground->GetSprite()->SetRenderRect(XMUINT2(1920, 1080));
+	ImageBackground->GetSprite()->SetSpriteSize(XMUINT2(1200, 700));
+	ImageBackground->GetSprite()->SetUseTranslucency(true);
+	ImageBackground->GetSprite()->SetTint(XMFLOAT4(0, 0, 0, 0));
 
-	std::string TitleText = "Necrodoggiecon";
+	/*std::string TitleText = "Necrodogicon";
 	CWidget_Text* Title = CreateText(Vector2(0, 188), Vector2(.5, .5),-155, TitleText);
 	Title->GetText()->SetFont("Resources/Engine/font.png");
 	Title->GetText()->SetText(TitleText);
-	Title->GetText()->SetScale(2,2,1);
+	Title->GetText()->SetScale(2,2,1);*/
 
 	std::string FullQuitButtonName = "Quit";
 	CWidget_Button* ExitFull = CreateButton(Vector2(0, -188), Vector2(.5, .5), FullQuitButtonName, -145);
