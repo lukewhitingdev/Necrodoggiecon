@@ -38,6 +38,8 @@ public:
 
 };
 
+
+
 class CT_EditorEntity_WeaponHolder :
     public CT_EditorEntity
 {
