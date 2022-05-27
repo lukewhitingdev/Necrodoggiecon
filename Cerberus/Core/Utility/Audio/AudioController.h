@@ -43,10 +43,12 @@ public:
 	static void SetMaxVolumeForEmitterType(const float volume,EMITTERTYPE type);
 
 	static bool AddListener(CTransform* listenerPos);
+	static void RemoveListener();
 
 private:
 	static FMOD::System* FMODSystem;
 	static std::vector<CEmitter*> emitters;
+	static std::unordered_map<std::uintptr_t, CEmitter*> emitterSafetyMap;
 	static CTransform* listenerTransform;
 };
 

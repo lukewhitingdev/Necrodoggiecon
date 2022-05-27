@@ -17,6 +17,7 @@
 #include "LevelCompleteMenu.h"
 #include "Game/SoundManager.h"
 #include "Necrodoggiecon/CWorld_Menu.h"
+#include "Necrodoggiecon/TransitionHelper.h"
 #include "DeathMenu.h"
 
 PauseMenu::PauseMenu()
@@ -107,9 +108,8 @@ void PauseMenu::QuitToMenu()
 {
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("quit to menu");
-	ResumeGame();
-	CWorldManager::LoadWorld(new CWorld_Menu());
-	SetVisibility(false);
+	TransitionHelper::OpenLevel(0, true);
+	Engine::paused = false;
 }
 /**
  * closes game.

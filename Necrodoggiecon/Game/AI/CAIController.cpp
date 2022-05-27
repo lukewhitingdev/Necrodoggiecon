@@ -115,6 +115,8 @@ CAIController::CAIController()
 CAIController::~CAIController()
 {
 	delete(pathing);
+	pathing = nullptr;
+	EventSystem::RemoveListener("soundPlayed");
 	//Engine::DestroyEntity(viewFrustrum);
 }
 

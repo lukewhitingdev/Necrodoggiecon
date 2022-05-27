@@ -87,6 +87,8 @@ void weaponUI::updateUI(std::string weaponName, int currentAmmo, int maxAmmo, st
 	textWeaponName->SetText(weaponName);
 	textAmmoDisplay->SetText(std::to_string(currentAmmo) + "I" + std::to_string(maxAmmo));
 	weaponSprite->LoadTextureWIC(spritePath);
+	weaponSprite->SetRenderRect(XMUINT2(64, 64));
+
 }
 
 /**
@@ -96,16 +98,19 @@ void weaponUI::updateUI(std::string weaponName, int currentAmmo, int maxAmmo, st
  */
 void weaponUI::Update(float deltaTime)
 {
-	seconds += deltaTime;
-	if (seconds >= 60)
+	if(!Engine::paused)
 	{
-		minutes += 1;
-		seconds -= 60;
-	}
+		seconds += deltaTime;
+		if (seconds >= 60)
+		{
+			minutes += 1;
+			seconds -= 60;
+		}
 
-	std::stringstream ss;
-	ss << Math::IntToString(minutes, 2) << ":" << Math::FloatToStringWithDigits(seconds, 2, true, 2);
-	textTimer->SetText(ss.str());
+		std::stringstream ss;
+		ss << Math::IntToString(minutes, 2) << ":" << Math::FloatToStringWithDigits(seconds, 2, true, 2);
+		textTimer->SetText(ss.str());
+	}
 }
 
 weaponUI::~weaponUI()

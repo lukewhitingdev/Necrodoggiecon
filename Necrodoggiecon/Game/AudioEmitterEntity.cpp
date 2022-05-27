@@ -6,6 +6,8 @@
  * \author Cathan Bertram
  * \date   May 2022
  *********************************************************************/
+
+#include "SoundManager.h"
 AudioEmitterEntity::AudioEmitterEntity()
 {
 	audioEmitter = AddComponent<CAudioEmitterComponent>(NAME_OF(audioEmitter));
@@ -13,6 +15,7 @@ AudioEmitterEntity::AudioEmitterEntity()
 
 AudioEmitterEntity::~AudioEmitterEntity()
 {
+	SoundManager::RemoveSound(audioName);
 }
 /**
  * Function to set the audio that the emitter should store.

@@ -19,10 +19,12 @@
  */
 CWorld::CWorld()
 {
+	
 	for (int i = 0; i < (mapScale * mapScale); i++)
 	{
 		tileContainer[i] = nullptr;
 	}
+	//EntityManager::Purge();
 }
 
 /** Constructor that takes in the World's slot */

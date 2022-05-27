@@ -40,6 +40,7 @@
     <ClCompile Include="CWorld_Menu.cpp" />
     <ClCompile Include="Game\LevelTransporter.cpp" />
     <ClCompile Include="Game\NecrodoggieconPage.cpp" />
+    <ClCompile Include="TransitionHelper.cpp" />
     <ClCompile Include="DeathMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -155,10 +156,8 @@
     <ClInclude Include="CWorld_Menu.h" />
     <ClInclude Include="Game\LevelTransporter.h" />
     <ClInclude Include="Game\NecrodoggieconPage.h" />
+    <ClInclude Include="TransitionHelper.h" />
     <ClInclude Include="DeathMenu.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Weapons.json" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tutorial01.rc" />

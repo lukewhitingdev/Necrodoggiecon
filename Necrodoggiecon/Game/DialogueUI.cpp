@@ -57,8 +57,11 @@ float DialogueUI::GetUIHeight()
 	return -(Engine::windowHeight * 0.5f) + (height * 0.5f);
 }
 
+#include "DialogueHandler.h"
+
 DialogueUI::~DialogueUI()
 {
+	DialogueHandler::dialogueUI = nullptr;
 }
 /**
 * Inherited Function - Used to add characters to the display over time

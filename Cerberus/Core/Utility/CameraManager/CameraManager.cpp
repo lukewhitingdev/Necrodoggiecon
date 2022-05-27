@@ -35,6 +35,7 @@ void CameraManager::RemoveCamera(CCameraComponent* camera)
 			else
 			{
 				Debug::LogError("Removed the last camera in the manager. No Rendering Camera exists now!.");
+				renderingCamera = nullptr;
 			}
 		}
 	}

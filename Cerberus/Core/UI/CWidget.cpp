@@ -11,7 +11,13 @@ CWidget::CWidget()
 	SetIsUI(true);
 	SetShouldUpdate(false);
 	parentWidget = nullptr;
+	childWidgets = std::vector<CWidget*>();
+}
 
+CWidget::~CWidget()
+{
+	this->RemoveAllChildren();
+	parentWidget = nullptr;
 }
 
 
@@ -68,6 +74,7 @@ void CWidget::RemoveAllChildren()
 			GetChildren()[i]->RemoveAllChildren();
 		}
 	}
+
 	Engine::DestroyEntity(this);
 }
 /**

@@ -14,15 +14,15 @@ void CEntity::RemoveComponent(CComponent* reference)
 {
 	EntityManager::RemoveComponent(reference);
 
-	for (size_t i = 0; i < components.size(); i++)
-	{
-		CComponent* component = components[i];
+	auto iterator = std::find(components.begin(), components.end(), reference);
 
-		if (component == reference)
-		{
-			components.erase(components.begin() + i);
-			delete component;
-			return;
-		}
+	if (iterator != components.end())
+	{
+		components.erase(iterator);
+		delete reference;
+	}
+	else
+	{
+		Debug::LogError("Tried to remove an translucent component that doesnt exist.");
 	}
 }

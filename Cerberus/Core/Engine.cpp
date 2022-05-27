@@ -624,11 +624,9 @@ HRESULT ResizeSwapChain(XMUINT2 newSize)
 //--------------------------------------------------------------------------------------
 void CleanupDevice()
 {
-	while (EntityManager::GetEntitiesVector()->size() > 0)
+	for (int i = 0; i < EntityManager::GetEntitiesVector()->size(); i++)
 	{
-		CEntity* e = EntityManager::GetEntitiesVector()->at(0);
-		EntityManager::RemoveEntity(e);
-		delete e;
+		delete EntityManager::GetEntitiesVector()->at(i);
 	}
 
 	// Remove any bound render target or depth/stencil buffer
@@ -695,9 +693,7 @@ double CalculateDeltaTime(const unsigned short fpsCap)
 
 void Engine::DestroyEntity(CEntity* targetEntity)
 {
-	EntityManager::RemoveEntity(targetEntity);
-
-	delete targetEntity;
+	EntityManager::AddDeletedEntity(targetEntity);
 }
 
 // Starts the engine.
@@ -780,16 +776,6 @@ LRESULT Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			fillState = !fillState;
 			break;
 		}
-		if (wParam == VK_ESCAPE)
-		{
-			//PostQuitMessage(1);
-			break;
-		}
-		if (wParam == VK_F3)
-		{
-			Engine::paused = !Engine::paused;
-			break;
-		}
 		break;
 	case WM_KEYUP:
 
@@ -797,7 +783,6 @@ LRESULT Engine::ReadMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 		//TEMP
 	case WM_MOUSEWHEEL:
-		camera->SetZoomLevel(float(camera->GetZoomLevel() + GET_WHEEL_DELTA_WPARAM(wParam) * camera->GetZoomLevel() * 0.001f));
 		break;
 
 	case WM_PAINT:
@@ -883,6 +868,8 @@ void Update(float deltaTime)
 	}
 
 	AudioController::Update(deltaTime);
+
+	EntityManager::DestroyAllPendingEntitiesDeletions();
 }
 
 //--------------------------------------------------------------------------------------

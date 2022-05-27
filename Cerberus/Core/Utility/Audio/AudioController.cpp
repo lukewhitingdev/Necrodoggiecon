@@ -2,6 +2,7 @@
 #include "Cerberus\Core\Utility\EventSystem\EventSystem.h"
 FMOD::System* AudioController::FMODSystem = nullptr;
 std::vector<CEmitter*> AudioController::emitters;
+std::unordered_map<std::uintptr_t, CEmitter*> AudioController::emitterSafetyMap;
 CTransform* AudioController::listenerTransform = nullptr;
 
 /**
@@ -27,6 +28,7 @@ void AudioController::Initialize()
 void AudioController::Shutdown()
 {
 	FMODSystem->release();
+	emitters.clear();
 }
 
 /**
@@ -94,8 +96,6 @@ bool AudioController::PlayAudio(const std::string& path)
 		return false;
 	}
 
-	EventSystem::TriggerEvent("soundPlayed");
-
 	return true;
 }
 /**
@@ -156,7 +156,7 @@ bool AudioController::PlayAudio(const std::string& path, bool loop)
 		return false;
 	}
 
-	EventSystem::TriggerEvent("soundPlayed");
+	Debug::Log("Successfully played sound: %s", path.c_str());
 
 	return true;
 }
@@ -181,11 +181,36 @@ bool AudioController::StopAudio(const std::string& path)
 	// See if it is playing on a channel.
 	if (audio->channel != nullptr && isPlaying)
 	{
+		if ((result = audio->channel->setMode(FMOD_LOOP_OFF)) != FMOD_OK)
+		{
+			Debug::LogError("[Stop Audio][%s] Error when setting the loop count to finite. FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
+			return false;
+		}
+
+		if ((result = audio->channel->setLoopCount(0)) != FMOD_OK)
+		{
+			Debug::LogError("[Stop Audio][%s] Error when setting the loop count to finite. FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
+			return false;
+		}
+
 		// Stop it on that channel.
 		if ((result = audio->channel->stop()) != FMOD_OK)
 		{
 			Debug::LogError("[Stop Audio][%s] FMOD Error[%d]: %s ", path.c_str(), result, FMOD_ErrorString(result));
 			return false;
+		}
+
+		Debug::Log("Successfully stopped audio: %s", path.c_str());
+	}
+	else
+	{
+		if(!isPlaying)
+		{
+			Debug::LogError("[Stop Audio][%s] Audio is not playing", path.c_str());
+		}
+		if(audio->channel == nullptr)
+		{
+			Debug::LogError("[Stop Audio][%s] Audio channel doesnt exist.", path.c_str());
 		}
 	}
 
@@ -238,9 +263,9 @@ void AudioController::Update(float deltaTime)
 
 	// Attenuate.
 	float maxRange = 1000;
-	for(CEmitter* emitter : emitters)
+	for(int i = 0; i < emitters.size(); ++i)
 	{
-
+		CEmitter* emitter = emitters[i];
 		float distToEmitter = listenerPos.DistanceTo(emitter->position);
 
 		// Check we are in range of the emitter.
@@ -328,7 +353,14 @@ bool AudioController::AddEmitter(CEmitter* emitter)
 {
 	if(emitter != nullptr)
 	{
+		if(emitterSafetyMap.find((uintptr_t)emitter) != emitterSafetyMap.end())
+		{
+			Debug::LogError("Tried to add a emitter that already exists. This is not allowed.");
+			return false;
+		}
+
 		emitters.emplace_back(emitter);
+		emitterSafetyMap.emplace(std::make_pair((uintptr_t)emitter, emitter));
 		return true;
 	}
 	else
@@ -405,4 +437,13 @@ bool AudioController::AddListener(CTransform* listenerPos)
 		Debug::LogError("Tried to set the audio controller listener position to a nullptr, this is not allowed.");
 		return false;
 	}
+}
+
+/**
+ * Removes a listener from the audio controller.
+ * 
+ */
+void AudioController::RemoveListener()
+{
+	listenerTransform = nullptr;
 }

@@ -31,7 +31,20 @@
 #include "Weapons/Pickup/InvisibilityScroll.h"
 #include "Weapons/Pickup/ShieldScroll.h"
 
-
+#include <weaponUI.h>
+#include <Necrodoggiecon\Game\CInteractable.h>
+#include <Game/WeaponPickup.h>
+#include <Weapons/Melee/Dagger.h>
+#include <Weapons/Melee/Rapier.h>
+#include <Weapons/Melee/Longsword.h>
+#include <Weapons/Ranged/Crossbow.h>
+#include <Weapons/Ranged/Fireball.h>
+#include <Weapons/Ranged/MagicMissile.h>
+#include "Necrodoggiecon/MainMenu.h"
+#include "Necrodoggiecon/PauseMenu.h"
+#include "Cerberus/Core/Utility/CUIManager.h"
+#include "Weapons/Pickup/InvisibilityScroll.h"
+#include "Weapons/Pickup/ShieldScroll.h"
 
 /**
  * Constructor, automatically loads world based on provided slot.
@@ -51,27 +64,17 @@ CWorld_Game::CWorld_Game(int Slot)
  */
 void CWorld_Game::SetupWorld()
 {
+	SoundManager::Initialise();
+
 	PlayerController* controller = Engine::CreateEntity<PlayerController>();
 
+	PauseMenu* pauseMenu = Engine::CreateEntity<PauseMenu>();
+	pauseMenu->AddComponent<CCameraComponent>(NAME_OF(pauseMenu));
+	CUIManager::AddCanvas(pauseMenu, "PauseMenu");
+
 	PlayerCharacter* character1 = Engine::CreateEntity<PlayerCharacter>();
-	//EntityList.push_back(character1);
 	EntityList.push_back(controller);
-
-	// Locked Camera follows player.
-	CCameraComponent* lockedCameraComponent = character1->AddComponent<CCameraComponent>(NAME_OF(spriteComponentLegs));
-	lockedCameraComponent->SetAttachedToParent(true);
-
-
-
-	CameraManager::AddCamera(lockedCameraComponent);
-
-	CameraManager::SetRenderingCamera(lockedCameraComponent);
-
-
-	CUIManager::AddCanvas(Engine::CreateEntity<PauseMenu>(), "PauseMenu");
-
 	controller->charOne = character1;
-
 	Vector3 PlayerStart = Vector3(StartPos.x, StartPos.y, 0) * (tileScale * tileScaleMultiplier) + Vector3(0, 0, -1);
 	Debug::Log("Player Start Position: [%f | %f]", PlayerStart.x, PlayerStart.y);
 	character1->SetPosition(PlayerStart);
@@ -94,13 +97,7 @@ void CWorld_Game::SetupWorld()
  */
 void CWorld_Game::UnloadWorld()
 {
-	for (int i = 0; i < EntityList.size(); i++)
-	{
-		if (EntityList[i] != nullptr)
-		{
-			Engine::DestroyEntity(EntityList[i]);
-		}
-	}
+	
 }
 
 /**
@@ -109,13 +106,7 @@ void CWorld_Game::UnloadWorld()
  */
 void CWorld_Game::ReloadWorld()
 {
-	for (int i = 0; i < EntityList.size(); i++)
-	{
-		if (EntityList[i] != nullptr)
-		{
-			Engine::DestroyEntity(EntityList[i]);
-		}
-	}
+	
 	SetupWorld();
 	LoadEnemyUnits(mapSlot);
 	LoadEntities(mapSlot);
@@ -183,7 +174,11 @@ void CWorld_Game::LoadEnemyUnits(int Slot)
 				enemy->EquipWeapon(new Fireball());
 				break;
 
+			default:
+				enemy->EquipWeapon(new Dagger());
+				break;
 			}
+
 
 			break;
 		}

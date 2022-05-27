@@ -15,6 +15,7 @@
 #include "Cerberus/Core/Utility/CUIManager.h"
 #include "Game/SoundManager.h"
 #include "Necrodoggiecon/CWorld_Menu.h"
+#include "Necrodoggiecon/TransitionHelper.h"
 
 LevelCompleteMenu::LevelCompleteMenu()
 {
@@ -58,7 +59,7 @@ void LevelCompleteMenu::InitialiseCanvas()
 	{
 		std::string NxtLvlName = "Next Level";
 		CWidget_Button* NxtLvl = CreateButton(Vector2(0, 68), Vector2(.5, .5), NxtLvlName, -155);
-		NxtLvl->Bind_OnButtonPressed(std::bind(&LevelCompleteMenu::NextLevel, this));
+		NxtLvl->Bind_OnButtonReleased(std::bind(&LevelCompleteMenu::NextLevel, this));
 		NxtLvl->SetTexture("Resources/UI/UI_ButtonAtlas.dds");
 		NxtLvl->SetButtonSize(Vector2(256, 110));
 	}
@@ -74,7 +75,7 @@ void LevelCompleteMenu::QuitToMenu()
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("quit to menu");
 	Engine::paused = false;
-	CWorldManager::LoadWorld(new CWorld_Menu());
+	TransitionHelper::OpenLevel(0, true);
 }
 /**
  * quits game entirely.
@@ -96,5 +97,5 @@ void LevelCompleteMenu::NextLevel()
 	SoundManager::PlaySound("UIClick", Vector3(0, 0, 0));
 	Debug::Log("load next level");
 	Engine::paused = false;
-	CWorldManager::LoadWorld(new CWorld_Game(CWorldManager::GetWorld()->GetMapSlot()+1));
+	TransitionHelper::OpenLevel(CWorldManager::GetWorld()->GetMapSlot() + 1, false);
 }

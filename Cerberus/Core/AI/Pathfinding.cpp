@@ -62,7 +62,12 @@ void Pathfinding::SetPatrolNodes(std::vector<PatrolNode*> nodes)
 WaypointNode* Pathfinding::FindClosestWaypoint(Vector3 position)
 {
 	WaypointNode* closestWaypoint = nullptr;
-	closestWaypoint = waypointNodes[0];
+
+	if(waypointNodes.size() > 0)
+	{
+		closestWaypoint = waypointNodes[0];
+	}
+
 	// Find the closest waypoint.
 	for (WaypointNode* waypointNode : waypointNodes)
 	{

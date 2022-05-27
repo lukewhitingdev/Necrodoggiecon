@@ -21,6 +21,26 @@ void EventSystem::AddListener(std::string eventID, std::function<void()> functio
 }
 
 /**
+ * Removes a listener for a specific event ID.
+ * 
+ * \param eventID the eventID you wish to remove.
+ */
+void EventSystem::RemoveListener(std::string eventID)
+{
+	// Check if the event doesnt exist.
+	if (events.find(eventID) != events.end())
+	{
+		// Create an empty event list.
+		events.erase(eventID);
+	}
+	else
+	{
+		Debug::LogError("Tried to remove a listener that doesnt exist from eventID: %s", eventID.c_str());
+		return;
+	}
+}
+
+/**
  * Triggers the event of specified ID.
  * 
  * \param eventID eventID of the specific event that is triggered.
@@ -39,6 +59,6 @@ void EventSystem::TriggerEvent(std::string eventID)
 		}
 	}else
 	{
-		Debug::LogError("[EventSystem] Tried to trigger an event that doesnt exist! EventID: %s", eventID);
+		Debug::LogError("[EventSystem] Tried to trigger an event that doesnt exist! EventID: %s", eventID.c_str());
 	}
 }

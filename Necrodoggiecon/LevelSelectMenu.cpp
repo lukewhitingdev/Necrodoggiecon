@@ -13,6 +13,7 @@
 #include "Cerberus/Core/UI/CWidget_Text.h"
 #include "Cerberus/Core/Utility/CWorldManager.h"
 #include "CWorld_Game.h"
+#include "Necrodoggiecon/TransitionHelper.h"
 #include "Game/SoundManager.h"
 
 LevelSelectMenu::LevelSelectMenu()
@@ -221,7 +222,7 @@ void LevelSelectMenu::UpdateButtonPositions()
 void LevelSelectMenu::PlayLevel()
 {
 	SetVisibility(false);
-	CWorldManager::LoadWorld(new CWorld_Game(SelectedLevel));
+	TransitionHelper::OpenLevel(SelectedLevel, false);
 
 
 }

@@ -19,52 +19,49 @@ CursorEntity::CursorEntity()
 	sprite->SetAnimationRectSize(XMUINT2(2, 1));
 	sprite->SetAnimationSpeed(2);
 	sprite->SetIsUI(true);
-
-	text = AddComponent<CTextRenderComponent>(NAME_OF(text));
-	text->SetJustification(TextJustification::Center);
-	text->SetPosition(0, -48, 0);
-	text->SetIsUI(true);
 }
 
 void CursorEntity::Update(float deltaTime)
 {
 	CCameraComponent* camera = CameraManager::GetRenderingCamera();
-	timeElapsed += deltaTime;
 
-	unsigned char row = 0;
-	if (InputManager::IsMouseButtonPressed(InputManager::RButton))
-		row = 2;
-	else if (InputManager::IsMouseButtonPressed(InputManager::LButton))
-		row = 1;
-
-	sprite->SetAnimationRectPosition(XMUINT2(0, row));
+	if(zoomLevel == 0 && camera != nullptr)
+	{
+		zoomLevel = CameraManager::GetRenderingCamera()->GetZoomLevel();
+	}
 
 	SetPosition(Vector3(InputManager::mousePos.x - Engine::windowWidth * 0.5f, -InputManager::mousePos.y + Engine::windowHeight * 0.5f, GetPosition().z));
 
 	XMFLOAT3 screenVec = XMFLOAT3(GetPosition().x, GetPosition().y, GetPosition().z);
 	screenVec = Math::FromScreenToWorld(screenVec);
 
-	std::stringstream ss;
-	ss << "X:" << round(screenVec.x) << " Y:" << round(screenVec.y);
-	text->SetText(ss.str());
-
-	if (InputManager::IsMouseButtonPressed(InputManager::MButton))
+	if (InputManager::IsMouseButtonPressed(InputManager::LButton))
 	{
-		if (!mouseRHeld)
+		if (!mouseLHeld)
 		{
-			mouseRHeld = true;
-			mouseOffset = InputManager::mousePos;
+			mouseLHeld = true;
+			sprite->SetAnimationRectPosition(XMUINT2(0, 1));
 		}
-
-		Vector3 mousePos = (InputManager::mousePos - mouseOffset) / camera->GetZoomLevel();
-		mouseOffset = InputManager::mousePos;
-
-		camera->SetPosition(Vector3(-mousePos.x + camera->GetPosition().x, mousePos.y + camera->GetPosition().y, camera->GetPosition().z));
 	}
 	else
 	{
-		if (mouseRHeld)
-			mouseRHeld = false;
+		if (mouseLHeld)
+		{
+			mouseLHeld = false;
+			sprite->SetAnimationRectPosition(XMUINT2(0, 0));
+		}
+	}
+
+	if(camera != nullptr)
+	{
+		if (InputManager::IsKeyPressedDown(InputManager::LShift))
+		{
+			camera->SetZoomLevel(zoomLevel * 0.5);
+		}
+		else
+		{
+			camera->SetZoomLevel(zoomLevel);
+		}
 	}
 }
 

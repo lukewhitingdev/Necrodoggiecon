@@ -8,8 +8,11 @@
 #include "Necrodoggiecon/Weapons/Pickup/ShieldScroll.h"
 #include "Necrodoggiecon/Weapons/Pickup/InvisibilityScroll.h"
 #include <Necrodoggiecon/Weapons/Ranged/MagicMissile.h>
+#include "weaponUI.h"
+#include "CursorEntity.h"
 #include <Game/SoundManager.h>
 #include "Cerberus/Core/Utility/CUIManager.h"
+#include "Necrodoggiecon/DeathMenu.h"
 
 PlayerCharacter::PlayerCharacter()
 {
@@ -62,6 +65,7 @@ PlayerCharacter::PlayerCharacter()
 
 	weaponComponent = AddComponent<WeaponInterface>(NAME_OF(weaponComponent));
 	weaponComponent->SetUserType(USERTYPE::PLAYER);
+	weaponComponent->SetWeapon(new Dagger());
 
 	weaponSprite = AddComponent<CSpriteComponent>(NAME_OF(weaponSprite));
 	UpdateWeaponSprite();
@@ -71,6 +75,10 @@ PlayerCharacter::PlayerCharacter()
 	weaponSprite->SetRenderRect(weaponComponent->GetCurrentWeapon()->GetRenderRect());
 	weaponSprite->SetScale(weaponComponent->GetCurrentWeapon()->GetScale());
 
+	CEntity* t = Engine::CreateEntity<weaponUI>();
+	t->SetPosition(XMFLOAT3(0, 0, -90));
+	t = Engine::CreateEntity<CursorEntity>();
+	t->SetPosition(XMFLOAT3(0, 0, -110));
 
 	camera = AddComponent<CCameraComponent>(NAME_OF(camera));
 	camera->SetAttachedToParent(false);
@@ -121,6 +129,11 @@ void PlayerCharacter::PressedDrop()
 
 }
 
+PlayerCharacter::~PlayerCharacter()
+{
+	AudioController::RemoveListener();
+}
+
 static bool animating = false;
 void PlayerCharacter::Attack()
 {
@@ -162,8 +175,7 @@ void PlayerCharacter::Update(float deltaTime)
 	timeElapsed += deltaTime;
 
 	Weapon* weapon = weaponComponent->GetCurrentWeapon();
-	CUIManager::UpdateUIOrigin(GetPosition());
-
+	
 	// Set crossbow animation to empty bow when we cant fire or out of ammo.
 	if(weapon->GetName() == "Crossbow")
 	{
@@ -196,6 +208,8 @@ void PlayerCharacter::Update(float deltaTime)
 	movementVel = XMFLOAT2(movementVel.x * (1 - deltaTime * walkDrag), movementVel.y * (1 - deltaTime * walkDrag));
 
 	PickupTimer(deltaTime);
+
+	
 
 }
 
@@ -295,9 +309,11 @@ void PlayerCharacter::ApplyDamage(float damage)
 	SetHealth(GetHealth() - damage);
 	if (GetHealth() <= 0.0f)
 	{
-		playersController[0]->Unpossess();
+		//playersController[0]->Unpossess();
 		SoundManager::PlaySound("DeathSound", GetPosition());
-		Engine::DestroyEntity(this);
+		CUIManager::GetCanvas("DeathMenu")->SetVisibility(true);
+		Engine::paused = true;
+		//Engine::DestroyEntity(this);
 	}
 		
 }
@@ -341,8 +357,9 @@ void PlayerCharacter::UsePickup(const std::string& pickupToUse, float activeTime
 
 		visible = false;
 		pickupTimerCallback = std::bind(&PlayerCharacter::InvisibilityCallback, this);
-		spriteComponentBody->SetTint(XMFLOAT4(-0, -0, -0, -0.75f));
-		spriteComponentLegs->SetTint(XMFLOAT4(-0, -0, -0, -0.75f));
+
+		spriteComponentBody->SetTint(XMFLOAT4(originalSpriteTint.x, originalSpriteTint.y, originalSpriteTint.z, -0.75f));
+		spriteComponentLegs->SetTint(XMFLOAT4(originalLegTint.x, originalLegTint.y, originalLegTint.z, -0.75f));
 	} 
 	else if (pickupToUse == "ShieldScroll")
 	{
