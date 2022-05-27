@@ -80,11 +80,8 @@ void CWorld_Game::SetupWorld()
 	LoadEntities(mapSlot);
 
 	Debug::Log(std::to_string(GetMapSlot()).c_str());
-	if (GetMapSlot() != 0)
-	{
-		SoundManager::PlayMusic("Resources/Game/Audio/BGM.wav", character1);
-	}
 
+	SoundManager::PlayMusic("Resources/Game/Audio/BGM.wav", character1);
 	DialogueHandler::LoadDialogue("Resources/Game/Dialogue.json", std::to_string(GetMapSlot()) + "Start");
 }
 
