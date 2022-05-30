@@ -12,13 +12,13 @@ The engine holds all the intrinsic components and the other outer projects can c
 #### Camera Manager - See [Camera Manager](https://github.com/lukewhitingdev/Necrodoggiecon/blob/57046ed2e0a56e2bc1db4d80ddb107e72a69795f/Cerberus/Core/Utility/CameraManager/CameraManager.h) <br>
 #### IO Utility - See [IO](https://github.com/lukewhitingdev/Necrodoggiecon/blob/57046ed2e0a56e2bc1db4d80ddb107e72a69795f/Cerberus/Core/Utility/IO.h) <br>
 
-
-
 I also worked on Build scripts and general build improvements like de-coupling the game and engine by compiling the engine into a static library and also creating post-build scripts within visual studio which copies resources from project to project to allow for easy coherence across all the projects built ontop of the engine and game.
 <br>
+
 #### See [Game project settings](https://github.com/lukewhitingdev/Necrodoggiecon/blob/main/Necrodoggiecon/Necrodoggiecon.vcxproj) <br>
 #### See [Engine project settings](https://github.com/lukewhitingdev/Necrodoggiecon/blob/main/Cerberus/CerberusEngine.vcxproj) <br>
 For a easier time looking at the Build Steps etc, I recommend opening the project in Visual Studio.
+<br>
 
 Furthermore, I also helped create the engine architecture and helped other developers on this project improve areas of their code through code review which the whole team conducted on other team members pull requests.
 
@@ -34,6 +34,13 @@ Firstly, compile the engine.
 Open the Necrodoggicon project in Visual Studio.
 Right click on the project and set as startup project.
 Set to release mode and press F5 to run the game.
+
+## How to access documentation
+The technical documentation is automatically generated using Doxygen. To view the generated documentation for this project see the generated PDF [HERE](https://github.com/lukewhitingdev/Necrodoggiecon/blob/802443daefeac5c17fe42729b03e21891f46ef48/Technical%20Documentation%20PDF.pdf).
+<br>
+### To generate / contribute documentation.
+Firstly, to add auto-styled doxygen comments, use of the Visual Studio Extension [Doxygen Comments](https://marketplace.visualstudio.com/items?itemName=FinnGegenmantel.doxygenComments)<br>
+To generate the documentation, a doxygen binary is required. This is the responsibility of the developer sadly as including Doxygen source in this project would increase the project size dramatically.
 
 ## How to play the Game
 ### Controls:
