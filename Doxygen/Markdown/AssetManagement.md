@@ -6,4 +6,4 @@ The asset manager was created to allow for many sprites to be drawn to the scree
 
 ## Relating Classes:
 
--   AssetManager
+-   [AssetManager](https://github.com/lukewhitingdev/Necrodoggiecon/blob/57046ed2e0a56e2bc1db4d80ddb107e72a69795f/Cerberus/Core/Utility/AssetManager/AssetManager.h)
