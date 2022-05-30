@@ -7,6 +7,12 @@ The engine holds all the intrinsic components and the other outer projects can c
 #### Audio - See [Audio](Doxygen/Markdown/Audio.md) <br>
 #### Utility - See [Utility](Doxygen/Markdown/Utility.md) <br>
 #### AssetManagement - See [AssetManagement](Doxygen/Markdown/AssetManagement.md) <br>
+#### Event System - See [Event System](https://github.com/lukewhitingdev/Necrodoggiecon/blob/57046ed2e0a56e2bc1db4d80ddb107e72a69795f/Cerberus/Core/Utility/EventSystem/EventSystem.h) <br>
+#### Debug + Error Logging - See [Debug](https://github.com/lukewhitingdev/Necrodoggiecon/blob/57046ed2e0a56e2bc1db4d80ddb107e72a69795f/Cerberus/Core/Utility/DebugOutput/Debug.h) <br>
+#### Camera Manager - See [Camera Manager](https://github.com/lukewhitingdev/Necrodoggiecon/blob/57046ed2e0a56e2bc1db4d80ddb107e72a69795f/Cerberus/Core/Utility/CameraManager/CameraManager.h) <br>
+#### IO Utility - See [IO](https://github.com/lukewhitingdev/Necrodoggiecon/blob/57046ed2e0a56e2bc1db4d80ddb107e72a69795f/Cerberus/Core/Utility/IO.h) <br>
+
+
 
 I also worked on Build scripts and general build improvements like de-coupling the game and engine by compiling the engine into a static library and also creating post-build scripts within visual studio which copies resources from project to project to allow for easy coherence across all the projects built ontop of the engine and game.
 <br>
