@@ -14,8 +14,7 @@ Audio Emitters are a component within the engine. This component is responsible 
 
 ## Relating Classes:
 
--   AudioController
--   CAudio
--   CEmitter
-
--   CAudioEmitterComponent
+-   [AudioController](https://github.com/lukewhitingdev/Necrodoggiecon/blob/024d9aaecd7b75ea7ae14cc08403e3dd3f43c3e5/Cerberus/Core/Utility/Audio/AudioController.h)
+-   [CAudio](https://github.com/lukewhitingdev/Necrodoggiecon/blob/024d9aaecd7b75ea7ae14cc08403e3dd3f43c3e5/Cerberus/Core/Utility/Audio/CAudio.h)
+-   [CEmitter](https://github.com/lukewhitingdev/Necrodoggiecon/blob/024d9aaecd7b75ea7ae14cc08403e3dd3f43c3e5/Cerberus/Core/Utility/Audio/CEmitter.h)
+-   [CAudioEmitterComponent](https://github.com/lukewhitingdev/Necrodoggiecon/blob/024d9aaecd7b75ea7ae14cc08403e3dd3f43c3e5/Cerberus/Core/Components/CAudioEmitterComponent.h)
