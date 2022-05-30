@@ -3,6 +3,18 @@
 # How the project works
 The engine holds all the intrinsic components and the other outer projects can create classes that inherit these components and then the class can be used to create the game ontop of the engine.
 
+# Specific Areas I Worked on:
+#### Audio - See [Audio](Doxygen/Markdown/Audio.md) <br>
+#### Utility - See [Utility](Doxygen/Markdown/Utility.md) <br>
+#### AssetManagement - See [AssetManagement](Doxygen/Markdown/AssetManagement.md) <br>
+
+I also worked on Build scripts and general build improvements like de-coupling the game and engine by compiling the engine into a static library and also creating post-build scripts within visual studio which copies resources from project to project to allow for easy coherence across all the projects built ontop of the engine and game.
+<br>
+#### See [Game project settings](https://github.com/lukewhitingdev/Necrodoggiecon/blob/main/Necrodoggiecon/Necrodoggiecon.vcxproj) <br>
+#### See [Engine project settings](https://github.com/lukewhitingdev/Necrodoggiecon/blob/main/Cerberus/CerberusEngine.vcxproj) <br>
+For a easier time looking at the Build Steps etc, I recommend opening the project in Visual Studio.
+
+Furthermore, I also helped create the engine architecture and helped other developers on this project improve areas of their code through code review which the whole team conducted on other team members pull requests.
 
 # Instructions
 
